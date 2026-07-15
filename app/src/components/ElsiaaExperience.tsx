@@ -17,7 +17,8 @@ import { useEffect, useRef, useState } from "react";
 const TRACK_VH = 700;
 const STILL_SRC = "/assets/office_scene_v8.jpeg";
 const FILM_SRC = "/assets/destruction_v8.mp4";
-const LANDING_T = 9.55; // seconds — ball settled in the trash
+const IMPACT_T = 12.9; // scrub hands off here, just before the ball drops
+const SETTLE_LOCK_MS = 2600; // scroll stays locked while the landing plays
 
 function clamp01(v: number) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -58,6 +59,11 @@ export function ElsiaaExperience() {
     let targetTime = 0;
     let lastScrollY = 0;
     let velocity = 0;
+    const lock: { phase: "armed" | "playing" | "done"; until: number; scrollY: number } = {
+      phase: "armed",
+      until: 0,
+      scrollY: 0,
+    };
 
     const strike = strikeRef.current;
     const strikeLen = strike ? strike.getTotalLength() : 0;
@@ -98,13 +104,39 @@ export function ElsiaaExperience() {
         officeRef.current.style.transform = `scale(${1.06 - seg(p, 0.3, 0.42) * 0.06})`;
       }
 
-      // Phase D: film scrub — lands at 0.72, HOLDS through 0.84
+      // Phase D: film scrub up to the moment of impact
       const film = seg(p, 0.4, 0.72);
       if (videoWrapRef.current) {
         videoWrapRef.current.style.opacity = `${seg(p, 0.4, 0.44) * (1 - seg(p, 0.84, 0.9))}`;
       }
       if (video && video.duration && Number.isFinite(video.duration)) {
-        targetTime = film * Math.min(LANDING_T, video.duration - 0.05);
+        targetTime = film * Math.min(IMPACT_T, video.duration - 0.05);
+      }
+
+      // Landing lock: the moment scrub reaches the impact point, freeze the page,
+      // let the swish + settle PLAY in real time, then release the scroll.
+      if (video) {
+        if (lock.phase === "armed" && p >= 0.715) {
+          lock.phase = "playing";
+          lock.until = performance.now() + SETTLE_LOCK_MS;
+          lock.scrollY = window.scrollY;
+          video.currentTime = Math.min(IMPACT_T, video.duration - 0.05);
+          video.playbackRate = 1;
+          void video.play().catch(() => {});
+        }
+        if (lock.phase === "playing") {
+          if (window.scrollY !== lock.scrollY) window.scrollTo(0, lock.scrollY);
+          if (performance.now() >= lock.until) {
+            lock.phase = "done";
+            video.pause();
+            if (Number.isFinite(video.duration)) video.currentTime = video.duration - 0.05;
+          }
+        }
+        if (p < 0.68 && lock.phase !== "armed") {
+          // scrolled back up: re-arm so the payoff replays next pass
+          lock.phase = "armed";
+          video.pause();
+        }
       }
 
       // Phase E: white reset + globe
@@ -121,7 +153,7 @@ export function ElsiaaExperience() {
     // smooth the seek so scrubbing never fights the decoder
     let seekRaf = 0;
     const seekLoop = () => {
-      if (video && video.readyState >= 2) {
+      if (video && video.readyState >= 2 && lock.phase === "armed") {
         const cur = video.currentTime;
         const diff = targetTime - cur;
         if (Math.abs(diff) > 0.02) {
