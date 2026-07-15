@@ -15,9 +15,9 @@ import { useEffect, useRef, useState } from "react";
 */
 
 const TRACK_VH = 700;
-const STILL_SRC = "/assets/office_scene_v5.jpeg";
-const FILM_SRC = "/assets/destruction_v5.mp4";
-const LANDING_T = 9.85; // seconds — ball settled in the trash
+const STILL_SRC = "/assets/office_scene_v6.jpeg";
+const FILM_SRC = "/assets/destruction_v6.mp4";
+const LANDING_T = 9.9; // seconds — ball settled in the trash
 
 function clamp01(v: number) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -36,7 +36,6 @@ export function ElsiaaExperience() {
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const resetRef = useRef<HTMLDivElement>(null);
-  const capRefs = useRef<(HTMLParagraphElement | null)[]>([]);
   const globeRef = useRef<HTMLCanvasElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -107,23 +106,6 @@ export function ElsiaaExperience() {
       if (video && video.duration && Number.isFinite(video.duration)) {
         targetTime = film * Math.min(LANDING_T, video.duration - 0.05);
       }
-
-      // Captions in the white bands above/below the artwork, never over it
-      const CAP_WINDOWS: [number, number][] = [
-        [0.42, 0.52],
-        [0.53, 0.63],
-        [0.64, 0.72],
-        [0.73, 0.84],
-      ];
-      capRefs.current.forEach((el, i) => {
-        if (!el) return;
-        const [a, b] = CAP_WINDOWS[i];
-        const inw = seg(p, a, a + 0.02);
-        const outw = 1 - seg(p, b - 0.015, b);
-        const o = Math.min(inw, outw);
-        el.style.opacity = `${o}`;
-        el.style.transform = `translate(-50%, ${(1 - inw) * 12}px)`;
-      });
 
       // Phase E: white reset + globe
       if (resetRef.current) {
@@ -323,23 +305,6 @@ export function ElsiaaExperience() {
             preload="auto"
             poster={STILL_SRC}
           />
-          {/* narration: alternating top/bottom white bands, clear of the artwork */}
-          {[
-            { line: "Every business has this day.", pos: "top-[6vh]" },
-            { line: "The website that was supposed to just work.", pos: "bottom-[7vh]" },
-            { line: "So you do the only reasonable thing.", pos: "top-[6vh]" },
-            { line: "Good riddance.", pos: "bottom-[7vh]" },
-          ].map((c, i) => (
-            <p
-              key={c.line}
-              ref={(el) => {
-                capRefs.current[i] = el;
-              }}
-              className={`pointer-events-none absolute left-1/2 ${c.pos} w-full max-w-3xl -translate-x-1/2 px-6 text-center text-2xl font-semibold tracking-tight text-[#111111] opacity-0 md:text-4xl`}
-            >
-              {c.line}
-            </p>
-          ))}
         </div>
 
         {/* Phase E — white reset + globe */}
