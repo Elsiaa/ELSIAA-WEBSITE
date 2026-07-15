@@ -306,7 +306,7 @@ export function ElsiaaExperience() {
           className="absolute inset-0 flex items-center justify-center bg-white opacity-0 will-change-transform"
         >
           <img
-            src="/assets/office_scene_v2.jpeg"
+            src="/assets/office_scene_v3.jpeg"
             alt="A very frustrated, very badly drawn office worker in front of a failing website"
             className="max-h-[68vh] w-auto max-w-[82vw] object-contain"
             loading="eager"
@@ -320,12 +320,12 @@ export function ElsiaaExperience() {
         >
           <video
             ref={videoRef}
-            src="/assets/destruction_v2.mp4"
+            src="/assets/destruction_v3.mp4"
             className="max-h-[68vh] w-auto max-w-[82vw] object-contain"
             muted
             playsInline
             preload="auto"
-            poster="/assets/office_scene_v2.jpeg"
+            poster="/assets/office_scene_v3.jpeg"
           />
           {/* scroll captions over the film */}
           <div className="pointer-events-none absolute inset-x-0 bottom-[7vh] flex flex-col items-center px-6">
@@ -389,7 +389,7 @@ function StaticJourney() {
       </section>
       <section className="mx-auto max-w-4xl px-6 pb-16">
         <img
-          src="/assets/office_scene_v2.jpeg"
+          src="/assets/office_scene_v3.jpeg"
           alt="A very badly drawn office worker losing patience with a failing website"
           className="w-full rounded-xl border border-neutral-200"
         />
