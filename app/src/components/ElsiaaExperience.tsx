@@ -32,6 +32,7 @@ export function ElsiaaExperience() {
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const resetRef = useRef<HTMLDivElement>(null);
+  const capRefs = useRef<(HTMLParagraphElement | null)[]>([]);
   const globeRef = useRef<HTMLCanvasElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -107,6 +108,23 @@ export function ElsiaaExperience() {
         const LANDING_T = Math.min(9.3, video.duration - 0.05);
         targetTime = film * LANDING_T;
       }
+
+      // Film captions: each fades in/out inside its own progress window
+      const CAP_WINDOWS: [number, number][] = [
+        [0.42, 0.52],
+        [0.53, 0.63],
+        [0.64, 0.72],
+        [0.73, 0.84],
+      ];
+      capRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const [a, b] = CAP_WINDOWS[i];
+        const inw = seg(p, a, a + 0.025);
+        const outw = 1 - seg(p, b - 0.02, b);
+        const o = Math.min(inw, outw);
+        el.style.opacity = `${o}`;
+        el.style.transform = `translateY(${(1 - inw) * 10}px)`;
+      });
 
       // Phase E: white reset + globe
       if (resetRef.current) {
@@ -290,7 +308,7 @@ export function ElsiaaExperience() {
           <img
             src="/assets/office_scene.jpeg"
             alt="A very frustrated, very badly drawn office worker in front of a failing website"
-            className="h-full w-full object-contain"
+            className="max-h-[68vh] w-auto max-w-[82vw] object-contain"
             loading="eager"
           />
         </div>
@@ -303,12 +321,31 @@ export function ElsiaaExperience() {
           <video
             ref={videoRef}
             src="/assets/destruction.mp4"
-            className="h-full w-full object-contain"
+            className="max-h-[68vh] w-auto max-w-[82vw] object-contain"
             muted
             playsInline
             preload="auto"
             poster="/assets/office_scene.jpeg"
           />
+          {/* scroll captions over the film */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-[7vh] flex flex-col items-center px-6">
+            {[
+              "Every business has this day.",
+              "The website that was supposed to just work.",
+              "So you do the only reasonable thing.",
+              "Good riddance.",
+            ].map((line, i) => (
+              <p
+                key={line}
+                ref={(el) => {
+                  capRefs.current[i] = el;
+                }}
+                className="absolute text-center text-xl font-medium tracking-tight text-[#111111] opacity-0 md:text-2xl"
+              >
+                {line}
+              </p>
+            ))}
+          </div>
         </div>
 
         {/* Phase E — white reset + globe */}
@@ -316,11 +353,12 @@ export function ElsiaaExperience() {
           ref={resetRef}
           className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-10 bg-white opacity-0"
         >
-          <p
-            className="text-3xl font-light lowercase text-[#111111] md:text-[42px]"
-            style={{ letterSpacing: "2px" }}
-          >
-            welcome to the future
+          <p className="text-2xl font-semibold tracking-tight text-[#111111] md:text-4xl">
+            AI.. AI.. AI.. but how?
+          </p>
+          <p className="max-w-xl px-6 text-center text-base leading-relaxed text-neutral-500 md:text-lg">
+            Stretch the limits of what is possible. Discover what AI can change
+            in your business and catch up to 2026.
           </p>
           <canvas ref={globeRef} aria-hidden="true" />
           <button
