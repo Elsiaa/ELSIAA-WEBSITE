@@ -105,7 +105,7 @@ export function ElsiaaExperience() {
       }
       if (video && video.duration && Number.isFinite(video.duration)) {
         // The ball lands in the trash at 9.3s; scrub ends and HOLDS on that exact frame.
-        const LANDING_T = Math.min(9.5, video.duration - 0.05);
+        const LANDING_T = Math.min(9.6, video.duration - 0.05);
         targetTime = film * LANDING_T;
       }
 
@@ -306,7 +306,7 @@ export function ElsiaaExperience() {
           className="absolute inset-0 flex items-center justify-center bg-white opacity-0 will-change-transform"
         >
           <img
-            src="/assets/office_scene_v4.jpeg"
+            src="/assets/office_scene_v5.jpeg"
             alt="A very frustrated, very badly drawn office worker in front of a failing website"
             className="max-h-[68vh] w-auto max-w-[82vw] object-contain"
             loading="eager"
@@ -320,12 +320,12 @@ export function ElsiaaExperience() {
         >
           <video
             ref={videoRef}
-            src="/assets/destruction_v4.mp4"
+            src="/assets/destruction_v5.mp4"
             className="max-h-[68vh] w-auto max-w-[82vw] object-contain"
             muted
             playsInline
             preload="auto"
-            poster="/assets/office_scene_v4.jpeg"
+            poster="/assets/office_scene_v5.jpeg"
           />
           {/* narrated story captions: big, and they move around the frame */}
           <div className="pointer-events-none absolute inset-0">
@@ -401,7 +401,7 @@ function StaticJourney() {
       </section>
       <section className="mx-auto max-w-4xl px-6 pb-16">
         <img
-          src="/assets/office_scene_v4.jpeg"
+          src="/assets/office_scene_v5.jpeg"
           alt="A very badly drawn office worker losing patience with a failing website"
           className="w-full rounded-xl border border-neutral-200"
         />
