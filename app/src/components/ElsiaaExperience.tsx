@@ -7,13 +7,17 @@ import { useEffect, useRef, useState } from "react";
     0.00-0.14  hero text ("AI is just a nice tool...?")
     0.14-0.26  red strikethrough draws, "The future is here." fades in
     0.26-0.40  hero shrinks into the monitor of the MS Paint office still
-    0.40-0.82  destruction film scrubbed frame-exact by scroll
-    0.82-1.00  white reset -> "welcome to the future" + wireframe globe
+    0.40-0.72  destruction film scrubbed frame-exact by scroll
+    0.72-0.84  HOLD on the ball-in-trash landing frame (scroll dead-zone)
+    0.86-1.00  white reset -> "AI.. AI.. AI.. but how?" + wireframe globe
   After the track, normal scroll resumes: services, CTA, footer.
   All browser APIs live inside useEffect (SSR-safe).
 */
 
-const TRACK_VH = 700; // scroll distance of the pinned journey
+const TRACK_VH = 700;
+const STILL_SRC = "/assets/office_scene_v5.jpeg";
+const FILM_SRC = "/assets/destruction_v5.mp4";
+const LANDING_T = 9.85; // seconds — ball settled in the trash
 
 function clamp01(v: number) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -32,7 +36,6 @@ export function ElsiaaExperience() {
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const resetRef = useRef<HTMLDivElement>(null);
-  const capRefs = useRef<(HTMLParagraphElement | null)[]>([]);
   const globeRef = useRef<HTMLCanvasElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -86,45 +89,23 @@ export function ElsiaaExperience() {
       // Phase C: morph — hero scales down into monitor, office fades in
       const morph = seg(p, 0.26, 0.4);
       if (heroRef.current) {
-        const s = 1 - morph * 0.82; // 1 -> 0.18
+        const s = 1 - morph * 0.82;
         heroRef.current.style.transform = `scale(${s}) translateY(${morph * -6}vh)`;
         heroRef.current.style.opacity = `${1 - seg(p, 0.36, 0.42)}`;
       }
       if (officeRef.current) {
-        officeRef.current.style.opacity = `${seg(p, 0.3, 0.4)}`;
+        officeRef.current.style.opacity = `${seg(p, 0.3, 0.4) * (1 - seg(p, 0.4, 0.44))}`;
         officeRef.current.style.transform = `scale(${1.06 - seg(p, 0.3, 0.42) * 0.06})`;
       }
 
-      // Phase D: film scrub
-      const film = seg(p, 0.4, 0.72); // video fully lands at 0.72, then holds
+      // Phase D: film scrub — lands at 0.72, HOLDS through 0.84
+      const film = seg(p, 0.4, 0.72);
       if (videoWrapRef.current) {
         videoWrapRef.current.style.opacity = `${seg(p, 0.4, 0.44) * (1 - seg(p, 0.84, 0.9))}`;
       }
-      if (officeRef.current) {
-        officeRef.current.style.opacity = `${seg(p, 0.3, 0.4) * (1 - seg(p, 0.4, 0.44))}`;
-      }
       if (video && video.duration && Number.isFinite(video.duration)) {
-        // The ball lands in the trash at 9.3s; scrub ends and HOLDS on that exact frame.
-        const LANDING_T = Math.min(9.6, video.duration - 0.05);
-        targetTime = film * LANDING_T;
+        targetTime = film * Math.min(LANDING_T, video.duration - 0.05);
       }
-
-      // Film captions: each fades in/out inside its own progress window
-      const CAP_WINDOWS: [number, number][] = [
-        [0.42, 0.52],
-        [0.53, 0.63],
-        [0.64, 0.72],
-        [0.73, 0.84],
-      ];
-      capRefs.current.forEach((el, i) => {
-        if (!el) return;
-        const [a, b] = CAP_WINDOWS[i];
-        const inw = seg(p, a, a + 0.025);
-        const outw = 1 - seg(p, b - 0.02, b);
-        const o = Math.min(inw, outw);
-        el.style.opacity = `${o}`;
-        el.style.transform = `translateY(${(1 - inw) * 10}px)`;
-      });
 
       // Phase E: white reset + globe
       if (resetRef.current) {
@@ -133,10 +114,8 @@ export function ElsiaaExperience() {
         resetRef.current.style.pointerEvents = e > 0.5 ? "auto" : "none";
       }
 
-      raf = requestAnimationFrame(update);
-
-      // globe rotation velocity is consumed by the globe loop below via dataset
       if (globeRef.current) globeRef.current.dataset.vel = `${velocity}`;
+      raf = requestAnimationFrame(update);
     };
 
     // smooth the seek so scrubbing never fights the decoder
@@ -168,7 +147,7 @@ export function ElsiaaExperience() {
     };
   }, [reducedMotion]);
 
-  // --- wireframe node-globe (constellation lion energy) ----------------------
+  // --- wireframe node-globe --------------------------------------------------
   useEffect(() => {
     if (reducedMotion) return;
     const canvas = globeRef.current;
@@ -187,7 +166,6 @@ export function ElsiaaExperience() {
     const R = size * 0.42;
     const cx = size / 2;
     const cy = size / 2;
-    // lat/long node lattice
     const nodes: { lat: number; lon: number }[] = [];
     for (let la = -60; la <= 60; la += 30) {
       for (let lo = 0; lo < 360; lo += 30) {
@@ -211,7 +189,6 @@ export function ElsiaaExperience() {
         return { x: cx + x * R, y: cy - y * R, z };
       });
 
-      // edges between near neighbours on the front hemisphere
       ctx.lineWidth = 1;
       for (let i = 0; i < pts.length; i++) {
         for (let j = i + 1; j < pts.length; j++) {
@@ -222,7 +199,8 @@ export function ElsiaaExperience() {
           const dy = a.y - b.y;
           const d = Math.hypot(dx, dy);
           if (d < R * 0.62) {
-            const alpha = Math.max(0, ((a.z + b.z) / 2 + 0.4) * 0.35) * (1 - d / (R * 0.62));
+            const alpha =
+              Math.max(0, ((a.z + b.z) / 2 + 0.4) * 0.35) * (1 - d / (R * 0.62));
             if (alpha > 0.02) {
               ctx.strokeStyle = `rgba(60,60,60,${alpha})`;
               ctx.beginPath();
@@ -306,9 +284,9 @@ export function ElsiaaExperience() {
           className="absolute inset-0 flex items-center justify-center bg-white opacity-0 will-change-transform"
         >
           <img
-            src="/assets/office_scene_v5.jpeg"
+            src={STILL_SRC}
             alt="A very frustrated, very badly drawn office worker in front of a failing website"
-            className="max-h-[68vh] w-auto max-w-[82vw] object-contain"
+            className="max-h-[56vh] w-auto max-w-[72vw] object-contain"
             loading="eager"
           />
         </div>
@@ -320,50 +298,19 @@ export function ElsiaaExperience() {
         >
           <video
             ref={videoRef}
-            src="/assets/destruction_v5.mp4"
-            className="max-h-[68vh] w-auto max-w-[82vw] object-contain"
+            src={FILM_SRC}
+            className="max-h-[56vh] w-auto max-w-[72vw] object-contain"
             muted
             playsInline
             preload="auto"
-            poster="/assets/office_scene_v5.jpeg"
+            poster={STILL_SRC}
           />
-          {/* narrated story captions: big, and they move around the frame */}
-          <div className="pointer-events-none absolute inset-0">
-            {[
-              {
-                line: "Every business has this day.",
-                cls: "left-1/2 top-[8vh] -translate-x-1/2 text-center",
-              },
-              {
-                line: "The website that was supposed to just work.",
-                cls: "left-[6vw] top-1/2 max-w-[38vw] -translate-y-1/2 text-left",
-              },
-              {
-                line: "So you do the only reasonable thing.",
-                cls: "right-[6vw] top-[12vh] max-w-[40vw] text-right",
-              },
-              {
-                line: "Good riddance.",
-                cls: "left-1/2 top-[10vh] -translate-x-1/2 text-center",
-              },
-            ].map((c, i) => (
-              <p
-                key={c.line}
-                ref={(el) => {
-                  capRefs.current[i] = el;
-                }}
-                className={`absolute ${c.cls} text-3xl font-bold leading-tight tracking-tight text-[#111111] opacity-0 md:text-5xl`}
-              >
-                {c.line}
-              </p>
-            ))}
-          </div>
         </div>
 
         {/* Phase E — white reset + globe */}
         <div
           ref={resetRef}
-          className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-10 bg-white opacity-0"
+          className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-8 bg-white opacity-0"
         >
           <p className="text-2xl font-semibold tracking-tight text-[#111111] md:text-4xl">
             AI.. AI.. AI.. but how?
@@ -399,19 +346,16 @@ function StaticJourney() {
         </h1>
         <p className="mt-6 text-2xl font-medium text-[#111111]">The future is here.</p>
       </section>
-      <section className="mx-auto max-w-4xl px-6 pb-16">
+      <section className="mx-auto max-w-3xl px-6 pb-16">
         <img
-          src="/assets/office_scene_v5.jpeg"
+          src={STILL_SRC}
           alt="A very badly drawn office worker losing patience with a failing website"
-          className="w-full rounded-xl border border-neutral-200"
+          className="w-full"
         />
-        <p className="mt-4 text-center text-sm text-neutral-500">
-          Every business has lived this exact moment.
-        </p>
       </section>
       <section className="flex flex-col items-center px-6 pb-24 text-center">
-        <p className="text-3xl font-light lowercase text-[#111111]" style={{ letterSpacing: "2px" }}>
-          welcome to the future
+        <p className="text-2xl font-semibold tracking-tight text-[#111111]">
+          AI.. AI.. AI.. but how?
         </p>
       </section>
     </div>
