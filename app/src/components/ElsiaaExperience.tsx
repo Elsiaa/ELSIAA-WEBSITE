@@ -95,9 +95,9 @@ export function ElsiaaExperience() {
       }
 
       // Phase D: film scrub
-      const film = seg(p, 0.4, 0.82);
+      const film = seg(p, 0.4, 0.72); // video fully lands at 0.72, then holds
       if (videoWrapRef.current) {
-        videoWrapRef.current.style.opacity = `${seg(p, 0.4, 0.44) * (1 - seg(p, 0.8, 0.86))}`;
+        videoWrapRef.current.style.opacity = `${seg(p, 0.4, 0.44) * (1 - seg(p, 0.84, 0.9))}`;
       }
       if (officeRef.current) {
         officeRef.current.style.opacity = `${seg(p, 0.3, 0.4) * (1 - seg(p, 0.4, 0.44))}`;
@@ -108,7 +108,7 @@ export function ElsiaaExperience() {
 
       // Phase E: white reset + globe
       if (resetRef.current) {
-        const e = seg(p, 0.82, 0.92);
+        const e = seg(p, 0.86, 0.94);
         resetRef.current.style.opacity = `${e}`;
         resetRef.current.style.pointerEvents = e > 0.5 ? "auto" : "none";
       }
