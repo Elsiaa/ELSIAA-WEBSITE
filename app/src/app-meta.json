@@ -1,7 +1,8 @@
 {
-  "og_title": null,
-  "og_description": null,
-  "og_image_url": null,
-  "favicon_url": null,
-  "og_video_url": null
+  "og_title": "ELSIAA \u2014 AI Done Better",
+  "og_description": "The gap between AI and your business. We are the bridge. Web, automation, and AI implementation with global presence.",
+  "og_image_url": "/assets/og_cover.png",
+  "favicon_url": "/assets/favicon.svg",
+  "og_video_url": null,
+  "marketplace_cover_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FSjdLzPIH8rH0gyIIknQiurfCt/hf_20260715_220020_c7720728-26b6-4560-9134-ddc3cdf7109b.png"
 }
