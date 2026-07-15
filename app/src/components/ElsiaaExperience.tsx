@@ -327,22 +327,34 @@ export function ElsiaaExperience() {
             preload="auto"
             poster="/assets/office_scene_v4.jpeg"
           />
-          {/* scroll captions over the film */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-[7vh] flex flex-col items-center px-6">
+          {/* narrated story captions: big, and they move around the frame */}
+          <div className="pointer-events-none absolute inset-0">
             {[
-              "Every business has this day.",
-              "The website that was supposed to just work.",
-              "So you do the only reasonable thing.",
-              "Good riddance.",
-            ].map((line, i) => (
+              {
+                line: "Every business has this day.",
+                cls: "left-1/2 top-[8vh] -translate-x-1/2 text-center",
+              },
+              {
+                line: "The website that was supposed to just work.",
+                cls: "left-[6vw] top-1/2 max-w-[38vw] -translate-y-1/2 text-left",
+              },
+              {
+                line: "So you do the only reasonable thing.",
+                cls: "right-[6vw] top-[12vh] max-w-[40vw] text-right",
+              },
+              {
+                line: "Good riddance.",
+                cls: "left-1/2 top-[10vh] -translate-x-1/2 text-center",
+              },
+            ].map((c, i) => (
               <p
-                key={line}
+                key={c.line}
                 ref={(el) => {
                   capRefs.current[i] = el;
                 }}
-                className="absolute text-center text-xl font-medium tracking-tight text-[#111111] opacity-0 md:text-2xl"
+                className={`absolute ${c.cls} text-3xl font-bold leading-tight tracking-tight text-[#111111] opacity-0 md:text-5xl`}
               >
-                {line}
+                {c.line}
               </p>
             ))}
           </div>
