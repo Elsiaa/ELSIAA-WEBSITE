@@ -103,7 +103,9 @@ export function ElsiaaExperience() {
         officeRef.current.style.opacity = `${seg(p, 0.3, 0.4) * (1 - seg(p, 0.4, 0.44))}`;
       }
       if (video && video.duration && Number.isFinite(video.duration)) {
-        targetTime = film * (video.duration - 0.05);
+        // The ball lands in the trash at 9.3s; scrub ends and HOLDS on that exact frame.
+        const LANDING_T = Math.min(9.3, video.duration - 0.05);
+        targetTime = film * LANDING_T;
       }
 
       // Phase E: white reset + globe
