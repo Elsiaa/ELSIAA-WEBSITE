@@ -15,9 +15,9 @@ import { useEffect, useRef, useState } from "react";
 */
 
 const TRACK_VH = 700;
-const STILL_SRC = "/assets/office_scene_v6.jpeg";
-const FILM_SRC = "/assets/destruction_v6.mp4";
-const LANDING_T = 9.9; // seconds — ball settled in the trash
+const STILL_SRC = "/assets/office_scene_v7.jpeg";
+const FILM_SRC = "/assets/destruction_v7.mp4";
+const LANDING_T = 13.6; // seconds — ball settled in the trash
 
 function clamp01(v: number) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
