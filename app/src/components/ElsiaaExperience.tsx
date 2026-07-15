@@ -347,13 +347,6 @@ export function ElsiaaExperience() {
           ref={resetRef}
           className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-8 bg-white opacity-0"
         >
-          <p className="text-2xl font-semibold tracking-tight text-[#111111] md:text-4xl">
-            AI.. AI.. AI.. but how?
-          </p>
-          <p className="max-w-xl px-6 text-center text-base leading-relaxed text-neutral-500 md:text-lg">
-            Stretch the limits of what is possible. Discover what AI can change
-            in your business and catch up to 2026.
-          </p>
           <canvas ref={globeRef} aria-hidden="true" />
           <button
             onClick={scrollToServices}
