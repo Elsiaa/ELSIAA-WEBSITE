@@ -1,24 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 
 /*
-  ELSIAA scroll-scrubbed journey.
-  One pinned stage (position: sticky) inside a tall scroll track.
-  Progress 0..1 across the track drives every phase:
-    0.00-0.14  hero text ("AI is just a nice tool...?")
-    0.14-0.26  red strikethrough draws, "The future is here." fades in
-    0.26-0.40  hero shrinks into the monitor of the MS Paint office still
-    0.40-0.72  destruction film scrubbed frame-exact by scroll
-    0.72-0.84  HOLD on the ball-in-trash landing frame (scroll dead-zone)
-    0.86-1.00  white reset -> "AI.. AI.. AI.. but how?" + wireframe globe
-  After the track, normal scroll resumes: services, CTA, footer.
+  ELSIAA scroll journey — 100% scroll-driven. No timers, no autoplay, no
+  scroll hijacking. Your scroll position IS the timeline:
+
+    0.00-0.14  hero: "AI is just a nice tool...?"
+    0.14-0.26  red strikethrough draws itself; "The future is here."
+    0.26-0.40  hero shrinks away; the MS Paint office fades in — the guy is
+               sitting at his desk, the SAME page on his monitor
+    0.40-0.76  the film, scrubbed frame-by-frame by scroll: he grabs the page,
+               RIPS it out of the monitor, crumples it, throws it, and it
+               lands and settles in the trash — all of it under your finger
+    0.76-0.86  hold: the settled ball-in-trash shot stays on screen while you
+               keep scrolling (pure scroll distance, nothing is locked)
+    0.86-1.00  white reset -> wireframe globe
+  Then normal scroll: services, CTA, footer.
   All browser APIs live inside useEffect (SSR-safe).
 */
 
 const TRACK_VH = 700;
-const STILL_SRC = "/assets/office_scene_v8.jpeg";
-const FILM_SRC = "/assets/destruction_v8.mp4";
-const IMPACT_T = 12.9; // scrub hands off here, just before the ball drops
-const SETTLE_LOCK_MS = 1200; // scroll stays locked while the landing plays
+const STILL_SRC = "/assets/office_scene_v7.jpeg";
+const FILM_SRC = "/assets/destruction_v7.mp4";
+const FILM_END_T = 14.9; // scrub through the FULL film: rip, throw, land, settle
 
 function clamp01(v: number) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -48,7 +51,7 @@ export function ElsiaaExperience() {
     return () => mq.removeEventListener("change", onMq);
   }, []);
 
-  // --- master scroll driver -------------------------------------------------
+  // --- master scroll driver: scroll position -> everything -------------------
   useEffect(() => {
     if (reducedMotion) return;
     const track = trackRef.current;
@@ -58,12 +61,6 @@ export function ElsiaaExperience() {
     let raf = 0;
     let targetTime = 0;
     let lastScrollY = 0;
-    let velocity = 0;
-    const lock: { phase: "armed" | "playing" | "done"; until: number; scrollY: number } = {
-      phase: "armed",
-      until: 0,
-      scrollY: 0,
-    };
 
     const strike = strikeRef.current;
     const strikeLen = strike ? strike.getTotalLength() : 0;
@@ -77,10 +74,10 @@ export function ElsiaaExperience() {
       const total = rect.height - window.innerHeight;
       const p = clamp01(-rect.top / total);
 
-      velocity = window.scrollY - lastScrollY;
+      const velocity = window.scrollY - lastScrollY;
       lastScrollY = window.scrollY;
 
-      // Phase A/B: hero + strike
+      // hero + strike
       const strikeP = seg(p, 0.14, 0.24);
       if (strike) strike.style.strokeDashoffset = `${strikeLen * (1 - strikeP)}`;
       if (futureRef.current) {
@@ -92,7 +89,7 @@ export function ElsiaaExperience() {
         exploreRef.current.style.pointerEvents = p > 0.16 ? "none" : "auto";
       }
 
-      // Phase C: morph — hero scales down into monitor, office fades in
+      // morph: hero out, office still in
       const morph = seg(p, 0.26, 0.4);
       if (heroRef.current) {
         const s = 1 - morph * 0.82;
@@ -104,44 +101,20 @@ export function ElsiaaExperience() {
         officeRef.current.style.transform = `scale(${1.06 - seg(p, 0.3, 0.42) * 0.06})`;
       }
 
-      // Phase D: film scrub up to the moment of impact
-      const film = seg(p, 0.4, 0.72);
+      // the film: scroll scrubs the WHOLE thing — rip, crumple, throw,
+      // land, settle. p 0.76-0.86 maps to film=1, so the settled shot
+      // holds on screen for that stretch of scroll.
+      const film = seg(p, 0.4, 0.76);
       if (videoWrapRef.current) {
-        videoWrapRef.current.style.opacity = `${seg(p, 0.4, 0.44) * (1 - seg(p, 0.84, 0.9))}`;
+        videoWrapRef.current.style.opacity = `${seg(p, 0.4, 0.44) * (1 - seg(p, 0.86, 0.92))}`;
       }
       if (video && video.duration && Number.isFinite(video.duration)) {
-        targetTime = film * Math.min(IMPACT_T, video.duration - 0.05);
+        targetTime = film * Math.min(FILM_END_T, video.duration - 0.05);
       }
 
-      // Landing lock: the moment scrub reaches the impact point, freeze the page,
-      // let the swish + settle PLAY in real time, then release the scroll.
-      if (video) {
-        if (lock.phase === "armed" && p >= 0.715) {
-          lock.phase = "playing";
-          lock.until = performance.now() + SETTLE_LOCK_MS;
-          lock.scrollY = window.scrollY;
-          video.currentTime = Math.min(IMPACT_T, video.duration - 0.05);
-          video.playbackRate = 1.6;
-          void video.play().catch(() => {});
-        }
-        if (lock.phase === "playing") {
-          if (window.scrollY !== lock.scrollY) window.scrollTo(0, lock.scrollY);
-          if (performance.now() >= lock.until) {
-            lock.phase = "done";
-            video.pause();
-            if (Number.isFinite(video.duration)) video.currentTime = video.duration - 0.05;
-          }
-        }
-        if (p < 0.68 && lock.phase !== "armed") {
-          // scrolled back up: re-arm so the payoff replays next pass
-          lock.phase = "armed";
-          video.pause();
-        }
-      }
-
-      // Phase E: white reset + globe
+      // white reset + globe
       if (resetRef.current) {
-        const e = seg(p, 0.86, 0.94);
+        const e = seg(p, 0.88, 0.96);
         resetRef.current.style.opacity = `${e}`;
         resetRef.current.style.pointerEvents = e > 0.5 ? "auto" : "none";
       }
@@ -150,14 +123,15 @@ export function ElsiaaExperience() {
       raf = requestAnimationFrame(update);
     };
 
-    // smooth the seek so scrubbing never fights the decoder
+    // eased seek toward the scroll-determined time — still purely
+    // scroll-driven, the easing only smooths decoder churn
     let seekRaf = 0;
     const seekLoop = () => {
-      if (video && video.readyState >= 2 && lock.phase === "armed") {
+      if (video && video.readyState >= 2) {
         const cur = video.currentTime;
         const diff = targetTime - cur;
         if (Math.abs(diff) > 0.02) {
-          video.currentTime = cur + diff * 0.35;
+          video.currentTime = cur + diff * 0.4;
         }
       }
       seekRaf = requestAnimationFrame(seekLoop);
@@ -166,6 +140,7 @@ export function ElsiaaExperience() {
     raf = requestAnimationFrame(update);
     seekRaf = requestAnimationFrame(seekLoop);
     if (video) {
+      video.pause();
       video.load();
       const prime = () => {
         video.currentTime = 0.001;
@@ -268,7 +243,7 @@ export function ElsiaaExperience() {
   return (
     <div ref={trackRef} style={{ height: `${TRACK_VH}vh`, position: "relative" }}>
       <div className="sticky top-0 h-dvh w-full overflow-hidden bg-white">
-        {/* Phase A/B — hero */}
+        {/* hero */}
         <div
           ref={heroRef}
           className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center will-change-transform"
@@ -310,20 +285,20 @@ export function ElsiaaExperience() {
           </button>
         </div>
 
-        {/* Phase C — MS Paint office still */}
+        {/* MS Paint office still — the guy at his desk, the page on his monitor */}
         <div
           ref={officeRef}
           className="absolute inset-0 flex items-center justify-center bg-white opacity-0 will-change-transform"
         >
           <img
             src={STILL_SRC}
-            alt="A very frustrated, very badly drawn office worker in front of a failing website"
+            alt="A very frustrated, very badly drawn office worker staring at the crossed-out webpage on his monitor"
             className="max-h-[56vh] w-auto max-w-[72vw] object-contain"
             loading="eager"
           />
         </div>
 
-        {/* Phase D — scrubbed destruction film */}
+        {/* the film: rip it out, crumple, throw, land, settle — scrubbed by scroll */}
         <div
           ref={videoWrapRef}
           className="absolute inset-0 flex items-center justify-center bg-white opacity-0"
@@ -339,7 +314,7 @@ export function ElsiaaExperience() {
           />
         </div>
 
-        {/* Phase E — white reset + globe */}
+        {/* white reset + globe */}
         <div
           ref={resetRef}
           className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-8 bg-white opacity-0"
@@ -358,7 +333,7 @@ export function ElsiaaExperience() {
   );
 }
 
-/* Reduced-motion fallback: the story as a static chapter stack */
+/* Reduced-motion fallback: the story as a static stack */
 function StaticJourney() {
   return (
     <div className="bg-white">
@@ -371,17 +346,12 @@ function StaticJourney() {
         </h1>
         <p className="mt-6 text-2xl font-medium text-[#111111]">The future is here.</p>
       </section>
-      <section className="mx-auto max-w-3xl px-6 pb-16">
+      <section className="mx-auto max-w-3xl px-6 pb-24">
         <img
           src={STILL_SRC}
           alt="A very badly drawn office worker losing patience with a failing website"
           className="w-full"
         />
-      </section>
-      <section className="flex flex-col items-center px-6 pb-24 text-center">
-        <p className="text-2xl font-semibold tracking-tight text-[#111111]">
-          AI.. AI.. AI.. but how?
-        </p>
       </section>
     </div>
   );
