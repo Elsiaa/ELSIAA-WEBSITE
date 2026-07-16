@@ -4,7 +4,7 @@ const CITIES = "Antwerp · Geneva · London · Tel Aviv · New York · Los Angel
 
 export function EmpireHero() {
   const heroRef = useRef<HTMLElement | null>(null);
-  const lionRef = useRef<HTMLImageElement | null>(null);
+  const lionRef = useRef<HTMLVideoElement | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -50,10 +50,14 @@ export function EmpireHero() {
       className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#070907] text-[#F5F5F3]"
     >
       {/* lion, breathing behind the words */}
-      <img
+      <video
         ref={lionRef}
-        src="/assets/lion_real_v1.jpg"
-        alt=""
+        src="/assets/lion_alive_v1.mp4"
+        poster="/assets/lion_real_v1.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
         aria-hidden
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.55] transition-opacity duration-[1600ms]"
         style={{ opacity: ready ? 0.55 : 0 }}
