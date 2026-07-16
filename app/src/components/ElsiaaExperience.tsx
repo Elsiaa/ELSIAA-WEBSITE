@@ -18,7 +18,7 @@ const TRACK_VH = 700;
 const STILL_SRC = "/assets/office_scene_v8.jpeg";
 const FILM_SRC = "/assets/destruction_v8.mp4";
 const IMPACT_T = 12.9; // scrub hands off here, just before the ball drops
-const SETTLE_LOCK_MS = 2600; // scroll stays locked while the landing plays
+const SETTLE_LOCK_MS = 1200; // scroll stays locked while the landing plays
 
 function clamp01(v: number) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -121,7 +121,7 @@ export function ElsiaaExperience() {
           lock.until = performance.now() + SETTLE_LOCK_MS;
           lock.scrollY = window.scrollY;
           video.currentTime = Math.min(IMPACT_T, video.duration - 0.05);
-          video.playbackRate = 1;
+          video.playbackRate = 1.6;
           void video.play().catch(() => {});
         }
         if (lock.phase === "playing") {
