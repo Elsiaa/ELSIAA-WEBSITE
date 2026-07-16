@@ -52,11 +52,11 @@ export function EmpireHero() {
       {/* lion, breathing behind the words */}
       <img
         ref={lionRef}
-        src="/assets/og_cover.png"
+        src="/assets/lion_real_v1.jpg"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.38] transition-opacity duration-[1600ms]"
-        style={{ opacity: ready ? 0.38 : 0 }}
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.55] transition-opacity duration-[1600ms]"
+        style={{ opacity: ready ? 0.55 : 0 }}
       />
       {/* vignette so type always sits on near-black */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,9,7,0.25)_0%,rgba(7,9,7,0.78)_78%,rgba(7,9,7,0.95)_100%)]" />
