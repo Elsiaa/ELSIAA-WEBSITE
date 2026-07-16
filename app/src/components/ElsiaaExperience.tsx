@@ -19,8 +19,8 @@ import { useEffect, useRef, useState } from "react";
 */
 
 const TRACK_VH = 700;
-const STILL_SRC = "/assets/office_scene_v7.jpeg";
-const FILM_SRC = "/assets/destruction_v7.mp4";
+const STILL_SRC = "/assets/office_scene_v8.jpeg";
+const FILM_SRC = "/assets/destruction_v9.mp4";
 const FILM_END_T = 14.9; // scrub through the FULL film: rip, throw, land, settle
 
 function clamp01(v: number) {
@@ -124,14 +124,22 @@ export function ElsiaaExperience() {
     };
 
     // eased seek toward the scroll-determined time — still purely
-    // scroll-driven, the easing only smooths decoder churn
+    // scroll-driven; never issue a new seek while one is in flight,
+    // otherwise the decoder queue floods and the page freezes
     let seekRaf = 0;
     const seekLoop = () => {
-      if (video && video.readyState >= 2) {
+      if (
+        video &&
+        video.readyState >= 2 &&
+        !video.seeking &&
+        Number.isFinite(video.duration)
+      ) {
         const cur = video.currentTime;
         const diff = targetTime - cur;
-        if (Math.abs(diff) > 0.02) {
-          video.currentTime = cur + diff * 0.4;
+        if (Math.abs(diff) > 0.034) {
+          // step at most ~0.5s per seek so reversals stay responsive
+          const step = Math.max(-0.5, Math.min(0.5, diff * 0.5));
+          video.currentTime = cur + step;
         }
       }
       seekRaf = requestAnimationFrame(seekLoop);
