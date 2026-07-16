@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ElsiaaExperience } from "../components/ElsiaaExperience";
 import { ElsiaaSections } from "../components/ElsiaaSections";
 
 export const Route = createFileRoute("/")({
@@ -9,7 +8,6 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <main className="bg-white text-[#111111] antialiased">
-      <ElsiaaExperience />
       <ElsiaaSections />
     </main>
   );
