@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as DesignsRouteImport } from './routes/designs'
+import { Route as ConceptWalkRouteImport } from './routes/concept-walk'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -29,6 +30,11 @@ const DesignsRoute = DesignsRouteImport.update({
   path: '/designs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConceptWalkRoute = ConceptWalkRouteImport.update({
+  id: '/concept-walk',
+  path: '/concept-walk',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/concept-walk': typeof ConceptWalkRoute
   '/designs': typeof DesignsRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/concept-walk': typeof ConceptWalkRoute
   '/designs': typeof DesignsRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -50,20 +58,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/concept-walk': typeof ConceptWalkRoute
   '/designs': typeof DesignsRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/designs' | '/robots.txt' | '/sitemap.xml'
+  fullPaths: '/' | '/concept-walk' | '/designs' | '/robots.txt' | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/designs' | '/robots.txt' | '/sitemap.xml'
-  id: '__root__' | '/' | '/designs' | '/robots.txt' | '/sitemap.xml'
+  to: '/' | '/concept-walk' | '/designs' | '/robots.txt' | '/sitemap.xml'
+  id:
+    | '__root__'
+    | '/'
+    | '/concept-walk'
+    | '/designs'
+    | '/robots.txt'
+    | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConceptWalkRoute: typeof ConceptWalkRoute
   DesignsRoute: typeof DesignsRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -92,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DesignsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/concept-walk': {
+      id: '/concept-walk'
+      path: '/concept-walk'
+      fullPath: '/concept-walk'
+      preLoaderRoute: typeof ConceptWalkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +127,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConceptWalkRoute: ConceptWalkRoute,
   DesignsRoute: DesignsRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -111,13 +135,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
