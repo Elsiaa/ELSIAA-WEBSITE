@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
                lands and settles in the trash — all of it under your finger
     0.76-0.86  hold: the settled ball-in-trash shot stays on screen while you
                keep scrolling (pure scroll distance, nothing is locked)
-    0.86-1.00  white reset -> wireframe globe
+    0.78-1.00  landing caption fades in over the settled shot
   Then normal scroll: services, CTA, footer.
   All browser APIs live inside useEffect (SSR-safe).
 */
@@ -40,7 +40,6 @@ export function ElsiaaExperience() {
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const resetRef = useRef<HTMLDivElement>(null);
-  const globeRef = useRef<HTMLCanvasElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -60,7 +59,6 @@ export function ElsiaaExperience() {
 
     let raf = 0;
     let targetTime = 0;
-    let lastScrollY = 0;
 
     const strike = strikeRef.current;
     const strikeLen = strike ? strike.getTotalLength() : 0;
@@ -74,8 +72,6 @@ export function ElsiaaExperience() {
       const total = rect.height - window.innerHeight;
       const p = clamp01(-rect.top / total);
 
-      const velocity = window.scrollY - lastScrollY;
-      lastScrollY = window.scrollY;
 
       // hero + strike
       const strikeP = seg(p, 0.14, 0.24);
@@ -102,24 +98,22 @@ export function ElsiaaExperience() {
       }
 
       // the film: scroll scrubs the WHOLE thing — rip, crumple, throw,
-      // land, settle. p 0.76-0.86 maps to film=1, so the settled shot
-      // holds on screen for that stretch of scroll.
+      // land, settle. From p 0.76 the settled ball-in-trash shot stays on
+      // screen while the landing caption fades in over it.
       const film = seg(p, 0.4, 0.76);
       if (videoWrapRef.current) {
-        videoWrapRef.current.style.opacity = `${seg(p, 0.4, 0.44) * (1 - seg(p, 0.86, 0.92))}`;
+        videoWrapRef.current.style.opacity = `${seg(p, 0.4, 0.44)}`;
       }
       if (video && video.duration && Number.isFinite(video.duration)) {
         targetTime = film * Math.min(FILM_END_T, video.duration - 0.05);
       }
 
-      // white reset + globe
+      // landing caption: bad designs where they belong
       if (resetRef.current) {
-        const e = seg(p, 0.88, 0.96);
+        const e = seg(p, 0.78, 0.88);
         resetRef.current.style.opacity = `${e}`;
-        resetRef.current.style.pointerEvents = e > 0.5 ? "auto" : "none";
+        resetRef.current.style.transform = `translateY(${(1 - e) * 18}px)`;
       }
-
-      if (globeRef.current) globeRef.current.dataset.vel = `${velocity}`;
       raf = requestAnimationFrame(update);
     };
 
@@ -160,84 +154,6 @@ export function ElsiaaExperience() {
       cancelAnimationFrame(raf);
       cancelAnimationFrame(seekRaf);
     };
-  }, [reducedMotion]);
-
-  // --- wireframe node-globe --------------------------------------------------
-  useEffect(() => {
-    if (reducedMotion) return;
-    const canvas = globeRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    const size = Math.min(window.innerWidth * 0.5, 360);
-    canvas.width = size * DPR;
-    canvas.height = size * DPR;
-    canvas.style.width = `${size}px`;
-    canvas.style.height = `${size}px`;
-    ctx.scale(DPR, DPR);
-
-    const R = size * 0.42;
-    const cx = size / 2;
-    const cy = size / 2;
-    const nodes: { lat: number; lon: number }[] = [];
-    for (let la = -60; la <= 60; la += 30) {
-      for (let lo = 0; lo < 360; lo += 30) {
-        nodes.push({ lat: (la * Math.PI) / 180, lon: (lo * Math.PI) / 180 });
-      }
-    }
-    nodes.push({ lat: Math.PI / 2, lon: 0 }, { lat: -Math.PI / 2, lon: 0 });
-
-    let rot = 0;
-    let raf = 0;
-    const draw = () => {
-      const vel = parseFloat(canvas.dataset.vel || "0");
-      rot += 0.004 + Math.min(Math.abs(vel) * 0.0006, 0.03);
-      ctx.clearRect(0, 0, size, size);
-
-      const pts = nodes.map((n) => {
-        const lon = n.lon + rot;
-        const x = Math.cos(n.lat) * Math.sin(lon);
-        const y = Math.sin(n.lat);
-        const z = Math.cos(n.lat) * Math.cos(lon);
-        return { x: cx + x * R, y: cy - y * R, z };
-      });
-
-      ctx.lineWidth = 1;
-      for (let i = 0; i < pts.length; i++) {
-        for (let j = i + 1; j < pts.length; j++) {
-          const a = pts[i];
-          const b = pts[j];
-          if (a.z < -0.15 && b.z < -0.15) continue;
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const d = Math.hypot(dx, dy);
-          if (d < R * 0.62) {
-            const alpha =
-              Math.max(0, ((a.z + b.z) / 2 + 0.4) * 0.35) * (1 - d / (R * 0.62));
-            if (alpha > 0.02) {
-              ctx.strokeStyle = `rgba(60,60,60,${alpha})`;
-              ctx.beginPath();
-              ctx.moveTo(a.x, a.y);
-              ctx.lineTo(b.x, b.y);
-              ctx.stroke();
-            }
-          }
-        }
-      }
-      for (const pnt of pts) {
-        if (pnt.z < -0.2) continue;
-        const a = (pnt.z + 0.5) * 0.8;
-        ctx.fillStyle = `rgba(30,107,60,${Math.max(0.12, a)})`;
-        ctx.beginPath();
-        ctx.arc(pnt.x, pnt.y, 2.1 + pnt.z * 1.2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      raf = requestAnimationFrame(draw);
-    };
-    raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
   }, [reducedMotion]);
 
   const scrollToServices = () => {
@@ -322,19 +238,23 @@ export function ElsiaaExperience() {
           />
         </div>
 
-        {/* white reset + globe */}
+        {/* landing caption — bad designs where they belong */}
         <div
           ref={resetRef}
-          className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-8 bg-white opacity-0"
+          className="pointer-events-none absolute inset-x-0 bottom-[8svh] flex flex-col items-center px-6 text-center opacity-0 will-change-transform"
         >
-          <canvas ref={globeRef} aria-hidden="true" />
-          <button
-            onClick={scrollToServices}
-            className="group text-sm font-medium tracking-wide text-[#1e6b3c]"
+          <p
+            className="text-3xl font-semibold tracking-[-0.02em] text-[#111111] md:text-6xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            See what we actually do
-            <span className="mt-1 block h-px w-0 bg-[#1e6b3c] transition-all duration-300 group-hover:w-full" />
-          </button>
+            Bad designs, where they belong.
+          </p>
+          <p
+            className="mt-4 text-lg text-[#111111]/55 md:text-2xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Discover designs that convert strangers into customers.
+          </p>
         </div>
       </div>
     </div>

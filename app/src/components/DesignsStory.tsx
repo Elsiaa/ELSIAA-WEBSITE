@@ -46,21 +46,93 @@ function BigCaption({
   );
 }
 
-/* ---------- trash can becomes the world; spins faster as you scroll ---------- */
+/* ---------- trash can becomes the world; sketch turns real; spins faster ---------- */
+function WireGlobe({ speedRef }: { speedRef: React.MutableRefObject<number> }) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const size = Math.min(window.innerWidth * 0.6, 420);
+    canvas.width = size * DPR;
+    canvas.height = size * DPR;
+    canvas.style.width = `${size}px`;
+    canvas.style.height = `${size}px`;
+    ctx.scale(DPR, DPR);
+    const R = size * 0.42;
+    const cx = size / 2;
+    const cy = size / 2;
+    const nodes: { lat: number; lon: number }[] = [];
+    for (let la = -60; la <= 60; la += 30)
+      for (let lo = 0; lo < 360; lo += 30)
+        nodes.push({ lat: (la * Math.PI) / 180, lon: (lo * Math.PI) / 180 });
+    nodes.push({ lat: Math.PI / 2, lon: 0 }, { lat: -Math.PI / 2, lon: 0 });
+    let rot = 0;
+    let raf = 0;
+    const draw = () => {
+      rot += 0.004 * speedRef.current;
+      ctx.clearRect(0, 0, size, size);
+      const pts = nodes.map((n) => {
+        const lon = n.lon + rot;
+        return {
+          x: cx + Math.cos(n.lat) * Math.sin(lon) * R,
+          y: cy - Math.sin(n.lat) * R,
+          z: Math.cos(n.lat) * Math.cos(lon),
+        };
+      });
+      ctx.lineWidth = 1;
+      for (let i = 0; i < pts.length; i++)
+        for (let j = i + 1; j < pts.length; j++) {
+          const a = pts[i];
+          const b = pts[j];
+          if (a.z < -0.15 && b.z < -0.15) continue;
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < R * 0.62) {
+            const alpha =
+              Math.max(0, ((a.z + b.z) / 2 + 0.4) * 0.35) * (1 - d / (R * 0.62));
+            if (alpha > 0.02) {
+              ctx.strokeStyle = `rgba(60,60,60,${alpha})`;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+      for (const p of pts) {
+        if (p.z < -0.2) continue;
+        ctx.fillStyle = `rgba(30,107,60,${Math.max(0.12, (p.z + 0.5) * 0.8)})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2.1 + p.z * 1.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(raf);
+  }, [speedRef]);
+  return <canvas ref={canvasRef} aria-hidden className="will-change-transform" />;
+}
+
 function GlobeSection() {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const trashRef = useRef<HTMLImageElement | null>(null);
+  const wireRef = useRef<HTMLDivElement | null>(null);
   const globeRef = useRef<HTMLVideoElement | null>(null);
   const line1Ref = useRef<HTMLParagraphElement | null>(null);
   const line2Ref = useRef<HTMLParagraphElement | null>(null);
+  const wireSpeed = useRef(1);
 
   useEffect(() => {
     const track = trackRef.current;
     const trash = trashRef.current;
+    const wire = wireRef.current;
     const globe = globeRef.current;
     const l1 = line1Ref.current;
     const l2 = line2Ref.current;
-    if (!track || !trash || !globe || !l1 || !l2) return;
+    if (!track || !trash || !wire || !globe || !l1 || !l2) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let raf = 0;
@@ -69,23 +141,29 @@ function GlobeSection() {
       const total = r.height - window.innerHeight;
       const p = Math.min(1, Math.max(0, -r.top / Math.max(1, total)));
 
-      // metamorphosis: trash can inflates and dissolves into the spinning earth
-      const m = Math.min(1, p / 0.22);
+      // act I — the trash can inflates and dissolves into a sketch of the world
+      const m = Math.min(1, p / 0.16);
       trash.style.opacity = String(1 - m);
-      trash.style.transform = `scale(${1 + m * 1.6}) rotate(${m * 14}deg)`;
-      globe.style.opacity = String(m);
-      globe.style.transform = `scale(${0.62 + m * 0.38})`;
+      trash.style.transform = `scale(${1 + m * 1.4}) rotate(${m * 12}deg)`;
 
-      // the world accelerates the deeper you go
-      const speed = 0.6 + Math.pow(Math.max(0, (p - 0.22) / 0.78), 1.6) * 5.4;
+      // act II — the sketch spins, then becomes real
+      const real = Math.min(1, Math.max(0, (p - 0.2) / 0.25));
+      wire.style.opacity = String(m * (1 - real));
+      wire.style.transform = `scale(${0.8 + m * 0.2})`;
+      globe.style.opacity = String(real);
+      globe.style.transform = `scale(${0.86 + real * 0.14})`;
+
+      // act III — the world accelerates the deeper you go
+      const accel = 1 + Math.pow(Math.max(0, (p - 0.35) / 0.65), 1.7) * 9;
+      wireSpeed.current = accel;
       if (!reduced) {
-        globe.playbackRate = Math.min(6, speed);
-        if (globe.paused && m > 0) globe.play().catch(() => {});
+        globe.playbackRate = Math.min(8, 0.7 * accel);
+        if (globe.paused && real > 0) globe.play().catch(() => {});
       }
 
-      l1.style.opacity = String(Math.min(1, Math.max(0, (p - 0.25) / 0.15)));
-      l2.style.opacity = String(Math.min(1, Math.max(0, (p - 0.55) / 0.15)));
-      l2.style.letterSpacing = `${0.02 + Math.max(0, p - 0.55) * 0.1}em`;
+      l1.style.opacity = String(Math.min(1, Math.max(0, (p - 0.42) / 0.14)));
+      l2.style.opacity = String(Math.min(1, Math.max(0, (p - 0.6) / 0.14)));
+      l2.style.letterSpacing = `${0.02 + Math.max(0, p - 0.6) * 0.1}em`;
 
       raf = requestAnimationFrame(tick);
     };
@@ -94,7 +172,7 @@ function GlobeSection() {
   }, []);
 
   return (
-    <div ref={trackRef} style={{ height: "320vh" }} className="relative bg-white">
+    <div ref={trackRef} style={{ height: "340vh" }} className="relative bg-white">
       <section className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden bg-white">
         <div className="relative flex h-[52svh] w-full items-center justify-center md:h-[60svh]">
           <img
@@ -104,6 +182,9 @@ function GlobeSection() {
             aria-hidden
             className="absolute h-[70%] w-auto object-contain will-change-transform"
           />
+          <div ref={wireRef} className="absolute flex items-center justify-center opacity-0">
+            <WireGlobe speedRef={wireSpeed} />
+          </div>
           <video
             ref={globeRef}
             src="/assets/globe_spin_v1.mp4"
@@ -120,7 +201,7 @@ function GlobeSection() {
           className="mt-8 text-3xl font-semibold tracking-[-0.02em] text-[#111111] opacity-0 md:text-6xl"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          The world is changing.
+          The world is moving quickly.
         </p>
         <p
           ref={line2Ref}
@@ -262,11 +343,11 @@ function PreviousWork() {
 export function DesignsStory() {
   return (
     <>
+      <GlobeSection />
+
       <BigCaption sub="Your web presence matters.">
         It&rsquo;s 2026. There&rsquo;s no excuse for poorly designed software.
       </BigCaption>
-
-      <GlobeSection />
 
       <BigCaption sub="That&rsquo;s why choosing the right team matters.">
         Your graphics matter.
