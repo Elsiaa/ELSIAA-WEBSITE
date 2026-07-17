@@ -28,7 +28,7 @@ function BigCaption({
     return () => cancelAnimationFrame(raf);
   }, []);
   return (
-    <section className="flex min-h-[85svh] items-center justify-center bg-white px-6">
+    <section className="flex min-h-[68svh] items-center justify-center bg-white px-6">
       <div ref={ref} className="max-w-5xl text-center will-change-transform">
         <h2
           className="text-4xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl md:leading-[1.05]"
@@ -276,7 +276,7 @@ function GraphicsSection() {
   }, []);
 
   return (
-    <div ref={trackRef} style={{ height: "420vh" }} className="relative bg-white">
+    <div ref={trackRef} style={{ height: "340vh" }} className="relative bg-white">
       <section className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden bg-white px-6">
         <div ref={compareRef} className="grid w-full max-w-5xl grid-cols-1 gap-6 will-change-transform md:grid-cols-2">
           <figure className="flex flex-col items-center">
@@ -314,19 +314,31 @@ function GraphicsSection() {
   );
 }
 
-/* ---------- previous work placeholders ---------- */
+/* ---------- previous work + closing ---------- */
 function PreviousWork() {
   return (
-    <section className="bg-white px-6 pb-40">
+    <section className="bg-white px-6 pt-8 pb-28">
       <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
+        <p
+          className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
+          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          Selected work
+        </p>
+        <h2
+          className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.02em] text-[#111111] md:text-5xl"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
+          Discover our previous work.
+        </h2>
+        <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5">
           {[1, 2, 3, 4, 5, 6].map((n) => (
             <div
               key={n}
-              className="flex aspect-[4/3] items-center justify-center bg-[#F5F5F3] transition-colors duration-300 hover:bg-[#ecece9]"
+              className="group flex aspect-[4/3] items-center justify-center bg-[#F5F5F3] transition-all duration-300 hover:-translate-y-1 hover:bg-[#ecece9] hover:shadow-[0_18px_40px_-24px_rgba(17,17,17,0.35)]"
             >
               <span
-                className="text-[11px] tracking-[0.3em] text-[#111111]/30 uppercase"
+                className="text-[11px] tracking-[0.3em] text-[#111111]/30 uppercase transition-colors duration-300 group-hover:text-[#1e6b3c]"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Project {String(n).padStart(2, "0")}
@@ -339,29 +351,57 @@ function PreviousWork() {
   );
 }
 
+function ClosingCTA() {
+  return (
+    <section className="bg-[#070907] px-6 py-32 text-center text-[#F5F5F3]">
+      <p
+        className="text-[11px] tracking-[0.42em] text-[#2e9e58] uppercase"
+        style={{ fontFamily: "'Inter', sans-serif" }}
+      >
+        ELSIAA
+      </p>
+      <h2
+        className="mx-auto mt-6 max-w-3xl text-4xl leading-[1.08] italic md:text-6xl"
+        style={{ fontFamily: "'Cormorant Garamond', serif" }}
+      >
+        Your product deserves to look the part.
+      </h2>
+      <a
+        href="/#services"
+        className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/20 px-8 py-3 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
+        style={{ fontFamily: "'Inter', sans-serif" }}
+      >
+        Start your project
+        <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </a>
+      <p
+        className="mt-16 text-sm italic text-[#F5F5F3]/40"
+        style={{ fontFamily: "'Cormorant Garamond', serif" }}
+      >
+        Omnia possibilia
+      </p>
+    </section>
+  );
+}
+
 /* ---------- assembled story ---------- */
 export function DesignsStory() {
   return (
     <>
       <GlobeSection />
 
-      <BigCaption sub="Your web presence matters.">
+      <BigCaption sub="Your web presence matters — and your graphics decide who trusts you. That&rsquo;s why choosing the right team matters.">
         It&rsquo;s 2026. There&rsquo;s no excuse for poorly designed software.
-      </BigCaption>
-
-      <BigCaption sub="That&rsquo;s why choosing the right team matters.">
-        Your graphics matter.
       </BigCaption>
 
       <GraphicsSection />
 
-      <BigCaption sub="Humans judge by presentation. Don&rsquo;t let graphics be the reason your client chooses your competitor.">
-        It&rsquo;s not just how good your product is. It&rsquo;s how good it looks. Whoever said
-        &ldquo;don&rsquo;t judge a book by its cover&rdquo; lied.
+      <BigCaption sub="It&rsquo;s not just how good your product is — it&rsquo;s how good it looks. Humans judge by presentation. Don&rsquo;t let graphics be the reason your client chooses your competitor.">
+        Whoever said &ldquo;don&rsquo;t judge a book by its cover&rdquo; lied.
       </BigCaption>
 
-      <BigCaption sub="A glimpse of what we build.">Discover our previous work.</BigCaption>
       <PreviousWork />
+      <ClosingCTA />
     </>
   );
 }
