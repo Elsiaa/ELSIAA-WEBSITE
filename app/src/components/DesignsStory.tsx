@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { DesignServices } from "./DesignServices";
 
 /* ---------- easing ---------- */
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
@@ -435,6 +436,8 @@ export function DesignsStory() {
       <BigCaption sub="It&rsquo;s not just how good your product is — it&rsquo;s how good it looks. Humans judge by presentation. Don&rsquo;t let graphics be the reason your client chooses your competitor.">
         Whoever said &ldquo;don&rsquo;t judge a book by its cover&rdquo; lied.
       </BigCaption>
+
+      <DesignServices />
 
       <PreviousWork />
       <ClosingCTA />
