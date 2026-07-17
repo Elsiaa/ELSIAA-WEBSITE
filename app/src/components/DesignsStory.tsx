@@ -267,7 +267,7 @@ function GraphicsSection() {
       // the premium shot takes the stage and comes apart under your finger
       const wIn = easeIO(seg(p, 0.38, 0.48));
       wrap.style.opacity = String(wIn * (1 - easeIO(seg(p, 0.94, 1))));
-      wrap.style.transform = `scale(${0.92 + wIn * 0.08})`;
+      wrap.style.transform = `scale(${1 + (1 - wIn) * 0.04})`;
       const film = seg(p, 0.48, 0.94);
       targetTime = film * DIS_END_T;
 
@@ -343,7 +343,7 @@ function GraphicsSection() {
             playsInline
             preload="auto"
             aria-hidden
-            className="h-[82svh] w-auto max-w-[94vw] rounded-2xl object-contain shadow-[0_60px_140px_-40px_rgba(0,0,0,0.8)]"
+            className="h-full w-full object-cover"
           />
         </div>
       </section>
