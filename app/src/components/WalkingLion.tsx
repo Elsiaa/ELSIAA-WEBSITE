@@ -77,7 +77,9 @@ export function WalkingLion() {
       const f = q - pass;
       const dir = pass % 2 === 0 ? 1 : -1;
       const w = window.innerWidth;
-      const lionW = Math.min(380, w * 0.42);
+      // he grows smaller as he walks deeper into the site
+      const shrink = 1 - p * 0.62;
+      const lionW = Math.min(380, w * 0.42) * shrink;
       const x = dir === 1 ? -lionW + f * (w + lionW) : w - f * (w + lionW);
       const y = 12 + p * 70; // drifts from 12vh to 82vh down the viewport
       canvas.style.transform = `translate3d(${x}px, ${y}vh, 0) scaleX(${dir})`;

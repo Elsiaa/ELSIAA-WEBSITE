@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { EmpireHero } from "../components/EmpireHero";
+import { AppleCaptions } from "../components/AppleCaptions";
 import { ElsiaaSections } from "../components/ElsiaaSections";
 import { WalkingLion } from "../components/WalkingLion";
 
@@ -12,6 +13,7 @@ function ConceptWalk() {
     <main className="bg-white text-[#111111] antialiased">
       <WalkingLion />
       <EmpireHero />
+      <AppleCaptions />
       <ElsiaaSections />
     </main>
   );
