@@ -118,7 +118,6 @@ function WireGlobe({ speedRef }: { speedRef: React.MutableRefObject<number> }) {
 /* ---------- trash can -> sketch of the world -> the real world, accelerating ---------- */
 function GlobeSection() {
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const trashRef = useRef<HTMLImageElement | null>(null);
   const wireRef = useRef<HTMLDivElement | null>(null);
   const globeRef = useRef<HTMLVideoElement | null>(null);
   const line1Ref = useRef<HTMLParagraphElement | null>(null);
@@ -127,12 +126,11 @@ function GlobeSection() {
 
   useEffect(() => {
     const track = trackRef.current;
-    const trash = trashRef.current;
     const wire = wireRef.current;
     const globe = globeRef.current;
     const l1 = line1Ref.current;
     const l2 = line2Ref.current;
-    if (!track || !trash || !wire || !globe || !l1 || !l2) return;
+    if (!track || !wire || !globe || !l1 || !l2) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let raf = 0;
@@ -141,15 +139,9 @@ function GlobeSection() {
       const total = r.height - window.innerHeight;
       const p = clamp01(-r.top / Math.max(1, total));
 
-      // I — the little can drifts to center stage, swells, and dissolves upward
-      const m = easeIO(seg(p, 0, 0.2));
-      trash.style.opacity = String(1 - easeIO(seg(p, 0.1, 0.2)));
-      trash.style.transform = `translateY(${(1 - m) * 6}svh) scale(${1 + m * 3.2}) rotate(${m * 8}deg)`;
-      trash.style.filter = `blur(${easeIO(seg(p, 0.1, 0.2)) * 10}px)`;
-
-      // II — a sketch of the world condenses out of the blur, already turning
-      const wIn = easeIO(seg(p, 0.14, 0.26));
-      const real = easeIO(seg(p, 0.3, 0.46));
+      // the sketch of the world condenses straight out of the dive's white blur
+      const wIn = easeIO(seg(p, 0, 0.16));
+      const real = easeIO(seg(p, 0.26, 0.44));
       wire.style.opacity = String(wIn * (1 - real));
       wire.style.transform = `scale(${0.72 + wIn * 0.28})`;
       wire.style.filter = `blur(${(1 - wIn) * 8}px)`;
@@ -185,13 +177,6 @@ function GlobeSection() {
     <div ref={trackRef} style={{ height: "300vh" }} className="relative bg-white">
       <section className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden bg-white">
         <div className="relative flex h-[56svh] w-full items-center justify-center">
-          <img
-            ref={trashRef}
-            src="/assets/trashcan_cut_v2.png"
-            alt=""
-            aria-hidden
-            className="absolute h-[34%] w-auto object-contain will-change-transform"
-          />
           <div ref={wireRef} className="absolute flex items-center justify-center opacity-0 will-change-transform">
             <WireGlobe speedRef={wireSpeed} />
           </div>

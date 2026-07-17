@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
                lands and settles in the trash — all of it under your finger
     0.76-0.86  hold: the settled ball-in-trash shot stays on screen while you
                keep scrolling (pure scroll distance, nothing is locked)
-    0.78-1.00  landing caption fades in over the settled shot
+    0.74-0.88  landing caption over the settled shot\n    0.86-1.00  camera dives into THE trash can, dissolving to white
   Then normal scroll: services, CTA, footer.
   All browser APIs live inside useEffect (SSR-safe).
 */
@@ -100,19 +100,29 @@ export function ElsiaaExperience() {
       // the film: scroll scrubs the WHOLE thing — rip, crumple, throw,
       // land, settle. From p 0.76 the settled ball-in-trash shot stays on
       // screen while the landing caption fades in over it.
-      const film = seg(p, 0.4, 0.76);
-      if (videoWrapRef.current) {
-        videoWrapRef.current.style.opacity = `${seg(p, 0.4, 0.44)}`;
-      }
+      const film = seg(p, 0.4, 0.72);
       if (video && video.duration && Number.isFinite(video.duration)) {
         targetTime = film * Math.min(FILM_END_T, video.duration - 0.05);
       }
 
       // landing caption: bad designs where they belong
       if (resetRef.current) {
-        const e = seg(p, 0.78, 0.88);
+        const e = seg(p, 0.74, 0.82) * (1 - seg(p, 0.88, 0.94));
         resetRef.current.style.opacity = `${e}`;
-        resetRef.current.style.transform = `translateY(${(1 - e) * 18}px)`;
+        resetRef.current.style.transform = `translateY(${(1 - seg(p, 0.74, 0.82)) * 18}px)`;
+      }
+
+      // the dive: camera plunges into THE trash can — the same one he threw
+      // into — scaling the settled shot up around the can until it fills
+      // everything, dissolving to white as the world takes over
+      if (videoWrapRef.current) {
+        const dive = seg(p, 0.86, 1);
+        const dv = dive * dive * (3 - 2 * dive); // smoothstep
+        const el = videoWrapRef.current;
+        el.style.opacity = `${seg(p, 0.4, 0.44) * (1 - seg(p, 0.965, 1))}`;
+        el.style.transformOrigin = "72% 60%";
+        el.style.transform = `scale(${1 + dv * 4.2})`;
+        el.style.filter = `blur(${dv * 14}px)`;
       }
       raf = requestAnimationFrame(update);
     };
