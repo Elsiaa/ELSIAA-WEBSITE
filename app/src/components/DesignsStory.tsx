@@ -1,13 +1,13 @@
 import { useEffect, useRef } from "react";
 
-/* ---------- shared: Apple-style caption that grows to center ---------- */
-function BigCaption({
-  children,
-  sub,
-}: {
-  children: React.ReactNode;
-  sub?: string;
-}) {
+/* ---------- easing ---------- */
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+const seg = (p: number, a: number, b: number) => clamp01((p - a) / (b - a));
+const easeIO = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+/* ---------- Apple-style caption, eased, restrained ---------- */
+function BigCaption({ children, sub }: { children: React.ReactNode; sub?: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const el = ref.current;
@@ -16,28 +16,28 @@ function BigCaption({
     const tick = () => {
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      const t = Math.min(
-        1,
-        Math.max(0, 1 - Math.abs(r.top + r.height / 2 - vh / 2) / (vh * 0.75)),
-      );
-      el.style.transform = `scale(${0.74 + t * 0.26})`;
-      el.style.opacity = String(0.12 + t * 0.88);
+      const t = easeOut(clamp01(1 - Math.abs(r.top + r.height / 2 - vh / 2) / (vh * 0.85)));
+      el.style.transform = `translateY(${(1 - t) * 34}px) scale(${0.94 + t * 0.06})`;
+      el.style.opacity = String(0.05 + t * 0.95);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
   return (
-    <section className="flex min-h-[68svh] items-center justify-center bg-white px-6">
-      <div ref={ref} className="max-w-5xl text-center will-change-transform">
+    <section className="flex min-h-[66svh] items-center justify-center bg-white px-6">
+      <div ref={ref} className="max-w-4xl text-center will-change-transform">
         <h2
-          className="text-4xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl md:leading-[1.05]"
+          className="text-4xl font-semibold tracking-[-0.03em] text-[#111111] md:text-6xl md:leading-[1.06]"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           {children}
         </h2>
         {sub && (
-          <p className="mt-6 text-lg text-[#111111]/55 md:text-2xl" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p
+            className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[#111111]/50 md:text-xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
             {sub}
           </p>
         )}
@@ -46,7 +46,7 @@ function BigCaption({
   );
 }
 
-/* ---------- trash can becomes the world; sketch turns real; spins faster ---------- */
+/* ---------- wireframe sketch globe ---------- */
 function WireGlobe({ speedRef }: { speedRef: React.MutableRefObject<number> }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   useEffect(() => {
@@ -55,13 +55,13 @@ function WireGlobe({ speedRef }: { speedRef: React.MutableRefObject<number> }) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    const size = Math.min(window.innerWidth * 0.6, 420);
+    const size = Math.min(window.innerWidth * 0.56, 400);
     canvas.width = size * DPR;
     canvas.height = size * DPR;
     canvas.style.width = `${size}px`;
     canvas.style.height = `${size}px`;
     ctx.scale(DPR, DPR);
-    const R = size * 0.42;
+    const R = size * 0.44;
     const cx = size / 2;
     const cy = size / 2;
     const nodes: { lat: number; lon: number }[] = [];
@@ -72,7 +72,7 @@ function WireGlobe({ speedRef }: { speedRef: React.MutableRefObject<number> }) {
     let rot = 0;
     let raf = 0;
     const draw = () => {
-      rot += 0.004 * speedRef.current;
+      rot += 0.0045 * speedRef.current;
       ctx.clearRect(0, 0, size, size);
       const pts = nodes.map((n) => {
         const lon = n.lon + rot;
@@ -90,8 +90,7 @@ function WireGlobe({ speedRef }: { speedRef: React.MutableRefObject<number> }) {
           if (a.z < -0.15 && b.z < -0.15) continue;
           const d = Math.hypot(a.x - b.x, a.y - b.y);
           if (d < R * 0.62) {
-            const alpha =
-              Math.max(0, ((a.z + b.z) / 2 + 0.4) * 0.35) * (1 - d / (R * 0.62));
+            const alpha = Math.max(0, ((a.z + b.z) / 2 + 0.4) * 0.35) * (1 - d / (R * 0.62));
             if (alpha > 0.02) {
               ctx.strokeStyle = `rgba(60,60,60,${alpha})`;
               ctx.beginPath();
@@ -116,6 +115,7 @@ function WireGlobe({ speedRef }: { speedRef: React.MutableRefObject<number> }) {
   return <canvas ref={canvasRef} aria-hidden className="will-change-transform" />;
 }
 
+/* ---------- trash can -> sketch of the world -> the real world, accelerating ---------- */
 function GlobeSection() {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const trashRef = useRef<HTMLImageElement | null>(null);
@@ -139,31 +139,41 @@ function GlobeSection() {
     const tick = () => {
       const r = track.getBoundingClientRect();
       const total = r.height - window.innerHeight;
-      const p = Math.min(1, Math.max(0, -r.top / Math.max(1, total)));
+      const p = clamp01(-r.top / Math.max(1, total));
 
-      // act I — the trash can inflates and dissolves into a sketch of the world
-      const m = Math.min(1, p / 0.16);
-      trash.style.opacity = String(1 - m);
-      trash.style.transform = `scale(${1 + m * 1.4}) rotate(${m * 12}deg)`;
+      // I — the little can drifts to center stage, swells, and dissolves upward
+      const m = easeIO(seg(p, 0, 0.2));
+      trash.style.opacity = String(1 - easeIO(seg(p, 0.1, 0.2)));
+      trash.style.transform = `translateY(${(1 - m) * 6}svh) scale(${1 + m * 3.2}) rotate(${m * 8}deg)`;
+      trash.style.filter = `blur(${easeIO(seg(p, 0.1, 0.2)) * 10}px)`;
 
-      // act II — the sketch spins, then becomes real
-      const real = Math.min(1, Math.max(0, (p - 0.2) / 0.25));
-      wire.style.opacity = String(m * (1 - real));
-      wire.style.transform = `scale(${0.8 + m * 0.2})`;
+      // II — a sketch of the world condenses out of the blur, already turning
+      const wIn = easeIO(seg(p, 0.14, 0.26));
+      const real = easeIO(seg(p, 0.3, 0.46));
+      wire.style.opacity = String(wIn * (1 - real));
+      wire.style.transform = `scale(${0.72 + wIn * 0.28})`;
+      wire.style.filter = `blur(${(1 - wIn) * 8}px)`;
+
+      // III — the sketch becomes real mid-spin
       globe.style.opacity = String(real);
-      globe.style.transform = `scale(${0.86 + real * 0.14})`;
+      globe.style.transform = `scale(${0.9 + real * 0.1})`;
+      globe.style.filter = `blur(${(1 - real) * 6}px)`;
 
-      // act III — the world accelerates the deeper you go
-      const accel = 1 + Math.pow(Math.max(0, (p - 0.35) / 0.65), 1.7) * 9;
+      // IV — the world accelerates the deeper you go
+      const accel = 1 + Math.pow(seg(p, 0.4, 1), 1.8) * 8;
       wireSpeed.current = accel;
       if (!reduced) {
         globe.playbackRate = Math.min(8, 0.7 * accel);
         if (globe.paused && real > 0) globe.play().catch(() => {});
       }
 
-      l1.style.opacity = String(Math.min(1, Math.max(0, (p - 0.42) / 0.14)));
-      l2.style.opacity = String(Math.min(1, Math.max(0, (p - 0.6) / 0.14)));
-      l2.style.letterSpacing = `${0.02 + Math.max(0, p - 0.6) * 0.1}em`;
+      const t1 = easeOut(seg(p, 0.5, 0.62));
+      const t2 = easeOut(seg(p, 0.66, 0.78));
+      l1.style.opacity = String(t1);
+      l1.style.transform = `translateY(${(1 - t1) * 22}px)`;
+      l2.style.opacity = String(t2);
+      l2.style.transform = `translateY(${(1 - t2) * 18}px)`;
+      l2.style.letterSpacing = `${0.02 + seg(p, 0.66, 1) * 0.09}em`;
 
       raf = requestAnimationFrame(tick);
     };
@@ -172,65 +182,76 @@ function GlobeSection() {
   }, []);
 
   return (
-    <div ref={trackRef} style={{ height: "340vh" }} className="relative bg-white">
+    <div ref={trackRef} style={{ height: "300vh" }} className="relative bg-white">
       <section className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden bg-white">
-        <div className="relative flex h-[52svh] w-full items-center justify-center md:h-[60svh]">
+        <div className="relative flex h-[56svh] w-full items-center justify-center">
           <img
             ref={trashRef}
-            src="/assets/trashcan_crop_v1.jpg"
+            src="/assets/trashcan_cut_v2.png"
             alt=""
             aria-hidden
-            className="absolute h-[70%] w-auto object-contain will-change-transform"
+            className="absolute h-[34%] w-auto object-contain will-change-transform"
           />
-          <div ref={wireRef} className="absolute flex items-center justify-center opacity-0">
+          <div ref={wireRef} className="absolute flex items-center justify-center opacity-0 will-change-transform">
             <WireGlobe speedRef={wireSpeed} />
           </div>
           <video
             ref={globeRef}
-            src="/assets/globe_spin_v1.mp4"
+            src="/assets/globe_spin_v2.mp4"
             muted
             loop
             playsInline
             preload="auto"
             aria-hidden
             className="absolute h-full w-auto object-contain opacity-0 will-change-transform"
+            style={{
+              maskImage: "radial-gradient(circle at 50% 50%, black 62%, transparent 74%)",
+              WebkitMaskImage: "radial-gradient(circle at 50% 50%, black 62%, transparent 74%)",
+            }}
           />
         </div>
-        <p
-          ref={line1Ref}
-          className="mt-8 text-3xl font-semibold tracking-[-0.02em] text-[#111111] opacity-0 md:text-6xl"
-          style={{ fontFamily: "'Inter', sans-serif" }}
-        >
-          The world is moving quickly.
-        </p>
-        <p
-          ref={line2Ref}
-          className="mt-3 text-xl text-[#111111]/60 opacity-0 md:text-3xl"
-          style={{ fontFamily: "'Inter', sans-serif" }}
-        >
-          Are you keeping up?
-        </p>
+        <div className="h-[16svh]">
+          <p
+            ref={line1Ref}
+            className="mt-6 text-center text-3xl font-semibold tracking-[-0.02em] text-[#111111] opacity-0 will-change-transform md:text-6xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            The world is moving quickly.
+          </p>
+          <p
+            ref={line2Ref}
+            className="mt-3 text-center text-lg text-[#111111]/55 opacity-0 will-change-transform md:text-2xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Are you keeping up?
+          </p>
+        </div>
       </section>
     </div>
   );
 }
 
-/* ---------- graphics matter: bad vs premium, then scroll-scrub disassembly ---------- */
+/* ---------- graphics matter: presented vs marketed, then the product comes apart ---------- */
 const DIS_SRC = "/assets/sauce_disassemble_v1.mp4";
 const DIS_END_T = 9.9;
+const STAGE_RED = "#2a0b08";
 
 function GraphicsSection() {
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const compareRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLElement | null>(null);
+  const badRef = useRef<HTMLElement | null>(null);
+  const goodRef = useRef<HTMLElement | null>(null);
   const filmWrapRef = useRef<HTMLDivElement | null>(null);
   const filmRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const track = trackRef.current;
-    const compare = compareRef.current;
+    const stage = stageRef.current;
+    const bad = badRef.current;
+    const good = goodRef.current;
     const wrap = filmWrapRef.current;
     const video = filmRef.current;
-    if (!track || !compare || !wrap || !video) return;
+    if (!track || !stage || !bad || !good || !wrap || !video) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     video.load();
@@ -241,15 +262,27 @@ function GraphicsSection() {
     const tick = () => {
       const r = track.getBoundingClientRect();
       const total = r.height - window.innerHeight;
-      const p = Math.min(1, Math.max(0, -r.top / Math.max(1, total)));
+      const p = clamp01(-r.top / Math.max(1, total));
 
-      // hold the side-by-side, then the premium shot takes the stage and deconstructs
-      const swap = Math.min(1, Math.max(0, (p - 0.3) / 0.12));
-      compare.style.opacity = String(1 - swap);
-      compare.style.transform = `scale(${1 - swap * 0.06})`;
-      wrap.style.opacity = String(swap);
+      // cards arrive one after the other
+      const inBad = easeOut(seg(p, 0.02, 0.12));
+      const inGood = easeOut(seg(p, 0.08, 0.18));
+      bad.style.opacity = String(inBad);
+      bad.style.transform = `translateY(${(1 - inBad) * 46}px)`;
+      good.style.opacity = String(inGood * (1 - easeIO(seg(p, 0.34, 0.44))));
+      good.style.transform = `translateY(${(1 - inGood) * 46}px) scale(${1 + easeIO(seg(p, 0.34, 0.44)) * 0.12})`;
 
-      const film = Math.min(1, Math.max(0, (p - 0.42) / 0.58));
+      // the amateur shot bows out, the stage darkens to the film's palette
+      bad.style.opacity = String(inBad * (1 - easeIO(seg(p, 0.3, 0.4))));
+      const dark = easeIO(seg(p, 0.34, 0.46));
+      stage.style.backgroundColor = dark > 0 ? STAGE_RED : "#ffffff";
+      stage.style.setProperty("--dark", String(dark));
+
+      // the premium shot takes the stage and comes apart under your finger
+      const wIn = easeIO(seg(p, 0.38, 0.48));
+      wrap.style.opacity = String(wIn * (1 - easeIO(seg(p, 0.94, 1))));
+      wrap.style.transform = `scale(${0.92 + wIn * 0.08})`;
+      const film = seg(p, 0.48, 0.94);
       targetTime = film * DIS_END_T;
 
       raf = requestAnimationFrame(tick);
@@ -276,29 +309,47 @@ function GraphicsSection() {
   }, []);
 
   return (
-    <div ref={trackRef} style={{ height: "340vh" }} className="relative bg-white">
-      <section className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden bg-white px-6">
-        <div ref={compareRef} className="grid w-full max-w-5xl grid-cols-1 gap-6 will-change-transform md:grid-cols-2">
-          <figure className="flex flex-col items-center">
-            <img src="/assets/sauce_bad_v1.jpg" alt="Product presented without design" className="aspect-square w-full max-w-md rounded-sm object-cover" />
+    <div ref={trackRef} style={{ height: "380vh" }} className="relative">
+      <section
+        ref={stageRef}
+        className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden bg-white px-6 transition-colors duration-700"
+      >
+        <div className="grid w-full max-w-5xl grid-cols-1 items-start gap-8 md:grid-cols-2">
+          <figure ref={badRef} className="flex flex-col items-center opacity-0 will-change-transform">
+            <div className="overflow-hidden rounded-xl shadow-[0_24px_60px_-28px_rgba(17,17,17,0.4)]">
+              <img
+                src="/assets/sauce_bad_v1.jpg"
+                alt="Product presented without design"
+                className="aspect-square w-full max-w-md object-cover saturate-[0.85]"
+              />
+            </div>
             <figcaption
-              className="mt-4 text-[11px] tracking-[0.28em] text-[#111111]/40 uppercase"
+              className="mt-5 text-[11px] tracking-[0.3em] text-[#111111]/40 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               Presented
             </figcaption>
           </figure>
-          <figure className="flex flex-col items-center">
-            <img src="/assets/sauce_premium_v1.jpg" alt="The same product, marketed properly" className="aspect-square w-full max-w-md rounded-sm object-cover" />
+          <figure ref={goodRef} className="flex flex-col items-center opacity-0 will-change-transform">
+            <div className="overflow-hidden rounded-xl shadow-[0_32px_80px_-24px_rgba(120,20,10,0.5)]">
+              <img
+                src="/assets/sauce_premium_v1.jpg"
+                alt="The same product, marketed properly"
+                className="aspect-square w-full max-w-md object-cover"
+              />
+            </div>
             <figcaption
-              className="mt-4 text-[11px] tracking-[0.28em] text-[#1e6b3c] uppercase"
+              className="mt-5 text-[11px] tracking-[0.3em] text-[#1e6b3c] uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               Marketed
             </figcaption>
           </figure>
         </div>
-        <div ref={filmWrapRef} className="absolute inset-0 flex items-center justify-center opacity-0">
+        <div
+          ref={filmWrapRef}
+          className="absolute inset-0 flex items-center justify-center opacity-0 will-change-transform"
+        >
           <video
             ref={filmRef}
             src={DIS_SRC}
@@ -306,7 +357,7 @@ function GraphicsSection() {
             playsInline
             preload="auto"
             aria-hidden
-            className="h-[78svh] w-auto max-w-[92vw] object-contain"
+            className="h-[82svh] w-auto max-w-[94vw] rounded-2xl object-contain shadow-[0_60px_140px_-40px_rgba(0,0,0,0.8)]"
           />
         </div>
       </section>
@@ -317,7 +368,7 @@ function GraphicsSection() {
 /* ---------- previous work + closing ---------- */
 function PreviousWork() {
   return (
-    <section className="bg-white px-6 pt-8 pb-28">
+    <section className="bg-white px-6 pt-10 pb-28">
       <div className="mx-auto max-w-6xl">
         <p
           className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
@@ -335,7 +386,7 @@ function PreviousWork() {
           {[1, 2, 3, 4, 5, 6].map((n) => (
             <div
               key={n}
-              className="group flex aspect-[4/3] items-center justify-center bg-[#F5F5F3] transition-all duration-300 hover:-translate-y-1 hover:bg-[#ecece9] hover:shadow-[0_18px_40px_-24px_rgba(17,17,17,0.35)]"
+              className="group flex aspect-[4/3] items-center justify-center rounded-lg bg-[#F5F5F3] transition-all duration-300 hover:-translate-y-1 hover:bg-[#ecece9] hover:shadow-[0_18px_40px_-24px_rgba(17,17,17,0.35)]"
             >
               <span
                 className="text-[11px] tracking-[0.3em] text-[#111111]/30 uppercase transition-colors duration-300 group-hover:text-[#1e6b3c]"
