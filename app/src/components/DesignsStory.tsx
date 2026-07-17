@@ -218,9 +218,9 @@ function GlobeSection() {
 }
 
 /* ---------- graphics matter: presented vs marketed, then the product comes apart ---------- */
-const DIS_SRC = "/assets/sauce_disassemble_v1.mp4";
+const DIS_SRC = "/assets/laptop_disassemble_v1.mp4";
 const DIS_END_T = 9.9;
-const STAGE_RED = "#2a0b08";
+const STAGE_RED = "#0a120c";
 
 function GraphicsSection() {
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -304,7 +304,7 @@ function GraphicsSection() {
           <figure ref={badRef} className="flex flex-col items-center opacity-0 will-change-transform">
             <div className="overflow-hidden rounded-xl shadow-[0_24px_60px_-28px_rgba(17,17,17,0.4)]">
               <img
-                src="/assets/sauce_bad_v1.jpg"
+                src="/assets/laptop_bad_v1.jpg"
                 alt="Product presented without design"
                 className="aspect-square w-full max-w-md object-cover saturate-[0.85]"
               />
@@ -317,9 +317,9 @@ function GraphicsSection() {
             </figcaption>
           </figure>
           <figure ref={goodRef} className="flex flex-col items-center opacity-0 will-change-transform">
-            <div className="overflow-hidden rounded-xl shadow-[0_32px_80px_-24px_rgba(120,20,10,0.5)]">
+            <div className="overflow-hidden rounded-xl shadow-[0_32px_80px_-24px_rgba(30,107,60,0.45)]">
               <img
-                src="/assets/sauce_premium_v1.jpg"
+                src="/assets/laptop_premium_v1.jpg"
                 alt="The same product, marketed properly"
                 className="aspect-square w-full max-w-md object-cover"
               />

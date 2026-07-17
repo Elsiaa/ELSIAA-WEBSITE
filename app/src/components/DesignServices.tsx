@@ -169,8 +169,8 @@ function ChartInfo() {
 function BeforeAfter() {
   return (
     <div className="relative h-full w-full overflow-hidden">
-      <img src="/assets/sauce_bad_v1.jpg" alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
-      <img src="/assets/sauce_premium_v1.jpg" alt="" aria-hidden className="ds-reveal absolute inset-0 h-full w-full object-cover" />
+      <img src="/assets/laptop_bad_v1.jpg" alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+      <img src="/assets/laptop_premium_v1.jpg" alt="" aria-hidden className="ds-reveal absolute inset-0 h-full w-full object-cover" />
       <div className="ds-reveal-line absolute top-0 bottom-0 w-px bg-white/90 shadow-[0_0_8px_rgba(0,0,0,0.4)]" />
     </div>
   );
