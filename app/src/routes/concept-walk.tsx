@@ -1,0 +1,18 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { EmpireHero } from "../components/EmpireHero";
+import { ElsiaaSections } from "../components/ElsiaaSections";
+import { WalkingLion } from "../components/WalkingLion";
+
+export const Route = createFileRoute("/concept-walk")({
+  component: ConceptWalk,
+});
+
+function ConceptWalk() {
+  return (
+    <main className="bg-white text-[#111111] antialiased">
+      <WalkingLion />
+      <EmpireHero />
+      <ElsiaaSections />
+    </main>
+  );
+}
