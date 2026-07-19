@@ -15,7 +15,10 @@ import { useEffect, useRef, useState } from "react";
 
 const TRACK_VH = 620;
 const STILL_SRC = "/assets/office_scene_v8.jpeg";
-const FILM_SRC = "/assets/destruction_v9.mp4";
+const FILM_SRC =
+  typeof window !== "undefined" && window.innerWidth < 768
+    ? "/assets/destruction_v9_lite.mp4"
+    : "/assets/destruction_v9.mp4";
 const FILM_END_T = 14.9;
 
 function clamp01(v: number) {

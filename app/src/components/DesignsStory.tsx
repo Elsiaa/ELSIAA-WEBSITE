@@ -183,7 +183,7 @@ function GlobeSection() {
           </div>
           <video
             ref={globeRef}
-            src="/assets/globe_spin_v2.mp4"
+            src={typeof window !== "undefined" && window.innerWidth < 768 ? "/assets/globe_spin_v2_lite.mp4" : "/assets/globe_spin_v2.mp4"}
             muted
             loop
             playsInline
@@ -218,7 +218,10 @@ function GlobeSection() {
 }
 
 /* ---------- graphics matter: presented vs marketed, then the product comes apart ---------- */
-const DIS_SRC = "/assets/laptop_disassemble_v1.mp4";
+const DIS_SRC =
+  typeof window !== "undefined" && window.innerWidth < 768
+    ? "/assets/laptop_disassemble_v1_lite.mp4"
+    : "/assets/laptop_disassemble_v1.mp4";
 const DIS_END_T = 9.9;
 const STAGE_RED = "#0a120c";
 
@@ -353,6 +356,14 @@ function GraphicsSection() {
 
 /* ---------- previous work + closing ---------- */
 function PreviousWork() {
+  const WORK = [
+    { img: "/assets/work_identity.jpg", label: "Constellation Lion", meta: "Brand Identity System" },
+    { img: "/assets/work_lion.jpg", label: "The Living Hero", meta: "Cinemagraph Direction" },
+    { img: "/assets/work_ad.jpg", label: "Machine, Staged", meta: "Commercial Product Ad" },
+    { img: "/assets/laptop_bad_v1.jpg", label: "Before the Studio", meta: "Transformation Source" },
+    { img: "/assets/work_illustration.jpg", label: "The Office Guy", meta: "Custom Illustration" },
+    { img: "/assets/trashcan_cut_v2.png", label: "This Very Page", meta: "Interactive Experience", self: true },
+  ];
   return (
     <section className="bg-white px-6 pt-10 pb-28">
       <div className="mx-auto max-w-6xl">
@@ -368,19 +379,38 @@ function PreviousWork() {
         >
           Discover our previous work.
         </h2>
+        <p className="mt-3 max-w-xl text-base text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+          Every piece on this page — the identity, the films, the experience you just
+          scrolled — is our own work. The portfolio is the site.
+        </p>
         <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5">
-          {[1, 2, 3, 4, 5, 6].map((n) => (
-            <div
-              key={n}
-              className="group flex aspect-[4/3] items-center justify-center rounded-lg bg-[#F5F5F3] transition-all duration-300 hover:-translate-y-1 hover:bg-[#ecece9] hover:shadow-[0_18px_40px_-24px_rgba(17,17,17,0.35)]"
+          {WORK.map((w) => (
+            <figure
+              key={w.label}
+              className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-[#0d0f0e] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_50px_-24px_rgba(17,17,17,0.45)]"
             >
-              <span
-                className="text-[11px] tracking-[0.3em] text-[#111111]/30 uppercase transition-colors duration-300 group-hover:text-[#1e6b3c]"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                Project {String(n).padStart(2, "0")}
-              </span>
-            </div>
+              <img
+                src={w.img}
+                alt={`${w.label} — ${w.meta}`}
+                className={`h-full w-full transition-transform duration-500 group-hover:scale-[1.04] ${
+                  w.self ? "object-contain p-10 opacity-90" : "object-cover"
+                }`}
+              />
+              <figcaption className="absolute inset-x-0 bottom-0 flex flex-col gap-0.5 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-4 pt-10">
+                <span
+                  className="text-sm font-semibold text-white"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {w.label}
+                </span>
+                <span
+                  className="text-[10px] tracking-[0.24em] text-white/60 uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  {w.meta}
+                </span>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </div>
@@ -404,15 +434,21 @@ function ClosingCTA() {
         Your product deserves to look the part.
       </h2>
       <a
-        href="/#services"
-        className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/20 px-8 py-3 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
+        href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
+        className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-8 py-3 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
         Start your project
         <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
       </a>
       <p
-        className="mt-16 text-sm italic text-[#F5F5F3]/40"
+        className="mt-14 text-[10px] tracking-[0.22em] text-[#F5F5F3]/35 uppercase"
+        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+      >
+        Antwerp · Geneva · London · Tel Aviv · New York · Los Angeles
+      </p>
+      <p
+        className="mt-8 text-sm italic text-[#F5F5F3]/40"
         style={{ fontFamily: "'Cormorant Garamond', serif" }}
       >
         Omnia possibilia
