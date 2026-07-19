@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ElsiaaExperience } from "../components/ElsiaaExperience";
 import { SiteNav } from "../components/SiteNav";
+import { DesignsShowcase } from "../components/DesignsShowcase";
 
 export const Route = createFileRoute("/designs")({
   head: () => ({
@@ -26,6 +27,7 @@ function Designs() {
     <main className="bg-white text-[#111111] antialiased">
       <SiteNav />
       <ElsiaaExperience />
+      <DesignsShowcase />
     </main>
   );
 }
