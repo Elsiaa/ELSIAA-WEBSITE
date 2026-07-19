@@ -52,6 +52,17 @@ export function ElsiaaExperience() {
     const video = videoRef.current;
     if (!track) return;
 
+    // pointer-reactive 3D stage tilt
+    let tiltX = 0;
+    let tiltY = 0;
+    let curX = 0;
+    let curY = 0;
+    const onPointer = (e: PointerEvent) => {
+      tiltY = (e.clientX / window.innerWidth - 0.5) * 5;
+      tiltX = -(e.clientY / window.innerHeight - 0.5) * 4;
+    };
+    window.addEventListener("pointermove", onPointer, { passive: true });
+
     let raf = 0;
     let targetTime = 0;
 
@@ -97,15 +108,21 @@ export function ElsiaaExperience() {
         captionRef.current.style.transform = `translateY(${(1 - eIn) * 18}px)`;
       }
 
-      // the dive into THE trash can
+      // the dive into THE trash can — with living 3D depth until the plunge
+      curX += (tiltX - curX) * 0.06;
+      curY += (tiltY - curY) * 0.06;
       if (videoWrapRef.current) {
         const dive = seg(p, 0.84, 1);
         const dv = dive * dive * (3 - 2 * dive);
         const el = videoWrapRef.current;
         el.style.opacity = `${1 - seg(p, 0.965, 1)}`;
         el.style.transformOrigin = "72% 60%";
-        el.style.transform = `scale(${1 + dv * 4.2})`;
+        el.style.transform = `rotateX(${curX * (1 - dv)}deg) rotateY(${curY * (1 - dv)}deg) scale(${1 + dv * 4.2})`;
         el.style.filter = `blur(${dv * 14}px)`;
+      }
+      if (headRef.current) {
+        headRef.current.style.setProperty("--tx", `${curX * 1.6}deg`);
+        headRef.current.style.setProperty("--ty", `${curY * 1.6}deg`);
       }
 
       raf = requestAnimationFrame(update);
@@ -143,6 +160,7 @@ export function ElsiaaExperience() {
     return () => {
       cancelAnimationFrame(raf);
       cancelAnimationFrame(seekRaf);
+      window.removeEventListener("pointermove", onPointer);
     };
   }, [reducedMotion]);
 
@@ -152,11 +170,28 @@ export function ElsiaaExperience() {
 
   return (
     <div ref={trackRef} style={{ height: `${TRACK_VH}vh`, position: "relative" }}>
-      <div className="sticky top-0 flex h-dvh w-full flex-col items-center overflow-hidden bg-white">
+      <div
+        className="sticky top-0 flex h-dvh w-full flex-col items-center overflow-hidden bg-white"
+        style={{ perspective: "1200px" }}
+      >
+        {/* 2030 stage floor — receding dot grid */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-[-20%] bottom-[-6%] h-[46%]"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(30,107,60,0.22) 1px, transparent 1.5px)",
+            backgroundSize: "26px 26px",
+            transform: "rotateX(64deg)",
+            transformOrigin: "bottom center",
+            maskImage: "linear-gradient(to top, rgba(0,0,0,0.55), transparent 85%)",
+            WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0.55), transparent 85%)",
+          }}
+        />
         {/* headline — same page as the cartoon */}
         <div
           ref={headRef}
           className="z-10 flex flex-col items-center px-6 pt-[9svh] text-center will-change-transform"
+          style={{ transform: "rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) translateZ(60px)", transformStyle: "preserve-3d" }}
         >
           <h1 className="relative max-w-4xl text-3xl font-semibold leading-tight tracking-tight text-[#111111] md:text-6xl">
             AI is just a nice tool...?

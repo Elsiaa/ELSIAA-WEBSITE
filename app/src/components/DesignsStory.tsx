@@ -271,6 +271,8 @@ function GlobeSection() {
       adv.style.opacity = String(advanced);
       adv.style.transform = `scale(${0.92 + advanced * 0.08})`;
       adv.style.filter = `blur(${(1 - advanced) * 7}px)`;
+      const halo = document.getElementById("globe-halo");
+      if (halo) halo.style.opacity = String(advanced * 0.9);
 
       // the world accelerates the deeper you go
       const accel = 1 + Math.pow(seg(p, 0.3, 1), 1.8) * 9;
@@ -297,7 +299,20 @@ function GlobeSection() {
   return (
     <div ref={trackRef} style={{ height: "360vh" }} className="relative bg-white">
       <section className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden bg-white">
-        <div className="relative flex h-[56svh] w-full items-center justify-center">
+        <div className="relative flex h-[56svh] w-full items-center justify-center" style={{ perspective: "1100px" }}>
+          {/* depth halo — breathes brighter as the world advances */}
+          <div
+            aria-hidden
+            className="absolute h-[64%] w-[64%] rounded-full opacity-0 transition-opacity duration-700"
+            ref={(el) => {
+              if (el) el.id = "globe-halo";
+            }}
+            style={{
+              background:
+                "radial-gradient(circle, rgba(46,158,88,0.16) 0%, rgba(46,158,88,0.05) 45%, transparent 70%)",
+              filter: "blur(6px)",
+            }}
+          />
           <div ref={wireRef} className="absolute flex items-center justify-center opacity-0 will-change-transform">
             <WireGlobe speedRef={wireSpeed} />
           </div>
@@ -347,6 +362,45 @@ const DIS_SRC =
     : "/assets/laptop_disassemble_v1.mp4";
 const DIS_END_T = 9.9;
 const STAGE_RED = "#0a120c";
+
+function TiltCard({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const onMove = (e: React.PointerEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `rotateY(${px * 10}deg) rotateX(${-py * 10}deg) translateZ(14px)`;
+    el.style.setProperty("--gx", `${(px + 0.5) * 100}%`);
+    el.style.setProperty("--gy", `${(py + 0.5) * 100}%`);
+  };
+  const onLeave = () => {
+    const el = ref.current;
+    if (el) el.style.transform = "rotateY(0deg) rotateX(0deg) translateZ(0)";
+  };
+  return (
+    <div style={{ perspective: "900px" }}>
+      <div
+        ref={ref}
+        onPointerMove={onMove}
+        onPointerLeave={onLeave}
+        className="relative transition-transform duration-200 ease-out will-change-transform"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {children}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 hover:opacity-100"
+          style={{
+            background:
+              "radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.28) 0%, transparent 55%)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
 
 function GraphicsSection() {
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -428,13 +482,15 @@ function GraphicsSection() {
       >
         <div className="grid w-full max-w-5xl grid-cols-1 items-start gap-8 md:grid-cols-2">
           <figure ref={badRef} className="flex flex-col items-center opacity-0 will-change-transform">
-            <div className="overflow-hidden rounded-xl shadow-[0_24px_60px_-28px_rgba(17,17,17,0.4)]">
-              <img
-                src="/assets/laptop_bad_v1.jpg"
-                alt="Product presented without design"
-                className="aspect-square w-full max-w-md object-cover saturate-[0.85]"
-              />
-            </div>
+            <TiltCard>
+              <div className="overflow-hidden rounded-xl shadow-[0_24px_60px_-28px_rgba(17,17,17,0.4)]">
+                <img
+                  src="/assets/laptop_bad_v1.jpg"
+                  alt="Product presented without design"
+                  className="aspect-square w-full max-w-md object-cover saturate-[0.85]"
+                />
+              </div>
+            </TiltCard>
             <figcaption
               className="mt-5 text-[11px] tracking-[0.3em] text-[#111111]/40 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -443,13 +499,15 @@ function GraphicsSection() {
             </figcaption>
           </figure>
           <figure ref={goodRef} className="flex flex-col items-center opacity-0 will-change-transform">
-            <div className="overflow-hidden rounded-xl shadow-[0_32px_80px_-24px_rgba(30,107,60,0.45)]">
-              <img
-                src="/assets/laptop_premium_v1.jpg"
-                alt="The same product, marketed properly"
-                className="aspect-square w-full max-w-md object-cover"
-              />
-            </div>
+            <TiltCard>
+              <div className="overflow-hidden rounded-xl shadow-[0_32px_80px_-24px_rgba(30,107,60,0.45)]">
+                <img
+                  src="/assets/laptop_premium_v1.jpg"
+                  alt="The same product, marketed properly"
+                  className="aspect-square w-full max-w-md object-cover"
+                />
+              </div>
+            </TiltCard>
             <figcaption
               className="mt-5 text-[11px] tracking-[0.3em] text-[#1e6b3c] uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
