@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
     0.14-0.70  the film, scrubbed by scroll: he grabs the page, RIPS it out
                of the monitor, crumples it, throws it, it lands + settles
     0.70-0.84  landing caption: bad designs, where they belong
-    0.72-1.00  landing caption arrives over the settled shot and stays
+    0.72-1.00  the settled shot holds
 */
 
 const TRACK_VH = 540;
@@ -35,7 +35,6 @@ export function ElsiaaExperience() {
   const futureRef = useRef<HTMLParagraphElement>(null);
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const captionRef = useRef<HTMLDivElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -98,13 +97,6 @@ export function ElsiaaExperience() {
       const film = seg(p, 0.14, 0.7);
       if (video && video.duration && Number.isFinite(video.duration)) {
         targetTime = film * Math.min(FILM_END_T, video.duration - 0.05);
-      }
-
-      // landing caption — arrives and stays
-      if (captionRef.current) {
-        const eIn = seg(p, 0.72, 0.82);
-        captionRef.current.style.opacity = `${eIn}`;
-        captionRef.current.style.transform = `translateY(${(1 - eIn) * 18}px)`;
       }
 
       // living 3D depth
@@ -229,24 +221,6 @@ export function ElsiaaExperience() {
           />
         </div>
 
-        {/* landing caption */}
-        <div
-          ref={captionRef}
-          className="pointer-events-none absolute inset-x-0 top-[10svh] z-10 flex flex-col items-center px-6 text-center opacity-0 will-change-transform"
-        >
-          <p
-            className="text-3xl font-semibold tracking-[-0.02em] text-[#111111] md:text-5xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Bad designs, where they belong.
-          </p>
-          <p
-            className="mt-3 text-lg text-[#111111]/55 md:text-xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Discover designs that convert strangers into customers.
-          </p>
-        </div>
       </div>
     </div>
   );
@@ -266,9 +240,6 @@ function StaticJourney() {
         alt="A very frustrated, badly drawn office worker about to throw his website away"
         className="max-h-[50vh] w-auto max-w-[80vw] object-contain"
       />
-      <p className="text-2xl font-semibold text-[#111111]">
-        Bad designs, where they belong.
-      </p>
     </section>
   );
 }
