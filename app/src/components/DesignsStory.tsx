@@ -254,14 +254,14 @@ function GlobeSection() {
       const p = clamp01(-r.top / Math.max(1, total));
 
       // the sketch of the world condenses straight out of the dive's white blur
-      const wIn = easeIO(seg(p, 0, 0.14));
-      const real = easeIO(seg(p, 0.2, 0.36));
+      const wIn = easeIO(seg(p, 0.2, 0.34));
+      const real = easeIO(seg(p, 0.38, 0.52));
       wire.style.opacity = String(wIn * (1 - real));
       wire.style.transform = `scale(${0.72 + wIn * 0.28})`;
       wire.style.filter = `blur(${(1 - wIn) * 8}px)`;
 
       // the sketch becomes real mid-spin
-      const advanced = easeIO(seg(p, 0.52, 0.72));
+      const advanced = easeIO(seg(p, 0.6, 0.76));
       globe.style.opacity = String(real * (1 - advanced));
       globe.style.transform = `scale(${0.9 + real * 0.1})`;
       globe.style.filter = `blur(${(1 - real) * 6 + advanced * 5}px)`;
@@ -275,20 +275,30 @@ function GlobeSection() {
       if (halo) halo.style.opacity = String(advanced * 0.9);
 
       // the world accelerates the deeper you go
-      const accel = 1 + Math.pow(seg(p, 0.3, 1), 1.8) * 9;
+      const accel = 1 + Math.pow(seg(p, 0.42, 1), 1.8) * 9;
       wireSpeed.current = accel;
       if (!reduced) {
         globe.playbackRate = Math.min(8, 0.7 * accel);
         if (globe.paused && real > 0) globe.play().catch(() => {});
       }
 
-      const t1 = easeOut(seg(p, 0.44, 0.56));
-      const t2 = easeOut(seg(p, 0.62, 0.74));
+      const t1 = easeOut(seg(p, 0.56, 0.66));
+      const t2 = easeOut(seg(p, 0.7, 0.8));
       l1.style.opacity = String(t1);
       l1.style.transform = `translateY(${(1 - t1) * 22}px)`;
       l2.style.opacity = String(t2);
       l2.style.transform = `translateY(${(1 - t2) * 18}px)`;
-      l2.style.letterSpacing = `${0.02 + seg(p, 0.62, 1) * 0.09}em`;
+      l2.style.letterSpacing = `${0.02 + seg(p, 0.7, 1) * 0.09}em`;
+
+      // graceful exit — the act breathes out before the page moves on
+      const exit = easeIO(seg(p, 0.94, 1));
+      const stageEl = track.querySelector("section > div") as HTMLElement | null;
+      if (stageEl) {
+        stageEl.style.opacity = String(1 - exit * 0.9);
+        stageEl.style.transform = `translateY(${exit * -3}svh) scale(${1 - exit * 0.04})`;
+      }
+      l1.style.opacity = String(t1 * (1 - exit));
+      l2.style.opacity = String(t2 * (1 - exit));
 
       raf = requestAnimationFrame(tick);
     };
@@ -297,7 +307,7 @@ function GlobeSection() {
   }, []);
 
   return (
-    <div ref={trackRef} style={{ height: "360vh" }} className="relative bg-white">
+    <div ref={trackRef} style={{ height: "360vh", marginTop: "-100svh" }} className="relative z-0 bg-white">
       <section className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden bg-white">
         <div className="relative flex h-[56svh] w-full items-center justify-center" style={{ perspective: "1100px" }}>
           {/* depth halo — breathes brighter as the world advances */}
@@ -440,13 +450,13 @@ function GraphicsSection() {
 
       // the amateur shot bows out, the stage darkens to the film's palette
       bad.style.opacity = String(inBad * (1 - easeIO(seg(p, 0.3, 0.4))));
-      const dark = easeIO(seg(p, 0.34, 0.46));
-      stage.style.backgroundColor = dark > 0 ? STAGE_RED : "#ffffff";
+      const dark = easeIO(seg(p, 0.34, 0.46)) * (1 - easeIO(seg(p, 0.93, 1)));
+      stage.style.backgroundColor = dark > 0.02 ? STAGE_RED : "#ffffff";
       stage.style.setProperty("--dark", String(dark));
 
       // the premium shot takes the stage and comes apart under your finger
       const wIn = easeIO(seg(p, 0.38, 0.48));
-      wrap.style.opacity = String(wIn * (1 - easeIO(seg(p, 0.94, 1))));
+      wrap.style.opacity = String(wIn * (1 - easeIO(seg(p, 0.9, 0.97))));
       wrap.style.transform = `scale(${1 + (1 - wIn) * 0.04})`;
       const film = seg(p, 0.48, 0.94);
       targetTime = film * DIS_END_T;

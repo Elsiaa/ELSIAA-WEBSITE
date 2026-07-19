@@ -115,7 +115,7 @@ export function ElsiaaExperience() {
         const dive = seg(p, 0.84, 1);
         const dv = dive * dive * (3 - 2 * dive);
         const el = videoWrapRef.current;
-        el.style.opacity = `${1 - seg(p, 0.965, 1)}`;
+        el.style.opacity = `${1 - seg(p, 0.94, 1)}`;
         el.style.transformOrigin = "72% 60%";
         el.style.transform = `rotateX(${curX * (1 - dv)}deg) rotateY(${curY * (1 - dv)}deg) scale(${1 + dv * 4.2})`;
         el.style.filter = `blur(${dv * 14}px)`;
@@ -169,7 +169,7 @@ export function ElsiaaExperience() {
   }
 
   return (
-    <div ref={trackRef} style={{ height: `${TRACK_VH}vh`, position: "relative" }}>
+    <div ref={trackRef} style={{ height: `${TRACK_VH}vh`, position: "relative", zIndex: 10 }}>
       <div
         className="sticky top-0 flex h-dvh w-full flex-col items-center overflow-hidden bg-white"
         style={{ perspective: "1200px" }}
