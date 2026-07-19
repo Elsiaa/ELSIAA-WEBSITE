@@ -10,10 +10,10 @@ import { useEffect, useRef, useState } from "react";
     0.14-0.70  the film, scrubbed by scroll: he grabs the page, RIPS it out
                of the monitor, crumples it, throws it, it lands + settles
     0.70-0.84  landing caption: bad designs, where they belong
-    0.84-1.00  camera dives into THE trash can, dissolving to white
+    0.72-1.00  landing caption arrives over the settled shot and stays
 */
 
-const TRACK_VH = 620;
+const TRACK_VH = 540;
 const STILL_SRC = "/assets/office_scene_v8.jpeg";
 const FILM_SRC =
   typeof window !== "undefined" && window.innerWidth < 768
@@ -100,25 +100,19 @@ export function ElsiaaExperience() {
         targetTime = film * Math.min(FILM_END_T, video.duration - 0.05);
       }
 
-      // landing caption
+      // landing caption — arrives and stays
       if (captionRef.current) {
-        const eIn = seg(p, 0.7, 0.78);
-        const e = eIn * (1 - seg(p, 0.86, 0.92));
-        captionRef.current.style.opacity = `${e}`;
+        const eIn = seg(p, 0.72, 0.82);
+        captionRef.current.style.opacity = `${eIn}`;
         captionRef.current.style.transform = `translateY(${(1 - eIn) * 18}px)`;
       }
 
-      // the dive into THE trash can — with living 3D depth until the plunge
+      // living 3D depth
       curX += (tiltX - curX) * 0.06;
       curY += (tiltY - curY) * 0.06;
       if (videoWrapRef.current) {
-        const dive = seg(p, 0.84, 1);
-        const dv = dive * dive * (3 - 2 * dive);
         const el = videoWrapRef.current;
-        el.style.opacity = `${1 - seg(p, 0.94, 1)}`;
-        el.style.transformOrigin = "72% 60%";
-        el.style.transform = `rotateX(${curX * (1 - dv)}deg) rotateY(${curY * (1 - dv)}deg) scale(${1 + dv * 4.2})`;
-        el.style.filter = `blur(${dv * 14}px)`;
+        el.style.transform = `rotateX(${curX}deg) rotateY(${curY}deg)`;
       }
       if (headRef.current) {
         headRef.current.style.setProperty("--tx", `${curX * 1.6}deg`);
