@@ -5,9 +5,7 @@ import { useEffect, useRef, useState } from "react";
   together on the same screen. 100% scroll-driven; no timers, no autoplay,
   no scroll hijacking.
 
-    0.00-0.12  red strikethrough draws through "AI is just a nice tool...?";
-               "The future is here." arrives — cartoon already on screen
-    0.14-0.70  the film, scrubbed by scroll: he grabs the page, RIPS it out
+    0.06-0.72  the film, scrubbed by scroll: he grabs the page, RIPS it out
                of the monitor, crumples it, throws it, it lands + settles
     0.70-0.84  landing caption: bad designs, where they belong
     0.72-1.00  the settled shot holds
@@ -30,9 +28,6 @@ function seg(p: number, a: number, b: number) {
 
 export function ElsiaaExperience() {
   const trackRef = useRef<HTMLDivElement>(null);
-  const headRef = useRef<HTMLDivElement>(null);
-  const strikeRef = useRef<SVGPathElement>(null);
-  const futureRef = useRef<HTMLParagraphElement>(null);
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -65,36 +60,13 @@ export function ElsiaaExperience() {
     let raf = 0;
     let targetTime = 0;
 
-    const strike = strikeRef.current;
-    const strikeLen = strike ? strike.getTotalLength() : 0;
-    if (strike) {
-      strike.style.strokeDasharray = `${strikeLen}`;
-      strike.style.strokeDashoffset = `${strikeLen}`;
-    }
-
     const update = () => {
       const rect = track.getBoundingClientRect();
       const total = rect.height - window.innerHeight;
       const p = clamp01(-rect.top / total);
 
-      // strike draws, verdict lands — cartoon already sitting underneath
-      const strikeP = seg(p, 0.02, 0.1);
-      if (strike) strike.style.strokeDashoffset = `${strikeLen * (1 - strikeP)}`;
-      if (futureRef.current) {
-        const f = seg(p, 0.07, 0.13);
-        futureRef.current.style.opacity = `${f}`;
-        futureRef.current.style.transform = `translateY(${(1 - f) * 12}px)`;
-      }
-
-      // headline steps aside as the story takes over
-      if (headRef.current) {
-        const out = seg(p, 0.6, 0.72);
-        headRef.current.style.opacity = `${1 - out}`;
-        headRef.current.style.transform = `translateY(${out * -28}px)`;
-      }
-
       // the film, scrubbed
-      const film = seg(p, 0.14, 0.7);
+      const film = seg(p, 0.06, 0.72);
       if (video && video.duration && Number.isFinite(video.duration)) {
         targetTime = film * Math.min(FILM_END_T, video.duration - 0.05);
       }
@@ -105,10 +77,6 @@ export function ElsiaaExperience() {
       if (videoWrapRef.current) {
         const el = videoWrapRef.current;
         el.style.transform = `rotateX(${curX}deg) rotateY(${curY}deg)`;
-      }
-      if (headRef.current) {
-        headRef.current.style.setProperty("--tx", `${curX * 1.6}deg`);
-        headRef.current.style.setProperty("--ty", `${curY * 1.6}deg`);
       }
 
       raf = requestAnimationFrame(update);
@@ -173,38 +141,6 @@ export function ElsiaaExperience() {
             WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0.55), transparent 85%)",
           }}
         />
-        {/* headline — same page as the cartoon */}
-        <div
-          ref={headRef}
-          className="z-10 flex flex-col items-center px-6 pt-[9svh] text-center will-change-transform"
-          style={{ transform: "rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) translateZ(60px)", transformStyle: "preserve-3d" }}
-        >
-          <h1 className="relative max-w-4xl text-3xl font-semibold leading-tight tracking-tight text-[#111111] md:text-6xl">
-            AI is just a nice tool...?
-            <svg
-              className="pointer-events-none absolute left-[-2%] top-1/2 h-[0.5em] w-[104%] -translate-y-1/2"
-              viewBox="0 0 1000 60"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <path
-                ref={strikeRef}
-                d="M8 38 C 180 22, 340 44, 500 30 S 830 40, 992 24"
-                fill="none"
-                stroke="#E53E3E"
-                strokeWidth="9"
-                strokeLinecap="round"
-              />
-            </svg>
-          </h1>
-          <p
-            ref={futureRef}
-            className="mt-4 text-xl font-medium text-[#111111] opacity-0 md:text-2xl"
-          >
-            The future is here.
-          </p>
-        </div>
-
         {/* the film — on screen from the very first frame */}
         <div
           ref={videoWrapRef}
@@ -229,12 +165,6 @@ export function ElsiaaExperience() {
 function StaticJourney() {
   return (
     <section className="flex min-h-dvh flex-col items-center justify-center gap-10 bg-white px-6 py-24 text-center">
-      <h1 className="relative max-w-4xl text-4xl font-semibold leading-tight tracking-tight text-[#111111] md:text-6xl">
-        <span className="line-through decoration-[#E53E3E] decoration-8">
-          AI is just a nice tool...?
-        </span>
-      </h1>
-      <p className="text-2xl font-medium text-[#111111]">The future is here.</p>
       <img
         src={STILL_SRC}
         alt="A very frustrated, badly drawn office worker about to throw his website away"
