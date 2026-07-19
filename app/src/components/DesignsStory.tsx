@@ -121,6 +121,7 @@ function GlobeSection() {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const wireRef = useRef<HTMLDivElement | null>(null);
   const globeRef = useRef<HTMLVideoElement | null>(null);
+  const advRef = useRef<HTMLDivElement | null>(null);
   const line1Ref = useRef<HTMLParagraphElement | null>(null);
   const line2Ref = useRef<HTMLParagraphElement | null>(null);
   const wireSpeed = useRef(1);
@@ -129,9 +130,10 @@ function GlobeSection() {
     const track = trackRef.current;
     const wire = wireRef.current;
     const globe = globeRef.current;
+    const adv = advRef.current;
     const l1 = line1Ref.current;
     const l2 = line2Ref.current;
-    if (!track || !wire || !globe || !l1 || !l2) return;
+    if (!track || !wire || !globe || !adv || !l1 || !l2) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let raf = 0;
@@ -141,32 +143,39 @@ function GlobeSection() {
       const p = clamp01(-r.top / Math.max(1, total));
 
       // the sketch of the world condenses straight out of the dive's white blur
-      const wIn = easeIO(seg(p, 0, 0.16));
-      const real = easeIO(seg(p, 0.26, 0.44));
+      const wIn = easeIO(seg(p, 0, 0.14));
+      const real = easeIO(seg(p, 0.2, 0.36));
       wire.style.opacity = String(wIn * (1 - real));
       wire.style.transform = `scale(${0.72 + wIn * 0.28})`;
       wire.style.filter = `blur(${(1 - wIn) * 8}px)`;
 
-      // III — the sketch becomes real mid-spin
-      globe.style.opacity = String(real);
+      // the sketch becomes real mid-spin
+      const advanced = easeIO(seg(p, 0.52, 0.72));
+      globe.style.opacity = String(real * (1 - advanced));
       globe.style.transform = `scale(${0.9 + real * 0.1})`;
-      globe.style.filter = `blur(${(1 - real) * 6}px)`;
+      globe.style.filter = `blur(${(1 - real) * 6 + advanced * 5}px)`;
 
-      // IV — the world accelerates the deeper you go
-      const accel = 1 + Math.pow(seg(p, 0.4, 1), 1.8) * 8;
+      // the faster it spins, the more advanced it becomes:
+      // the real world dissolves into the ELSIAA constellation planet
+      adv.style.opacity = String(advanced);
+      adv.style.transform = `scale(${0.92 + advanced * 0.08})`;
+      adv.style.filter = `blur(${(1 - advanced) * 7}px)`;
+
+      // the world accelerates the deeper you go
+      const accel = 1 + Math.pow(seg(p, 0.3, 1), 1.8) * 9;
       wireSpeed.current = accel;
       if (!reduced) {
         globe.playbackRate = Math.min(8, 0.7 * accel);
         if (globe.paused && real > 0) globe.play().catch(() => {});
       }
 
-      const t1 = easeOut(seg(p, 0.5, 0.62));
-      const t2 = easeOut(seg(p, 0.66, 0.78));
+      const t1 = easeOut(seg(p, 0.44, 0.56));
+      const t2 = easeOut(seg(p, 0.62, 0.74));
       l1.style.opacity = String(t1);
       l1.style.transform = `translateY(${(1 - t1) * 22}px)`;
       l2.style.opacity = String(t2);
       l2.style.transform = `translateY(${(1 - t2) * 18}px)`;
-      l2.style.letterSpacing = `${0.02 + seg(p, 0.66, 1) * 0.09}em`;
+      l2.style.letterSpacing = `${0.02 + seg(p, 0.62, 1) * 0.09}em`;
 
       raf = requestAnimationFrame(tick);
     };
@@ -175,11 +184,14 @@ function GlobeSection() {
   }, []);
 
   return (
-    <div ref={trackRef} style={{ height: "300vh" }} className="relative bg-white">
+    <div ref={trackRef} style={{ height: "360vh" }} className="relative bg-white">
       <section className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden bg-white">
         <div className="relative flex h-[56svh] w-full items-center justify-center">
           <div ref={wireRef} className="absolute flex items-center justify-center opacity-0 will-change-transform">
             <WireGlobe speedRef={wireSpeed} />
+          </div>
+          <div ref={advRef} className="absolute flex items-center justify-center opacity-0 will-change-transform">
+            <AdvancedGlobe speedRef={wireSpeed} />
           </div>
           <video
             ref={globeRef}
