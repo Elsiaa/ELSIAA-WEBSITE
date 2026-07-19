@@ -116,6 +116,117 @@ function WireGlobe({ speedRef }: { speedRef: React.MutableRefObject<number> }) {
   return <canvas ref={canvasRef} aria-hidden className="will-change-transform" />;
 }
 
+/* ---------- the advanced world: ELSIAA constellation planet ---------- */
+function AdvancedGlobe({ speedRef }: { speedRef: React.MutableRefObject<number> }) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const size = Math.min(window.innerWidth * 0.62, 460);
+    canvas.width = size * DPR;
+    canvas.height = size * DPR;
+    canvas.style.width = `${size}px`;
+    canvas.style.height = `${size}px`;
+    ctx.scale(DPR, DPR);
+    const R = size * 0.4;
+    const cx = size / 2;
+    const cy = size / 2;
+    const nodes: { lat: number; lon: number }[] = [];
+    for (let la = -75; la <= 75; la += 15)
+      for (let lo = 0; lo < 360; lo += 15)
+        if (Math.abs(la) < 75 || lo % 60 === 0)
+          nodes.push({ lat: (la * Math.PI) / 180, lon: (lo * Math.PI) / 180 });
+    let rot = 0;
+    let t = 0;
+    let raf = 0;
+    const draw = () => {
+      const sp = speedRef.current;
+      rot += 0.0045 * sp;
+      t += 0.016;
+      ctx.clearRect(0, 0, size, size);
+
+      const pts = nodes.map((n) => {
+        const lon = n.lon + rot;
+        return {
+          x: cx + Math.cos(n.lat) * Math.sin(lon) * R,
+          y: cy - Math.sin(n.lat) * R * 0.98,
+          z: Math.cos(n.lat) * Math.cos(lon),
+        };
+      });
+
+      ctx.lineWidth = 0.7;
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[i];
+        if (a.z < -0.1) continue;
+        for (let j = i + 1; j < pts.length; j++) {
+          const b = pts[j];
+          if (b.z < -0.1) continue;
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < R * 0.34) {
+            const alpha = Math.max(0, ((a.z + b.z) / 2) * 0.22) * (1 - d / (R * 0.34));
+            if (alpha > 0.015) {
+              ctx.strokeStyle = `rgba(30,107,60,${alpha})`;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      const arcs = Math.min(7, 2 + Math.floor(sp * 0.7));
+      for (let k = 0; k < arcs; k++) {
+        const phase = (t * (0.25 + k * 0.07) + k * 1.7) % (Math.PI * 2);
+        const la1 = Math.sin(k * 2.1) * 0.9;
+        const lo1 = k * 0.9 + rot;
+        const la2 = Math.sin(k * 3.7 + 1) * 0.9;
+        const lo2 = k * 0.9 + 1.6 + rot;
+        const p1 = {
+          x: cx + Math.cos(la1) * Math.sin(lo1) * R,
+          y: cy - Math.sin(la1) * R * 0.98,
+          z: Math.cos(la1) * Math.cos(lo1),
+        };
+        const p2 = {
+          x: cx + Math.cos(la2) * Math.sin(lo2) * R,
+          y: cy - Math.sin(la2) * R * 0.98,
+          z: Math.cos(la2) * Math.cos(lo2),
+        };
+        if (p1.z < 0 && p2.z < 0) continue;
+        const mx = (p1.x + p2.x) / 2;
+        const my = (p1.y + p2.y) / 2 - R * 0.42;
+        const glow = 0.32 + 0.28 * Math.sin(phase);
+        ctx.strokeStyle = `rgba(46,158,88,${glow})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.quadraticCurveTo(mx, my, p2.x, p2.y);
+        ctx.stroke();
+      }
+
+      for (const p of pts) {
+        if (p.z < -0.15) continue;
+        const a = Math.max(0.1, (p.z + 0.4) * 0.9);
+        ctx.shadowColor = "rgba(46,158,88,0.9)";
+        ctx.shadowBlur = 6 + Math.min(10, sp);
+        ctx.fillStyle = `rgba(30,107,60,${a})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.6 + p.z * 1.1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(raf);
+  }, [speedRef]);
+  return <canvas ref={canvasRef} aria-hidden className="will-change-transform" />;
+}
+
 /* ---------- trash can -> sketch of the world -> the real world, accelerating ---------- */
 function GlobeSection() {
   const trackRef = useRef<HTMLDivElement | null>(null);
