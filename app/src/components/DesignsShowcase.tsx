@@ -646,75 +646,86 @@ function PhoneShell({ children }: { children: React.ReactNode }) {
 
 function AfterApp() {
   const [tab, setTab] = useState(0);
-  const [added, setAdded] = useState(false);
+  const [done, setDone] = useState([true, false, false]);
+  const streak = 12 + (done[1] ? 1 : 0) + (done[2] ? 1 : 0);
+  const toggle = (i: number) =>
+    setDone((d) => d.map((v, j) => (j === i ? !v : v)));
+  const MITZVOT = ["Morning tefillah", "Give tzedakah", "Call your mother"];
   return (
     <div className="flex h-full flex-col bg-[#FBFBFA] pt-9" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div className="flex items-center justify-between px-4 pb-2">
         <span className="text-[12px] font-bold tracking-tight text-[#111111]">
-          Prime<span className="text-[#1e6b3c]">Bins</span>
+          Mitzva<span className="text-[#1e6b3c]">.</span>
         </span>
         <span className="rounded-full bg-[#1e6b3c] px-2.5 py-1 text-[8px] font-bold tracking-[0.12em] text-white uppercase">
-          Today $11
+          🔥 {streak}-day streak
         </span>
       </div>
       <div className="flex-1 overflow-hidden px-4">
         {tab === 0 && (
           <div className="space-y-2.5">
-            <p className="text-[17px] leading-tight font-semibold tracking-[-0.035em] text-[#111111]">
-              The price drops
+            <p className="text-[17px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]">
+              Today&rsquo;s three.
               <br />
-              every day.
+              One tap each.
             </p>
-            <div className="flex items-end gap-1">
-              {[14, 13, 12, 11, 10, 9].map((p, i) => (
-                <div key={p} className="flex flex-1 flex-col items-center gap-0.5">
-                  <span className={`text-[8px] font-bold ${i === 3 ? "text-[#1e6b3c]" : "text-black/45"}`}>${p}</span>
-                  <div className={`w-full rounded-t-sm ${i === 3 ? "bg-[#1e6b3c]" : "bg-black/[0.08]"}`} style={{ height: 46 - i * 6 }} />
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={() => setAdded(!added)}
-              className={`w-full rounded-full py-2.5 text-[10px] font-bold tracking-[0.16em] uppercase transition-all duration-300 ${
-                added ? "bg-[#1e6b3c] text-white" : "bg-[#111111] text-white active:scale-[0.98]"
-              }`}
-            >
-              {added ? "✓ Reminder set for $9 day" : "Remind me on $9 day"}
-            </button>
-            <div className="rounded-xl bg-white p-3 shadow-sm">
-              <p className="text-[10px] font-semibold text-[#111111]">Wilkes-Barre · open now</p>
-              <p className="mt-0.5 text-[9px] text-black/45">Fresh restock Saturday — 40 bins</p>
-            </div>
+            {MITZVOT.map((m, i) => (
+              <button
+                key={m}
+                onClick={() => toggle(i)}
+                className={`flex w-full items-center justify-between rounded-xl p-3 text-left shadow-sm transition-all duration-300 active:scale-[0.98] ${
+                  done[i] ? "bg-[#1e6b3c] text-white" : "bg-white text-[#111111]"
+                }`}
+              >
+                <span className="text-[11px] font-semibold">{m}</span>
+                <span
+                  className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
+                    done[i] ? "bg-white text-[#1e6b3c]" : "border border-black/15 text-transparent"
+                  }`}
+                >
+                  ✓
+                </span>
+              </button>
+            ))}
           </div>
         )}
         {tab === 1 && (
-          <div className="space-y-2">
-            <p className="text-[15px] font-semibold tracking-[-0.035em] text-[#111111]">This week&rsquo;s bins</p>
-            {["Electronics", "Home & Kitchen", "Toys & Games"].map((c) => (
-              <div key={c} className="flex items-center justify-between rounded-xl bg-white p-3 shadow-sm">
-                <span className="text-[10px] font-semibold text-[#111111]">{c}</span>
-                <span className="text-[9px] font-bold text-[#1e6b3c]">$11</span>
-              </div>
-            ))}
+          <div className="space-y-2.5">
+            <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]">Your week</p>
+            <div className="flex items-end gap-1.5">
+              {[3, 2, 3, 1, 3, 3, streak > 13 ? 3 : 2].map((v, i) => (
+                <div key={i} className="flex flex-1 flex-col items-center gap-1">
+                  <div
+                    className={`w-full rounded-t-sm ${v === 3 ? "bg-[#1e6b3c]" : "bg-[#1e6b3c]/30"}`}
+                    style={{ height: 14 + v * 12 }}
+                  />
+                  <span className="text-[7px] tracking-wide text-black/40 uppercase">
+                    {["S", "M", "T", "W", "T", "F", "S"][i]}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="rounded-xl bg-white p-3 shadow-sm">
+              <p className="text-[10px] font-semibold text-[#111111]">18 of 21 this week</p>
+              <p className="mt-0.5 text-[9px] text-black/45">Best week this month</p>
+            </div>
           </div>
         )}
         {tab === 2 && (
           <div className="space-y-2.5">
-            <p className="text-[15px] font-semibold tracking-[-0.035em] text-[#111111]">Loyalty card</p>
+            <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]">Community</p>
             <div className="rounded-xl bg-[#111111] p-3.5 text-white">
-              <p className="text-[9px] tracking-[0.2em] uppercase opacity-60">Member</p>
-              <p className="mt-2 text-[12px] font-semibold">4 digs → free mystery box</p>
-              <div className="mt-2 flex gap-1">
-                {[1, 1, 1, 1, 0, 0].map((f, i) => (
-                  <span key={i} className={`h-1.5 flex-1 rounded-full ${f ? "bg-[#2e9e58]" : "bg-white/20"}`} />
-                ))}
+              <p className="text-[9px] tracking-[0.2em] uppercase opacity-60">Family circle</p>
+              <p className="mt-2 text-[12px] font-semibold">247 mitzvot together</p>
+              <div className="mt-2 h-1.5 w-full rounded-full bg-white/20">
+                <div className="h-full w-[82%] rounded-full bg-[#2e9e58]" />
               </div>
             </div>
           </div>
         )}
       </div>
       <div className="flex border-t border-black/[0.06] bg-white">
-        {["Home", "Bins", "Card"].map((t, i) => (
+        {["Today", "Week", "Circle"].map((t, i) => (
           <button
             key={t}
             onClick={() => setTab(i)}
@@ -733,20 +744,20 @@ function AfterApp() {
 function BeforeApp() {
   const [tab, setTab] = useState(0);
   return (
-    <div className="flex h-full flex-col bg-[#dfe4ea] pt-9" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <div className="bg-[#0B2447] px-3 py-2">
-        <p className="text-[11px] font-bold tracking-wide text-white">MR BINS OFFICIAL APP</p>
-        <p className="text-[8px] text-white/60">v2.3.1 — please update</p>
+    <div className="flex h-full flex-col bg-[#e8e4d8] pt-9" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <div className="bg-[#3d3a33] px-3 py-2">
+        <p className="text-[11px] font-bold tracking-wide text-[#c9a227]">PSI CONSTRUCTION APP</p>
+        <p className="text-[8px] text-white/50">v1.0.2 — update required</p>
       </div>
-      <div className="bg-[#FF8F52] px-3 py-1.5">
-        <p className="text-[8px] font-bold text-[#0B2447]">🔥🔥 HUGE SALE!!! CLICK HERE NOW!!! 🔥🔥</p>
+      <div className="bg-[#c9a227] px-3 py-1.5">
+        <p className="text-[8px] font-bold text-[#3d3a33]">⚠️ CALL NOW FOR FREE ESTIMATE!!! ⚠️</p>
       </div>
       <div className="flex-1 overflow-hidden px-3 pt-2">
         {tab === 0 && (
           <div className="space-y-1.5">
-            {["Home", "About Us", "Locations", "Pricing Info", "Loyalty Program", "Mystery Boxes", "Careers", "Contact Us", "FAQ", "Terms"].map((m) => (
+            {["Home", "About Us", "Our Services", "Photo Gallery", "Request Estimate", "Insurance Info", "Testimonials", "Service Areas", "Contact Us", "Terms of Use"].map((m) => (
               <div key={m} className="flex items-center justify-between border-b border-black/10 bg-white px-2.5 py-1.5">
-                <span className="text-[9px] text-[#0B2447]">{m}</span>
+                <span className="text-[9px] text-[#3d3a33]">{m}</span>
                 <span className="text-[9px] text-black/30">›</span>
               </div>
             ))}
@@ -755,80 +766,45 @@ function BeforeApp() {
         {tab === 1 && (
           <div className="space-y-1.5">
             <div className="bg-white p-2">
-              <p className="text-[9px] leading-relaxed text-[#333]">
-                Welcome to the deals page. Deals are updated periodically. Check back
-                often for the latest deals and promotions. Terms and conditions apply
-                to all offers...
+              <p className="text-[9px] leading-relaxed text-[#444]">
+                Photos coming soon. Please check back later. For examples of our work
+                please visit our office or call during business hours (Mon-Fri 8-4)...
               </p>
             </div>
-            <div className="bg-[#c9d2dd] p-2 text-center">
-              <p className="text-[8px] text-black/50">[ banner advertisement ]</p>
+            <div className="bg-[#d6d0c0] p-2 text-center">
+              <p className="text-[8px] text-black/50">[ image failed to load ]</p>
+            </div>
+            <div className="bg-[#d6d0c0] p-2 text-center">
+              <p className="text-[8px] text-black/50">[ image failed to load ]</p>
             </div>
           </div>
         )}
         {tab === 2 && (
           <div className="bg-white p-2.5">
-            <p className="text-[9px] font-bold text-[#0B2447]">LOGIN REQUIRED</p>
+            <p className="text-[9px] font-bold text-[#3d3a33]">REQUEST AN ESTIMATE</p>
             <p className="mt-1 text-[8px] leading-relaxed text-black/50">
-              Please create an account or log in to view your loyalty status. Password
-              must contain 12 characters...
+              Please fill out all 14 required fields. Estimates are processed within
+              5-7 business days...
             </p>
             <div className="mt-2 h-5 w-full border border-black/20 bg-[#f4f4f4]" />
+            <div className="mt-1.5 h-5 w-full border border-black/20 bg-[#f4f4f4]" />
             <div className="mt-1.5 h-5 w-full border border-black/20 bg-[#f4f4f4]" />
           </div>
         )}
       </div>
-      <div className="flex border-t border-black/15 bg-[#0B2447]">
-        {["Menu", "Deals", "Account"].map((t, i) => (
+      <div className="flex border-t border-black/15 bg-[#3d3a33]">
+        {["Menu", "Gallery", "Estimate"].map((t, i) => (
           <button
             key={t}
             onClick={() => setTab(i)}
             className={`flex-1 py-3 text-[9px] font-bold tracking-wide uppercase ${
-              tab === i ? "text-[#FF8F52]" : "text-white/50"
+              tab === i ? "text-[#c9a227]" : "text-white/50"
             }`}
           >
             {t}
           </button>
         ))}
       </div>
-    </div>
-  );
-}
-
-function StoreBadges() {
-  return (
-    <div className="mt-5 flex items-center justify-center gap-3">
-      {/* App Store */}
-      <a
-        href="mailto:isya@elsiaa.com?subject=App%20design%20inquiry"
-        className="flex items-center gap-2.5 rounded-lg bg-[#111111] px-4 py-2 text-white transition-transform duration-200 hover:scale-[1.04]"
-        aria-label="Download on the App Store"
-      >
-        <svg viewBox="0 0 24 24" className="h-6 w-6 fill-white" aria-hidden>
-          <path d="M17.05 12.54c-.03-2.89 2.36-4.27 2.47-4.34-1.35-1.97-3.44-2.24-4.18-2.27-1.78-.18-3.47 1.05-4.37 1.05-.9 0-2.29-1.02-3.77-1-1.94.03-3.72 1.13-4.72 2.86-2.01 3.49-.51 8.66 1.45 11.49.96 1.39 2.1 2.94 3.6 2.88 1.44-.06 1.99-.93 3.73-.93s2.23.93 3.76.9c1.55-.03 2.53-1.41 3.48-2.8 1.1-1.61 1.55-3.17 1.57-3.25-.03-.02-3.01-1.16-3.02-4.59zM14.17 4.06c.8-.96 1.33-2.3 1.18-3.64-1.14.05-2.53.76-3.35 1.72-.73.85-1.38 2.21-1.2 3.52 1.27.1 2.58-.65 3.37-1.6z" />
-        </svg>
-        <span className="text-left leading-none">
-          <span className="block text-[8px] opacity-70">Download on the</span>
-          <span className="block text-[13px] font-semibold">App Store</span>
-        </span>
-      </a>
-      {/* Google Play */}
-      <a
-        href="mailto:isya@elsiaa.com?subject=App%20design%20inquiry"
-        className="flex items-center gap-2.5 rounded-lg bg-[#111111] px-4 py-2 text-white transition-transform duration-200 hover:scale-[1.04]"
-        aria-label="Get it on Google Play"
-      >
-        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden>
-          <path d="M3.6 1.8 13.7 12 3.6 22.2c-.37-.2-.6-.6-.6-1.1V2.9c0-.5.23-.9.6-1.1z" fill="#00D2FF" />
-          <path d="m17.3 8.4-13-7.3c.14-.06.3-.1.46-.1.23 0 .46.06.67.18L17.9 7.8l-.6.6z" fill="#00F076" />
-          <path d="M17.3 15.6 13.7 12l3.6-3.6 3.16 1.78c.98.55.98 1.09 0 1.64L17.3 15.6z" fill="#FFC900" />
-          <path d="m17.3 15.6-.6-.6L5.03 22.82c-.4.23-.83.24-1.13.08l13.4-7.3z" fill="#F63448" />
-        </svg>
-        <span className="text-left leading-none">
-          <span className="block text-[8px] opacity-70">Get it on</span>
-          <span className="block text-[13px] font-semibold">Google Play</span>
-        </span>
-      </a>
     </div>
   );
 }
@@ -904,9 +880,9 @@ function DiscoverApps() {
             </div>
             <ul className="mx-auto mt-6 max-w-xs space-y-2">
               {[
-                "One glance answers the only question: today's price",
-                "The core action is a single thumb-tap away",
-                "Loyalty you can feel filling up",
+                "The day's purpose is one glance, one tap",
+                "Progress you can feel — streaks, weeks, family circles",
+                "Design that makes the habit effortless",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "'Inter', sans-serif" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[9px] font-bold text-white">✓</span>
@@ -932,9 +908,9 @@ function DiscoverApps() {
             </div>
             <ul className="mx-auto mt-6 max-w-xs space-y-2">
               {[
-                "A menu of links where a product should be",
-                "The thing customers want is three taps deep",
-                "Shouting banners instead of a reason to return",
+                "A menu of links where the product should be",
+                "The one thing users want is buried in a form",
+                "Broken galleries instead of a reason to trust",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/45" style={{ fontFamily: "'Inter', sans-serif" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[9px] font-bold text-white">✕</span>
@@ -944,6 +920,40 @@ function DiscoverApps() {
             </ul>
           </Reveal>
         </div>
+
+        <Reveal delay={0.1}>
+          <div className="mx-auto mt-16 max-w-5xl border-t border-black/[0.08] pt-10">
+            <p
+              className="text-center text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              What app design includes at ELSIAA
+            </p>
+            <div className="mt-8 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                ["Platform-correct", "iOS and Android patterns done natively — gestures, navigation, and type that feel at home on each device."],
+                ["Design systems", "Components, tokens, and states documented so your developers build exactly what was designed."],
+                ["Micro-interactions", "The taps, springs, and transitions that make an app feel alive — designed, not left to chance."],
+                ["Store-ready", "Icons, screenshots, and listing assets for the App Store and Google Play, prepared to spec."],
+              ].map(([t, d]) => (
+                <div key={t}>
+                  <h4
+                    className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {t}
+                  </h4>
+                  <p
+                    className="mt-2 text-[13px] leading-relaxed text-[#111111]/55"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {d}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
