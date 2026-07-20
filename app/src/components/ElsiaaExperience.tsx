@@ -32,6 +32,7 @@ export function ElsiaaExperience() {
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const premiumRef = useRef<HTMLDivElement>(null);
   const shockRef = useRef<HTMLDivElement>(null);
+  const capRefs = useRef<(HTMLParagraphElement | null)[]>([]);
   const timeRef = useRef<HTMLDivElement>(null);
   const timeBarRef = useRef<HTMLDivElement>(null);
   const timeLabelRef = useRef<HTMLSpanElement>(null);
@@ -84,6 +85,22 @@ export function ElsiaaExperience() {
       if (video && video.duration && Number.isFinite(video.duration)) {
         targetTime = film * Math.min(FILM_END_T, video.duration - 0.05);
       }
+
+      // captions — three beats, timed to the film
+      const CAPS: [number, number][] = [
+        [0.14, 0.3],
+        [0.36, 0.52],
+        [0.56, 0.72],
+      ];
+      capRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const [a, b] = CAPS[i];
+        const eIn = seg(p, a, a + 0.05);
+        const eOut = 1 - seg(p, b - 0.04, b);
+        const e = Math.min(eIn, eOut);
+        el.style.opacity = `${e}`;
+        el.style.transform = `translateY(${(1 - eIn) * 22}px)`;
+      });
 
       // cinema: slow dolly-in across the whole scrub
       const dolly = 1 + film * 0.12;
