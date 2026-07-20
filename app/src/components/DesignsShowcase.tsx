@@ -847,6 +847,66 @@ function DiscoverApps() {
   );
 }
 
+/* ---------------- product ad — the PRIME-style transformation feature ---------------- */
+function ProductAdFeature() {
+  return (
+    <section className="bg-[#F5F5F3] px-6 pt-4 pb-24 text-[#111111]">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <p
+            className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Product ads
+          </p>
+          <h2
+            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.02em] md:text-5xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            One amateur photo in. One campaign out.
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className="relative mt-10 overflow-hidden rounded-2xl shadow-[0_60px_130px_-50px_rgba(17,17,17,0.55)]">
+            <img
+              src="/assets/laptop_premium_v1.jpg"
+              alt="Premium product advertisement created by ELSIAA"
+              className="aspect-[16/10] w-full object-cover md:aspect-[21/10]"
+            />
+            <span
+              className="absolute top-4 right-4 rounded-sm bg-white/90 px-3 py-1 text-[10px] font-bold tracking-[0.2em] text-[#111111] uppercase backdrop-blur"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              After
+            </span>
+            {/* the shameful little before, pinned in the corner */}
+            <figure className="absolute top-4 left-4 w-[26%] max-w-[240px] overflow-hidden rounded-lg border-2 border-white/90 shadow-[0_20px_50px_-16px_rgba(0,0,0,0.7)] transition-transform duration-300 hover:scale-[1.6] hover:origin-top-left">
+              <img src="/assets/laptop_bad_v1.jpg" alt="The amateur source photo" className="aspect-square w-full object-cover" />
+              <span
+                className="absolute top-1.5 left-1.5 rounded-sm bg-black/65 px-2 py-0.5 text-[8px] font-bold tracking-[0.18em] text-white uppercase backdrop-blur"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Before
+              </span>
+            </figure>
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent p-6 pt-16">
+              <p
+                className="max-w-2xl text-sm leading-relaxed text-white/90 md:text-base"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Product studio transformation — the product isolated from a phone photo
+                and rebuilt as a premium composition: hero centered and sharp, components
+                staged with intention, studio lighting with controlled highlights, and a
+                commercial finish that never looks artificial.
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /* ---------------- client trust wall ---------------- */
 function ClientLogos() {
   return (
@@ -1027,36 +1087,31 @@ function Transformations() {
             Real websites, completely uplifted.
           </h2>
           <p className="mt-3 max-w-xl text-base text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
-            Hover any card to watch the before become the after.
+            Every card leads with the after — the before sits small in the corner, where it belongs. Hover it to look closer.
           </p>
         </Reveal>
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
           {CASES.map((c, i) => (
             <Reveal key={c.name} delay={i * 0.08}>
-              <div
-                className="group"
-                onClick={(e) => {
-                  const el = (e.currentTarget as HTMLElement).querySelector("[data-after]") as HTMLElement | null;
-                  if (el) el.classList.toggle("!translate-y-0");
-                }}
-              >
-                <div className="relative aspect-[4/3] cursor-pointer overflow-hidden rounded-xl border border-black/[0.07] bg-white shadow-[0_18px_44px_-28px_rgba(17,17,17,0.3)]">
-                  {c.before}
-                  <div data-after className="absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-y-0">
-                    {c.after}
-                  </div>
+              <div className="group">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-black/[0.07] bg-white shadow-[0_18px_44px_-28px_rgba(17,17,17,0.3)]">
+                  {c.after}
                   <span
-                    className="absolute top-2.5 left-2.5 rounded-full bg-black/60 px-2.5 py-1 text-[8px] tracking-[0.22em] text-white uppercase backdrop-blur transition-opacity duration-300 group-hover:opacity-0"
-                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                  >
-                    Before
-                  </span>
-                  <span
-                    className="absolute top-2.5 left-2.5 rounded-full bg-[#1e6b3c] px-2.5 py-1 text-[8px] tracking-[0.22em] text-white uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    className="absolute top-2.5 right-2.5 rounded-sm bg-[#1e6b3c] px-2.5 py-1 text-[8px] font-bold tracking-[0.22em] text-white uppercase"
                     style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     After — ELSIAA
                   </span>
+                  {/* the before, pinned small in the corner — grows on hover */}
+                  <div className="absolute bottom-2.5 left-2.5 w-[38%] overflow-hidden rounded-md border-2 border-white shadow-[0_14px_34px_-10px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:scale-[1.9] group-hover:origin-bottom-left">
+                    <div className="aspect-[4/3]">{c.before}</div>
+                    <span
+                      className="absolute top-1 left-1 rounded-sm bg-black/65 px-1.5 py-0.5 text-[7px] font-bold tracking-[0.16em] text-white uppercase"
+                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                    >
+                      Before
+                    </span>
+                  </div>
                 </div>
                 <div className="mt-4 flex items-baseline justify-between">
                   <h3 className="text-[15px] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -1332,6 +1387,7 @@ export function DesignsShowcase() {
       <DiscoverDesigns />
       <Transformations />
       <DiscoverApps />
+      <ProductAdFeature />
       <ClientLogos />
       <BeyondWebsites />
       <Results />
