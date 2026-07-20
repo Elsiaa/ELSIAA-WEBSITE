@@ -226,6 +226,28 @@ function CompareSlider() {
   return (
     <Reveal delay={0.1}>
       <div className="mx-auto mt-20 hidden max-w-5xl lg:block">
+        <div className="mx-auto mb-14 max-w-3xl border-t border-black/[0.08] pt-12 text-center">
+          <p
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Our specialty
+          </p>
+          <h3
+            className="mt-3 text-3xl font-semibold tracking-[-0.035em] text-[#111111] text-balance md:text-5xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            We specialize in <span className="text-[#1e6b3c]">healthcare</span>.
+          </h3>
+          <p
+            className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[#111111]/55 md:text-lg"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            We uplift and re-vision entire healthcare brands — staffing firms, clinics,
+            telehealth, and ABA providers — making your brand more professional and
+            better received by the patients, families, and partners who judge it first.
+          </p>
+        </div>
         <p
           className="text-center text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
