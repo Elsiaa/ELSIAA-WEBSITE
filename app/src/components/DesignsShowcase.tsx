@@ -200,20 +200,82 @@ function CompareSlider() {
   );
 }
 
-/* ---------------- 1 · statement ---------------- */
+/* ---------------- 1 · statement — kinetic type rising out of the cartoon ---------------- */
+function KineticLine({ text, className }: { text: string; className: string }) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.querySelectorAll("span").forEach((w) => {
+        (w as HTMLElement).style.opacity = "1";
+        (w as HTMLElement).style.transform = "none";
+      });
+      return;
+    }
+    let raf = 0;
+    const words = Array.from(el.querySelectorAll("span")) as HTMLElement[];
+    const tick = () => {
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const base = Math.min(1, Math.max(0, (vh * 0.92 - r.top) / (vh * 0.55)));
+      words.forEach((w, i) => {
+        const t = Math.min(1, Math.max(0, base * (words.length + 2) - i) / 2);
+        const e = 1 - Math.pow(1 - t, 3);
+        w.style.opacity = String(e);
+        w.style.transform = `translateY(${(1 - e) * 34}px)`;
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  return (
+    <span ref={ref} className={className}>
+      {text.split(" ").map((w, i) => (
+        <span key={i} className="inline-block will-change-transform" style={{ opacity: 0 }}>
+          {w}
+          {"\u00A0"}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function Magnetic({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  return (
+    <div
+      ref={ref}
+      className="inline-block transition-transform duration-200 ease-out"
+      onPointerMove={(e) => {
+        const el = ref.current;
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width / 2) * 0.18;
+        const y = (e.clientY - r.top - r.height / 2) * 0.3;
+        el.style.transform = `translate(${x}px, ${y}px)`;
+      }}
+      onPointerLeave={() => {
+        if (ref.current) ref.current.style.transform = "translate(0,0)";
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 function Statement() {
   return (
-    <section className="flex min-h-[58svh] flex-col items-center justify-center bg-white px-6 pb-14 text-center">
-      <Reveal>
-        <h2
-          className="mx-auto max-w-4xl text-4xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl md:leading-[1.03]"
-          style={{ fontFamily: "'Inter', sans-serif" }}
-        >
-          We don&rsquo;t just design websites —<br className="hidden md:block" /> we uplift
-          brands.
-        </h2>
-      </Reveal>
-      <Reveal delay={0.12}>
+    <section className="flex min-h-[64svh] flex-col items-center justify-center bg-white px-6 pb-14 text-center">
+      <h2
+        className="mx-auto max-w-4xl text-4xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl md:leading-[1.03]"
+        style={{ fontFamily: "'Inter', sans-serif" }}
+      >
+        <KineticLine text="We don’t just design websites —" className="block" />
+        <KineticLine text="we uplift brands." className="block" />
+      </h2>
+      <Reveal delay={0.1}>
         <p
           className="mx-auto mt-6 max-w-xl text-lg text-[#111111]/50 md:text-xl"
           style={{ fontFamily: "'Inter', sans-serif" }}
@@ -221,22 +283,26 @@ function Statement() {
           From outdated to outstanding.
         </p>
       </Reveal>
-      <Reveal delay={0.2}>
+      <Reveal delay={0.18}>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href="#discover-designs"
-            className="rounded-full border border-[#111111] bg-[#111111] px-8 py-3.5 text-[11px] tracking-[0.28em] text-white uppercase transition-all duration-300 hover:bg-[#1e6b3c] hover:border-[#1e6b3c]"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Explore our work
-          </a>
-          <a
-            href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
-            className="rounded-full border border-[#111111]/25 px-8 py-3.5 text-[11px] tracking-[0.28em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Start your project
-          </a>
+          <Magnetic>
+            <a
+              href="#discover-designs"
+              className="rounded-full border border-[#111111] bg-[#111111] px-8 py-3.5 text-[11px] tracking-[0.28em] text-white uppercase transition-colors duration-300 hover:bg-[#1e6b3c] hover:border-[#1e6b3c]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Explore our work
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <a
+              href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
+              className="rounded-full border border-[#111111]/25 px-8 py-3.5 text-[11px] tracking-[0.28em] text-[#111111] uppercase transition-colors duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Start your project
+            </a>
+          </Magnetic>
         </div>
       </Reveal>
     </section>
@@ -892,10 +958,16 @@ function Transformations() {
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
           {CASES.map((c, i) => (
             <Reveal key={c.name} delay={i * 0.08}>
-              <div className="group">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-black/[0.07] bg-white shadow-[0_18px_44px_-28px_rgba(17,17,17,0.3)]">
+              <div
+                className="group"
+                onClick={(e) => {
+                  const el = (e.currentTarget as HTMLElement).querySelector("[data-after]") as HTMLElement | null;
+                  if (el) el.classList.toggle("!translate-y-0");
+                }}
+              >
+                <div className="relative aspect-[4/3] cursor-pointer overflow-hidden rounded-xl border border-black/[0.07] bg-white shadow-[0_18px_44px_-28px_rgba(17,17,17,0.3)]">
                   {c.before}
-                  <div className="absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-y-0">
+                  <div data-after className="absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-y-0">
                     {c.after}
                   </div>
                   <span
@@ -1153,9 +1225,34 @@ function FinalCTA() {
 }
 
 /* ---------------- assembled ---------------- */
+function PageProgress() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    let raf = 0;
+    const tick = () => {
+      const doc = document.documentElement;
+      const p = Math.min(1, window.scrollY / Math.max(1, doc.scrollHeight - window.innerHeight));
+      if (ref.current) ref.current.style.transform = `scaleX(${p})`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  return (
+    <div className="fixed inset-x-0 top-0 z-[60] h-[2.5px]">
+      <div ref={ref} className="h-full origin-left bg-[#2e9e58]" style={{ transform: "scaleX(0)" }} />
+    </div>
+  );
+}
+
 export function DesignsShowcase() {
   return (
     <>
+      <PageProgress />
+      <style>{`
+        ::selection { background: rgba(46,158,88,0.85); color: #fff; }
+        html { scroll-behavior: smooth; }
+      `}</style>
       <Statement />
       <DiscoverDesigns />
       <Transformations />

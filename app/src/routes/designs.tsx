@@ -18,6 +18,10 @@ export const Route = createFileRoute("/designs")({
       },
       { property: "og:image", content: "/assets/og_cover.png" },
     ],
+    links: [
+      { rel: "preconnect", href: "https://primebins.com" },
+      { rel: "preconnect", href: "https://isya-stack.github.io" },
+    ],
   }),
   component: Designs,
 });
