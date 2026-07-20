@@ -665,10 +665,48 @@ function BeforeApp() {
   );
 }
 
+function StoreBadges() {
+  return (
+    <div className="mt-5 flex items-center justify-center gap-3">
+      {/* App Store */}
+      <a
+        href="mailto:isya@elsiaa.com?subject=App%20design%20inquiry"
+        className="flex items-center gap-2.5 rounded-lg bg-[#111111] px-4 py-2 text-white transition-transform duration-200 hover:scale-[1.04]"
+        aria-label="Download on the App Store"
+      >
+        <svg viewBox="0 0 24 24" className="h-6 w-6 fill-white" aria-hidden>
+          <path d="M17.05 12.54c-.03-2.89 2.36-4.27 2.47-4.34-1.35-1.97-3.44-2.24-4.18-2.27-1.78-.18-3.47 1.05-4.37 1.05-.9 0-2.29-1.02-3.77-1-1.94.03-3.72 1.13-4.72 2.86-2.01 3.49-.51 8.66 1.45 11.49.96 1.39 2.1 2.94 3.6 2.88 1.44-.06 1.99-.93 3.73-.93s2.23.93 3.76.9c1.55-.03 2.53-1.41 3.48-2.8 1.1-1.61 1.55-3.17 1.57-3.25-.03-.02-3.01-1.16-3.02-4.59zM14.17 4.06c.8-.96 1.33-2.3 1.18-3.64-1.14.05-2.53.76-3.35 1.72-.73.85-1.38 2.21-1.2 3.52 1.27.1 2.58-.65 3.37-1.6z" />
+        </svg>
+        <span className="text-left leading-none">
+          <span className="block text-[8px] opacity-70">Download on the</span>
+          <span className="block text-[13px] font-semibold">App Store</span>
+        </span>
+      </a>
+      {/* Google Play */}
+      <a
+        href="mailto:isya@elsiaa.com?subject=App%20design%20inquiry"
+        className="flex items-center gap-2.5 rounded-lg bg-[#111111] px-4 py-2 text-white transition-transform duration-200 hover:scale-[1.04]"
+        aria-label="Get it on Google Play"
+      >
+        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden>
+          <path d="M3.6 1.8 13.7 12 3.6 22.2c-.37-.2-.6-.6-.6-1.1V2.9c0-.5.23-.9.6-1.1z" fill="#00D2FF" />
+          <path d="m17.3 8.4-13-7.3c.14-.06.3-.1.46-.1.23 0 .46.06.67.18L17.9 7.8l-.6.6z" fill="#00F076" />
+          <path d="M17.3 15.6 13.7 12l3.6-3.6 3.16 1.78c.98.55.98 1.09 0 1.64L17.3 15.6z" fill="#FFC900" />
+          <path d="m17.3 15.6-.6-.6L5.03 22.82c-.4.23-.83.24-1.13.08l13.4-7.3z" fill="#F63448" />
+        </svg>
+        <span className="text-left leading-none">
+          <span className="block text-[8px] opacity-70">Get it on</span>
+          <span className="block text-[13px] font-semibold">Google Play</span>
+        </span>
+      </a>
+    </div>
+  );
+}
+
 function DiscoverApps() {
   const [side, setSide] = useState<"after" | "before">("after");
   const liveBadge = (
-    <div className="pointer-events-none absolute -top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
+    <div className="pointer-events-none absolute -bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 whitespace-nowrap shadow-lg">
       <span className="relative flex h-2 w-2">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
         <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
@@ -692,13 +730,14 @@ function DiscoverApps() {
             className="mx-auto mt-3 max-w-3xl text-center text-2xl font-semibold tracking-[-0.03em] md:text-4xl md:leading-[1.1]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Your app lives on your customer&rsquo;s home screen.
+            It doesn&rsquo;t matter how good your backend is.
           </h2>
           <p
-            className="mx-auto mt-3 max-w-xl text-center text-base text-[#111111]/50 md:text-xl"
+            className="mx-auto mt-3 max-w-2xl text-center text-base text-[#111111]/50 md:text-xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Does it earn its place there?
+            If your target audience doesn&rsquo;t use your app because of poor design,
+            the engineering never gets its chance.
           </p>
         </Reveal>
         <SideToggle side={side} setSide={setSide} />
@@ -717,11 +756,16 @@ function DiscoverApps() {
             <div className="relative mx-auto w-fit">
               {liveBadge}
               <div
-                className="pointer-events-none absolute top-6 -left-3 z-10 rounded-full bg-[#1e6b3c] px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white uppercase shadow-lg"
+                className="pointer-events-none absolute -top-4 left-1/2 z-10 -translate-x-1/2 rounded-full bg-[#1e6b3c] px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] whitespace-nowrap text-white uppercase shadow-lg"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 After — ELSIAA
               </div>
+              <div
+                aria-hidden
+                className="absolute top-1/2 left-1/2 -z-10 h-[120%] w-[150%] -translate-x-1/2 -translate-y-1/2"
+                style={{ background: "radial-gradient(circle, rgba(46,158,88,0.16) 0%, transparent 62%)" }}
+              />
               <div className="rounded-[44px] ring-4 ring-[#1e6b3c]/15">
                 <PhoneShell>
                   <AfterApp />
@@ -740,13 +784,14 @@ function DiscoverApps() {
                 </li>
               ))}
             </ul>
+            <StoreBadges />
           </Reveal>
 
           <Reveal delay={0.15} className={`${side === "before" ? "block" : "hidden"} lg:block`}>
             <div className="relative mx-auto w-fit opacity-[0.92] saturate-[0.85] transition-all duration-300 hover:opacity-100 hover:saturate-100">
               {liveBadge}
               <div
-                className="pointer-events-none absolute top-6 -left-3 z-10 rounded-full bg-black/55 px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white/85 uppercase shadow-lg backdrop-blur"
+                className="pointer-events-none absolute -top-4 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/55 px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] whitespace-nowrap text-white/85 uppercase shadow-lg backdrop-blur"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Before
