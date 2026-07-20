@@ -49,6 +49,13 @@ export function SiteNav() {
             Designs
           </a>
           <a
+            href="/careers"
+            className="hidden text-[11px] tracking-[0.26em] text-white/80 uppercase transition-opacity hover:opacity-60 md:inline"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Careers
+          </a>
+          <a
             href="mailto:isya@elsiaa.com"
             className="border border-white/40 px-5 py-2 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
             style={{ fontFamily: "'Inter', sans-serif" }}
