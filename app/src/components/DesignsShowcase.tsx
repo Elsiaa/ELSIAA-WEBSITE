@@ -137,83 +137,6 @@ function Statement() {
   );
 }
 
-/* ---------------- Prime Bins — our uplift, rendered live ---------------- */
-function PrimeBinsPreview() {
-  return (
-    <div
-      className="pointer-events-none h-full w-full overflow-hidden bg-[#FBFBFA] text-[#101410]"
-      style={{ fontFamily: "'Inter', sans-serif" }}
-    >
-      {/* nav */}
-      <div className="flex items-center justify-between border-b border-black/5 px-5 py-3">
-        <span className="text-[11px] font-bold tracking-[0.3em] uppercase">
-          Prime<span className="text-[#1e6b3c]">Bins</span>
-        </span>
-        <div className="flex items-center gap-4">
-          {["Locations", "Drop Days", "Mystery Box"].map((t) => (
-            <span key={t} className="hidden text-[9px] tracking-[0.14em] text-black/50 uppercase sm:inline">
-              {t}
-            </span>
-          ))}
-          <span className="rounded-full bg-[#1e6b3c] px-3 py-1 text-[9px] font-semibold tracking-[0.14em] text-white uppercase">
-            Today $11
-          </span>
-        </div>
-      </div>
-      {/* hero */}
-      <div className="px-5 pt-7 pb-5">
-        <p className="text-[9px] font-semibold tracking-[0.3em] text-[#1e6b3c] uppercase">
-          Amazon returns · four NEPA stores
-        </p>
-        <h3 className="mt-2 text-[26px] leading-[1.02] font-semibold tracking-[-0.03em] md:text-[32px]">
-          Dig. Discover.
-          <br />
-          Everything one price.
-        </h3>
-        <p className="mt-2 max-w-[30ch] text-[11px] leading-relaxed text-black/55">
-          Brand-new returns by the bin. The price drops a dollar every day until the
-          restock — come early for the finds, come late for the steal.
-        </p>
-        <div className="mt-4 flex items-center gap-2">
-          <span className="rounded bg-[#101410] px-4 py-2 text-[9px] font-semibold tracking-[0.2em] text-white uppercase">
-            Find my store
-          </span>
-          <span className="rounded border border-black/15 px-4 py-2 text-[9px] font-semibold tracking-[0.2em] text-black/70 uppercase">
-            Ship a mystery box
-          </span>
-        </div>
-      </div>
-      {/* price ladder */}
-      <div className="px-5 pb-6">
-        <div className="flex items-end gap-1.5">
-          {[
-            { d: "Sat", p: 14, h: 100 },
-            { d: "Sun", p: 13, h: 88 },
-            { d: "Mon", p: 12, h: 76 },
-            { d: "Tue", p: 11, h: 64, live: true },
-            { d: "Wed", p: 10, h: 52 },
-            { d: "Thu", p: 9, h: 40 },
-          ].map((s) => (
-            <div key={s.d} className="flex flex-1 flex-col items-center gap-1">
-              <span
-                className={`text-[10px] font-bold ${s.live ? "text-[#1e6b3c]" : "text-black/60"}`}
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                ${s.p}
-              </span>
-              <div
-                className={`w-full rounded-t-sm ${s.live ? "bg-[#1e6b3c]" : "bg-black/[0.08]"}`}
-                style={{ height: s.h * 0.55 }}
-              />
-              <span className="text-[8px] tracking-[0.12em] text-black/40 uppercase">{s.d}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ---------------- 2 · discover designs — the hero comparison ---------------- */
 function DiscoverDesigns() {
   return (
@@ -236,13 +159,17 @@ function DiscoverDesigns() {
 
         <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2">
           <Reveal delay={0.05}>
-            <Tilt>
-              <figure className="overflow-hidden rounded-2xl border border-[#2e9e58]/40 bg-white shadow-[0_40px_100px_-40px_rgba(46,158,88,0.4)]">
-                <div className="aspect-[4/3]">
-                  <PrimeBinsPreview />
-                </div>
-              </figure>
-            </Tilt>
+            <figure className="overflow-hidden rounded-2xl border border-[#2e9e58]/40 bg-white shadow-[0_40px_100px_-40px_rgba(46,158,88,0.4)]">
+              <div className="h-[520px] overflow-hidden md:h-[600px]">
+                <iframe
+                  src="https://primebins.com"
+                  title="Prime Bins — designed by ELSIAA (live site)"
+                  loading="lazy"
+                  className="origin-top-left"
+                  style={{ width: "200%", height: "200%", transform: "scale(0.5)", border: "0" }}
+                />
+              </div>
+            </figure>
             <div className="mt-5 flex items-baseline justify-between">
               <span className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
                 Prime Bins
@@ -251,26 +178,23 @@ function DiscoverDesigns() {
                 className="text-[10px] tracking-[0.26em] text-[#2e9e58] uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Designed by ELSIAA
+                Designed by ELSIAA · live — scroll it
               </span>
             </div>
           </Reveal>
 
           <Reveal delay={0.15}>
-            <Tilt>
-              <figure className="overflow-hidden rounded-2xl border border-white/10 bg-[#0B2447] shadow-[0_40px_100px_-48px_rgba(0,0,0,0.9)]">
-                <div className="pointer-events-none aspect-[4/3] overflow-hidden">
-                  <iframe
-                    src="https://isya-stack.github.io/mr-bins-website-/"
-                    title="Mr. Bins — original website"
-                    loading="lazy"
-                    tabIndex={-1}
-                    className="pointer-events-none origin-top-left"
-                    style={{ width: "300%", height: "300%", transform: "scale(0.3334)", border: "0" }}
-                  />
-                </div>
-              </figure>
-            </Tilt>
+            <figure className="overflow-hidden rounded-2xl border border-white/10 bg-[#0B2447] shadow-[0_40px_100px_-48px_rgba(0,0,0,0.9)]">
+              <div className="h-[520px] overflow-hidden md:h-[600px]">
+                <iframe
+                  src="https://isya-stack.github.io/mr-bins-website-/"
+                  title="Mr. Bins — original website (live site)"
+                  loading="lazy"
+                  className="origin-top-left"
+                  style={{ width: "200%", height: "200%", transform: "scale(0.5)", border: "0" }}
+                />
+              </div>
+            </figure>
             <div className="mt-5 flex items-baseline justify-between">
               <span className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
                 Mr. Bins
@@ -279,7 +203,7 @@ function DiscoverDesigns() {
                 className="text-[10px] tracking-[0.26em] text-white/40 uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Original
+                Original · live — scroll it
               </span>
             </div>
           </Reveal>
