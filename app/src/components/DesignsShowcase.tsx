@@ -466,45 +466,56 @@ function DiscoverDesigns() {
             className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl md:leading-[1.06]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Your website is where potential customers see your business for the first
-            time.
+            Two live websites. One business. Watch what design changes.
           </h2>
           <p
             className="mx-auto mt-3 max-w-xl text-center text-base text-[#111111]/50 md:text-xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            What kind of impression are you making?
+            Scroll them. Click them. Your customers make this exact comparison about
+            you — in three seconds.
           </p>
         </Reveal>
         <SideToggle side={side} setSide={setSide} />
 
-        <div className="relative mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
-          <div className="pointer-events-none absolute top-[38%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
+        <div className="relative mt-14 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-10">
+          <div className="pointer-events-none absolute top-[42%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
             <span
-              className="flex h-16 w-16 items-center justify-center rounded-full border border-black/10 bg-white text-sm font-bold tracking-[0.1em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.35)]"
+              className="flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-[13px] font-bold tracking-[0.08em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.3)]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               VS
             </span>
           </div>
+
+          {/* ------- BEFORE ------- */}
           <Reveal delay={0.05} className={`${side === "before" ? "block" : "hidden"} lg:block`}>
-            <figure className="relative overflow-hidden rounded-2xl border border-black/10 bg-white opacity-[0.92] saturate-[0.85] shadow-[0_40px_90px_-50px_rgba(17,17,17,0.4)] transition-all duration-300 hover:opacity-100 hover:saturate-100">
-              <div
-                className="pointer-events-none absolute top-14 left-4 z-10 rounded-full bg-black/55 px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white/85 uppercase shadow-lg backdrop-blur"
+            <div className="mb-5 flex items-end justify-between">
+              <div>
+                <p
+                  className="text-[10px] tracking-[0.32em] text-[#111111]/40 uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  Before
+                </p>
+                <h3
+                  className="mt-1 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  The original.
+                </h3>
+              </div>
+              <a
+                href="https://primebins.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase underline-offset-4 hover:underline"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Before
-              </div>
-              <div className="pointer-events-none absolute top-14 right-4 z-10 flex items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-                </span>
-                <span className="text-[9px] font-semibold tracking-[0.22em] text-white uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                  Live — scroll &amp; click
-                </span>
-              </div>
-
+                Open ↗
+              </a>
+            </div>
+            <figure className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_40px_90px_-50px_rgba(17,17,17,0.4)]">
               <div className="flex items-center gap-2 border-b border-black/10 bg-[#F0F0EE] px-4 py-2.5">
                 <span className="h-2 w-2 rounded-full bg-[#E5695E]" />
                 <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
@@ -513,52 +524,21 @@ function DiscoverDesigns() {
                   className="mx-auto rounded-md bg-white px-4 py-0.5 text-[9px] tracking-[0.08em] text-black/45"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  primebins.com · original
+                  primebins.com
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="flex items-center justify-between border-b border-black/10 bg-white px-4 py-2">
-                <span
-                  className="rounded-full bg-black/10 px-3 py-1 text-[9px] font-bold tracking-[0.22em] text-black/60 uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
-                  Before
-                </span>
-                <span className="flex items-center gap-2">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#2e9e58]/70" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#2e9e58]" />
-                  </span>
-                  <span className="text-[9px] font-semibold tracking-[0.2em] text-black/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                    Live — scroll &amp; click
-                  </span>
-                </span>
-              </div>
-              <div className="h-[560px] overflow-hidden md:h-[76svh]">
-                <LazyFrame src="https://primebins.com" title="Prime Bins — original website (live site)" zoom={0.34} />
+              <div className="h-[540px] overflow-hidden md:h-[68svh]">
+                <LazyFrame src="https://primebins.com" title="Prime Bins — the original website, live" />
               </div>
             </figure>
-            <div className="mt-3.5 flex items-baseline justify-between">
-              <span className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Prime Bins
-              </span>
-              <span
-                className="text-[10px] tracking-[0.26em] text-[#111111]/40 uppercase"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                Original · fully interactive
-              </span>
-              <a
-                href="https://primebins.com"
-                target="_blank"
-                rel="noreferrer"
-                className="text-[10px] tracking-[0.2em] text-[#111111]/45 uppercase underline-offset-4 hover:underline"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                Open ↗
-              </a>
-            </div>
-            <ul className="mt-4 space-y-2">
+            <p
+              className="mt-4 text-center text-[11px] tracking-[0.24em] text-[#111111]/40 uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Live site — scroll &amp; click inside
+            </p>
+            <ul className="mx-auto mt-5 max-w-md space-y-2">
               {[
                 "Message competes with itself on the first screen",
                 "No single path from interest to action",
@@ -572,24 +552,34 @@ function DiscoverDesigns() {
             </ul>
           </Reveal>
 
+          {/* ------- AFTER ------- */}
           <Reveal delay={0.15} className={`${side === "after" ? "block" : "hidden"} lg:block`}>
-            <figure className="relative overflow-hidden rounded-2xl border-2 border-[#1e6b3c] bg-[#0B2447] shadow-[0_60px_130px_-45px_rgba(30,107,60,0.55)] ring-4 ring-[#1e6b3c]/10">
-              <div
-                className="pointer-events-none absolute top-14 left-4 z-10 rounded-full bg-[#1e6b3c] px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white uppercase shadow-lg"
+            <div className="mb-5 flex items-end justify-between">
+              <div>
+                <p
+                  className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  After
+                </p>
+                <h3
+                  className="mt-1 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  Rebuilt by <span className="text-[#1e6b3c]">ELSIAA</span>.
+                </h3>
+              </div>
+              <a
+                href="https://isya-stack.github.io/mr-bins-website-/"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase underline-offset-4 hover:underline"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                After — ELSIAA
-              </div>
-              <div className="pointer-events-none absolute top-14 right-4 z-10 flex items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-                </span>
-                <span className="text-[9px] font-semibold tracking-[0.22em] text-white uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                  Live — scroll &amp; click
-                </span>
-              </div>
-
+                Open ↗
+              </a>
+            </div>
+            <figure className="overflow-hidden rounded-2xl border-2 border-[#1e6b3c] bg-[#0B2447] shadow-[0_60px_130px_-45px_rgba(30,107,60,0.5)] ring-4 ring-[#1e6b3c]/10">
               <div className="flex items-center gap-2 border-b border-black/10 bg-[#F0F0EE] px-4 py-2.5">
                 <span className="h-2 w-2 rounded-full bg-[#E5695E]" />
                 <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
@@ -598,52 +588,21 @@ function DiscoverDesigns() {
                   className="mx-auto rounded-md bg-white px-4 py-0.5 text-[9px] tracking-[0.08em] text-black/45"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  mr. bins · by ELSIAA
+                  mr. bins — by ELSIAA
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="flex items-center justify-between border-b border-black/10 bg-white px-4 py-2">
-                <span
-                  className="rounded-full bg-[#1e6b3c] px-3 py-1 text-[9px] font-bold tracking-[0.22em] text-white uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
-                  After — ELSIAA
-                </span>
-                <span className="flex items-center gap-2">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#2e9e58]/70" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#2e9e58]" />
-                  </span>
-                  <span className="text-[9px] font-semibold tracking-[0.2em] text-black/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                    Live — scroll &amp; click
-                  </span>
-                </span>
-              </div>
-              <div className="h-[560px] overflow-hidden md:h-[76svh]">
-                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — designed by ELSIAA (live site)" zoom={0.34} />
+              <div className="h-[540px] overflow-hidden md:h-[68svh]">
+                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — rebuilt by ELSIAA, live" native />
               </div>
             </figure>
-            <div className="mt-3.5 flex items-baseline justify-between">
-              <span className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Mr. Bins
-              </span>
-              <span
-                className="text-[10px] tracking-[0.26em] text-[#1e6b3c] uppercase"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                Designed by ELSIAA · fully interactive
-              </span>
-              <a
-                href="https://isya-stack.github.io/mr-bins-website-/"
-                target="_blank"
-                rel="noreferrer"
-                className="text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase underline-offset-4 hover:underline"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                Open ↗
-              </a>
-            </div>
-            <ul className="mt-4 space-y-2">
+            <p
+              className="mt-4 text-center text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Live site — scroll &amp; click inside
+            </p>
+            <ul className="mx-auto mt-5 max-w-md space-y-2">
               {[
                 "The offer is understood in three seconds",
                 "Every scroll ends at the next obvious step",
