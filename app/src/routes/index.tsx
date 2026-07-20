@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { EmpireHero } from "../components/EmpireHero";
 import { ElsiaaSections } from "../components/ElsiaaSections";
+import { HomeShowcase } from "../components/HomeShowcase";
 import { SiteNav } from "../components/SiteNav";
 
 export const Route = createFileRoute("/")({
@@ -12,6 +13,7 @@ function Index() {
     <main className="bg-white text-[#111111] antialiased">
       <SiteNav />
       <EmpireHero />
+      <HomeShowcase />
       <ElsiaaSections />
     </main>
   );
