@@ -666,12 +666,19 @@ function PhoneShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-function AfterApp() {
-  const [tab, setTab] = useState(0);
-  const [done, setDone] = useState([true, false, false]);
+function AfterApp({
+  tab,
+  setTab,
+  done,
+  toggle,
+}: {
+  tab: number;
+  setTab: (i: number) => void;
+  done: boolean[];
+  toggle: (i: number) => void;
+}) {
   const streak = 12 + (done[1] ? 1 : 0) + (done[2] ? 1 : 0);
-  const toggle = (i: number) =>
-    setDone((d) => d.map((v, j) => (j === i ? !v : v)));
+  const doneCount = done.filter(Boolean).length;
   const MITZVOT = ["Morning tefillah", "Give tzedakah", "Call your mother"];
   return (
     <div className="flex h-full flex-col bg-[#FBFBFA] pt-9" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -685,8 +692,8 @@ function AfterApp() {
       </div>
       <div className="flex-1 overflow-hidden px-4">
         {tab === 0 && (
-          <div className="space-y-2.5">
-            <p className="text-[17px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]">
+          <div className="space-y-2">
+            <p className="text-[16px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]">
               Today&rsquo;s three.
               <br />
               One tap each.
@@ -695,7 +702,7 @@ function AfterApp() {
               <button
                 key={m}
                 onClick={() => toggle(i)}
-                className={`flex w-full items-center justify-between rounded-xl p-3 text-left shadow-sm transition-all duration-300 active:scale-[0.98] ${
+                className={`flex w-full items-center justify-between rounded-xl p-2.5 text-left shadow-sm transition-all duration-300 active:scale-[0.98] ${
                   done[i] ? "bg-[#1e6b3c] text-white" : "bg-white text-[#111111]"
                 }`}
               >
@@ -709,16 +716,38 @@ function AfterApp() {
                 </span>
               </button>
             ))}
+            <div className="flex items-center justify-center gap-3 pt-1.5">
+              <svg viewBox="0 0 44 44" className="h-14 w-14 -rotate-90">
+                <circle cx="22" cy="22" r="18" fill="none" stroke="#e8e8e6" strokeWidth="4.5" />
+                <circle
+                  cx="22"
+                  cy="22"
+                  r="18"
+                  fill="none"
+                  stroke="#1e6b3c"
+                  strokeWidth="4.5"
+                  strokeLinecap="round"
+                  strokeDasharray={`${(doneCount / 3) * 113} 113`}
+                  className="transition-all duration-500"
+                />
+              </svg>
+              <div>
+                <p className="text-[13px] font-semibold text-[#111111]">{doneCount} of 3</p>
+                <p className="text-[9px] text-black/45">
+                  {doneCount === 3 ? "Day complete — streak grows" : "Finish the day, feed the streak"}
+                </p>
+              </div>
+            </div>
           </div>
         )}
         {tab === 1 && (
           <div className="space-y-2.5">
             <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]">Your week</p>
             <div className="flex items-end gap-1.5">
-              {[3, 2, 3, 1, 3, 3, streak > 13 ? 3 : 2].map((v, i) => (
+              {[3, 2, 3, 1, 3, 3, doneCount].map((v, i) => (
                 <div key={i} className="flex flex-1 flex-col items-center gap-1">
                   <div
-                    className={`w-full rounded-t-sm ${v === 3 ? "bg-[#1e6b3c]" : "bg-[#1e6b3c]/30"}`}
+                    className={`w-full rounded-t-sm transition-all duration-500 ${v === 3 ? "bg-[#1e6b3c]" : "bg-[#1e6b3c]/30"}`}
                     style={{ height: 14 + v * 12 }}
                   />
                   <span className="text-[7px] tracking-wide text-black/40 uppercase">
@@ -728,7 +757,7 @@ function AfterApp() {
               ))}
             </div>
             <div className="rounded-xl bg-white p-3 shadow-sm">
-              <p className="text-[10px] font-semibold text-[#111111]">18 of 21 this week</p>
+              <p className="text-[10px] font-semibold text-[#111111]">{15 + doneCount} of 21 this week</p>
               <p className="mt-0.5 text-[9px] text-black/45">Best week this month</p>
             </div>
           </div>
@@ -738,10 +767,17 @@ function AfterApp() {
             <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]">Community</p>
             <div className="rounded-xl bg-[#111111] p-3.5 text-white">
               <p className="text-[9px] tracking-[0.2em] uppercase opacity-60">Family circle</p>
-              <p className="mt-2 text-[12px] font-semibold">247 mitzvot together</p>
+              <p className="mt-2 text-[12px] font-semibold">{245 + doneCount} mitzvot together</p>
               <div className="mt-2 h-1.5 w-full rounded-full bg-white/20">
-                <div className="h-full w-[82%] rounded-full bg-[#2e9e58]" />
+                <div
+                  className="h-full rounded-full bg-[#2e9e58] transition-all duration-500"
+                  style={{ width: `${80 + doneCount * 2}%` }}
+                />
               </div>
+            </div>
+            <div className="rounded-xl bg-white p-3 shadow-sm">
+              <p className="text-[10px] font-semibold text-[#111111]">Abba is 2 ahead of you</p>
+              <p className="mt-0.5 text-[9px] text-black/45">Friendly competition, eternal rewards</p>
             </div>
           </div>
         )}
@@ -763,8 +799,7 @@ function AfterApp() {
   );
 }
 
-function BeforeApp() {
-  const [tab, setTab] = useState(0);
+function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }) {
   return (
     <div className="flex h-full flex-col bg-[#e8e4d8] pt-9" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div className="bg-[#3d3a33] px-3 py-2">
@@ -869,17 +904,122 @@ function StoreBadges() {
 
 function DiscoverApps() {
   const [side, setSide] = useState<"after" | "before">("after");
-  const liveBadge = (
-    <div className="pointer-events-none absolute -bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 whitespace-nowrap shadow-lg">
-      <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-      </span>
-      <span className="text-[9px] font-semibold tracking-[0.22em] text-white uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-        Live — tap it
-      </span>
-    </div>
+  // controlled app state — shared by the demo engine and the visitor
+  const [mTab, setMTab] = useState(0);
+  const [mDone, setMDone] = useState([true, false, false]);
+  const [pTab, setPTab] = useState(0);
+  const mTouched = useRef(false);
+  const pTouched = useRef(false);
+  const mFingerRef = useRef<HTMLDivElement | null>(null);
+  const pFingerRef = useRef<HTMLDivElement | null>(null);
+  const mStatusRef = useRef<HTMLSpanElement | null>(null);
+  const pStatusRef = useRef<HTMLSpanElement | null>(null);
+
+  const mToggle = (i: number) => setMDone((d) => d.map((v, j) => (j === i ? !v : v)));
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const t0 = performance.now();
+    let mFired: Record<string, boolean> = {};
+    let pFired: Record<string, boolean> = {};
+    let lastMLoop = -1;
+    let lastPLoop = -1;
+
+    // scripted walkthroughs — [time, x%, y%, action, status]
+    type Step = { t: number; x: number; y: number; act?: () => void; status: string };
+    const M_LOOP = 13;
+    const mSteps: Step[] = [
+      { t: 0.5, x: 50, y: 46, status: "Watching the Mitzva app demo itself…" },
+      { t: 2, x: 50, y: 46, act: () => setMDone((d) => [d[0], true, d[2]]), status: "Tzedakah — logged in one tap" },
+      { t: 4, x: 50, y: 57, act: () => setMDone((d) => [d[0], d[1], true]), status: "Third mitzvah — the ring closes" },
+      { t: 6.5, x: 50, y: 93, act: () => setMTab(1), status: "Week view — 18 of 21, best this month" },
+      { t: 9, x: 75, y: 93, act: () => setMTab(2), status: "Family circle — 247 mitzvot together" },
+      { t: 11.5, x: 25, y: 93, act: () => { setMTab(0); setMDone([true, false, false]); }, status: "A new day begins" },
+    ];
+    const P_LOOP = 13;
+    const pSteps: Step[] = [
+      { t: 0.5, x: 50, y: 40, status: "Watching the legacy app struggle…" },
+      { t: 2.5, x: 50, y: 93, act: () => setPTab(1), status: "Gallery — images failed to load" },
+      { t: 6, x: 79, y: 93, act: () => setPTab(2), status: "Estimate — 14 required fields, 5-7 days" },
+      { t: 9.5, x: 21, y: 93, act: () => setPTab(0), status: "Back to the menu maze" },
+    ];
+
+    const run = (
+      steps: Step[],
+      loopLen: number,
+      time: number,
+      finger: HTMLDivElement | null,
+      status: HTMLSpanElement | null,
+      fired: Record<string, boolean>,
+      loopCount: number,
+      lastLoop: number,
+    ): [Record<string, boolean>, number] => {
+      if (loopCount !== lastLoop) fired = {};
+      const t = time % loopLen;
+      let active: Step | null = null;
+      for (const st of steps) if (t >= st.t) active = st;
+      if (active && finger) {
+        finger.style.left = `${active.x}%`;
+        finger.style.top = `${active.y}%`;
+      }
+      if (active && status) status.textContent = active.status;
+      for (const st of steps) {
+        const key = String(st.t);
+        if (t >= st.t && !fired[key]) {
+          fired[key] = true;
+          if (st.act) st.act();
+          if (finger) {
+            finger.style.transform = "translate(-50%, -50%) scale(0.72)";
+            setTimeout(() => {
+              if (finger) finger.style.transform = "translate(-50%, -50%) scale(1)";
+            }, 160);
+          }
+        }
+      }
+      return [fired, loopCount];
+    };
+
+    const tick = () => {
+      const time = (performance.now() - t0) / 1000;
+      if (!mTouched.current) {
+        const loop = Math.floor(time / M_LOOP);
+        [mFired, lastMLoop] = run(mSteps, M_LOOP, time, mFingerRef.current, mStatusRef.current, mFired, loop, lastMLoop);
+        lastMLoop = loop;
+        if (mFingerRef.current) mFingerRef.current.style.opacity = "1";
+      } else if (mFingerRef.current) {
+        mFingerRef.current.style.opacity = "0";
+        if (mStatusRef.current) mStatusRef.current.textContent = "Your hands now — tap anything";
+      }
+      if (!pTouched.current) {
+        const loop = Math.floor(time / P_LOOP);
+        [pFired, lastPLoop] = run(pSteps, P_LOOP, time, pFingerRef.current, pStatusRef.current, pFired, loop, lastPLoop);
+        lastPLoop = loop;
+        if (pFingerRef.current) pFingerRef.current.style.opacity = "1";
+      } else if (pFingerRef.current) {
+        pFingerRef.current.style.opacity = "0";
+        if (pStatusRef.current) pStatusRef.current.textContent = "Your hands now — tap anything";
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const finger = (ref: React.RefObject<HTMLDivElement | null>) => (
+    <div
+      ref={ref}
+      aria-hidden
+      className="pointer-events-none absolute z-20 h-9 w-9 rounded-full border-2 border-white bg-[#111111]/30 opacity-0 shadow-[0_6px_18px_rgba(0,0,0,0.35)] backdrop-blur-[2px]"
+      style={{
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%) scale(1)",
+        transition: "left 0.7s cubic-bezier(.22,.61,.36,1), top 0.7s cubic-bezier(.22,.61,.36,1), transform 0.16s ease, opacity 0.3s ease",
+      }}
+    />
   );
+
   return (
     <section className="bg-[#F5F5F3] px-6 pt-6 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
@@ -903,40 +1043,68 @@ function DiscoverApps() {
             If your target audience doesn&rsquo;t use your app because of poor design,
             the engineering never gets its chance.
           </p>
+          <p
+            className="mx-auto mt-5 text-center text-[10px] tracking-[0.28em] text-[#111111]/40 uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Live demos running — touch either phone to take over
+          </p>
         </Reveal>
         <SideToggle side={side} setSide={setSide} />
 
-        <div className="relative mt-14 grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-10">
+        <div className="relative mt-12 grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-10">
           <div className="pointer-events-none absolute top-[40%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
             <span
-              className="flex h-16 w-16 items-center justify-center rounded-full border border-black/10 bg-white text-sm font-bold tracking-[0.1em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.35)]"
+              className="flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-[13px] font-bold tracking-[0.08em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.3)]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               VS
             </span>
           </div>
 
+          {/* ---- AFTER: Mitzva ---- */}
           <Reveal delay={0.05} className={`${side === "after" ? "block" : "hidden"} lg:block`}>
-            <div className="relative mx-auto w-fit">
-              {liveBadge}
-              <div
-                className="pointer-events-none absolute -top-4 left-1/2 z-10 -translate-x-1/2 rounded-full bg-[#1e6b3c] px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] whitespace-nowrap text-white uppercase shadow-lg"
+            <div className="mb-5 text-center">
+              <p
+                className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                After — ELSIAA
-              </div>
+                After
+              </p>
+              <h3
+                className="mt-1 text-2xl font-semibold tracking-[-0.035em] md:text-3xl"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                The Mitzva app — by <span className="text-[#1e6b3c]">ELSIAA</span>.
+              </h3>
+            </div>
+            <div
+              className="relative mx-auto w-fit"
+              onPointerDown={() => (mTouched.current = true)}
+              onPointerLeave={() => (mTouched.current = false)}
+            >
               <div
                 aria-hidden
                 className="absolute top-1/2 left-1/2 -z-10 h-[120%] w-[150%] -translate-x-1/2 -translate-y-1/2"
                 style={{ background: "radial-gradient(circle, rgba(46,158,88,0.16) 0%, transparent 62%)" }}
               />
-              <div className="rounded-[44px] ring-4 ring-[#1e6b3c]/15">
+              <div className="relative rounded-[44px] ring-4 ring-[#1e6b3c]/15">
+                {finger(mFingerRef)}
                 <PhoneShell>
-                  <AfterApp />
+                  <AfterApp tab={mTab} setTab={setMTab} done={mDone} toggle={mToggle} />
                 </PhoneShell>
               </div>
             </div>
-            <ul className="mx-auto mt-6 max-w-xs space-y-2">
+            <p className="mt-4 text-center">
+              <span
+                ref={mStatusRef}
+                className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Watching the Mitzva app demo itself…
+              </span>
+            </p>
+            <ul className="mx-auto mt-5 max-w-xs space-y-2">
               {[
                 "The day's purpose is one glance, one tap",
                 "Progress you can feel — streaks, weeks, family circles",
@@ -951,20 +1119,44 @@ function DiscoverApps() {
             <StoreBadges />
           </Reveal>
 
+          {/* ---- BEFORE: PSI Construction ---- */}
           <Reveal delay={0.15} className={`${side === "before" ? "block" : "hidden"} lg:block`}>
-            <div className="relative mx-auto w-fit opacity-[0.92] saturate-[0.85] transition-all duration-300 hover:opacity-100 hover:saturate-100">
-              {liveBadge}
-              <div
-                className="pointer-events-none absolute -top-4 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/55 px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] whitespace-nowrap text-white/85 uppercase shadow-lg backdrop-blur"
+            <div className="mb-5 text-center">
+              <p
+                className="text-[10px] tracking-[0.32em] text-[#111111]/40 uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Before
-              </div>
-              <PhoneShell>
-                <BeforeApp />
-              </PhoneShell>
+              </p>
+              <h3
+                className="mt-1 text-2xl font-semibold tracking-[-0.035em] md:text-3xl"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                The legacy contractor app.
+              </h3>
             </div>
-            <ul className="mx-auto mt-6 max-w-xs space-y-2">
+            <div
+              className="relative mx-auto w-fit"
+              onPointerDown={() => (pTouched.current = true)}
+              onPointerLeave={() => (pTouched.current = false)}
+            >
+              <div className="relative">
+                {finger(pFingerRef)}
+                <PhoneShell>
+                  <BeforeApp tab={pTab} setTab={setPTab} />
+                </PhoneShell>
+              </div>
+            </div>
+            <p className="mt-4 text-center">
+              <span
+                ref={pStatusRef}
+                className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Watching the legacy app struggle…
+              </span>
+            </p>
+            <ul className="mx-auto mt-5 max-w-xs space-y-2">
               {[
                 "A menu of links where the product should be",
                 "The one thing users want is buried in a form",
