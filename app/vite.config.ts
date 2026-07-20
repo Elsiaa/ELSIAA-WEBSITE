@@ -19,8 +19,12 @@ const QUANTA_ICONS_SHIM = fileURLToPath(
   new URL("./src/lib/quanta-material-icons.ts", import.meta.url),
 );
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
   const designInspectorEnabled = process.env.HF_DESIGN_INSPECTOR === "1" || mode === "design";
+  // GitHub Pages has no server, so that build prerenders every route to static
+  // HTML and ships dist/client only. Off by default: the Higgsfield deploy runs
+  // the normal SSR Worker build and must stay byte-identical.
+  const prerenderForPages = process.env.GH_PAGES === "1";
 
   return {
     resolve: {
@@ -32,7 +36,11 @@ export default defineConfig(({ mode }) => {
     // server but throw "No such module" in a Worker. Bundle them all in.
     // (node: builtins stay external — nodejs_compat provides them.)
     ssr: {
-      noExternal: true,
+      // Build only: `vite dev`'s SSR module runner would inline React's CJS
+      // entry and blow up on `module.exports` (ReferenceError: module is not
+      // defined). Dev runs on Node with a real node_modules, so externals are
+      // fine there; the Worker bundle still gets everything inlined.
+      noExternal: command === "build" ? true : undefined,
       // `cloudflare:workers` is a workerd runtime built-in that exposes the Worker
       // env / bindings (D1 `DB`, R2 `STORAGE`). Like node: builtins it must NOT be
       // bundled; the runtime provides it. (`ssr.external` is typed string[].)
@@ -73,6 +81,14 @@ export default defineConfig(({ mode }) => {
       // inside effects/handlers, or guarded with `typeof window !== "undefined"`.
       tanstackStart({
         server: { entry: "server" },
+        ...(prerenderForPages
+          ? {
+              prerender: { enabled: true, crawlLinks: true, failOnError: true },
+              // crawlLinks starts at "/" and follows nav links; concept-walk is
+              // not linked from the nav, so name it explicitly.
+              pages: [{ path: "/concept-walk" }],
+            }
+          : {}),
       }),
       higgsfieldDesignInspectorVitePlugin(designInspectorEnabled),
       react({
