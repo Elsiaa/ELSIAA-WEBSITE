@@ -353,47 +353,127 @@ function ClientLogos() {
   );
 }
 
-/* ---------------- 3 · website transformations ---------------- */
-function MiniSite({ bad }: { bad?: boolean }) {
-  return bad ? (
-    <div className="h-full w-full space-y-1.5 bg-[#e9e6df] p-3">
-      <div className="flex gap-1">
-        <div className="h-2 w-10 bg-[#b6b0a3]" />
-        <div className="h-2 w-6 bg-[#b6b0a3]" />
-        <div className="h-2 w-8 bg-[#b6b0a3]" />
+/* ---------------- 3 · website transformations — real clients ---------------- */
+type Mini = { name: string; before: React.JSX.Element; after: React.JSX.Element; desc: string };
+
+const bar = (w: string, c: string, h = "h-2") => (
+  <div className={`${h} ${w} rounded-sm`} style={{ backgroundColor: c }} />
+);
+
+const CASES: Mini[] = [
+  {
+    name: "Dialog Healthcare",
+    desc: "A staffing site rebuilt around one promise — the right clinician, placed fast.",
+    before: (
+      <div className="h-full w-full space-y-1.5 bg-[#eef3f4] p-3">
+        <div className="flex items-center justify-between">
+          {bar("w-16", "#2a7f8a", "h-3")}
+          <div className="flex gap-1">{bar("w-6", "#9db9bd")}{bar("w-6", "#9db9bd")}{bar("w-6", "#9db9bd")}{bar("w-6", "#9db9bd")}</div>
+        </div>
+        <div className="h-14 w-full rounded-sm bg-[#2a7f8a]/30 p-2">
+          {bar("w-3/4", "#1d5a62", "h-3")}
+          <div className="mt-1.5 flex gap-1">{bar("w-14", "#e08b3c", "h-4")}{bar("w-14", "#2a7f8a", "h-4")}</div>
+        </div>
+        <div className="flex gap-1.5">
+          <div className="h-10 flex-1 rounded-sm bg-[#c8d8da]" />
+          <div className="h-10 flex-1 rounded-sm bg-[#c8d8da]" />
+          <div className="h-10 flex-1 rounded-sm bg-[#c8d8da]" />
+        </div>
+        {bar("w-full", "#b3c6c9")}
+        {bar("w-5/6", "#b3c6c9")}
       </div>
-      <div className="h-3 w-4/5 bg-[#8f887a]" />
-      <div className="h-2 w-full bg-[#b6b0a3]" />
-      <div className="h-2 w-full bg-[#b6b0a3]" />
-      <div className="flex gap-1.5 pt-1">
-        <div className="h-9 w-1/2 bg-[#c9c3b5]" />
-        <div className="h-9 w-1/2 bg-[#c9c3b5]" />
+    ),
+    after: (
+      <div className="h-full w-full bg-white p-3" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <div className="flex items-center justify-between">
+          <span className="text-[9px] font-bold tracking-tight text-[#111111]">Dialog<span className="text-[#111111]/45"> Healthcare</span></span>
+          <span className="rounded-full bg-[#1e6b3c] px-2.5 py-0.5 text-[7px] font-semibold tracking-[0.14em] text-white uppercase">Request staff</span>
+        </div>
+        <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]">The right clinician.<br />Placed in days, not months.</p>
+        <div className="mt-2 flex gap-1">{bar("w-16", "#111111", "h-4")}{bar("w-12", "#e8e8e6", "h-4")}</div>
+        <div className="mt-2.5 grid grid-cols-3 gap-1.5">
+          <div className="rounded-md bg-[#F5F5F3] p-1.5">{bar("w-3/4", "#1e6b3c", "h-1.5")}<div className="mt-1">{bar("w-full", "#d8d8d5", "h-1")}</div></div>
+          <div className="rounded-md bg-[#F5F5F3] p-1.5">{bar("w-3/4", "#1e6b3c", "h-1.5")}<div className="mt-1">{bar("w-full", "#d8d8d5", "h-1")}</div></div>
+          <div className="rounded-md bg-[#F5F5F3] p-1.5">{bar("w-3/4", "#1e6b3c", "h-1.5")}<div className="mt-1">{bar("w-full", "#d8d8d5", "h-1")}</div></div>
+        </div>
       </div>
-      <div className="h-2 w-2/3 bg-[#b6b0a3]" />
-    </div>
-  ) : (
-    <div className="h-full w-full bg-white p-3">
-      <div className="flex items-center justify-between">
-        <div className="h-2 w-8 rounded-sm bg-[#111111]" />
-        <div className="h-3.5 w-12 rounded-full bg-[#1e6b3c]" />
+    ),
+  },
+  {
+    name: "PSI Construction",
+    desc: "A contractor's credibility, poured in concrete — portfolio first, paperwork last.",
+    before: (
+      <div className="h-full w-full space-y-1.5 bg-[#f3efe6] p-3">
+        <div className="flex items-center justify-between">
+          {bar("w-14", "#c9a227", "h-3.5")}
+          <div className="flex gap-1">{bar("w-7", "#8f8873")}{bar("w-7", "#8f8873")}{bar("w-7", "#8f8873")}</div>
+        </div>
+        <div className="h-12 w-full rounded-sm bg-[#3d3a33] p-2">{bar("w-2/3", "#c9a227", "h-3")}<div className="mt-1">{bar("w-1/2", "#6e685c", "h-2")}</div></div>
+        <div className="flex gap-1.5">
+          <div className="h-9 flex-1 rounded-sm bg-[#d9d2c0]" />
+          <div className="h-9 flex-1 rounded-sm bg-[#d9d2c0]" />
+        </div>
+        {bar("w-full", "#c5bda7")}
+        {bar("w-4/5", "#c5bda7")}
+        {bar("w-5/6", "#c5bda7")}
       </div>
-      <div className="mt-3 h-3.5 w-3/5 rounded-sm bg-[#111111]" />
-      <div className="mt-1.5 h-2 w-2/5 rounded-sm bg-black/20" />
-      <div className="mt-3 flex gap-1.5">
-        <div className="h-10 flex-1 rounded-md bg-[#1e6b3c]/12" />
-        <div className="h-10 flex-1 rounded-md bg-[#1e6b3c]/25" />
-        <div className="h-10 flex-1 rounded-md bg-[#1e6b3c]/40" />
+    ),
+    after: (
+      <div className="h-full w-full bg-[#15140f] p-3 text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <div className="flex items-center justify-between">
+          <span className="text-[9px] font-bold tracking-[0.2em] uppercase">PSI<span className="text-[#d9a441]"> Construction</span></span>
+          <span className="rounded-full border border-white/25 px-2.5 py-0.5 text-[7px] font-semibold tracking-[0.14em] uppercase">Get a bid</span>
+        </div>
+        <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.02em]">Built to outlast<br />the blueprint.</p>
+        <div className="mt-2.5 grid grid-cols-3 gap-1.5">
+          <div className="aspect-[4/3] rounded-md bg-gradient-to-br from-[#3a372e] to-[#23211b]" />
+          <div className="aspect-[4/3] rounded-md bg-gradient-to-br from-[#4a4638] to-[#2a2820]" />
+          <div className="aspect-[4/3] rounded-md bg-gradient-to-br from-[#5a5443] to-[#312e24]" />
+        </div>
+        <div className="mt-2 flex items-center gap-1.5">{bar("w-10", "#d9a441", "h-1.5")}{bar("w-16", "rgba(255,255,255,0.25)", "h-1.5")}</div>
       </div>
-    </div>
-  );
-}
+    ),
+  },
+  {
+    name: "Michael Elbaz Law",
+    desc: "Counsel that reads like counsel — an editorial presence that wins trust before the first call.",
+    before: (
+      <div className="h-full w-full space-y-1.5 bg-[#e9ecf2] p-3">
+        <div className="flex items-center justify-between">
+          {bar("w-20", "#1f3864", "h-3")}
+          <div className="flex gap-1">{bar("w-6", "#8d99b3")}{bar("w-6", "#8d99b3")}{bar("w-6", "#8d99b3")}{bar("w-6", "#8d99b3")}{bar("w-6", "#8d99b3")}</div>
+        </div>
+        <div className="h-12 w-full rounded-sm bg-[#1f3864]/85 p-2">{bar("w-3/5", "#c9a227", "h-2.5")}<div className="mt-1">{bar("w-2/5", "#5a6f96", "h-2")}</div></div>
+        {bar("w-full", "#b9c1d2")}
+        {bar("w-full", "#b9c1d2")}
+        {bar("w-3/4", "#b9c1d2")}
+        <div className="flex gap-1.5 pt-0.5"><div className="h-8 flex-1 rounded-sm bg-[#ccd3e0]" /><div className="h-8 flex-1 rounded-sm bg-[#ccd3e0]" /></div>
+      </div>
+    ),
+    after: (
+      <div className="h-full w-full bg-[#FBFAF7] p-3" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <div className="flex items-center justify-between">
+          <span className="text-[9px] font-semibold tracking-[0.12em] text-[#14140f]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "11px" }}>
+            Michael Elbaz Law
+          </span>
+          <span className="rounded-full bg-[#14140f] px-2.5 py-0.5 text-[7px] font-semibold tracking-[0.14em] text-white uppercase">Consultation</span>
+        </div>
+        <p className="mt-3 text-[13px] leading-snug text-[#14140f]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "15px" }}>
+          Clarity, in your corner.
+        </p>
+        <div className="mt-1.5">{bar("w-3/4", "#dedbd2", "h-1.5")}</div>
+        <div className="mt-0.5">{bar("w-2/3", "#dedbd2", "h-1.5")}</div>
+        <div className="mt-2.5 flex gap-1.5">
+          <div className="flex-1 border-t border-[#14140f]/20 pt-1">{bar("w-3/4", "#14140f", "h-1.5")}<div className="mt-1">{bar("w-full", "#dedbd2", "h-1")}</div></div>
+          <div className="flex-1 border-t border-[#14140f]/20 pt-1">{bar("w-3/4", "#14140f", "h-1.5")}<div className="mt-1">{bar("w-full", "#dedbd2", "h-1")}</div></div>
+          <div className="flex-1 border-t border-[#14140f]/20 pt-1">{bar("w-3/4", "#14140f", "h-1.5")}<div className="mt-1">{bar("w-full", "#dedbd2", "h-1")}</div></div>
+        </div>
+      </div>
+    ),
+  },
+];
 
 function Transformations() {
-  const CASES = [
-    { name: "EcomForge", desc: "Storefront rebuilt around a single conversion path — checkout friction cut in half." },
-    { name: "FitPulse", desc: "A cluttered coaching site turned into one confident booking funnel." },
-    { name: "LuxeNest", desc: "Property listings elevated to an editorial browsing experience." },
-  ];
   return (
     <section className="bg-[#F5F5F3] px-6 pt-4 pb-20 text-[#111111]">
       <div className="mx-auto max-w-6xl">
@@ -419,9 +499,9 @@ function Transformations() {
             <Reveal key={c.name} delay={i * 0.08}>
               <div className="group">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-black/[0.07] bg-white shadow-[0_18px_44px_-28px_rgba(17,17,17,0.3)]">
-                  <MiniSite bad />
+                  {c.before}
                   <div className="absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-y-0">
-                    <MiniSite />
+                    {c.after}
                   </div>
                   <span
                     className="absolute top-2.5 left-2.5 rounded-full bg-black/60 px-2.5 py-1 text-[8px] tracking-[0.22em] text-white uppercase backdrop-blur transition-opacity duration-300 group-hover:opacity-0"
@@ -433,7 +513,7 @@ function Transformations() {
                     className="absolute top-2.5 left-2.5 rounded-full bg-[#1e6b3c] px-2.5 py-1 text-[8px] tracking-[0.22em] text-white uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                     style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
-                    After
+                    After — ELSIAA
                   </span>
                 </div>
                 <div className="mt-4 flex items-baseline justify-between">
