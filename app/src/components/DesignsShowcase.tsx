@@ -311,6 +311,276 @@ function DiscoverDesigns() {
   );
 }
 
+/* ---------------- 3b · discover apps — interactive phone face-off ---------------- */
+function PhoneShell({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mx-auto h-[540px] w-[264px] rounded-[38px] border-[6px] border-[#111111] bg-white shadow-[0_50px_110px_-45px_rgba(17,17,17,0.5)]">
+      <div className="relative h-full w-full overflow-hidden rounded-[32px]">
+        <div className="absolute top-2 left-1/2 z-20 h-5 w-24 -translate-x-1/2 rounded-full bg-[#111111]" />
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function AfterApp() {
+  const [tab, setTab] = useState(0);
+  const [added, setAdded] = useState(false);
+  return (
+    <div className="flex h-full flex-col bg-[#FBFBFA] pt-9" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <div className="flex items-center justify-between px-4 pb-2">
+        <span className="text-[12px] font-bold tracking-tight text-[#111111]">
+          Prime<span className="text-[#1e6b3c]">Bins</span>
+        </span>
+        <span className="rounded-full bg-[#1e6b3c] px-2.5 py-1 text-[8px] font-bold tracking-[0.12em] text-white uppercase">
+          Today $11
+        </span>
+      </div>
+      <div className="flex-1 overflow-hidden px-4">
+        {tab === 0 && (
+          <div className="space-y-2.5">
+            <p className="text-[17px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]">
+              The price drops
+              <br />
+              every day.
+            </p>
+            <div className="flex items-end gap-1">
+              {[14, 13, 12, 11, 10, 9].map((p, i) => (
+                <div key={p} className="flex flex-1 flex-col items-center gap-0.5">
+                  <span className={`text-[8px] font-bold ${i === 3 ? "text-[#1e6b3c]" : "text-black/45"}`}>${p}</span>
+                  <div className={`w-full rounded-t-sm ${i === 3 ? "bg-[#1e6b3c]" : "bg-black/[0.08]"}`} style={{ height: 46 - i * 6 }} />
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => setAdded(!added)}
+              className={`w-full rounded-full py-2.5 text-[10px] font-bold tracking-[0.16em] uppercase transition-all duration-300 ${
+                added ? "bg-[#1e6b3c] text-white" : "bg-[#111111] text-white active:scale-[0.98]"
+              }`}
+            >
+              {added ? "✓ Reminder set for $9 day" : "Remind me on $9 day"}
+            </button>
+            <div className="rounded-xl bg-white p-3 shadow-sm">
+              <p className="text-[10px] font-semibold text-[#111111]">Wilkes-Barre · open now</p>
+              <p className="mt-0.5 text-[9px] text-black/45">Fresh restock Saturday — 40 bins</p>
+            </div>
+          </div>
+        )}
+        {tab === 1 && (
+          <div className="space-y-2">
+            <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]">This week&rsquo;s bins</p>
+            {["Electronics", "Home & Kitchen", "Toys & Games"].map((c) => (
+              <div key={c} className="flex items-center justify-between rounded-xl bg-white p-3 shadow-sm">
+                <span className="text-[10px] font-semibold text-[#111111]">{c}</span>
+                <span className="text-[9px] font-bold text-[#1e6b3c]">$11</span>
+              </div>
+            ))}
+          </div>
+        )}
+        {tab === 2 && (
+          <div className="space-y-2.5">
+            <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]">Loyalty card</p>
+            <div className="rounded-xl bg-[#111111] p-3.5 text-white">
+              <p className="text-[9px] tracking-[0.2em] uppercase opacity-60">Member</p>
+              <p className="mt-2 text-[12px] font-semibold">4 digs → free mystery box</p>
+              <div className="mt-2 flex gap-1">
+                {[1, 1, 1, 1, 0, 0].map((f, i) => (
+                  <span key={i} className={`h-1.5 flex-1 rounded-full ${f ? "bg-[#2e9e58]" : "bg-white/20"}`} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="flex border-t border-black/[0.06] bg-white">
+        {["Home", "Bins", "Card"].map((t, i) => (
+          <button
+            key={t}
+            onClick={() => setTab(i)}
+            className={`flex-1 py-3 text-[9px] font-semibold tracking-[0.12em] uppercase transition-colors ${
+              tab === i ? "text-[#1e6b3c]" : "text-black/35"
+            }`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BeforeApp() {
+  const [tab, setTab] = useState(0);
+  return (
+    <div className="flex h-full flex-col bg-[#dfe4ea] pt-9" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <div className="bg-[#0B2447] px-3 py-2">
+        <p className="text-[11px] font-bold tracking-wide text-white">MR BINS OFFICIAL APP</p>
+        <p className="text-[8px] text-white/60">v2.3.1 — please update</p>
+      </div>
+      <div className="bg-[#FF8F52] px-3 py-1.5">
+        <p className="text-[8px] font-bold text-[#0B2447]">🔥🔥 HUGE SALE!!! CLICK HERE NOW!!! 🔥🔥</p>
+      </div>
+      <div className="flex-1 overflow-hidden px-3 pt-2">
+        {tab === 0 && (
+          <div className="space-y-1.5">
+            {["Home", "About Us", "Locations", "Pricing Info", "Loyalty Program", "Mystery Boxes", "Careers", "Contact Us", "FAQ", "Terms"].map((m) => (
+              <div key={m} className="flex items-center justify-between border-b border-black/10 bg-white px-2.5 py-1.5">
+                <span className="text-[9px] text-[#0B2447]">{m}</span>
+                <span className="text-[9px] text-black/30">›</span>
+              </div>
+            ))}
+          </div>
+        )}
+        {tab === 1 && (
+          <div className="space-y-1.5">
+            <div className="bg-white p-2">
+              <p className="text-[9px] leading-relaxed text-[#333]">
+                Welcome to the deals page. Deals are updated periodically. Check back
+                often for the latest deals and promotions. Terms and conditions apply
+                to all offers...
+              </p>
+            </div>
+            <div className="bg-[#c9d2dd] p-2 text-center">
+              <p className="text-[8px] text-black/50">[ banner advertisement ]</p>
+            </div>
+          </div>
+        )}
+        {tab === 2 && (
+          <div className="bg-white p-2.5">
+            <p className="text-[9px] font-bold text-[#0B2447]">LOGIN REQUIRED</p>
+            <p className="mt-1 text-[8px] leading-relaxed text-black/50">
+              Please create an account or log in to view your loyalty status. Password
+              must contain 12 characters...
+            </p>
+            <div className="mt-2 h-5 w-full border border-black/20 bg-[#f4f4f4]" />
+            <div className="mt-1.5 h-5 w-full border border-black/20 bg-[#f4f4f4]" />
+          </div>
+        )}
+      </div>
+      <div className="flex border-t border-black/15 bg-[#0B2447]">
+        {["Menu", "Deals", "Account"].map((t, i) => (
+          <button
+            key={t}
+            onClick={() => setTab(i)}
+            className={`flex-1 py-3 text-[9px] font-bold tracking-wide uppercase ${
+              tab === i ? "text-[#FF8F52]" : "text-white/50"
+            }`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DiscoverApps() {
+  const liveBadge = (
+    <div className="pointer-events-none absolute -top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
+      <span className="relative flex h-2 w-2">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+      </span>
+      <span className="text-[9px] font-semibold tracking-[0.22em] text-white uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+        Live — tap it
+      </span>
+    </div>
+  );
+  return (
+    <section className="bg-[#F5F5F3] px-6 pt-4 pb-24 text-[#111111]">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <p
+            className="text-center text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Discover apps
+          </p>
+          <h2
+            className="mx-auto mt-3 max-w-3xl text-center text-2xl font-semibold tracking-[-0.03em] md:text-4xl md:leading-[1.1]"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Your app lives on your customer&rsquo;s home screen.
+          </h2>
+          <p
+            className="mx-auto mt-3 max-w-xl text-center text-base text-[#111111]/50 md:text-xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Does it earn its place there?
+          </p>
+        </Reveal>
+
+        <div className="relative mt-14 grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-10">
+          <div className="pointer-events-none absolute top-[40%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
+            <span
+              className="flex h-16 w-16 items-center justify-center rounded-full border border-black/10 bg-white text-sm font-bold tracking-[0.1em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.35)]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              VS
+            </span>
+          </div>
+
+          <Reveal delay={0.05}>
+            <div className="relative mx-auto w-fit">
+              {liveBadge}
+              <div
+                className="pointer-events-none absolute top-6 -left-3 z-10 rounded-full bg-[#1e6b3c] px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white uppercase shadow-lg"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                After — ELSIAA
+              </div>
+              <div className="rounded-[44px] ring-4 ring-[#1e6b3c]/15">
+                <PhoneShell>
+                  <AfterApp />
+                </PhoneShell>
+              </div>
+            </div>
+            <ul className="mx-auto mt-6 max-w-xs space-y-2">
+              {[
+                "One glance answers the only question: today's price",
+                "The core action is a single thumb-tap away",
+                "Loyalty you can feel filling up",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-2.5 text-[13px] text-[#111111]/70" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[9px] font-bold text-white">✓</span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <Reveal delay={0.15}>
+            <div className="relative mx-auto w-fit opacity-[0.92] saturate-[0.85] transition-all duration-300 hover:opacity-100 hover:saturate-100">
+              {liveBadge}
+              <div
+                className="pointer-events-none absolute top-6 -left-3 z-10 rounded-full bg-black/55 px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white/85 uppercase shadow-lg backdrop-blur"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Before
+              </div>
+              <PhoneShell>
+                <BeforeApp />
+              </PhoneShell>
+            </div>
+            <ul className="mx-auto mt-6 max-w-xs space-y-2">
+              {[
+                "A menu of links where a product should be",
+                "The thing customers want is three taps deep",
+                "Shouting banners instead of a reason to return",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-2.5 text-[13px] text-[#111111]/45" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[9px] font-bold text-white">✕</span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------------- client trust wall ---------------- */
 function ClientLogos() {
   return (
@@ -764,6 +1034,7 @@ export function DesignsShowcase() {
       <Statement />
       <DiscoverDesigns />
       <Transformations />
+      <DiscoverApps />
       <ClientLogos />
       <BeyondWebsites />
       <Results />
