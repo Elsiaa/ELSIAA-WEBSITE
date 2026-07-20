@@ -94,6 +94,112 @@ function Tilt({ children }: { children: React.ReactNode }) {
   );
 }
 
+/* ---------------- lazy iframe — loads only when approaching viewport ---------------- */
+function LazyFrame({
+  src,
+  title,
+  interactive = true,
+}: {
+  src: string;
+  title: string;
+  interactive?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [load, setLoad] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (es) => es.forEach((e) => e.isIntersecting && (setLoad(true), io.disconnect())),
+      { rootMargin: "600px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className="h-full w-full">
+      {load ? (
+        <iframe
+          src={src}
+          title={title}
+          loading="lazy"
+          className={`origin-top-left ${interactive ? "" : "pointer-events-none"}`}
+          style={{ width: "200%", height: "200%", transform: "scale(0.5)", border: "0" }}
+        />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center bg-[#ECECEA]">
+          <span
+            className="text-[10px] tracking-[0.3em] text-black/30 uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Loading live site…
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ---------------- drag-to-compare: ELSIAA design wipes over the original ---------------- */
+function CompareSlider() {
+  const [pct, setPct] = useState(50);
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const dragging = useRef(false);
+  const move = (clientX: number) => {
+    const r = boxRef.current?.getBoundingClientRect();
+    if (!r) return;
+    setPct(Math.min(96, Math.max(4, ((clientX - r.left) / r.width) * 100)));
+  };
+  return (
+    <Reveal delay={0.1}>
+      <div className="mx-auto mt-16 hidden max-w-5xl lg:block">
+        <p
+          className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 uppercase"
+          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          Feel it yourself — drag the line
+        </p>
+        <div
+          ref={boxRef}
+          className="relative mt-6 aspect-[16/9] cursor-ew-resize touch-none overflow-hidden rounded-2xl border border-black/10 shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)] select-none"
+          onPointerDown={(e) => {
+            dragging.current = true;
+            (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+            move(e.clientX);
+          }}
+          onPointerMove={(e) => dragging.current && move(e.clientX)}
+          onPointerUp={() => (dragging.current = false)}
+        >
+          <div className="absolute inset-0">
+            <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins original — compare" interactive={false} />
+          </div>
+          <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
+            <LazyFrame src="https://primebins.com" title="Prime Bins by ELSIAA — compare" interactive={false} />
+          </div>
+          <div className="pointer-events-none absolute top-0 bottom-0" style={{ left: `${pct}%` }}>
+            <div className="absolute top-0 bottom-0 -left-px w-0.5 bg-white shadow-[0_0_12px_rgba(0,0,0,0.5)]" />
+            <div className="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_-6px_rgba(17,17,17,0.5)]">
+              <span className="text-[13px] font-bold text-[#111111]">⇔</span>
+            </div>
+          </div>
+          <span
+            className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-[#1e6b3c] px-3 py-1 text-[9px] font-bold tracking-[0.2em] text-white uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            ELSIAA
+          </span>
+          <span
+            className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-black/55 px-3 py-1 text-[9px] font-bold tracking-[0.2em] text-white/85 uppercase backdrop-blur"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Original
+          </span>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
 /* ---------------- 1 · statement ---------------- */
 function Statement() {
   return (
@@ -138,7 +244,35 @@ function Statement() {
 }
 
 /* ---------------- 2 · discover designs — the hero comparison ---------------- */
+function SideToggle({
+  side,
+  setSide,
+}: {
+  side: "after" | "before";
+  setSide: (s: "after" | "before") => void;
+}) {
+  return (
+    <div className="mt-8 flex justify-center lg:hidden">
+      <div className="flex rounded-full border border-black/10 bg-white p-1 shadow-sm">
+        {(["after", "before"] as const).map((k) => (
+          <button
+            key={k}
+            onClick={() => setSide(k)}
+            className={`rounded-full px-5 py-2 text-[10px] font-bold tracking-[0.2em] uppercase transition-all ${
+              side === k ? (k === "after" ? "bg-[#1e6b3c] text-white" : "bg-[#111111] text-white") : "text-black/45"
+            }`}
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {k === "after" ? "After — ELSIAA" : "Before"}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function DiscoverDesigns() {
+  const [side, setSide] = useState<"after" | "before">("after");
   return (
     <section id="discover-designs" className="bg-[#F5F5F3] px-6 py-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
@@ -163,6 +297,7 @@ function DiscoverDesigns() {
             What kind of impression are you making?
           </p>
         </Reveal>
+        <SideToggle side={side} setSide={setSide} />
 
         <div className="relative mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
           <div className="pointer-events-none absolute top-[38%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
@@ -173,7 +308,7 @@ function DiscoverDesigns() {
               VS
             </span>
           </div>
-          <Reveal delay={0.05}>
+          <Reveal delay={0.05} className={`${side === "after" ? "block" : "hidden"} lg:block`}>
             <figure className="relative overflow-hidden rounded-2xl border-2 border-[#1e6b3c] bg-white shadow-[0_60px_130px_-45px_rgba(30,107,60,0.55)] ring-4 ring-[#1e6b3c]/10 transition-transform duration-300 hover:scale-[1.01]">
               <div
                 className="pointer-events-none absolute top-14 left-4 z-10 rounded-full bg-[#1e6b3c] px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white uppercase shadow-lg"
@@ -204,13 +339,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[560px] overflow-hidden md:h-[76svh]">
-                <iframe
-                  src="https://primebins.com"
-                  title="Prime Bins — designed by ELSIAA (live site)"
-                  loading="lazy"
-                  className="origin-top-left"
-                  style={{ width: "200%", height: "200%", transform: "scale(0.5)", border: "0" }}
-                />
+                <LazyFrame src="https://primebins.com" title="Prime Bins — designed by ELSIAA (live site)" />
               </div>
             </figure>
             <div className="mt-3.5 flex items-baseline justify-between">
@@ -238,7 +367,7 @@ function DiscoverDesigns() {
             </ul>
           </Reveal>
 
-          <Reveal delay={0.15}>
+          <Reveal delay={0.15} className={`${side === "before" ? "block" : "hidden"} lg:block`}>
             <figure className="relative overflow-hidden rounded-2xl border border-black/10 bg-[#0B2447] opacity-[0.92] shadow-[0_40px_90px_-50px_rgba(17,17,17,0.4)] saturate-[0.85] transition-all duration-300 hover:opacity-100 hover:saturate-100">
               <div
                 className="pointer-events-none absolute top-14 left-4 z-10 rounded-full bg-black/55 px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white/85 uppercase shadow-lg backdrop-blur"
@@ -269,13 +398,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[560px] overflow-hidden md:h-[76svh]">
-                <iframe
-                  src="https://isya-stack.github.io/mr-bins-website-/"
-                  title="Mr. Bins — original website (live site)"
-                  loading="lazy"
-                  className="origin-top-left"
-                  style={{ width: "200%", height: "200%", transform: "scale(0.5)", border: "0" }}
-                />
+                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — original website (live site)" />
               </div>
             </figure>
             <div className="mt-3.5 flex items-baseline justify-between">
@@ -475,6 +598,7 @@ function BeforeApp() {
 }
 
 function DiscoverApps() {
+  const [side, setSide] = useState<"after" | "before">("after");
   const liveBadge = (
     <div className="pointer-events-none absolute -top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
       <span className="relative flex h-2 w-2">
@@ -509,6 +633,7 @@ function DiscoverApps() {
             Does it earn its place there?
           </p>
         </Reveal>
+        <SideToggle side={side} setSide={setSide} />
 
         <div className="relative mt-14 grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-10">
           <div className="pointer-events-none absolute top-[40%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
@@ -520,7 +645,7 @@ function DiscoverApps() {
             </span>
           </div>
 
-          <Reveal delay={0.05}>
+          <Reveal delay={0.05} className={`${side === "after" ? "block" : "hidden"} lg:block`}>
             <div className="relative mx-auto w-fit">
               {liveBadge}
               <div
@@ -549,7 +674,7 @@ function DiscoverApps() {
             </ul>
           </Reveal>
 
-          <Reveal delay={0.15}>
+          <Reveal delay={0.15} className={`${side === "before" ? "block" : "hidden"} lg:block`}>
             <div className="relative mx-auto w-fit opacity-[0.92] saturate-[0.85] transition-all duration-300 hover:opacity-100 hover:saturate-100">
               {liveBadge}
               <div
