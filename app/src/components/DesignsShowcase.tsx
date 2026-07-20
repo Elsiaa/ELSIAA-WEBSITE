@@ -119,14 +119,14 @@ function Statement() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
           <a
             href="#discover-designs"
-            className="border border-[#111111] bg-[#111111] px-8 py-3 text-[11px] tracking-[0.28em] text-white uppercase transition-all duration-300 hover:bg-[#1e6b3c] hover:border-[#1e6b3c]"
+            className="rounded-full border border-[#111111] bg-[#111111] px-8 py-3.5 text-[11px] tracking-[0.28em] text-white uppercase transition-all duration-300 hover:bg-[#1e6b3c] hover:border-[#1e6b3c]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Explore our work
           </a>
           <a
             href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
-            className="border border-[#111111]/25 px-8 py-3 text-[11px] tracking-[0.28em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+            className="rounded-full border border-[#111111]/25 px-8 py-3.5 text-[11px] tracking-[0.28em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Start your project
@@ -150,16 +150,35 @@ function DiscoverDesigns() {
             Discover designs
           </p>
           <h2
-            className="mx-auto mt-4 max-w-2xl text-center text-4xl font-semibold tracking-[-0.03em] md:text-6xl"
+            className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.03em] md:text-5xl md:leading-[1.08]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Same business. Different league.
+            Your website is where potential customers see your business for the first
+            time.
           </h2>
+          <p
+            className="mx-auto mt-5 max-w-xl text-center text-lg text-white/50 md:text-2xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            What kind of impression are you making?
+          </p>
         </Reveal>
 
         <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2">
           <Reveal delay={0.05}>
-            <figure className="overflow-hidden rounded-2xl border border-[#2e9e58]/40 bg-white shadow-[0_40px_100px_-40px_rgba(46,158,88,0.4)]">
+            <figure className="overflow-hidden rounded-2xl border border-[#2e9e58]/35 bg-white shadow-[0_40px_100px_-40px_rgba(46,158,88,0.35)]">
+              <div className="flex items-center gap-2 border-b border-black/10 bg-[#F0F0EE] px-4 py-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#E5695E]" />
+                <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
+                <span className="h-2 w-2 rounded-full bg-[#57A85C]" />
+                <span
+                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[9px] tracking-[0.08em] text-black/45"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  primebins.com
+                </span>
+                <span className="h-2 w-6" />
+              </div>
               <div className="h-[520px] overflow-hidden md:h-[600px]">
                 <iframe
                   src="https://primebins.com"
@@ -184,7 +203,19 @@ function DiscoverDesigns() {
           </Reveal>
 
           <Reveal delay={0.15}>
-            <figure className="overflow-hidden rounded-2xl border border-white/10 bg-[#0B2447] shadow-[0_40px_100px_-48px_rgba(0,0,0,0.9)]">
+            <figure className="overflow-hidden rounded-2xl border border-white/10 bg-[#0B2447] shadow-[0_40px_100px_-48px_rgba(0,0,0,0.85)]">
+              <div className="flex items-center gap-2 border-b border-black/10 bg-[#F0F0EE] px-4 py-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#E5695E]" />
+                <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
+                <span className="h-2 w-2 rounded-full bg-[#57A85C]" />
+                <span
+                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[9px] tracking-[0.08em] text-black/45"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  mr-bins · original
+                </span>
+                <span className="h-2 w-6" />
+              </div>
               <div className="h-[520px] overflow-hidden md:h-[600px]">
                 <iframe
                   src="https://isya-stack.github.io/mr-bins-website-/"
@@ -210,13 +241,13 @@ function DiscoverDesigns() {
         </div>
 
         <Reveal delay={0.1}>
-          <div className="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-x-10 gap-y-4 sm:grid-cols-3">
+          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-y-8 divide-black/0 sm:grid-cols-3 sm:divide-x sm:divide-white/10 sm:gap-y-0">
             {[
               ["Hierarchy", "One message per screen — the offer is understood in three seconds."],
-              ["Conversion", "Price-drop ladder made visual; the CTA is always the next obvious step."],
+              ["Conversion", "Every scroll ends at the next obvious step; nothing competes with the sale."],
               ["Restraint", "Two typefaces, one accent, room to breathe — premium reads as trust."],
             ].map(([t, d]) => (
-              <div key={t}>
+              <div key={t} className="sm:px-8 sm:first:pl-0 sm:last:pr-0">
                 <p
                   className="text-[10px] tracking-[0.28em] text-[#2e9e58] uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -235,7 +266,7 @@ function DiscoverDesigns() {
           <div className="mt-16 text-center">
             <a
               href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
-              className="group inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-9 py-3.5 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
+              className="group inline-flex items-center gap-3 rounded-full border border-[#F5F5F3]/25 px-9 py-3.5 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Discover more
@@ -290,7 +321,7 @@ function Transformations() {
     { name: "LuxeNest", desc: "Property listings elevated to an editorial browsing experience." },
   ];
   return (
-    <section className="bg-white px-6 py-28">
+    <section className="border-t border-black/[0.06] bg-white px-6 py-28">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
