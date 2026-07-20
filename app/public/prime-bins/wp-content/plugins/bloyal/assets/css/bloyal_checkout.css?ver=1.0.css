@@ -1,0 +1,47 @@
+input.pickuplocations {
+
+	float: left;
+
+}
+
+
+
+li.bLoyal-list-container {
+
+	list-style-type: none!important;
+
+}
+
+
+
+.pickup_location_label{
+
+	font-weight:400;
+
+}
+
+
+
+input[type="button"], input + input[type="submit"] {
+
+	padding: 1em 2em!important;
+
+	margin:10px 0px 0px 0px;
+
+}
+
+
+
+.woocommerce-cart-form .button {
+
+	margin-top: 0px;
+
+}
+
+
+
+#dialog .center p {
+
+	color: #000;
+
+}

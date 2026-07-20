@@ -124,6 +124,7 @@ function LazyFrame({
     <div ref={ref} className="h-full w-full">
       {load ? (
         <iframe
+          ref={(el) => onFrame?.(el)}
           src={src}
           title={title}
           loading="lazy"
@@ -456,6 +457,64 @@ function SideToggle({
 
 function DiscoverDesigns() {
   const [side, setSide] = useState<"after" | "before">("after");
+  const leftFrame = useRef<HTMLIFrameElement | null>(null);
+  const rightFrame = useRef<HTMLIFrameElement | null>(null);
+
+  useEffect(() => {
+    let cleanup: (() => void) | null = null;
+    const iv = window.setInterval(() => {
+      const L = leftFrame.current;
+      const R = rightFrame.current;
+      if (!L || !R) return;
+      let lDoc: Document | null = null;
+      let rDoc: Document | null = null;
+      try {
+        lDoc = L.contentDocument;
+        rDoc = R.contentDocument;
+      } catch {
+        return;
+      }
+      if (!lDoc?.documentElement || !rDoc?.documentElement) return;
+      if ((lDoc.readyState !== "complete" && lDoc.readyState !== "interactive") || (rDoc.readyState !== "complete" && rDoc.readyState !== "interactive")) return;
+      window.clearInterval(iv);
+
+      let lock: "L" | "R" | null = null;
+      let unlockT = 0;
+      const range = (d: Document, w: Window) =>
+        Math.max(1, d.documentElement.scrollHeight - w.innerHeight);
+      const follow = (
+        srcW: Window,
+        srcD: Document,
+        dstW: Window,
+        dstD: Document,
+        tag: "L" | "R",
+      ) => {
+        const h = () => {
+          const now = performance.now();
+          if (lock && lock !== tag && now < unlockT) return;
+          lock = tag;
+          unlockT = now + 120;
+          const p = srcW.scrollY / range(srcD, srcW);
+          dstW.scrollTo(0, p * range(dstD, dstW));
+        };
+        srcW.addEventListener("scroll", h, { passive: true });
+        return () => srcW.removeEventListener("scroll", h);
+      };
+      const lw = L.contentWindow!;
+      const rw = R.contentWindow!;
+      const offL = follow(lw, lDoc, rw, rDoc, "L");
+      const offR = follow(rw, rDoc, lw, lDoc, "R");
+      cleanup = () => {
+        offL();
+        offR();
+      };
+    }, 600);
+    return () => {
+      window.clearInterval(iv);
+      cleanup?.();
+    };
+  }, []);
+
   return (
     <section id="discover-designs" className="bg-[#F5F5F3] px-6 pt-20 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
@@ -521,7 +580,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[540px] overflow-hidden md:h-[68svh]">
-                <LazyFrame src="https://primebins.com" title="Prime Bins — the original website, live" />
+                <LazyFrame src="/prime-bins/" title="Prime Bins — the original website, live" onFrame={(el) => (leftFrame.current = el)} />
               </div>
             </figure>
             <ul className="mx-auto mt-5 max-w-md space-y-2">
@@ -573,7 +632,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[540px] overflow-hidden md:h-[68svh]">
-                <LazyFrame src="/mr-bins/" title="Mr. Bins — rebuilt by ELSIAA, live" />
+                <LazyFrame src="/mr-bins/" title="Mr. Bins — rebuilt by ELSIAA, live" onFrame={(el) => (rightFrame.current = el)} />
               </div>
             </figure>
             <ul className="mx-auto mt-5 max-w-md space-y-2">
