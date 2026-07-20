@@ -171,10 +171,10 @@ function CompareSlider() {
           onPointerUp={() => (dragging.current = false)}
         >
           <div className="absolute inset-0">
-            <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins original — compare" interactive={false} />
+            <LazyFrame src="https://primebins.com" title="Prime Bins original — compare" interactive={false} />
           </div>
           <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
-            <LazyFrame src="https://primebins.com" title="Prime Bins by ELSIAA — compare" interactive={false} />
+            <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins by ELSIAA — compare" interactive={false} />
           </div>
           <div className="pointer-events-none absolute top-0 bottom-0" style={{ left: `${pct}%` }}>
             <div className="absolute top-0 bottom-0 -left-px w-0.5 bg-white shadow-[0_0_12px_rgba(0,0,0,0.5)]" />
@@ -374,67 +374,8 @@ function DiscoverDesigns() {
               VS
             </span>
           </div>
-          <Reveal delay={0.05} className={`${side === "after" ? "block" : "hidden"} lg:block`}>
-            <figure className="relative overflow-hidden rounded-2xl border-2 border-[#1e6b3c] bg-white shadow-[0_60px_130px_-45px_rgba(30,107,60,0.55)] ring-4 ring-[#1e6b3c]/10 transition-transform duration-300 hover:scale-[1.01]">
-              <div
-                className="pointer-events-none absolute top-14 left-4 z-10 rounded-full bg-[#1e6b3c] px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white uppercase shadow-lg"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                After — ELSIAA
-              </div>
-              <div className="pointer-events-none absolute top-14 right-4 z-10 flex items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-                </span>
-                <span className="text-[9px] font-semibold tracking-[0.22em] text-white uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                  Live — scroll &amp; click
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2 border-b border-black/10 bg-[#F0F0EE] px-4 py-2.5">
-                <span className="h-2 w-2 rounded-full bg-[#E5695E]" />
-                <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
-                <span className="h-2 w-2 rounded-full bg-[#57A85C]" />
-                <span
-                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[9px] tracking-[0.08em] text-black/45"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
-                  primebins.com
-                </span>
-                <span className="h-2 w-6" />
-              </div>
-              <div className="h-[560px] overflow-hidden md:h-[76svh]">
-                <LazyFrame src="https://primebins.com" title="Prime Bins — designed by ELSIAA (live site)" />
-              </div>
-            </figure>
-            <div className="mt-3.5 flex items-baseline justify-between">
-              <span className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Prime Bins
-              </span>
-              <span
-                className="text-[10px] tracking-[0.26em] text-[#1e6b3c] uppercase"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                Designed by ELSIAA · fully interactive
-              </span>
-            </div>
-            <ul className="mt-4 space-y-2">
-              {[
-                "The offer is understood in three seconds",
-                "Every scroll ends at the next obvious step",
-                "Premium restraint — design that earns trust",
-              ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[13px] text-[#111111]/70" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[9px] font-bold text-white">✓</span>
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-
-          <Reveal delay={0.15} className={`${side === "before" ? "block" : "hidden"} lg:block`}>
-            <figure className="relative overflow-hidden rounded-2xl border border-black/10 bg-[#0B2447] opacity-[0.92] shadow-[0_40px_90px_-50px_rgba(17,17,17,0.4)] saturate-[0.85] transition-all duration-300 hover:opacity-100 hover:saturate-100">
+          <Reveal delay={0.05} className={`${side === "before" ? "block" : "hidden"} lg:block`}>
+            <figure className="relative overflow-hidden rounded-2xl border border-black/10 bg-white opacity-[0.92] saturate-[0.85] shadow-[0_40px_90px_-50px_rgba(17,17,17,0.4)] transition-all duration-300 hover:opacity-100 hover:saturate-100">
               <div
                 className="pointer-events-none absolute top-14 left-4 z-10 rounded-full bg-black/55 px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white/85 uppercase shadow-lg backdrop-blur"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -459,17 +400,17 @@ function DiscoverDesigns() {
                   className="mx-auto rounded-md bg-white px-4 py-0.5 text-[9px] tracking-[0.08em] text-black/45"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  mr-bins · original
+                  primebins.com · original
                 </span>
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[560px] overflow-hidden md:h-[76svh]">
-                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — original website (live site)" />
+                <LazyFrame src="https://primebins.com" title="Prime Bins — original website (live site)" />
               </div>
             </figure>
             <div className="mt-3.5 flex items-baseline justify-between">
               <span className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Mr. Bins
+                Prime Bins
               </span>
               <span
                 className="text-[10px] tracking-[0.26em] text-[#111111]/40 uppercase"
@@ -491,7 +432,68 @@ function DiscoverDesigns() {
               ))}
             </ul>
           </Reveal>
+
+          <Reveal delay={0.15} className={`${side === "after" ? "block" : "hidden"} lg:block`}>
+            <figure className="relative overflow-hidden rounded-2xl border-2 border-[#1e6b3c] bg-[#0B2447] shadow-[0_60px_130px_-45px_rgba(30,107,60,0.55)] ring-4 ring-[#1e6b3c]/10 transition-transform duration-300 hover:scale-[1.01]">
+              <div
+                className="pointer-events-none absolute top-14 left-4 z-10 rounded-full bg-[#1e6b3c] px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white uppercase shadow-lg"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                After — ELSIAA
+              </div>
+              <div className="pointer-events-none absolute top-14 right-4 z-10 flex items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+                </span>
+                <span className="text-[9px] font-semibold tracking-[0.22em] text-white uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  Live — scroll &amp; click
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2 border-b border-black/10 bg-[#F0F0EE] px-4 py-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#E5695E]" />
+                <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
+                <span className="h-2 w-2 rounded-full bg-[#57A85C]" />
+                <span
+                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[9px] tracking-[0.08em] text-black/45"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  mr. bins · by ELSIAA
+                </span>
+                <span className="h-2 w-6" />
+              </div>
+              <div className="h-[560px] overflow-hidden md:h-[76svh]">
+                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — designed by ELSIAA (live site)" />
+              </div>
+            </figure>
+            <div className="mt-3.5 flex items-baseline justify-between">
+              <span className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+                Mr. Bins
+              </span>
+              <span
+                className="text-[10px] tracking-[0.26em] text-[#1e6b3c] uppercase"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Designed by ELSIAA · fully interactive
+              </span>
+            </div>
+            <ul className="mt-4 space-y-2">
+              {[
+                "The offer is understood in three seconds",
+                "Every scroll ends at the next obvious step",
+                "Premium restraint — design that earns trust",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-2.5 text-[13px] text-[#111111]/70" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[9px] font-bold text-white">✓</span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
+
+        <CompareSlider />
 
 
 
