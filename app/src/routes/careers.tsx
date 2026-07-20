@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 
 export const Route = createFileRoute("/careers")({
@@ -9,10 +9,10 @@ export const Route = createFileRoute("/careers")({
       {
         name: "description",
         content:
-          "Build the empire with us. ELSIAA hires builders — engineers, designers, and growth partners who treat every detail like it matters. Because it does.",
+          "We are hiring. Designers, engineers, and sales — pick your door and apply in under a minute.",
       },
       { property: "og:title", content: "Careers — ELSIAA" },
-      { property: "og:description", content: "Build the empire with us." },
+      { property: "og:description", content: "We are hiring. Press one." },
       { property: "og:image", content: "/assets/og_cover.png" },
     ],
   }),
@@ -29,24 +29,18 @@ function Reveal({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
+  const [on, setOn] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.style.opacity = "1";
-      el.style.transform = "none";
-      return;
-    }
     const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries)
-          if (e.isIntersecting) {
-            el.style.opacity = "1";
-            el.style.transform = "none";
-            io.disconnect();
-          }
+      ([e]) => {
+        if (e.isIntersecting) {
+          setOn(true);
+          io.disconnect();
+        }
       },
-      { threshold: 0.14 },
+      { threshold: 0.15 },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -56,9 +50,9 @@ function Reveal({
       ref={ref}
       className={className}
       style={{
-        opacity: 0,
-        transform: "translateY(32px)",
-        transition: `opacity .9s cubic-bezier(.22,.61,.36,1) ${delay}s, transform .9s cubic-bezier(.22,.61,.36,1) ${delay}s`,
+        opacity: on ? 1 : 0,
+        transform: on ? "none" : "translateY(26px)",
+        transition: `opacity 0.9s cubic-bezier(0.2,0.65,0.25,1) ${delay}s, transform 0.9s cubic-bezier(0.2,0.65,0.25,1) ${delay}s`,
       }}
     >
       {children}
@@ -66,271 +60,316 @@ function Reveal({
   );
 }
 
-const VALUES = [
-  {
-    title: "Every detail, like Rome.",
-    body: "We build like an empire — corporate scale, artisan care. If a pixel, a sentence, or a handoff isn't right, it isn't done.",
-  },
-  {
-    title: "Build first.",
-    body: "We don't produce plans about work. We produce work. Ideas earn respect here by shipping.",
-  },
-  {
-    title: "Growth is the deal.",
-    body: "We invest in training, mentorship, and real responsibility early. Perform, and the role grows with you — that's written into how we hire.",
-  },
-  {
-    title: "Everywhere at once.",
-    body: "Antwerp, Geneva, London, Tel Aviv, New York, Los Angeles. Remote-first, standard-uniform: excellent from anywhere.",
-  },
-];
-
 const ROLES = [
   {
-    num: "01",
-    cat: "Engineering",
-    name: "AI Engineer",
-    type: "Remote · Project & full-time tracks",
-    blurb:
-      "Build the systems our clients pay for — automations, integrations, and custom software with AI at the core. You ship fast and you ship clean.",
-    points: [
-      "LLM integrations, agents, and data pipelines",
-      "Full-stack comfort (we use React, TypeScript, and whatever wins)",
-      "You've built things that real people use",
-    ],
+    key: "Designers",
+    img: "/assets/work_illustration.jpg",
+    line: "Taste is the job. You see the pixel that's wrong from across the room.",
   },
   {
-    num: "02",
-    cat: "Design",
-    name: "Product Designer",
-    type: "Remote · Portfolio-first",
-    blurb:
-      "You've seen our designs page — that's the bar. Websites, apps, and brand systems that make cautious business owners feel something.",
-    points: [
-      "Web and mobile design with taste and restraint",
-      "Motion literacy — you think in transitions",
-      "A portfolio that argues for itself",
-    ],
+    key: "Engineers",
+    img: "/assets/laptop_premium_v1.jpg",
+    line: "You ship. Clean systems, real products, no excuses between you and live.",
   },
   {
-    num: "03",
-    cat: "Growth",
-    name: "Growth & Marketing Partner",
-    type: "Remote · Commission with growth path",
-    blurb:
-      "Bring ELSIAA to businesses that need us. Commission-based with real upside, hands-on training from leadership, and a written path to a bigger seat.",
-    points: [
-      "Content, campaigns, and direct client generation",
-      "Trained personally in AI, sales, and strategy",
-      "Compensation scales with the clients you bring",
-    ],
+    key: "Sales",
+    img: "/assets/work_ad.jpg",
+    line: "You open doors and keep promises. The empire grows through you.",
   },
-  {
-    num: "04",
-    cat: "Leadership",
-    name: "Regional Business Director",
-    type: "By city · Relationship-driven",
-    blurb:
-      "Own ELSIAA's presence in your market the way our directors do in Europe and California — the face of the company where you live.",
-    points: [
-      "Build and hold client relationships in your region",
-      "Local network, global product behind you",
-      "Entrepreneurial seat inside a growing company",
-    ],
-  },
-];
+] as const;
+
+type RoleKey = (typeof ROLES)[number]["key"];
 
 function Careers() {
+  const [role, setRole] = useState<RoleKey | null>(null);
+  const [first, setFirst] = useState("");
+  const [last, setLast] = useState("");
+  const [number, setNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [resumeName, setResumeName] = useState<string | null>(null);
+  const [dragOver, setDragOver] = useState(false);
+  const [toast, setToast] = useState(false);
+  const formRef = useRef<HTMLDivElement | null>(null);
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
+  const scrollToForm = () => {
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const ready = first.trim() && last.trim() && number.trim() && email.trim() && role;
+
+  const complete = () => {
+    if (!ready) return;
+    const subject = encodeURIComponent(`Application — ${role} · ${first} ${last}`);
+    const body = encodeURIComponent(
+      `New application for ELSIAA\n\nRole: ${role}\nName: ${first} ${last}\nPhone: ${number}\nEmail: ${email}\nResume: ${resumeName ?? "attach to this email"}\n\n(Please attach your resume to this email before sending.)`,
+    );
+    window.location.href = `mailto:isya@elsiaa.com?subject=${subject}&body=${body}`;
+    setToast(true);
+    window.setTimeout(() => setToast(false), 5000);
+  };
+
+  const onFile = (f: File | undefined | null) => {
+    if (f) setResumeName(f.name);
+  };
+
   return (
-    <main className="bg-white text-[#111111] antialiased">
+    <main className="min-h-screen bg-[#F5F5F3] text-[#111111]">
       <SiteNav />
 
-      {/* hero */}
-      <section className="flex min-h-[62svh] flex-col items-center justify-center bg-gradient-to-b from-white to-[#F5F5F3] px-6 pt-28 pb-16 text-center">
-        <Reveal>
-          <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            Careers at ELSIAA
-          </p>
-          <h1
-            className="mx-auto mt-4 max-w-4xl text-5xl font-semibold tracking-[-0.04em] md:text-8xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Build the empire.
-          </h1>
-          <p
-            className="mx-auto mt-6 max-w-xl text-lg text-[#111111]/50 md:text-xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            We hire builders — people who treat every detail like it matters.
-            Because here, it does.
-          </p>
-        </Reveal>
-      </section>
+      {/* ---- hero: background in use + we are hiring + press one ---- */}
+      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-6 pt-24 pb-16">
+        <div className="absolute inset-0">
+          <img
+            src="/assets/office_premium_v1.jpg"
+            alt=""
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0c0f0d]/85 via-[#0c0f0d]/70 to-[#F5F5F3]" />
+        </div>
 
-      {/* values */}
-      <section className="bg-[#F5F5F3] px-6 pb-20">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {VALUES.map((v, i) => (
-            <Reveal key={v.title} delay={i * 0.06}>
-              <div className="border-t border-black/10 pt-5">
-                <h3
-                  className="text-lg font-semibold tracking-[-0.02em]"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+        <div className="relative z-10 mx-auto w-full max-w-6xl text-center">
+          <Reveal>
+            <p
+              className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Careers
+            </p>
+            <h1
+              className="mt-4 text-5xl font-semibold tracking-[-0.04em] text-white md:text-7xl"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              We are hiring.
+            </h1>
+            <p
+              className="mt-3 text-base text-white/60 md:text-lg"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Press one.
+            </p>
+          </Reveal>
+
+          {/* ---- the three doors ---- */}
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-3">
+            {ROLES.map((r, i) => (
+              <Reveal key={r.key} delay={0.08 * i}>
+                <button
+                  onClick={() => setRole(r.key)}
+                  className={`group relative w-full overflow-hidden rounded-2xl border-2 text-left transition-all duration-300 ${
+                    role === r.key
+                      ? "border-[#2e9e58] shadow-[0_30px_70px_-30px_rgba(46,158,88,0.65)]"
+                      : "border-white/10 hover:border-white/35"
+                  }`}
                 >
-                  {v.title}
-                </h3>
-                <p
-                  className="mt-2.5 text-[14px] leading-relaxed text-[#111111]/55"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
-                  {v.body}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+                  <div className="aspect-[4/3] overflow-hidden bg-[#111]">
+                    <img
+                      src={r.img}
+                      alt={r.key}
+                      className={`h-full w-full object-cover transition-all duration-700 ${
+                        role === r.key ? "scale-[1.04]" : "opacity-80 group-hover:opacity-100"
+                      }`}
+                    />
+                  </div>
+                  <div className="bg-[#0c0f0d]/90 p-5 backdrop-blur">
+                    <div className="flex items-center justify-between">
+                      <h2
+                        className="text-lg font-semibold tracking-[-0.02em] text-white"
+                        style={{ fontFamily: "'Inter', sans-serif" }}
+                      >
+                        {r.key}
+                      </h2>
+                      <span
+                        className={`flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold transition-all duration-300 ${
+                          role === r.key
+                            ? "bg-[#2e9e58] text-white"
+                            : "border border-white/25 text-transparent"
+                        }`}
+                      >
+                        ✓
+                      </span>
+                    </div>
+                    <p
+                      className="mt-1.5 text-[13px] leading-relaxed text-white/50"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {r.line}
+                    </p>
+                  </div>
+                </button>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={0.2}>
+            <button
+              onClick={scrollToForm}
+              className={`mt-10 inline-flex items-center gap-2 rounded-full px-10 py-4 text-[12px] font-bold tracking-[0.22em] uppercase transition-all duration-300 ${
+                role
+                  ? "bg-[#2e9e58] text-white shadow-[0_20px_50px_-16px_rgba(46,158,88,0.7)] hover:bg-[#1e6b3c]"
+                  : "border border-white/30 text-white/70 hover:border-white hover:text-white"
+              }`}
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Apply <span aria-hidden>→</span>
+            </button>
+          </Reveal>
         </div>
       </section>
 
-      {/* roles */}
-      <section className="bg-[#F5F5F3] px-6 pb-24">
-        <div className="mx-auto max-w-6xl">
+      {/* ---- the application: perfect, easy, fast ---- */}
+      <section ref={formRef} className="px-6 pt-8 pb-28">
+        <div className="mx-auto max-w-xl">
           <Reveal>
             <p
               className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Open roles
+              The application
             </p>
             <h2
-              className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
+              className="mt-3 text-3xl font-semibold tracking-[-0.035em] md:text-4xl"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              Pick your seat.
+              One minute. Nothing else.
             </h2>
-          </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-            {ROLES.map((r, i) => (
-              <Reveal key={r.num} delay={(i % 2) * 0.08}>
-                <div className="group flex h-full flex-col rounded-2xl border border-black/[0.06] bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_28px_70px_-32px_rgba(30,107,60,0.35)]">
-                  <div className="flex items-baseline justify-between">
-                    <p
-                      className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                    >
-                      {r.cat}
-                    </p>
-                    <span
-                      className="text-2xl font-semibold text-black/[0.12] transition-colors duration-300 group-hover:text-[#1e6b3c]/25"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
-                      {r.num}
-                    </span>
-                  </div>
-                  <h3
-                    className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-3xl"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
-                  >
-                    {r.name}
-                  </h3>
-                  <p
-                    className="mt-1 text-[11px] tracking-[0.18em] text-[#111111]/40 uppercase"
-                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                  >
-                    {r.type}
-                  </p>
-                  <p
-                    className="mt-3 text-[15px] leading-relaxed text-[#111111]/55"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
-                  >
-                    {r.blurb}
-                  </p>
-                  <ul className="mt-5 space-y-2.5">
-                    {r.points.map((pt) => (
-                      <li
-                        key={pt}
-                        className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70"
-                        style={{ fontFamily: "'Inter', sans-serif" }}
-                      >
-                        <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[9px] font-bold text-white">
-                          ✓
-                        </span>
-                        {pt}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-auto pt-7">
-                    <a
-                      href={`mailto:isya@elsiaa.com?subject=Application%20—%20${encodeURIComponent(r.name)}`}
-                      className="inline-flex items-center gap-2 rounded-full border border-[#111111]/20 px-6 py-2.5 text-[10px] tracking-[0.26em] text-[#111111] uppercase transition-all duration-300 group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
-                      Apply
-                      <span>→</span>
-                    </a>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal delay={0.1}>
             <p
-              className="mt-10 text-center text-[14px] text-[#111111]/50"
+              className="mt-2 text-[15px] text-[#111111]/50"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              Don&rsquo;t see your seat?{" "}
-              <a
-                href="mailto:isya@elsiaa.com?subject=Pitch%20—%20my%20role%20at%20ELSIAA"
-                className="text-[#1e6b3c] underline-offset-4 hover:underline"
-              >
-                Pitch us the role you&rsquo;d create.
-              </a>
+              {role
+                ? `Applying as: ${role}.`
+                : "Pick a door above, then four fields and you're in."}
             </p>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <div className="mt-8 space-y-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <div className="grid grid-cols-2 gap-4">
+                <input
+                  value={first}
+                  onChange={(e) => setFirst(e.target.value)}
+                  placeholder="First name"
+                  className="w-full rounded-xl border border-black/10 bg-white px-5 py-4 text-[15px] outline-none transition-all placeholder:text-black/30 focus:border-[#1e6b3c] focus:ring-2 focus:ring-[#1e6b3c]/15"
+                />
+                <input
+                  value={last}
+                  onChange={(e) => setLast(e.target.value)}
+                  placeholder="Last name"
+                  className="w-full rounded-xl border border-black/10 bg-white px-5 py-4 text-[15px] outline-none transition-all placeholder:text-black/30 focus:border-[#1e6b3c] focus:ring-2 focus:ring-[#1e6b3c]/15"
+                />
+              </div>
+              <input
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
+                placeholder="Phone number"
+                type="tel"
+                className="w-full rounded-xl border border-black/10 bg-white px-5 py-4 text-[15px] outline-none transition-all placeholder:text-black/30 focus:border-[#1e6b3c] focus:ring-2 focus:ring-[#1e6b3c]/15"
+              />
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                type="email"
+                className="w-full rounded-xl border border-black/10 bg-white px-5 py-4 text-[15px] outline-none transition-all placeholder:text-black/30 focus:border-[#1e6b3c] focus:ring-2 focus:ring-[#1e6b3c]/15"
+              />
+
+              {/* drag / add resume */}
+              <div
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setDragOver(true);
+                }}
+                onDragLeave={() => setDragOver(false)}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setDragOver(false);
+                  onFile(e.dataTransfer.files?.[0]);
+                }}
+                onClick={() => fileRef.current?.click()}
+                className={`flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-10 text-center transition-all duration-300 ${
+                  dragOver
+                    ? "border-[#2e9e58] bg-[#2e9e58]/5"
+                    : resumeName
+                      ? "border-[#1e6b3c] bg-white"
+                      : "border-black/15 bg-white hover:border-[#1e6b3c]/50"
+                }`}
+              >
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  className="hidden"
+                  onChange={(e) => onFile(e.target.files?.[0])}
+                />
+                {resumeName ? (
+                  <>
+                    <span className="text-[15px] font-semibold text-[#1e6b3c]">✓ {resumeName}</span>
+                    <span className="mt-1 text-[12px] text-black/40">Tap to replace</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-[15px] font-semibold">Drag your resume here</span>
+                    <span className="mt-1 text-[12px] text-black/40">or tap to add · PDF or Word</span>
+                  </>
+                )}
+              </div>
+
+              <button
+                onClick={complete}
+                disabled={!ready}
+                className={`w-full rounded-full py-4.5 text-[12px] font-bold tracking-[0.24em] uppercase transition-all duration-300 ${
+                  ready
+                    ? "bg-[#1e6b3c] py-4 text-white shadow-[0_20px_50px_-16px_rgba(30,107,60,0.6)] hover:bg-[#2e9e58]"
+                    : "cursor-not-allowed bg-black/8 py-4 text-black/30"
+                }`}
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Complete
+              </button>
+              <p className="text-center text-[12px] text-black/35">
+                Completing opens your email with the application addressed to us — attach your
+                resume there and send.
+              </p>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* closing */}
-      <section className="bg-[#070907] px-6 py-28 text-center text-[#F5F5F3]">
-        <Reveal>
-          <p
-            className="text-[10px] tracking-[0.42em] text-[#2e9e58] uppercase"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            ELSIAA
-          </p>
-          <h2
-            className="mx-auto mt-6 max-w-3xl text-4xl leading-[1.08] italic md:text-6xl"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            The empire is hiring its builders.
-          </h2>
-          <a
-            href="mailto:isya@elsiaa.com?subject=Application"
-            className="group mt-12 inline-flex items-center gap-3 rounded-full border border-[#F5F5F3]/25 px-9 py-3.5 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Apply now
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </a>
-          <p
-            className="mt-14 text-[10px] tracking-[0.22em] text-[#F5F5F3]/35 uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            Antwerp · Geneva · London · Tel Aviv · New York · Los Angeles
-          </p>
-          <p
-            className="mt-8 text-sm italic text-[#F5F5F3]/40"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            Omnia possibilia
-          </p>
-          <p className="mt-3 text-sm text-[#F5F5F3]/45">בעזרת ה׳ נעשה ונצליח</p>
-        </Reveal>
+      {/* ---- closing ---- */}
+      <section className="bg-[#0c0f0d] px-6 py-20 text-center">
+        <p
+          className="text-[11px] tracking-[0.3em] text-white/40 uppercase"
+          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          Antwerp · Geneva · London · Tel Aviv · New York
+        </p>
+        <p
+          className="mt-6 text-2xl text-white/90 italic"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+        >
+          Omnia possibilia.
+        </p>
+        <p className="mt-3 text-[15px] text-[#2e9e58]" style={{ fontFamily: "'Inter', sans-serif" }}>
+          בעזרת ה׳ נעשה ונצליח
+        </p>
       </section>
+
+      {/* ---- application submitted toast ---- */}
+      <div
+        className={`fixed bottom-8 left-1/2 z-50 -translate-x-1/2 transition-all duration-500 ${
+          toast ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
+        }`}
+      >
+        <div className="flex items-center gap-3 rounded-full bg-[#1e6b3c] px-7 py-4 text-white shadow-[0_24px_60px_-16px_rgba(30,107,60,0.8)]">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-[12px] font-bold text-[#1e6b3c]">
+            ✓
+          </span>
+          <span className="text-[13px] font-semibold tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Application submitted
+          </span>
+        </div>
+      </div>
     </main>
   );
 }
