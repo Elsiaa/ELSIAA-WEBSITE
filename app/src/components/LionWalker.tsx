@@ -17,22 +17,22 @@ export function LionWalker() {
     const lion = lionRef.current;
     if (!strip || !lion) return;
 
-    let pos = 8; // float accumulator — Safari-safe
+    let pos = 6; // float accumulator — Safari-safe
     let dir = 1; // 1 → walking right, -1 → walking left
     let raf = 0;
     let last = performance.now();
-    const SPEED = 42; // px per second — slow, regal
+    const SPEED = 30; // px per second — slow, regal
 
     const step = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
-      const max = Math.max(strip.clientWidth - lion.clientWidth - 8, 8);
+      const max = Math.max(strip.clientWidth - lion.clientWidth - 6, 6);
       pos += dir * SPEED * dt;
       if (pos >= max) {
         pos = max;
         dir = -1;
-      } else if (pos <= 8) {
-        pos = 8;
+      } else if (pos <= 6) {
+        pos = 6;
         dir = 1;
       }
       // source video faces left → mirror when walking right
@@ -46,8 +46,12 @@ export function LionWalker() {
   return (
     <div
       ref={stripRef}
-      className="pointer-events-none relative w-full overflow-visible bg-white"
-      style={{ height: "clamp(72px, 12vw, 130px)" }}
+      className="pointer-events-none fixed left-3 z-40 overflow-visible rounded-full bg-white/95 shadow-[0_10px_30px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.05] backdrop-blur-sm"
+      style={{
+        top: "clamp(64px, 9vw, 84px)",
+        height: "clamp(56px, 9vw, 84px)",
+        width: "min(46vw, 300px)",
+      }}
       aria-hidden={false}
     >
       <button

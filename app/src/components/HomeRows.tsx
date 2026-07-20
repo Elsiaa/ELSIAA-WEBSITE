@@ -468,7 +468,7 @@ function Team() {
 /* ---------- masthead: two seconds of identity, then the rows ---------- */
 function Masthead() {
   return (
-    <header className="mx-auto max-w-5xl px-6 pt-6 pb-16 md:pt-8 md:pb-24">
+    <header className="mx-auto max-w-5xl px-6 pt-44 pb-16 md:pt-48 md:pb-24">
       <Reveal>
         <p
           className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -499,9 +499,7 @@ function Masthead() {
 export function HomeRows() {
   return (
     <main className="bg-[#FBFBFA]">
-      <div className="pt-20 md:pt-24">
-        <LionWalker />
-      </div>
+      <LionWalker />
       <Masthead />
       <DivisionRow
         n="01"

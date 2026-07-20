@@ -44,10 +44,32 @@ export function SiteNav() {
         >
           <a
             href="/"
-            className="pointer-events-auto text-[13px] font-semibold tracking-[0.42em] text-white uppercase transition-opacity hover:opacity-70"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            className="group pointer-events-auto flex items-center gap-3 transition-opacity hover:opacity-80"
+            aria-label="ELSIAA — home"
           >
-            ELSIAA
+            {/* mark: rotated square node with inner dot */}
+            <span className="relative flex h-[18px] w-[18px] items-center justify-center">
+              <span className="absolute inset-0 rotate-45 border border-white/80 transition-transform duration-500 group-hover:rotate-[135deg]" />
+              <span className="h-[4px] w-[4px] rotate-45 bg-white" />
+            </span>
+            <span className="flex flex-col leading-none">
+              <span
+                className="text-[13px] font-semibold tracking-[0.42em] text-white uppercase"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                ELSIAA
+              </span>
+              <span className="mt-[5px] flex items-center gap-2">
+                <span className="h-px w-4 bg-white/40" />
+                <span
+                  className="text-[6.5px] tracking-[0.34em] whitespace-nowrap text-white/60 uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  AI Done Better
+                </span>
+                <span className="h-px flex-1 bg-white/40" />
+              </span>
+            </span>
           </a>
           <nav className="pointer-events-auto flex items-center gap-5 md:gap-7">
             {LINKS.slice(1).map((l) => (
