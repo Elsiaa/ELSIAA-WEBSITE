@@ -349,13 +349,13 @@ function Magnetic({ children }: { children: React.ReactNode }) {
 
 function Statement() {
   return (
-    <section className="flex min-h-[64svh] flex-col items-center justify-center bg-gradient-to-b from-white to-[#F5F5F3] px-6 pb-16 text-center">
+    <section className="flex flex-col items-center justify-center bg-gradient-to-b from-white to-[#F5F5F3] px-6 pt-24 pb-20 text-center">
       <h2
         className="mx-auto max-w-4xl text-4xl font-semibold tracking-[-0.035em] text-[#111111] md:text-7xl md:leading-[1.03]"
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
-        <KineticLine text="We don’t just design websites —" className="block" />
-        <KineticLine text="we uplift brands." className="block" />
+        <KineticLine text="We don’t just design websites." className="block text-balance" />
+        <KineticLine text="We uplift brands." className="block text-[#1e6b3c]" />
       </h2>
       <Reveal delay={0.1}>
         <p
@@ -391,6 +391,37 @@ function Statement() {
   );
 }
 
+function Ticker() {
+  const WORDS = [
+    "Websites", "Apps", "Brand Identity", "Motion", "AI Automation", "Product Ads",
+    "UI/UX", "Packaging", "Interactive",
+  ];
+  const row = WORDS.map((w, i) => (
+    <span key={i} className="flex items-center gap-8">
+      <span
+        className="text-[12px] tracking-[0.32em] whitespace-nowrap text-[#111111]/45 uppercase"
+        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+      >
+        {w}
+      </span>
+      <span className="h-1 w-1 rounded-full bg-[#1e6b3c]" />
+    </span>
+  ));
+  return (
+    <div className="overflow-hidden border-y border-black/[0.07] bg-[#F5F5F3] py-4">
+      <div className="tk-track flex w-max items-center gap-8">
+        {row}
+        {row}
+      </div>
+      <style>{`
+        @keyframes tkScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+        .tk-track { animation: tkScroll 28s linear infinite; }
+        @media (prefers-reduced-motion: reduce) { .tk-track { animation: none } }
+      `}</style>
+    </div>
+  );
+}
+
 /* ---------------- 2 · discover designs — the hero comparison ---------------- */
 function SideToggle({
   side,
@@ -422,7 +453,7 @@ function SideToggle({
 function DiscoverDesigns() {
   const [side, setSide] = useState<"after" | "before">("after");
   return (
-    <section id="discover-designs" className="bg-[#F5F5F3] px-6 py-24 text-[#111111]">
+    <section id="discover-designs" className="bg-[#F5F5F3] px-6 pt-20 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
@@ -432,7 +463,7 @@ function DiscoverDesigns() {
             01 · Websites
           </p>
           <h2
-            className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] md:text-5xl md:leading-[1.06]"
+            className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl md:leading-[1.06]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Your website is where potential customers see your business for the first
@@ -861,7 +892,7 @@ function DiscoverApps() {
             03 · Apps
           </p>
           <h2
-            className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] md:text-5xl md:leading-[1.06]"
+            className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl md:leading-[1.06]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             It doesn&rsquo;t matter how good your backend is.
@@ -1501,6 +1532,7 @@ export function DesignsShowcase() {
         html { scroll-behavior: smooth; }
       `}</style>
       <Statement />
+      <Ticker />
       <DiscoverDesigns />
       <Transformations />
       <DiscoverApps />
