@@ -24,7 +24,7 @@ export function LionWalker() {
     let pos = 0;
     let dir = 1;
     let last = performance.now();
-    const SPEED = 26;
+    const SPEED = 24;
 
     const key = () => {
       if (video.readyState >= 2) {
@@ -74,7 +74,7 @@ export function LionWalker() {
     >
       <div className="mx-auto max-w-6xl px-6">
         {/* the walking lane: starts after the wordmark, ends before the tabs icon */}
-        <div className="relative ml-[200px] mr-[72px] h-[76px] md:ml-[260px] md:mr-[220px]">
+        <div className="relative ml-0 mr-[64px] h-[76px] md:mr-[440px]">
           <button
             ref={wrapRef}
             onClick={() => {
