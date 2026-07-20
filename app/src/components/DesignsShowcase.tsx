@@ -262,18 +262,6 @@ function DiscoverDesigns() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.15}>
-          <div className="mt-10 text-center">
-            <a
-              href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
-              className="group inline-flex items-center gap-3 rounded-full border border-[#F5F5F3]/25 px-9 py-3.5 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              Discover more
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </a>
-          </div>
-        </Reveal>
 
       </div>
     </section>
