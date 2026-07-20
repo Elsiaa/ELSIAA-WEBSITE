@@ -140,7 +140,7 @@ function Statement() {
 /* ---------------- 2 · discover designs — the hero comparison ---------------- */
 function DiscoverDesigns() {
   return (
-    <section id="discover-designs" className="bg-[#070907] px-6 py-28 text-[#F5F5F3]">
+    <section id="discover-designs" className="flex min-h-[100svh] flex-col justify-center bg-[#070907] px-6 py-16 text-[#F5F5F3]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
@@ -150,21 +150,21 @@ function DiscoverDesigns() {
             Discover designs
           </p>
           <h2
-            className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.03em] md:text-5xl md:leading-[1.08]"
+            className="mx-auto mt-3 max-w-3xl text-center text-2xl font-semibold tracking-[-0.03em] md:text-4xl md:leading-[1.1]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Your website is where potential customers see your business for the first
             time.
           </h2>
           <p
-            className="mx-auto mt-5 max-w-xl text-center text-lg text-white/50 md:text-2xl"
+            className="mx-auto mt-3 max-w-xl text-center text-base text-white/50 md:text-xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             What kind of impression are you making?
           </p>
         </Reveal>
 
-        <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <Reveal delay={0.05}>
             <figure className="overflow-hidden rounded-2xl border border-[#2e9e58]/35 bg-white shadow-[0_40px_100px_-40px_rgba(46,158,88,0.35)]">
               <div className="flex items-center gap-2 border-b border-black/10 bg-[#F0F0EE] px-4 py-2.5">
@@ -179,7 +179,7 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="h-[520px] overflow-hidden md:h-[600px]">
+              <div className="h-[380px] overflow-hidden md:h-[46svh]">
                 <iframe
                   src="https://primebins.com"
                   title="Prime Bins — designed by ELSIAA (live site)"
@@ -189,7 +189,7 @@ function DiscoverDesigns() {
                 />
               </div>
             </figure>
-            <div className="mt-5 flex items-baseline justify-between">
+            <div className="mt-3.5 flex items-baseline justify-between">
               <span className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
                 Prime Bins
               </span>
@@ -216,7 +216,7 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="h-[520px] overflow-hidden md:h-[600px]">
+              <div className="h-[380px] overflow-hidden md:h-[46svh]">
                 <iframe
                   src="https://isya-stack.github.io/mr-bins-website-/"
                   title="Mr. Bins — original website (live site)"
@@ -226,7 +226,7 @@ function DiscoverDesigns() {
                 />
               </div>
             </figure>
-            <div className="mt-5 flex items-baseline justify-between">
+            <div className="mt-3.5 flex items-baseline justify-between">
               <span className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
                 Mr. Bins
               </span>
@@ -241,7 +241,7 @@ function DiscoverDesigns() {
         </div>
 
         <Reveal delay={0.1}>
-          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-y-8 divide-black/0 sm:grid-cols-3 sm:divide-x sm:divide-white/10 sm:gap-y-0">
+          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-y-8 divide-black/0 sm:grid-cols-3 sm:divide-x sm:divide-white/10 sm:gap-y-0">
             {[
               ["Hierarchy", "One message per screen — the offer is understood in three seconds."],
               ["Conversion", "Every scroll ends at the next obvious step; nothing competes with the sale."],
@@ -263,7 +263,7 @@ function DiscoverDesigns() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div className="mt-16 text-center">
+          <div className="mt-10 text-center">
             <a
               href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
               className="group inline-flex items-center gap-3 rounded-full border border-[#F5F5F3]/25 px-9 py-3.5 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
