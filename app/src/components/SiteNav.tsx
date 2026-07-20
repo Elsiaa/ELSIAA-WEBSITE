@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { LionWalker } from "./LionWalker";
 
 /*
   ELSIAA site nav — fixed, minimal, self-adapting.
@@ -33,6 +34,7 @@ export function SiteNav() {
 
   return (
     <>
+      <LionWalker />
       <header
         className="pointer-events-none fixed inset-x-0 top-0 z-50 mix-blend-difference"
         aria-label="Site"

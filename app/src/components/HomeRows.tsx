@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { LionWalker } from "./LionWalker";
+import { AssemblingArtist } from "./AssemblingArtist";
 
 /* ============================================================
    ELSIAA homepage — built from Isya's notebook sketch 06/20/26
@@ -114,6 +114,7 @@ function DivisionRow({
   title,
   lede,
   img,
+  graphic,
   subs,
   href,
   flip = false,
@@ -121,7 +122,8 @@ function DivisionRow({
   n: string;
   title: string;
   lede: string;
-  img: string;
+  img?: string;
+  graphic?: React.ReactNode;
   subs: Sub[];
   href: string;
   flip?: boolean;
@@ -135,12 +137,14 @@ function DivisionRow({
           {/* graphic */}
           <Reveal className="md:w-[34%]">
             <a href={href} className="group block overflow-hidden rounded-2xl">
-              <img
-                src={img}
-                alt={title}
-                loading="lazy"
-                className="aspect-[3/2] w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-              />
+              {graphic ?? (
+                <img
+                  src={img}
+                  alt={title}
+                  loading="lazy"
+                  className="aspect-[3/2] w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+              )}
             </a>
           </Reveal>
           {/* title + rail */}
@@ -468,7 +472,7 @@ function Team() {
 /* ---------- masthead: two seconds of identity, then the rows ---------- */
 function Masthead() {
   return (
-    <header className="mx-auto max-w-5xl px-6 pt-44 pb-16 md:pt-48 md:pb-24">
+    <header className="mx-auto max-w-5xl px-6 pt-32 pb-16 md:pt-36 md:pb-24">
       <Reveal>
         <p
           className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -499,13 +503,12 @@ function Masthead() {
 export function HomeRows() {
   return (
     <main className="bg-[#FBFBFA]">
-      <LionWalker />
       <Masthead />
       <DivisionRow
         n="01"
         title="Design"
         lede="Everything your customers see, engineered to be believed."
-        img="/assets/laptop_premium_v1.jpg"
+        graphic={<AssemblingArtist />}
         subs={DESIGN}
         href="/designs"
       />
