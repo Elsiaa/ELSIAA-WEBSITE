@@ -28,6 +28,7 @@ function seg(p: number, a: number, b: number) {
 
 export function ElsiaaExperience() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -64,6 +65,13 @@ export function ElsiaaExperience() {
       const rect = track.getBoundingClientRect();
       const total = rect.height - window.innerHeight;
       const p = clamp01(-rect.top / total);
+
+      // welcome title steps aside as the story takes over
+      if (titleRef.current) {
+        const out = seg(p, 0.34, 0.48);
+        titleRef.current.style.opacity = `${1 - out}`;
+        titleRef.current.style.transform = `translateY(${out * -26}px)`;
+      }
 
       // the film, scrubbed
       const film = seg(p, 0.06, 0.86);
@@ -141,6 +149,25 @@ export function ElsiaaExperience() {
             WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0.55), transparent 85%)",
           }}
         />
+        {/* welcome — discover designs */}
+        <div
+          ref={titleRef}
+          className="z-10 flex flex-col items-center px-6 pt-[10svh] text-center will-change-transform"
+        >
+          <p
+            className="text-[11px] tracking-[0.38em] text-[#1e6b3c] uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            ELSIAA
+          </p>
+          <h1
+            className="mt-4 text-5xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Discover Designs
+          </h1>
+        </div>
+
         {/* the film — on screen from the very first frame */}
         <div
           ref={videoWrapRef}
@@ -165,6 +192,12 @@ export function ElsiaaExperience() {
 function StaticJourney() {
   return (
     <section className="flex min-h-dvh flex-col items-center justify-center gap-10 bg-white px-6 py-24 text-center">
+      <h1
+        className="text-5xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl"
+        style={{ fontFamily: "'Inter', sans-serif" }}
+      >
+        Discover Designs
+      </h1>
       <img
         src={STILL_SRC}
         alt="A very frustrated, badly drawn office worker about to throw his website away"
