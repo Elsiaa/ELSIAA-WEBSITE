@@ -227,12 +227,6 @@ function CompareSlider() {
     <Reveal delay={0.1}>
       <div className="mx-auto mt-20 hidden max-w-5xl lg:block">
         <div className="mx-auto mb-14 max-w-3xl border-t border-black/[0.08] pt-12 text-center">
-          <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            Our specialty
-          </p>
           <h3
             className="mt-3 text-3xl font-semibold tracking-[-0.035em] text-[#111111] text-balance md:text-5xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
@@ -248,18 +242,6 @@ function CompareSlider() {
             better received by the patients, families, and partners who judge it first.
           </p>
         </div>
-        <p
-          className="text-center text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-        >
-          Next in the studio · Dialog Healthcare
-        </p>
-        <p
-          className="mt-3 text-center text-[10px] tracking-[0.3em] text-[#111111]/40 uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-        >
-          Drag the handle — their site today vs. where we&rsquo;re taking it
-        </p>
         <div
           ref={boxRef}
           className="relative mt-6 aspect-[16/9] overflow-hidden rounded-2xl border border-black/10 shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)]"
@@ -372,12 +354,6 @@ function Magnetic({ children }: { children: React.ReactNode }) {
 function Statement() {
   return (
     <section className="flex flex-col items-center justify-center bg-gradient-to-b from-white to-[#F5F5F3] px-6 pt-24 pb-20 text-center">
-      <p
-        className="mb-5 text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-      >
-        ELSIAA · Discover Designs
-      </p>
       <h2
         className="mx-auto max-w-4xl text-4xl font-semibold tracking-[-0.035em] text-[#111111] md:text-7xl md:leading-[1.03]"
         style={{ fontFamily: "'Inter', sans-serif" }}
@@ -484,12 +460,6 @@ function DiscoverDesigns() {
     <section id="discover-designs" className="bg-[#F5F5F3] px-6 pt-20 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <p
-            className="text-center text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            01 · Websites
-          </p>
           <h2
             className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl md:leading-[1.06]"
             style={{ fontFamily: "'Inter', sans-serif" }}
@@ -520,12 +490,6 @@ function DiscoverDesigns() {
           <Reveal delay={0.05} className={`${side === "before" ? "block" : "hidden"} lg:block`}>
             <div className="mb-5 flex items-end justify-between">
               <div>
-                <p
-                  className="text-[10px] tracking-[0.32em] text-[#111111]/40 uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
-                  Before
-                </p>
                 <h3
                   className="mt-1 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
                   style={{ fontFamily: "'Inter', sans-serif" }}
@@ -560,12 +524,6 @@ function DiscoverDesigns() {
                 <LazyFrame src="https://primebins.com" title="Prime Bins — the original website, live" />
               </div>
             </figure>
-            <p
-              className="mt-4 text-center text-[11px] tracking-[0.24em] text-[#111111]/40 uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              Live site — scroll &amp; click inside
-            </p>
             <ul className="mx-auto mt-5 max-w-md space-y-2">
               {[
                 "Message competes with itself on the first screen",
@@ -584,12 +542,6 @@ function DiscoverDesigns() {
           <Reveal delay={0.15} className={`${side === "after" ? "block" : "hidden"} lg:block`}>
             <div className="mb-5 flex items-end justify-between">
               <div>
-                <p
-                  className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
-                  After
-                </p>
                 <h3
                   className="mt-1 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
                   style={{ fontFamily: "'Inter', sans-serif" }}
@@ -624,12 +576,6 @@ function DiscoverDesigns() {
                 <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — rebuilt by ELSIAA, live" native />
               </div>
             </figure>
-            <p
-              className="mt-4 text-center text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              Live site — scroll &amp; click inside
-            </p>
             <ul className="mx-auto mt-5 max-w-md space-y-2">
               {[
                 "The offer is understood in three seconds",
@@ -1024,12 +970,6 @@ function DiscoverApps() {
     <section className="bg-[#F5F5F3] px-6 pt-6 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <p
-            className="text-center text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            03 · Apps
-          </p>
           <h2
             className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl md:leading-[1.06]"
             style={{ fontFamily: "'Inter', sans-serif" }}
@@ -1042,12 +982,6 @@ function DiscoverApps() {
           >
             If your target audience doesn&rsquo;t use your app because of poor design,
             the engineering never gets its chance.
-          </p>
-          <p
-            className="mx-auto mt-5 text-center text-[10px] tracking-[0.28em] text-[#111111]/40 uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            Live demos running — touch either phone to take over
           </p>
         </Reveal>
         <SideToggle side={side} setSide={setSide} />
@@ -1065,12 +999,6 @@ function DiscoverApps() {
           {/* ---- AFTER: Mitzva ---- */}
           <Reveal delay={0.05} className={`${side === "after" ? "block" : "hidden"} lg:block`}>
             <div className="mb-5 text-center">
-              <p
-                className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                After
-              </p>
               <h3
                 className="mt-1 text-2xl font-semibold tracking-[-0.035em] md:text-3xl"
                 style={{ fontFamily: "'Inter', sans-serif" }}
@@ -1122,12 +1050,6 @@ function DiscoverApps() {
           {/* ---- BEFORE: PSI Construction ---- */}
           <Reveal delay={0.15} className={`${side === "before" ? "block" : "hidden"} lg:block`}>
             <div className="mb-5 text-center">
-              <p
-                className="text-[10px] tracking-[0.32em] text-[#111111]/40 uppercase"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                Before
-              </p>
               <h3
                 className="mt-1 text-2xl font-semibold tracking-[-0.035em] md:text-3xl"
                 style={{ fontFamily: "'Inter', sans-serif" }}
@@ -1173,12 +1095,6 @@ function DiscoverApps() {
 
         <Reveal delay={0.1}>
           <div className="mx-auto mt-16 max-w-5xl border-t border-black/[0.08] pt-10">
-            <p
-              className="text-center text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              What app design includes at ELSIAA
-            </p>
             <div className="mt-8 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 ["Platform-correct", "iOS and Android patterns done natively — gestures, navigation, and type that feel at home on each device."],
@@ -1308,12 +1224,6 @@ function ProductAdFeature() {
     <section className="bg-[#F5F5F3] text-[#111111]">
       <div className="mx-auto max-w-6xl px-6 pt-6 pb-10">
         <Reveal>
-          <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            04 · Product design
-          </p>
           <h2
             className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
@@ -1408,12 +1318,6 @@ function ProductAdFeature() {
             ].map(([t, d]) => (
               <div key={t}>
                 <p
-                  className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
-                  {t}
-                </p>
-                <p
                   className="mt-2.5 text-[14px] leading-relaxed text-[#111111]/60"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
@@ -1445,12 +1349,6 @@ function ClientLogos() {
       <div className="mx-auto max-w-6xl">
         <Reveal delay={0.2}>
           <div className="border-t border-black/[0.08] pt-14">
-            <p
-              className="text-center text-[10px] tracking-[0.34em] text-[#111111]/40 uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              05 · Trusted by the companies we&rsquo;ve built for
-            </p>
             <div className="mx-auto mt-10 flex max-w-5xl flex-wrap items-center justify-center gap-x-14 gap-y-10">
               {[
                 ["/assets/logos/mr_bins.png", "Mr. Bins", "h-7 md:h-8"],
@@ -1614,12 +1512,6 @@ function Transformations() {
     <section className="bg-[#F5F5F3] px-6 pt-6 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            02 · Transformations
-          </p>
           <h2
             className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
@@ -1787,12 +1679,6 @@ function BeyondWebsites() {
     <section className="bg-gradient-to-b from-[#F5F5F3] to-white pt-24 pb-28">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
-          <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            06 · Beyond websites
-          </p>
           <div className="mt-3 flex items-end justify-between gap-6">
             <h2
               className="max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
@@ -1855,9 +1741,6 @@ function BeyondWebsites() {
             >
               {d}
             </p>
-            <span className="mt-auto pt-4 text-[10px] tracking-[0.26em] text-[#111111]/25 uppercase transition-colors duration-300 group-hover:text-[#1e6b3c]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              ELSIAA
-            </span>
           </div>
         ))}
       </div>
@@ -1917,22 +1800,14 @@ function Results() {
               <Counter to={x.n} suffix={x.s} />
             </p>
             <p
-              className="mt-3 text-[10px] tracking-[0.28em] text-[#111111]/40 uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              className="mt-3 text-sm text-[#111111]/45"
+              style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {x.l}
             </p>
           </Reveal>
         ))}
       </div>
-      <Reveal delay={0.1}>
-        <p
-          className="mt-16 text-center text-[10px] tracking-[0.24em] text-[#111111]/35 uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-        >
-          Antwerp · Geneva · London · Tel Aviv · New York · Los Angeles
-        </p>
-      </Reveal>
     </section>
   );
 }
