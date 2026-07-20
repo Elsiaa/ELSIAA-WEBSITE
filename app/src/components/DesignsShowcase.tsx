@@ -274,6 +274,39 @@ function DiscoverDesigns() {
             </a>
           </div>
         </Reveal>
+
+        <Reveal delay={0.2}>
+          <div className="mt-20 border-t border-white/[0.08] pt-12">
+            <p
+              className="text-center text-[10px] tracking-[0.34em] text-white/35 uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Trusted by the companies we&rsquo;ve built for
+            </p>
+            <div className="mx-auto mt-10 flex max-w-5xl flex-wrap items-center justify-center gap-x-14 gap-y-10">
+              {[
+                ["/assets/logos/mr_bins.png", "Mr. Bins", "h-7 md:h-8"],
+                ["/assets/logos/dialog_healthcare.png", "Dialog Healthcare", "h-5 md:h-6"],
+                ["/assets/logos/first_medcare.png", "First Medcare Inc", "h-8 md:h-9"],
+                ["/assets/logos/excelsior.png", "Excelsior Healthcare Solutions", "h-6 md:h-7"],
+                ["/assets/logos/hiddenlight.png", "HiddenLight ABA", "h-6 md:h-7"],
+                ["/assets/logos/beyond_autism.png", "Beyond Autism Services", "h-10 md:h-12"],
+                ["/assets/logos/kore_autism.png", "Kore Autism Services", "h-8 md:h-9"],
+                ["/assets/logos/hidden_talents.png", "Hidden Talents ABA", "h-8 md:h-9"],
+                ["/assets/logos/diet_fantasy.png", "The Diet Fantasy", "h-8 md:h-9"],
+                ["/assets/logos/aaa.png", "AAA", "h-8 md:h-9"],
+              ].map(([src, alt, h]) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={alt}
+                  className={`${h} w-auto opacity-50 transition-opacity duration-300 hover:opacity-100`}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
