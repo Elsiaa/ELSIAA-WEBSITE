@@ -1651,6 +1651,70 @@ function BeyondWebsites() {
   );
 }
 
+/* ---------------- the process — how every uplift actually happens ---------------- */
+function OurProcess() {
+  const STEPS = [
+    ["01", "Immersion", "Before anything is designed, we study the business: your market, your customers, and precisely what \u201cbetter received\u201d means for you. Every engagement begins as research, not aesthetics."],
+    ["02", "Sketch-first ideation", "Concepts are drawn by hand before a pixel exists. Structure gets decided by thinking, never by templates \u2014 which is why no two ELSIAA builds look alike."],
+    ["03", "Directed generation", "Our proprietary AI production pipeline turns creative direction into studio-grade assets \u2014 imagery, film, and interfaces \u2014 at a pace traditional studios cannot match."],
+    ["04", "Live assembly", "Designs are built as working software from day one and reviewed in the real medium. We don\u2019t present mockups of the thing; we present the thing."],
+    ["05", "Ruthless iteration", "Work is measured against the standard, not the effort. Anything below the bar is rebuilt \u2014 in hours, not sprints \u2014 until every detail holds."],
+    ["06", "Launch & refinement", "The work ships live, then keeps improving against real visitor behavior. Delivery is the beginning of the standard, not the end of it."],
+  ];
+  return (
+    <section className="bg-[#F5F5F3] px-6 py-24 text-[#111111]">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <p
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            The ELSIAA process
+          </p>
+          <h2
+            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Every uplift runs the same road.
+          </h2>
+          <p className="mt-3 max-w-xl text-base text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Six stages, one direction — from understanding your business to a living
+            product that keeps getting better.
+          </p>
+        </Reveal>
+        <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+          {STEPS.map(([n, t, d], i) => (
+            <Reveal key={n} delay={(i % 3) * 0.07}>
+              <div className="border-t border-black/10 pt-5">
+                <div className="flex items-baseline justify-between">
+                  <h3
+                    className="text-lg font-semibold tracking-[-0.02em]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {t}
+                  </h3>
+                  <span
+                    className="text-[11px] tracking-[0.3em] text-[#1e6b3c]"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    {n}
+                  </span>
+                </div>
+                <p
+                  className="mt-2.5 text-[14px] leading-relaxed text-[#111111]/55"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {d}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------------- 5 · results ---------------- */
 function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement | null>(null);
@@ -1788,6 +1852,7 @@ export function DesignsShowcase() {
       <ProductAdFeature />
       <ClientLogos />
       <BeyondWebsites />
+      <OurProcess />
       <Results />
     </>
   );
