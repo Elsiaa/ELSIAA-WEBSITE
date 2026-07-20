@@ -350,6 +350,12 @@ function Magnetic({ children }: { children: React.ReactNode }) {
 function Statement() {
   return (
     <section className="flex flex-col items-center justify-center bg-gradient-to-b from-white to-[#F5F5F3] px-6 pt-24 pb-20 text-center">
+      <p
+        className="mb-5 text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+      >
+        ELSIAA · Discover Designs
+      </p>
       <h2
         className="mx-auto max-w-4xl text-4xl font-semibold tracking-[-0.035em] text-[#111111] md:text-7xl md:leading-[1.03]"
         style={{ fontFamily: "'Inter', sans-serif" }}
@@ -1499,7 +1505,8 @@ export function DesignsShowcase() {
       <ClientLogos />
       <BeyondWebsites />
       <Results />
-      <FinalCTA />
     </>
   );
 }
+
+export { FinalCTA as DesignsFinalCTA };

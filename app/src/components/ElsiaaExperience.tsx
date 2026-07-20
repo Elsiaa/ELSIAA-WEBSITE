@@ -222,13 +222,13 @@ export function ElsiaaExperience() {
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            ELSIAA
+            The ELSIAA signature
           </p>
           <h1
             className="mt-4 text-6xl leading-[0.95] font-semibold tracking-[-0.045em] text-[#111111] md:text-9xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Discover Designs
+            One more thing.
           </h1>
         </div>
 
@@ -250,8 +250,8 @@ export function ElsiaaExperience() {
           <div
             ref={shockRef}
             aria-hidden
-            className="pointer-events-none absolute rounded-full border-[3px] border-[#111111]/70 opacity-0"
-            style={{ left: "68%", top: "58%", width: "16vmin", height: "16vmin" }}
+            className="pointer-events-none absolute rounded-full border-[3px] border-[#111111]/70"
+            style={{ left: "68%", top: "58%", width: "16vmin", height: "16vmin", opacity: 0, transform: "translate(-50%, -50%) scale(0.2)" }}
           />
         </div>
 
@@ -267,7 +267,7 @@ function StaticJourney() {
         className="text-5xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl"
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
-        Discover Designs
+        One more thing.
       </h1>
       <img
         src={STILL_SRC}
