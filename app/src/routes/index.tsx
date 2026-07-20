@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { EmpireHero } from "../components/EmpireHero";
 import { ElsiaaSections } from "../components/ElsiaaSections";
+import { HomeLoop } from "../components/HomeLoop";
 import { HomeShowcase } from "../components/HomeShowcase";
 import { SiteNav } from "../components/SiteNav";
 
@@ -13,6 +14,7 @@ function Index() {
     <main className="bg-white text-[#111111] antialiased">
       <SiteNav />
       <EmpireHero />
+      <HomeLoop />
       <HomeShowcase />
       <ElsiaaSections />
     </main>
