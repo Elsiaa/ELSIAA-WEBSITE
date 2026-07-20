@@ -1564,11 +1564,20 @@ function BeyondWebsites() {
     if (!rail) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
+    let pos = rail.scrollLeft;
+    const onManual = () => {
+      // resync after arrow clicks / drags so auto-drift continues from there
+      pos = rail.scrollLeft;
+    };
+    rail.addEventListener("scroll", () => {
+      if (Math.abs(rail.scrollLeft - pos) > 2) onManual();
+    });
     const tick = () => {
       if (!paused.current) {
-        rail.scrollLeft += 0.6;
+        pos += 0.8;
         const half = rail.scrollWidth / 2;
-        if (rail.scrollLeft >= half) rail.scrollLeft -= half;
+        if (pos >= half) pos -= half;
+        rail.scrollLeft = pos;
       }
       raf = requestAnimationFrame(tick);
     };
