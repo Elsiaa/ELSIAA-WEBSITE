@@ -1355,22 +1355,13 @@ const CASES: Mini[] = [
     desc: "A staffing site rebuilt around one promise — the right clinician, placed fast.",
     link: "https://dialoghealthcare.com",
     before: (
-      <div className="h-full w-full space-y-1.5 bg-[#eef3f4] p-3">
-        <div className="flex items-center justify-between">
-          {bar("w-16", "#2a7f8a", "h-3")}
-          <div className="flex gap-1">{bar("w-6", "#9db9bd")}{bar("w-6", "#9db9bd")}{bar("w-6", "#9db9bd")}{bar("w-6", "#9db9bd")}</div>
-        </div>
-        <div className="h-14 w-full rounded-sm bg-[#2a7f8a]/30 p-2">
-          {bar("w-3/4", "#1d5a62", "h-3")}
-          <div className="mt-1.5 flex gap-1">{bar("w-14", "#e08b3c", "h-4")}{bar("w-14", "#2a7f8a", "h-4")}</div>
-        </div>
-        <div className="flex gap-1.5">
-          <div className="h-10 flex-1 rounded-sm bg-[#c8d8da]" />
-          <div className="h-10 flex-1 rounded-sm bg-[#c8d8da]" />
-          <div className="h-10 flex-1 rounded-sm bg-[#c8d8da]" />
-        </div>
-        {bar("w-full", "#b3c6c9")}
-        {bar("w-5/6", "#b3c6c9")}
+      <div className="pointer-events-none h-full w-full overflow-hidden bg-white">
+        <LazyFrame
+          src="https://dialoghealthcare.com"
+          title="Dialog Healthcare — their current website"
+          interactive={false}
+          zoom={0.25}
+        />
       </div>
     ),
     after: (
