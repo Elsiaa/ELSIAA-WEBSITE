@@ -140,11 +140,11 @@ function Statement() {
 /* ---------------- 2 · discover designs — the hero comparison ---------------- */
 function DiscoverDesigns() {
   return (
-    <section id="discover-designs" className="flex min-h-[100svh] flex-col justify-center bg-[#070907] px-6 py-16 text-[#F5F5F3]">
+    <section id="discover-designs" className="bg-[#F5F5F3] px-6 py-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
-            className="text-center text-[11px] tracking-[0.34em] text-[#2e9e58] uppercase"
+            className="text-center text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             Discover designs
@@ -157,16 +157,26 @@ function DiscoverDesigns() {
             time.
           </h2>
           <p
-            className="mx-auto mt-3 max-w-xl text-center text-base text-white/50 md:text-xl"
+            className="mx-auto mt-3 max-w-xl text-center text-base text-[#111111]/50 md:text-xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             What kind of impression are you making?
           </p>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
           <Reveal delay={0.05}>
-            <figure className="overflow-hidden rounded-2xl border border-[#2e9e58]/35 bg-white shadow-[0_40px_100px_-40px_rgba(46,158,88,0.35)]">
+            <figure className="relative overflow-hidden rounded-2xl border border-[#1e6b3c]/30 bg-white shadow-[0_50px_110px_-45px_rgba(30,107,60,0.45)] transition-transform duration-300 hover:scale-[1.01]">
+              <div className="pointer-events-none absolute top-14 right-4 z-10 flex items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+                </span>
+                <span className="text-[9px] font-semibold tracking-[0.22em] text-white uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  Live — scroll &amp; click
+                </span>
+              </div>
+
               <div className="flex items-center gap-2 border-b border-black/10 bg-[#F0F0EE] px-4 py-2.5">
                 <span className="h-2 w-2 rounded-full bg-[#E5695E]" />
                 <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
@@ -179,7 +189,7 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="h-[380px] overflow-hidden md:h-[46svh]">
+              <div className="h-[560px] overflow-hidden md:h-[76svh]">
                 <iframe
                   src="https://primebins.com"
                   title="Prime Bins — designed by ELSIAA (live site)"
@@ -194,16 +204,26 @@ function DiscoverDesigns() {
                 Prime Bins
               </span>
               <span
-                className="text-[10px] tracking-[0.26em] text-[#2e9e58] uppercase"
+                className="text-[10px] tracking-[0.26em] text-[#1e6b3c] uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Designed by ELSIAA · live — scroll it
+                Designed by ELSIAA · fully interactive
               </span>
             </div>
           </Reveal>
 
           <Reveal delay={0.15}>
-            <figure className="overflow-hidden rounded-2xl border border-white/10 bg-[#0B2447] shadow-[0_40px_100px_-48px_rgba(0,0,0,0.85)]">
+            <figure className="relative overflow-hidden rounded-2xl border border-black/10 bg-[#0B2447] shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)] transition-transform duration-300 hover:scale-[1.01]">
+              <div className="pointer-events-none absolute top-14 right-4 z-10 flex items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+                </span>
+                <span className="text-[9px] font-semibold tracking-[0.22em] text-white uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  Live — scroll &amp; click
+                </span>
+              </div>
+
               <div className="flex items-center gap-2 border-b border-black/10 bg-[#F0F0EE] px-4 py-2.5">
                 <span className="h-2 w-2 rounded-full bg-[#E5695E]" />
                 <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
@@ -216,7 +236,7 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="h-[380px] overflow-hidden md:h-[46svh]">
+              <div className="h-[560px] overflow-hidden md:h-[76svh]">
                 <iframe
                   src="https://isya-stack.github.io/mr-bins-website-/"
                   title="Mr. Bins — original website (live site)"
@@ -231,17 +251,17 @@ function DiscoverDesigns() {
                 Mr. Bins
               </span>
               <span
-                className="text-[10px] tracking-[0.26em] text-white/40 uppercase"
+                className="text-[10px] tracking-[0.26em] text-[#111111]/40 uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Original · live — scroll it
+                Original · fully interactive
               </span>
             </div>
           </Reveal>
         </div>
 
         <Reveal delay={0.1}>
-          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-y-8 divide-black/0 sm:grid-cols-3 sm:divide-x sm:divide-white/10 sm:gap-y-0">
+          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-y-8 divide-black/0 sm:grid-cols-3 sm:divide-x sm:divide-black/10 sm:gap-y-0">
             {[
               ["Hierarchy", "One message per screen — the offer is understood in three seconds."],
               ["Conversion", "Every scroll ends at the next obvious step; nothing competes with the sale."],
@@ -249,12 +269,12 @@ function DiscoverDesigns() {
             ].map(([t, d]) => (
               <div key={t} className="sm:px-8 sm:first:pl-0 sm:last:pr-0">
                 <p
-                  className="text-[10px] tracking-[0.28em] text-[#2e9e58] uppercase"
+                  className="text-[10px] tracking-[0.28em] text-[#1e6b3c] uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   {t}
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-white/60" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <p className="mt-2 text-sm leading-relaxed text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
                   {d}
                 </p>
               </div>
@@ -271,12 +291,12 @@ function DiscoverDesigns() {
 /* ---------------- client trust wall ---------------- */
 function ClientLogos() {
   return (
-    <section className="bg-[#070907] px-6 pb-24 text-[#F5F5F3]">
+    <section className="bg-[#F5F5F3] px-6 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal delay={0.2}>
-          <div className="border-t border-white/[0.08] pt-14">
+          <div className="border-t border-black/[0.08] pt-14">
             <p
-              className="text-center text-[10px] tracking-[0.34em] text-white/35 uppercase"
+              className="text-center text-[10px] tracking-[0.34em] text-[#111111]/40 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               Trusted by the companies we&rsquo;ve built for
@@ -298,7 +318,7 @@ function ClientLogos() {
                   key={src}
                   src={src}
                   alt={alt}
-                  className={`${h} w-auto opacity-50 transition-opacity duration-300 hover:opacity-100`}
+                  className={`${h} w-auto opacity-55 transition-opacity duration-300 hover:opacity-100`}
                   loading="lazy"
                 />
               ))}
@@ -352,11 +372,11 @@ function Transformations() {
     { name: "LuxeNest", desc: "Property listings elevated to an editorial browsing experience." },
   ];
   return (
-    <section className="bg-[#070907] px-6 pt-4 pb-20 text-[#F5F5F3]">
+    <section className="bg-[#F5F5F3] px-6 pt-4 pb-20 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
-            className="text-[11px] tracking-[0.34em] text-[#2e9e58] uppercase"
+            className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             Website transformations
@@ -367,7 +387,7 @@ function Transformations() {
           >
             Real websites, completely uplifted.
           </h2>
-          <p className="mt-3 max-w-xl text-base text-white/45" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="mt-3 max-w-xl text-base text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
             Hover any card to watch the before become the after.
           </p>
         </Reveal>
@@ -375,7 +395,7 @@ function Transformations() {
           {CASES.map((c, i) => (
             <Reveal key={c.name} delay={i * 0.08}>
               <div className="group">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/[0.09] shadow-[0_24px_60px_-30px_rgba(0,0,0,0.8)]">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-black/[0.07] bg-white shadow-[0_18px_44px_-28px_rgba(17,17,17,0.3)]">
                   <MiniSite bad />
                   <div className="absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-y-0">
                     <MiniSite />
@@ -399,13 +419,13 @@ function Transformations() {
                   </h3>
                   <a
                     href="mailto:isya@elsiaa.com?subject=Case%20study%20request"
-                    className="text-[10px] tracking-[0.22em] text-[#2e9e58] uppercase transition-colors hover:text-[#F5F5F3]"
+                    className="text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase transition-colors hover:text-[#2e9e58]"
                     style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     View case study →
                   </a>
                 </div>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-white/45" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
                   {c.desc}
                 </p>
               </div>
