@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { LionWalker } from "./LionWalker";
 
 /* ============================================================
    ELSIAA homepage — built from Isya's notebook sketch 06/20/26
@@ -467,7 +468,7 @@ function Team() {
 /* ---------- masthead: two seconds of identity, then the rows ---------- */
 function Masthead() {
   return (
-    <header className="mx-auto max-w-5xl px-6 pt-24 pb-16 md:pt-32 md:pb-24">
+    <header className="mx-auto max-w-5xl px-6 pt-6 pb-16 md:pt-8 md:pb-24">
       <Reveal>
         <p
           className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -498,6 +499,9 @@ function Masthead() {
 export function HomeRows() {
   return (
     <main className="bg-[#FBFBFA]">
+      <div className="pt-20 md:pt-24">
+        <LionWalker />
+      </div>
       <Masthead />
       <DivisionRow
         n="01"
