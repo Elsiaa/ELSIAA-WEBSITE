@@ -573,7 +573,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[540px] overflow-hidden md:h-[68svh]">
-                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — rebuilt by ELSIAA, live" native />
+                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — rebuilt by ELSIAA, live" />
               </div>
             </figure>
             <ul className="mx-auto mt-5 max-w-md space-y-2">
