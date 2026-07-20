@@ -97,7 +97,7 @@ function Rail({
         onPointerLeave={() => (paused.current = false)}
         onTouchStart={() => (paused.current = true)}
         onTouchEnd={() => (paused.current = false)}
-        className="flex gap-4 overflow-x-auto px-2 pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-3 overflow-x-auto px-2 pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {children}
       </div>
@@ -126,13 +126,13 @@ function DivisionRow({
   flip?: boolean;
 }) {
   return (
-    <section className="border-t border-black/[0.06] py-16 md:py-24">
-      <div className="mx-auto max-w-6xl px-5">
+    <section className="border-t border-black/[0.06] py-16 md:py-28">
+      <div className="mx-auto max-w-5xl px-6">
         <div
           className={`flex flex-col gap-8 md:items-center ${flip ? "md:flex-row-reverse" : "md:flex-row"}`}
         >
           {/* graphic */}
-          <Reveal className="md:w-[38%]">
+          <Reveal className="md:w-[34%]">
             <a href={href} className="group block overflow-hidden rounded-2xl">
               <img
                 src={img}
@@ -143,7 +143,7 @@ function DivisionRow({
             </a>
           </Reveal>
           {/* title + rail */}
-          <div className="min-w-0 md:w-[62%]">
+          <div className="min-w-0 md:w-[66%]">
             <Reveal>
               <p
                 className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -153,7 +153,7 @@ function DivisionRow({
               </p>
               <div className="mt-2 flex items-baseline justify-between gap-4">
                 <h2
-                  className="text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
+                  className="text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   {title}
@@ -167,7 +167,7 @@ function DivisionRow({
                 </a>
               </div>
               <p
-                className="mt-2 max-w-lg text-[15px] text-[#111111]/50"
+                className="mt-2 max-w-md text-[14px] text-[#111111]/50"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {lede}
@@ -179,24 +179,24 @@ function DivisionRow({
                   <a
                     key={`${s.name}-${i}`}
                     href={href}
-                    className="group flex w-[240px] flex-none flex-col rounded-2xl border border-black/[0.07] bg-white p-5 shadow-[0_18px_44px_-30px_rgba(17,17,17,0.35)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35"
+                    className="group flex w-[212px] flex-none flex-col rounded-xl border border-black/[0.07] bg-white p-4 shadow-[0_18px_44px_-30px_rgba(17,17,17,0.35)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35"
                   >
                     <div className="flex items-center justify-between">
                       <h3
-                        className="text-[15px] font-semibold tracking-[-0.01em] text-[#111111]"
+                        className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]"
                         style={{ fontFamily: "'Inter', sans-serif" }}
                       >
                         {s.name}
                       </h3>
-                      <span className="flex h-7 w-7 items-center justify-center rounded-full border border-black/10 text-[12px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[12px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">
                         →
                       </span>
                     </div>
-                    <ul className="mt-3 space-y-1.5">
+                    <ul className="mt-2.5 space-y-1">
                       {s.items.map((it) => (
                         <li
                           key={it}
-                          className="text-[12.5px] leading-snug text-[#111111]/55"
+                          className="text-[12px] leading-snug text-[#111111]/55"
                           style={{ fontFamily: "'Inter', sans-serif" }}
                         >
                           {it}
@@ -279,14 +279,14 @@ function ConsultPricing() {
         {TIERS.map((t) => (
           <div
             key={t.name}
-            className={`flex w-[280px] flex-none flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 ${
+            className={`flex w-[248px] flex-none flex-col rounded-xl border p-5 transition-all duration-300 hover:-translate-y-1 ${
               t.featured
                 ? "border-[#1e6b3c] bg-[#111111] text-white shadow-[0_30px_70px_-30px_rgba(30,107,60,0.55)]"
                 : "border-black/[0.08] bg-white text-[#111111] shadow-[0_18px_44px_-30px_rgba(17,17,17,0.35)]"
             }`}
           >
             <div className="flex items-center justify-between">
-              <h3 className="text-[15px] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <h3 className="text-[14px] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
                 {t.name}
               </h3>
               {t.featured && (
@@ -299,13 +299,13 @@ function ConsultPricing() {
               )}
             </div>
             <p className="mt-3">
-              <span className="text-3xl font-semibold tracking-[-0.03em]" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <span className="text-2xl font-semibold tracking-[-0.03em]" style={{ fontFamily: "'Inter', sans-serif" }}>
                 {t.price}
               </span>
               <span className={`ml-2 text-[12px] ${t.featured ? "text-white/50" : "text-black/40"}`}>/ {t.unit}</span>
             </p>
             <p
-              className={`mt-3 text-[13px] leading-relaxed ${t.featured ? "text-white/65" : "text-black/55"}`}
+              className={`mt-2.5 text-[12.5px] leading-relaxed ${t.featured ? "text-white/65" : "text-black/55"}`}
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {t.pitch}
@@ -320,7 +320,7 @@ function ConsultPricing() {
             </ul>
             <a
               href={`mailto:isya@elsiaa.com?subject=${encodeURIComponent(`Consultation — ${t.name}`)}&body=${encodeURIComponent(`Hi ELSIAA,\n\nI'd like to book the ${t.name} consultation (${t.price} / ${t.unit}).\n\nMy business:\nBest times:`)}`}
-              className={`mt-5 rounded-full px-5 py-3 text-center text-[11px] font-bold tracking-[0.18em] uppercase transition-all ${
+              className={`mt-4 rounded-full px-4 py-2.5 text-center text-[11px] font-bold tracking-[0.18em] uppercase transition-all ${
                 t.featured
                   ? "bg-[#2e9e58] text-white hover:bg-white hover:text-[#111111]"
                   : "border border-[#111111]/20 text-[#111111] hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
@@ -351,7 +351,7 @@ const CITIES = [
 
 function Locations() {
   return (
-    <section className="relative overflow-hidden bg-[#0c0c0c] py-20 text-white md:py-28">
+    <section className="relative overflow-hidden bg-[#0c0c0c] py-16 text-white md:py-24">
       <img
         src="/assets/home_cities.jpg"
         alt=""
@@ -359,7 +359,7 @@ function Locations() {
         className="absolute inset-0 h-full w-full object-cover opacity-35"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-[#0c0c0c]/70 via-transparent to-[#0c0c0c]" />
-      <div className="relative mx-auto max-w-6xl px-5">
+      <div className="relative mx-auto max-w-5xl px-6">
         <Reveal>
           <p
             className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
@@ -368,7 +368,7 @@ function Locations() {
             05 · Locations
           </p>
           <h2
-            className="mt-3 text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
+            className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             One standard. Every timezone.
@@ -379,9 +379,9 @@ function Locations() {
             {[...CITIES, ...CITIES].map((c, i) => (
               <div
                 key={`${c.name}-${i}`}
-                className="w-[280px] flex-none overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur"
+                className="w-[236px] flex-none overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur"
               >
-                <div className="pointer-events-none h-[190px] w-full overflow-hidden">
+                <div className="pointer-events-none h-[150px] w-full overflow-hidden">
                   <iframe
                     title={`Map — ${c.name}`}
                     src={`https://maps.google.com/maps?q=${encodeURIComponent(c.q)}&z=11&output=embed`}
@@ -421,8 +421,8 @@ const TEAM = [
 
 function Team() {
   return (
-    <section className="bg-white py-20 md:py-28">
-      <div className="mx-auto max-w-6xl px-5">
+    <section className="bg-white py-16 md:py-24">
+      <div className="mx-auto max-w-5xl px-6">
         <Reveal>
           <p
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -431,16 +431,16 @@ function Team() {
             06 · Team
           </p>
           <h2
-            className="mt-3 text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
+            className="mt-3 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             The people behind the lion.
           </h2>
         </Reveal>
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {TEAM.map((m, i) => (
             <Reveal key={m.name} delay={i * 0.05}>
-              <div className="group flex items-center gap-4 rounded-2xl border border-black/[0.07] bg-[#FBFBFA] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/35">
+              <div className="group flex items-center gap-3.5 rounded-xl border border-black/[0.07] bg-[#FBFBFA] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/35">
                 <span
                   className="flex h-13 w-13 flex-none items-center justify-center rounded-full bg-[#111111] text-[13px] font-bold tracking-wide text-[#2e9e58]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace", width: 52, height: 52 }}
@@ -467,7 +467,7 @@ function Team() {
 /* ---------- masthead: two seconds of identity, then the rows ---------- */
 function Masthead() {
   return (
-    <header className="mx-auto max-w-6xl px-5 pt-28 pb-14 md:pt-36 md:pb-20">
+    <header className="mx-auto max-w-5xl px-6 pt-24 pb-16 md:pt-32 md:pb-24">
       <Reveal>
         <p
           className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -476,7 +476,7 @@ function Masthead() {
           ELSIAA · AI Done Better
         </p>
         <h1
-          className="mt-4 max-w-3xl text-[13vw] leading-[0.95] font-semibold tracking-[-0.04em] text-[#111111] sm:text-6xl md:text-7xl"
+          className="mt-4 max-w-3xl text-[10.5vw] leading-[0.98] font-semibold tracking-[-0.04em] text-[#111111] sm:text-5xl md:text-6xl"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           Four divisions.
@@ -484,7 +484,7 @@ function Masthead() {
           <span className="text-[#1e6b3c]">One empire of detail.</span>
         </h1>
         <p
-          className="mt-5 max-w-xl text-base leading-relaxed text-[#111111]/55 md:text-lg"
+          className="mt-5 max-w-lg text-[15px] leading-relaxed text-[#111111]/55"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           Design, automation, software, and counsel — engineered for businesses
@@ -524,10 +524,10 @@ export function HomeRows() {
         subs={SOFTWARE}
         href="/services"
       />
-      <section className="border-t border-black/[0.06] py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-5">
+      <section className="border-t border-black/[0.06] py-16 md:py-28">
+        <div className="mx-auto max-w-5xl px-6">
           <div className="flex flex-col gap-8 md:flex-row-reverse md:items-center">
-            <Reveal className="md:w-[38%]">
+            <Reveal className="md:w-[34%]">
               <div className="overflow-hidden rounded-2xl">
                 <img
                   src="/assets/home_advisor.jpg"
@@ -537,7 +537,7 @@ export function HomeRows() {
                 />
               </div>
             </Reveal>
-            <div className="min-w-0 md:w-[62%]">
+            <div className="min-w-0 md:w-[66%]">
               <Reveal>
                 <p
                   className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -546,13 +546,13 @@ export function HomeRows() {
                   04 · Division
                 </p>
                 <h2
-                  className="mt-2 text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
+                  className="mt-2 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   Consultation
                 </h2>
                 <p
-                  className="mt-2 max-w-lg text-[15px] text-[#111111]/50"
+                  className="mt-2 max-w-md text-[14px] text-[#111111]/50"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   Strategy, technology, business, product, growth — book a seat
@@ -565,7 +565,7 @@ export function HomeRows() {
                   {[...CONSULTATION, ...CONSULTATION].map((s, i) => (
                     <div
                       key={`${s.name}-${i}`}
-                      className="flex w-[220px] flex-none flex-col rounded-2xl border border-black/[0.07] bg-white p-5"
+                      className="flex w-[196px] flex-none flex-col rounded-xl border border-black/[0.07] bg-white p-4"
                     >
                       <h3 className="text-[14px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
                         {s.name}
