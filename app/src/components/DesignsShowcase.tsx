@@ -1521,9 +1521,70 @@ function PhonePreview() {
 }
 
 function BeyondWebsites() {
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const paused = useRef(false);
+
+  const APPS = [
+    ["Conversion-Focused Web Experiences", "Sites engineered around a single measurable outcome."],
+    ["Native Mobile Application Design", "iOS and Android interfaces that feel born on the device."],
+    ["Brand Identity Architecture", "Logo, system, and voice built as one coherent structure."],
+    ["Healthcare Brand Revitalization", "Clinical trust, rebuilt for patients and partners."],
+    ["Motion Identity Systems", "How your brand moves — defined, not improvised."],
+    ["Commercial Product Staging", "Amateur photos rebuilt as studio-grade campaigns."],
+    ["Packaging & Unboxing Design", "The two seconds on the shelf, won deliberately."],
+    ["Exploded-View Product Films", "Engineering told as cinema, layer by layer."],
+    ["Interactive Scroll Narratives", "Stories driven by the visitor's own hand."],
+    ["Design System Engineering", "Tokens, components, and rules your developers ship from."],
+    ["Data Visualization & Dashboards", "Dense information made instantly legible."],
+    ["Presentation & Pitch Architecture", "Decks structured to win the room, slide by slide."],
+    ["Editorial & Print Systems", "Ink, stock, and grid — mastered press-ready."],
+    ["Environmental & Signage Design", "Readable at a glance, at a distance, in place."],
+    ["Campaign Creative at Scale", "Variant systems built for relentless testing."],
+    ["Email & Lifecycle Design", "Sequences that render everywhere and convert quietly."],
+    ["Social Content Systems", "A feed that looks run by a design team — because it is."],
+    ["Iconography & Custom Assets", "Every glyph drawn on one grid, one personality."],
+    ["Illustration Direction", "A visual voice no stock library can imitate."],
+    ["3D Rendering & Spatial Design", "Products and spaces from angles cameras can't reach."],
+    ["AR & Immersive Interfaces", "Design for the surfaces arriving next."],
+    ["Conversational & AI Interfaces", "Chat, voice, and agent experiences people trust."],
+    ["Accessibility-First Design", "WCAG-compliant by construction, not retrofit."],
+    ["Localization & Market Adaptation", "One design, fluent in every market you enter."],
+    ["AI Studio Photography", "Custom imagery without photographers, models, or sets."],
+    ["Image Restoration & Enhancement", "Archives and assets, returned to full strength."],
+    ["Brand Guidelines & Governance", "The rulebook that keeps every region on-brand."],
+    ["Trade Show & Event Environments", "A complete visual world for launches and floors."],
+    ["App Store & Marketplace Assets", "Listings prepared to spec, designed to convert."],
+    ["Developer Documentation Design", "Docs and portals engineers actually enjoy."],
+    ["Wayfinding Systems", "Movement through space, designed like a product."],
+    ["Investor & Board Materials", "The numbers, carried by narrative and restraint."],
+  ];
+
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const tick = () => {
+      if (!paused.current) {
+        rail.scrollLeft += 0.6;
+        const half = rail.scrollWidth / 2;
+        if (rail.scrollLeft >= half) rail.scrollLeft -= half;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const nudge = (dir: number) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    rail.scrollBy({ left: dir * 320, behavior: "smooth" });
+  };
+
   return (
-    <section className="bg-gradient-to-b from-[#F5F5F3] to-white px-6 pt-24 pb-28">
-      <div className="mx-auto max-w-6xl">
+    <section className="bg-gradient-to-b from-[#F5F5F3] to-white pt-24 pb-28">
+      <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <p
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -1531,66 +1592,73 @@ function BeyondWebsites() {
           >
             06 · Beyond websites
           </p>
-          <h2
-            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Every surface your brand touches.
-          </h2>
+          <div className="mt-3 flex items-end justify-between gap-6">
+            <h2
+              className="max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Every surface your brand touches.
+            </h2>
+            <div className="hidden flex-none gap-2 md:flex">
+              <button
+                aria-label="Scroll left"
+                onClick={() => nudge(-1)}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-black/15 text-[#111111] transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+              >
+                ←
+              </button>
+              <button
+                aria-label="Scroll right"
+                onClick={() => nudge(1)}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-black/15 text-[#111111] transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+              >
+                →
+              </button>
+            </div>
+          </div>
+          <p className="mt-3 max-w-xl text-base text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Thirty-two applications of design, one standard. It never stops moving —
+            neither do we.
+          </p>
         </Reveal>
-        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
-          <Reveal>
-            <div className="group">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                <img src="/assets/laptop_bad_v1.jpg" alt="Ad creative before ELSIAA" className="absolute inset-0 h-full w-full object-cover" />
-                <img
-                  src="/assets/laptop_premium_v1.jpg"
-                  alt="High-performing ad creative by ELSIAA"
-                  className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-                />
-              </div>
-              <h3 className="mt-4 text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Ad Campaigns
-              </h3>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Performance creative for Meta, Google, and beyond — hover to watch an
-                amateur shot become the ad.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <div className="group">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[#070907]">
-                <img
-                  src="/assets/work_identity.jpg"
-                  alt="ELSIAA constellation lion brand identity on merch and packaging"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                />
-              </div>
-              <h3 className="mt-4 text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Merch &amp; Branding
-              </h3>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Identity systems that survive every application — cards, packaging,
-                apparel, environments.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.16}>
-            <div className="group">
-              <div className="aspect-[4/3] overflow-hidden rounded-xl border border-black/[0.06]">
-                <PhonePreview />
-              </div>
-              <h3 className="mt-4 text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                App Design
-              </h3>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
-                Mobile UI/UX with platform-correct patterns — flows your developers can
-                actually ship.
-              </p>
-            </div>
-          </Reveal>
-        </div>
+      </div>
+
+      <div
+        ref={railRef}
+        onPointerEnter={() => (paused.current = true)}
+        onPointerLeave={() => (paused.current = false)}
+        onTouchStart={() => (paused.current = true)}
+        onTouchEnd={() => (paused.current = false)}
+        className="mt-12 flex gap-4 overflow-x-auto px-6 pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {[...APPS, ...APPS].map(([t, d], i) => (
+          <div
+            key={`${t}-${i}`}
+            className="group flex w-[280px] flex-none flex-col rounded-2xl border border-black/[0.06] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_24px_60px_-30px_rgba(30,107,60,0.35)]"
+          >
+            <span
+              className="text-[10px] tracking-[0.3em] text-[#1e6b3c]"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              {String((i % APPS.length) + 1).padStart(2, "0")}
+            </span>
+            <h3
+              className="mt-3 text-[17px] leading-snug font-semibold tracking-[-0.02em] text-[#111111]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              {t}
+            </h3>
+            <p
+              className="mt-2 text-[13px] leading-relaxed text-[#111111]/50"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              {d}
+            </p>
+            <span className="mt-auto pt-4 text-[10px] tracking-[0.26em] text-[#111111]/25 uppercase transition-colors duration-300 group-hover:text-[#1e6b3c]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              ELSIAA
+            </span>
+          </div>
+        ))}
       </div>
     </section>
   );
