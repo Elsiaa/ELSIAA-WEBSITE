@@ -1056,7 +1056,7 @@ function ClientLogos() {
 }
 
 /* ---------------- 3 · website transformations — real clients ---------------- */
-type Mini = { name: string; before: React.JSX.Element; after: React.JSX.Element; desc: string };
+type Mini = { name: string; before: React.JSX.Element; after: React.JSX.Element; desc: string; link?: string };
 
 const bar = (w: string, c: string, h = "h-2") => (
   <div className={`${h} ${w} rounded-sm`} style={{ backgroundColor: c }} />
@@ -1066,6 +1066,7 @@ const CASES: Mini[] = [
   {
     name: "Dialog Healthcare",
     desc: "A staffing site rebuilt around one promise — the right clinician, placed fast.",
+    link: "https://dialoghealthcare.com",
     before: (
       <div className="h-full w-full space-y-1.5 bg-[#eef3f4] p-3">
         <div className="flex items-center justify-between">
@@ -1104,20 +1105,28 @@ const CASES: Mini[] = [
   {
     name: "PSI Construction",
     desc: "A contractor's credibility, poured in concrete — portfolio first, paperwork last.",
+    link: "https://www.psiconstructionpa.com",
     before: (
-      <div className="h-full w-full space-y-1.5 bg-[#f3efe6] p-3">
-        <div className="flex items-center justify-between">
-          {bar("w-14", "#c9a227", "h-3.5")}
-          <div className="flex gap-1">{bar("w-7", "#8f8873")}{bar("w-7", "#8f8873")}{bar("w-7", "#8f8873")}</div>
+      <div className="h-full w-full bg-white">
+        <div className="flex items-center justify-between px-3 py-1.5">
+          <img src="/assets/psi_logo_v1.png" alt="" className="h-6 w-auto object-contain" />
+          <div className="flex gap-2">
+            {["Home", "Services", "Contact"].map((m) => (
+              <span key={m} className="text-[7px] text-black/60">{m}</span>
+            ))}
+          </div>
         </div>
-        <div className="h-12 w-full rounded-sm bg-[#3d3a33] p-2">{bar("w-2/3", "#c9a227", "h-3")}<div className="mt-1">{bar("w-1/2", "#6e685c", "h-2")}</div></div>
-        <div className="flex gap-1.5">
-          <div className="h-9 flex-1 rounded-sm bg-[#d9d2c0]" />
-          <div className="h-9 flex-1 rounded-sm bg-[#d9d2c0]" />
+        <div className="relative h-[62%] w-full overflow-hidden">
+          <img src="/assets/psi_hero_v1.jpg" alt="PSI Construction original homepage" className="h-full w-full object-cover" />
         </div>
-        {bar("w-full", "#c5bda7")}
-        {bar("w-4/5", "#c5bda7")}
-        {bar("w-5/6", "#c5bda7")}
+        <div className="px-3 pt-2 text-center">
+          <p className="text-[10px] font-bold tracking-wide text-[#2b2b2b]">Our Services</p>
+          <div className="mx-auto mt-1.5 flex justify-center gap-1.5">
+            <div className="h-6 w-1/4 rounded-sm bg-[#e8e4dc]" />
+            <div className="h-6 w-1/4 rounded-sm bg-[#e8e4dc]" />
+            <div className="h-6 w-1/4 rounded-sm bg-[#e8e4dc]" />
+          </div>
+        </div>
       </div>
     ),
     after: (
@@ -1224,11 +1233,13 @@ function Transformations() {
                     {c.name}
                   </h3>
                   <a
-                    href="mailto:isya@elsiaa.com?subject=Case%20study%20request"
+                    href={c.link ?? "mailto:isya@elsiaa.com?subject=Case%20study%20request"}
+                    target={c.link ? "_blank" : undefined}
+                    rel={c.link ? "noreferrer" : undefined}
                     className="text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase transition-colors hover:text-[#2e9e58]"
                     style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
-                    View case study →
+                    {c.link ? "View original ↗" : "View case study →"}
                   </a>
                 </div>
                 <p className="mt-1.5 text-[13px] leading-relaxed text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
