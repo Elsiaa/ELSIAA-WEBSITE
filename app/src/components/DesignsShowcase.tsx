@@ -163,39 +163,43 @@ function CompareSlider() {
           className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 uppercase"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
-          Feel it yourself — drag the line
+          Feel it yourself — drag the handle · both sites stay live
         </p>
         <div
           ref={boxRef}
-          className="relative mt-6 aspect-[16/9] cursor-ew-resize touch-none overflow-hidden rounded-2xl border border-black/10 shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)] select-none"
-          onPointerDown={(e) => {
-            dragging.current = true;
-            (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-            move(e.clientX);
-          }}
-          onPointerMove={(e) => dragging.current && move(e.clientX)}
-          onPointerUp={() => (dragging.current = false)}
+          className="relative mt-6 aspect-[16/9] overflow-hidden rounded-2xl border border-black/10 shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)]"
         >
           <div className="absolute inset-0">
-            <LazyFrame src="https://primebins.com" title="Prime Bins original — compare" interactive={false} />
+            <LazyFrame src="https://primebins.com" title="Prime Bins original — compare" />
           </div>
           <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
-            <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins by ELSIAA — compare" interactive={false} native />
+            <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins by ELSIAA — compare" native />
           </div>
-          <div className="pointer-events-none absolute top-0 bottom-0" style={{ left: `${pct}%` }}>
-            <div className="absolute top-0 bottom-0 -left-px w-0.5 bg-white shadow-[0_0_12px_rgba(0,0,0,0.5)]" />
+          {/* drag strip — the only surface that captures the pointer */}
+          <div
+            className="absolute top-0 bottom-0 z-10 w-11 -translate-x-1/2 cursor-ew-resize touch-none"
+            style={{ left: `${pct}%` }}
+            onPointerDown={(e) => {
+              dragging.current = true;
+              (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+              move(e.clientX);
+            }}
+            onPointerMove={(e) => dragging.current && move(e.clientX)}
+            onPointerUp={() => (dragging.current = false)}
+          >
+            <div className="absolute top-0 bottom-0 left-1/2 w-0.5 -translate-x-1/2 bg-white shadow-[0_0_12px_rgba(0,0,0,0.5)]" />
             <div className="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_-6px_rgba(17,17,17,0.5)]">
               <span className="text-[13px] font-bold text-[#111111]">⇔</span>
             </div>
           </div>
           <span
-            className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-[#1e6b3c] px-3 py-1 text-[9px] font-bold tracking-[0.2em] text-white uppercase"
+            className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-full bg-[#1e6b3c] px-3 py-1 text-[9px] font-bold tracking-[0.2em] text-white uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             ELSIAA
           </span>
           <span
-            className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-black/55 px-3 py-1 text-[9px] font-bold tracking-[0.2em] text-white/85 uppercase backdrop-blur"
+            className="pointer-events-none absolute right-3 bottom-3 z-10 rounded-full bg-black/55 px-3 py-1 text-[9px] font-bold tracking-[0.2em] text-white/85 uppercase backdrop-blur"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             Original
