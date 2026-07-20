@@ -35,6 +35,13 @@ export function SiteNav() {
         </a>
         <nav className="pointer-events-auto flex items-center gap-7">
           <a
+            href="/services"
+            className="hidden text-[11px] tracking-[0.26em] text-white/80 uppercase transition-opacity hover:opacity-60 md:inline"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Services
+          </a>
+          <a
             href="/designs"
             className="hidden text-[11px] tracking-[0.26em] text-white/80 uppercase transition-opacity hover:opacity-60 md:inline"
             style={{ fontFamily: "'Inter', sans-serif" }}
