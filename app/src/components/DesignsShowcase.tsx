@@ -99,10 +99,12 @@ function LazyFrame({
   src,
   title,
   interactive = true,
+  native = false,
 }: {
   src: string;
   title: string;
   interactive?: boolean;
+  native?: boolean;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [load, setLoad] = useState(false);
@@ -124,7 +126,11 @@ function LazyFrame({
           title={title}
           loading="lazy"
           className={`origin-top-left ${interactive ? "" : "pointer-events-none"}`}
-          style={{ width: "200%", height: "200%", transform: "scale(0.5)", border: "0" }}
+          style={
+            native
+              ? { width: "100%", height: "100%", border: "0" }
+              : { width: "200%", height: "200%", transform: "scale(0.5)", border: "0" }
+          }
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-[#ECECEA]">
@@ -174,7 +180,7 @@ function CompareSlider() {
             <LazyFrame src="https://primebins.com" title="Prime Bins original — compare" interactive={false} />
           </div>
           <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
-            <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins by ELSIAA — compare" interactive={false} />
+            <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins by ELSIAA — compare" interactive={false} native />
           </div>
           <div className="pointer-events-none absolute top-0 bottom-0" style={{ left: `${pct}%` }}>
             <div className="absolute top-0 bottom-0 -left-px w-0.5 bg-white shadow-[0_0_12px_rgba(0,0,0,0.5)]" />
@@ -418,6 +424,15 @@ function DiscoverDesigns() {
               >
                 Original · fully interactive
               </span>
+              <a
+                href="https://primebins.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[10px] tracking-[0.2em] text-[#111111]/45 uppercase underline-offset-4 hover:underline"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Open ↗
+              </a>
             </div>
             <ul className="mt-4 space-y-2">
               {[
@@ -434,7 +449,7 @@ function DiscoverDesigns() {
           </Reveal>
 
           <Reveal delay={0.15} className={`${side === "after" ? "block" : "hidden"} lg:block`}>
-            <figure className="relative overflow-hidden rounded-2xl border-2 border-[#1e6b3c] bg-[#0B2447] shadow-[0_60px_130px_-45px_rgba(30,107,60,0.55)] ring-4 ring-[#1e6b3c]/10 transition-transform duration-300 hover:scale-[1.01]">
+            <figure className="relative overflow-hidden rounded-2xl border-2 border-[#1e6b3c] bg-[#0B2447] shadow-[0_60px_130px_-45px_rgba(30,107,60,0.55)] ring-4 ring-[#1e6b3c]/10">
               <div
                 className="pointer-events-none absolute top-14 left-4 z-10 rounded-full bg-[#1e6b3c] px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white uppercase shadow-lg"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -464,7 +479,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[560px] overflow-hidden md:h-[76svh]">
-                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — designed by ELSIAA (live site)" />
+                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — designed by ELSIAA (live site)" native />
               </div>
             </figure>
             <div className="mt-3.5 flex items-baseline justify-between">
@@ -477,6 +492,15 @@ function DiscoverDesigns() {
               >
                 Designed by ELSIAA · fully interactive
               </span>
+              <a
+                href="https://isya-stack.github.io/mr-bins-website-/"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase underline-offset-4 hover:underline"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Open ↗
+              </a>
             </div>
             <ul className="mt-4 space-y-2">
               {[
