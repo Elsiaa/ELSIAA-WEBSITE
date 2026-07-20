@@ -1,22 +1,32 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { EmpireHero } from "../components/EmpireHero";
-import { ElsiaaSections } from "../components/ElsiaaSections";
-import { HomeLoop } from "../components/HomeLoop";
-import { HomeShowcase } from "../components/HomeShowcase";
 import { SiteNav } from "../components/SiteNav";
+import { HomeRows } from "../components/HomeRows";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "ELSIAA — AI Done Better" },
+      {
+        name: "description",
+        content:
+          "Design, automation, software, and consultation — four divisions, one standard. ELSIAA builds the technology and the image of businesses that intend to be taken seriously.",
+      },
+      { property: "og:title", content: "ELSIAA — AI Done Better" },
+      {
+        property: "og:description",
+        content: "Four divisions. One empire of detail.",
+      },
+      { property: "og:image", content: "/assets/og_cover.png" },
+    ],
+  }),
+  component: Home,
 });
 
-function Index() {
+function Home() {
   return (
-    <main className="bg-white text-[#111111] antialiased">
+    <>
       <SiteNav />
-      <EmpireHero />
-      <HomeLoop />
-      <HomeShowcase />
-      <ElsiaaSections />
-    </main>
+      <HomeRows />
+    </>
   );
 }
