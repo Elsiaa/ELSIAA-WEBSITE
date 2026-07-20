@@ -550,7 +550,7 @@ function DiscoverDesigns() {
                 </h3>
               </div>
               <a
-                href="https://isya-stack.github.io/mr-bins-website-/"
+                href="/mr-bins/"
                 target="_blank"
                 rel="noreferrer"
                 className="text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase underline-offset-4 hover:underline"
@@ -573,7 +573,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[540px] overflow-hidden md:h-[68svh]">
-                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — rebuilt by ELSIAA, live" />
+                <LazyFrame src="/mr-bins/" title="Mr. Bins — rebuilt by ELSIAA, live" />
               </div>
             </figure>
             <ul className="mx-auto mt-5 max-w-md space-y-2">
