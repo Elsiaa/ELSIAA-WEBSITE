@@ -1125,107 +1125,29 @@ function DiscoverApps() {
   );
 }
 
-/* ---------------- 04 · the right way — a product, built in layers ---------------- */
-const PD_SRC =
-  typeof window !== "undefined" && window.innerWidth < 768
-    ? "/assets/laptop_disassemble_v1_lite.mp4"
-    : "/assets/laptop_disassemble_v1.mp4";
-const PD_END = 9.9;
-
+/* ---------------- product design — the right way ---------------- */
 function ProductAdFeature() {
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const badRef = useRef<HTMLDivElement | null>(null);
-  const adRef = useRef<HTMLDivElement | null>(null);
-  const filmWrapRef = useRef<HTMLDivElement | null>(null);
-  const filmRef = useRef<HTMLVideoElement | null>(null);
-  const capRefs = useRef<(HTMLParagraphElement | null)[]>([]);
-
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   useEffect(() => {
-    const track = trackRef.current;
-    const bad = badRef.current;
-    const ad = adRef.current;
-    const wrap = filmWrapRef.current;
-    const video = filmRef.current;
-    if (!track || !bad || !ad || !wrap || !video) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      bad.style.opacity = "0";
-      ad.style.opacity = "1";
-      return;
-    }
-
-    video.load();
-    let targetTime = 0;
-    let raf = 0;
-    let seekRaf = 0;
-    const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
-    const seg = (p: number, x: number, y: number) => clamp01((p - x) / (y - x));
-    const io = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-
-    const tick = () => {
-      const r = track.getBoundingClientRect();
-      const total = r.height - window.innerHeight;
-      const p = clamp01(-r.top / Math.max(1, total));
-
-      // I — the core, buried in a bad photo
-      const toAd = io(seg(p, 0.18, 0.32));
-      bad.style.opacity = String(1 - toAd);
-      bad.style.transform = `scale(${1 + toAd * 0.06})`;
-      bad.style.filter = `blur(${toAd * 8}px) saturate(${0.85 + toAd * 0.15})`;
-
-      // II — packaged: the ad takes the stage
-      const toFilm = io(seg(p, 0.46, 0.56));
-      ad.style.opacity = String(toAd * (1 - toFilm));
-      ad.style.transform = `scale(${0.96 + toAd * 0.04})`;
-
-      // III — layered: the composition separates into its parts
-      wrap.style.opacity = String(toFilm);
-      const film = seg(p, 0.56, 0.96);
-      targetTime = film * PD_END;
-
-      // caption beats
-      const CAPS: [number, number][] = [
-        [0.04, 0.18],
-        [0.32, 0.46],
-        [0.6, 0.92],
-      ];
-      capRefs.current.forEach((el, i) => {
-        if (!el) return;
-        const [x, y] = CAPS[i];
-        const eIn = seg(p, x, x + 0.05);
-        const e = Math.min(eIn, 1 - seg(p, y - 0.04, y));
-        el.style.opacity = String(e);
-        el.style.transform = `translateY(${(1 - eIn) * 20}px)`;
-      });
-
-      raf = requestAnimationFrame(tick);
-    };
-
-    const seekLoop = () => {
-      if (video.readyState >= 2 && !video.seeking && Number.isFinite(video.duration)) {
-        const cur = video.currentTime;
-        const diff = targetTime - cur;
-        if (Math.abs(diff) > 0.034) {
-          const step = Math.max(-0.5, Math.min(0.5, diff * 0.5));
-          video.currentTime = Math.max(0, Math.min(PD_END, cur + step));
-        }
-      }
-      seekRaf = requestAnimationFrame(seekLoop);
-    };
-
-    raf = requestAnimationFrame(tick);
-    seekRaf = requestAnimationFrame(seekLoop);
-    return () => {
-      cancelAnimationFrame(raf);
-      cancelAnimationFrame(seekRaf);
-    };
+    const v = videoRef.current;
+    if (!v) return;
+    const io = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (e.isIntersecting) v.play().catch(() => {});
+          else v.pause();
+        }),
+      { threshold: 0.25 },
+    );
+    io.observe(v);
+    return () => io.disconnect();
   }, []);
-
   return (
-    <section className="bg-[#F5F5F3] text-[#111111]">
-      <div className="mx-auto max-w-6xl px-6 pt-6 pb-10">
+    <section className="bg-[#F5F5F3] px-6 pt-6 pb-24 text-[#111111]">
+      <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2
-            className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl"
+            className="max-w-3xl text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             There is only one way to display a product.
@@ -1237,104 +1159,85 @@ function ProductAdFeature() {
           >
             Everything in this world is packaged and layered with design — presented
             carefully, with the right optics, capturing the core of what you&rsquo;re
-            selling. Scroll, and watch it happen to one product.
+            selling.
           </p>
         </Reveal>
-      </div>
 
-      {/* the pinned stage */}
-      <div ref={trackRef} style={{ height: "340vh" }} className="relative">
-        <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden">
-          {/* caption beats */}
-          <div className="pointer-events-none absolute inset-x-0 top-[9svh] z-10 flex justify-center px-6">
-            {[
-              "Every product has a core.",
-              "Design packages it.",
-              "Layer by layer. Nothing accidental.",
-            ].map((t, i) => (
-              <p
-                key={t}
-                ref={(el) => {
-                  capRefs.current[i] = el;
-                }}
-                className="absolute max-w-3xl text-center text-2xl font-semibold tracking-[-0.035em] text-[#111111] opacity-0 will-change-transform md:text-4xl"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                {t}
-              </p>
-            ))}
-          </div>
-
-          {/* I — the amateur core */}
-          <div
-            ref={badRef}
-            className="absolute inset-x-0 top-[18svh] bottom-[8svh] flex items-center justify-center will-change-transform"
-          >
-            <img
-              src="/assets/laptop_bad_v1.jpg"
-              alt="The product, buried in an amateur photo"
-              className="h-full w-auto max-w-[90vw] rounded-2xl object-contain shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)]"
-            />
-          </div>
-
-          {/* II — the packaged ad */}
-          <div
-            ref={adRef}
-            className="absolute inset-x-0 top-[18svh] bottom-[8svh] flex items-center justify-center opacity-0 will-change-transform"
-          >
+        {/* the PRIME transformation — big after, small before */}
+        <Reveal delay={0.08}>
+          <div className="relative mt-12 overflow-hidden rounded-2xl shadow-[0_60px_130px_-50px_rgba(17,17,17,0.55)]">
             <img
               src="/assets/laptop_premium_v1.jpg"
-              alt="The same product, packaged by design"
-              className="h-full w-auto max-w-[90vw] rounded-2xl object-contain shadow-[0_60px_130px_-45px_rgba(30,107,60,0.5)] ring-4 ring-[#1e6b3c]/10"
+              alt="The product, staged and lit as a premium campaign by ELSIAA"
+              className="aspect-[16/10] w-full object-cover md:aspect-[21/10]"
             />
+            <figure className="absolute top-4 left-4 w-[24%] max-w-[220px] overflow-hidden rounded-lg border-2 border-white/90 shadow-[0_20px_50px_-16px_rgba(0,0,0,0.7)] transition-transform duration-300 hover:origin-top-left hover:scale-[1.6]">
+              <img
+                src="/assets/laptop_bad_v1.jpg"
+                alt="The same product in the original amateur photo"
+                className="aspect-square w-full object-cover"
+              />
+            </figure>
+            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 bg-gradient-to-t from-black/70 via-black/25 to-transparent p-6 pt-16">
+              <p
+                className="max-w-xl text-sm leading-relaxed text-white/90 md:text-base"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                One phone photo in. The product isolated, staged with its components,
+                lit like it deserves — one campaign out.
+              </p>
+            </div>
           </div>
+        </Reveal>
 
-          {/* III — the layers, separated under your scroll */}
-          <div
-            ref={filmWrapRef}
-            className="absolute inset-x-0 top-[18svh] bottom-[8svh] flex items-center justify-center opacity-0"
-          >
-            <video
-              ref={filmRef}
-              src={PD_SRC}
-              muted
-              playsInline
-              preload="auto"
-              aria-hidden
-              className="h-full w-auto max-w-[90vw] rounded-2xl object-contain shadow-[0_60px_130px_-45px_rgba(0,0,0,0.6)]"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* the takeaway */}
-      <div className="mx-auto max-w-6xl px-6 pt-4 pb-24">
-        <Reveal>
-          <div className="grid grid-cols-1 gap-x-10 gap-y-8 border-t border-black/[0.08] pt-10 sm:grid-cols-3">
-            {[
-              ["The core", "We find what actually sells the product — and strip away everything competing with it."],
-              ["The optics", "Composition, lighting, and staging engineered so the eye lands exactly where it should."],
-              ["The layers", "Every element placed on purpose: ingredients, components, shadows — nothing accidental."],
-            ].map(([t, d]) => (
-              <div key={t}>
-                <p
-                  className="mt-2.5 text-[14px] leading-relaxed text-[#111111]/60"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
-                  {d}
-                </p>
+        {/* the layers — an ambient film, no tricks */}
+        <Reveal delay={0.08}>
+          <div className="mt-6 grid grid-cols-1 items-center gap-8 lg:grid-cols-5">
+            <div className="overflow-hidden rounded-2xl shadow-[0_50px_110px_-50px_rgba(0,0,0,0.5)] lg:col-span-3">
+              <video
+                ref={videoRef}
+                src="/assets/laptop_disassemble_v1.mp4"
+                muted
+                playsInline
+                loop
+                preload="metadata"
+                className="w-full"
+              />
+            </div>
+            <div className="lg:col-span-2">
+              <h3
+                className="text-2xl font-semibold tracking-[-0.035em] md:text-3xl"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Layer by layer.
+                <br />
+                Nothing accidental.
+              </h3>
+              <div className="mt-6 space-y-5">
+                {[
+                  ["The core", "We find what actually sells the product — and strip away everything competing with it."],
+                  ["The optics", "Composition, lighting, and staging engineered so the eye lands exactly where it should."],
+                  ["The layers", "Every element placed on purpose: components, shadows, reflections — nothing accidental."],
+                ].map(([t, d]) => (
+                  <div key={t} className="border-l-2 border-[#1e6b3c] pl-4">
+                    <h4 className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      {t}
+                    </h4>
+                    <p className="mt-1 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      {d}
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="mt-12 text-center">
-            <a
-              href="mailto:isya@elsiaa.com?subject=Stage%20my%20product"
-              className="group inline-flex items-center gap-3 rounded-full border border-[#111111]/20 px-8 py-3.5 text-[11px] tracking-[0.28em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              Stage my product
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </a>
+              <a
+                href="mailto:isya@elsiaa.com?subject=Stage%20my%20product"
+                className="group mt-8 inline-flex items-center gap-3 rounded-full border border-[#111111]/20 px-7 py-3 text-[11px] tracking-[0.26em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Stage my product
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </a>
+            </div>
           </div>
         </Reveal>
       </div>
