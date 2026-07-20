@@ -100,11 +100,13 @@ function LazyFrame({
   title,
   interactive = true,
   native = false,
+  zoom = 0.5,
 }: {
   src: string;
   title: string;
   interactive?: boolean;
   native?: boolean;
+  zoom?: number;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [load, setLoad] = useState(false);
@@ -129,7 +131,12 @@ function LazyFrame({
           style={
             native
               ? { width: "100%", height: "100%", border: "0" }
-              : { width: "200%", height: "200%", transform: "scale(0.5)", border: "0" }
+              : {
+                  width: `${100 / zoom}%`,
+                  height: `${100 / zoom}%`,
+                  transform: `scale(${zoom})`,
+                  border: "0",
+                }
           }
         />
       ) : (
@@ -414,8 +421,25 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
+              <div className="flex items-center justify-between border-b border-black/10 bg-white px-4 py-2">
+                <span
+                  className="rounded-full bg-black/10 px-3 py-1 text-[9px] font-bold tracking-[0.22em] text-black/60 uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  Before
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#2e9e58]/70" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#2e9e58]" />
+                  </span>
+                  <span className="text-[9px] font-semibold tracking-[0.2em] text-black/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    Live — scroll &amp; click
+                  </span>
+                </span>
+              </div>
               <div className="h-[560px] overflow-hidden md:h-[76svh]">
-                <LazyFrame src="https://primebins.com" title="Prime Bins — original website (live site)" />
+                <LazyFrame src="https://primebins.com" title="Prime Bins — original website (live site)" zoom={0.34} />
               </div>
             </figure>
             <div className="mt-3.5 flex items-baseline justify-between">
@@ -482,8 +506,25 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
+              <div className="flex items-center justify-between border-b border-black/10 bg-white px-4 py-2">
+                <span
+                  className="rounded-full bg-[#1e6b3c] px-3 py-1 text-[9px] font-bold tracking-[0.22em] text-white uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  After — ELSIAA
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#2e9e58]/70" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#2e9e58]" />
+                  </span>
+                  <span className="text-[9px] font-semibold tracking-[0.2em] text-black/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    Live — scroll &amp; click
+                  </span>
+                </span>
+              </div>
               <div className="h-[560px] overflow-hidden md:h-[76svh]">
-                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — designed by ELSIAA (live site)" native />
+                <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins — designed by ELSIAA (live site)" zoom={0.34} />
               </div>
             </figure>
             <div className="mt-3.5 flex items-baseline justify-between">
