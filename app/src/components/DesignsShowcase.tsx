@@ -154,6 +154,66 @@ function LazyFrame({
 }
 
 /* ---------------- drag-to-compare: ELSIAA design wipes over the original ---------------- */
+function DialogNewPreview() {
+  return (
+    <div className="flex h-full w-full flex-col bg-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <div className="flex items-center justify-between border-b border-black/5 px-8 py-5">
+        <span className="text-lg font-bold tracking-tight text-[#111111]">
+          Dialog<span className="text-[#111111]/45"> Healthcare</span>
+        </span>
+        <span className="rounded-full bg-[#1e6b3c] px-5 py-2 text-[10px] font-semibold tracking-[0.18em] text-white uppercase">
+          Request staff
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col justify-center px-8">
+        <p
+          className="text-[10px] tracking-[0.3em] text-[#1e6b3c] uppercase"
+          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          Healthcare staffing
+        </p>
+        <h3 className="mt-3 max-w-lg text-4xl leading-[1.05] font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl">
+          The right clinician.
+          <br />
+          Placed in days, not months.
+        </h3>
+        <div className="mt-6 flex gap-3">
+          <div className="h-10 w-40 rounded-full bg-[#111111]" />
+          <div className="h-10 w-32 rounded-full border border-black/15" />
+        </div>
+        <div className="mt-10 grid max-w-2xl grid-cols-3 gap-4">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="dhp-shimmer rounded-xl bg-[#F5F5F3] p-4" style={{ animationDelay: `${i * 0.25}s` }}>
+              <div className="h-2 w-2/3 rounded bg-[#1e6b3c]/60" />
+              <div className="mt-2.5 h-1.5 w-full rounded bg-black/10" />
+              <div className="mt-1.5 h-1.5 w-4/5 rounded bg-black/10" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex items-center justify-between border-t border-black/5 px-8 py-4">
+        <span
+          className="text-[9px] tracking-[0.26em] text-black/35 uppercase"
+          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          New site · in production
+        </span>
+        <span
+          className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[9px] font-bold tracking-[0.22em] text-[#1e6b3c] uppercase"
+          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          ELSIAA
+        </span>
+      </div>
+      <style>{`
+        @keyframes dhpShimmer { 0%, 100% { opacity: .55 } 50% { opacity: 1 } }
+        .dhp-shimmer { animation: dhpShimmer 2.4s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .dhp-shimmer { animation: none } }
+      `}</style>
+    </div>
+  );
+}
+
 function CompareSlider() {
   const [pct, setPct] = useState(50);
   const boxRef = useRef<HTMLDivElement | null>(null);
@@ -165,24 +225,29 @@ function CompareSlider() {
   };
   return (
     <Reveal delay={0.1}>
-      <div className="mx-auto mt-16 hidden max-w-5xl lg:block">
+      <div className="mx-auto mt-20 hidden max-w-5xl lg:block">
         <p
-          className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 uppercase"
+          className="text-center text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
-          Feel it yourself — drag the handle · both sites stay live
+          Next in the studio · Dialog Healthcare
+        </p>
+        <p
+          className="mt-3 text-center text-[10px] tracking-[0.3em] text-[#111111]/40 uppercase"
+          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          Drag the handle — their site today vs. where we&rsquo;re taking it
         </p>
         <div
           ref={boxRef}
           className="relative mt-6 aspect-[16/9] overflow-hidden rounded-2xl border border-black/10 shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)]"
         >
           <div className="absolute inset-0">
-            <LazyFrame src="https://primebins.com" title="Prime Bins original — compare" />
+            <LazyFrame src="https://dialoghealthcare.com" title="Dialog Healthcare — current website" zoom={0.5} />
           </div>
           <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
-            <LazyFrame src="https://isya-stack.github.io/mr-bins-website-/" title="Mr. Bins by ELSIAA — compare" native />
+            <DialogNewPreview />
           </div>
-          {/* drag strip — the only surface that captures the pointer */}
           <div
             className="absolute top-0 bottom-0 z-10 w-11 -translate-x-1/2 cursor-ew-resize touch-none"
             style={{ left: `${pct}%` }}
@@ -203,13 +268,13 @@ function CompareSlider() {
             className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-full bg-[#1e6b3c] px-3 py-1 text-[9px] font-bold tracking-[0.2em] text-white uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            ELSIAA
+            ELSIAA — in production
           </span>
           <span
             className="pointer-events-none absolute right-3 bottom-3 z-10 rounded-full bg-black/55 px-3 py-1 text-[9px] font-bold tracking-[0.2em] text-white/85 uppercase backdrop-blur"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Original
+            Their site today
           </span>
         </div>
       </div>
