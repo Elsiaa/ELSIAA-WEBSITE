@@ -31,6 +31,10 @@ export function ElsiaaExperience() {
   const titleRef = useRef<HTMLDivElement>(null);
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const premiumRef = useRef<HTMLDivElement>(null);
+  const shockRef = useRef<HTMLDivElement>(null);
+  const timeRef = useRef<HTMLDivElement>(null);
+  const timeBarRef = useRef<HTMLDivElement>(null);
+  const timeLabelRef = useRef<HTMLSpanElement>(null);
   const tagRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -81,6 +85,31 @@ export function ElsiaaExperience() {
         targetTime = film * Math.min(FILM_END_T, video.duration - 0.05);
       }
 
+      // cinema: slow dolly-in across the whole scrub
+      const dolly = 1 + film * 0.12;
+
+      // impact: the landing hits — shockwave ring + camera shake
+      const impact = seg(p, 0.66, 0.74);
+      const shake =
+        impact > 0 && impact < 1
+          ? Math.sin(p * 900) * 7 * Math.sin(impact * Math.PI)
+          : 0;
+      if (shockRef.current) {
+        const ring = seg(p, 0.68, 0.8);
+        shockRef.current.style.opacity = `${ring > 0 ? (1 - ring) * 0.75 : 0}`;
+        shockRef.current.style.transform = `translate(-50%, -50%) scale(${0.2 + ring * 3.4})`;
+      }
+
+      // editor timecode under the film
+      if (timeBarRef.current) timeBarRef.current.style.transform = `scaleX(${film})`;
+      if (timeLabelRef.current) {
+        const t = film * 14.9;
+        timeLabelRef.current.textContent = `00:${String(Math.floor(t)).padStart(2, "0")}.${String(Math.floor((t % 1) * 10))}`;
+      }
+      if (timeRef.current) {
+        timeRef.current.style.opacity = `${seg(p, 0.04, 0.1) * (1 - seg(p, 0.76, 0.82))}`;
+      }
+
       // living 3D depth + the PRIME transformation: the sketch rebuilds
       // itself as a premium render — the page performing its own thesis
       curX += (tiltX - curX) * 0.06;
@@ -89,7 +118,7 @@ export function ElsiaaExperience() {
       const upE = up * up * (3 - 2 * up);
       if (videoWrapRef.current) {
         const el = videoWrapRef.current;
-        el.style.transform = `rotateX(${curX}deg) rotateY(${curY}deg)`;
+        el.style.transform = `translateX(${shake}px) rotateX(${curX}deg) rotateY(${curY}deg) scale(${dolly})`;
         el.style.opacity = `${1 - upE}`;
         el.style.filter = `blur(${upE * 10}px)`;
       }
@@ -179,7 +208,7 @@ export function ElsiaaExperience() {
             ELSIAA
           </p>
           <h1
-            className="mt-4 text-5xl font-semibold tracking-[-0.04em] text-[#111111] md:text-8xl"
+            className="mt-4 text-6xl leading-[0.95] font-semibold tracking-[-0.045em] text-[#111111] md:text-9xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Discover Designs
@@ -194,11 +223,18 @@ export function ElsiaaExperience() {
           <video
             ref={videoRef}
             src={FILM_SRC}
-            className="mb-[6svh] max-h-[62svh] w-auto max-w-[86vw] object-contain"
+            className="mb-[3svh] max-h-[76svh] w-auto max-w-[96vw] object-contain"
             muted
             playsInline
             preload="auto"
             poster={STILL_SRC}
+          />
+          {/* impact shockwave, centered on the can */}
+          <div
+            ref={shockRef}
+            aria-hidden
+            className="pointer-events-none absolute rounded-full border-[3px] border-[#111111]/70 opacity-0"
+            style={{ left: "68%", top: "58%", width: "16vmin", height: "16vmin" }}
           />
         </div>
 
