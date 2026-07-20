@@ -30,6 +30,8 @@ export function ElsiaaExperience() {
   const trackRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const videoWrapRef = useRef<HTMLDivElement>(null);
+  const premiumRef = useRef<HTMLDivElement>(null);
+  const tagRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -74,17 +76,33 @@ export function ElsiaaExperience() {
       }
 
       // the film, scrubbed
-      const film = seg(p, 0.06, 0.86);
+      const film = seg(p, 0.06, 0.74);
       if (video && video.duration && Number.isFinite(video.duration)) {
         targetTime = film * Math.min(FILM_END_T, video.duration - 0.05);
       }
 
-      // living 3D depth
+      // living 3D depth + the PRIME transformation: the sketch rebuilds
+      // itself as a premium render — the page performing its own thesis
       curX += (tiltX - curX) * 0.06;
       curY += (tiltY - curY) * 0.06;
+      const up = seg(p, 0.8, 0.94);
+      const upE = up * up * (3 - 2 * up);
       if (videoWrapRef.current) {
         const el = videoWrapRef.current;
         el.style.transform = `rotateX(${curX}deg) rotateY(${curY}deg)`;
+        el.style.opacity = `${1 - upE}`;
+        el.style.filter = `blur(${upE * 10}px)`;
+      }
+      if (premiumRef.current) {
+        const el = premiumRef.current;
+        el.style.opacity = `${upE}`;
+        el.style.transform = `rotateX(${curX}deg) rotateY(${curY}deg) scale(${0.96 + upE * 0.04})`;
+        el.style.filter = `blur(${(1 - upE) * 10}px)`;
+      }
+      if (tagRef.current) {
+        const t = seg(p, 0.92, 1);
+        tagRef.current.style.opacity = `${t}`;
+        tagRef.current.style.transform = `translateY(${(1 - t) * 14}px)`;
       }
 
       raf = requestAnimationFrame(update);
