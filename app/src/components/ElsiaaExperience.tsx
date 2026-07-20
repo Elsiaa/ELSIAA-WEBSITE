@@ -5,13 +5,13 @@ import { useEffect, useRef, useState } from "react";
   together on the same screen. 100% scroll-driven; no timers, no autoplay,
   no scroll hijacking.
 
-    0.06-0.72  the film, scrubbed by scroll: he grabs the page, RIPS it out
+    0.06-0.86  the film, scrubbed by scroll: he grabs the page, RIPS it out
                of the monitor, crumples it, throws it, it lands + settles
     0.70-0.84  landing caption: bad designs, where they belong
     0.72-1.00  the settled shot holds
 */
 
-const TRACK_VH = 540;
+const TRACK_VH = 420;
 const STILL_SRC = "/assets/office_scene_v8.jpeg";
 const FILM_SRC =
   typeof window !== "undefined" && window.innerWidth < 768
@@ -66,7 +66,7 @@ export function ElsiaaExperience() {
       const p = clamp01(-rect.top / total);
 
       // the film, scrubbed
-      const film = seg(p, 0.06, 0.72);
+      const film = seg(p, 0.06, 0.86);
       if (video && video.duration && Number.isFinite(video.duration)) {
         targetTime = film * Math.min(FILM_END_T, video.duration - 0.05);
       }

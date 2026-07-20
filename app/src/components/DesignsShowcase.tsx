@@ -97,7 +97,7 @@ function Tilt({ children }: { children: React.ReactNode }) {
 /* ---------------- 1 · statement ---------------- */
 function Statement() {
   return (
-    <section className="flex min-h-[78svh] flex-col items-center justify-center bg-white px-6 text-center">
+    <section className="flex min-h-[58svh] flex-col items-center justify-center bg-white px-6 pb-14 text-center">
       <Reveal>
         <h2
           className="mx-auto max-w-4xl text-4xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl md:leading-[1.03]"
@@ -116,7 +116,7 @@ function Statement() {
         </p>
       </Reveal>
       <Reveal delay={0.2}>
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
           <a
             href="#discover-designs"
             className="rounded-full border border-[#111111] bg-[#111111] px-8 py-3.5 text-[11px] tracking-[0.28em] text-white uppercase transition-all duration-300 hover:bg-[#1e6b3c] hover:border-[#1e6b3c]"
