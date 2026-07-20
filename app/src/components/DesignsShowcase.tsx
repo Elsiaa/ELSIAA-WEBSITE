@@ -164,9 +164,23 @@ function DiscoverDesigns() {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
+        <div className="relative mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
+          <div className="pointer-events-none absolute top-[38%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
+            <span
+              className="flex h-16 w-16 items-center justify-center rounded-full border border-black/10 bg-white text-sm font-bold tracking-[0.1em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.35)]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              VS
+            </span>
+          </div>
           <Reveal delay={0.05}>
-            <figure className="relative overflow-hidden rounded-2xl border border-[#1e6b3c]/30 bg-white shadow-[0_50px_110px_-45px_rgba(30,107,60,0.45)] transition-transform duration-300 hover:scale-[1.01]">
+            <figure className="relative overflow-hidden rounded-2xl border-2 border-[#1e6b3c] bg-white shadow-[0_60px_130px_-45px_rgba(30,107,60,0.55)] ring-4 ring-[#1e6b3c]/10 transition-transform duration-300 hover:scale-[1.01]">
+              <div
+                className="pointer-events-none absolute top-14 left-4 z-10 rounded-full bg-[#1e6b3c] px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white uppercase shadow-lg"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                After — ELSIAA
+              </div>
               <div className="pointer-events-none absolute top-14 right-4 z-10 flex items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
@@ -210,10 +224,28 @@ function DiscoverDesigns() {
                 Designed by ELSIAA · fully interactive
               </span>
             </div>
+            <ul className="mt-4 space-y-2">
+              {[
+                "The offer is understood in three seconds",
+                "Every scroll ends at the next obvious step",
+                "Premium restraint — design that earns trust",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-2.5 text-[13px] text-[#111111]/70" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[9px] font-bold text-white">✓</span>
+                  {t}
+                </li>
+              ))}
+            </ul>
           </Reveal>
 
           <Reveal delay={0.15}>
-            <figure className="relative overflow-hidden rounded-2xl border border-black/10 bg-[#0B2447] shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)] transition-transform duration-300 hover:scale-[1.01]">
+            <figure className="relative overflow-hidden rounded-2xl border border-black/10 bg-[#0B2447] opacity-[0.92] shadow-[0_40px_90px_-50px_rgba(17,17,17,0.4)] saturate-[0.85] transition-all duration-300 hover:opacity-100 hover:saturate-100">
+              <div
+                className="pointer-events-none absolute top-14 left-4 z-10 rounded-full bg-black/55 px-4 py-1.5 text-[10px] font-bold tracking-[0.24em] text-white/85 uppercase shadow-lg backdrop-blur"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Before
+              </div>
               <div className="pointer-events-none absolute top-14 right-4 z-10 flex items-center gap-2 rounded-full bg-[#1e6b3c] px-3.5 py-1.5 shadow-lg">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
@@ -257,30 +289,21 @@ function DiscoverDesigns() {
                 Original · fully interactive
               </span>
             </div>
+            <ul className="mt-4 space-y-2">
+              {[
+                "Message competes with itself on the first screen",
+                "No single path from interest to action",
+                "Busy visuals working against the sale",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-2.5 text-[13px] text-[#111111]/45" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[9px] font-bold text-white">✕</span>
+                  {t}
+                </li>
+              ))}
+            </ul>
           </Reveal>
         </div>
 
-        <Reveal delay={0.1}>
-          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-y-8 divide-black/0 sm:grid-cols-3 sm:divide-x sm:divide-black/10 sm:gap-y-0">
-            {[
-              ["Hierarchy", "One message per screen — the offer is understood in three seconds."],
-              ["Conversion", "Every scroll ends at the next obvious step; nothing competes with the sale."],
-              ["Restraint", "Two typefaces, one accent, room to breathe — premium reads as trust."],
-            ].map(([t, d]) => (
-              <div key={t} className="sm:px-8 sm:first:pl-0 sm:last:pr-0">
-                <p
-                  className="text-[10px] tracking-[0.28em] text-[#1e6b3c] uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
-                  {t}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  {d}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
 
 
       </div>
