@@ -2,12 +2,20 @@ import { useEffect, useState } from "react";
 
 /*
   ELSIAA site nav — fixed, minimal, self-adapting.
-  mix-blend-difference + white text renders correctly over both the white
-  story sections and the near-black hero/closing bands, with zero JS
-  section-tracking.
+  mix-blend-difference + white text renders over light and dark bands alike.
+  Tabs (hamburger) icon opens a full menu overlay — primary nav on mobile,
+  available everywhere.
 */
+const LINKS = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "Designs", href: "/designs" },
+  { label: "Careers", href: "/careers" },
+];
+
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -16,54 +24,137 @@ export function SiteNav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [open]);
+
   return (
-    <header
-      className="pointer-events-none fixed inset-x-0 top-0 z-50 mix-blend-difference"
-      aria-label="Site"
-    >
-      <div
-        className={`mx-auto flex max-w-6xl items-center justify-between px-6 transition-all duration-500 ${
-          scrolled ? "py-4" : "py-6"
-        }`}
+    <>
+      <header
+        className="pointer-events-none fixed inset-x-0 top-0 z-50 mix-blend-difference"
+        aria-label="Site"
       >
-        <a
-          href="/"
-          className="pointer-events-auto text-[13px] font-semibold tracking-[0.42em] text-white uppercase transition-opacity hover:opacity-70"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+        <div
+          className={`mx-auto flex max-w-6xl items-center justify-between px-6 transition-all duration-500 ${
+            scrolled ? "py-4" : "py-6"
+          }`}
         >
-          ELSIAA
-        </a>
-        <nav className="pointer-events-auto flex items-center gap-7">
           <a
-            href="/services"
-            className="hidden text-[11px] tracking-[0.26em] text-white/80 uppercase transition-opacity hover:opacity-60 md:inline"
+            href="/"
+            className="pointer-events-auto text-[13px] font-semibold tracking-[0.42em] text-white uppercase transition-opacity hover:opacity-70"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Services
+            ELSIAA
           </a>
-          <a
-            href="/designs"
-            className="hidden text-[11px] tracking-[0.26em] text-white/80 uppercase transition-opacity hover:opacity-60 md:inline"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Designs
-          </a>
-          <a
-            href="/careers"
-            className="hidden text-[11px] tracking-[0.26em] text-white/80 uppercase transition-opacity hover:opacity-60 md:inline"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Careers
-          </a>
+          <nav className="pointer-events-auto flex items-center gap-5 md:gap-7">
+            {LINKS.slice(1).map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="hidden text-[11px] tracking-[0.26em] text-white/80 uppercase transition-opacity hover:opacity-60 md:inline"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="mailto:isya@elsiaa.com"
+              className="hidden border border-white/40 px-5 py-2 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black md:inline-block"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Contact
+            </a>
+            {/* tabs icon */}
+            <button
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              onClick={() => setOpen(!open)}
+              className="group relative flex h-10 w-10 items-center justify-center"
+            >
+              <span
+                className={`absolute h-[1.5px] w-6 bg-white transition-all duration-300 ${
+                  open ? "rotate-45" : "-translate-y-[7px]"
+                }`}
+              />
+              <span
+                className={`absolute h-[1.5px] w-6 bg-white transition-all duration-300 ${
+                  open ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`absolute h-[1.5px] w-6 bg-white transition-all duration-300 ${
+                  open ? "-rotate-45" : "translate-y-[7px]"
+                }`}
+              />
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      {/* menu overlay */}
+      <div
+        className={`fixed inset-0 z-40 bg-[#0c0c0c] transition-opacity duration-400 ${
+          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        onClick={() => setOpen(false)}
+      >
+        <nav
+          className="mx-auto flex h-full max-w-6xl flex-col justify-center gap-2 px-8"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {LINKS.map((l, i) => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="group flex items-baseline gap-4 py-2"
+              style={{
+                opacity: open ? 1 : 0,
+                transform: open ? "none" : "translateY(18px)",
+                transition: `opacity .5s ease ${0.08 + i * 0.06}s, transform .5s cubic-bezier(.2,.8,.2,1) ${0.08 + i * 0.06}s`,
+              }}
+            >
+              <span
+                className="text-[10px] tracking-[0.3em] text-[#2e9e58]"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                0{i + 1}
+              </span>
+              <span
+                className="text-4xl font-semibold tracking-[-0.03em] text-white transition-colors group-hover:text-[#2e9e58] md:text-5xl"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                {l.label}
+              </span>
+            </a>
+          ))}
           <a
             href="mailto:isya@elsiaa.com"
-            className="border border-white/40 px-5 py-2 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            onClick={() => setOpen(false)}
+            className="mt-8 inline-flex w-fit items-center gap-3 border border-white/30 px-7 py-3 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              opacity: open ? 1 : 0,
+              transition: "opacity .5s ease .4s, border-color .3s, background .3s, color .3s",
+            }}
           >
-            Contact
+            Contact — isya@elsiaa.com
           </a>
+          <p
+            className="mt-10 text-[11px] tracking-[0.2em] text-white/30 uppercase"
+            style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              opacity: open ? 1 : 0,
+              transition: "opacity .5s ease .5s",
+            }}
+          >
+            בעזרת ה׳ נעשה ונצליח
+          </p>
         </nav>
       </div>
-    </header>
+    </>
   );
 }
