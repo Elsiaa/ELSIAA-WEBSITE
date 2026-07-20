@@ -1008,11 +1008,20 @@ function ProductAdFeature() {
             04 · Product ads
           </p>
           <h2
-            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
+            className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            One amateur photo in. One campaign out.
+            There is only one way to display a product.
+            <span className="text-[#1e6b3c]"> The right way.</span>
           </h2>
+          <p
+            className="mt-4 max-w-2xl text-base leading-relaxed text-[#111111]/50 md:text-lg"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Everything in this world is packaged and layered with design — presented
+            carefully, with the right optics, capturing the core of what you&rsquo;re
+            selling.
+          </p>
         </Reveal>
         <Reveal delay={0.1}>
           <div className="relative mt-10 overflow-hidden rounded-2xl shadow-[0_60px_130px_-50px_rgba(17,17,17,0.55)]">
