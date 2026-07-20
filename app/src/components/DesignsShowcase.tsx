@@ -101,12 +101,14 @@ function LazyFrame({
   interactive = true,
   native = false,
   zoom = 0.5,
+  onFrame,
 }: {
   src: string;
   title: string;
   interactive?: boolean;
   native?: boolean;
   zoom?: number;
+  onFrame?: (el: HTMLIFrameElement | null) => void;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [load, setLoad] = useState(false);
