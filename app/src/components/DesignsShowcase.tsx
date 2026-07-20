@@ -275,8 +275,18 @@ function DiscoverDesigns() {
           </div>
         </Reveal>
 
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- client trust wall ---------------- */
+function ClientLogos() {
+  return (
+    <section className="bg-[#070907] px-6 pb-24 text-[#F5F5F3]">
+      <div className="mx-auto max-w-6xl">
         <Reveal delay={0.2}>
-          <div className="mt-20 border-t border-white/[0.08] pt-12">
+          <div className="border-t border-white/[0.08] pt-14">
             <p
               className="text-center text-[10px] tracking-[0.34em] text-white/35 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -354,22 +364,22 @@ function Transformations() {
     { name: "LuxeNest", desc: "Property listings elevated to an editorial browsing experience." },
   ];
   return (
-    <section className="border-t border-black/[0.06] bg-white px-6 py-28">
+    <section className="bg-[#070907] px-6 pt-4 pb-20 text-[#F5F5F3]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
-            className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
+            className="text-[11px] tracking-[0.34em] text-[#2e9e58] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             Website transformations
           </p>
           <h2
-            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.02em] text-[#111111] md:text-5xl"
+            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.02em] md:text-5xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Real websites, completely uplifted.
           </h2>
-          <p className="mt-3 max-w-xl text-base text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="mt-3 max-w-xl text-base text-white/45" style={{ fontFamily: "'Inter', sans-serif" }}>
             Hover any card to watch the before become the after.
           </p>
         </Reveal>
@@ -377,7 +387,7 @@ function Transformations() {
           {CASES.map((c, i) => (
             <Reveal key={c.name} delay={i * 0.08}>
               <div className="group">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-black/[0.07] shadow-[0_18px_44px_-28px_rgba(17,17,17,0.35)]">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/[0.09] shadow-[0_24px_60px_-30px_rgba(0,0,0,0.8)]">
                   <MiniSite bad />
                   <div className="absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-y-0">
                     <MiniSite />
@@ -396,18 +406,18 @@ function Transformations() {
                   </span>
                 </div>
                 <div className="mt-4 flex items-baseline justify-between">
-                  <h3 className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <h3 className="text-[15px] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
                     {c.name}
                   </h3>
                   <a
                     href="mailto:isya@elsiaa.com?subject=Case%20study%20request"
-                    className="text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase transition-colors hover:text-[#2e9e58]"
+                    className="text-[10px] tracking-[0.22em] text-[#2e9e58] uppercase transition-colors hover:text-[#F5F5F3]"
                     style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     View case study →
                   </a>
                 </div>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-white/45" style={{ fontFamily: "'Inter', sans-serif" }}>
                   {c.desc}
                 </p>
               </div>
@@ -643,6 +653,7 @@ export function DesignsShowcase() {
       <Statement />
       <DiscoverDesigns />
       <Transformations />
+      <ClientLogos />
       <BeyondWebsites />
       <Results />
       <FinalCTA />
