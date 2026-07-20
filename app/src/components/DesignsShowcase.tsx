@@ -277,9 +277,9 @@ function Magnetic({ children }: { children: React.ReactNode }) {
 
 function Statement() {
   return (
-    <section className="flex min-h-[64svh] flex-col items-center justify-center bg-white px-6 pb-14 text-center">
+    <section className="flex min-h-[64svh] flex-col items-center justify-center bg-gradient-to-b from-white to-[#F5F5F3] px-6 pb-16 text-center">
       <h2
-        className="mx-auto max-w-4xl text-4xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl md:leading-[1.03]"
+        className="mx-auto max-w-4xl text-4xl font-semibold tracking-[-0.035em] text-[#111111] md:text-7xl md:leading-[1.03]"
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
         <KineticLine text="We don’t just design websites —" className="block" />
@@ -354,13 +354,13 @@ function DiscoverDesigns() {
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
-            className="text-center text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
+            className="text-center text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Discover designs
+            01 · Websites
           </p>
           <h2
-            className="mx-auto mt-3 max-w-3xl text-center text-2xl font-semibold tracking-[-0.03em] md:text-4xl md:leading-[1.1]"
+            className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] md:text-5xl md:leading-[1.06]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Your website is where potential customers see your business for the first
@@ -444,7 +444,7 @@ function DiscoverDesigns() {
                 "No single path from interest to action",
                 "Busy visuals working against the sale",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[13px] text-[#111111]/45" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/45" style={{ fontFamily: "'Inter', sans-serif" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[9px] font-bold text-white">✕</span>
                   {t}
                 </li>
@@ -512,7 +512,7 @@ function DiscoverDesigns() {
                 "Every scroll ends at the next obvious step",
                 "Premium restraint — design that earns trust",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[13px] text-[#111111]/70" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "'Inter', sans-serif" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[9px] font-bold text-white">✓</span>
                   {t}
                 </li>
@@ -558,7 +558,7 @@ function AfterApp() {
       <div className="flex-1 overflow-hidden px-4">
         {tab === 0 && (
           <div className="space-y-2.5">
-            <p className="text-[17px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]">
+            <p className="text-[17px] leading-tight font-semibold tracking-[-0.035em] text-[#111111]">
               The price drops
               <br />
               every day.
@@ -587,7 +587,7 @@ function AfterApp() {
         )}
         {tab === 1 && (
           <div className="space-y-2">
-            <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]">This week&rsquo;s bins</p>
+            <p className="text-[15px] font-semibold tracking-[-0.035em] text-[#111111]">This week&rsquo;s bins</p>
             {["Electronics", "Home & Kitchen", "Toys & Games"].map((c) => (
               <div key={c} className="flex items-center justify-between rounded-xl bg-white p-3 shadow-sm">
                 <span className="text-[10px] font-semibold text-[#111111]">{c}</span>
@@ -598,7 +598,7 @@ function AfterApp() {
         )}
         {tab === 2 && (
           <div className="space-y-2.5">
-            <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]">Loyalty card</p>
+            <p className="text-[15px] font-semibold tracking-[-0.035em] text-[#111111]">Loyalty card</p>
             <div className="rounded-xl bg-[#111111] p-3.5 text-white">
               <p className="text-[9px] tracking-[0.2em] uppercase opacity-60">Member</p>
               <p className="mt-2 text-[12px] font-semibold">4 digs → free mystery box</p>
@@ -745,17 +745,17 @@ function DiscoverApps() {
     </div>
   );
   return (
-    <section className="bg-[#F5F5F3] px-6 pt-4 pb-24 text-[#111111]">
+    <section className="bg-[#F5F5F3] px-6 pt-6 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
-            className="text-center text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
+            className="text-center text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Discover apps
+            03 · Apps
           </p>
           <h2
-            className="mx-auto mt-3 max-w-3xl text-center text-2xl font-semibold tracking-[-0.03em] md:text-4xl md:leading-[1.1]"
+            className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] md:text-5xl md:leading-[1.06]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             It doesn&rsquo;t matter how good your backend is.
@@ -806,7 +806,7 @@ function DiscoverApps() {
                 "The core action is a single thumb-tap away",
                 "Loyalty you can feel filling up",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[13px] text-[#111111]/70" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "'Inter', sans-serif" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[9px] font-bold text-white">✓</span>
                   {t}
                 </li>
@@ -834,7 +834,7 @@ function DiscoverApps() {
                 "The thing customers want is three taps deep",
                 "Shouting banners instead of a reason to return",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[13px] text-[#111111]/45" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/45" style={{ fontFamily: "'Inter', sans-serif" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[9px] font-bold text-white">✕</span>
                   {t}
                 </li>
@@ -850,17 +850,17 @@ function DiscoverApps() {
 /* ---------------- product ad — the PRIME-style transformation feature ---------------- */
 function ProductAdFeature() {
   return (
-    <section className="bg-[#F5F5F3] px-6 pt-4 pb-24 text-[#111111]">
+    <section className="bg-[#F5F5F3] px-6 pt-6 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
-            className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Product ads
+            04 · Product ads
           </p>
           <h2
-            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.02em] md:text-5xl"
+            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             One amateur photo in. One campaign out.
@@ -918,7 +918,7 @@ function ClientLogos() {
               className="text-center text-[10px] tracking-[0.34em] text-[#111111]/40 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Trusted by the companies we&rsquo;ve built for
+              05 · Trusted by the companies we&rsquo;ve built for
             </p>
             <div className="mx-auto mt-10 flex max-w-5xl flex-wrap items-center justify-center gap-x-14 gap-y-10">
               {[
@@ -985,7 +985,7 @@ const CASES: Mini[] = [
           <span className="text-[9px] font-bold tracking-tight text-[#111111]">Dialog<span className="text-[#111111]/45"> Healthcare</span></span>
           <span className="rounded-full bg-[#1e6b3c] px-2.5 py-0.5 text-[7px] font-semibold tracking-[0.14em] text-white uppercase">Request staff</span>
         </div>
-        <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]">The right clinician.<br />Placed in days, not months.</p>
+        <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.035em] text-[#111111]">The right clinician.<br />Placed in days, not months.</p>
         <div className="mt-2 flex gap-1">{bar("w-16", "#111111", "h-4")}{bar("w-12", "#e8e8e6", "h-4")}</div>
         <div className="mt-2.5 grid grid-cols-3 gap-1.5">
           <div className="rounded-md bg-[#F5F5F3] p-1.5">{bar("w-3/4", "#1e6b3c", "h-1.5")}<div className="mt-1">{bar("w-full", "#d8d8d5", "h-1")}</div></div>
@@ -1020,7 +1020,7 @@ const CASES: Mini[] = [
           <span className="text-[9px] font-bold tracking-[0.2em] uppercase">PSI<span className="text-[#d9a441]"> Construction</span></span>
           <span className="rounded-full border border-white/25 px-2.5 py-0.5 text-[7px] font-semibold tracking-[0.14em] uppercase">Get a bid</span>
         </div>
-        <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.02em]">Built to outlast<br />the blueprint.</p>
+        <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.035em]">Built to outlast<br />the blueprint.</p>
         <div className="mt-2.5 grid grid-cols-3 gap-1.5">
           <div className="aspect-[4/3] rounded-md bg-gradient-to-br from-[#3a372e] to-[#23211b]" />
           <div className="aspect-[4/3] rounded-md bg-gradient-to-br from-[#4a4638] to-[#2a2820]" />
@@ -1071,17 +1071,17 @@ const CASES: Mini[] = [
 
 function Transformations() {
   return (
-    <section className="bg-[#F5F5F3] px-6 pt-4 pb-20 text-[#111111]">
+    <section className="bg-[#F5F5F3] px-6 pt-6 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
-            className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Website transformations
+            02 · Transformations
           </p>
           <h2
-            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.02em] md:text-5xl"
+            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Real websites, completely uplifted.
@@ -1172,17 +1172,17 @@ function PhonePreview() {
 
 function BeyondWebsites() {
   return (
-    <section className="bg-white px-6 pb-28">
+    <section className="bg-gradient-to-b from-[#F5F5F3] to-white px-6 pt-24 pb-28">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
-            className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Beyond websites
+            06 · Beyond websites
           </p>
           <h2
-            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.02em] text-[#111111] md:text-5xl"
+            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Every surface your brand touches.
@@ -1292,7 +1292,7 @@ function Results() {
         ].map((x) => (
           <Reveal key={x.l}>
             <p
-              className="text-5xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl"
+              className="text-5xl font-semibold tracking-[-0.035em] text-[#111111] md:text-7xl"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               <Counter to={x.n} suffix={x.s} />

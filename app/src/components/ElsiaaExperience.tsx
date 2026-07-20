@@ -173,13 +173,13 @@ export function ElsiaaExperience() {
           className="z-10 flex flex-col items-center px-6 pt-[10svh] text-center will-change-transform"
         >
           <p
-            className="text-[11px] tracking-[0.38em] text-[#1e6b3c] uppercase"
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             ELSIAA
           </p>
           <h1
-            className="mt-4 text-5xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl"
+            className="mt-4 text-5xl font-semibold tracking-[-0.04em] text-[#111111] md:text-8xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Discover Designs
