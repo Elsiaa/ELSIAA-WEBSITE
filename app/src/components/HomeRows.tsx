@@ -632,12 +632,12 @@ function ConsultPricing() {
 
 /* ---------- locations ---------- */
 const CITIES = [
-  { name: "New York City", q: "Manhattan, New York", flag: "\u{1F1FA}\u{1F1F8}", vid: "/assets/city_nyc.mp4" },
-  { name: "London", q: "London, UK", flag: "\u{1F1EC}\u{1F1E7}", vid: "/assets/city_london.mp4" },
-  { name: "Geneva", q: "Geneva, Switzerland", flag: "\u{1F1E8}\u{1F1ED}", vid: "/assets/city_geneva.mp4" },
-  { name: "Antwerp", q: "Antwerp, Belgium", flag: "\u{1F1E7}\u{1F1EA}", vid: "/assets/city_antwerp.mp4" },
-  { name: "Tel Aviv", q: "Tel Aviv, Israel", flag: "\u{1F1EE}\u{1F1F1}", vid: "/assets/city_telaviv.mp4" },
-  { name: "Los Angeles", q: "Los Angeles, California", flag: "\u{1F1FA}\u{1F1F8}", vid: "/assets/city_la.mp4" },
+  { name: "New York City", q: "Manhattan, New York", flag: "us", vid: "/assets/city_nyc.mp4" },
+  { name: "London", q: "London, UK", flag: "gb", vid: "/assets/city_london.mp4" },
+  { name: "Geneva", q: "Geneva, Switzerland", flag: "ch", vid: "/assets/city_geneva.mp4" },
+  { name: "Antwerp", q: "Antwerp, Belgium", flag: "be", vid: "/assets/city_antwerp.mp4" },
+  { name: "Tel Aviv", q: "Tel Aviv, Israel", flag: "il", vid: "/assets/city_telaviv.mp4" },
+  { name: "Los Angeles", q: "Los Angeles, California", flag: "us", vid: "/assets/city_la.mp4" },
 ];
 
 /* rotating scenic footage of each city, clean loop, flags riding on top */
@@ -663,16 +663,6 @@ function CityBackdrop() {
           }`}
         />
       ))}
-      {/* international colours riding on the footage */}
-      <div className="absolute top-6 right-6 flex gap-2.5 text-[17px] md:top-8 md:right-10">
-        {CITIES.filter((c, i, a) => a.findIndex((x) => x.flag === c.flag) === i).map(
-          (c) => (
-            <span key={c.flag} className="opacity-80 drop-shadow">
-              {c.flag}
-            </span>
-          )
-        )}
-      </div>
     </div>
   );
 }
@@ -730,7 +720,12 @@ function Locations() {
                 </div>
                 <div className="flex items-center justify-between p-4">
                   <h3 className="flex items-center gap-2 text-[15px] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    <span className="text-[13px]">{c.flag}</span>
+                    <img
+                      src={`/assets/flags/${c.flag}.png`}
+                      srcSet={`/assets/flags/${c.flag}@2x.png 2x`}
+                      alt=""
+                      className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-white/20"
+                    />
                     {c.name}
                   </h3>
                   <span
