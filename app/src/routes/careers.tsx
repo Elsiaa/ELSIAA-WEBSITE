@@ -212,16 +212,51 @@ function ApplyForm({ role }: { role: RoleId | null }) {
   const [email, setEmail] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [drag, setDrag] = useState(false);
+  const [positions, setPositions] = useState<string[]>(role ? [role === "Designers" ? "Design" : role === "Engineers" ? "Engineers" : "Sales"] : []);
+  const [country, setCountry] = useState("");
+  const [arrangement, setArrangement] = useState("");
+  const [commitment, setCommitment] = useState("");
+  const [essay, setEssay] = useState("");
+  const [aiFlag, setAiFlag] = useState(false);
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">(
     "idle"
   );
   const fileInput = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (!role) return;
+    const mapped = role === "Designers" ? "Design" : role === "Engineers" ? "Engineers" : "Sales";
+    setPositions((p) => (p.includes(mapped) ? p : [...p, mapped]));
+  }, [role]);
+
+  const words = essay.trim() ? essay.trim().split(/\s+/).length : 0;
+
+  /* human-writing check — flags the obvious machine patterns */
+  const looksAi = (t: string) => {
+    const text = t.toLowerCase();
+    const tells = ["as an ai", "i am thrilled to", "i am excited to apply", "delve into", "in today's fast-paced", "leverage my skill", "passionate about leveraging", "utilize my expertise", "dynamic and results-driven", "proven track record of success", "esteemed organization", "furthermore, ", "moreover, ", "in conclusion,"];
+    let hits = 0;
+    for (const p of tells) if (text.includes(p)) hits++;
+    const sentences = t.split(/[.!?]+/).map((x) => x.trim().split(/\s+/).length).filter((n) => n > 2);
+    if (sentences.length >= 6) {
+      const mean = sentences.reduce((a, b) => a + b, 0) / sentences.length;
+      const variance = sentences.reduce((a, b) => a + (b - mean) ** 2, 0) / sentences.length;
+      if (variance < 9 && mean > 14) hits++; /* eerily uniform long sentences */
+    }
+    return hits >= 2;
+  };
+
   const valid =
     first.trim() &&
     last.trim() &&
     number.trim().length >= 7 &&
-    /.+@.+\..+/.test(email);
+    /.+@.+\..+/.test(email) &&
+    positions.length > 0 &&
+    country.trim() &&
+    arrangement &&
+    commitment &&
+    words >= 250 &&
+    !aiFlag;
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -231,7 +266,12 @@ function ApplyForm({ role }: { role: RoleId | null }) {
   }, []);
 
   const submit = async () => {
-    if (!valid || state === "sending") return;
+    if (state === "sending") return;
+    if (looksAi(essay)) {
+      setAiFlag(true);
+      return;
+    }
+    if (!valid) return;
     setState("sending");
     try {
       const fd = new FormData();
@@ -241,6 +281,11 @@ function ApplyForm({ role }: { role: RoleId | null }) {
       fd.append("Last name", last);
       fd.append("Phone", number);
       fd.append("Email", email);
+      fd.append("Positions", positions.join(", "));
+      fd.append("Country", country);
+      fd.append("Arrangement", arrangement);
+      fd.append("Commitment", commitment);
+      fd.append("Why hire (essay)", essay);
       fd.append("_template", "table");
       fd.append("_captcha", "false");
       if (file) fd.append("attachment", file, file.name);
@@ -301,6 +346,75 @@ function ApplyForm({ role }: { role: RoleId | null }) {
           <Field label="Last name" value={last} onChange={setLast} autoComplete="family-name" />
           <Field label="Number" value={number} onChange={setNumber} type="tel" autoComplete="tel" />
           <Field label="Email" value={email} onChange={setEmail} type="email" autoComplete="email" />
+        </div>
+
+        {/* positions */}
+        <div className="mt-6">
+          <span className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            Positions — select all that apply
+          </span>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {["Design", "Sales", "Engineers", "Legal", "Business"].map((p) => {
+              const on = positions.includes(p);
+              return (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() =>
+                    setPositions((cur) => (on ? cur.filter((x) => x !== p) : [...cur, p]))
+                  }
+                  className={`rounded-full border px-4 py-2 text-[12.5px] font-medium transition-all duration-200 ${
+                    on
+                      ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
+                      : "border-black/15 bg-white text-[#111111]/70 hover:border-black/35"
+                  }`}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {p}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* country + working style */}
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <Field label="Country you want to work in" value={country} onChange={setCountry} autoComplete="country-name" />
+          <Choice label="Work setup" value={arrangement} onChange={setArrangement} options={["Remote", "On site", "Hybrid"]} />
+          <Choice label="Commitment" value={commitment} onChange={setCommitment} options={["Full time", "Part time"]} />
+        </div>
+
+        {/* the essay */}
+        <div className="mt-6">
+          <div className="flex items-baseline justify-between gap-3">
+            <span className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              In 250 words or more, tell me why I should hire you and how you plan on contributing to ELSIAA.
+            </span>
+            <span
+              className={`flex-none text-[11px] tabular-nums ${words >= 250 ? "text-[#1e6b3c]" : "text-[#111111]/40"}`}
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              {words} / 250
+            </span>
+          </div>
+          <textarea
+            value={essay}
+            onChange={(e) => {
+              setEssay(e.target.value);
+              if (aiFlag) setAiFlag(false);
+            }}
+            rows={8}
+            className="mt-2 w-full rounded-xl border border-black/10 bg-[#FBFBFA] px-4 py-3.5 text-[15px] leading-relaxed outline-none transition-colors focus:border-[#1e6b3c]"
+            placeholder="In your own words. We read every one."
+          />
+          <p className="mt-1.5 text-[11.5px] text-[#111111]/40">
+            Written by you, not by AI — machine-written answers are detected and disqualified.
+          </p>
+          {aiFlag && (
+            <p className="mt-2 rounded-lg border border-[#E53E3E]/30 bg-[#E53E3E]/[0.05] px-4 py-3 text-[13px] text-[#E53E3E]">
+              This reads machine-written. Rewrite it in your own voice — tell us something only you could say.
+            </p>
+          )}
         </div>
 
         {/* resume — drag or add */}
@@ -367,6 +481,43 @@ function ApplyForm({ role }: { role: RoleId | null }) {
         )}
       </div>
     </section>
+  );
+}
+
+function Choice({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: string[];
+}) {
+  return (
+    <div>
+      <span className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+        {label}
+      </span>
+      <div className="mt-1.5 flex gap-1.5">
+        {options.map((o) => (
+          <button
+            key={o}
+            type="button"
+            onClick={() => onChange(o)}
+            className={`flex-1 rounded-xl border px-2 py-3 text-[12px] font-medium transition-all duration-200 ${
+              value === o
+                ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
+                : "border-black/10 bg-[#FBFBFA] text-[#111111]/65 hover:border-black/30"
+            }`}
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            {o}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
