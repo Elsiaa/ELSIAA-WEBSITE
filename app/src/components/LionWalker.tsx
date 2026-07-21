@@ -105,7 +105,7 @@ export function LionWalker() {
   return (
     <div className="pointer-events-none fixed inset-x-0 top-0 z-40" aria-hidden={false}>
       <div className="mx-auto max-w-6xl px-6">
-        <div className="relative ml-0 mr-[64px] h-[76px] md:mr-[560px]">
+        <div className="relative ml-0 mr-[64px] h-[76px] md:mr-[720px]">
           <button
             ref={wrapRef}
             onClick={() => {
