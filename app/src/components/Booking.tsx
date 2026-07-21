@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 /* ---------- booking: free 20-min intro, $100 30-min consultation ---------- */
 function slotsForNextDays(count: number) {
