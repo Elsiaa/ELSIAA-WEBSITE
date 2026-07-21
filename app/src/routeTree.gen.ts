@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as PortalRouteImport } from './routes/portal'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as DesignsRouteImport } from './routes/designs'
 import { Route as ConceptWalkRouteImport } from './routes/concept-walk'
@@ -43,6 +44,11 @@ const SearchRoute = SearchRouteImport.update({
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   id: '/robots.txt',
   path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsRoute = InsightsRouteImport.update({
@@ -77,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/concept-walk': typeof ConceptWalkRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
+  '/portal': typeof PortalRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByTo {
   '/concept-walk': typeof ConceptWalkRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
+  '/portal': typeof PortalRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
@@ -102,6 +110,7 @@ export interface FileRoutesById {
   '/concept-walk': typeof ConceptWalkRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
+  '/portal': typeof PortalRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
@@ -116,6 +125,7 @@ export interface FileRouteTypes {
     | '/concept-walk'
     | '/designs'
     | '/insights'
+    | '/portal'
     | '/robots.txt'
     | '/search'
     | '/services'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/concept-walk'
     | '/designs'
     | '/insights'
+    | '/portal'
     | '/robots.txt'
     | '/search'
     | '/services'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/concept-walk'
     | '/designs'
     | '/insights'
+    | '/portal'
     | '/robots.txt'
     | '/search'
     | '/services'
@@ -153,6 +165,7 @@ export interface RootRouteChildren {
   ConceptWalkRoute: typeof ConceptWalkRoute
   DesignsRoute: typeof DesignsRoute
   InsightsRoute: typeof InsightsRoute
+  PortalRoute: typeof PortalRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SearchRoute: typeof SearchRoute
   ServicesRoute: typeof ServicesRoute
@@ -195,6 +208,13 @@ declare module '@tanstack/react-router' {
       path: '/robots.txt'
       fullPath: '/robots.txt'
       preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal': {
+      id: '/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof PortalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insights': {
@@ -241,6 +261,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConceptWalkRoute: ConceptWalkRoute,
   DesignsRoute: DesignsRoute,
   InsightsRoute: InsightsRoute,
+  PortalRoute: PortalRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SearchRoute: SearchRoute,
   ServicesRoute: ServicesRoute,

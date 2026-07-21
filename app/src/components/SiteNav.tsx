@@ -15,6 +15,7 @@ const LINKS = [
   { label: "Careers", href: "/careers" },
   { label: "Team", href: "/team" },
   { label: "Insights", href: "/insights" },
+  { label: "Client Login", href: "/portal" },
 ];
 
 export function SiteNav() {
