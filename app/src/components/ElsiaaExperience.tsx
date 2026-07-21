@@ -12,12 +12,12 @@ import { useEffect, useRef, useState } from "react";
 */
 
 const TRACK_VH = 420;
-const STILL_SRC = "/assets/office_scene_v8.jpeg";
+const STILL_SRC = "/assets/destruction_v10_still.jpg";
 const FILM_SRC =
   typeof window !== "undefined" && window.innerWidth < 768
-    ? "/assets/destruction_v9_lite.mp4"
-    : "/assets/destruction_v9.mp4";
-const FILM_END_T = 14.9;
+    ? "/assets/destruction_v10_lite.mp4"
+    : "/assets/destruction_v10.mp4";
+const FILM_END_T = 9.9;
 
 function clamp01(v: number) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
