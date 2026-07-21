@@ -630,42 +630,10 @@ function Team() {
   );
 }
 
-/* ---------- masthead: two seconds of identity, then the rows ---------- */
-function Masthead() {
-  return (
-    <header className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 md:py-24">
-      <Reveal>
-        <p
-          className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-        >
-          ELSIAA · AI Done Better
-        </p>
-        <h1
-          className="mt-4 max-w-3xl text-[10.5vw] leading-[0.98] font-semibold tracking-[-0.04em] text-[#111111] sm:text-5xl md:text-6xl"
-          style={{ fontFamily: "'Inter', sans-serif" }}
-        >
-          Four divisions.
-          <br />
-          <span className="text-[#1e6b3c]">One empire of detail.</span>
-        </h1>
-        <p
-          className="mt-5 max-w-lg text-[15px] leading-relaxed text-[#111111]/55"
-          style={{ fontFamily: "'Inter', sans-serif" }}
-        >
-          Design, automation, software, and counsel — engineered for businesses
-          that intend to be taken seriously.
-        </p>
-      </Reveal>
-    </header>
-  );
-}
-
 export function HomeRows() {
   return (
     <main className="bg-white">
       <StatsSection />
-      <Masthead />
       <DivisionRow
         n="01"
         title="Design"
