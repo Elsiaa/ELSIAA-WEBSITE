@@ -355,47 +355,7 @@ function Magnetic({ children }: { children: React.ReactNode }) {
 }
 
 function Statement() {
-  return (
-    <section className="flex flex-col items-center justify-center bg-gradient-to-b from-white to-[#F5F5F3] px-6 pt-24 pb-20 text-center">
-      <h2
-        className="mx-auto max-w-4xl text-4xl font-semibold tracking-[-0.035em] text-[#111111] md:text-7xl md:leading-[1.03]"
-        style={{ fontFamily: "'Inter', sans-serif" }}
-      >
-        <KineticLine text="We don’t just design websites." className="block text-balance" />
-        <KineticLine text="We uplift brands." className="block text-[#1e6b3c]" />
-      </h2>
-      <Reveal delay={0.1}>
-        <p
-          className="mx-auto mt-6 max-w-xl text-lg text-[#111111]/50 md:text-xl"
-          style={{ fontFamily: "'Inter', sans-serif" }}
-        >
-          From outdated to outstanding.
-        </p>
-      </Reveal>
-      <Reveal delay={0.18}>
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-          <Magnetic>
-            <a
-              href="#discover-designs"
-              className="rounded-full border border-[#111111] bg-[#111111] px-8 py-3.5 text-[11px] tracking-[0.28em] text-white uppercase transition-colors duration-300 hover:bg-[#1e6b3c] hover:border-[#1e6b3c]"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              Explore our work
-            </a>
-          </Magnetic>
-          <Magnetic>
-            <a
-              href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
-              className="rounded-full border border-[#111111]/25 px-8 py-3.5 text-[11px] tracking-[0.28em] text-[#111111] uppercase transition-colors duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              Start your project
-            </a>
-          </Magnetic>
-        </div>
-      </Reveal>
-    </section>
-  );
+  return null;
 }
 
 function Ticker() {
@@ -520,21 +480,6 @@ function DiscoverDesigns() {
   return (
     <section id="discover-designs" className="bg-[#F5F5F3] px-6 pt-20 pb-24 text-[#111111]">
       <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <h2
-            className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl md:leading-[1.06]"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Two live websites. One business. Watch what design changes.
-          </h2>
-          <p
-            className="mx-auto mt-3 max-w-xl text-center text-base text-[#111111]/50 md:text-xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Scroll them. Click them. Your customers make this exact comparison about
-            you — in three seconds.
-          </p>
-        </Reveal>
         <SideToggle side={side} setSide={setSide} />
 
         <div className="relative mt-14 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-10">
