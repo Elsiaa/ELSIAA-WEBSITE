@@ -109,7 +109,7 @@ export function SiteNav() {
             {/* search icon */}
             <button
               aria-label="Search"
-              onClick={() => setSearch(true)}
+              onClick={() => { window.location.href = "/search"; }}
               className="flex h-10 w-8 items-center justify-center transition-opacity hover:opacity-60"
             >
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">

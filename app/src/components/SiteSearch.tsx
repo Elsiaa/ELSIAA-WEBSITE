@@ -5,9 +5,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
   page, division, service, city, and role. Instant filtering, keyboard
   navigation, jump on enter.
 */
-type Entry = { label: string; group: string; href: string; keys?: string };
+export type Entry = { label: string; group: string; href: string; keys?: string };
 
-const INDEX: Entry[] = [
+export const SEARCH_INDEX: Entry[] = [
   { label: "Home", group: "Pages", href: "/" },
   { label: "Services", group: "Pages", href: "/services" },
   { label: "Designs — our work", group: "Pages", href: "/designs", keys: "portfolio showcase work" },
@@ -70,8 +70,8 @@ export function SiteSearch({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const results = useMemo(() => {
-    if (!q.trim()) return INDEX.slice(0, 8);
-    return INDEX.map((e) => [score(e, q), e] as const)
+    if (!q.trim()) return SEARCH_INDEX.slice(0, 8);
+    return SEARCH_INDEX.map((e) => [score(e, q), e] as const)
       .filter(([s]) => s > 0)
       .sort((a, b) => b[0] - a[0])
       .map(([, e]) => e)
