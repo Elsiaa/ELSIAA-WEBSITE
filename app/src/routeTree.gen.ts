@@ -17,6 +17,7 @@ import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as DesignsRouteImport } from './routes/designs'
+import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ConceptWalkRouteImport } from './routes/concept-walk'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as IndexRouteImport } from './routes/index'
@@ -61,6 +62,11 @@ const DesignsRoute = DesignsRouteImport.update({
   path: '/designs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConsultationRoute = ConsultationRouteImport.update({
+  id: '/consultation',
+  path: '/consultation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConceptWalkRoute = ConceptWalkRouteImport.update({
   id: '/concept-walk',
   path: '/concept-walk',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
+  '/consultation': typeof ConsultationRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/portal': typeof PortalRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
+  '/consultation': typeof ConsultationRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/portal': typeof PortalRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
+  '/consultation': typeof ConsultationRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/portal': typeof PortalRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/'
     | '/careers'
     | '/concept-walk'
+    | '/consultation'
     | '/designs'
     | '/insights'
     | '/portal'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/'
     | '/careers'
     | '/concept-walk'
+    | '/consultation'
     | '/designs'
     | '/insights'
     | '/portal'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/'
     | '/careers'
     | '/concept-walk'
+    | '/consultation'
     | '/designs'
     | '/insights'
     | '/portal'
@@ -163,6 +175,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CareersRoute: typeof CareersRoute
   ConceptWalkRoute: typeof ConceptWalkRoute
+  ConsultationRoute: typeof ConsultationRoute
   DesignsRoute: typeof DesignsRoute
   InsightsRoute: typeof InsightsRoute
   PortalRoute: typeof PortalRoute
@@ -231,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DesignsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/consultation': {
+      id: '/consultation'
+      path: '/consultation'
+      fullPath: '/consultation'
+      preLoaderRoute: typeof ConsultationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/concept-walk': {
       id: '/concept-walk'
       path: '/concept-walk'
@@ -259,6 +279,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CareersRoute: CareersRoute,
   ConceptWalkRoute: ConceptWalkRoute,
+  ConsultationRoute: ConsultationRoute,
   DesignsRoute: DesignsRoute,
   InsightsRoute: InsightsRoute,
   PortalRoute: PortalRoute,
