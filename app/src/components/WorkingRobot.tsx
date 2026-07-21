@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 /*
-  Automation division graphic — the multitasking robot, white studio.
+  Automation division graphic — a team of many-handed robots, white studio.
   One robot doing several human jobs at once, permanently alive:
   typing, writing, phone, headset. Plays when in view, pauses off-screen.
 */
@@ -26,12 +26,12 @@ export function WorkingRobot() {
     <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-white">
       <video
         ref={ref}
-        src="/assets/robot_work_v1.mp4"
+        src="/assets/robot_work_v2.mp4"
         loop
         muted
         playsInline
         preload="metadata"
-        poster="/assets/robot_work_poster.jpg"
+        poster="/assets/robot_work_poster_v2.jpg"
         className="absolute inset-0 h-full w-full object-contain"
       />
     </div>
