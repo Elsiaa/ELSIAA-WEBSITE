@@ -9,14 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TeamRouteImport } from './routes/team'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as DesignsRouteImport } from './routes/designs'
 import { Route as ConceptWalkRouteImport } from './routes/concept-walk'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -30,6 +37,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   id: '/robots.txt',
   path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DesignsRoute = DesignsRouteImport.update({
@@ -58,18 +70,22 @@ export interface FileRoutesByFullPath {
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/designs': typeof DesignsRoute
+  '/insights': typeof InsightsRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/team': typeof TeamRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/designs': typeof DesignsRoute
+  '/insights': typeof InsightsRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/team': typeof TeamRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,9 +93,11 @@ export interface FileRoutesById {
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/designs': typeof DesignsRoute
+  '/insights': typeof InsightsRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/team': typeof TeamRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -88,27 +106,33 @@ export interface FileRouteTypes {
     | '/careers'
     | '/concept-walk'
     | '/designs'
+    | '/insights'
     | '/robots.txt'
     | '/services'
     | '/sitemap.xml'
+    | '/team'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/careers'
     | '/concept-walk'
     | '/designs'
+    | '/insights'
     | '/robots.txt'
     | '/services'
     | '/sitemap.xml'
+    | '/team'
   id:
     | '__root__'
     | '/'
     | '/careers'
     | '/concept-walk'
     | '/designs'
+    | '/insights'
     | '/robots.txt'
     | '/services'
     | '/sitemap.xml'
+    | '/team'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -116,13 +140,22 @@ export interface RootRouteChildren {
   CareersRoute: typeof CareersRoute
   ConceptWalkRoute: typeof ConceptWalkRoute
   DesignsRoute: typeof DesignsRoute
+  InsightsRoute: typeof InsightsRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TeamRoute: typeof TeamRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -142,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/robots.txt'
       fullPath: '/robots.txt'
       preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/designs': {
@@ -180,9 +220,11 @@ const rootRouteChildren: RootRouteChildren = {
   CareersRoute: CareersRoute,
   ConceptWalkRoute: ConceptWalkRoute,
   DesignsRoute: DesignsRoute,
+  InsightsRoute: InsightsRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TeamRoute: TeamRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
