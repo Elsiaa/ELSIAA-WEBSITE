@@ -43,7 +43,7 @@ export function AssemblingArtist() {
   return (
     <div
       ref={wrapRef}
-      className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-white"
+      className="relative aspect-[3/2] w-full bg-white"
     >
       {/* assemble phase — plays once when scrolled into view */}
       <video

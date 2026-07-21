@@ -163,7 +163,7 @@ function DivisionRow({
             </a>
           </Reveal>
           <Reveal>
-            <a href={href} className="group block overflow-hidden rounded-2xl bg-white">
+            <a href={href} className="group block bg-white">
               {graphic ?? (
                 <img
                   src={img}
@@ -182,7 +182,7 @@ function DivisionRow({
               <a
                 key={`${s.name}-${i}`}
                 href={href}
-                className="group flex w-[236px] flex-none flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]"
+                className="group flex w-[208px] flex-none flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]"
               >
                 <div className="flex items-center justify-between">
                   <h3

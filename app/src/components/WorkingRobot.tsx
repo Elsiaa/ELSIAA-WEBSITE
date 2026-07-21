@@ -23,7 +23,7 @@ export function WorkingRobot() {
   }, []);
 
   return (
-    <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-white">
+    <div className="relative aspect-[3/2] w-full bg-white">
       <video
         ref={ref}
         src="/assets/robot_work_v2.mp4"
