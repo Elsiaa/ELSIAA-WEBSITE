@@ -42,7 +42,7 @@ export function LiveGraphic({
         playsInline
         preload="metadata"
         poster={poster}
-        className="absolute inset-0 h-full w-full object-contain"
+        className="absolute inset-0 h-full w-full object-contain mix-blend-multiply"
       />
       {/* soft white veil — edges of the scene dissolve into the page */}
       <div

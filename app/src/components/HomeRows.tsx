@@ -81,7 +81,9 @@ function Rail({
   const nudge = (d: number) =>
     railRef.current?.scrollBy({ left: d * 300, behavior: "smooth" });
   return (
-    <div className="relative">
+    // full-bleed: the rail breaks out of the page container and runs to ~2mm
+    // from each screen edge; cards fade in/out through the edge masks below
+    <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 px-2">
       <button
         aria-label="Previous"
         onClick={() => nudge(-1)}
@@ -105,9 +107,9 @@ function Rail({
         className="flex gap-3 overflow-x-auto px-2 pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{
           WebkitMaskImage:
-            "linear-gradient(to right, transparent 0, black 44px, black calc(100% - 44px), transparent 100%)",
+            "linear-gradient(to right, transparent 0, black 84px, black calc(100% - 84px), transparent 100%)",
           maskImage:
-            "linear-gradient(to right, transparent 0, black 44px, black calc(100% - 44px), transparent 100%)",
+            "linear-gradient(to right, transparent 0, black 84px, black calc(100% - 84px), transparent 100%)",
         }}
       >
         {children}
@@ -143,7 +145,7 @@ function DivisionRow({
     <section className="border-t border-black/[0.06] bg-white py-16 md:py-24">
       <div className="mx-auto w-full max-w-6xl px-6">
         {/* header + graphic — one clean composed row */}
-        <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,1fr)_560px] md:gap-8">
+        <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-[minmax(0,1fr)_640px] md:gap-6">
           <Reveal>
             <p
               className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -664,7 +666,7 @@ export function HomeRows() {
         n="03"
         title="Software"
         lede="Custom applications from first wireframe to cloud infrastructure."
-        graphic={<LiveGraphic src="/assets/software_work_v1.mp4" poster="/assets/software_work_poster_v1.jpg" />}
+        graphic={<LiveGraphic src="/assets/software_work_v2.mp4" poster="/assets/software_work_poster_v2.jpg" />}
         subs={SOFTWARE}
         href="/services"
       />
@@ -672,7 +674,7 @@ export function HomeRows() {
         n="04"
         title="Consultation"
         lede="Strategy, technology, business, product, growth — book a seat at the table."
-        graphic={<LiveGraphic src="/assets/consult_live_v1.mp4" poster="/assets/consult_live_poster_v1.jpg" />}
+        graphic={<LiveGraphic src="/assets/consult_live_v2.mp4" poster="/assets/consult_live_poster_v2.jpg" />}
         subs={CONSULTATION}
         href="/services"
         extra={

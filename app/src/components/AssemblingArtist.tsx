@@ -10,8 +10,8 @@ import { LiveGraphic } from "./LiveGraphic";
 export function AssemblingArtist() {
   return (
     <LiveGraphic
-      src="/assets/artist_work_v3.mp4"
-      poster="/assets/artist_work_poster_v3.jpg"
+      src="/assets/artist_work_v5.mp4"
+      poster="/assets/artist_work_poster_v5.jpg"
     />
   );
 }

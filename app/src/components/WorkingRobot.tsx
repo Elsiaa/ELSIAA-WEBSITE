@@ -9,8 +9,8 @@ import { LiveGraphic } from "./LiveGraphic";
 export function WorkingRobot() {
   return (
     <LiveGraphic
-      src="/assets/robot_work_v2.mp4"
-      poster="/assets/robot_work_poster_v2.jpg"
+      src="/assets/robot_work_v3.mp4"
+      poster="/assets/robot_work_poster_v3.jpg"
     />
   );
 }
