@@ -3,8 +3,9 @@ import { LionWalker } from "./LionWalker";
 import { SiteSearch } from "./SiteSearch";
 
 /*
-  ELSIAA site nav — fixed, minimal, self-adapting.
-  mix-blend-difference + white text renders over light and dark bands alike.
+  ELSIAA site nav — fixed, minimal, on a solid white bar.
+  Ink text on a white backdrop-blur bar so page content never collides with
+  the nav while scrolling; colors invert to white when the menu overlay opens.
   Tabs (hamburger) icon opens a full menu overlay — primary nav on mobile,
   available everywhere.
 */
@@ -54,7 +55,11 @@ export function SiteNav() {
     <>
       <LionWalker />
       <header
-        className="pointer-events-none fixed inset-x-0 top-0 z-50 mix-blend-difference"
+        className={`pointer-events-none fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+          open
+            ? "bg-transparent"
+            : `bg-white/95 backdrop-blur-sm ${scrolled ? "border-b border-black/[0.07]" : ""}`
+        }`}
         aria-label="Site"
       >
         <div
@@ -69,25 +74,25 @@ export function SiteNav() {
           >
             {/* mark: rotated square node with inner dot */}
             <span className="relative flex h-[18px] w-[18px] items-center justify-center">
-              <span className="absolute inset-0 rotate-45 border border-white/80 transition-transform duration-500 group-hover:rotate-[135deg]" />
-              <span className="h-[4px] w-[4px] rotate-45 bg-white" />
+              <span className={`absolute inset-0 rotate-45 border transition-transform duration-500 group-hover:rotate-[135deg] ${open ? "border-white/80" : "border-[#111111]/80"}`} />
+              <span className={`h-[4px] w-[4px] rotate-45 ${open ? "bg-white" : "bg-[#111111]"}`} />
             </span>
             <span className="flex flex-col leading-none">
               <span
-                className="text-[13px] font-semibold tracking-[0.42em] text-white uppercase"
+                className={`text-[13px] font-semibold tracking-[0.42em] uppercase ${open ? "text-white" : "text-[#111111]"}`}
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 ELSIAA
               </span>
               <span className="mt-[5px] flex items-center gap-2">
-                <span className="h-px w-4 bg-white/40" />
+                <span className={`h-px w-4 ${open ? "bg-white/40" : "bg-[#111111]/30"}`} />
                 <span
-                  className="text-[6.5px] tracking-[0.34em] whitespace-nowrap text-white/60 uppercase"
+                  className={`text-[6.5px] tracking-[0.34em] whitespace-nowrap uppercase ${open ? "text-white/60" : "text-[#111111]/50"}`}
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   AI Done Better
                 </span>
-                <span className="h-px flex-1 bg-white/40" />
+                <span className={`h-px flex-1 ${open ? "bg-white/40" : "bg-[#111111]/30"}`} />
               </span>
             </span>
           </a>
@@ -96,7 +101,7 @@ export function SiteNav() {
               <a
                 key={l.href}
                 href={l.href}
-                className="hidden text-[11px] tracking-[0.26em] text-white/80 uppercase transition-opacity hover:opacity-60 md:inline"
+                className={`hidden text-[11px] tracking-[0.26em] uppercase transition-opacity hover:opacity-60 md:inline ${open ? "text-white/80" : "text-[#111111]/80"}`}
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {l.label}
@@ -104,7 +109,7 @@ export function SiteNav() {
             ))}
             <a
               href="mailto:isya@elsiaa.com"
-              className="hidden border border-white/40 px-5 py-2 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black md:inline-block"
+              className={`hidden border px-5 py-2 text-[11px] tracking-[0.26em] uppercase transition-all duration-300 md:inline-block ${open ? "border-white/40 text-white hover:border-white hover:bg-white hover:text-black" : "border-[#111111]/30 text-[#111111] hover:border-[#111111] hover:bg-[#111111] hover:text-white"}`}
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Contact
@@ -115,7 +120,7 @@ export function SiteNav() {
               onClick={() => { window.location.href = "/search"; }}
               className="flex h-10 w-8 items-center justify-center transition-opacity hover:opacity-60"
             >
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={open ? "white" : "#111111"} strokeWidth="2" strokeLinecap="round">
                 <circle cx="11" cy="11" r="7" />
                 <line x1="21" y1="21" x2="16.5" y2="16.5" />
               </svg>
@@ -128,17 +133,17 @@ export function SiteNav() {
               className="group relative flex h-10 w-10 items-center justify-center"
             >
               <span
-                className={`absolute h-[1.5px] w-6 bg-white transition-all duration-300 ${
+                className={`absolute h-[1.5px] w-6 transition-all duration-300 ${open ? "bg-white" : "bg-[#111111]"} ${
                   open ? "rotate-45" : "-translate-y-[7px]"
                 }`}
               />
               <span
-                className={`absolute h-[1.5px] w-6 bg-white transition-all duration-300 ${
+                className={`absolute h-[1.5px] w-6 transition-all duration-300 ${open ? "bg-white" : "bg-[#111111]"} ${
                   open ? "opacity-0" : "opacity-100"
                 }`}
               />
               <span
-                className={`absolute h-[1.5px] w-6 bg-white transition-all duration-300 ${
+                className={`absolute h-[1.5px] w-6 transition-all duration-300 ${open ? "bg-white" : "bg-[#111111]"} ${
                   open ? "-rotate-45" : "translate-y-[7px]"
                 }`}
               />

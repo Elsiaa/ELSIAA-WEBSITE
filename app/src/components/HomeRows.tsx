@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AssemblingArtist } from "./AssemblingArtist";
+import { LiveGraphic } from "./LiveGraphic";
 import { WorkingRobot } from "./WorkingRobot";
 
 /* ============================================================
@@ -142,7 +143,7 @@ function DivisionRow({
     <section className="border-t border-black/[0.06] bg-white py-16 md:py-24">
       <div className="mx-auto w-full max-w-6xl px-6">
         {/* header + graphic — one clean composed row */}
-        <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[1fr_400px] md:gap-14">
+        <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,1fr)_560px] md:gap-8">
           <Reveal>
             <p
               className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -663,7 +664,7 @@ export function HomeRows() {
         n="03"
         title="Software"
         lede="Custom applications from first wireframe to cloud infrastructure."
-        img="/assets/home_software.jpg"
+        graphic={<LiveGraphic src="/assets/software_work_v1.mp4" poster="/assets/software_work_poster_v1.jpg" />}
         subs={SOFTWARE}
         href="/services"
       />
@@ -671,7 +672,7 @@ export function HomeRows() {
         n="04"
         title="Consultation"
         lede="Strategy, technology, business, product, growth — book a seat at the table."
-        img="/assets/home_advisor.jpg"
+        graphic={<LiveGraphic src="/assets/consult_live_v1.mp4" poster="/assets/consult_live_poster_v1.jpg" />}
         subs={CONSULTATION}
         href="/services"
         extra={
