@@ -325,23 +325,35 @@ function ApplyForm({ role }: { role: RoleId | null }) {
 
   return (
     <section className="mx-auto max-w-5xl px-6 pb-24">
-      <div className="rounded-2xl border border-black/[0.07] bg-white p-6 md:p-10">
-        <div className="flex items-baseline justify-between gap-4">
-          <h3
-            className="text-lg font-semibold tracking-[-0.02em] md:text-2xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            Apply{role ? ` — ${role}` : ""}
-          </h3>
+      <div className="rounded-2xl border border-black/[0.07] bg-white p-6 md:p-12 lg:flex lg:gap-14">
+        {/* identity rail — desktop left column */}
+        <div className="lg:w-[240px] lg:flex-none">
           <span
             className="text-[10px] tracking-[0.22em] text-[#111111]/40 uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Under a minute
+            The application
           </span>
+          <h3
+            className="mt-2 text-xl font-semibold tracking-[-0.02em] md:text-3xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Apply{role ? ` — ${role}` : ""}
+          </h3>
+          <p className="mt-3 hidden text-[13px] leading-relaxed text-[#111111]/50 lg:block">
+            Five fields, one honest essay, your resume. We read every
+            application ourselves and reply to all of them.
+          </p>
+          <p
+            className="mt-4 hidden text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase lg:block"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Under a minute
+          </p>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="mt-6 lg:mt-0 lg:min-w-0 lg:flex-1">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field label="First name" value={first} onChange={setFirst} autoComplete="given-name" />
           <Field label="Last name" value={last} onChange={setLast} autoComplete="family-name" />
           <Field label="Number" value={number} onChange={setNumber} type="tel" autoComplete="tel" />
@@ -479,6 +491,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
             .
           </p>
         )}
+        </div>
       </div>
     </section>
   );
