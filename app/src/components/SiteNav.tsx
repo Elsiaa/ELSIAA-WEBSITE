@@ -13,6 +13,8 @@ const LINKS = [
   { label: "Services", href: "/services" },
   { label: "Designs", href: "/designs" },
   { label: "Careers", href: "/careers" },
+  { label: "Team", href: "/team" },
+  { label: "Insights", href: "/insights" },
 ];
 
 export function SiteNav() {
