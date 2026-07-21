@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { LionWalker } from "./LionWalker";
+import { SiteSearch } from "./SiteSearch";
 
 /*
   ELSIAA site nav — fixed, minimal, self-adapting.
@@ -17,6 +18,18 @@ const LINKS = [
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState(false);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearch((s) => !s);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -91,6 +104,17 @@ export function SiteNav() {
             >
               Contact
             </a>
+            {/* search icon */}
+            <button
+              aria-label="Search"
+              onClick={() => setSearch(true)}
+              className="flex h-10 w-8 items-center justify-center transition-opacity hover:opacity-60"
+            >
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+                <circle cx="11" cy="11" r="7" />
+                <line x1="21" y1="21" x2="16.5" y2="16.5" />
+              </svg>
+            </button>
             {/* tabs icon */}
             <button
               aria-label={open ? "Close menu" : "Open menu"}
@@ -155,10 +179,28 @@ export function SiteNav() {
               </span>
             </a>
           ))}
+          <button
+            onClick={() => {
+              setOpen(false);
+              setSearch(true);
+            }}
+            className="group mt-6 flex w-fit items-center gap-4 py-2 text-left"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2e9e58" strokeWidth="2" strokeLinecap="round">
+              <circle cx="11" cy="11" r="7" />
+              <line x1="21" y1="21" x2="16.5" y2="16.5" />
+            </svg>
+            <span
+              className="text-[13px] tracking-[0.26em] text-white/70 uppercase transition-colors group-hover:text-white"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Search
+            </span>
+          </button>
           <a
             href="mailto:isya@elsiaa.com"
             onClick={() => setOpen(false)}
-            className="mt-8 inline-flex w-fit items-center gap-3 border border-white/30 px-7 py-3 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
+            className="mt-4 inline-flex w-fit items-center gap-3 border border-white/30 px-7 py-3 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
             style={{
               fontFamily: "'Inter', sans-serif",
               opacity: open ? 1 : 0,
@@ -179,6 +221,7 @@ export function SiteNav() {
           </p>
         </nav>
       </div>
+      <SiteSearch open={search} onClose={() => setSearch(false)} />
     </>
   );
 }
