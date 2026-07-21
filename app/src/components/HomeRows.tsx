@@ -450,11 +450,11 @@ function CountUp({ target }: { target: number }) {
 
 function StatsSection() {
   return (
-    <section className="border-t border-black/[0.06] bg-white py-16 md:py-24">
+    <section className="bg-white pt-32 pb-14 md:pt-36 md:pb-16">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            05 · Intelligence
+            Intelligence
           </p>
           <div className="mt-2 flex items-baseline justify-between gap-4">
             <h2 className="text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -813,7 +813,7 @@ function Team() {
 /* ---------- masthead: two seconds of identity, then the rows ---------- */
 function Masthead() {
   return (
-    <header className="mx-auto flex min-h-[86vh] max-w-6xl flex-col justify-center px-6 pt-28 pb-10 md:min-h-[88vh] md:pt-24">
+    <header className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 md:py-24">
       <Reveal>
         <p
           className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
@@ -844,6 +844,7 @@ function Masthead() {
 export function HomeRows() {
   return (
     <main className="bg-white">
+      <StatsSection />
       <Masthead />
       <DivisionRow
         n="01"
@@ -884,7 +885,6 @@ export function HomeRows() {
           </>
         }
       />
-      <StatsSection />
       <Locations />
       <Team />
     </main>
