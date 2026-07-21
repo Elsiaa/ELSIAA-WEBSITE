@@ -47,7 +47,7 @@ function Reveal({
 /* ---------- shared row carousel: arrows + swipe + gentle drift ---------- */
 function Rail({
   children,
-  drift = 0.5,
+  drift = 0.35,
 }: {
   children: React.ReactNode;
   drift?: number;
@@ -57,14 +57,16 @@ function Rail({
   useEffect(() => {
     const rail = railRef.current;
     if (!rail) return;
+    rail.scrollLeft = 0; // always open on a clean first card
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
-    let pos = rail.scrollLeft;
+    let pos = 0;
+    let startAt = performance.now() + 2200; // settle before drifting
     rail.addEventListener("scroll", () => {
       if (Math.abs(rail.scrollLeft - pos) > 2) pos = rail.scrollLeft;
     });
     const tick = () => {
-      if (!paused.current) {
+      if (!paused.current && performance.now() > startAt) {
         pos += drift;
         const half = rail.scrollWidth / 2;
         if (pos >= half) pos -= half;
@@ -100,6 +102,12 @@ function Rail({
         onTouchStart={() => (paused.current = true)}
         onTouchEnd={() => (paused.current = false)}
         className="flex gap-3 overflow-x-auto px-2 pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0, black 44px, black calc(100% - 44px), transparent 100%)",
+          maskImage:
+            "linear-gradient(to right, transparent 0, black 44px, black calc(100% - 44px), transparent 100%)",
+        }}
       >
         {children}
       </div>
