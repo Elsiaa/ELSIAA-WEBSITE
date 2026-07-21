@@ -346,23 +346,55 @@ function ConsultPricing() {
 
 /* ---------- locations ---------- */
 const CITIES = [
-  { name: "New York City", q: "Manhattan, New York" },
-  { name: "London", q: "London, UK" },
-  { name: "Geneva", q: "Geneva, Switzerland" },
-  { name: "Antwerp", q: "Antwerp, Belgium" },
-  { name: "Tel Aviv", q: "Tel Aviv, Israel" },
-  { name: "Los Angeles", q: "Los Angeles, California" },
+  { name: "New York City", q: "Manhattan, New York", flag: "\u{1F1FA}\u{1F1F8}", vid: "/assets/city_nyc.mp4" },
+  { name: "London", q: "London, UK", flag: "\u{1F1EC}\u{1F1E7}", vid: "/assets/city_london.mp4" },
+  { name: "Geneva", q: "Geneva, Switzerland", flag: "\u{1F1E8}\u{1F1ED}", vid: "/assets/city_geneva.mp4" },
+  { name: "Antwerp", q: "Antwerp, Belgium", flag: "\u{1F1E7}\u{1F1EA}", vid: "/assets/city_antwerp.mp4" },
+  { name: "Tel Aviv", q: "Tel Aviv, Israel", flag: "\u{1F1EE}\u{1F1F1}", vid: "/assets/city_telaviv.mp4" },
+  { name: "Los Angeles", q: "Los Angeles, California", flag: "\u{1F1FA}\u{1F1F8}", vid: "/assets/city_la.mp4" },
 ];
+
+/* rotating scenic footage of each city, clean loop, flags riding on top */
+function CityBackdrop() {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % CITIES.length), 9000);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="absolute inset-0">
+      {CITIES.map((c, i) => (
+        <video
+          key={c.name}
+          src={c.vid}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload={i === 0 ? "auto" : "metadata"}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms] ${
+            i === idx ? "opacity-40" : "opacity-0"
+          }`}
+        />
+      ))}
+      {/* international colours riding on the footage */}
+      <div className="absolute top-6 right-6 flex gap-2.5 text-[17px] md:top-8 md:right-10">
+        {CITIES.filter((c, i, a) => a.findIndex((x) => x.flag === c.flag) === i).map(
+          (c) => (
+            <span key={c.flag} className="opacity-80 drop-shadow">
+              {c.flag}
+            </span>
+          )
+        )}
+      </div>
+    </div>
+  );
+}
 
 function Locations() {
   return (
     <section className="relative overflow-hidden bg-[#0c0c0c] py-16 text-white md:py-24">
-      <img
-        src="/assets/home_cities.jpg"
-        alt=""
-        loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover opacity-35"
-      />
+      <CityBackdrop />
       <div className="absolute inset-0 bg-gradient-to-b from-[#0c0c0c]/70 via-transparent to-[#0c0c0c]" />
       <div className="relative mx-auto max-w-5xl px-6">
         <Reveal>
@@ -372,6 +404,21 @@ function Locations() {
           >
             05 · Locations
           </p>
+          <div className="mt-4 flex items-center gap-3">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#2e9e58]/50 bg-[#2e9e58]/10">
+              {/* headset — support */}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2e9e58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 13v-2a8 8 0 0 1 16 0v2" />
+                <path d="M4 13a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1v-6Z" />
+                <path d="M20 13a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1v-6Z" />
+                <path d="M19 19a4 4 0 0 1-4 4h-2" />
+              </svg>
+            </span>
+            <p className="text-[13px] leading-snug text-white/80" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <span className="font-semibold text-white">24/7 virtual support</span>
+              <span className="text-white/50"> — and in person, on site at all times, in the following locations.</span>
+            </p>
+          </div>
           <h2
             className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
@@ -396,7 +443,8 @@ function Locations() {
                   />
                 </div>
                 <div className="flex items-center justify-between p-4">
-                  <h3 className="text-[15px] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <h3 className="flex items-center gap-2 text-[15px] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <span className="text-[13px]">{c.flag}</span>
                     {c.name}
                   </h3>
                   <span
