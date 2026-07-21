@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AssemblingArtist } from "./AssemblingArtist";
+import { WorkingRobot } from "./WorkingRobot";
 
 /* ============================================================
    ELSIAA homepage — built from Isya's notebook sketch 06/20/26
@@ -564,7 +565,7 @@ export function HomeRows() {
         n="02"
         title="Automation"
         lede="Workflows that run while you sleep — sales, operations, finance."
-        img="/assets/home_robot.jpg"
+        graphic={<WorkingRobot />}
         subs={AUTOMATION}
         href="/services"
         flip
