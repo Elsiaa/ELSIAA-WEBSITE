@@ -12,9 +12,11 @@ const LINKS = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Designs", href: "/designs" },
+  { label: "Consultation", href: "/consultation" },
   { label: "Careers", href: "/careers" },
   { label: "Team", href: "/team" },
   { label: "Insights", href: "/insights" },
+  { label: "Search", href: "/search" },
   { label: "Client Login", href: "/portal" },
 ];
 
