@@ -565,12 +565,18 @@ const TIERS = [
 
 function ConsultPricing() {
   return (
-    <div className="mt-8">
-      <Rail drift={0}>
+    <div className="mt-10">
+      <h3
+        className="text-[11px] tracking-[0.28em] text-[#111111]/40 uppercase"
+        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+      >
+        Engagements
+      </h3>
+      <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-3">
         {TIERS.map((t) => (
           <div
             key={t.name}
-            className={`flex w-[248px] flex-none flex-col rounded-xl border p-5 transition-all duration-300 hover:-translate-y-1 ${
+            className={`flex flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 ${
               t.featured
                 ? "border-[#1e6b3c] bg-[#111111] text-white shadow-[0_30px_70px_-30px_rgba(30,107,60,0.55)]"
                 : "border-black/[0.08] bg-white text-[#111111] shadow-[0_18px_44px_-30px_rgba(17,17,17,0.35)]"
@@ -622,8 +628,8 @@ function ConsultPricing() {
             </a>
           </div>
         ))}
-      </Rail>
-      <p className="mt-2 px-2 text-[11px] text-black/35" style={{ fontFamily: "'Inter', sans-serif" }}>
+      </div>
+      <p className="mt-2.5 text-[11px] text-black/35" style={{ fontFamily: "'Inter', sans-serif" }}>
         Checkout by card is coming online with Stripe — booking currently confirms by email within hours.
       </p>
     </div>

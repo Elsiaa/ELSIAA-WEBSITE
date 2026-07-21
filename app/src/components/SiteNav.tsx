@@ -90,7 +90,7 @@ export function SiteNav() {
             </span>
           </a>
           <nav className="pointer-events-auto flex items-center gap-5 md:gap-7">
-            {LINKS.slice(1).map((l) => (
+            {LINKS.slice(1, 4).map((l) => (
               <a
                 key={l.href}
                 href={l.href}
