@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as DesignsRouteImport } from './routes/designs'
@@ -32,6 +33,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team': typeof TeamRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team': typeof TeamRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team': typeof TeamRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/designs'
     | '/insights'
     | '/robots.txt'
+    | '/search'
     | '/services'
     | '/sitemap.xml'
     | '/team'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/designs'
     | '/insights'
     | '/robots.txt'
+    | '/search'
     | '/services'
     | '/sitemap.xml'
     | '/team'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/designs'
     | '/insights'
     | '/robots.txt'
+    | '/search'
     | '/services'
     | '/sitemap.xml'
     | '/team'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   DesignsRoute: typeof DesignsRoute
   InsightsRoute: typeof InsightsRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SearchRoute: typeof SearchRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TeamRoute: typeof TeamRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   DesignsRoute: DesignsRoute,
   InsightsRoute: InsightsRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
+  SearchRoute: SearchRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TeamRoute: TeamRoute,
