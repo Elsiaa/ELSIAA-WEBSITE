@@ -645,7 +645,7 @@ export function HomeRows() {
       <DivisionRow
         n="01"
         title="Design"
-        lede="Everything your customers see, engineered to be believed."
+        lede="At ELSIAA we understand design. Good artists don't use AI — they leverage it. We use AI to push the limits of what's possible, delivering the best designs for every aspect of your business."
         graphic={<AssemblingArtist />}
         subs={DESIGN}
         href="/designs"

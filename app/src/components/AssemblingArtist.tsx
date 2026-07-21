@@ -1,72 +1,42 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 /*
-  Design division graphic — the holographic artist, white studio.
-  Scroll-triggered: when the block scrolls into view, the scene assembles
-  from green particles (plays once). When assembly completes, it comes
-  alive — the artist works the hologram on a seamless loop.
-  The white footage sits on a white surface with, so it
-  auto-adapts if the visitor's system is in dark mode (white becomes the
-  surface color). Default is light.
+  Design division graphic — the artist at work, white studio.
+  A designer sits intently at his desk — headphones on, stylus on iPad,
+  Apple desktop mid-layout, easel canvas of brand sketches beside him —
+  permanently alive and actively designing on a seamless loop.
+  Plays when in view, pauses off-screen. Pure white surface so it sits
+  seamlessly on the white page.
 */
 export function AssemblingArtist() {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const asmRef = useRef<HTMLVideoElement>(null);
-  const [alive, setAlive] = useState(false);
-  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const wrap = wrapRef.current;
-    const asm = asmRef.current;
-    if (!wrap || !asm) return;
-
+    const v = ref.current;
+    if (!v) return;
     const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setStarted(true);
-          asm.play().catch(() => setAlive(true));
-          io.disconnect();
-        }
+      (e) => {
+        if (e[0].isIntersecting) v.play().catch(() => {});
+        else v.pause();
       },
-      { threshold: 0.35 }
+      { threshold: 0.2 }
     );
-    io.observe(wrap);
-
-    const onEnded = () => setAlive(true);
-    asm.addEventListener("ended", onEnded);
-    return () => {
-      io.disconnect();
-      asm.removeEventListener("ended", onEnded);
-    };
+    io.observe(v);
+    return () => io.disconnect();
   }, []);
 
   return (
-    <div
-      ref={wrapRef}
-      className="relative aspect-[3/2] w-full bg-white"
-    >
-      {/* assemble phase — plays once when scrolled into view */}
+    <div className="relative aspect-[3/2] w-full bg-white">
       <video
-        ref={asmRef}
-        src="/assets/artist_assemble_v2.mp4"
+        ref={ref}
+        src="/assets/artist_work_v3.mp4"
+        loop
         muted
         playsInline
-        preload="auto"
-        className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
-          alive ? "opacity-0" : started ? "opacity-100" : "opacity-0"
-        }`}
+        preload="metadata"
+        poster="/assets/artist_work_poster_v3.jpg"
+        className="absolute inset-0 h-full w-full object-contain"
       />
-      {/* alive phase — looping while resting in view */}
-      {alive && (
-        <video
-          src="/assets/artist_idle_v2.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 h-full w-full object-contain"
-        />
-      )}
     </div>
   );
 }
