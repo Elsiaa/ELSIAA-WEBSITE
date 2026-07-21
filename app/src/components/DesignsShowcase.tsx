@@ -1149,7 +1149,7 @@ function ProductAdFeature() {
     return () => io.disconnect();
   }, []);
   return (
-    <section className="bg-[#F5F5F3] px-6 pt-6 pb-24 text-[#111111]">
+    <section className="bg-[#F5F5F3] px-6 pt-28 pb-24 md:pt-32 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2
@@ -1842,11 +1842,11 @@ export function DesignsShowcase() {
         html { scroll-behavior: smooth; }
       `}</style>
       <Statement />
+      <ProductAdFeature />
       <Ticker />
       <DiscoverDesigns />
       <Transformations />
       <DiscoverApps />
-      <ProductAdFeature />
       <ClientLogos />
       <BeyondWebsites />
       <OurProcess />
