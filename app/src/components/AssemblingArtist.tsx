@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
   Scroll-triggered: when the block scrolls into view, the scene assembles
   from green particles (plays once). When assembly completes, it comes
   alive — the artist works the hologram on a seamless loop.
-  The white footage sits on a white surface with mix-blend-multiply, so it
+  The white footage sits on a white surface with, so it
   auto-adapts if the visitor's system is in dark mode (white becomes the
   surface color). Default is light.
 */
@@ -43,7 +43,7 @@ export function AssemblingArtist() {
   return (
     <div
       ref={wrapRef}
-      className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-white dark:bg-[#0c0c0c]"
+      className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-white"
     >
       {/* assemble phase — plays once when scrolled into view */}
       <video
@@ -52,7 +52,7 @@ export function AssemblingArtist() {
         muted
         playsInline
         preload="auto"
-        className={`absolute inset-0 h-full w-full object-cover mix-blend-multiply transition-opacity duration-500 ${
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
           alive ? "opacity-0" : started ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -64,7 +64,7 @@ export function AssemblingArtist() {
           loop
           muted
           playsInline
-          className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+          className="absolute inset-0 h-full w-full object-cover"
         />
       )}
     </div>
