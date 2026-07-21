@@ -220,6 +220,30 @@ function Portal() {
 
         {err && <p className="mt-4 rounded-lg border border-[#E53E3E]/30 bg-[#E53E3E]/[0.05] px-4 py-3 text-[13px] text-[#E53E3E]">{err}</p>}
 
+        {/* ELSIAA bypass — quick in and out, no credentials */}
+        <div className="mt-10 rounded-xl border border-dashed border-black/15 p-4">
+          <p className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>
+            ELSIAA bypass
+          </p>
+          <div className="mt-2.5 flex flex-wrap gap-2">
+            {Object.values(CLIENTS).map((c) => (
+              <button
+                key={c.id}
+                onClick={() => {
+                  setClientId(c.id);
+                  setStep("dash");
+                }}
+                className="rounded-full border border-black/12 px-4 py-2 text-[11px] font-medium transition-all hover:text-white"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = c.accent; (e.currentTarget as HTMLButtonElement).style.borderColor = c.accent; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = ""; (e.currentTarget as HTMLButtonElement).style.borderColor = ""; }}
+              >
+                {c.company} →
+              </button>
+            ))}
+          </div>
+        </div>
+
         <p className="mt-8 text-[11.5px] leading-relaxed text-[#111111]/35" style={inter}>
           Trouble signing in? Email{" "}
           <a className="underline" href="mailto:isya@elsiaa.com">
