@@ -130,8 +130,8 @@ function DivisionRow({
   flip?: boolean;
 }) {
   return (
-    <section className="border-t border-black/[0.06] py-16 md:py-28">
-      <div className="mx-auto max-w-5xl px-6">
+    <section className="flex border-t border-black/[0.06] py-14 md:min-h-[92vh] md:items-center md:py-12">
+      <div className="mx-auto w-full max-w-6xl px-6">
         {/* header row — full width on desktop */}
         <Reveal>
           <p
@@ -167,7 +167,7 @@ function DivisionRow({
           className={`mt-8 flex flex-col gap-8 md:items-start ${flip ? "md:flex-row-reverse" : "md:flex-row"}`}
         >
           {/* graphic */}
-          <Reveal className="w-full md:w-[38%] md:flex-none">
+          <Reveal className="w-full md:w-[40%] md:flex-none">
             <a href={href} className="group block overflow-hidden rounded-2xl">
               {graphic ?? (
                 <img
@@ -180,7 +180,7 @@ function DivisionRow({
             </a>
           </Reveal>
           {/* rail */}
-          <div className="min-w-0 md:w-[62%]">
+          <div className="min-w-0 md:w-[60%]">
             <div className="md:mt-0">
               <Rail>
                 {[...subs, ...subs].map((s, i) => (
@@ -523,7 +523,7 @@ function Team() {
 /* ---------- masthead: two seconds of identity, then the rows ---------- */
 function Masthead() {
   return (
-    <header className="mx-auto max-w-5xl px-6 pt-32 pb-16 md:pt-36 md:pb-24">
+    <header className="mx-auto flex min-h-[86vh] max-w-6xl flex-col justify-center px-6 pt-28 pb-10 md:min-h-[88vh] md:pt-24">
       <Reveal>
         <p
           className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"

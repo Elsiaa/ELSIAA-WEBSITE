@@ -52,7 +52,7 @@ export function AssemblingArtist() {
         muted
         playsInline
         preload="auto"
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+        className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
           alive ? "opacity-0" : started ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -64,7 +64,7 @@ export function AssemblingArtist() {
           loop
           muted
           playsInline
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-contain"
         />
       )}
     </div>

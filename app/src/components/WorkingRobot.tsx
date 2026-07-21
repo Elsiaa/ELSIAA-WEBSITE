@@ -32,7 +32,7 @@ export function WorkingRobot() {
         playsInline
         preload="metadata"
         poster="/assets/robot_work_poster.jpg"
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-contain"
       />
     </div>
   );
