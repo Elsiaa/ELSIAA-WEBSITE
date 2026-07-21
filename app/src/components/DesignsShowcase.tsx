@@ -1843,12 +1843,12 @@ export function DesignsShowcase() {
       `}</style>
       <Statement />
       <ProductAdFeature />
-      <Ticker />
-      <DiscoverDesigns />
-      <Transformations />
-      <DiscoverApps />
       <ClientLogos />
       <BeyondWebsites />
+      <DiscoverDesigns />
+      <Ticker />
+      <Transformations />
+      <DiscoverApps />
       <OurProcess />
       <Results />
     </>
