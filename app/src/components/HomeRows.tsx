@@ -132,11 +132,42 @@ function DivisionRow({
   return (
     <section className="border-t border-black/[0.06] py-16 md:py-28">
       <div className="mx-auto max-w-5xl px-6">
+        {/* header row — full width on desktop */}
+        <Reveal>
+          <p
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {n} · Division
+          </p>
+          <div className="mt-2 flex items-baseline justify-between gap-4">
+            <h2
+              className="text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              {title}
+            </h2>
+            <a
+              href={href}
+              className="hidden flex-none text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline md:block"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Explore ↗
+            </a>
+          </div>
+          <p
+            className="mt-2 max-w-md text-[14px] text-[#111111]/50"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            {lede}
+          </p>
+        </Reveal>
+        {/* content row — graphic beside rail, top aligned */}
         <div
-          className={`flex flex-col gap-8 md:items-center ${flip ? "md:flex-row-reverse" : "md:flex-row"}`}
+          className={`mt-8 flex flex-col gap-8 md:items-start ${flip ? "md:flex-row-reverse" : "md:flex-row"}`}
         >
           {/* graphic */}
-          <Reveal className="md:w-[34%]">
+          <Reveal className="w-full md:w-[38%] md:flex-none">
             <a href={href} className="group block overflow-hidden rounded-2xl">
               {graphic ?? (
                 <img
@@ -148,38 +179,9 @@ function DivisionRow({
               )}
             </a>
           </Reveal>
-          {/* title + rail */}
-          <div className="min-w-0 md:w-[66%]">
-            <Reveal>
-              <p
-                className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                {n} · Division
-              </p>
-              <div className="mt-2 flex items-baseline justify-between gap-4">
-                <h2
-                  className="text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
-                  {title}
-                </h2>
-                <a
-                  href={href}
-                  className="hidden flex-none text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline md:block"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
-                  Explore ↗
-                </a>
-              </div>
-              <p
-                className="mt-2 max-w-md text-[14px] text-[#111111]/50"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                {lede}
-              </p>
-            </Reveal>
-            <div className="mt-6">
+          {/* rail */}
+          <div className="min-w-0 md:w-[62%]">
+            <div className="md:mt-0">
               <Rail>
                 {[...subs, ...subs].map((s, i) => (
                   <a
