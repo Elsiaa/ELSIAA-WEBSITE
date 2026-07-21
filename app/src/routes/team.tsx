@@ -64,31 +64,31 @@ const LEADERSHIP = [
     name: "Yisrael Krug",
     role: "Founder & Chief Executive Officer",
     init: "YK",
-    line: "Sets the standard. Every engagement, every pixel, every promise runs through the same bar: would we sign our name to it.",
+    line: "Builder across retail, software, and services. Sets one bar for everything ELSIAA ships: would we sign our name to it.",
   },
   {
     name: "David Heimowitz",
     role: "Co-Founder & Chief Technology Officer",
     init: "DH",
-    line: "Owns the machinery — architecture, infrastructure, and the engineering culture that keeps ELSIAA systems running without excuses.",
+    line: "Engineer at heart. Owns the architecture, the infrastructure, and the culture that keeps ELSIAA systems running without excuses.",
   },
   {
     name: "Jacob Rubelow",
     role: "Executive Legal & Strategic Counsel",
     init: "JR",
-    line: "Structures the firm's agreements, protects its clients, and keeps international operations clean across every jurisdiction we serve.",
+    line: "The firm's counsel. Structures the agreements, protects the clients, keeps five offices clean in every jurisdiction we touch.",
   },
   {
     name: "Chaim Lieberman",
     role: "Director of European Business",
     init: "CL",
-    line: "Leads the firm's presence across the United Kingdom, Belgium, and Switzerland — the front door to ELSIAA in Europe.",
+    line: "A natural relationship builder. The front door to ELSIAA in Europe — London, Antwerp, and Geneva answer to him.",
   },
   {
     name: "Izzy Eisenberg",
     role: "Director of California Business",
     init: "IE",
-    line: "Drives ELSIAA's West Coast operations and client relationships across the California market.",
+    line: "West Coast to the core. Drives California operations and the client relationships that come with the territory.",
   },
 ];
 
@@ -143,10 +143,12 @@ function Card({
       <div className="group rounded-2xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_24px_60px_-40px_rgba(17,17,17,0.4)]">
         <Portrait init={p.init} />
         <h3
-          className="mt-4 text-[16px] font-semibold tracking-[-0.01em] text-[#111111]"
+          className="mt-4 text-[17px] leading-[1.12] font-semibold tracking-[-0.015em] text-[#111111]"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          {p.name}
+          {p.name.split(" ").slice(0, 1).join(" ")}
+          <br />
+          {p.name.split(" ").slice(1).join(" ")}
         </h3>
         <p
           className="mt-1 text-[11px] tracking-[0.14em] text-[#1e6b3c] uppercase"
@@ -176,13 +178,13 @@ function TeamPage() {
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Leadership
+            Who we are
           </p>
           <h1
             className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            The people behind the lion.
+            Meet the pride.
           </h1>
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/55">
             An international executive team, dedicated counsel, and a medical

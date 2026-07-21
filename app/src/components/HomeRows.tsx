@@ -765,13 +765,13 @@ function Team() {
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            07 · Team
+            07 · Who we are
           </p>
           <h2
             className="mt-3 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            The people behind the lion.
+            Meet the pride.
           </h2>
         </Reveal>
         <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
