@@ -9,10 +9,10 @@ import { useEffect, useRef } from "react";
   on the page. The whole lion is a button that returns home.
 */
 const CLIPS = {
-  walk: "/assets/lion_walk_v1.mp4",
-  roar: "/assets/lion_roar_v1.mp4",
-  rest: "/assets/lion_rest_v1.mp4",
-  pounce: "/assets/lion_pounce_v1.mp4",
+  walk: "/assets/lion_mesh_walk_v1.mp4",
+  roar: "/assets/lion_mesh_roar_v1.mp4",
+  rest: "/assets/lion_mesh_rest_v1.mp4",
+  pounce: "/assets/lion_mesh_pounce_v1.mp4",
 } as const;
 type Mode = keyof typeof CLIPS;
 const ACTIONS: Mode[] = ["roar", "rest", "pounce"];
