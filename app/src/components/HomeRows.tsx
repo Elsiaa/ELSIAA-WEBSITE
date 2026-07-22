@@ -746,15 +746,16 @@ function Locations() {
 
 /* ---------- team ---------- */
 const TEAM = [
-  { name: "Yisrael Krug", role: "Founder & Chief Executive Officer", init: "YK" },
-  { name: "David Heimowitz", role: "Co-Founder & Chief Technology Officer", init: "DH" },
-  { name: "Jacob Rubelow", role: "Executive Legal & Strategic Counsel", init: "JR" },
-  { name: "Chaim Lieberman", role: "Director of European Business", init: "CL" },
-  { name: "Izzy Eisenberg", role: "Director of California Business", init: "IE" },
-  { name: "Mendel Parnas", role: "Chairman & Advisor · Insurance Expert", init: "MP" },
-  { name: "Berel Krug", role: "Executive Advisor · Healthcare Consultant", init: "BK" },
-  { name: "Dr. Esther Krug, MD", role: "Professor of Medicine, Johns Hopkins University", init: "EK" },
-  { name: "Dr. Edward Margolin, MD", role: "Professor of Medicine, University of Toronto", init: "EM" },
+  { name: "Yisrael Krug", role: "Founder & Chief Executive Officer", init: "YK", photo: "/assets/team/yk.jpg" },
+  { name: "David Heimowitz", role: "Co-Founder & Chief Technology Officer", init: "DH", photo: "/assets/team/dh.jpg" },
+  { name: "Jacob Rubelow", role: "Executive Legal & Strategic Counsel", init: "JR", photo: "/assets/team/jr.jpg" },
+  { name: "Chaim Lieberman", role: "Director of European Business", init: "CL", photo: "/assets/team/cl.jpg" },
+  { name: "Izzy Eisenberg", role: "Director of California Business", init: "IE", photo: "/assets/team/ie.jpg" },
+  { name: "Ynon Azulai", role: "AI & Technology Expert · Jerusalem", init: "YA", photo: "/assets/team/ya.jpg" },
+  { name: "Mendel Parnas", role: "Chairman & Advisor · Insurance Expert", init: "MP", photo: "/assets/team/mp.jpg" },
+  { name: "Berel Krug", role: "Executive Advisor · Healthcare Consultant", init: "BK", photo: "/assets/team/bk.jpg" },
+  { name: "Dr. Esther Krug, MD", role: "Professor of Medicine, Johns Hopkins University", init: "EK", photo: "/assets/team/ek.jpg" },
+  { name: "Dr. Edward Margolin, MD", role: "Professor of Medicine, University of Toronto", init: "EM", photo: "/assets/team/em.jpg" },
 ];
 
 function Team() {
@@ -772,19 +773,27 @@ function Team() {
             className="mt-3 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Meet the pride.
+            Leadership of consequence.
           </h2>
+          <p
+            className="mt-3 max-w-xl text-[15px] text-[#111111]/50"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Founders, executives, and tenured professors — decades of academic
+            distinction and enterprise success at one table.
+          </p>
         </Reveal>
         <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {TEAM.slice(0, 6).map((m, i) => (
             <Reveal key={m.name} delay={i * 0.05}>
               <div className="group flex items-center gap-3.5 rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/35">
-                <span
-                  className="flex h-13 w-13 flex-none items-center justify-center rounded-full bg-[#111111] text-[13px] font-bold tracking-wide text-[#2e9e58]"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace", width: 52, height: 52 }}
-                >
-                  {m.init}
-                </span>
+                <img
+                  src={m.photo}
+                  alt={m.name}
+                  loading="lazy"
+                  className="flex-none rounded-full border border-black/[0.06] object-cover"
+                  style={{ width: 52, height: 52 }}
+                />
                 <div>
                   <h3 className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     {m.name}
