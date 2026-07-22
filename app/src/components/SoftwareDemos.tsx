@@ -75,11 +75,6 @@ const DEMOS: Demo[] = [
 
 function DemoMedia({ demo, active }: { demo: Demo; active: boolean }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  // load once the slide first becomes active; keep it after that
-  useEffect(() => {
-    if (active) setLoaded(true);
-  }, [active]);
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -95,14 +90,16 @@ function DemoMedia({ demo, active }: { demo: Demo; active: boolean }) {
         muted
         loop
         playsInline
-        preload={active ? "auto" : "none"}
+        preload={active ? "auto" : "metadata"}
         className="h-full w-full object-cover"
         aria-label={`${demo.name} — recorded walkthrough`}
       />
     );
   }
   const zoom = demo.media.zoom ?? 0.5;
-  return loaded ? (
+  // ONLY the active slide keeps a live iframe mounted — three external sites
+  // running at once can freeze the tab. Inactive slides show a light card.
+  return active ? (
     <iframe
       src={demo.media.src}
       title={`${demo.name} — live site demo`}
@@ -118,7 +115,7 @@ function DemoMedia({ demo, active }: { demo: Demo; active: boolean }) {
   ) : (
     <div className="flex h-full w-full items-center justify-center bg-[#ECECEA]">
       <span className="text-[10px] tracking-[0.3em] text-black/30 uppercase" style={mono}>
-        Loading live site…
+        {demo.name} — live demo
       </span>
     </div>
   );
@@ -126,21 +123,43 @@ function DemoMedia({ demo, active }: { demo: Demo; active: boolean }) {
 
 export function SoftwareDemos() {
   const [idx, setIdx] = useState(0);
+  const [inView, setInView] = useState(true);
   const paused = useRef(false);
+  const interacted = useRef(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
   const demo = DEMOS[idx];
+
+  // Track whether the section is on screen — media unmounts and the
+  // auto-advance stops once the visitor scrolls past it.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      rootMargin: "200px 0px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = setInterval(() => {
-      if (!paused.current) setIdx((i) => (i + 1) % DEMOS.length);
+      // stop cycling once the visitor takes over, or off screen
+      if (!paused.current && !interacted.current && inView) {
+        setIdx((i) => (i + 1) % DEMOS.length);
+      }
     }, 9000);
     return () => clearInterval(t);
-  }, []);
+  }, [inView]);
 
-  const go = (d: number) => setIdx((i) => (i + d + DEMOS.length) % DEMOS.length);
+  const go = (d: number) => {
+    interacted.current = true;
+    setIdx((i) => (i + d + DEMOS.length) % DEMOS.length);
+  };
 
   return (
     <section
+      ref={sectionRef}
       className="border-b border-black/[0.06] bg-white pt-28 pb-12 md:pt-32 md:pb-16"
       aria-label="Software demos — walkthroughs of shipped work"
       onMouseEnter={() => (paused.current = true)}
@@ -225,7 +244,7 @@ export function SoftwareDemos() {
                     role="tab"
                     aria-selected={i === idx}
                     aria-label={`Show ${d.name} demo`}
-                    onClick={() => setIdx(i)}
+                    onClick={() => { interacted.current = true; setIdx(i); }}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
                       i === idx ? "w-8 bg-[#1e6b3c]" : "w-3 bg-black/15 hover:bg-black/30"
                     }`}
@@ -257,7 +276,7 @@ export function SoftwareDemos() {
                         i === idx ? "z-10 opacity-100" : "pointer-events-none z-0 opacity-0"
                       }`}
                     >
-                      <DemoMedia demo={d} active={i === idx} />
+                      <DemoMedia demo={d} active={i === idx && inView} />
                     </div>
                   ))}
                 </div>
