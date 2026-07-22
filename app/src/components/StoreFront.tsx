@@ -16,7 +16,7 @@ export type Product = {
   name: string;
   price: number;
   img: string;
-  tag: "Day-to-Day" | "City Line — Limited" | "Old Money — Oversized";
+  tag: "Day-to-Day" | "City Line — Limited" | "Old Money — Oversized" | "Objects";
   blurb: string;
 };
 
@@ -32,6 +32,12 @@ export const PRODUCTS: Product[] = [
   { id: "city-tlv", name: "Tel Aviv Tee", price: 148, img: "/assets/store/merch_tlv.jpg", tag: "City Line — Limited", blurb: "Sand heavyweight cotton. The Rothschild drop." },
   { id: "om-ivory", name: "Old Money Tee — Ivory", price: 128, img: "/assets/store/om_ivory.jpg", tag: "Old Money — Oversized", blurb: "Oversized, drapey, one tiny crest. Restraint is the flex." },
   { id: "om-navy", name: "Old Money Tee — Navy", price: 128, img: "/assets/store/om_navy.jpg", tag: "Old Money — Oversized", blurb: "Deep navy, gold-thread crest. Quiet since forever." },
+  { id: "obj-mug", name: "black mug", price: 28, img: "/assets/store/obj_mug.jpg", tag: "Objects", blurb: "matte ceramic. white mark." },
+  { id: "obj-cap", name: "cap", price: 48, img: "/assets/store/obj_cap.jpg", tag: "Objects", blurb: "unstructured cotton. tonal mark." },
+  { id: "obj-tote", name: "tote", price: 42, img: "/assets/store/obj_tote.jpg", tag: "Objects", blurb: "heavyweight canvas." },
+  { id: "obj-beanie", name: "beanie", price: 44, img: "/assets/store/obj_beanie.jpg", tag: "Objects", blurb: "merino rib. woven label." },
+  { id: "obj-socks", name: "socks", price: 18, img: "/assets/store/obj_socks.jpg", tag: "Objects", blurb: "ribbed crew. knitted mark." },
+  { id: "obj-bottle", name: "bottle", price: 38, img: "/assets/store/obj_bottle.jpg", tag: "Objects", blurb: "brushed steel. etched mark." },
 ];
 
 const SIZES = ["XS", "S", "M", "L", "XL"];
@@ -45,19 +51,18 @@ function ProductCard({ p, onAdd }: { p: Product; onAdd: (p: Product, size: strin
   const [added, setAdded] = useState(false);
   return (
     <div className="group">
-      <div className="overflow-hidden rounded-xl bg-[#F5F4F1]">
+      <div className="overflow-hidden bg-white">
         <img
           src={p.img}
           alt={p.name}
           loading="lazy"
-          className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
         />
       </div>
-      <div className="mt-3.5 flex items-baseline justify-between">
-        <h3 className="text-[15px] font-semibold tracking-[-0.01em]" style={inter}>{p.name}</h3>
-        <p className="text-[14px] font-medium text-[#111111]/80" style={mono}>${p.price}</p>
+      <div className="mt-4 text-center">
+        <h3 className="text-[13px] font-medium tracking-[0.02em] lowercase" style={inter}>{p.name}</h3>
+        <p className="mt-0.5 text-[12px] text-[#111111]/50" style={mono}>${p.price}</p>
       </div>
-      <p className="mt-0.5 text-[12.5px] text-[#111111]/45" style={inter}>{p.blurb}</p>
       {p.tag !== "Day-to-Day" && (
         <p className="mt-1 text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase" style={mono}>Limited</p>
       )}
@@ -141,51 +146,56 @@ export function StoreFront() {
   const standard = PRODUCTS.filter((p) => p.tag === "Day-to-Day");
   const city = PRODUCTS.filter((p) => p.tag === "City Line — Limited");
   const oldMoney = PRODUCTS.filter((p) => p.tag === "Old Money — Oversized");
+  const objects = PRODUCTS.filter((p) => p.tag === "Objects");
 
   return (
     <div>
-      {/* hero */}
-      <div className="overflow-hidden rounded-2xl bg-[#F5F4F1]">
-        <img src="/assets/store/merch_hero.jpg" alt="ELSIAA merch" className="w-full object-cover" />
-      </div>
-      <p className="mt-8 max-w-2xl text-[17px] leading-relaxed text-[#111111]/60" style={inter}>
-        Everyone loved our merch and asked where we bought it. So here it is —
-        a line of clothing the creator would wear. Cut heavy, branded quietly,
+      <p className="mx-auto max-w-md text-center text-[13px] leading-relaxed text-[#111111]/45 lowercase" style={inter}>
+        a line of clothing the creator would wear. cut heavy, branded quietly,
         never reprinted.
       </p>
 
       {/* standard line */}
-      <div className="mt-14">
-        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>The Day-to-Day · Black / White / Grey</p>
-        <p className="mt-2 max-w-xl text-[14px] text-[#111111]/50" style={inter}>
-          Three fits, one palette. Fitted professional, tailored casual, and
-          slightly oversized for men — every piece in black, white, or grey.
+      <div className="mt-20">
+        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 lowercase" style={mono}>day-to-day — black / white / grey</p>
+        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/40 lowercase" style={inter}>
+          three fits — fitted professional, tailored casual, slightly oversized.
         </p>
-        <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3">
           {standard.map((p) => <ProductCard key={p.id} p={p} onAdd={add} />)}
         </div>
       </div>
 
       {/* city line */}
-      <div className="mt-16">
-        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>The City Line · Limited</p>
-        <p className="mt-2 max-w-xl text-[14px] text-[#111111]/50" style={inter}>
-          Europe, New York, Los Angeles — pop modern colors, one drop per city. When a city sells out, it's gone.
+      <div className="mt-20">
+        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 lowercase" style={mono}>city line — limited</p>
+        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/40 lowercase" style={inter}>
+          europe, new york, los angeles — pop colors, one drop per city.
         </p>
-        <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3">
           {city.map((p) => <ProductCard key={p.id} p={p} onAdd={add} />)}
         </div>
       </div>
 
       {/* old money line */}
-      <div className="mt-16">
-        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>Old Money · Oversized</p>
-        <p className="mt-2 max-w-xl text-[14px] text-[#111111]/50" style={inter}>
-          The restrained ones. Oversized tees, heavyweight drape, a single tiny
-          crest — and not one thing more.
+      <div className="mt-20">
+        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 lowercase" style={mono}>old money — oversized</p>
+        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/40 lowercase" style={inter}>
+          oversized, heavyweight, one tiny crest — nothing more.
         </p>
-        <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3">
           {oldMoney.map((p) => <ProductCard key={p.id} p={p} onAdd={add} />)}
+        </div>
+      </div>
+
+      {/* objects line */}
+      <div className="mt-20">
+        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 lowercase" style={mono}>objects — scandinavian minimal</p>
+        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/40 lowercase" style={inter}>
+          the studio, portable. pure white, one mark each.
+        </p>
+        <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3">
+          {objects.map((p) => <ProductCard key={p.id} p={p} onAdd={add} />)}
         </div>
       </div>
 

@@ -745,6 +745,9 @@ const MERCH = [
   { img: "/assets/store/merch_tlv.jpg", name: "Tel Aviv Tee", price: "$148" },
   { img: "/assets/store/om_ivory.jpg", name: "Old Money Tee — Ivory", price: "$128" },
   { img: "/assets/store/om_navy.jpg", name: "Old Money Tee — Navy", price: "$128" },
+  { img: "/assets/store/obj_mug.jpg", name: "Black Mug", price: "$28" },
+  { img: "/assets/store/obj_cap.jpg", name: "Cap", price: "$48" },
+  { img: "/assets/store/obj_tote.jpg", name: "Tote", price: "$42" },
 ];
 
 function MerchStrip() {

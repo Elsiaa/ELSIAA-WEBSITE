@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { LionWalker } from "./LionWalker";
-import { SiteSearch } from "./SiteSearch";
+import { SiteSearch, SEARCH_INDEX } from "./SiteSearch";
 
 /*
   ELSIAA site nav — fixed, minimal, on a solid white bar.
@@ -161,79 +161,199 @@ export function SiteNav() {
         }`}
         onClick={() => setOpen(false)}
       >
-        <nav
-          className="mx-auto flex h-full max-w-6xl flex-col justify-center gap-0.5 overflow-y-auto px-8 pt-24 pb-10"
+        <div
+          className="mx-auto flex h-full max-w-6xl flex-col overflow-y-auto px-8 pt-28 pb-10"
           onClick={(e) => e.stopPropagation()}
         >
-          {LINKS.map((l, i) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="group flex items-baseline gap-4 py-1.5"
+          <div className="grid flex-1 grid-cols-1 gap-x-20 gap-y-12 md:grid-cols-[1.15fr_1fr]">
+            {/* nav column */}
+            <nav className="flex flex-col justify-center gap-0.5">
+              <p
+                className="mb-4 text-[10px] tracking-[0.32em] text-white/35 uppercase"
+                style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  opacity: open ? 1 : 0,
+                  transition: "opacity .5s ease .05s",
+                }}
+              >
+                Menu
+              </p>
+              {LINKS.map((l, i) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="group flex items-baseline gap-4 border-b border-white/[0.06] py-2.5"
+                  style={{
+                    opacity: open ? 1 : 0,
+                    transform: open ? "none" : "translateY(18px)",
+                    transition: `opacity .5s ease ${0.08 + i * 0.05}s, transform .5s cubic-bezier(.2,.8,.2,1) ${0.08 + i * 0.05}s`,
+                  }}
+                >
+                  <span
+                    className="w-6 text-[10px] tracking-[0.3em] text-[#2e9e58]"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className="text-[22px] font-semibold tracking-[-0.02em] text-white/90 transition-all duration-200 group-hover:translate-x-1 group-hover:text-white md:text-[27px]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {l.label}
+                  </span>
+                  <span className="ml-auto text-white/0 transition-colors duration-200 group-hover:text-[#2e9e58]">
+                    →
+                  </span>
+                </a>
+              ))}
+            </nav>
+
+            {/* utility column */}
+            <div
+              className="flex flex-col justify-center gap-8"
               style={{
                 opacity: open ? 1 : 0,
                 transform: open ? "none" : "translateY(18px)",
-                transition: `opacity .5s ease ${0.08 + i * 0.06}s, transform .5s cubic-bezier(.2,.8,.2,1) ${0.08 + i * 0.06}s`,
+                transition: "opacity .6s ease .3s, transform .6s cubic-bezier(.2,.8,.2,1) .3s",
               }}
             >
-              <span
-                className="text-[10px] tracking-[0.3em] text-[#2e9e58]"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span
-                className="text-[26px] font-semibold tracking-[-0.03em] text-white transition-colors group-hover:text-[#2e9e58] md:text-4xl"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                {l.label}
-              </span>
-            </a>
-          ))}
-          <button
-            onClick={() => {
-              setOpen(false);
-              setSearch(true);
-            }}
-            className="group mt-6 flex w-fit items-center gap-4 py-2 text-left"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2e9e58" strokeWidth="2" strokeLinecap="round">
-              <circle cx="11" cy="11" r="7" />
-              <line x1="21" y1="21" x2="16.5" y2="16.5" />
-            </svg>
-            <span
-              className="text-[13px] tracking-[0.26em] text-white/70 uppercase transition-colors group-hover:text-white"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              Search
-            </span>
-          </button>
-          <a
-            href="mailto:isya@elsiaa.com"
-            onClick={() => setOpen(false)}
-            className="mt-4 inline-flex w-fit items-center gap-3 border border-white/30 px-7 py-3 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
+              <MenuSearch onNavigate={() => setOpen(false)} />
+              <div className="border-t border-white/[0.08] pt-6">
+                <p
+                  className="text-[10px] tracking-[0.32em] text-white/35 uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  Direct
+                </p>
+                <a
+                  href="mailto:isya@elsiaa.com"
+                  className="mt-3 block text-[17px] font-medium text-white transition-colors hover:text-[#2e9e58]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  isya@elsiaa.com
+                </a>
+                <a
+                  href="/quote"
+                  onClick={() => setOpen(false)}
+                  className="mt-4 inline-flex w-fit items-center gap-3 border border-white/25 px-6 py-3 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  Get a Quote →
+                </a>
+              </div>
+              <div className="border-t border-white/[0.08] pt-6">
+                <p
+                  className="text-[10px] tracking-[0.32em] text-white/35 uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  Offices
+                </p>
+                <p
+                  className="mt-3 text-[13px] leading-relaxed text-white/55"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* overlay footer */}
+          <div
+            className="mt-10 flex items-center justify-between border-t border-white/[0.08] pt-5"
             style={{
-              fontFamily: "'Inter', sans-serif",
-              opacity: open ? 1 : 0,
-              transition: "opacity .5s ease .4s, border-color .3s, background .3s, color .3s",
-            }}
-          >
-            Contact — isya@elsiaa.com
-          </a>
-          <p
-            className="mt-10 text-[11px] tracking-[0.2em] text-white/30 uppercase"
-            style={{
-              fontFamily: "'IBM Plex Mono', monospace",
               opacity: open ? 1 : 0,
               transition: "opacity .5s ease .5s",
             }}
           >
-            בעזרת ה׳ נעשה ונצליח
-          </p>
-        </nav>
+            <p
+              className="text-[10px] tracking-[0.2em] text-white/30 uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              ELSIAA — AI Done Better
+            </p>
+            <p
+              className="text-[10px] tracking-[0.2em] text-white/30 uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              בעזרת ה׳ נעשה ונצליח
+            </p>
+          </div>
+        </div>
       </div>
       <SiteSearch open={search} onClose={() => setSearch(false)} />
     </>
+  );
+}
+
+function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
+  const [q, setQ] = useState("");
+  const results = (() => {
+    const t = q.trim().toLowerCase();
+    if (!t) return [];
+    return SEARCH_INDEX.filter((e) =>
+      `${e.label} ${e.group} ${e.keys ?? ""}`.toLowerCase().includes(t),
+    ).slice(0, 5);
+  })();
+  return (
+    <div>
+      <p
+        className="text-[10px] tracking-[0.32em] text-white/35 uppercase"
+        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+      >
+        Search
+      </p>
+      <div className="mt-3 flex items-center gap-3 rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 transition-colors focus-within:border-[#2e9e58]">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2e9e58" strokeWidth="2" strokeLinecap="round">
+          <circle cx="11" cy="11" r="7" />
+          <line x1="21" y1="21" x2="16.5" y2="16.5" />
+        </svg>
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onNavigate();
+              window.location.href = `/search?q=${encodeURIComponent(q)}`;
+            }
+          }}
+          placeholder="Services, cities, careers…"
+          className="w-full bg-transparent text-[15px] text-white outline-none placeholder:text-white/30"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        />
+      </div>
+      {results.length > 0 && (
+        <div className="mt-2 overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]">
+          {results.map((e, i) => (
+            <a
+              key={e.label}
+              href={e.href}
+              onClick={onNavigate}
+              className={`flex items-center justify-between px-4 py-2.5 text-[14px] text-white/80 transition-colors hover:bg-white/[0.06] hover:text-white ${i > 0 ? "border-t border-white/[0.06]" : ""}`}
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              <span>{e.label}</span>
+              <span
+                className="text-[9px] tracking-[0.2em] text-white/30 uppercase"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                {e.group}
+              </span>
+            </a>
+          ))}
+        </div>
+      )}
+      {q.trim() && (
+        <a
+          href={`/search?q=${encodeURIComponent(q)}`}
+          onClick={onNavigate}
+          className="mt-2 inline-block text-[11px] tracking-[0.22em] text-[#2e9e58] uppercase hover:underline"
+          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          Full search →
+        </a>
+      )}
+    </div>
   );
 }
