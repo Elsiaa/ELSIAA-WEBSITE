@@ -33,6 +33,10 @@ function CountUp({ target, suffix = "%" }: { target: number; suffix?: string }) 
       (e) => {
         if (!e[0].isIntersecting) return;
         io.disconnect();
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          setVal(target);
+          return;
+        }
         const t0 = performance.now();
         const dur = 1500;
         const tick = (now: number) => {

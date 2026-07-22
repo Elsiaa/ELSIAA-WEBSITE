@@ -173,7 +173,7 @@ function DivisionRow({
       <div className="mx-auto w-full max-w-6xl px-6">
         {/* header + graphic — one clean composed row */}
         <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-[minmax(0,1fr)_640px] md:gap-6">
-          <Reveal>
+          <Reveal className="order-2 md:order-1">
             <p
               className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -200,7 +200,7 @@ function DivisionRow({
               {cta ?? "Explore"} ↗
             </a>
           </Reveal>
-          <Reveal>
+          <Reveal className="order-1 md:order-2">
             <Parallax>
             <a href={href} className="group block bg-white">
               {graphic ?? (

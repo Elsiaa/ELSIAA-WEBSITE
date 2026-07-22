@@ -35,6 +35,8 @@ const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string
       { label: "Book a Call", href: "/contact" },
       { label: "Client Portal", href: "/portal" },
       { label: "Search", href: "/search" },
+      { label: "Privacy", href: "/legal/privacy" },
+      { label: "Terms", href: "/legal/terms" },
     ],
   },
 ];
