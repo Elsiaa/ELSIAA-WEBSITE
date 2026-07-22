@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { RequestCalendar } from "../components/RequestCalendar";
 import { Packages } from "../components/Packages";
+import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/contact")({
           "Request a free 20-minute call with ELSIAA, browse our packages, or get your project quoted.",
       },
       { property: "og:title", content: "Contact Us — ELSIAA" },
-      { property: "og:image", content: "/assets/og_cover.png" },
+      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
     ],
     links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/contact" }],
   }),
@@ -109,6 +110,7 @@ function ContactPage() {
           <Packages />
         </div>
       </section>
+      <SiteFooter />
     </main>
   );
 }

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Reveal } from "./Reveal";
 
 /*
   HomeShowcase — built from Isya's hand-drawn homepage sketch:
@@ -6,52 +7,6 @@ import { useEffect, useRef } from "react";
   (continuous auto-drift, pauses on touch/hover), CTA beneath.
 */
 
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.style.opacity = "1";
-      el.style.transform = "none";
-      return;
-    }
-    const io = new IntersectionObserver(
-      (es) => {
-        for (const e of es)
-          if (e.isIntersecting) {
-            el.style.opacity = "1";
-            el.style.transform = "none";
-            io.disconnect();
-          }
-      },
-      { threshold: 0.15 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: 0,
-        transform: "translateY(30px)",
-        transition: `opacity .9s cubic-bezier(.22,.61,.36,1) ${delay}s, transform .9s cubic-bezier(.22,.61,.36,1) ${delay}s`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
 
 const BOXES = [
   {

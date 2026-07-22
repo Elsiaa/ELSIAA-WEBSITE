@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { SEARCH_INDEX, type Entry } from "../components/SiteSearch";
+import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/search")({
   head: () => ({
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/search")({
         content: "Search everything ELSIAA — services, divisions, locations, careers.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/search" }],
   }),
   component: SearchPage,
 });
@@ -231,6 +233,7 @@ function SearchPage() {
           </div>
         )}
       </section>
+      <SiteFooter />
     </main>
   );
 }

@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
+import { Reveal } from "../components/Reveal";
+import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -13,53 +15,14 @@ export const Route = createFileRoute("/careers")({
       },
       { property: "og:title", content: "Careers — ELSIAA" },
       { property: "og:description", content: "We are hiring. Press one." },
-      { property: "og:image", content: "/assets/og_cover.png" },
+      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
     ],
+    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/careers" }],
   }),
   component: Careers,
 });
 
 /* ---------- reveal on scroll ---------- */
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (e) => {
-        if (e[0].isIntersecting) {
-          setOn(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: on ? 1 : 0,
-        transform: on ? "none" : "translateY(22px)",
-        transition: `opacity .7s ease ${delay}s, transform .7s cubic-bezier(.2,.8,.2,1) ${delay}s`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
 
 const ROLES = [
   {
@@ -169,6 +132,7 @@ function Careers() {
           בעזרת ה׳ נעשה ונצליח
         </p>
       </footer>
+      <SiteFooter />
     </main>
   );
 }

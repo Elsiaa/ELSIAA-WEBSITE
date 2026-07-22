@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ElsiaaExperience } from "../components/ElsiaaExperience";
 import { SiteNav } from "../components/SiteNav";
 import { DesignsShowcase, DesignsFinalCTA } from "../components/DesignsShowcase";
+import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/designs")({
   head: () => ({
@@ -16,11 +17,12 @@ export const Route = createFileRoute("/designs")({
         property: "og:description",
         content: "Discover designs that convert strangers into customers.",
       },
-      { property: "og:image", content: "/assets/og_cover.png" },
+      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://primebins.com" },
       { rel: "preconnect", href: "https://isya-stack.github.io" },
+      { rel: "canonical", href: "https://elsiaa.higgsfield.app/designs" },
     ],
   }),
   component: Designs,
@@ -33,6 +35,7 @@ function Designs() {
       <DesignsShowcase />
       <ElsiaaExperience />
       <DesignsFinalCTA />
+      <SiteFooter />
     </main>
   );
 }

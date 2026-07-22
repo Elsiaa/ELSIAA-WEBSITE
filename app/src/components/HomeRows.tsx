@@ -3,6 +3,9 @@ import { AssemblingArtist } from "./AssemblingArtist";
 import { LiveGraphic } from "./LiveGraphic";
 import { WorkingRobot } from "./WorkingRobot";
 import { ScrollGlobe, CountTo } from "./ScrollGlobe";
+import { Reveal } from "./Reveal";
+import { WhyBrandsChose } from "./BrandLogos";
+import { SoftwareDemos } from "./SoftwareDemos";
 
 /* ============================================================
    ELSIAA homepage — built from Isya's notebook sketch 06/20/26
@@ -67,41 +70,6 @@ function Parallax({ children, amount = 26 }: { children: React.ReactNode; amount
   return <div ref={ref} style={{ willChange: "transform" }}>{children}</div>;
 }
 
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([e]) => e.isIntersecting && (setOn(true), io.disconnect()),
-      { threshold: 0.15 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: on ? 1 : 0,
-        transform: on ? "none" : "translateY(26px)",
-        transition: `opacity .8s ease ${delay}s, transform .8s cubic-bezier(.2,.8,.2,1) ${delay}s`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
 
 /* ---------- shared row carousel: arrows + swipe + gentle drift ---------- */
 function Rail({
@@ -301,25 +269,50 @@ const STATS = [
   { pct: 55, industry: "Manufacturing", line: "of manufacturers run AI on the production floor. The night shift doesn't sleep anymore — it computes." },
 ];
 
+/* Renders the FINAL percentage by default (SSR, crawlers, reduced motion) and
+   only animates from 0 as an enhancement — a missed trigger can never leave
+   a stat stuck at 0%. */
 function CountUp({ target }: { target: number }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [val, setVal] = useState(0);
+  const [val, setVal] = useState(target);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (
+      typeof IntersectionObserver === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return; // keep the final value
+    }
     let raf = 0;
+    let watchdog = 0;
+    const dur = 1400;
+    const run = () => {
+      const t0 = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min((now - t0) / dur, 1);
+        setVal(Math.round(target * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      watchdog = window.setTimeout(() => {
+        cancelAnimationFrame(raf);
+        setVal(target);
+      }, dur + 1500);
+    };
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      run();
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(watchdog);
+      };
+    }
     const io = new IntersectionObserver(
       (e) => {
         if (!e[0].isIntersecting) return;
         io.disconnect();
-        const t0 = performance.now();
-        const dur = 1400;
-        const tick = (now: number) => {
-          const p = Math.min((now - t0) / dur, 1);
-          setVal(Math.round(target * (1 - Math.pow(1 - p, 3))));
-          if (p < 1) raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
+        run();
       },
       { threshold: 0.4 }
     );
@@ -327,6 +320,7 @@ function CountUp({ target }: { target: number }) {
     return () => {
       io.disconnect();
       cancelAnimationFrame(raf);
+      clearTimeout(watchdog);
     };
   }, [target]);
   return (
@@ -339,7 +333,7 @@ function CountUp({ target }: { target: number }) {
 /* ---------- the opener: the world changed — hero + the count, one dark screen ---------- */
 function HomeHero() {
   return (
-    <section className="flex min-h-screen flex-col justify-between bg-white pt-24 pb-10 md:pt-28">
+    <section className="flex min-h-screen flex-col justify-between bg-white pt-12 pb-10 md:pt-16">
       <div className="mx-auto mb-6 w-full max-w-6xl px-6">
         <p
           className="border-b border-black/[0.06] pb-3 text-center text-[10px] tracking-[0.26em] text-[#111111]/45 uppercase"
@@ -1114,8 +1108,10 @@ export function HomeRows() {
   return (
     <main className="bg-white">
       <ScrollProgress />
+      <SoftwareDemos />
       <HomeHero />
       <HeroCards />
+      <WhyBrandsChose />
       <DivisionRow
         n="01"
         title="Automation & Software"

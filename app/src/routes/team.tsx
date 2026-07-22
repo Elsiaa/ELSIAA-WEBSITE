@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
+import { Reveal } from "../components/Reveal";
+import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/team")({
   head: () => ({
@@ -12,52 +14,13 @@ export const Route = createFileRoute("/team")({
           "The leadership, counsel, and medical advisory board behind ELSIAA — an international AI services firm.",
       },
       { property: "og:title", content: "Leadership — ELSIAA" },
-      { property: "og:image", content: "/assets/og_cover.png" },
+      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
     ],
+    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/team" }],
   }),
   component: TeamPage,
 });
 
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (e) => {
-        if (e[0].isIntersecting) {
-          setOn(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.15 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: on ? 1 : 0,
-        transform: on ? "none" : "translateY(20px)",
-        transition: `opacity .7s ease ${delay}s, transform .7s cubic-bezier(.2,.8,.2,1) ${delay}s`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
 
 const LEADERSHIP = [
   {
@@ -309,6 +272,7 @@ function TeamPage() {
           </p>
         </Reveal>
       </section>
+      <SiteFooter />
     </main>
   );
 }

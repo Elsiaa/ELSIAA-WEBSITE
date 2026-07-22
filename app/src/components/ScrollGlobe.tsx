@@ -184,9 +184,11 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
 
       // office markers
       ctx.font = "600 10px 'IBM Plex Mono', monospace";
+      const visible: Array<{ o: (typeof officeVecs)[number]; p: { x: number; y: number; z: number } }> = [];
       for (const o of officeVecs) {
         const p = proj(o.v);
         if (p.z > 0.05) continue; // back side
+        visible.push({ o, p });
         const pulse = 2.6 + Math.sin(t * 0.004 + o.lon) * 0.9;
         ctx.beginPath();
         ctx.arc(p.x, p.y, pulse + 3.4, 0, Math.PI * 2);
@@ -201,8 +203,31 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
         ctx.strokeStyle = "#ffffff";
         ctx.lineWidth = 1.2;
         ctx.stroke();
-        ctx.fillStyle = "rgba(17,17,17,0.62)";
-        ctx.fillText(o.name.toUpperCase(), p.x + 8, p.y + 3);
+      }
+      // labels — placed after all markers, nudged apart so neighbouring
+      // cities (London/Antwerp/Geneva) never overlap into unreadable text
+      const placedLabels: Array<{ x: number; y: number; w: number }> = [];
+      visible.sort((a, b) => a.p.y - b.p.y);
+      ctx.fillStyle = "rgba(17,17,17,0.62)";
+      for (const { o, p } of visible) {
+        const text = o.name.toUpperCase();
+        const w = ctx.measureText(text).width;
+        let lx = p.x + 8;
+        if (lx + w > px - 2) lx = p.x - 8 - w; // flip left near the edge
+        let ly = p.y + 3;
+        let moved = true;
+        while (moved) {
+          moved = false;
+          for (const r of placedLabels) {
+            const xOverlap = lx < r.x + r.w + 8 && r.x < lx + w + 8;
+            if (xOverlap && Math.abs(ly - r.y) < 11) {
+              ly = r.y + 11;
+              moved = true;
+            }
+          }
+        }
+        placedLabels.push({ x: lx, y: ly, w });
+        ctx.fillText(text, lx, ly);
       }
 
       raf = requestAnimationFrame(draw);
@@ -228,7 +253,10 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
   );
 }
 
-/* count-up that starts when visible — for the numbers around the globe */
+/* count-up for the numbers around the globe.
+   Renders the FINAL value by default (SSR, crawlers, reduced motion, any
+   missed trigger) and only animates from 0 as a progressive enhancement.
+   A watchdog snaps to the target so the real number is always shown. */
 export function CountTo({
   target,
   suffix = "",
@@ -239,26 +267,44 @@ export function CountTo({
   duration?: number;
 }) {
   const ref = useRef<HTMLSpanElement | null>(null);
-  const [val, setVal] = useState(0);
+  const [val, setVal] = useState(target);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setVal(target);
-      return;
+    if (
+      typeof IntersectionObserver === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return; // keep the final value, no animation
     }
     let raf = 0;
+    let watchdog = 0;
+    const run = () => {
+      const t0 = performance.now();
+      const tick = (t: number) => {
+        const k = Math.min(1, (t - t0) / duration);
+        setVal(Math.round(target * (1 - Math.pow(1 - k, 3))));
+        if (k < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      watchdog = window.setTimeout(() => {
+        cancelAnimationFrame(raf);
+        setVal(target);
+      }, duration + 1500);
+    };
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      run();
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(watchdog);
+      };
+    }
     const io = new IntersectionObserver(
       (es) => {
         if (!es[0].isIntersecting) return;
         io.disconnect();
-        const t0 = performance.now();
-        const tick = (t: number) => {
-          const k = Math.min(1, (t - t0) / duration);
-          setVal(Math.round(target * (1 - Math.pow(1 - k, 3))));
-          if (k < 1) raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
+        run();
       },
       { threshold: 0.4 },
     );
@@ -266,11 +312,12 @@ export function CountTo({
     return () => {
       io.disconnect();
       cancelAnimationFrame(raf);
+      clearTimeout(watchdog);
     };
   }, [target, duration]);
   return (
     <span ref={ref} className="tabular-nums">
-      {String(val).padStart(String(target).length, "0")}
+      {val}
       {suffix}
     </span>
   );

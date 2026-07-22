@@ -12,6 +12,7 @@ export const Route = createFileRoute("/portal")({
         content: "Secure client portal — balances, purchase history, contracts, and project updates.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/portal" }],
   }),
   component: Portal,
 });

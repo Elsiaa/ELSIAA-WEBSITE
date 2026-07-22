@@ -64,12 +64,21 @@ function toOwnAssetUrl(value: string | null | undefined): string | null {
   }
 }
 
+// Social scrapers require absolute og:image / og:video URLs — root-relative
+// paths are silently dropped by most platforms. Canonical public host:
+const SITE_URL = "https://elsiaa.higgsfield.app";
+
+function toAbsolute(value: string | null): string | null {
+  if (!value) return null;
+  return value.startsWith("/") ? `${SITE_URL}${value}` : value;
+}
+
 function buildHead(meta: AppMeta) {
   const title = meta.og_title ?? DEFAULT_TITLE;
   const description = meta.og_description ?? DEFAULT_DESCRIPTION;
-  const ogImage = toOwnAssetUrl(meta.og_image_url);
+  const ogImage = toAbsolute(toOwnAssetUrl(meta.og_image_url));
   const favicon = toOwnAssetUrl(meta.favicon_url);
-  const ogVideo = toOwnAssetUrl(meta.og_video_url);
+  const ogVideo = toAbsolute(toOwnAssetUrl(meta.og_video_url));
 
   return {
     meta: [

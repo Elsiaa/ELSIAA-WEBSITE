@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as StoreRouteImport } from './routes/store'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -16,6 +17,7 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as InsightsRouteImport } from './routes/insights'
@@ -33,6 +35,11 @@ import { Route as ApiMeetingsRouteImport } from './routes/api/meetings'
 import { Route as ApiMeetingRouteImport } from './routes/api/meeting'
 import { Route as AdminQuotesRouteImport } from './routes/admin/quotes'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
@@ -66,6 +73,11 @@ const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortalRoute = PortalRouteImport.update({
@@ -159,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/insights': typeof InsightsRoute
   '/locations': typeof LocationsRoute
   '/portal': typeof PortalRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
@@ -166,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
+  '/terms': typeof TermsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/api/meeting': typeof ApiMeetingRoute
   '/api/meetings': typeof ApiMeetingsRoute
@@ -184,6 +198,7 @@ export interface FileRoutesByTo {
   '/insights': typeof InsightsRoute
   '/locations': typeof LocationsRoute
   '/portal': typeof PortalRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
@@ -191,6 +206,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
+  '/terms': typeof TermsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/api/meeting': typeof ApiMeetingRoute
   '/api/meetings': typeof ApiMeetingsRoute
@@ -210,6 +226,7 @@ export interface FileRoutesById {
   '/insights': typeof InsightsRoute
   '/locations': typeof LocationsRoute
   '/portal': typeof PortalRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
@@ -217,6 +234,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
+  '/terms': typeof TermsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/api/meeting': typeof ApiMeetingRoute
   '/api/meetings': typeof ApiMeetingsRoute
@@ -237,6 +255,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/locations'
     | '/portal'
+    | '/privacy'
     | '/quote'
     | '/robots.txt'
     | '/search'
@@ -244,6 +263,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/store'
     | '/team'
+    | '/terms'
     | '/admin/quotes'
     | '/api/meeting'
     | '/api/meetings'
@@ -262,6 +282,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/locations'
     | '/portal'
+    | '/privacy'
     | '/quote'
     | '/robots.txt'
     | '/search'
@@ -269,6 +290,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/store'
     | '/team'
+    | '/terms'
     | '/admin/quotes'
     | '/api/meeting'
     | '/api/meetings'
@@ -287,6 +309,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/locations'
     | '/portal'
+    | '/privacy'
     | '/quote'
     | '/robots.txt'
     | '/search'
@@ -294,6 +317,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/store'
     | '/team'
+    | '/terms'
     | '/admin/quotes'
     | '/api/meeting'
     | '/api/meetings'
@@ -313,6 +337,7 @@ export interface RootRouteChildren {
   InsightsRoute: typeof InsightsRoute
   LocationsRoute: typeof LocationsRoute
   PortalRoute: typeof PortalRoute
+  PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SearchRoute: typeof SearchRoute
@@ -320,6 +345,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StoreRoute: typeof StoreRoute
   TeamRoute: typeof TeamRoute
+  TermsRoute: typeof TermsRoute
   AdminQuotesRoute: typeof AdminQuotesRoute
   ApiMeetingRoute: typeof ApiMeetingRoute
   ApiMeetingsRoute: typeof ApiMeetingsRoute
@@ -331,6 +357,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/team': {
       id: '/team'
       path: '/team'
@@ -378,6 +411,13 @@ declare module '@tanstack/react-router' {
       path: '/quote'
       fullPath: '/quote'
       preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portal': {
@@ -505,6 +545,7 @@ const rootRouteChildren: RootRouteChildren = {
   InsightsRoute: InsightsRoute,
   LocationsRoute: LocationsRoute,
   PortalRoute: PortalRoute,
+  PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SearchRoute: SearchRoute,
@@ -512,6 +553,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StoreRoute: StoreRoute,
   TeamRoute: TeamRoute,
+  TermsRoute: TermsRoute,
   AdminQuotesRoute: AdminQuotesRoute,
   ApiMeetingRoute: ApiMeetingRoute,
   ApiMeetingsRoute: ApiMeetingsRoute,

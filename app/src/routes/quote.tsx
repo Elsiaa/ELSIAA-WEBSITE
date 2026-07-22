@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { QuoteWizard } from "../components/QuoteWizard";
+import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/quote")({
   head: () => ({
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/quote")({
           "Tell us what you need built — design, automation, software, or consultation — and get a personal quote from ELSIAA within one business day.",
       },
       { property: "og:title", content: "Get Your Project Quoted — ELSIAA" },
-      { property: "og:image", content: "/assets/og_cover.png" },
+      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
     ],
     links: [
       { rel: "canonical", href: "https://elsiaa.higgsfield.app/quote" },
@@ -50,6 +51,7 @@ function QuotePage() {
           <QuoteWizard />
         </div>
       </section>
+      <SiteFooter />
     </main>
   );
 }

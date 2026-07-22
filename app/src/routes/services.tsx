@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
+import { Reveal } from "../components/Reveal";
+import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -16,58 +18,13 @@ export const Route = createFileRoute("/services")({
         property: "og:description",
         content: "Pick the box that matches the problem.",
       },
-      { property: "og:image", content: "/assets/og_cover.png" },
+      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
     ],
+    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/services" }],
   }),
   component: Services,
 });
 
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.style.opacity = "1";
-      el.style.transform = "none";
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries)
-          if (e.isIntersecting) {
-            el.style.opacity = "1";
-            el.style.transform = "none";
-            io.disconnect();
-          }
-      },
-      { threshold: 0.14 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: 0,
-        transform: "translateY(32px)",
-        transition: `opacity .9s cubic-bezier(.22,.61,.36,1) ${delay}s, transform .9s cubic-bezier(.22,.61,.36,1) ${delay}s`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
 
 const PRODUCTS = [
   {
@@ -473,6 +430,7 @@ function Services() {
           </a>
         </Reveal>
       </section>
+      <SiteFooter />
     </main>
   );
 }

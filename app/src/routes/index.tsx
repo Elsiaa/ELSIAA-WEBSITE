@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { HomeRows } from "../components/HomeRows";
+import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,8 +17,9 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Four divisions. One empire of detail.",
       },
-      { property: "og:image", content: "/assets/og_cover.png" },
+      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
     ],
+    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/" }],
   }),
   component: Home,
 });
@@ -27,6 +29,7 @@ function Home() {
     <>
       <SiteNav />
       <HomeRows />
+      <SiteFooter />
     </>
   );
 }

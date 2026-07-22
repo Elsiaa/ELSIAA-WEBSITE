@@ -1,0 +1,131 @@
+/*
+  ELSIAA site footer — the page's proper ending.
+  Wordmark, division/company/client link columns, direct contact, the six
+  cities, and the legal line (copyright · privacy · terms). Ink on white,
+  mono microcopy — same voice as the rest of the site.
+*/
+
+const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
+const inter = { fontFamily: "'Inter', sans-serif" } as const;
+
+const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string }> }> = [
+  {
+    title: "Divisions",
+    links: [
+      { label: "Services", href: "/services" },
+      { label: "Designs", href: "/designs" },
+      { label: "Consultation", href: "/consultation" },
+      { label: "The Store", href: "/store" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "Team", href: "/team" },
+      { label: "Careers", href: "/careers" },
+      { label: "Locations", href: "/locations" },
+      { label: "Insights", href: "/insights" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  {
+    title: "Clients",
+    links: [
+      { label: "Get a Quote", href: "/quote" },
+      { label: "Book a Call", href: "/contact" },
+      { label: "Client Portal", href: "/portal" },
+      { label: "Search", href: "/search" },
+    ],
+  },
+];
+
+export function SiteFooter() {
+  return (
+    <footer className="border-t border-black/[0.08] bg-white text-[#111111]">
+      <div className="mx-auto max-w-6xl px-6 py-14 md:py-16">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_auto_auto_auto] md:gap-16">
+          {/* brand + direct */}
+          <div>
+            <a href="/" className="group flex items-center gap-3" aria-label="ELSIAA — home">
+              <span className="relative flex h-[18px] w-[18px] items-center justify-center">
+                <span className="absolute inset-0 rotate-45 border border-[#111111]/80 transition-transform duration-500 group-hover:rotate-[135deg]" />
+                <span className="h-[4px] w-[4px] rotate-45 bg-[#1e6b3c]" />
+              </span>
+              <span
+                className="text-[15px] font-bold tracking-[0.34em] text-[#111111]"
+                style={inter}
+              >
+                ELSIAA
+              </span>
+            </a>
+            <p className="mt-2 text-[10px] tracking-[0.3em] text-[#111111]/45 uppercase" style={mono}>
+              — AI Done Better
+            </p>
+            <p className="mt-5 max-w-xs text-[13px] leading-relaxed text-[#111111]/50" style={inter}>
+              Design, automation, software, and consultation — four divisions,
+              one standard.
+            </p>
+            <a
+              href="mailto:isya@elsiaa.com"
+              className="mt-5 inline-block text-[13px] font-semibold text-[#1e6b3c] hover:underline"
+              style={inter}
+            >
+              isya@elsiaa.com
+            </a>
+            <p className="mt-4 text-[10px] leading-relaxed tracking-[0.2em] text-[#111111]/35 uppercase" style={mono}>
+              New York · London · Geneva · Antwerp · Tel Aviv · Los Angeles
+            </p>
+          </div>
+
+          {/* link columns */}
+          {COLUMNS.map((col) => (
+            <nav key={col.title} aria-label={col.title}>
+              <p className="text-[10px] tracking-[0.3em] text-[#1e6b3c] uppercase" style={mono}>
+                {col.title}
+              </p>
+              <ul className="mt-4 space-y-2.5">
+                {col.links.map((l) => (
+                  <li key={`${col.title}-${l.label}`}>
+                    <a
+                      href={l.href}
+                      className="text-[13.5px] text-[#111111]/65 transition-colors hover:text-[#1e6b3c]"
+                      style={inter}
+                    >
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+
+        {/* legal line */}
+        <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-black/[0.06] pt-6 md:flex-row md:items-center">
+          <p className="text-[11px] text-[#111111]/40" style={inter}>
+            © {new Date().getFullYear()} ELSIAA. All rights reserved.
+          </p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <a
+              href="/privacy"
+              className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase transition-colors hover:text-[#1e6b3c]"
+              style={mono}
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="/terms"
+              className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase transition-colors hover:text-[#1e6b3c]"
+              style={mono}
+            >
+              Terms of Service
+            </a>
+            <span className="text-[10px] tracking-[0.22em] text-[#111111]/30 uppercase" style={mono}>
+              24/7 Support
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

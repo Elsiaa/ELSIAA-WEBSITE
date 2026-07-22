@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Reveal } from "./Reveal";
 
 /*
   ELSIAA Designs showcase — follows the cartoon opener.
@@ -8,52 +9,6 @@ import { useEffect, useRef, useState } from "react";
 */
 
 /* ---------------- shared: eased in-view reveal ---------------- */
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.style.opacity = "1";
-      el.style.transform = "none";
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries)
-          if (e.isIntersecting) {
-            el.style.opacity = "1";
-            el.style.transform = "none";
-            io.disconnect();
-          }
-      },
-      { threshold: 0.16 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: 0,
-        transform: "translateY(34px)",
-        transition: `opacity .9s cubic-bezier(.22,.61,.36,1) ${delay}s, transform .9s cubic-bezier(.22,.61,.36,1) ${delay}s`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
 
 /* ---------------- shared: 3D tilt card with glare ---------------- */
 function Tilt({ children }: { children: React.ReactNode }) {

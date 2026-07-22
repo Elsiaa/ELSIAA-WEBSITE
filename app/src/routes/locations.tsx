@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { ScrollGlobe, CountTo } from "../components/ScrollGlobe";
+import { Reveal } from "../components/Reveal";
+import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/locations")({
   head: () => ({
@@ -13,8 +15,9 @@ export const Route = createFileRoute("/locations")({
           "ELSIAA on the ground — offices in New York, London, Geneva, Antwerp, Tel Aviv, and Los Angeles. One standard, every timezone.",
       },
       { property: "og:title", content: "Locations — ELSIAA" },
-      { property: "og:image", content: "/assets/og_cover.png" },
+      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
     ],
+    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/locations" }],
   }),
   component: LocationsPage,
 });
@@ -73,46 +76,6 @@ const OFFICES = [
   },
 ];
 
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (e) => {
-        if (e[0].isIntersecting) {
-          setOn(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.12 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: on ? 1 : 0,
-        transform: on ? "none" : "translateY(22px)",
-        transition: `opacity .8s ease ${delay}s, transform .8s cubic-bezier(.2,.8,.2,1) ${delay}s`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
 
 function useNow() {
   const [now, setNow] = useState(() => new Date());
@@ -371,6 +334,7 @@ function LocationsPage() {
           </a>
         </Reveal>
       </section>
+      <SiteFooter />
     </main>
   );
 }
