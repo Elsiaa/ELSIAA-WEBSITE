@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { QuoteWizard } from "../components/QuoteWizard";
-import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/quote")({
   head: () => ({
@@ -51,7 +50,6 @@ function QuotePage() {
           <QuoteWizard />
         </div>
       </section>
-      <SiteFooter />
     </main>
   );
 }

@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { ScrollGlobe, CountTo } from "../components/ScrollGlobe";
 import { Reveal } from "../components/Reveal";
-import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/locations")({
   head: () => ({
@@ -336,7 +335,6 @@ function LocationsPage() {
           </a>
         </Reveal>
       </section>
-      <SiteFooter />
     </main>
   );
 }

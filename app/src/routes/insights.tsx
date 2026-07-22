@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
-import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/insights")({
   head: () => ({
@@ -454,7 +453,6 @@ function InsightsPage() {
           </a>
         </Reveal>
       </section>
-      <SiteFooter />
     </main>
   );
 }

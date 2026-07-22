@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
-import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -430,7 +429,6 @@ function Services() {
           </a>
         </Reveal>
       </section>
-      <SiteFooter />
     </main>
   );
 }

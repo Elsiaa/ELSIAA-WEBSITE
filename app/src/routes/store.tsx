@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { StoreFront } from "../components/StoreFront";
-import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/store")({
   head: () => ({
@@ -41,7 +40,6 @@ function StorePage() {
           <StoreFront />
         </div>
       </section>
-      <SiteFooter />
     </main>
   );
 }

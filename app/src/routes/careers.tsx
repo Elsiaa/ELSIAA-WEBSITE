@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
-import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -132,7 +131,6 @@ function Careers() {
           בעזרת ה׳ נעשה ונצליח
         </p>
       </footer>
-      <SiteFooter />
     </main>
   );
 }

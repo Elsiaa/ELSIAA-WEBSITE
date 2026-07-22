@@ -109,14 +109,14 @@ export function SiteFooter() {
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a
-              href="/privacy"
+              href="/legal/privacy"
               className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase transition-colors hover:text-[#1e6b3c]"
               style={mono}
             >
               Privacy Policy
             </a>
             <a
-              href="/terms"
+              href="/legal/terms"
               className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase transition-colors hover:text-[#1e6b3c]"
               style={mono}
             >

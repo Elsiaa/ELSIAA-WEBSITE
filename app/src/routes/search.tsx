@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { SEARCH_INDEX, type Entry } from "../components/SiteSearch";
-import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/search")({
   head: () => ({
@@ -233,7 +232,6 @@ function SearchPage() {
           </div>
         )}
       </section>
-      <SiteFooter />
     </main>
   );
 }

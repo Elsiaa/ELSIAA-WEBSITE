@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ElsiaaExperience } from "../components/ElsiaaExperience";
 import { SiteNav } from "../components/SiteNav";
 import { DesignsShowcase, DesignsFinalCTA } from "../components/DesignsShowcase";
-import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/designs")({
   head: () => ({
@@ -35,7 +34,6 @@ function Designs() {
       <DesignsShowcase />
       <ElsiaaExperience />
       <DesignsFinalCTA />
-      <SiteFooter />
     </main>
   );
 }

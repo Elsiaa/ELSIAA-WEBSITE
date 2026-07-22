@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { HomeRows } from "../components/HomeRows";
-import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,7 +28,6 @@ function Home() {
     <>
       <SiteNav />
       <HomeRows />
-      <SiteFooter />
     </>
   );
 }

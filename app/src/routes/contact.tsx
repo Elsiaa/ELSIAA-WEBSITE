@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { RequestCalendar } from "../components/RequestCalendar";
 import { Packages } from "../components/Packages";
-import { SiteFooter } from "../components/SiteFooter";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -110,7 +109,6 @@ function ContactPage() {
           <Packages />
         </div>
       </section>
-      <SiteFooter />
     </main>
   );
 }
