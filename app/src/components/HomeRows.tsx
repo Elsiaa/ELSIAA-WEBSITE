@@ -520,6 +520,15 @@ export const CONSULTATION: Sub[] = [
   { name: "Growth", items: ["Marketing Strategy", "Funnel & Conversion Advisory"] },
 ];
 
+/* ---------- merged: automation + software, one carousel ---------- */
+export const AUTOSOFT: Sub[] = (() => {
+  const m = new Map<string, string[]>();
+  for (const g of [...AUTOMATION, ...SOFTWARE]) {
+    m.set(g.name, [...(m.get(g.name) ?? []), ...g.items.filter((it) => !(m.get(g.name) ?? []).includes(it))]);
+  }
+  return [...m.entries()].map(([name, items]) => ({ name, items }));
+})();
+
 /* ---------- consultation pricing (stripe-ready tiers) ---------- */
 const TIERS = [
   {
@@ -669,7 +678,7 @@ function Locations() {
             className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            05 · Locations
+            04 · Locations
           </p>
           <div className="mt-4 flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#2e9e58]/50 bg-[#2e9e58]/10">
@@ -756,7 +765,7 @@ function Team() {
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            07 · Who we are
+            06 · Who we are
           </p>
           <h2
             className="mt-3 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
@@ -829,7 +838,7 @@ function MerchStrip() {
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            06 · The Store
+            05 · The Store
           </p>
           <h2
             className="mt-2 max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
@@ -893,7 +902,7 @@ function FinalCTA() {
             className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            08 · Next
+            07 · Next
           </p>
           <h2
             className="mx-auto mt-4 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
@@ -946,6 +955,14 @@ export function HomeRows() {
       <HeroCards />
       <DivisionRow
         n="01"
+        title="Automation & Software"
+        lede="Workflows that run while you sleep — and the custom software they run on. Sales, operations, finance, from first wireframe to cloud infrastructure."
+        graphic={<WorkingRobot />}
+        subs={AUTOSOFT}
+        href="/services"
+      />
+      <DivisionRow
+        n="02"
         title="Design"
         lede="Good artists don't use AI — they leverage it. World-class design for every surface of your business."
         graphic={<AssemblingArtist />}
@@ -953,23 +970,7 @@ export function HomeRows() {
         href="/designs"
       />
       <DivisionRow
-        n="02"
-        title="Automation"
-        lede="Workflows that run while you sleep — sales, operations, finance."
-        graphic={<WorkingRobot />}
-        subs={AUTOMATION}
-        href="/services"
-      />
-      <DivisionRow
         n="03"
-        title="Software"
-        lede="Custom applications from first wireframe to cloud infrastructure."
-        graphic={<LiveGraphic src="/assets/software_work_v2.mp4" poster="/assets/software_work_poster_v2.jpg" />}
-        subs={SOFTWARE}
-        href="/services"
-      />
-      <DivisionRow
-        n="04"
         title="Consultation"
         lede="Strategy, technology, business, product, growth — book a seat at the table."
         graphic={<LiveGraphic src="/assets/consult_live_v2.mp4" poster="/assets/consult_live_poster_v2.jpg" />}
