@@ -751,6 +751,7 @@ const TEAM = [
   { name: "Jacob Rubelow", role: "Executive Legal & Strategic Counsel", init: "JR" },
   { name: "Chaim Lieberman", role: "Director of European Business", init: "CL" },
   { name: "Izzy Eisenberg", role: "Director of California Business", init: "IE" },
+  { name: "Mendel Parnas", role: "Chairman & Advisor · Insurance Expert", init: "MP" },
   { name: "Berel Krug", role: "Executive Advisor · Healthcare Consultant", init: "BK" },
   { name: "Dr. Esther Krug, MD", role: "Professor of Medicine, Johns Hopkins University", init: "EK" },
   { name: "Dr. Edward Margolin, MD", role: "Professor of Medicine, University of Toronto", init: "EM" },

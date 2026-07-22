@@ -94,6 +94,12 @@ const LEADERSHIP = [
 
 const ADVISORY = [
   {
+    name: "Mendel Parnas",
+    role: "Chairman & Advisor · Insurance Expert",
+    init: "MP",
+    line: "Chairs the advisory board. The insurance mind behind ELSIAA's fully-insured guarantee — every build we ship is covered because he makes sure it can be.",
+  },
+  {
     name: "Berel Krug",
     role: "Executive Advisor · Healthcare Consultant",
     init: "BK",
@@ -195,7 +201,7 @@ function TeamPage() {
           </p>
           <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-black/[0.06] pt-6">
             {[
-              ["08", "Leaders & advisors"],
+              ["09", "Leaders & advisors"],
               ["06", "Cities on the ground"],
               ["03", "Continents"],
               ["24/7", "Support, every timezone"],
