@@ -94,22 +94,30 @@ export function DesignsOpener() {
 
   if (reduced) {
     return (
-      <section className="bg-[#0a0a0a] text-white" aria-label="Design is art">
-        <Panel img="/assets/cine/rock.jpg" kicker="The thesis">
+      <section className="bg-[#0a0a0a] text-white" aria-label="Design is the last mile">
+        <Panel img="/assets/cine/rock.jpg" kicker="The last mile">
           <h2 className="max-w-xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl" style={inter}>
-            What&rsquo;s the world without art but a rock?
-          </h2>
-        </Panel>
-        <Panel img="/assets/cine/earth.jpg" kicker="The answer">
-          <h2 className="text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={inter}>
-            Thank god for <span className="text-[#2e9e58]">art.</span>
+            Design is the last mile.
           </h2>
           <p className="mt-4 max-w-md text-lg text-white/70" style={inter}>
-            Design is art. And art has a job.
+            The best strategy, the smartest AI, the cleanest code — none of it lands if the experience doesn&rsquo;t feel exceptional. We close that gap: every surface your brand touches, one identity, one level of quality.
           </p>
-          <a href="/contact" className="mt-7 inline-block rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
-            Start your build →
-          </a>
+        </Panel>
+        <Panel img="/assets/cine/earth.jpg" kicker="The Moon">
+          <h2 className="text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={inter}>
+            We built this page to feel like the <span className="text-[#2e9e58]">future.</span>
+          </h2>
+          <p className="mt-4 max-w-md text-lg text-white/70" style={inter}>
+            Clean. Intentional. Quietly powerful — like the work we do for our clients.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a href="mailto:isya@elsiaa.com?subject=Stage%20my%20product" className="inline-block rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
+              Stage my product →
+            </a>
+            <a href="/contact" className="inline-block rounded-full border border-white/25 px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>
+              Book a strategy call →
+            </a>
+          </div>
         </Panel>
       </section>
     );
@@ -127,37 +135,41 @@ export function DesignsOpener() {
         </div>
 
         <p className="absolute top-[15%] left-[6vw] text-[10px] tracking-[0.34em] text-white/40 uppercase md:left-[8vw]" style={mono}>
-          ELSIAA · Designs — the close
+          ELSIAA · Designs — the last mile
         </p>
 
-        {/* the question */}
+        {/* the philosophy */}
         <div ref={qRef} className="absolute top-1/2 left-[6vw] w-[82vw] max-w-xl -translate-y-1/2 md:left-[8vw]" style={{ willChange: "opacity, transform" }}>
-          <p className="text-[10px] tracking-[0.34em] text-[#2e9e58] uppercase" style={mono}>The thesis</p>
+          <p className="text-[10px] tracking-[0.34em] text-[#2e9e58] uppercase" style={mono}>The last mile</p>
           <h2 className="mt-3 text-4xl leading-[1.04] font-semibold tracking-[-0.04em] text-white md:text-6xl" style={inter}>
-            What&rsquo;s the world without art
-            <span className="text-white/45"> but a rock?</span>
+            Design is the
+            <span className="text-white/45"> last mile.</span>
           </h2>
+          <p className="mt-5 max-w-md text-[15px] leading-relaxed text-white/65 md:text-lg" style={inter}>
+            The best strategy and the smartest AI still fail if the experience doesn&rsquo;t feel exceptional. We close that gap.
+          </p>
         </div>
 
-        {/* the answer */}
+        {/* the moon */}
         <div ref={aRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-6 text-center opacity-0" style={{ willChange: "opacity, transform" }}>
-          <h2 className="text-5xl font-semibold tracking-[-0.045em] text-white md:text-8xl" style={inter}>
-            Thank god for <span className="text-[#2e9e58]">art.</span>
+          <p className="text-[10px] tracking-[0.34em] text-[#2e9e58] uppercase" style={mono}>The Moon</p>
+          <h2 className="mt-3 text-5xl font-semibold tracking-[-0.045em] text-white md:text-8xl" style={inter}>
+            Built to feel like the <span className="text-[#2e9e58]">future.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-md text-lg text-white/65 md:text-xl" style={inter}>Because how boring would that be.</p>
+          <p className="mx-auto mt-5 max-w-md text-lg text-white/65 md:text-xl" style={inter}>Clean. Intentional. Quietly powerful — like the work we do for our clients.</p>
         </div>
 
-        {/* the close: thesis + CTA */}
+        {/* the close: CTA */}
         <div ref={ctaRef} className="absolute inset-x-0 bottom-[12%] px-6 text-center opacity-0" style={{ willChange: "opacity, transform" }}>
           <p className="text-[15px] tracking-[0.02em] text-white/70 md:text-lg" style={inter}>
-            Design is art. <span className="text-white">And art has a job.</span>
+            Ready to close the gap on <span className="text-white">your brand?</span>
           </p>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-            <a href="/contact" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
-              Start your build →
+            <a href="mailto:isya@elsiaa.com?subject=Stage%20my%20product" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
+              Stage my product →
             </a>
-            <a href="/quote" className="rounded-full border border-white/25 px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>
-              Get a Quote
+            <a href="/contact" className="rounded-full border border-white/25 px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>
+              Book a strategy call →
             </a>
           </div>
         </div>
