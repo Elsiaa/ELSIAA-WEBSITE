@@ -187,7 +187,7 @@ function DivisionRow({
               {title}
             </h2>
             <p
-              className="mt-3 max-w-md text-[15px] text-[#111111]/50"
+              className="mt-3 max-w-md text-[15px] text-[#111111]/60"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {lede}
@@ -336,7 +336,7 @@ function HomeHero() {
     <section className="flex min-h-screen flex-col justify-between bg-white pt-12 pb-10 md:pt-16">
       <div className="mx-auto mb-6 w-full max-w-6xl px-6">
         <p
-          className="border-b border-black/[0.06] pb-3 text-center text-[10px] tracking-[0.26em] text-[#111111]/45 uppercase"
+          className="border-b border-black/[0.06] pb-3 text-center text-[10px] tracking-[0.26em] text-[#111111]/55 uppercase"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
           6 Cities · Fully Insured Builds · 24/7 Support
@@ -375,7 +375,7 @@ function HomeHero() {
               <span className="text-[#1e6b3c]">The other 22% are competing against it.</span>
             </p>
             <p
-              className="mt-3 text-[11px] tracking-[0.22em] text-[#111111]/40 uppercase"
+              className="mt-3 text-[11px] tracking-[0.22em] text-[#111111]/55 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               Healthcare · Finance · Marketing · Retail · Manufacturing
@@ -405,7 +405,7 @@ function HomeHero() {
                       <CountTo target={st.n} suffix={st.suffix} />
                     </p>
                     <p
-                      className="mt-1 text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase"
+                      className="mt-1 text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
                       style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                     >
                       {st.label}
@@ -424,7 +424,7 @@ function HomeHero() {
           <Reveal>
             <div className="flex items-baseline justify-between gap-4">
               <p
-                className="text-[12px] tracking-[0.28em] text-[#111111]/45 uppercase"
+                className="text-[12px] tracking-[0.28em] text-[#111111]/55 uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Right now, while you read this
@@ -472,7 +472,7 @@ function HomeHero() {
         <div className="mx-auto w-full max-w-6xl px-6">
           <Reveal>
             <p
-              className="mt-4 text-[13.5px] text-[#111111]/50"
+              className="mt-4 text-[13.5px] text-[#111111]/60"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               The question isn't whether AI takes the work — it's who's
@@ -508,7 +508,7 @@ function HeroCards() {
         </svg>
       ),
       title: "No bugs. No data hacks. Fully insured.",
-      body: "Every solution ships hardened, tested, and covered. Most vendors can't say the same.",
+      body: "Every solution ships hardened, tested, and covered. Certificate of insurance available on request. Most vendors can't say the same.",
     },
     {
       icon: (
@@ -633,7 +633,7 @@ function ConsultPricing() {
   return (
     <div className="mt-10">
       <h3
-        className="text-[11px] tracking-[0.28em] text-[#111111]/40 uppercase"
+        className="text-[11px] tracking-[0.28em] text-[#111111]/55 uppercase"
         style={{ fontFamily: "'IBM Plex Mono', monospace" }}
       >
         Engagements
@@ -665,7 +665,7 @@ function ConsultPricing() {
               <span className="text-2xl font-semibold tracking-[-0.03em]" style={{ fontFamily: "'Inter', sans-serif" }}>
                 {t.price}
               </span>
-              <span className={`ml-2 text-[12px] ${t.featured ? "text-white/50" : "text-black/40"}`}>/ {t.unit}</span>
+              <span className={`ml-2 text-[12px] ${t.featured ? "text-white/50" : "text-black/55"}`}>/ {t.unit}</span>
             </p>
             <p
               className={`mt-2.5 text-[12.5px] leading-relaxed ${t.featured ? "text-white/65" : "text-black/55"}`}
@@ -695,7 +695,7 @@ function ConsultPricing() {
           </div>
         ))}
       </div>
-      <p className="mt-2.5 text-[11px] text-black/35" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <p className="mt-2.5 text-[11px] text-black/50" style={{ fontFamily: "'Inter', sans-serif" }}>
         Book directly on the consultation page — first call free, confirmation by email within hours.
       </p>
     </div>
@@ -823,7 +823,7 @@ function Locations() {
                     </span>
                     <span
                       className={`block text-[10px] tracking-[0.22em] uppercase transition-colors ${
-                        i === idx ? "text-[#1e6b3c]" : "text-[#111111]/35"
+                        i === idx ? "text-[#1e6b3c]" : "text-[#111111]/50"
                       }`}
                       style={mono}
                     >
@@ -839,7 +839,7 @@ function Locations() {
                     >
                       {cityTime(now, c.tz)}
                     </span>
-                    <span className="block text-[10px] tracking-[0.22em] text-[#111111]/35 uppercase" style={mono}>
+                    <span className="block text-[10px] tracking-[0.22em] text-[#111111]/50 uppercase" style={mono}>
                       {cityDay(now, c.tz)} · local
                     </span>
                   </span>
@@ -927,7 +927,7 @@ function Team() {
             Leadership of consequence.
           </h2>
           <p
-            className="mt-3 max-w-xl text-[15px] text-[#111111]/50"
+            className="mt-3 max-w-xl text-[15px] text-[#111111]/60"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Founders, executives, and tenured professors — decades of academic
@@ -949,7 +949,7 @@ function Team() {
                   <h3 className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     {m.name}
                   </h3>
-                  <p className="mt-0.5 text-[12px] text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <p className="mt-0.5 text-[12px] text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
                     {m.role}
                   </p>
                 </div>
@@ -1008,7 +1008,7 @@ function MerchStrip() {
             The ELSIAA Store.
           </h2>
           <p
-            className="mt-3 max-w-md text-[15px] text-[#111111]/50"
+            className="mt-3 max-w-md text-[15px] text-[#111111]/60"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             You asked where we got our merch. Here it is.
@@ -1096,7 +1096,7 @@ function FinalCTA() {
             </a>
           </div>
           <p
-            className="mt-5 text-[12px] text-white/35"
+            className="mt-5 text-[12px] text-white/50"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             20 minutes. No pitch. Straight answers on where AI actually pays off for you.
@@ -1149,7 +1149,6 @@ export function HomeRows() {
       />
       <Team />
       <Locations />
-      <MerchStrip />
       <FinalCTA />
     </main>
   );

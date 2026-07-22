@@ -137,7 +137,7 @@ function LocationsPage() {
                 <p className="text-4xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>
                   <CountTo target={st.n} suffix={st.s} />
                 </p>
-                <p className="mt-2 text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>
+                <p className="mt-2 text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
                   {st.label}
                 </p>
               </div>
@@ -151,7 +151,7 @@ function LocationsPage() {
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[460px_minmax(0,1fr)]">
           <Reveal>
             <ScrollGlobe size={460} />
-            <p className="mt-2 text-center text-[10px] tracking-[0.24em] text-[#111111]/35 uppercase" style={mono}>
+            <p className="mt-2 text-center text-[10px] tracking-[0.24em] text-[#111111]/50 uppercase" style={mono}>
               Scroll or drag to spin
             </p>
           </Reveal>
@@ -280,7 +280,7 @@ function LocationsPage() {
                       ELSIAA
                     </span>
                   </div>
-                  <p className="mt-1.5 text-[13px] text-[#111111]/50" style={inter}>
+                  <p className="mt-1.5 text-[13px] text-[#111111]/60" style={inter}>
                     {o.line}
                   </p>
                   <address className="mt-4 border-l-2 border-[#1e6b3c]/30 pl-4 text-[14px] leading-relaxed text-[#111111]/70 not-italic" style={inter}>
@@ -302,7 +302,7 @@ function LocationsPage() {
                     </a>
                     <a
                       href="/contact"
-                      className="text-[10px] tracking-[0.24em] text-[#111111]/45 uppercase transition-colors hover:text-[#1e6b3c]"
+                      className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase transition-colors hover:text-[#1e6b3c]"
                       style={mono}
                     >
                       Book a visit →
@@ -314,7 +314,7 @@ function LocationsPage() {
           ))}
         </div>
         <Reveal>
-          <p className="mt-8 text-[12px] text-[#111111]/40" style={inter}>
+          <p className="mt-8 text-[12px] text-[#111111]/55" style={inter}>
             Visits are by appointment — book a call and we'll set it up.
             Virtual support runs 24/7 in every timezone.
           </p>

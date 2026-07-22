@@ -58,10 +58,10 @@ export function SiteFooter() {
                 ELSIAA
               </span>
             </a>
-            <p className="mt-2 text-[10px] tracking-[0.3em] text-[#111111]/45 uppercase" style={mono}>
+            <p className="mt-2 text-[10px] tracking-[0.3em] text-[#111111]/55 uppercase" style={mono}>
               — AI Done Better
             </p>
-            <p className="mt-5 max-w-xs text-[13px] leading-relaxed text-[#111111]/50" style={inter}>
+            <p className="mt-5 max-w-xs text-[13px] leading-relaxed text-[#111111]/60" style={inter}>
               Design, automation, software, and consultation — four divisions,
               one standard.
             </p>
@@ -72,7 +72,7 @@ export function SiteFooter() {
             >
               isya@elsiaa.com
             </a>
-            <p className="mt-4 text-[10px] leading-relaxed tracking-[0.2em] text-[#111111]/35 uppercase" style={mono}>
+            <p className="mt-4 text-[10px] leading-relaxed tracking-[0.2em] text-[#111111]/50 uppercase" style={mono}>
               New York · London · Geneva · Antwerp · Tel Aviv · Los Angeles
             </p>
           </div>
@@ -102,25 +102,25 @@ export function SiteFooter() {
 
         {/* legal line */}
         <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-black/[0.06] pt-6 md:flex-row md:items-center">
-          <p className="text-[11px] text-[#111111]/40" style={inter}>
+          <p className="text-[11px] text-[#111111]/55" style={inter}>
             © {new Date().getFullYear()} ELSIAA. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a
               href="/privacy"
-              className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase transition-colors hover:text-[#1e6b3c]"
+              className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase transition-colors hover:text-[#1e6b3c]"
               style={mono}
             >
               Privacy Policy
             </a>
             <a
               href="/terms"
-              className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase transition-colors hover:text-[#1e6b3c]"
+              className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase transition-colors hover:text-[#1e6b3c]"
               style={mono}
             >
               Terms of Service
             </a>
-            <span className="text-[10px] tracking-[0.22em] text-[#111111]/30 uppercase" style={mono}>
+            <span className="text-[10px] tracking-[0.22em] text-[#111111]/50 uppercase" style={mono}>
               24/7 Support
             </span>
           </div>

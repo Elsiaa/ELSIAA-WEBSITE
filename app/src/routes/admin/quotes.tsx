@@ -67,7 +67,7 @@ function StatusRow({
           className={`rounded-full border px-3 py-1 text-[10px] tracking-[0.12em] uppercase transition-all ${
             current === s
               ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
-              : "border-black/10 text-[#111111]/50 hover:border-[#1e6b3c]/50"
+              : "border-black/10 text-[#111111]/60 hover:border-[#1e6b3c]/50"
           }`}
           style={mono}
         >
@@ -156,7 +156,7 @@ function AdminDash() {
             onChange={(e) => setKey(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && load(key)}
             placeholder="Access key"
-            className="mt-6 w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-[15px] text-white placeholder:text-white/30 outline-none focus:border-[#2e9e58]"
+            className="mt-6 w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-[15px] text-white placeholder:text-white/50 outline-none focus:border-[#2e9e58]"
             style={inter}
           />
           {error && <p className="mt-3 text-[13px] text-red-400" style={inter}>{error}</p>}
@@ -202,7 +202,7 @@ function AdminDash() {
           ))}
           <button
             onClick={() => load(key)}
-            className="ml-auto text-[11px] tracking-[0.2em] text-[#111111]/45 uppercase hover:text-[#111111]"
+            className="ml-auto text-[11px] tracking-[0.2em] text-[#111111]/55 uppercase hover:text-[#111111]"
             style={mono}
           >
             ↻ Refresh
@@ -213,7 +213,7 @@ function AdminDash() {
         {tab === "quotes" && (
           <div className="mt-8 space-y-4">
             {quotes.length === 0 && (
-              <p className="mt-12 text-center text-[15px] text-[#111111]/45" style={inter}>
+              <p className="mt-12 text-center text-[15px] text-[#111111]/55" style={inter}>
                 No quote requests yet. Share: elsiaa.higgsfield.app/quote
               </p>
             )}
@@ -228,7 +228,7 @@ function AdminDash() {
                       {q.status}
                     </span>
                   </div>
-                  <p className="text-[12px] text-[#111111]/45" style={mono}>{fmtWhen(q.created_at)}</p>
+                  <p className="text-[12px] text-[#111111]/55" style={mono}>{fmtWhen(q.created_at)}</p>
                 </div>
                 <p className="mt-1 text-[13px] text-[#1e6b3c]" style={mono}>
                   {q.project_types} · {q.email}{q.phone ? ` · ${q.phone}` : ""}
@@ -239,7 +239,7 @@ function AdminDash() {
                 <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
                   <button
                     onClick={() => setOpen(open === q.id ? null : q.id)}
-                    className="text-[11px] tracking-[0.2em] text-[#111111]/50 uppercase hover:text-[#111111]"
+                    className="text-[11px] tracking-[0.2em] text-[#111111]/60 uppercase hover:text-[#111111]"
                     style={mono}
                   >
                     {open === q.id ? "Hide full answers ↑" : "Full answers ↓"}
@@ -272,7 +272,7 @@ function AdminDash() {
         {tab === "meetings" && (
           <div className="mt-8 space-y-4">
             {meetings.length === 0 && (
-              <p className="mt-12 text-center text-[15px] text-[#111111]/45" style={inter}>
+              <p className="mt-12 text-center text-[15px] text-[#111111]/55" style={inter}>
                 No meeting requests yet. They arrive from the Contact Us calendar.
               </p>
             )}
@@ -287,7 +287,7 @@ function AdminDash() {
                       {m.status}
                     </span>
                   </div>
-                  <p className="text-[12px] text-[#111111]/45" style={mono}>{fmtWhen(m.created_at)}</p>
+                  <p className="text-[12px] text-[#111111]/55" style={mono}>{fmtWhen(m.created_at)}</p>
                 </div>
                 <p className="mt-1 text-[13px] text-[#1e6b3c]" style={mono}>
                   Wants: {m.slot_date} at {m.slot_time} · {m.email}
@@ -316,7 +316,7 @@ function AdminDash() {
         {tab === "orders" && (
           <div className="mt-8 space-y-4">
             {orders.length === 0 && (
-              <p className="mt-12 text-center text-[15px] text-[#111111]/45" style={inter}>
+              <p className="mt-12 text-center text-[15px] text-[#111111]/55" style={inter}>
                 No merch orders yet. Share the store: elsiaa.higgsfield.app/store
               </p>
             )}
@@ -332,7 +332,7 @@ function AdminDash() {
                         {o.status}
                       </span>
                     </div>
-                    <p className="text-[12px] text-[#111111]/45" style={mono}>{fmtWhen(o.created_at)}</p>
+                    <p className="text-[12px] text-[#111111]/55" style={mono}>{fmtWhen(o.created_at)}</p>
                   </div>
                   <p className="mt-1 text-[13px] text-[#1e6b3c]" style={mono}>
                     ${o.total} · {o.email}
@@ -345,7 +345,7 @@ function AdminDash() {
                     ))}
                   </ul>
                   {o.address && (
-                    <p className="mt-2 text-[13px] text-[#111111]/50" style={inter}>Ship to: {o.address}</p>
+                    <p className="mt-2 text-[13px] text-[#111111]/60" style={inter}>Ship to: {o.address}</p>
                   )}
                   <div className="mt-4">
                     <StatusRow

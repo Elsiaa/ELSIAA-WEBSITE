@@ -161,7 +161,7 @@ function Portal() {
         <h1 className="mt-3 text-3xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
           {step === "login" ? "Sign in." : "Verify it's you."}
         </h1>
-        <p className="mt-2 text-[14px] text-[#111111]/50" style={inter}>
+        <p className="mt-2 text-[14px] text-[#111111]/60" style={inter}>
           {step === "login"
             ? "Balances, purchase history, contracts, and live project status."
             : "We sent a 6-digit code to the email on file. Enter it below."}
@@ -212,7 +212,7 @@ function Portal() {
             </button>
             <button
               onClick={() => setStep("login")}
-              className="w-full text-center text-[12px] text-[#111111]/45 hover:underline"
+              className="w-full text-center text-[12px] text-[#111111]/55 hover:underline"
             >
               ← Back to sign in
             </button>
@@ -223,7 +223,7 @@ function Portal() {
 
         {/* ELSIAA bypass — quick in and out, no credentials */}
         <div className="mt-10 rounded-xl border border-dashed border-black/15 p-4">
-          <p className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>
+          <p className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
             ELSIAA bypass
           </p>
           <div className="mt-2.5 flex flex-wrap gap-2">
@@ -245,7 +245,7 @@ function Portal() {
           </div>
         </div>
 
-        <p className="mt-8 text-[11.5px] leading-relaxed text-[#111111]/35" style={inter}>
+        <p className="mt-8 text-[11.5px] leading-relaxed text-[#111111]/50" style={inter}>
           Trouble signing in? Email{" "}
           <a className="underline" href="mailto:isya@elsiaa.com">
             isya@elsiaa.com
@@ -276,7 +276,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
               <p className="text-[14px] font-semibold leading-tight" style={inter}>
                 {c.company}
               </p>
-              <p className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>
+              <p className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
                 ELSIAA client portal
               </p>
             </div>
@@ -296,14 +296,14 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
         <h1 className="text-2xl font-semibold tracking-[-0.03em] md:text-4xl" style={inter}>
           Welcome back, <span style={{ color: c.accent }}>{c.first}</span>.
         </h1>
-        <p className="mt-1.5 text-[14px] text-[#111111]/50" style={inter}>
+        <p className="mt-1.5 text-[14px] text-[#111111]/60" style={inter}>
           Everything between {c.company} and ELSIAA, in one place.
         </p>
 
         {/* balance + projects */}
         <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-black/[0.07] p-6" style={{ background: c.accentSoft }}>
-            <p className="text-[10px] tracking-[0.24em] text-[#111111]/45 uppercase" style={mono}>
+            <p className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
               Current balance
             </p>
             <p className="mt-2 text-4xl font-semibold tracking-[-0.03em]" style={{ ...inter, color: due ? "#E53E3E" : c.accent }}>
@@ -324,7 +324,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
           </div>
           {c.projects.map((p) => (
             <div key={p.name} className="rounded-2xl border border-black/[0.07] bg-white p-6">
-              <p className="text-[10px] tracking-[0.24em] text-[#111111]/45 uppercase" style={mono}>
+              <p className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
                 Active project
               </p>
               <p className="mt-2 text-[16px] font-semibold" style={inter}>
@@ -334,7 +334,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
               <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-black/[0.06]">
                 <div className="h-full rounded-full transition-all" style={{ width: `${p.pct}%`, background: c.accent }} />
               </div>
-              <p className="mt-1.5 text-right text-[11px] text-[#111111]/40" style={mono}>
+              <p className="mt-1.5 text-right text-[11px] text-[#111111]/55" style={mono}>
                 {p.pct}%
               </p>
             </div>
@@ -343,7 +343,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
 
         {/* purchase history */}
         <section className="mt-10">
-          <h2 className="text-[11px] tracking-[0.28em] text-[#111111]/40 uppercase" style={mono}>
+          <h2 className="text-[11px] tracking-[0.28em] text-[#111111]/55 uppercase" style={mono}>
             Purchase history
           </h2>
           <div className="mt-3 overflow-hidden rounded-2xl border border-black/[0.07]">
@@ -356,7 +356,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
                   <p className="text-[14px] font-medium" style={inter}>
                     {p.item}
                   </p>
-                  <p className="mt-0.5 text-[11.5px] text-[#111111]/40" style={mono}>
+                  <p className="mt-0.5 text-[11.5px] text-[#111111]/55" style={mono}>
                     {p.date}
                   </p>
                 </div>
@@ -382,7 +382,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
 
         {/* contracts */}
         <section className="mt-10">
-          <h2 className="text-[11px] tracking-[0.28em] text-[#111111]/40 uppercase" style={mono}>
+          <h2 className="text-[11px] tracking-[0.28em] text-[#111111]/55 uppercase" style={mono}>
             Contracts & documents
           </h2>
           <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -404,12 +404,12 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
                     <p className="text-[14px] font-medium" style={inter}>
                       {k.name}
                     </p>
-                    <p className="mt-0.5 text-[11.5px] text-[#111111]/40" style={mono}>
+                    <p className="mt-0.5 text-[11.5px] text-[#111111]/55" style={mono}>
                       Signed {k.signed} · {k.status}
                     </p>
                   </div>
                 </div>
-                <span className="text-[#111111]/30 transition-colors group-hover:text-[#111111]">→</span>
+                <span className="text-[#111111]/50 transition-colors group-hover:text-[#111111]">→</span>
               </a>
             ))}
           </div>
@@ -436,7 +436,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
           </div>
         </section>
 
-        <p className="mt-12 pb-8 text-center text-[11px] tracking-[0.2em] text-[#111111]/30 uppercase" style={mono}>
+        <p className="mt-12 pb-8 text-center text-[11px] tracking-[0.2em] text-[#111111]/50 uppercase" style={mono}>
           בעזרת ה׳ נעשה ונצליח
         </p>
       </div>

@@ -75,7 +75,7 @@ export function Booking() {
         <h3 className="text-lg font-semibold tracking-[-0.02em] md:text-xl" style={{ fontFamily: "'Inter', sans-serif" }}>
           Book your call
         </h3>
-        <span className="text-[10px] tracking-[0.22em] text-[#111111]/40 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+        <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
           First call free
         </span>
       </div>
@@ -98,18 +98,18 @@ export function Booking() {
           >
             <div className="flex items-center justify-between">
               <span className="text-[14px] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>{o.title}</span>
-              <span className={`text-[11px] font-semibold ${kind === o.id ? "text-[#1e6b3c]" : "text-[#111111]/45"}`} style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              <span className={`text-[11px] font-semibold ${kind === o.id ? "text-[#1e6b3c]" : "text-[#111111]/55"}`} style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                 {o.meta}
               </span>
             </div>
-            <p className="mt-1 text-[12px] leading-snug text-[#111111]/50">{o.pitch}</p>
+            <p className="mt-1 text-[12px] leading-snug text-[#111111]/60">{o.pitch}</p>
           </button>
         ))}
       </div>
 
       {/* schedule */}
       <div className="mt-5">
-        <span className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>Pick a day</span>
+        <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>Pick a day</span>
         <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {days.map((d) => (
             <button
@@ -125,7 +125,7 @@ export function Booking() {
             </button>
           ))}
         </div>
-        <span className="mt-4 block text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>Pick a time</span>
+        <span className="mt-4 block text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>Pick a time</span>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {HOURS.map((h) => (
             <button
@@ -165,13 +165,13 @@ export function Booking() {
           onClick={book}
           disabled={!valid || state === "sending"}
           className={`rounded-full px-7 py-3.5 text-[11px] font-bold tracking-[0.2em] uppercase transition-all ${
-            valid ? "bg-[#111111] text-white hover:bg-[#1e6b3c]" : "cursor-not-allowed bg-black/[0.06] text-[#111111]/35"
+            valid ? "bg-[#111111] text-white hover:bg-[#1e6b3c]" : "cursor-not-allowed bg-black/[0.06] text-[#111111]/50"
           }`}
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
           {state === "sending" ? "Booking…" : kind === "free" ? "Book free call →" : "Book — $100 →"}
         </button>
-        <p className="text-[11.5px] text-[#111111]/40" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <p className="text-[11.5px] text-[#111111]/55" style={{ fontFamily: "'Inter', sans-serif" }}>
           {kind === "paid"
             ? "Secure card checkout with Stripe is coming online — for now you'll receive a payment link with your confirmation."
             : "Confirmation arrives by email within hours."}

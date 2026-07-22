@@ -72,7 +72,7 @@ function PrivacyPage() {
         <h1 className="mt-3 text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>
           Privacy Policy.
         </h1>
-        <p className="mt-4 text-[13px] text-[#111111]/45" style={inter}>
+        <p className="mt-4 text-[13px] text-[#111111]/55" style={inter}>
           Effective July 22, 2026
         </p>
         <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60" style={inter}>

@@ -90,7 +90,7 @@ export function SiteNav() {
               <span className="mt-[5px] flex items-center gap-2">
                 <span className={`h-px w-4 ${open ? "bg-white/40" : "bg-[#111111]/30"}`} />
                 <span
-                  className={`text-[8px] tracking-[0.34em] whitespace-nowrap uppercase ${open ? "text-white/60" : "text-[#111111]/50"}`}
+                  className={`text-[8px] tracking-[0.34em] whitespace-nowrap uppercase ${open ? "text-white/60" : "text-[#111111]/60"}`}
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   AI Done Better
@@ -111,11 +111,11 @@ export function SiteNav() {
               </a>
             ))}
             <a
-              href="mailto:isya@elsiaa.com"
+              href="/quote"
               className={`hidden border px-5 py-2 text-[11px] tracking-[0.26em] uppercase transition-all duration-300 md:inline-block ${open ? "pointer-events-none opacity-0" : "border-[#111111]/30 text-[#111111] hover:border-[#111111] hover:bg-[#111111] hover:text-white"}`}
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              Contact
+              Get a Quote
             </a>
             {/* search icon */}
             <button
@@ -170,7 +170,7 @@ export function SiteNav() {
             {/* nav column */}
             <nav className="flex flex-col justify-center gap-0.5">
               <p
-                className="mb-4 text-[10px] tracking-[0.32em] text-white/35 uppercase"
+                className="mb-4 text-[10px] tracking-[0.32em] text-white/50 uppercase"
                 style={{
                   fontFamily: "'IBM Plex Mono', monospace",
                   opacity: open ? 1 : 0,
@@ -222,7 +222,7 @@ export function SiteNav() {
               <MenuSearch onNavigate={() => setOpen(false)} />
               <div className="border-t border-white/[0.08] pt-6">
                 <p
-                  className="text-[10px] tracking-[0.32em] text-white/35 uppercase"
+                  className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   Clients
@@ -254,7 +254,7 @@ export function SiteNav() {
               </div>
               <div className="border-t border-white/[0.08] pt-6">
                 <p
-                  className="text-[10px] tracking-[0.32em] text-white/35 uppercase"
+                  className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   Direct
@@ -277,7 +277,7 @@ export function SiteNav() {
               </div>
               <div className="border-t border-white/[0.08] pt-6">
                 <p
-                  className="text-[10px] tracking-[0.32em] text-white/35 uppercase"
+                  className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   Offices
@@ -301,14 +301,14 @@ export function SiteNav() {
             }}
           >
             <p
-              className="text-[10px] tracking-[0.2em] text-white/30 uppercase"
+              className="text-[10px] tracking-[0.2em] text-white/50 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               ELSIAA — AI Done Better
             </p>
             <p
               title="With God's help we shall do and succeed."
-              className="cursor-help text-[10px] tracking-[0.2em] text-white/30 uppercase"
+              className="cursor-help text-[10px] tracking-[0.2em] text-white/50 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               בעזרת ה׳ נעשה ונצליח
@@ -333,7 +333,7 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div>
       <p
-        className="text-[10px] tracking-[0.32em] text-white/35 uppercase"
+        className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
         style={{ fontFamily: "'IBM Plex Mono', monospace" }}
       >
         Search
@@ -353,7 +353,7 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
             }
           }}
           placeholder="Services, cities, careers…"
-          className="w-full bg-transparent text-[15px] text-white outline-none placeholder:text-white/30"
+          className="w-full bg-transparent text-[15px] text-white outline-none placeholder:text-white/50"
           style={{ fontFamily: "'Inter', sans-serif" }}
         />
       </div>
@@ -369,7 +369,7 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
             >
               <span>{e.label}</span>
               <span
-                className="text-[10px] tracking-[0.2em] text-white/30 uppercase"
+                className="text-[10px] tracking-[0.2em] text-white/50 uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 {e.group}

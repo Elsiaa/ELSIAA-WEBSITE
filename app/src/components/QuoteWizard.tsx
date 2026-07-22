@@ -28,7 +28,7 @@ const TIMELINES = [
 ];
 
 const inputCls =
-  "w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] text-[#111111] placeholder:text-[#111111]/30 outline-none transition-colors focus:border-[#1e6b3c]";
+  "w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] text-[#111111] placeholder:text-[#111111]/50 outline-none transition-colors focus:border-[#1e6b3c]";
 const chipCls = (on: boolean) =>
   `rounded-full border px-5 py-2.5 text-[13px] font-medium transition-all ${
     on
@@ -152,7 +152,7 @@ export function QuoteWizard() {
 
         {step === 1 && (
           <>
-            <p className="text-[14px] text-[#111111]/50" style={inter}>
+            <p className="text-[14px] text-[#111111]/60" style={inter}>
               Pick every division your project touches.
             </p>
             <div className="flex flex-wrap gap-2.5">
@@ -193,13 +193,13 @@ export function QuoteWizard() {
 
         {step === 3 && (
           <>
-            <p className="text-[13px] tracking-[0.1em] text-[#111111]/45 uppercase" style={mono}>Budget range</p>
+            <p className="text-[13px] tracking-[0.1em] text-[#111111]/55 uppercase" style={mono}>Budget range</p>
             <div className="flex flex-wrap gap-2.5">
               {BUDGETS.map((b) => (
                 <button key={b} type="button" onClick={() => setBudget(budget === b ? "" : b)} className={chipCls(budget === b)} style={inter}>{b}</button>
               ))}
             </div>
-            <p className="mt-4 text-[13px] tracking-[0.1em] text-[#111111]/45 uppercase" style={mono}>Timeline</p>
+            <p className="mt-4 text-[13px] tracking-[0.1em] text-[#111111]/55 uppercase" style={mono}>Timeline</p>
             <div className="flex flex-wrap gap-2.5">
               {TIMELINES.map((t) => (
                 <button key={t} type="button" onClick={() => setTimeline(timeline === t ? "" : t)} className={chipCls(timeline === t)} style={inter}>{t}</button>
@@ -238,7 +238,7 @@ export function QuoteWizard() {
         <button
           type="button"
           onClick={() => setStep((s) => Math.max(0, s - 1))}
-          className={`text-[11px] tracking-[0.24em] uppercase transition-opacity ${step === 0 ? "pointer-events-none opacity-0" : "text-[#111111]/50 hover:text-[#111111]"}`}
+          className={`text-[11px] tracking-[0.24em] uppercase transition-opacity ${step === 0 ? "pointer-events-none opacity-0" : "text-[#111111]/60 hover:text-[#111111]"}`}
           style={mono}
         >
           ← Back

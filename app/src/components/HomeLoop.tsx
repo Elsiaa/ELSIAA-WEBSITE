@@ -125,7 +125,7 @@ export function HomeLoop() {
                   {c.k}
                 </h3>
                 <p
-                  className="mt-1.5 text-[14px] leading-relaxed text-[#111111]/50"
+                  className="mt-1.5 text-[14px] leading-relaxed text-[#111111]/60"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   {c.d}

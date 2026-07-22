@@ -81,7 +81,7 @@ export function ElsiaaSections() {
             </p>
           </div>
           <a
-            href="mailto:isya@elsiaa.com"
+            href="/contact"
             className="inline-block rounded-xl bg-[#1e6b3c] px-10 py-4 text-base font-semibold text-white shadow-[0_8px_30px_rgba(30,107,60,0.35)] transition-transform duration-200 hover:-translate-y-1 hover:bg-[#2e9e58]"
           >
             Get in touch

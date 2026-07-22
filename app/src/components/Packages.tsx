@@ -66,7 +66,7 @@ export function Packages() {
                     <h3 className="text-[15.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={inter}>
                       {p.name}
                     </h3>
-                    <p className="mt-0.5 text-[13.5px] text-[#111111]/50" style={inter}>
+                    <p className="mt-0.5 text-[13.5px] text-[#111111]/60" style={inter}>
                       {p.blurb}
                     </p>
                   </div>

@@ -41,7 +41,7 @@ function ContactPage() {
         <div className="mt-10">
           <RequestCalendar />
         </div>
-        <p className="mt-6 text-[13.5px] text-[#111111]/45" style={inter}>
+        <p className="mt-6 text-[13.5px] text-[#111111]/55" style={inter}>
           Prefer writing? Reach us at{" "}
           <a href="mailto:isya@elsiaa.com" className="font-medium text-[#1e6b3c] hover:underline">
             isya@elsiaa.com
@@ -87,7 +87,7 @@ function ContactPage() {
                   <h3 className="text-[17px] font-semibold tracking-[-0.02em]" style={inter}>
                     {title}
                   </h3>
-                  <span className="text-[10px] tracking-[0.22em] text-[#111111]/40 uppercase" style={mono}>
+                  <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={mono}>
                     {when}
                   </span>
                 </div>

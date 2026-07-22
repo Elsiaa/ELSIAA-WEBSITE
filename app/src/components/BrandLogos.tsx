@@ -87,7 +87,7 @@ export function WhyBrandsChose() {
           >
             Why brands chose ELSIAA to implement AI.
           </h2>
-          <p className="mt-3 max-w-xl text-[15px] text-[#111111]/50" style={inter}>
+          <p className="mt-3 max-w-xl text-[15px] text-[#111111]/60" style={inter}>
             Healthcare groups, service companies, and university departments —
             the brands on this wall picked one partner to take AI from idea to
             production. Here's what decided it.

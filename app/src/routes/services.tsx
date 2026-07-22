@@ -161,7 +161,7 @@ function Services() {
   const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
   const inter = { fontFamily: "'Inter', sans-serif" } as const;
   const inputCls =
-    "w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/30";
+    "w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50";
 
   return (
     <main className="bg-white text-[#111111] antialiased">
@@ -213,7 +213,7 @@ function Services() {
             <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl" style={inter}>
               Pick your weapons.
             </h2>
-            <p className="mt-3 max-w-xl text-[15px] text-[#111111]/50" style={inter}>
+            <p className="mt-3 max-w-xl text-[15px] text-[#111111]/60" style={inter}>
               Tap up to six — they attach to your inquiry.
             </p>
           </Reveal>
@@ -229,7 +229,7 @@ function Services() {
                     <h3 className="text-[19px] font-semibold tracking-[-0.02em]" style={inter}>
                       {pl.key}
                     </h3>
-                    <p className="mt-1 text-[13.5px] text-[#111111]/50" style={inter}>
+                    <p className="mt-1 text-[13.5px] text-[#111111]/60" style={inter}>
                       {pl.tagline}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-2">
@@ -255,7 +255,7 @@ function Services() {
                 <p className="text-[13px] text-[#111111]/70" style={inter}>
                   <span className="font-semibold text-[#111111]">{selected.length}</span>
                   {" "}service{selected.length > 1 ? "s" : ""} selected
-                  <span className="text-[#111111]/40"> — {selected.join(", ")}</span>
+                  <span className="text-[#111111]/55"> — {selected.join(", ")}</span>
                 </p>
                 <button
                   onClick={jumpToForm}
@@ -280,7 +280,7 @@ function Services() {
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
               Tell us where to point the machine.
             </h2>
-            <p className="mt-3 max-w-xl text-[15px] text-[#111111]/50" style={inter}>
+            <p className="mt-3 max-w-xl text-[15px] text-[#111111]/60" style={inter}>
               Your picks ride along. You get a scoped answer, not an autoreply.
             </p>
           </Reveal>
@@ -289,19 +289,19 @@ function Services() {
             <div className="mt-8 rounded-2xl border border-[#1e6b3c]/30 bg-white p-8 text-center">
               <p className="text-2xl">✓</p>
               <p className="mt-2 text-[17px] font-semibold" style={inter}>{done}</p>
-              <p className="mt-1 text-[13.5px] text-[#111111]/50" style={inter}>
+              <p className="mt-1 text-[13.5px] text-[#111111]/60" style={inter}>
                 Selected: {selected.join(", ")}
               </p>
             </div>
           ) : (
             <div className="mt-8 rounded-2xl border border-black/[0.07] bg-white p-6 md:p-8">
               <div>
-                <p className="text-[11px] tracking-[0.24em] text-[#111111]/45 uppercase" style={mono}>
+                <p className="text-[11px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
                   Selected services {selected.length > 0 ? `· ${selected.length}/6` : ""}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {selected.length === 0 ? (
-                    <p className="text-[13.5px] text-[#111111]/40" style={inter}>
+                    <p className="text-[13.5px] text-[#111111]/55" style={inter}>
                       Nothing selected yet — tap services in the explorer above.
                     </p>
                   ) : (
@@ -342,7 +342,7 @@ function Services() {
               >
                 {sending ? "Sending…" : "Send the inquiry →"}
               </button>
-              <p className="mt-3 text-center text-[11.5px] text-[#111111]/35" style={inter}>
+              <p className="mt-3 text-center text-[11.5px] text-[#111111]/50" style={inter}>
                 Prefer the long form? <a href="/quote" className="text-[#1e6b3c] hover:underline">Build a full quote →</a>
               </p>
             </div>

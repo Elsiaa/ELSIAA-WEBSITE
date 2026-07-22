@@ -347,7 +347,7 @@ function ServiceCard({
         >
           {service.name}
         </h4>
-        <p className="mt-1 text-[13px] leading-relaxed text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <p className="mt-1 text-[13px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
           {service.blurb}
         </p>
         <div
@@ -371,7 +371,7 @@ function ServiceCard({
         </div>
         <span
           className={`mt-auto pt-3 text-[10px] tracking-[0.26em] uppercase transition-colors duration-300 ${
-            open ? "text-[#1e6b3c]" : "text-[#111111]/30 group-hover:text-[#1e6b3c]/70"
+            open ? "text-[#1e6b3c]" : "text-[#111111]/50 group-hover:text-[#1e6b3c]/70"
           }`}
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
@@ -415,7 +415,7 @@ function CategoryBlock({ cat }: { cat: Category }) {
       >
         {cat.title}
       </h3>
-      <p className="mt-3 max-w-xl text-base text-[#111111]/50 md:text-lg" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <p className="mt-3 max-w-xl text-base text-[#111111]/60 md:text-lg" style={{ fontFamily: "'Inter', sans-serif" }}>
         {cat.lead}
       </p>
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -498,7 +498,7 @@ export function DesignServices() {
           Everything we design.
         </h2>
         <p
-          className="mx-auto mt-5 max-w-xl text-base text-[#111111]/50 md:text-lg"
+          className="mx-auto mt-5 max-w-xl text-base text-[#111111]/60 md:text-lg"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           Twenty-five disciplines, one standard. Tap any card to go deeper.

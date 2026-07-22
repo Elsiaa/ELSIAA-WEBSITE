@@ -115,13 +115,13 @@ function SearchPage() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Services, divisions, cities, careers…"
-            className="w-full bg-transparent text-[17px] outline-none placeholder:text-[#111111]/30"
+            className="w-full bg-transparent text-[17px] outline-none placeholder:text-[#111111]/50"
             style={{ fontFamily: "'Inter', sans-serif" }}
           />
           {q && (
             <button
               onClick={() => setQ("")}
-              className="text-[#111111]/40 transition-colors hover:text-[#111111]"
+              className="text-[#111111]/55 transition-colors hover:text-[#111111]"
               aria-label="Clear"
             >
               ✕
@@ -133,7 +133,7 @@ function SearchPage() {
         {!q.trim() && (
           <div className="mt-8">
             <p
-              className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase"
+              className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               Suggested searches
@@ -177,7 +177,7 @@ function SearchPage() {
               grouped.map(([group, entries]) => (
                 <div key={group} className="mb-8">
                   <p
-                    className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase"
+                    className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
                     style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     {group}
@@ -197,7 +197,7 @@ function SearchPage() {
                         >
                           {e.label}
                         </span>
-                        <span className="text-[#111111]/30 transition-all group-hover:translate-x-0.5 group-hover:text-[#1e6b3c]">
+                        <span className="text-[#111111]/50 transition-all group-hover:translate-x-0.5 group-hover:text-[#1e6b3c]">
                           →
                         </span>
                       </a>
@@ -211,7 +211,7 @@ function SearchPage() {
             {related.length > 0 && (
               <div className="mt-12 border-t border-black/[0.06] pt-8">
                 <p
-                  className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase"
+                  className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   Related

@@ -101,7 +101,7 @@ function Careers() {
                     >
                       {r.id}
                     </h3>
-                    <p className="mt-1 text-[12px] leading-snug text-[#111111]/50">
+                    <p className="mt-1 text-[12px] leading-snug text-[#111111]/60">
                       {r.line}
                     </p>
                   </div>
@@ -126,7 +126,7 @@ function Careers() {
       </div>
       <footer className="border-t border-black/[0.06] py-10 text-center">
         <p
-          className="text-[11px] tracking-[0.2em] text-[#111111]/35 uppercase"
+          className="text-[11px] tracking-[0.2em] text-[#111111]/50 uppercase"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
           בעזרת ה׳ נעשה ונצליח
@@ -293,7 +293,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
         {/* identity rail — desktop left column */}
         <div className="lg:w-[240px] lg:flex-none">
           <span
-            className="text-[10px] tracking-[0.22em] text-[#111111]/40 uppercase"
+            className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             The application
@@ -304,7 +304,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
           >
             Apply{role ? ` — ${role}` : ""}
           </h3>
-          <p className="mt-3 hidden text-[13px] leading-relaxed text-[#111111]/50 lg:block">
+          <p className="mt-3 hidden text-[13px] leading-relaxed text-[#111111]/60 lg:block">
             Five fields, one honest essay, your resume. We read every
             application ourselves and reply to all of them.
           </p>
@@ -326,7 +326,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
 
         {/* positions */}
         <div className="mt-6">
-          <span className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             Positions — select all that apply
           </span>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -363,11 +363,11 @@ function ApplyForm({ role }: { role: RoleId | null }) {
         {/* the essay */}
         <div className="mt-6">
           <div className="flex items-baseline justify-between gap-3">
-            <span className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               In 250 words or more, tell me why I should hire you and how you plan on contributing to ELSIAA.
             </span>
             <span
-              className={`flex-none text-[11px] tabular-nums ${words >= 250 ? "text-[#1e6b3c]" : "text-[#111111]/40"}`}
+              className={`flex-none text-[11px] tabular-nums ${words >= 250 ? "text-[#1e6b3c]" : "text-[#111111]/55"}`}
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               {words} / 250
@@ -383,7 +383,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
             className="mt-2 w-full rounded-xl border border-black/10 bg-[#FBFBFA] px-4 py-3.5 text-[15px] leading-relaxed outline-none transition-colors focus:border-[#1e6b3c]"
             placeholder="In your own words. We read every one."
           />
-          <p className="mt-1.5 text-[11.5px] text-[#111111]/40">
+          <p className="mt-1.5 text-[11.5px] text-[#111111]/55">
             Written by you, not by AI — machine-written answers are detected and disqualified.
           </p>
           {aiFlag && (
@@ -421,7 +421,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
             ) : (
               <>
                 <span className="font-medium text-[#111111]">Drag your resume here</span>
-                <span className="text-[#111111]/45"> — or tap to add</span>
+                <span className="text-[#111111]/55"> — or tap to add</span>
               </>
             )}
           </p>
@@ -440,7 +440,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
           className={`mt-6 w-full rounded-full px-6 py-4 text-[12px] font-semibold tracking-[0.24em] uppercase transition-all duration-300 md:w-auto md:min-w-[220px] ${
             valid
               ? "bg-[#111111] text-white hover:bg-[#1e6b3c]"
-              : "cursor-not-allowed bg-black/[0.06] text-[#111111]/35"
+              : "cursor-not-allowed bg-black/[0.06] text-[#111111]/50"
           }`}
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
@@ -474,7 +474,7 @@ function Choice({
 }) {
   return (
     <div>
-      <span className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+      <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
         {label}
       </span>
       <div className="mt-1.5 flex gap-1.5">
@@ -514,7 +514,7 @@ function Field({
   return (
     <label className="block">
       <span
-        className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase"
+        className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase"
         style={{ fontFamily: "'IBM Plex Mono', monospace" }}
       >
         {label}

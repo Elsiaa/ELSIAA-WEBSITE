@@ -151,7 +151,7 @@ export function HomeShowcase() {
             Everything your business shows the world — done right.
           </h2>
           <p
-            className="mx-auto mt-5 max-w-xl text-lg text-[#111111]/50 md:text-xl"
+            className="mx-auto mt-5 max-w-xl text-lg text-[#111111]/60 md:text-xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Websites, apps, ads, and automation. One standard.
@@ -189,13 +189,13 @@ export function HomeShowcase() {
                 {b.title}
               </h3>
               <p
-                className="mt-1.5 text-[13.5px] leading-relaxed text-[#111111]/50"
+                className="mt-1.5 text-[13.5px] leading-relaxed text-[#111111]/60"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {b.desc}
               </p>
               <span
-                className="mt-auto pt-4 text-[10px] tracking-[0.26em] text-[#111111]/30 uppercase transition-colors duration-300 group-hover:text-[#1e6b3c]"
+                className="mt-auto pt-4 text-[10px] tracking-[0.26em] text-[#111111]/50 uppercase transition-colors duration-300 group-hover:text-[#1e6b3c]"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Explore →

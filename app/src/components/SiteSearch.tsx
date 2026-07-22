@@ -126,11 +126,11 @@ export function SiteSearch({
               }
             }}
             placeholder="Search ELSIAA — services, locations, careers…"
-            className="w-full bg-transparent py-4 text-[15px] outline-none placeholder:text-[#111111]/35"
+            className="w-full bg-transparent py-4 text-[15px] outline-none placeholder:text-[#111111]/50"
             style={{ fontFamily: "'Inter', sans-serif" }}
           />
           <kbd
-            className="hidden rounded border border-black/10 px-1.5 py-0.5 text-[10px] text-[#111111]/40 md:block"
+            className="hidden rounded border border-black/10 px-1.5 py-0.5 text-[10px] text-[#111111]/55 md:block"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             ESC
@@ -138,7 +138,7 @@ export function SiteSearch({
         </div>
         <div className="max-h-[46vh] overflow-y-auto py-2">
           {results.length === 0 && (
-            <p className="px-5 py-6 text-[14px] text-[#111111]/45">
+            <p className="px-5 py-6 text-[14px] text-[#111111]/55">
               Nothing found — try "automation", "pricing", or "careers".
             </p>
           )}
@@ -158,7 +158,7 @@ export function SiteSearch({
                 {r.label}
               </span>
               <span
-                className="flex-none text-[10px] tracking-[0.2em] text-[#111111]/35 uppercase"
+                className="flex-none text-[10px] tracking-[0.2em] text-[#111111]/50 uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 {r.group}

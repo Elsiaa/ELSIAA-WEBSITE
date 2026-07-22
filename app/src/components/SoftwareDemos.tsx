@@ -126,7 +126,7 @@ function DemoMedia({ demo, active }: { demo: Demo; active: boolean }) {
     />
   ) : (
     <div className="flex h-full w-full items-center justify-center bg-[#ECECEA]">
-      <span className="text-[10px] tracking-[0.3em] text-black/30 uppercase" style={mono}>
+      <span className="text-[10px] tracking-[0.3em] text-black/50 uppercase" style={mono}>
         {demo.name} — live demo
       </span>
     </div>
@@ -216,7 +216,7 @@ export function SoftwareDemos() {
           <div className="mt-7 grid grid-cols-1 gap-6 md:grid-cols-[minmax(0,340px)_1fr] md:gap-8">
             {/* walkthrough rail */}
             <div className="order-2 md:order-1">
-              <p className="text-[10px] tracking-[0.28em] text-[#111111]/40 uppercase" style={mono}>
+              <p className="text-[10px] tracking-[0.28em] text-[#111111]/55 uppercase" style={mono}>
                 {demo.eyebrow}
               </p>
               <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] text-[#111111]" style={inter}>
@@ -274,7 +274,7 @@ export function SoftwareDemos() {
                   <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
                   <span className="h-2.5 w-2.5 rounded-full bg-[#1e6b3c]/50" />
                   <span
-                    className="ml-3 truncate rounded-md bg-black/[0.04] px-3 py-1 text-[10px] tracking-[0.12em] text-[#111111]/45"
+                    className="ml-3 truncate rounded-md bg-black/[0.04] px-3 py-1 text-[10px] tracking-[0.12em] text-[#111111]/55"
                     style={mono}
                   >
                     {demo.media.kind === "site" ? demo.media.src.replace("https://", "") : `${demo.name.toLowerCase().replace(/[^a-z]/g, "")}.walkthrough`}

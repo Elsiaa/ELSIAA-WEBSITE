@@ -193,7 +193,7 @@ function TeamPage() {
                   {n}
                 </p>
                 <p
-                  className="mt-1 text-[10px] tracking-[0.22em] text-[#111111]/40 uppercase"
+                  className="mt-1 text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   {l}
@@ -265,7 +265,7 @@ function TeamPage() {
           </div>
           <p
             title="With God's help we shall do and succeed."
-            className="mt-12 cursor-help text-[11px] tracking-[0.2em] text-[#111111]/35 uppercase"
+            className="mt-12 cursor-help text-[11px] tracking-[0.2em] text-[#111111]/50 uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             בעזרת ה׳ נעשה ונצליח

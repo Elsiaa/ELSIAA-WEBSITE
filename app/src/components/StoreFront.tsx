@@ -44,7 +44,7 @@ const SIZES = ["XS", "S", "M", "L", "XL"];
 type CartItem = { id: string; name: string; size: string; qty: number; price: number };
 
 const inputCls =
-  "w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/30";
+  "w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50";
 
 function ProductCard({ p, onAdd }: { p: Product; onAdd: (p: Product, size: string) => void }) {
   const [size, setSize] = useState("M");
@@ -61,7 +61,7 @@ function ProductCard({ p, onAdd }: { p: Product; onAdd: (p: Product, size: strin
       </div>
       <div className="mt-4 text-center">
         <h3 className="text-[13px] font-medium tracking-[0.02em] lowercase" style={inter}>{p.name}</h3>
-        <p className="mt-0.5 text-[12px] text-[#111111]/50" style={mono}>${p.price}</p>
+        <p className="mt-0.5 text-[12px] text-[#111111]/60" style={mono}>${p.price}</p>
       </div>
       {p.tag !== "Day-to-Day" && (
         <p className="mt-1 text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase" style={mono}>Limited</p>
@@ -150,15 +150,15 @@ export function StoreFront() {
 
   return (
     <div>
-      <p className="mx-auto max-w-md text-center text-[13px] leading-relaxed text-[#111111]/45 lowercase" style={inter}>
+      <p className="mx-auto max-w-md text-center text-[13px] leading-relaxed text-[#111111]/55 lowercase" style={inter}>
         a line of clothing the creator would wear. cut heavy, branded quietly,
         never reprinted.
       </p>
 
       {/* standard line */}
       <div className="mt-20">
-        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 lowercase" style={mono}>day-to-day — black / white / grey</p>
-        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/40 lowercase" style={inter}>
+        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/55 lowercase" style={mono}>day-to-day — black / white / grey</p>
+        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/55 lowercase" style={inter}>
           three fits — fitted professional, tailored casual, slightly oversized.
         </p>
         <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3">
@@ -168,8 +168,8 @@ export function StoreFront() {
 
       {/* city line */}
       <div className="mt-20">
-        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 lowercase" style={mono}>city line — limited</p>
-        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/40 lowercase" style={inter}>
+        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/55 lowercase" style={mono}>city line — limited</p>
+        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/55 lowercase" style={inter}>
           europe, new york, los angeles — pop colors, one drop per city.
         </p>
         <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3">
@@ -179,8 +179,8 @@ export function StoreFront() {
 
       {/* old money line */}
       <div className="mt-20">
-        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 lowercase" style={mono}>old money — oversized</p>
-        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/40 lowercase" style={inter}>
+        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/55 lowercase" style={mono}>old money — oversized</p>
+        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/55 lowercase" style={inter}>
           oversized, heavyweight, one tiny crest — nothing more.
         </p>
         <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3">
@@ -190,8 +190,8 @@ export function StoreFront() {
 
       {/* objects line */}
       <div className="mt-20">
-        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/40 lowercase" style={mono}>objects — scandinavian minimal</p>
-        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/40 lowercase" style={inter}>
+        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/55 lowercase" style={mono}>objects — scandinavian minimal</p>
+        <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/55 lowercase" style={inter}>
           the studio, portable. pure white, one mark each.
         </p>
         <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3">
@@ -222,7 +222,7 @@ export function StoreFront() {
               <h3 className="text-[18px] font-semibold" style={inter}>
                 {placed ? "Order placed" : checkout ? "Checkout" : `Your bag (${count})`}
               </h3>
-              <button onClick={() => setDrawer(false)} className="text-[22px] text-[#111111]/50 hover:text-[#111111]">×</button>
+              <button onClick={() => setDrawer(false)} className="text-[22px] text-[#111111]/60 hover:text-[#111111]">×</button>
             </div>
 
             {placed ? (
@@ -234,7 +234,7 @@ export function StoreFront() {
                 </p>
               </div>
             ) : cart.length === 0 ? (
-              <p className="mt-6 text-[14px] text-[#111111]/45" style={inter}>Your bag is empty.</p>
+              <p className="mt-6 text-[14px] text-[#111111]/55" style={inter}>Your bag is empty.</p>
             ) : checkout ? (
               <div className="mt-6 flex flex-1 flex-col gap-3 overflow-y-auto">
                 <input className={inputCls} style={inter} placeholder="Full name *" value={name} onChange={(e) => setName(e.target.value)} />
@@ -253,7 +253,7 @@ export function StoreFront() {
                   >
                     {sending ? "Placing…" : "Place order request"}
                   </button>
-                  <p className="mt-3 text-center text-[11.5px] text-[#111111]/40" style={inter}>
+                  <p className="mt-3 text-center text-[11.5px] text-[#111111]/55" style={inter}>
                     We invoice by email — nothing is charged now.
                   </p>
                 </div>
@@ -265,13 +265,13 @@ export function StoreFront() {
                     <li key={`${i.id}-${i.size}`} className="flex items-center justify-between gap-3">
                       <div>
                         <p className="text-[14.5px] font-medium" style={inter}>{i.name}</p>
-                        <p className="text-[12px] text-[#111111]/45" style={mono}>Size {i.size} · ${i.price}</p>
+                        <p className="text-[12px] text-[#111111]/55" style={mono}>Size {i.size} · ${i.price}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <button onClick={() => setCart((c) => c.map((x) => x === i ? { ...x, qty: Math.max(1, x.qty - 1) } : x))} className="h-7 w-7 rounded-md border border-black/10 text-[14px]">−</button>
                         <span className="w-5 text-center text-[14px]" style={inter}>{i.qty}</span>
                         <button onClick={() => setCart((c) => c.map((x) => x === i ? { ...x, qty: x.qty + 1 } : x))} className="h-7 w-7 rounded-md border border-black/10 text-[14px]">+</button>
-                        <button onClick={() => setCart((c) => c.filter((x) => x !== i))} className="ml-1 text-[13px] text-[#111111]/35 hover:text-red-600">✕</button>
+                        <button onClick={() => setCart((c) => c.filter((x) => x !== i))} className="ml-1 text-[13px] text-[#111111]/50 hover:text-red-600">✕</button>
                       </div>
                     </li>
                   ))}

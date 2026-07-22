@@ -167,7 +167,7 @@ function RoiCalculator() {
         <Row label="Share we can automate" value={pct} suffix="%" min={30} max={90} step={5} onChange={setPct} />
       </div>
       <div className="flex flex-col justify-center p-7 text-center">
-        <p className="text-[10px] tracking-[0.28em] text-[#111111]/40 uppercase" style={mono}>Recovered annually</p>
+        <p className="text-[10px] tracking-[0.28em] text-[#111111]/55 uppercase" style={mono}>Recovered annually</p>
         <p className="mt-3 text-5xl font-semibold tracking-[-0.04em] text-[#1e6b3c]" style={inter}>
           ${yearlySavings.toLocaleString()}
         </p>
@@ -181,7 +181,7 @@ function RoiCalculator() {
         >
           Reclaim these hours →
         </a>
-        <p className="mt-3 text-[11px] text-[#111111]/35" style={inter}>
+        <p className="mt-3 text-[11px] text-[#111111]/50" style={inter}>
           Directional estimate — the free call makes it precise.
         </p>
       </div>
@@ -233,7 +233,7 @@ function InsightsPage() {
                     <p className="text-xl font-semibold tracking-[-0.02em]" style={inter}>
                       <CountUp target={st.n} />
                     </p>
-                    <p className="mt-0.5 text-[10px] tracking-[0.2em] text-[#111111]/40 uppercase" style={mono}>
+                    <p className="mt-0.5 text-[10px] tracking-[0.2em] text-[#111111]/55 uppercase" style={mono}>
                       {st.l}
                     </p>
                   </div>
@@ -264,7 +264,7 @@ function InsightsPage() {
                 Adoption, industry by industry.
               </h2>
             </div>
-            <p className="text-[11px] text-[#111111]/35" style={inter}>
+            <p className="text-[11px] text-[#111111]/50" style={inter}>
               Compiled from published industry surveys · Updated July 2026
             </p>
           </div>
@@ -328,7 +328,7 @@ function InsightsPage() {
                 <span className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>
                   {featured.tag}
                 </span>
-                <span className="text-[11px] text-[#111111]/40" style={inter}>{readTime(featured.body)}</span>
+                <span className="text-[11px] text-[#111111]/55" style={inter}>{readTime(featured.body)}</span>
               </div>
               <h3 className="mt-3 text-[22px] leading-snug font-semibold tracking-[-0.02em] md:text-[26px]" style={inter}>
                 {featured.title}
@@ -352,7 +352,7 @@ function InsightsPage() {
                   <span className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>
                     {a.tag}
                   </span>
-                  <span className="text-[11px] text-[#111111]/40" style={inter}>{readTime(a.body)}</span>
+                  <span className="text-[11px] text-[#111111]/55" style={inter}>{readTime(a.body)}</span>
                 </div>
                 <h3 className="mt-3 text-[18px] leading-snug font-semibold tracking-[-0.015em]" style={inter}>
                   {a.title}
@@ -391,7 +391,7 @@ function InsightsPage() {
                   {c.client}
                 </h3>
                 <div className="mt-4 space-y-3 text-[13.5px] leading-relaxed" style={inter}>
-                  <p className="text-[#111111]/45">
+                  <p className="text-[#111111]/55">
                     <span className="mr-2 text-[10px] tracking-[0.2em] uppercase" style={mono}>Before</span>
                     {c.before}
                   </p>
@@ -408,7 +408,7 @@ function InsightsPage() {
           ))}
         </div>
         <Reveal>
-          <p className="mt-4 text-[11px] text-[#111111]/35" style={inter}>
+          <p className="mt-4 text-[11px] text-[#111111]/50" style={inter}>
             Representative engagements — anonymized where clients prefer it. References on request.
           </p>
         </Reveal>

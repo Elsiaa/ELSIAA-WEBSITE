@@ -100,7 +100,7 @@ function LazyFrame({
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-[#ECECEA]">
           <span
-            className="text-[10px] tracking-[0.3em] text-black/30 uppercase"
+            className="text-[10px] tracking-[0.3em] text-black/50 uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             Loading live site…
@@ -117,7 +117,7 @@ function DialogNewPreview() {
     <div className="flex h-full w-full flex-col bg-white" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div className="flex items-center justify-between border-b border-black/5 px-8 py-5">
         <span className="text-lg font-bold tracking-tight text-[#111111]">
-          Dialog<span className="text-[#111111]/45"> Healthcare</span>
+          Dialog<span className="text-[#111111]/55"> Healthcare</span>
         </span>
         <span className="rounded-full bg-[#1e6b3c] px-5 py-2 text-[10px] font-semibold tracking-[0.18em] text-white uppercase">
           Request staff
@@ -151,7 +151,7 @@ function DialogNewPreview() {
       </div>
       <div className="flex items-center justify-between border-t border-black/5 px-8 py-4">
         <span
-          className="text-[10px] tracking-[0.26em] text-black/35 uppercase"
+          className="text-[10px] tracking-[0.26em] text-black/50 uppercase"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
           New site · in production
@@ -321,7 +321,7 @@ function Ticker() {
   const row = WORDS.map((w, i) => (
     <span key={i} className="flex items-center gap-8">
       <span
-        className="text-[12px] tracking-[0.32em] whitespace-nowrap text-[#111111]/45 uppercase"
+        className="text-[12px] tracking-[0.32em] whitespace-nowrap text-[#111111]/55 uppercase"
         style={{ fontFamily: "'IBM Plex Mono', monospace" }}
       >
         {w}
@@ -360,7 +360,7 @@ function SideToggle({
             key={k}
             onClick={() => setSide(k)}
             className={`rounded-full px-5 py-2 text-[10px] font-bold tracking-[0.2em] uppercase transition-all ${
-              side === k ? (k === "after" ? "bg-[#1e6b3c] text-white" : "bg-[#111111] text-white") : "text-black/45"
+              side === k ? (k === "after" ? "bg-[#1e6b3c] text-white" : "bg-[#111111] text-white") : "text-black/55"
             }`}
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
@@ -462,7 +462,7 @@ function DiscoverDesigns() {
                 href="https://primebins.com"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase underline-offset-4 hover:underline"
+                className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase underline-offset-4 hover:underline"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Open ↗
@@ -474,7 +474,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
                 <span className="h-2 w-2 rounded-full bg-[#57A85C]" />
                 <span
-                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[10px] tracking-[0.08em] text-black/45"
+                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[10px] tracking-[0.08em] text-black/55"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   primebins.com
@@ -491,7 +491,7 @@ function DiscoverDesigns() {
                 "No single path from interest to action",
                 "Busy visuals working against the sale",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/45" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "'Inter', sans-serif" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[10px] font-bold text-white">✕</span>
                   {t}
                 </li>
@@ -526,7 +526,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
                 <span className="h-2 w-2 rounded-full bg-[#57A85C]" />
                 <span
-                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[10px] tracking-[0.08em] text-black/45"
+                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[10px] tracking-[0.08em] text-black/55"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   mr. bins — by ELSIAA
@@ -640,7 +640,7 @@ function AfterApp({
               </svg>
               <div>
                 <p className="text-[13px] font-semibold text-[#111111]">{doneCount} of 3</p>
-                <p className="text-[10px] text-black/45">
+                <p className="text-[10px] text-black/55">
                   {doneCount === 3 ? "Day complete — streak grows" : "Finish the day, feed the streak"}
                 </p>
               </div>
@@ -657,7 +657,7 @@ function AfterApp({
                     className={`w-full rounded-t-sm transition-all duration-500 ${v === 3 ? "bg-[#1e6b3c]" : "bg-[#1e6b3c]/30"}`}
                     style={{ height: 14 + v * 12 }}
                   />
-                  <span className="text-[10px] tracking-wide text-black/40 uppercase">
+                  <span className="text-[10px] tracking-wide text-black/55 uppercase">
                     {["S", "M", "T", "W", "T", "F", "S"][i]}
                   </span>
                 </div>
@@ -665,7 +665,7 @@ function AfterApp({
             </div>
             <div className="rounded-xl bg-white p-3 shadow-sm">
               <p className="text-[10px] font-semibold text-[#111111]">{15 + doneCount} of 21 this week</p>
-              <p className="mt-0.5 text-[10px] text-black/45">Best week this month</p>
+              <p className="mt-0.5 text-[10px] text-black/55">Best week this month</p>
             </div>
           </div>
         )}
@@ -684,7 +684,7 @@ function AfterApp({
             </div>
             <div className="rounded-xl bg-white p-3 shadow-sm">
               <p className="text-[10px] font-semibold text-[#111111]">Abba is 2 ahead of you</p>
-              <p className="mt-0.5 text-[10px] text-black/45">Friendly competition, eternal rewards</p>
+              <p className="mt-0.5 text-[10px] text-black/55">Friendly competition, eternal rewards</p>
             </div>
           </div>
         )}
@@ -695,7 +695,7 @@ function AfterApp({
             key={t}
             onClick={() => setTab(i)}
             className={`flex-1 py-3 text-[10px] font-semibold tracking-[0.12em] uppercase transition-colors ${
-              tab === i ? "text-[#1e6b3c]" : "text-black/35"
+              tab === i ? "text-[#1e6b3c]" : "text-black/50"
             }`}
           >
             {t}
@@ -722,7 +722,7 @@ function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }
             {["Home", "About Us", "Our Services", "Photo Gallery", "Request Estimate", "Insurance Info", "Testimonials", "Service Areas", "Contact Us", "Terms of Use"].map((m) => (
               <div key={m} className="flex items-center justify-between border-b border-black/10 bg-white px-2.5 py-1.5">
                 <span className="text-[10px] text-[#3d3a33]">{m}</span>
-                <span className="text-[10px] text-black/30">›</span>
+                <span className="text-[10px] text-black/50">›</span>
               </div>
             ))}
           </div>
@@ -736,17 +736,17 @@ function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }
               </p>
             </div>
             <div className="bg-[#d6d0c0] p-2 text-center">
-              <p className="text-[10px] text-black/50">[ image failed to load ]</p>
+              <p className="text-[10px] text-black/60">[ image failed to load ]</p>
             </div>
             <div className="bg-[#d6d0c0] p-2 text-center">
-              <p className="text-[10px] text-black/50">[ image failed to load ]</p>
+              <p className="text-[10px] text-black/60">[ image failed to load ]</p>
             </div>
           </div>
         )}
         {tab === 2 && (
           <div className="bg-white p-2.5">
             <p className="text-[10px] font-bold text-[#3d3a33]">REQUEST AN ESTIMATE</p>
-            <p className="mt-1 text-[10px] leading-relaxed text-black/50">
+            <p className="mt-1 text-[10px] leading-relaxed text-black/60">
               Please fill out all 14 required fields. Estimates are processed within
               5-7 business days...
             </p>
@@ -777,7 +777,7 @@ function StoreBadges() {
   return (
     <div className="mt-5 flex items-center justify-center gap-3">
       <a
-        href="mailto:isya@elsiaa.com?subject=App%20design%20inquiry"
+        href="/quote"
         className="flex items-center gap-2.5 rounded-lg bg-[#111111] px-4 py-2 text-white transition-transform duration-200 hover:scale-[1.04]"
         aria-label="Download on the App Store"
       >
@@ -790,7 +790,7 @@ function StoreBadges() {
         </span>
       </a>
       <a
-        href="mailto:isya@elsiaa.com?subject=App%20design%20inquiry"
+        href="/quote"
         className="flex items-center gap-2.5 rounded-lg bg-[#111111] px-4 py-2 text-white transition-transform duration-200 hover:scale-[1.04]"
         aria-label="Get it on Google Play"
       >
@@ -938,7 +938,7 @@ function DiscoverApps() {
             It doesn&rsquo;t matter how good your backend is.
           </h2>
           <p
-            className="mx-auto mt-3 max-w-2xl text-center text-base text-[#111111]/50 md:text-xl"
+            className="mx-auto mt-3 max-w-2xl text-center text-base text-[#111111]/60 md:text-xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             If your target audience doesn&rsquo;t use your app because of poor design,
@@ -1033,7 +1033,7 @@ function DiscoverApps() {
             <p className="mt-4 text-center">
               <span
                 ref={pStatusRef}
-                className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase"
+                className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Watching the legacy app struggle…
@@ -1045,7 +1045,7 @@ function DiscoverApps() {
                 "The one thing users want is buried in a form",
                 "Broken galleries instead of a reason to trust",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/45" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "'Inter', sans-serif" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[10px] font-bold text-white">✕</span>
                   {t}
                 </li>
@@ -1228,7 +1228,7 @@ function ProductAdFeature() {
             <span className="text-[#1e6b3c]"> And art has a job.</span>
           </h2>
           <p
-            className="mt-4 max-w-2xl text-base leading-relaxed text-[#111111]/50 md:text-lg"
+            className="mt-4 max-w-2xl text-base leading-relaxed text-[#111111]/60 md:text-lg"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             The artist&rsquo;s job is to capture the core of what you want to
@@ -1236,7 +1236,7 @@ function ProductAdFeature() {
             possible. Complex? We know. That&rsquo;s why you leave it up to us.
           </p>
           <p
-            className="mt-3 max-w-2xl text-base leading-relaxed text-[#111111]/50 md:text-lg"
+            className="mt-3 max-w-2xl text-base leading-relaxed text-[#111111]/60 md:text-lg"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Everything that follows was designed meticulously for a client.
@@ -1302,7 +1302,7 @@ function ProductAdFeature() {
                 ))}
               </div>
               <a
-                href="mailto:isya@elsiaa.com?subject=Stage%20my%20product"
+                href="/quote"
                 className="group mt-8 inline-flex items-center gap-3 rounded-full border border-[#111111]/20 px-7 py-3 text-[11px] tracking-[0.26em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
@@ -1380,7 +1380,7 @@ const CASES: Mini[] = [
     after: (
       <div className="h-full w-full bg-white p-3" style={{ fontFamily: "'Inter', sans-serif" }}>
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-bold tracking-tight text-[#111111]">Dialog<span className="text-[#111111]/45"> Healthcare</span></span>
+          <span className="text-[10px] font-bold tracking-tight text-[#111111]">Dialog<span className="text-[#111111]/55"> Healthcare</span></span>
           <span className="rounded-full bg-[#1e6b3c] px-2.5 py-0.5 text-[10px] font-semibold tracking-[0.14em] text-white uppercase">Request staff</span>
         </div>
         <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.035em] text-[#111111]">The right clinician.<br />Placed in days, not months.</p>
@@ -1486,7 +1486,7 @@ function Transformations() {
           >
             Real websites, completely uplifted.
           </h2>
-          <p className="mt-3 max-w-xl text-base text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
             Every card leads with the after — the before sits small in the corner, where it belongs. Hover it to look closer.
           </p>
         </Reveal>
@@ -1518,7 +1518,7 @@ function Transformations() {
                     {c.name}
                   </h3>
                   <a
-                    href={c.link ?? "mailto:isya@elsiaa.com?subject=Case%20study%20request"}
+                    href={c.link ?? "/contact"}
                     target={c.link ? "_blank" : undefined}
                     rel={c.link ? "noreferrer" : undefined}
                     className="text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase transition-colors hover:text-[#2e9e58]"
@@ -1527,7 +1527,7 @@ function Transformations() {
                     {c.link ? "View original ↗" : "View case study →"}
                   </a>
                 </div>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
                   {c.desc}
                 </p>
               </div>
@@ -1671,7 +1671,7 @@ function BeyondWebsites() {
               </button>
             </div>
           </div>
-          <p className="mt-3 max-w-xl text-base text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
             Thirty-two applications of design, one standard. It never stops moving —
             neither do we.
           </p>
@@ -1704,7 +1704,7 @@ function BeyondWebsites() {
               {t}
             </h3>
             <p
-              className="mt-2 text-[13px] leading-relaxed text-[#111111]/50"
+              className="mt-2 text-[13px] leading-relaxed text-[#111111]/60"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {d}
@@ -1742,7 +1742,7 @@ function OurProcess() {
           >
             Every uplift runs the same road.
           </h2>
-          <p className="mt-3 max-w-xl text-base text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
             Six stages, one direction — from understanding your business to a living
             product that keeps getting better.
           </p>
@@ -1832,7 +1832,7 @@ function Results() {
               <Counter to={x.n} suffix={x.s} />
             </p>
             <p
-              className="mt-3 text-sm text-[#111111]/45"
+              className="mt-3 text-sm text-[#111111]/55"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {x.l}
@@ -1862,7 +1862,7 @@ function FinalCTA() {
           Ready to uplift your brand?
         </h2>
         <a
-          href="mailto:isya@elsiaa.com?subject=Strategy%20call%20request"
+          href="/contact"
           className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-9 py-3.5 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >

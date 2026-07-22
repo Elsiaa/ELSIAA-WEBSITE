@@ -36,7 +36,7 @@ function BigCaption({ children, sub }: { children: React.ReactNode; sub?: string
         </h2>
         {sub && (
           <p
-            className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[#111111]/50 md:text-xl"
+            className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[#111111]/60 md:text-xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             {sub}
@@ -502,7 +502,7 @@ function GraphicsSection() {
               </div>
             </TiltCard>
             <figcaption
-              className="mt-5 text-[11px] tracking-[0.3em] text-[#111111]/40 uppercase"
+              className="mt-5 text-[11px] tracking-[0.3em] text-[#111111]/55 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               Presented
@@ -570,7 +570,7 @@ function PreviousWork() {
         >
           Discover our previous work.
         </h2>
-        <p className="mt-3 max-w-xl text-base text-[#111111]/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
           Every piece on this page — the identity, the films, the experience you just
           scrolled — is our own work. The portfolio is the site.
         </p>
@@ -625,7 +625,7 @@ function ClosingCTA() {
         Your product deserves to look the part.
       </h2>
       <a
-        href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
+        href="/quote"
         className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-8 py-3 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
