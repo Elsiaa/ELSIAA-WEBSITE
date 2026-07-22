@@ -24,6 +24,8 @@ type AppEnv = {
   CONTAINER?: DurableObjectNamespace;
   HF_ENV?: string;
   APP_SLUG?: string;
+  // Site secrets (set via the platform, staged until next deploy)
+  ADMIN_KEY?: string;
 };
 
 export function bindings(): AppEnv {

@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as DesignsRouteImport } from './routes/designs'
@@ -21,6 +22,9 @@ import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ConceptWalkRouteImport } from './routes/concept-walk'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiQuotesRouteImport } from './routes/api/quotes'
+import { Route as ApiQuoteRouteImport } from './routes/api/quote'
+import { Route as AdminQuotesRouteImport } from './routes/admin/quotes'
 
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
@@ -45,6 +49,11 @@ const SearchRoute = SearchRouteImport.update({
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   id: '/robots.txt',
   path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuoteRoute = QuoteRouteImport.update({
+  id: '/quote',
+  path: '/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortalRoute = PortalRouteImport.update({
@@ -82,6 +91,21 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiQuotesRoute = ApiQuotesRouteImport.update({
+  id: '/api/quotes',
+  path: '/api/quotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiQuoteRoute = ApiQuoteRouteImport.update({
+  id: '/api/quote',
+  path: '/api/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminQuotesRoute = AdminQuotesRouteImport.update({
+  id: '/admin/quotes',
+  path: '/admin/quotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -91,11 +115,15 @@ export interface FileRoutesByFullPath {
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/portal': typeof PortalRoute
+  '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team': typeof TeamRoute
+  '/admin/quotes': typeof AdminQuotesRoute
+  '/api/quote': typeof ApiQuoteRoute
+  '/api/quotes': typeof ApiQuotesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -105,11 +133,15 @@ export interface FileRoutesByTo {
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/portal': typeof PortalRoute
+  '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team': typeof TeamRoute
+  '/admin/quotes': typeof AdminQuotesRoute
+  '/api/quote': typeof ApiQuoteRoute
+  '/api/quotes': typeof ApiQuotesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -120,11 +152,15 @@ export interface FileRoutesById {
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/portal': typeof PortalRoute
+  '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team': typeof TeamRoute
+  '/admin/quotes': typeof AdminQuotesRoute
+  '/api/quote': typeof ApiQuoteRoute
+  '/api/quotes': typeof ApiQuotesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -136,11 +172,15 @@ export interface FileRouteTypes {
     | '/designs'
     | '/insights'
     | '/portal'
+    | '/quote'
     | '/robots.txt'
     | '/search'
     | '/services'
     | '/sitemap.xml'
     | '/team'
+    | '/admin/quotes'
+    | '/api/quote'
+    | '/api/quotes'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -150,11 +190,15 @@ export interface FileRouteTypes {
     | '/designs'
     | '/insights'
     | '/portal'
+    | '/quote'
     | '/robots.txt'
     | '/search'
     | '/services'
     | '/sitemap.xml'
     | '/team'
+    | '/admin/quotes'
+    | '/api/quote'
+    | '/api/quotes'
   id:
     | '__root__'
     | '/'
@@ -164,11 +208,15 @@ export interface FileRouteTypes {
     | '/designs'
     | '/insights'
     | '/portal'
+    | '/quote'
     | '/robots.txt'
     | '/search'
     | '/services'
     | '/sitemap.xml'
     | '/team'
+    | '/admin/quotes'
+    | '/api/quote'
+    | '/api/quotes'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -179,11 +227,15 @@ export interface RootRouteChildren {
   DesignsRoute: typeof DesignsRoute
   InsightsRoute: typeof InsightsRoute
   PortalRoute: typeof PortalRoute
+  QuoteRoute: typeof QuoteRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SearchRoute: typeof SearchRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TeamRoute: typeof TeamRoute
+  AdminQuotesRoute: typeof AdminQuotesRoute
+  ApiQuoteRoute: typeof ApiQuoteRoute
+  ApiQuotesRoute: typeof ApiQuotesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -221,6 +273,13 @@ declare module '@tanstack/react-router' {
       path: '/robots.txt'
       fullPath: '/robots.txt'
       preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quote': {
+      id: '/quote'
+      path: '/quote'
+      fullPath: '/quote'
+      preLoaderRoute: typeof QuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portal': {
@@ -272,6 +331,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/quotes': {
+      id: '/api/quotes'
+      path: '/api/quotes'
+      fullPath: '/api/quotes'
+      preLoaderRoute: typeof ApiQuotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/quote': {
+      id: '/api/quote'
+      path: '/api/quote'
+      fullPath: '/api/quote'
+      preLoaderRoute: typeof ApiQuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/quotes': {
+      id: '/admin/quotes'
+      path: '/admin/quotes'
+      fullPath: '/admin/quotes'
+      preLoaderRoute: typeof AdminQuotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -283,11 +363,15 @@ const rootRouteChildren: RootRouteChildren = {
   DesignsRoute: DesignsRoute,
   InsightsRoute: InsightsRoute,
   PortalRoute: PortalRoute,
+  QuoteRoute: QuoteRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SearchRoute: SearchRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TeamRoute: TeamRoute,
+  AdminQuotesRoute: AdminQuotesRoute,
+  ApiQuoteRoute: ApiQuoteRoute,
+  ApiQuotesRoute: ApiQuotesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
