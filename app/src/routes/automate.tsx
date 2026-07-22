@@ -4,6 +4,7 @@ import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
 import { AUTOSOFT } from "../components/HomeRows";
 import { Seam, ProofDeck, Secretary } from "../components/automate-console";
+import { IntakeOS } from "../components/intake-os";
 
 export const Route = createFileRoute("/automate")({
   head: () => ({
@@ -192,24 +193,23 @@ function AutomatePage() {
         </div>
       </section>
 
-      {/* ---------- featured product ---------- */}
-      <section className="border-t border-black/[0.06] bg-white px-6 py-16 md:py-20">
+      {/* ---------- featured product: Intake OS (embedded) ---------- */}
+      <section className="border-t border-black/[0.06] bg-white px-6 py-24 md:py-28">
         <div className="mx-auto max-w-6xl">
           <Reveal>
-            <a href="/intake" className="group flex flex-col items-start justify-between gap-5 rounded-2xl border border-black/[0.09] bg-[#FBFBFA] p-6 transition-all hover:border-[#1e6b3c]/40 md:flex-row md:items-center md:p-8">
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-[10px] tracking-[0.28em] text-[#1e6b3c] uppercase" style={mono}>Featured product · Voice</span>
-                  <span className="rounded-full border border-[#1e6b3c]/30 px-2 py-0.5 text-[8.5px] font-bold tracking-[0.16em] text-[#1e6b3c] uppercase" style={mono}>Playable</span>
-                </div>
-                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl" style={inter}>Intake OS — the line that routes itself.</h3>
-                <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-[#111111]/60" style={inter}>
-                  A phone line that understands a caller in plain language, matches them to the right specialist, and books it — see the whole thing, front end and back end, and run a call yourself.
-                </p>
-              </div>
-              <span className="flex-none text-[12px] font-bold tracking-[0.16em] text-[#1e6b3c] uppercase group-hover:underline" style={mono}>Open the product →</span>
-            </a>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase" style={mono}>Featured product · Voice</p>
+              <span className="rounded-full border border-[#1e6b3c]/30 px-2.5 py-0.5 text-[9px] font-bold tracking-[0.18em] text-[#1e6b3c] uppercase" style={mono}>Playable</span>
+            </div>
+            <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>Intake OS — the line that routes itself.</h2>
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
+              A phone line that understands a caller in plain language, matches them to the right specialist, and books it — and asks instead of guessing when it isn't sure. Run a call; the left pane is the caller's line, the right pane is the system underneath.
+            </p>
+            <a href="/intake" className="mt-3 inline-block text-[11px] tracking-[0.22em] text-[#1e6b3c] uppercase hover:underline" style={mono}>Open the full product page →</a>
           </Reveal>
+          <div className="mt-10">
+            <IntakeOS />
+          </div>
         </div>
       </section>
 
