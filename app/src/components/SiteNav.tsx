@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LionWalker } from "./LionWalker";
 import { SiteSearch, SEARCH_INDEX } from "./SiteSearch";
+import { LangSwitcher } from "./LangSwitcher";
 
 /*
   ELSIAA site nav — fixed, minimal, on a solid white bar.
@@ -124,6 +125,10 @@ export function SiteNav() {
             >
               Get a Quote
             </a>
+            {/* language switcher */}
+            <div className={`${open ? "pointer-events-none opacity-0" : ""} transition-opacity`}>
+              <LangSwitcher />
+            </div>
             {/* search icon */}
             <button
               aria-label="Search"
