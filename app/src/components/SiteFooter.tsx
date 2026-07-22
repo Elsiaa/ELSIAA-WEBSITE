@@ -51,10 +51,7 @@ export function SiteFooter() {
           {/* brand + direct */}
           <div>
             <a href="/" className="group flex items-center gap-3" aria-label="ELSIAA — home">
-              <span className="relative flex h-[18px] w-[18px] items-center justify-center">
-                <span className="absolute inset-0 rotate-45 border border-[#111111]/80 transition-transform duration-500 group-hover:rotate-[135deg]" />
-                <span className="h-[4px] w-[4px] rotate-45 bg-[#1e6b3c]" />
-              </span>
+              <img src="/assets/elsiaa-lion.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
               <span
                 className="text-[15px] font-bold tracking-[0.34em] text-[#111111]"
                 style={inter}

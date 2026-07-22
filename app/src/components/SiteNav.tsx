@@ -79,11 +79,14 @@ export function SiteNav() {
             className="group pointer-events-auto flex items-center gap-3 transition-opacity hover:opacity-80"
             aria-label="ELSIAA — home"
           >
-            {/* mark: rotated square node with inner dot */}
-            <span className="relative flex h-[18px] w-[18px] items-center justify-center">
-              <span className={`absolute inset-0 rotate-45 border transition-transform duration-500 group-hover:rotate-[135deg] ${open ? "border-white/80" : "border-[#111111]/80"}`} />
-              <span className={`h-[4px] w-[4px] rotate-45 ${open ? "bg-white" : "bg-[#111111]"}`} />
-            </span>
+            {/* mark: ELSIAA geometric lion */}
+            <img
+              src="/assets/elsiaa-lion.png"
+              alt=""
+              width={40}
+              height={40}
+              className={`h-9 w-9 object-contain transition-opacity duration-300 ${open ? "opacity-0" : "opacity-100"}`}
+            />
             <span className="flex flex-col leading-none">
               <span
                 className={`text-[13px] font-semibold tracking-[0.42em] uppercase ${open ? "text-white" : "text-[#111111]"}`}
