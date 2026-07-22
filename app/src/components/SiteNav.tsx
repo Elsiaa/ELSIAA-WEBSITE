@@ -12,20 +12,20 @@ import { LangSwitcher } from "./LangSwitcher";
 */
 // Primary navigation — the only items in the top bar and the top of the menu.
 const PRIMARY = [
-  { label: "Services", href: "/services" },
-  { label: "Work", href: "/designs" },
-  { label: "Clients", href: "/clients" },
-  { label: "Insights", href: "/insights" },
+  { label: "Design", href: "/designs" },
+  { label: "Automate", href: "/automate" },
   { label: "Contact", href: "/contact" },
+  { label: "Client Login", href: "/portal" },
 ];
 // Secondary — everything else lives in the footer and the menu's "More" group.
 const MORE = [
-  { label: "Automate", href: "/automate" },
+  { label: "Services", href: "/services" },
+  { label: "Clients", href: "/clients" },
+  { label: "Insights", href: "/insights" },
   { label: "Locations", href: "/locations" },
   { label: "Team", href: "/team" },
   { label: "Careers", href: "/careers" },
   { label: "Store", href: "/store" },
-  { label: "Client Login", href: "/portal" },
 ];
 
 export function SiteNav() {
@@ -114,6 +114,13 @@ export function SiteNav() {
                 {l.label}
               </a>
             ))}
+            <a
+              href="/quote"
+              className={`hidden border px-5 py-2 text-[11px] tracking-[0.26em] uppercase transition-all duration-300 md:inline-block ${open ? "pointer-events-none opacity-0" : "border-[#111111]/30 text-[#111111] hover:border-[#111111] hover:bg-[#111111] hover:text-white"}`}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            >
+              Get a Quote
+            </a>
             {/* language switcher */}
             <div className={`${open ? "pointer-events-none opacity-0" : ""} transition-opacity`}>
               <LangSwitcher />
