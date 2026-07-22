@@ -333,8 +333,8 @@ function CountUp({ target }: { target: number }) {
 /* ---------- the opener: the world changed — hero + the count, one dark screen ---------- */
 function HomeHero() {
   return (
-    <section className="flex min-h-screen flex-col justify-between bg-white pt-12 pb-10 md:pt-16">
-      <div className="mx-auto mb-6 w-full max-w-6xl px-6">
+    <section className="flex min-h-screen flex-col justify-between bg-white pt-8 pb-8 md:pt-10">
+      <div className="mx-auto mb-4 w-full max-w-6xl px-6">
         <p
           className="border-b border-black/[0.06] pb-3 text-center text-[10px] tracking-[0.26em] text-[#111111]/55 uppercase"
           style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
@@ -352,14 +352,14 @@ function HomeHero() {
               ELSIAA · AI Done Better
             </p>
             <h1
-              className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl"
+              className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               The world changed.
               <span className="text-[#1e6b3c]"> AI is here.</span>
             </h1>
             <p
-              className="mt-5 max-w-xl text-[15.5px] leading-relaxed text-[#111111]/55 md:text-[17px]"
+              className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               We put AI to work in your business — real automation,
@@ -367,7 +367,7 @@ function HomeHero() {
               results.
             </p>
             <p
-              className="mt-5 max-w-xl text-[15px] leading-relaxed text-[#111111]/75"
+              className="mt-4 max-w-xl text-[14.5px] leading-relaxed text-[#111111]/75"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               <span className="font-semibold text-[#111111]">78% of companies already run AI</span>{" "}
@@ -382,7 +382,7 @@ function HomeHero() {
             </p>
             <a
               href="/contact"
-              className="mt-7 inline-block rounded-full bg-[#1e6b3c] px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#111111]"
+              className="mt-6 inline-block rounded-full bg-[#1e6b3c] px-8 py-3.5 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#111111]"
               style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               Book Free 20-Min Strategy Call →
@@ -419,7 +419,7 @@ function HomeHero() {
       </div>
 
       {/* the count — live adoption, industry by industry */}
-      <div className="mt-12">
+      <div className="mt-8">
         <div className="mx-auto w-full max-w-6xl px-6">
           <Reveal>
             <div className="flex items-baseline justify-between gap-4">
@@ -445,7 +445,7 @@ function HomeHero() {
               <a
                 key={st.industry}
                 href="/insights"
-                className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/40"
+                className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/40"
               >
                 <span
                   className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase"
@@ -454,13 +454,13 @@ function HomeHero() {
                   {st.industry}
                 </span>
                 <span
-                  className="mt-2 text-5xl font-semibold tracking-[-0.04em] text-[#111111]"
+                  className="mt-1.5 text-4xl font-semibold tracking-[-0.04em] text-[#111111]"
                   style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   <CountUp target={st.pct} />
                 </span>
                 <p
-                  className="mt-2.5 text-[12.5px] leading-relaxed text-[#111111]/55"
+                  className="mt-2 text-[12px] leading-relaxed text-[#111111]/55"
                   style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {st.line}

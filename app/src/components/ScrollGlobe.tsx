@@ -108,7 +108,12 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
         vel *= 0.94;
       }
       const auto = reduced ? 0 : t * 0.00006;
-      const scrollSpin = reduced ? 0 : window.scrollY * 0.0016;
+      // scroll-driven spin: complete ~2.6 full revolutions across the hero's
+      // visible scroll range, so you clearly see it turn at least twice, then
+      // hold once it scrolls out of view.
+      const range = Math.max(1, window.innerHeight * 1.3);
+      const prog = Math.min(1, Math.max(0, window.scrollY) / range);
+      const scrollSpin = reduced ? 0 : prog * 2.6 * Math.PI * 2;
       const yaw = 1.9 + auto + scrollSpin + dragYaw;
 
       const cx = px / 2;
