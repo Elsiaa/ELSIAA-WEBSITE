@@ -16,17 +16,22 @@ export type Product = {
   name: string;
   price: number;
   img: string;
-  tag: "Standard" | "City Line — Limited";
+  tag: "Day-to-Day" | "City Line — Limited" | "Old Money — Oversized";
   blurb: string;
 };
 
 export const PRODUCTS: Product[] = [
-  { id: "std-tee", name: "ELSIAA Tee", price: 58, img: "/assets/store/merch_tee.jpg", tag: "Standard", blurb: "Heavyweight black. The lion on the chest." },
-  { id: "std-pants", name: "ELSIAA Pants", price: 118, img: "/assets/store/merch_pants.jpg", tag: "Standard", blurb: "Tapered heavyweight fleece. The lion at the hip." },
-  { id: "city-ny", name: "New York Hoodie", price: 188, img: "/assets/store/merch_ny.jpg", tag: "City Line — Limited", blurb: "Bone heavyweight fleece. Where the pride began." },
-  { id: "city-la", name: "Los Angeles Tee", price: 148, img: "/assets/store/merch_la.jpg", tag: "City Line — Limited", blurb: "Stone heavyweight cotton. West coast chapter." },
-  { id: "city-ldn", name: "London Crewneck", price: 178, img: "/assets/store/merch_ldn.jpg", tag: "City Line — Limited", blurb: "Forest fleece, cream lion. The Mayfair run." },
+  { id: "dtd-fitted", name: "Fitted Professional Tee", price: 68, img: "/assets/store/dtd_fitted_black.jpg", tag: "Day-to-Day", blurb: "Jet black, cut sharp. Black · White · Grey." },
+  { id: "dtd-tailored", name: "Tailored Casual Tee", price: 64, img: "/assets/store/dtd_tailored_white.jpg", tag: "Day-to-Day", blurb: "Clean white, tailored ease. Black · White · Grey." },
+  { id: "dtd-oversized", name: "Relaxed Oversized Tee", price: 72, img: "/assets/store/dtd_oversized_grey.jpg", tag: "Day-to-Day", blurb: "Heather grey, slightly oversized for men. Black · White · Grey." },
+  { id: "std-pants", name: "ELSIAA Pants", price: 118, img: "/assets/store/merch_pants.jpg", tag: "Day-to-Day", blurb: "Tapered heavyweight fleece. The lion at the hip." },
+  { id: "city-ny", name: "New York Hoodie", price: 188, img: "/assets/store/city_ny_cobalt.jpg", tag: "City Line — Limited", blurb: "Electric cobalt. Where the pride began." },
+  { id: "city-la", name: "Los Angeles Tee", price: 148, img: "/assets/store/city_la_coral.jpg", tag: "City Line — Limited", blurb: "Sunset coral. West coast chapter." },
+  { id: "city-ldn", name: "London Crewneck", price: 178, img: "/assets/store/city_ldn_lilac.jpg", tag: "City Line — Limited", blurb: "Pop lilac. The Mayfair run." },
+  { id: "city-zrh", name: "Zürich Tee", price: 168, img: "/assets/store/city_zrh_swiss.jpg", tag: "City Line — Limited", blurb: "Swiss red, full cross. Zürich went crazy." },
   { id: "city-tlv", name: "Tel Aviv Tee", price: 148, img: "/assets/store/merch_tlv.jpg", tag: "City Line — Limited", blurb: "Sand heavyweight cotton. The Rothschild drop." },
+  { id: "om-ivory", name: "Old Money Tee — Ivory", price: 128, img: "/assets/store/om_ivory.jpg", tag: "Old Money — Oversized", blurb: "Oversized, drapey, one tiny crest. Restraint is the flex." },
+  { id: "om-navy", name: "Old Money Tee — Navy", price: 128, img: "/assets/store/om_navy.jpg", tag: "Old Money — Oversized", blurb: "Deep navy, gold-thread crest. Quiet since forever." },
 ];
 
 const SIZES = ["XS", "S", "M", "L", "XL"];
@@ -53,7 +58,7 @@ function ProductCard({ p, onAdd }: { p: Product; onAdd: (p: Product, size: strin
         <p className="text-[14px] font-medium text-[#111111]/80" style={mono}>${p.price}</p>
       </div>
       <p className="mt-0.5 text-[12.5px] text-[#111111]/45" style={inter}>{p.blurb}</p>
-      {p.tag !== "Standard" && (
+      {p.tag !== "Day-to-Day" && (
         <p className="mt-1 text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase" style={mono}>Limited</p>
       )}
       <div className="mt-3 flex items-center justify-between gap-2">
@@ -133,8 +138,9 @@ export function StoreFront() {
     }
   };
 
-  const standard = PRODUCTS.filter((p) => p.tag === "Standard");
-  const city = PRODUCTS.filter((p) => p.tag !== "Standard");
+  const standard = PRODUCTS.filter((p) => p.tag === "Day-to-Day");
+  const city = PRODUCTS.filter((p) => p.tag === "City Line — Limited");
+  const oldMoney = PRODUCTS.filter((p) => p.tag === "Old Money — Oversized");
 
   return (
     <div>
@@ -150,7 +156,11 @@ export function StoreFront() {
 
       {/* standard line */}
       <div className="mt-14">
-        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>The Standard</p>
+        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>The Day-to-Day · Black / White / Grey</p>
+        <p className="mt-2 max-w-xl text-[14px] text-[#111111]/50" style={inter}>
+          Three fits, one palette. Fitted professional, tailored casual, and
+          slightly oversized for men — every piece in black, white, or grey.
+        </p>
         <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {standard.map((p) => <ProductCard key={p.id} p={p} onAdd={add} />)}
         </div>
@@ -160,10 +170,22 @@ export function StoreFront() {
       <div className="mt-16">
         <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>The City Line · Limited</p>
         <p className="mt-2 max-w-xl text-[14px] text-[#111111]/50" style={inter}>
-          One drop per office. When a city sells out, it's gone.
+          Europe, New York, Los Angeles — pop modern colors, one drop per city. When a city sells out, it's gone.
         </p>
         <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {city.map((p) => <ProductCard key={p.id} p={p} onAdd={add} />)}
+        </div>
+      </div>
+
+      {/* old money line */}
+      <div className="mt-16">
+        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>Old Money · Oversized</p>
+        <p className="mt-2 max-w-xl text-[14px] text-[#111111]/50" style={inter}>
+          The restrained ones. Oversized tees, heavyweight drape, a single tiny
+          crest — and not one thing more.
+        </p>
+        <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          {oldMoney.map((p) => <ProductCard key={p.id} p={p} onAdd={add} />)}
         </div>
       </div>
 

@@ -9,7 +9,7 @@ export const Route = createFileRoute("/store")({
       {
         name: "description",
         content:
-          "Discover ELSIAA merch — a line of clothing the creator would wear. The standard lion tee and pants, plus the limited City Line.",
+          "Discover ELSIAA merch — the Day-to-Day line in black, white, and grey; the limited City Line in pop colors for Europe, New York, and LA; and the restrained Old Money oversized tees.",
       },
       { property: "og:title", content: "ELSIAA Merch — The Store" },
       { property: "og:image", content: "/assets/store/merch_hero.jpg" },

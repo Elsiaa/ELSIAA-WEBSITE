@@ -1183,8 +1183,8 @@ function ScrollScrubVideo() {
         <div className="w-full overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_60px_130px_-60px_rgba(17,17,17,0.35)]">
           <video
             ref={videoRef}
-            src="/assets/design_assembly_white_v2.mp4"
-            poster="/assets/design_assembly_white_poster_v2.jpg"
+            src="/assets/design_brand_white_v3.mp4"
+            poster="/assets/design_brand_white_poster_v3.jpg"
             muted
             playsInline
             preload="auto"
@@ -1195,8 +1195,8 @@ function ScrollScrubVideo() {
           className="mt-5 max-w-xl text-center text-sm leading-relaxed text-[#111111]/55 md:text-base"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          Scroll — and watch an ELSIAA design assemble itself: wireframe,
-          type, color, and interface converging, layer by layer.
+          Scroll — one identity, carried onto every object. A tee, a mug, a
+          mark: this is what clean branding looks like when ELSIAA does it.
         </p>
       </div>
     </div>

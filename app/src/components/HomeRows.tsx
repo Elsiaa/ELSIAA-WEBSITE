@@ -734,12 +734,17 @@ function Team() {
 
 /* ---------- the merch strip: one clean line + carousel ---------- */
 const MERCH = [
-  { img: "/assets/store/merch_tee.jpg", name: "ELSIAA Tee", price: "$58" },
+  { img: "/assets/store/dtd_fitted_black.jpg", name: "Fitted Professional Tee", price: "$68" },
+  { img: "/assets/store/dtd_tailored_white.jpg", name: "Tailored Casual Tee", price: "$64" },
+  { img: "/assets/store/dtd_oversized_grey.jpg", name: "Relaxed Oversized Tee", price: "$72" },
   { img: "/assets/store/merch_pants.jpg", name: "ELSIAA Pants", price: "$118" },
-  { img: "/assets/store/merch_ny.jpg", name: "New York Hoodie", price: "$188" },
-  { img: "/assets/store/merch_la.jpg", name: "Los Angeles Tee", price: "$148" },
-  { img: "/assets/store/merch_ldn.jpg", name: "London Crewneck", price: "$178" },
+  { img: "/assets/store/city_ny_cobalt.jpg", name: "New York Hoodie", price: "$188" },
+  { img: "/assets/store/city_la_coral.jpg", name: "Los Angeles Tee", price: "$148" },
+  { img: "/assets/store/city_ldn_lilac.jpg", name: "London Crewneck", price: "$178" },
+  { img: "/assets/store/city_zrh_swiss.jpg", name: "Zürich Tee", price: "$168" },
   { img: "/assets/store/merch_tlv.jpg", name: "Tel Aviv Tee", price: "$148" },
+  { img: "/assets/store/om_ivory.jpg", name: "Old Money Tee — Ivory", price: "$128" },
+  { img: "/assets/store/om_navy.jpg", name: "Old Money Tee — Navy", price: "$128" },
 ];
 
 function MerchStrip() {
