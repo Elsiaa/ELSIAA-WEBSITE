@@ -230,12 +230,12 @@ function DivisionRow({
 
 /* ---------- AI industry statistics ---------- */
 const STATS = [
-  { pct: 78, industry: "All industries", line: "of organizations now use AI in at least one business function." },
-  { pct: 66, industry: "Healthcare", line: "of physicians report using health AI tools in their practice." },
-  { pct: 91, industry: "Finance", line: "of financial firms are deploying or assessing AI today." },
-  { pct: 71, industry: "Marketing", line: "of marketing teams use generative AI at least weekly." },
-  { pct: 63, industry: "Retail", line: "of retailers attribute measurable revenue lift to AI." },
-  { pct: 55, industry: "Manufacturing", line: "of manufacturers apply AI across production and operations." },
+  { pct: 78, industry: "All industries", line: "of organizations already run AI in at least one business function. The other 22% are competing against it." },
+  { pct: 66, industry: "Healthcare", line: "of physicians already practice with AI at their side. Medicine didn't wait for permission." },
+  { pct: 91, industry: "Finance", line: "of financial firms are deploying or assessing AI right now. The desks that aren't are being priced out." },
+  { pct: 71, industry: "Marketing", line: "of marketing teams ship with generative AI weekly. Entire creative departments, compressed into a prompt." },
+  { pct: 63, industry: "Retail", line: "of retailers already bank revenue they attribute to AI. The registers learned faster than the staff." },
+  { pct: 55, industry: "Manufacturing", line: "of manufacturers run AI on the production floor. The night shift doesn't sleep anymore — it computes." },
 ];
 
 function CountUp({ target }: { target: number }) {
@@ -273,27 +273,27 @@ function CountUp({ target }: { target: number }) {
   );
 }
 
-/* ---------- the opener: the world changed ---------- */
+/* ---------- the opener: the world changed — hero + the count, one dark screen ---------- */
 function HomeHero() {
   return (
-    <section className="bg-white pt-36 pb-16 md:pt-44 md:pb-24">
+    <section className="flex min-h-screen flex-col justify-between bg-[#0a0a0a] pt-28 pb-10 md:pt-32">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
           <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+            className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             ELSIAA · AI Done Better
           </p>
           <h1
-            className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl"
+            className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-white md:text-6xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             The world changed.
-            <span className="text-[#1e6b3c]"> AI is here.</span>
+            <span className="text-[#2e9e58]"> AI is here.</span>
           </h1>
           <p
-            className="mt-5 max-w-xl text-[16px] leading-relaxed text-[#111111]/55 md:text-[17px]"
+            className="mt-5 max-w-xl text-[15.5px] leading-relaxed text-white/55 md:text-[17px]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             We work with you to implement AI — integrating cutting-edge
@@ -301,7 +301,86 @@ function HomeHero() {
             business.
           </p>
         </Reveal>
-        <div className="mt-10 grid grid-cols-1 gap-3 md:grid-cols-2">
+      </div>
+
+      {/* the count — live adoption, industry by industry */}
+      <div className="mt-12">
+        <div className="mx-auto w-full max-w-6xl px-6">
+          <Reveal>
+            <div className="flex items-baseline justify-between gap-4">
+              <p
+                className="text-[12px] tracking-[0.28em] text-white/40 uppercase"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Right now, while you read this
+              </p>
+              <a
+                href="/insights"
+                className="flex-none text-[11px] tracking-[0.24em] text-[#2e9e58] uppercase hover:underline"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Read the research ↗
+              </a>
+            </div>
+          </Reveal>
+        </div>
+        <div className="mt-5">
+          <Rail drift={0.4}>
+            {[...STATS, ...STATS].map((s, i) => (
+              <a
+                key={`${s.industry}-${i}`}
+                href="/insights"
+                className="group flex w-[260px] flex-none flex-col rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#2e9e58]/50"
+              >
+                <span
+                  className="text-[10px] tracking-[0.24em] text-[#2e9e58] uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  {s.industry}
+                </span>
+                <span
+                  className="mt-2 text-5xl font-semibold tracking-[-0.04em] text-[#2e9e58]"
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    textShadow: "0 0 28px rgba(46,158,88,0.45)",
+                  }}
+                >
+                  <CountUp target={s.pct} />
+                </span>
+                <p
+                  className="mt-2.5 text-[12.5px] leading-relaxed text-white/55"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {s.line}
+                </p>
+              </a>
+            ))}
+          </Rail>
+        </div>
+        <div className="mx-auto w-full max-w-6xl px-6">
+          <Reveal>
+            <p
+              className="mt-4 text-[13.5px] text-white/45"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              The question isn't whether AI takes the work — it's who's
+              holding it when it does.{" "}
+              <a href="/contact" className="font-medium text-[#2e9e58] hover:underline">
+                Make sure it's you →
+              </a>
+            </p>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeroCards() {
+  return (
+    <section className="bg-white py-14 md:py-20">
+      <div className="mx-auto w-full max-w-6xl px-6">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <Reveal delay={0.05}>
             <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-7">
               <h2
@@ -338,63 +417,6 @@ function HomeHero() {
               </p>
             </div>
           </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function StatsSection() {
-  return (
-    <section className="bg-white pt-32 pb-14 md:pt-36 md:pb-16">
-      <div className="mx-auto max-w-6xl px-6">
-        <Reveal>
-          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Intelligence
-          </p>
-          <div className="mt-2 flex items-baseline justify-between gap-4">
-            <h2 className="text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl" style={{ fontFamily: "'Inter', sans-serif" }}>
-              AI is not coming. It's here.
-            </h2>
-            <a
-              href="/insights"
-              className="hidden flex-none text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline md:block"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              Read the research ↗
-            </a>
-          </div>
-          <p className="mt-3 max-w-md text-[15px] text-[#111111]/50">
-            What adoption actually looks like, industry by industry.
-          </p>
-        </Reveal>
-        <div className="mt-10">
-          <Rail drift={0.4}>
-            {[...STATS, ...STATS].map((s, i) => (
-              <a
-                key={`${s.industry}-${i}`}
-                href="/insights"
-                className="group flex w-[250px] flex-none flex-col rounded-xl border border-black/[0.07] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35"
-              >
-                <span className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                  {s.industry}
-                </span>
-                <span className="mt-2 text-5xl font-semibold tracking-[-0.04em] text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  <CountUp target={s.pct} />
-                </span>
-                <p className="mt-2.5 text-[12.5px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  {s.line}
-                </p>
-              </a>
-            ))}
-          </Rail>
-          <a
-            href="/insights"
-            className="mt-4 inline-block px-2 text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline md:hidden"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            Read the research ↗
-          </a>
         </div>
       </div>
     </section>
@@ -787,7 +809,8 @@ function MerchStrip() {
 export function HomeRows() {
   return (
     <main className="bg-white">
-      <HomeHero />\n      <StatsSection />
+      <HomeHero />
+      <HeroCards />
       <DivisionRow
         n="01"
         title="Design"

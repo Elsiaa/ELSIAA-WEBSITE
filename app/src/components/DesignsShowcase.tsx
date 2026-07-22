@@ -1176,6 +1176,16 @@ function ProductAdFeature() {
             artists leverages the strongest AI there is to build the best
             possible design, for every client.
           </p>
+          <p
+            className="mt-5 max-w-2xl border-l-2 border-[#1e6b3c] pl-4 text-base leading-relaxed font-medium text-[#111111]/75 md:text-lg"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Because the point of your business is to close the sale. Pour
+            everything into backend code, and generic AI front-end design will
+            still quietly kill it — if the UI/UX is bad, visitors don&rsquo;t
+            become customers. And that&rsquo;s a real shame, because
+            it&rsquo;s entirely avoidable.
+          </p>
         </Reveal>
 
         {/* the PRIME transformation — big after, small before */}
