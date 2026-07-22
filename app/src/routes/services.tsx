@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
-import { DESIGN, AUTOMATION, SOFTWARE, CONSULTATION } from "../components/HomeRows";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -73,93 +72,36 @@ function Reveal({
 const PRODUCTS = [
   {
     num: "01",
-    cat: "Web presence",
-    name: "Websites",
-    price: "From $3,800",
-    popular: false,
+    name: "Website Domination",
+    price: "Starting at $12k",
+    outcome: "Typical 3–5× ROI in 90 days",
     blurb:
-      "Conversion-focused sites built around one job: turning visitors into inquiries. Every scroll designed with intent — you've seen ours.",
-    points: [
-      "Marketing sites, landing pages, e-commerce",
-      "Interactive scroll experiences that sell",
-      "Built to convert, measured to prove it",
-    ],
-    cta: { label: "Explore designs", href: "/designs" },
+      "High-converting websites and landing pages engineered to turn traffic into pipeline.",
   },
   {
     num: "02",
-    cat: "Mobile & software",
-    name: "Apps & Custom Software",
-    price: "From $12,000",
-    popular: false,
+    name: "Operations Overhaul",
+    price: "Starting at $18k",
+    outcome: "Clients average 40–70% time reduction",
     blurb:
-      "Native-feeling mobile apps and bespoke software your team actually enjoys using — designed, built, and shipped end to end.",
-    points: [
-      "iOS and Android app design and development",
-      "Internal tools and client-facing platforms",
-      "UI/UX your developers can build from",
-    ],
-    cta: { label: "Start a build", href: "mailto:isya@elsiaa.com?subject=App%20%2F%20software%20project" },
+      "Ruthless automation of repetitive work across sales, finance, support, and back office.",
+    popular: true,
   },
   {
     num: "03",
-    cat: "Operations",
-    name: "AI Automation",
-    price: "From $2,500",
-    popular: true,
+    name: "Full AI Transformation",
+    price: "Starting at $35k",
+    outcome: "For companies ready to lead",
     blurb:
-      "Workflows that run themselves. We find the repetitive work inside your business and hand it to systems that never call in sick.",
-    points: [
-      "Follow-ups, reporting, research, client communication",
-      "Built around a real process in your business",
-      "Your team trained to manage and extend it",
-    ],
-    cta: { label: "Automate something", href: "mailto:isya@elsiaa.com?subject=Automation%20inquiry" },
+      "End-to-end AI agents, custom software, and secure infrastructure — fully insured.",
   },
   {
     num: "04",
-    cat: "Foundation",
-    name: "AI Infrastructure",
-    price: "From $8,000",
-    popular: false,
+    name: "Retained Partnership",
+    price: "Custom monthly retainer",
+    outcome: "Priority execution, every month",
     blurb:
-      "The layer underneath: model integrations, data pipelines, and the systems that let every future AI project ship faster than the last.",
-    points: [
-      "LLM integrations built into your stack",
-      "Secure, maintainable, documented",
-      "Foundation once — leverage forever",
-    ],
-    cta: { label: "Lay the foundation", href: "mailto:isya@elsiaa.com?subject=AI%20infrastructure" },
-  },
-  {
-    num: "05",
-    cat: "Direction",
-    name: "AI Consultation",
-    price: "From $450",
-    popular: false,
-    blurb:
-      "A working session with ELSIAA leadership: we map where AI actually pays off in your business — and where it doesn't.",
-    points: [
-      "One hour, straight answers",
-      "A prioritized roadmap you keep",
-      "No pitch — just the map",
-    ],
-    cta: { label: "Book a session", href: "mailto:isya@elsiaa.com?subject=Consultation%20request" },
-  },
-  {
-    num: "06",
-    cat: "Partnership",
-    name: "Ongoing Partnership",
-    price: "From $6,000/mo",
-    popular: false,
-    blurb:
-      "ELSIAA as your standing design and AI team — leadership, implementation, and every service above, on call.",
-    points: [
-      "Fractional AI and design leadership",
-      "Priority build capacity every month",
-      "One partner across web, apps, and automation",
-    ],
-    cta: { label: "Talk partnership", href: "mailto:isya@elsiaa.com?subject=Partnership%20inquiry" },
+      "ELSIAA as your on-demand AI + design team with priority execution every month.",
   },
 ];
 
@@ -188,13 +130,26 @@ function ServiceChip({
 }
 
 function Services() {
-  const DIVISIONS = [
-    { key: "Design", groups: DESIGN },
-    { key: "Automation", groups: AUTOMATION },
-    { key: "Software", groups: SOFTWARE },
-    { key: "Consultation", groups: CONSULTATION },
+  const PILLARS = [
+    {
+      key: "Design",
+      tagline: "World-class visuals that don't look AI-generated.",
+      img: "/assets/design_brand_white_poster_v3.jpg",
+      items: ["Websites & Landing Pages", "UI/UX & SaaS Interfaces", "Full Branding Systems", "Marketing Assets & Motion", "3D Renders & E-commerce"],
+    },
+    {
+      key: "Automation & Software",
+      tagline: "Systems that run while you sleep.",
+      img: "/assets/robot_work_v5_poster.jpg",
+      items: ["Sales & CRM Automation", "Operations & Document AI", "Custom AI Agents & Chatbots", "Internal Tools & Dashboards", "Native Mobile Apps", "Infrastructure & Integrations"],
+    },
+    {
+      key: "Consultation & Strategy",
+      tagline: "No-BS advice from people who've done it.",
+      img: "/assets/consult_live_poster_v2.jpg",
+      items: ["AI Roadmapping", "Digital Transformation", "Technical Due Diligence", "Fractional AI Leadership", "Process Audits & Training"],
+    },
   ];
-  const [tab, setTab] = useState(0);
   const [selected, setSelected] = useState<string[]>([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -267,8 +222,10 @@ function Services() {
           >
             Build. Automate. Dominate.
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-[#111111]/50" style={inter}>
-            Pick the services you need. Talk to us about them right here.
+          <p className="mx-auto mt-5 max-w-xl text-lg text-[#111111]/60" style={inter}>
+            We don't sell pilots. We ship production-grade AI systems that
+            give you unfair advantages — automation, design, software, and
+            strategy your competitors are afraid of.
           </p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             <button
@@ -297,51 +254,40 @@ function Services() {
               The Solutions
             </p>
             <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl" style={inter}>
-              See what we offer. Tap what you need.
+              Pick your weapons.
             </h2>
             <p className="mt-3 max-w-xl text-[15px] text-[#111111]/50" style={inter}>
-              Tap up to six services — they attach to your inquiry.
+              Tap up to six — they attach to your inquiry.
             </p>
           </Reveal>
 
-          {/* division tabs */}
-          <Reveal delay={0.08}>
-            <div className="mt-9 flex flex-wrap gap-2">
-              {DIVISIONS.map((d, i) => (
-                <button
-                  key={d.key}
-                  onClick={() => setTab(i)}
-                  className={`rounded-full px-6 py-2.5 text-[11px] font-bold tracking-[0.2em] uppercase transition-all duration-200 ${
-                    tab === i
-                      ? "bg-[#111111] text-white"
-                      : "border border-black/10 bg-white text-[#111111]/60 hover:border-[#111111]/40 hover:text-[#111111]"
-                  }`}
-                  style={mono}
-                >
-                  {d.key}
-                </button>
-              ))}
-            </div>
-          </Reveal>
-
-          {/* groups + chips */}
-          <div className="mt-8 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-            {DIVISIONS[tab].groups.map((g) => (
-              <div key={`${DIVISIONS[tab].key}-${g.name}`}>
-                <p className="text-[10px] tracking-[0.26em] text-[#1e6b3c] uppercase" style={mono}>
-                  {g.name}
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {g.items.map((it) => (
-                    <ServiceChip
-                      key={it}
-                      label={it}
-                      active={selected.includes(it)}
-                      onToggle={() => toggle(it)}
-                    />
-                  ))}
+          <div className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3">
+            {PILLARS.map((pl, i) => (
+              <Reveal key={pl.key} delay={0.05 + i * 0.05}>
+                <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.07] bg-white transition-all duration-300 hover:border-[#1e6b3c]/35">
+                  <div className="h-[150px] overflow-hidden border-b border-black/[0.05] bg-white">
+                    <img src={pl.img} alt="" loading="lazy" className="h-full w-full object-cover" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="text-[19px] font-semibold tracking-[-0.02em]" style={inter}>
+                      {pl.key}
+                    </h3>
+                    <p className="mt-1 text-[13.5px] text-[#111111]/50" style={inter}>
+                      {pl.tagline}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {pl.items.map((it) => (
+                        <ServiceChip
+                          key={it}
+                          label={it}
+                          active={selected.includes(it)}
+                          onToggle={() => toggle(it)}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
 
@@ -447,27 +393,31 @@ function Services() {
         </div>
       </section>
 
-      {/* the six boxes */}
+      {/* the packages */}
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
-              The Packages
+              Service Packages
             </p>
             <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl" style={inter}>
-              Or pick the box that matches the problem.
+              Four ways in.
             </h2>
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {PRODUCTS.map((pd, i) => (
-              <Reveal key={pd.num} delay={i * 0.04}>
-                <div className="flex h-full flex-col rounded-2xl border border-black/[0.07] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/40 hover:shadow-[0_24px_60px_-30px_rgba(17,17,17,0.3)]">
+              <Reveal key={pd.num} delay={i * 0.05}>
+                <div className={`flex h-full flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 ${
+                  pd.popular
+                    ? "border-[#1e6b3c] bg-[#111111] text-white shadow-[0_30px_70px_-30px_rgba(30,107,60,0.55)]"
+                    : "border-black/[0.07] bg-white hover:border-[#1e6b3c]/40 hover:shadow-[0_24px_60px_-30px_rgba(17,17,17,0.3)]"
+                }`}>
                   <div className="flex items-baseline justify-between">
-                    <p className="text-[10px] tracking-[0.28em] text-[#1e6b3c] uppercase" style={mono}>
-                      {pd.num} · {pd.cat}
+                    <p className={`text-[10px] tracking-[0.28em] uppercase ${pd.popular ? "text-[#2e9e58]" : "text-[#1e6b3c]"}`} style={mono}>
+                      {pd.num}
                     </p>
-                    {(pd as { popular?: boolean }).popular && (
-                      <span className="rounded-full bg-[#1e6b3c] px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] text-white uppercase" style={mono}>
+                    {pd.popular && (
+                      <span className="rounded-full bg-[#2e9e58] px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] text-white uppercase" style={mono}>
                         Most popular
                       </span>
                     )}
@@ -475,27 +425,28 @@ function Services() {
                   <h3 className="mt-2.5 text-[19px] font-semibold tracking-[-0.02em]" style={inter}>
                     {pd.name}
                   </h3>
-                  <p className="mt-1 text-[12px] font-medium text-[#1e6b3c]" style={mono}>
-                    {(pd as { price?: string }).price}
-                  </p>
-                  <p className="mt-2 text-[13.5px] leading-relaxed text-[#111111]/55" style={inter}>
+                  <p className={`mt-3 text-[13.5px] leading-relaxed ${pd.popular ? "text-white/65" : "text-[#111111]/55"}`} style={inter}>
                     {pd.blurb}
                   </p>
-                  <ul className="mt-3.5 flex-1 space-y-1.5">
-                    {pd.points.map((pt) => (
-                      <li key={pt} className="flex gap-2 text-[13px] text-[#111111]/65" style={inter}>
-                        <span className="text-[#1e6b3c]">—</span>
-                        {pt}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href={pd.cta.href}
-                    className="mt-4 inline-block text-[11px] tracking-[0.22em] text-[#1e6b3c] uppercase hover:underline"
-                    style={mono}
-                  >
-                    {pd.cta.label} →
-                  </a>
+                  <div className="mt-auto pt-5">
+                    <p className={`text-[14px] font-semibold ${pd.popular ? "text-white" : "text-[#111111]"}`} style={mono}>
+                      {pd.price}
+                    </p>
+                    <p className={`mt-1 text-[12px] ${pd.popular ? "text-[#2e9e58]" : "text-[#1e6b3c]"}`} style={inter}>
+                      {pd.outcome}
+                    </p>
+                    <button
+                      onClick={jumpToForm}
+                      className={`mt-4 w-full rounded-full px-4 py-3 text-[10.5px] font-bold tracking-[0.18em] uppercase transition-all ${
+                        pd.popular
+                          ? "bg-[#2e9e58] text-white hover:bg-white hover:text-[#111111]"
+                          : "border border-[#111111]/20 text-[#111111] hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+                      }`}
+                      style={mono}
+                    >
+                      Start here →
+                    </button>
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -507,18 +458,18 @@ function Services() {
       <section className="bg-[#070907] px-6 py-24 text-center text-[#F5F5F3]">
         <Reveal>
           <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl" style={inter}>
-            Not sure which box? That's the free call.
+            20 minutes. No pitch. Real answers.
           </h2>
           <p className="mx-auto mt-4 max-w-md text-[15px] text-white/50" style={inter}>
-            20 minutes with ELSIAA leadership — a straight answer on where AI
-            pays off for you.
+            Tell us your biggest bottleneck and we'll show you exactly where
+            AI wins.
           </p>
           <a
             href="/contact"
-            className="mt-8 inline-block rounded-full bg-[#2e9e58] px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]"
+            className="mt-8 inline-block rounded-full bg-[#2e9e58] px-10 py-5 text-[13px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]"
             style={mono}
           >
-            Book the free call →
+            Book Free Strategy Call →
           </a>
         </Reveal>
       </section>
