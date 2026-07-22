@@ -48,6 +48,27 @@ const DICT: Record<string, Row> = {
 
   // ---- hero ----
   "The world changed.": { es: "El mundo cambió.", fr: "Le monde a changé.", de: "Die Welt hat sich verändert.", ru: "Мир изменился.", nl: "De wereld is veranderd.", he: "העולם השתנה.", yi: "די וועלט האָט זיך געביטן." },
+  "AI is here.": { es: "La IA ya está aquí.", fr: "L'IA est là.", de: "KI ist da.", ru: "ИИ уже здесь.", nl: "AI is er.", he: "‏AI כבר כאן.", yi: "‏AI איז שוין דאָ." },
+  "Good artists don't use AI — they leverage it. World-class design for every surface of your business.": {
+    es: "Los buenos artistas no usan la IA: la aprovechan. Diseño de primer nivel para cada superficie de tu negocio.",
+    fr: "Les bons artistes n'utilisent pas l'IA : ils s'en servent comme levier. Un design de classe mondiale pour chaque surface de votre entreprise.",
+    de: "Gute Künstler benutzen KI nicht — sie nutzen sie als Hebel. Weltklasse-Design für jede Fläche Ihres Unternehmens.",
+    ru: "Хорошие художники не используют ИИ — они усиливают им себя. Дизайн мирового класса для каждой поверхности вашего бизнеса.",
+    nl: "Goede kunstenaars gebruiken AI niet — ze benutten haar. Ontwerp van wereldklasse voor elk vlak van uw bedrijf.",
+    he: "אמנים טובים לא משתמשים בבינה מלאכותית — הם ממנפים אותה. עיצוב ברמה עולמית לכל משטח בעסק שלך.",
+    yi: "גוטע קינסטלער נוצן נישט קינסטלעכע אינטעליגענץ — זיי הייבן זיך דערמיט. וועלט־קלאַס דיזײַן פֿאַר יעדער פֿלאַך פֿון אײַער געשעפֿט.",
+  },
+  "Strategy, technology, business, product, growth — book a seat at the table.": {
+    es: "Estrategia, tecnología, negocio, producto, crecimiento: reserva un lugar en la mesa.",
+    fr: "Stratégie, technologie, business, produit, croissance — réservez votre place à la table.",
+    de: "Strategie, Technologie, Business, Produkt, Wachstum — sichern Sie sich einen Platz am Tisch.",
+    ru: "Стратегия, технологии, бизнес, продукт, рост — займите место за столом.",
+    nl: "Strategie, technologie, business, product, groei — reserveer een plek aan tafel.",
+    he: "אסטרטגיה, טכנולוגיה, עסק, מוצר, צמיחה — שריינו מקום ליד השולחן.",
+    yi: "סטראַטעגיע, טעכנאָלאָגיע, ביזנעס, פּראָדוקט, וווּקס — פֿאַרשרײַבט אַ פּלאַץ בײַם טיש.",
+  },
+  "Book Consultation ↗": { es: "Reservar consultoría ↗", fr: "Réserver un conseil ↗", de: "Beratung buchen ↗", ru: "Записаться на консультацию ↗", nl: "Advies boeken ↗", he: "לקביעת ייעוץ ↗", yi: "פֿאַרשרײַבט אַ קאָנסולטאַציע ↗" },
+  "Meet the leadership →": { es: "Conoce al equipo directivo →", fr: "Rencontrer la direction →", de: "Die Führung kennenlernen →", ru: "Познакомиться с руководством →", nl: "Ontmoet de leiding →", he: "להכיר את ההנהלה →", yi: "טרעפֿט די פֿירערשאַפֿט →" },
   "We put AI to work in your business — real automation, world-class design, custom software, and strategy that delivers results.": {
     es: "Ponemos la IA a trabajar en tu negocio: automatización real, diseño de primer nivel, software a medida y estrategia que da resultados.",
     fr: "Nous mettons l'IA au service de votre entreprise : automatisation réelle, design de classe mondiale, logiciels sur mesure et une stratégie qui produit des résultats.",
