@@ -19,7 +19,7 @@ type Demo = {
   pitch: string;
   steps: [string, string, string];
   cta: { label: string; href: string; external?: boolean };
-  media: { kind: "video"; src: string; poster: string } | { kind: "site"; src: string; zoom?: number };
+  media: { kind: "video"; src: string; poster: string } | { kind: "site"; src: string; zoom?: number } | { kind: "shot"; src: string; href: string };
 };
 
 const DEMOS: Demo[] = [
@@ -45,7 +45,7 @@ const DEMOS: Demo[] = [
       "Request staff in a form that respects your time",
     ],
     cta: { label: "Visit dialoghealthcare.com", href: "https://dialoghealthcare.com", external: true },
-    media: { kind: "site", src: "https://dialoghealthcare.com", zoom: 0.5 },
+    media: { kind: "shot", src: "/assets/demos/dialog.jpg", href: "https://dialoghealthcare.com" },
   },
   {
     eyebrow: "Professional services · Live site",
@@ -57,7 +57,7 @@ const DEMOS: Demo[] = [
       "One unmistakable path to the consultation",
     ],
     cta: { label: "View the live build", href: "https://elbaz-law.higgsfield.app", external: true },
-    media: { kind: "site", src: "https://elbaz-law.higgsfield.app", zoom: 0.5 },
+    media: { kind: "shot", src: "/assets/demos/elbaz.jpg", href: "https://elbaz-law.higgsfield.app" },
   },
   {
     eyebrow: "Construction · Live site",
@@ -69,7 +69,7 @@ const DEMOS: Demo[] = [
       "Contact routes that reach a person, not a queue",
     ],
     cta: { label: "Visit psiconstructionpa.com", href: "https://www.psiconstructionpa.com", external: true },
-    media: { kind: "site", src: "https://www.psiconstructionpa.com", zoom: 0.5 },
+    media: { kind: "shot", src: "/assets/demos/psi.jpg", href: "https://www.psiconstructionpa.com" },
   },
 ];
 
@@ -94,6 +94,18 @@ function DemoMedia({ demo, active }: { demo: Demo; active: boolean }) {
         className="h-full w-full object-cover"
         aria-label={`${demo.name} — recorded walkthrough`}
       />
+    );
+  }
+  if (demo.media.kind === "shot") {
+    return (
+      <a href={demo.media.href} target="_blank" rel="noreferrer" className="block h-full w-full">
+        <img
+          src={demo.media.src}
+          alt={`${demo.name} — live site`}
+          loading="lazy"
+          className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-[1.02]"
+        />
+      </a>
     );
   }
   const zoom = demo.media.zoom ?? 0.5;
