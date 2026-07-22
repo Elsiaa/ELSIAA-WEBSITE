@@ -52,6 +52,14 @@ function ContactPage() {
           <p className="mt-2 max-w-xl text-[15px] text-[#111111]/45" style={inter}>
             Tell us your business — we integrate the AI that runs it.
           </p>
+          <p className="mt-6 text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase" style={mono}>
+            <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
+            <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
+            <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
+            <b className="font-semibold text-[#1e6b3c]">I</b>nnovation ·{" "}
+            <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
+            <b className="font-semibold text-[#1e6b3c]">A</b>lliance
+          </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a href="#book" className="inline-flex items-center justify-center rounded-full bg-[#1e6b3c] px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-[#111111]" style={mono}>
               Book a free 20-min call
@@ -81,13 +89,38 @@ function ContactPage() {
         </div>
       </section>
 
-      {/* 3 · Direct contact */}
-      <section className="border-t border-black/[0.06] px-6 py-12">
+      {/* 3 · Direct contact — corporate email + phone cards */}
+      <section className="border-t border-black/[0.06] px-6 py-16 md:py-20">
         <div className="mx-auto max-w-5xl">
-          <p className="text-[15px] text-[#111111]/60" style={inter}>
-            Or email us directly at{" "}
-            <a href="mailto:info@elsiaa.com" className="font-medium text-[#1e6b3c] underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40">info@elsiaa.com</a>.
-          </p>
+          <p className={eyebrow} style={mono}>Reach us directly</p>
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {/* email */}
+            <Reveal>
+              <a href="mailto:info@elsiaa.com" className="group flex h-full items-center gap-5 rounded-2xl border border-black/[0.08] bg-white p-6 transition-all hover:border-[#1e6b3c]/40 md:p-7">
+                <span className="flex h-12 w-12 flex-none items-center justify-center rounded-xl bg-[#1e6b3c]/[0.08]">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[10px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Email</span>
+                  <span className="mt-1 block text-[17px] font-semibold tracking-[-0.01em] text-[#111111] group-hover:text-[#1e6b3c]" style={inter}>info@elsiaa.com</span>
+                  <span className="mt-0.5 block text-[13px] text-[#111111]/55" style={inter}>Or email us directly at info@elsiaa.com.</span>
+                </span>
+              </a>
+            </Reveal>
+            {/* phone — corporate imagery */}
+            <Reveal delay={0.08}>
+              <a href="#book" className="group flex h-full items-center gap-5 rounded-2xl border border-black/[0.08] bg-white p-6 transition-all hover:border-[#1e6b3c]/40 md:p-7">
+                <span className="flex h-12 w-12 flex-none items-center justify-center rounded-xl bg-[#1e6b3c]/[0.08]">
+                  <PhoneMark />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[10px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>By phone</span>
+                  <span className="mt-1 block text-[17px] font-semibold tracking-[-0.01em] text-[#111111] group-hover:text-[#1e6b3c]" style={inter}>Book a call, we'll ring you</span>
+                  <span className="mt-0.5 block text-[13px] text-[#111111]/55" style={inter}>Pick a time below and we'll call at the number you share.</span>
+                </span>
+              </a>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -144,6 +177,17 @@ function ContactPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+/* corporate phone imagery — a clean line-art handset, on brand */
+function PhoneMark() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6.5 2h11a1.5 1.5 0 0 1 1.5 1.5v17A1.5 1.5 0 0 1 17.5 22h-11A1.5 1.5 0 0 1 5 20.5v-17A1.5 1.5 0 0 1 6.5 2Z" />
+      <path d="M10 5.5h4" />
+      <path d="M12 18.6h.01" />
+    </svg>
   );
 }
 

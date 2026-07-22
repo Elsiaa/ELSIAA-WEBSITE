@@ -65,6 +65,14 @@ export function SiteFooter() {
             <p className="mt-2 text-[10px] tracking-[0.3em] text-[#111111]/55 uppercase" style={mono}>
               — AI Done Better
             </p>
+            <p className="mt-3 text-[10px] leading-relaxed tracking-[0.18em] text-[#111111]/50 uppercase" style={mono}>
+              <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
+              <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
+              <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
+              <b className="font-semibold text-[#1e6b3c]">I</b>nnovation ·{" "}
+              <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
+              <b className="font-semibold text-[#1e6b3c]">A</b>lliance
+            </p>
             <p className="mt-5 max-w-xs text-[13px] leading-relaxed text-[#111111]/60" style={inter}>
               Design, automation, software, and consultation — four divisions,
               one standard.
