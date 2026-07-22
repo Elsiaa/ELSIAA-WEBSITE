@@ -107,25 +107,27 @@ const ADVISORY = [
   },
   {
     name: "Dr. Edward Margolin, MD",
-    role: "Professor of Medicine, University of Toronto",
+    role: "Professor, University of Toronto",
     init: "EM",
-    line: "Advises on clinical standards and medical product direction from one of North America's leading faculties of medicine.",
+    line: "Professor in the Dept. of Ophthalmology & Visual Sciences and the Division of Neurology, and Director of the Neuro-Ophthalmology and Strabismus Fellowship — clinical rigor behind ELSIAA's medical work.",
   },
 ];
 
 function Portrait({ init }: { init: string }) {
   return (
-    <div className="relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-[#161616] to-[#0c0c0c]">
+    <div className="relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-xl border border-black/[0.06] bg-[#FAFAF8] transition-colors duration-300 group-hover:border-[#1e6b3c]/25">
       {/* placeholder portrait — photography incoming */}
-      <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#2e9e58" strokeOpacity="0.5" strokeWidth="1.2">
-        <circle cx="12" cy="8" r="4" />
-        <path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" />
-      </svg>
       <span
-        className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[11px] tracking-[0.3em] text-white/35 uppercase"
-        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        className="text-6xl font-semibold tracking-[-0.04em] text-[#1e6b3c]/25 transition-colors duration-300 group-hover:text-[#1e6b3c]/45"
+        style={{ fontFamily: "'Inter', sans-serif" }}
       >
         {init}
+      </span>
+      <span
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.3em] text-[#111111]/30 uppercase"
+        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+      >
+        ELSIAA
       </span>
     </div>
   );
@@ -191,6 +193,29 @@ function TeamPage() {
             advisory board — one standard across five offices and three
             continents.
           </p>
+          <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-black/[0.06] pt-6">
+            {[
+              ["08", "Leaders & advisors"],
+              ["06", "Cities on the ground"],
+              ["03", "Continents"],
+              ["24/7", "Support, every timezone"],
+            ].map(([n, l]) => (
+              <div key={l}>
+                <p
+                  className="text-2xl font-semibold tracking-[-0.03em] text-[#111111]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {n}
+                </p>
+                <p
+                  className="mt-1 text-[10px] tracking-[0.22em] text-[#111111]/40 uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  {l}
+                </p>
+              </div>
+            ))}
+          </div>
         </Reveal>
       </section>
 
@@ -198,10 +223,10 @@ function TeamPage() {
       <section className="mx-auto max-w-6xl px-6 py-14 md:py-16">
         <Reveal>
           <h2
-            className="text-[11px] tracking-[0.28em] text-[#111111]/40 uppercase"
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Executive team
+            01 · Executive Team
           </h2>
         </Reveal>
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -215,10 +240,10 @@ function TeamPage() {
       <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-14 md:py-16">
         <Reveal>
           <h2
-            className="text-[11px] tracking-[0.28em] text-[#111111]/40 uppercase"
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Advisory board
+            02 · Medical & Strategic Advisory
           </h2>
         </Reveal>
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -237,13 +262,22 @@ function TeamPage() {
           >
             Want a seat at this table?
           </p>
-          <a
-            href="/careers"
-            className="mt-5 inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-[#1e6b3c]"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            We are hiring →
-          </a>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/careers"
+              className="inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-[#1e6b3c]"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              We are hiring →
+            </a>
+            <a
+              href="/contact"
+              className="inline-flex items-center gap-3 rounded-full border border-[#111111]/15 px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Talk to the team
+            </a>
+          </div>
           <p
             className="mt-12 text-[11px] tracking-[0.2em] text-[#111111]/35 uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}

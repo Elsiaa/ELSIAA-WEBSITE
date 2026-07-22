@@ -678,7 +678,7 @@ function Locations() {
             className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            04 · Locations
+            05 · Locations
           </p>
           <div className="mt-4 flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#2e9e58]/50 bg-[#2e9e58]/10">
@@ -765,7 +765,7 @@ function Team() {
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            06 · Who we are
+            04 · Who we are
           </p>
           <h2
             className="mt-3 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
@@ -838,7 +838,7 @@ function MerchStrip() {
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            05 · The Store
+            06 · The Store
           </p>
           <h2
             className="mt-2 max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
@@ -982,9 +982,9 @@ export function HomeRows() {
           </>
         }
       />
+      <Team />
       <Locations />
       <MerchStrip />
-      <Team />
       <FinalCTA />
     </main>
   );
