@@ -132,135 +132,359 @@ const ARTICLES = [
   },
 ];
 
+const AUTHORS: Record<string, { name: string; photo: string }> = {
+  Healthcare: { name: "Dr. Esther Krug, MD", photo: "/assets/team/ek.jpg" },
+  Finance: { name: "Mendel Parnas", photo: "/assets/team/mp.jpg" },
+  Marketing: { name: "Izzy Eisenberg", photo: "/assets/team/ie.jpg" },
+  Operations: { name: "David Heimowitz", photo: "/assets/team/dh.jpg" },
+  Strategy: { name: "Yisrael Krug", photo: "/assets/team/yk.jpg" },
+};
+
+const CASES = [
+  {
+    tag: "Design · Web",
+    client: "Mr. Bins — waste management",
+    before: "Dated site, no mobile path, quotes by phone tag.",
+    after: "Full brand + conversion site rebuilt; quote flow reduced to two steps.",
+    metric: "2× faster quote flow",
+  },
+  {
+    tag: "Automation · Healthcare",
+    client: "Multi-clinic group (anonymized)",
+    before: "Front desk buried in intake forms, scheduling, and documentation.",
+    after: "Intake, scheduling, and note drafting automated around the existing EHR.",
+    metric: "60% less admin time",
+  },
+  {
+    tag: "Automation · Retail",
+    client: "E-commerce brand (anonymized)",
+    before: "Manual product imagery and static pricing across 4,000 SKUs.",
+    after: "Staged product renders + automated pricing and forecasting loops.",
+    metric: "31% conversion lift",
+  },
+];
+
+function readTime(body: string) {
+  return `${Math.max(2, Math.round(body.split(/\s+/).length / 200))} min read`;
+}
+
+function RoiCalculator() {
+  const [team, setTeam] = useState(5);
+  const [rate, setRate] = useState(45);
+  const [hours, setHours] = useState(8);
+  const [pct, setPct] = useState(70);
+  const yearlyHours = Math.round(team * hours * 52 * (pct / 100));
+  const yearlySavings = Math.round(yearlyHours * rate);
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
+  const inter = { fontFamily: "'Inter', sans-serif" } as const;
+  const Row = ({ label, value, suffix, min, max, step, onChange }: { label: string; value: number; suffix: string; min: number; max: number; step: number; onChange: (n: number) => void }) => (
+    <div className="py-3">
+      <div className="flex items-baseline justify-between">
+        <p className="text-[13px] text-[#111111]/60" style={inter}>{label}</p>
+        <p className="text-[14px] font-semibold tabular-nums" style={mono}>{value}{suffix}</p>
+      </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="mt-2 w-full accent-[#1e6b3c]"
+        aria-label={label}
+      />
+    </div>
+  );
+  return (
+    <div className="grid grid-cols-1 overflow-hidden rounded-2xl border border-black/[0.07] bg-white md:grid-cols-2">
+      <div className="border-b border-black/[0.06] p-7 md:border-r md:border-b-0">
+        <Row label="People touching repetitive work" value={team} suffix="" min={1} max={50} step={1} onChange={setTeam} />
+        <Row label="Average fully-loaded hourly cost" value={rate} suffix=" $/h" min={20} max={150} step={5} onChange={setRate} />
+        <Row label="Repetitive hours per person, weekly" value={hours} suffix=" h" min={1} max={30} step={1} onChange={setHours} />
+        <Row label="Share we can automate" value={pct} suffix="%" min={30} max={90} step={5} onChange={setPct} />
+      </div>
+      <div className="flex flex-col justify-center p-7 text-center">
+        <p className="text-[10px] tracking-[0.28em] text-[#111111]/40 uppercase" style={mono}>Recovered annually</p>
+        <p className="mt-3 text-5xl font-semibold tracking-[-0.04em] text-[#1e6b3c]" style={inter}>
+          ${yearlySavings.toLocaleString()}
+        </p>
+        <p className="mt-2 text-[14px] text-[#111111]/55" style={inter}>
+          ≈ {yearlyHours.toLocaleString()} hours of capacity, every year
+        </p>
+        <a
+          href="/contact"
+          className="mx-auto mt-6 rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-[#111111]"
+          style={mono}
+        >
+          Reclaim these hours →
+        </a>
+        <p className="mt-3 text-[11px] text-[#111111]/35" style={inter}>
+          Directional estimate — the free call makes it precise.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function InsightsPage() {
-  const [open, setOpen] = useState<number | null>(0);
+  const [filter, setFilter] = useState("All industries");
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
+  const inter = { fontFamily: "'Inter', sans-serif" } as const;
+  const industries = STATS.map((s) => s.industry);
+  const shown = filter === "All industries" ? STATS : STATS.filter((s) => s.industry === filter || s.industry === "All industries");
+  const featured = ARTICLES[0];
+  const rest = ARTICLES.slice(1);
   return (
     <main className="min-h-screen bg-white text-[#111111]">
       <SiteNav />
+
       {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-40 pb-6 md:pt-44">
-        <Reveal>
-          <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            Intelligence
-          </p>
-          <h1
-            className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            AI, measured.
-          </h1>
-          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/55">
-            What adoption actually looks like across the industries we serve —
-            the numbers, and what they mean for your business.
-          </p>
-        </Reveal>
+      <section className="mx-auto max-w-6xl px-6 pt-40 pb-10 md:pt-44">
+        <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-[minmax(0,1fr)_420px]">
+          <Reveal>
+            <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+              ELSIAA Insights
+            </p>
+            <h1 className="mt-3 max-w-2xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={inter}>
+              The state of AI, without the hype.
+            </h1>
+            <p className="mt-4 max-w-lg text-[15.5px] leading-relaxed text-[#111111]/55" style={inter}>
+              What adoption actually looks like across industries, what the
+              returns honestly are, and how to move before your competitors do.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-8">
+              <a
+                href="/contact"
+                className="rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-[#111111]"
+                style={mono}
+              >
+                Book Free Strategy Call →
+              </a>
+              <div className="flex gap-8">
+                {[
+                  { n: 78, l: "Adoption" },
+                  { n: 91, l: "Finance" },
+                  { n: 66, l: "Healthcare" },
+                ].map((st) => (
+                  <div key={st.l}>
+                    <p className="text-xl font-semibold tracking-[-0.02em]" style={inter}>
+                      <CountUp target={st.n} />
+                    </p>
+                    <p className="mt-0.5 text-[10px] tracking-[0.2em] text-[#111111]/40 uppercase" style={mono}>
+                      {st.l}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <img
+              src="/assets/insights_hero_line.jpg"
+              alt="Chaos resolving into a single clear line"
+              className="hidden w-full md:block"
+              loading="eager"
+            />
+          </Reveal>
+        </div>
       </section>
 
-      {/* stats grid */}
-      <section className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-          {STATS.map((s, i) => (
-            <Reveal key={s.industry} delay={i * 0.05}>
-              <div className="flex h-full flex-col rounded-xl border border-black/[0.07] bg-white p-5">
-                <span
-                  className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
+      {/* stats — filterable */}
+      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 md:py-20">
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+                The Numbers
+              </p>
+              <h2 className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
+                Adoption, industry by industry.
+              </h2>
+            </div>
+            <p className="text-[11px] text-[#111111]/35" style={inter}>
+              Compiled from published industry surveys · Updated July 2026
+            </p>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {industries.map((ind) => (
+              <button
+                key={ind}
+                onClick={() => setFilter(ind)}
+                className={`rounded-full px-5 py-2 text-[11.5px] transition-all duration-200 ${
+                  filter === ind
+                    ? "bg-[#111111] text-white"
+                    : "border border-black/10 bg-white text-[#111111]/60 hover:border-[#111111]/40 hover:text-[#111111]"
+                }`}
+                style={inter}
+              >
+                {ind}
+              </button>
+            ))}
+          </div>
+        </Reveal>
+        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {shown.map((s, i) => (
+            <Reveal key={s.industry} delay={i * 0.04}>
+              <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-6">
+                <p className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase" style={mono}>
                   {s.industry}
-                </span>
-                <span
-                  className="mt-2 text-5xl font-semibold tracking-[-0.04em] md:text-6xl"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
+                </p>
+                <p className="mt-2 text-5xl font-semibold tracking-[-0.04em]" style={inter}>
                   <CountUp target={s.pct} />
-                </span>
-                <p className="mt-2.5 text-[12.5px] leading-relaxed text-[#111111]/55">
+                </p>
+                <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-black/[0.06]">
+                  <div className="h-full rounded-full bg-[#1e6b3c]" style={{ width: `${s.pct}%` }} />
+                </div>
+                <p className="mt-3 text-[13px] leading-relaxed text-[#111111]/55" style={inter}>
                   {s.line}
                 </p>
               </div>
             </Reveal>
           ))}
         </div>
-        <p className="mt-3 text-[11px] text-[#111111]/35">
-          Figures reflect published industry surveys, 2024–2025. Rounded.
-        </p>
       </section>
 
-      {/* articles */}
-      <section className="mx-auto max-w-4xl px-6 py-14 md:py-16">
+      {/* from the desk */}
+      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 md:py-20">
         <Reveal>
-          <h2
-            className="text-[11px] tracking-[0.28em] text-[#111111]/40 uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            From the desk
+          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+            From the Desk
+          </p>
+          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
+            What we're telling clients this quarter.
           </h2>
         </Reveal>
-        <div className="mt-6 space-y-3">
-          {ARTICLES.map((a, i) => (
-            <Reveal key={a.title} delay={i * 0.04}>
-              <article className="overflow-hidden rounded-xl border border-black/[0.07] bg-white">
-                <button
-                  onClick={() => setOpen(open === i ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 p-5 text-left transition-colors hover:bg-black/[0.015]"
-                >
-                  <div>
-                    <span
-                      className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                    >
-                      {a.tag}
-                    </span>
-                    <h3
-                      className="mt-1.5 text-[16px] font-semibold tracking-[-0.01em] md:text-lg"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
-                      {a.title}
-                    </h3>
-                  </div>
-                  <span
-                    className={`flex h-8 w-8 flex-none items-center justify-center rounded-full border border-black/10 text-[13px] transition-all duration-300 ${
-                      open === i ? "rotate-45 border-[#1e6b3c] bg-[#1e6b3c] text-white" : "text-[#111111]/50"
-                    }`}
-                  >
-                    +
+        {/* featured */}
+        <Reveal delay={0.06}>
+          <article className="mt-8 grid grid-cols-1 overflow-hidden rounded-2xl border border-black/[0.07] bg-white md:grid-cols-[380px_minmax(0,1fr)]">
+            <div className="border-b border-black/[0.05] bg-[#FAFAF8] md:border-r md:border-b-0">
+              <img src="/assets/pillar_consult.jpg" alt="" loading="lazy" className="h-full min-h-[220px] w-full object-cover" />
+            </div>
+            <div className="p-7 md:p-9">
+              <div className="flex items-center gap-3">
+                <span className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>
+                  {featured.tag}
+                </span>
+                <span className="text-[11px] text-[#111111]/40" style={inter}>{readTime(featured.body)}</span>
+              </div>
+              <h3 className="mt-3 text-[22px] leading-snug font-semibold tracking-[-0.02em] md:text-[26px]" style={inter}>
+                {featured.title}
+              </h3>
+              <p className="mt-3 line-clamp-4 text-[14px] leading-relaxed text-[#111111]/55" style={inter}>
+                {featured.body}
+              </p>
+              <div className="mt-5 flex items-center gap-3">
+                <img src={AUTHORS[featured.tag]?.photo} alt="" className="h-9 w-9 rounded-full border border-black/[0.06] object-cover" />
+                <p className="text-[12.5px] text-[#111111]/60" style={inter}>{AUTHORS[featured.tag]?.name}</p>
+              </div>
+            </div>
+          </article>
+        </Reveal>
+        {/* the rest */}
+        <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+          {rest.map((a, i) => (
+            <Reveal key={a.title} delay={0.05 + i * 0.04}>
+              <article className="flex h-full flex-col rounded-2xl border border-black/[0.07] bg-white p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/30">
+                <div className="flex items-center gap-3">
+                  <span className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>
+                    {a.tag}
                   </span>
-                </button>
-                {open === i && (
-                  <div className="border-t border-black/[0.05] px-5 pt-4 pb-6">
-                    <p className="text-[14.5px] leading-[1.8] text-[#111111]/70" style={{ fontFamily: "'Inter', sans-serif" }}>
-                      {a.body}
-                    </p>
-                  </div>
-                )}
+                  <span className="text-[11px] text-[#111111]/40" style={inter}>{readTime(a.body)}</span>
+                </div>
+                <h3 className="mt-3 text-[18px] leading-snug font-semibold tracking-[-0.015em]" style={inter}>
+                  {a.title}
+                </h3>
+                <p className="mt-2.5 line-clamp-3 flex-1 text-[13.5px] leading-relaxed text-[#111111]/55" style={inter}>
+                  {a.body}
+                </p>
+                <div className="mt-4 flex items-center gap-2.5">
+                  <img src={AUTHORS[a.tag]?.photo} alt="" className="h-8 w-8 rounded-full border border-black/[0.06] object-cover" />
+                  <p className="text-[12px] text-[#111111]/55" style={inter}>{AUTHORS[a.tag]?.name}</p>
+                </div>
               </article>
             </Reveal>
           ))}
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 text-center">
+      {/* case studies */}
+      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 md:py-20">
         <Reveal>
-          <p className="text-lg font-semibold tracking-[-0.02em] md:text-2xl" style={{ fontFamily: "'Inter', sans-serif" }}>
-            Your industry is on this page. Your competitors are already moving.
+          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+            In the Field
+          </p>
+          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
+            Before and after.
+          </h2>
+        </Reveal>
+        <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
+          {CASES.map((c, i) => (
+            <Reveal key={c.client} delay={i * 0.05}>
+              <div className="flex h-full flex-col rounded-2xl border border-black/[0.07] bg-white p-7">
+                <p className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase" style={mono}>
+                  {c.tag}
+                </p>
+                <h3 className="mt-2 text-[16.5px] font-semibold tracking-[-0.015em]" style={inter}>
+                  {c.client}
+                </h3>
+                <div className="mt-4 space-y-3 text-[13.5px] leading-relaxed" style={inter}>
+                  <p className="text-[#111111]/45">
+                    <span className="mr-2 text-[10px] tracking-[0.2em] uppercase" style={mono}>Before</span>
+                    {c.before}
+                  </p>
+                  <p className="text-[#111111]/70">
+                    <span className="mr-2 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>After</span>
+                    {c.after}
+                  </p>
+                </div>
+                <p className="mt-auto pt-5 text-[22px] font-semibold tracking-[-0.02em] text-[#1e6b3c]" style={inter}>
+                  {c.metric}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal>
+          <p className="mt-4 text-[11px] text-[#111111]/35" style={inter}>
+            Representative engagements — anonymized where clients prefer it. References on request.
+          </p>
+        </Reveal>
+      </section>
+
+      {/* roi calculator */}
+      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 md:py-20">
+        <Reveal>
+          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+            Do the Math
+          </p>
+          <h2 className="mt-3 max-w-xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
+            What is repetitive work costing you?
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="mt-8">
+            <RoiCalculator />
+          </div>
+        </Reveal>
+      </section>
+
+      {/* final cta */}
+      <section className="bg-[#070907] px-6 py-24 text-center text-[#F5F5F3]">
+        <Reveal>
+          <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl" style={inter}>
+            Your competitors are already in here.
+          </h2>
+          <p className="mx-auto mt-4 max-w-md text-[15px] text-white/50" style={inter}>
+            Book your map — 20 minutes, no pitch, a straight answer on where
+            AI pays off for you.
           </p>
           <a
-            href="/#book"
-            className="mt-5 inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-[#1e6b3c]"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            href="/contact"
+            className="mt-8 inline-block rounded-full bg-[#2e9e58] px-10 py-5 text-[13px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]"
+            style={mono}
           >
-            Book a free 20-minute call →
+            Book Free Strategy Call →
           </a>
-          <p
-            className="mt-12 text-[11px] tracking-[0.2em] text-[#111111]/35 uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            בעזרת ה׳ נעשה ונצליח
-          </p>
         </Reveal>
       </section>
     </main>
