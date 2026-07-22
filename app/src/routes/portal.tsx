@@ -364,7 +364,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
                     {p.amount}
                   </span>
                   <span
-                    className="rounded-full px-3 py-1 text-[9px] font-bold tracking-[0.16em] uppercase"
+                    className="rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.16em] uppercase"
                     style={{
                       ...mono,
                       color: p.status === "Due" ? "#E53E3E" : c.accent,

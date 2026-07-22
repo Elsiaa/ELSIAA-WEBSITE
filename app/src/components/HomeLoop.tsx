@@ -139,7 +139,7 @@ export function HomeLoop() {
               </span>
             </div>
             <span
-              className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-[9px] font-bold tracking-[0.22em] text-[#111111] uppercase backdrop-blur"
+              className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold tracking-[0.22em] text-[#111111] uppercase backdrop-blur"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               ELSIAA

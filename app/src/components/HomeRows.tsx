@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AssemblingArtist } from "./AssemblingArtist";
 import { LiveGraphic } from "./LiveGraphic";
 import { WorkingRobot } from "./WorkingRobot";
+import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 
 /* ============================================================
    ELSIAA homepage — built from Isya's notebook sketch 06/20/26
@@ -338,29 +339,57 @@ function HomeHero() {
   return (
     <section className="flex min-h-screen flex-col justify-between bg-white pt-28 pb-10 md:pt-32">
       <div className="mx-auto w-full max-w-6xl px-6">
-        <Reveal>
-          <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            ELSIAA · AI Done Better
-          </p>
-          <h1
-            className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            The world changed.
-            <span className="text-[#1e6b3c]"> AI is here.</span>
-          </h1>
-          <p
-            className="mt-5 max-w-xl text-[15.5px] leading-relaxed text-[#111111]/55 md:text-[17px]"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            We work with you to implement AI — integrating cutting-edge
-            solutions, automation, and software services into every kind of
-            business.
-          </p>
-        </Reveal>
+        <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_400px]">
+          <Reveal>
+            <p
+              className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              ELSIAA · AI Done Better
+            </p>
+            <h1
+              className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              The world changed.
+              <span className="text-[#1e6b3c]"> AI is here.</span>
+            </h1>
+            <p
+              className="mt-5 max-w-xl text-[15.5px] leading-relaxed text-[#111111]/55 md:text-[17px]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              We put AI to work in your business — design, automation,
+              software, and the strategy behind them.
+            </p>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="hidden md:block">
+              <ScrollGlobe size={400} />
+              <div className="mt-2 flex items-start justify-center gap-10">
+                {[
+                  { n: 6, suffix: "", label: "Cities on site" },
+                  { n: 3, suffix: "", label: "Continents" },
+                  { n: 24, suffix: "/7", label: "Support" },
+                ].map((st) => (
+                  <div key={st.label} className="text-center">
+                    <p
+                      className="text-2xl font-semibold tracking-[-0.03em] text-[#111111]"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      <CountTo target={st.n} suffix={st.suffix} />
+                    </p>
+                    <p
+                      className="mt-1 text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase"
+                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                    >
+                      {st.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </div>
       </div>
 
       {/* the count — live adoption, industry by industry */}
@@ -458,9 +487,8 @@ function HeroCards() {
                 className="mt-2.5 text-[14.5px] leading-relaxed text-[#111111]/55"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                AI is an algorithm that learns your data — and bends to your
-                use case. Sales, operations, medicine, law: any workflow a
-                mind can run, we can teach a model to run with it.
+                If your team can run the workflow, we can teach a model to run
+                it with them — sales, operations, medicine, law.
               </p>
             </div>
           </Reveal>
@@ -476,9 +504,8 @@ function HeroCards() {
                 className="mt-2.5 text-[14.5px] leading-relaxed text-[#111111]/55"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                Is your AI-built healthcare program insured? It holds
-                thousands of patients&rsquo; records. Every ELSIAA build ships
-                hardened, tested, and covered — so the answer is yes.
+                Every build ships hardened, tested, and insured. Ask your
+                last vendor if they can say that.
               </p>
             </div>
           </Reveal>
@@ -582,7 +609,7 @@ function ConsultPricing() {
               </h3>
               {t.featured && (
                 <span
-                  className="rounded-full bg-[#2e9e58] px-2.5 py-1 text-[8px] font-bold tracking-[0.18em] text-white uppercase"
+                  className="rounded-full bg-[#2e9e58] px-2.5 py-1 text-[10px] font-bold tracking-[0.18em] text-white uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   Most chosen
@@ -747,7 +774,7 @@ function Locations() {
                       {c.name}
                     </span>
                     <span
-                      className={`block text-[9.5px] tracking-[0.22em] uppercase transition-colors ${
+                      className={`block text-[10px] tracking-[0.22em] uppercase transition-colors ${
                         i === idx ? "text-[#1e6b3c]" : "text-[#111111]/35"
                       }`}
                       style={mono}
@@ -764,7 +791,7 @@ function Locations() {
                     >
                       {cityTime(now, c.tz)}
                     </span>
-                    <span className="block text-[9.5px] tracking-[0.22em] text-[#111111]/35 uppercase" style={mono}>
+                    <span className="block text-[10px] tracking-[0.22em] text-[#111111]/35 uppercase" style={mono}>
                       {cityDay(now, c.tz)} · local
                     </span>
                   </span>
@@ -936,8 +963,7 @@ function MerchStrip() {
             className="mt-3 max-w-md text-[15px] text-[#111111]/50"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Everyone loved our merch and asked where we bought it. So here it
-            is — a line of clothing the creator would wear.
+            You asked where we got our merch. Here it is.
           </p>
           <a
             href="/store"
@@ -1000,8 +1026,8 @@ function FinalCTA() {
             className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-white/55"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Tell us what you're building — get a scoped plan and a price. Or
-            take the free call first and see if we fit.
+            Tell us what you're building. Get a scoped plan and a price —
+            or take the free call first.
           </p>
         </Reveal>
         <Reveal delay={0.1}>

@@ -256,8 +256,7 @@ function Services() {
             Build. Automate. Dominate.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-[#111111]/50" style={inter}>
-            Every solution we offer, in one place — pick the services you need
-            and talk to us about them right here.
+            Pick the services you need. Talk to us about them right here.
           </p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             <button
@@ -289,8 +288,7 @@ function Services() {
               See what we offer. Tap what you need.
             </h2>
             <p className="mt-3 max-w-xl text-[15px] text-[#111111]/50" style={inter}>
-              Everything below is a real service we deliver. Select up to six —
-              they attach to your inquiry automatically.
+              Tap up to six services — they attach to your inquiry.
             </p>
           </Reveal>
 
@@ -368,8 +366,7 @@ function Services() {
               Tell us where to point the machine.
             </h2>
             <p className="mt-3 max-w-xl text-[15px] text-[#111111]/50" style={inter}>
-              Your selected services ride along with the message — it lands in
-              our pipeline and you get a scoped answer, not an autoreply.
+              Your picks ride along. You get a scoped answer, not an autoreply.
             </p>
           </Reveal>
 

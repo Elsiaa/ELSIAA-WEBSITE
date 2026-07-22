@@ -101,7 +101,7 @@ function AdTiles() {
       {[0, 1, 2, 3, 4, 5].map((i) => (
         <div
           key={i}
-          className="ds-tile flex aspect-square items-center justify-center rounded-md bg-[#F5F5F3] text-[8px] font-bold text-[#111111]/60"
+          className="ds-tile flex aspect-square items-center justify-center rounded-md bg-[#F5F5F3] text-[10px] font-bold text-[#111111]/60"
           style={{ animationDelay: `${i * 0.12}s` }}
         >
           AD

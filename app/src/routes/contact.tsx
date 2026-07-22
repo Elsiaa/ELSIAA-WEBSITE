@@ -35,8 +35,7 @@ function ContactPage() {
           Let's talk. First 20 minutes are on us.
         </h1>
         <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-[#111111]/55" style={inter}>
-          A free 20-minute intro call with the ELSIAA team. Our calendar runs
-          tight — pick an open slot and request it, and we'll confirm by email.
+          Our calendar runs tight. Pick an open slot — we confirm by email.
         </p>
         <div className="mt-10">
           <RequestCalendar />

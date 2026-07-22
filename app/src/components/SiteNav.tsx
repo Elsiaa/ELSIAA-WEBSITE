@@ -90,7 +90,7 @@ export function SiteNav() {
               <span className="mt-[5px] flex items-center gap-2">
                 <span className={`h-px w-4 ${open ? "bg-white/40" : "bg-[#111111]/30"}`} />
                 <span
-                  className={`text-[6.5px] tracking-[0.34em] whitespace-nowrap uppercase ${open ? "text-white/60" : "text-[#111111]/50"}`}
+                  className={`text-[8px] tracking-[0.34em] whitespace-nowrap uppercase ${open ? "text-white/60" : "text-[#111111]/50"}`}
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   AI Done Better
@@ -100,7 +100,7 @@ export function SiteNav() {
             </span>
           </a>
           <nav className="pointer-events-auto flex items-center gap-5 md:gap-7">
-            {LINKS.slice(1, 4).map((l) => (
+            {[LINKS[1], LINKS[2], LINKS.find((x) => x.href === "/locations")!, LINKS[3]].map((l) => (
               <a
                 key={l.href}
                 href={l.href}
@@ -368,7 +368,7 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
             >
               <span>{e.label}</span>
               <span
-                className="text-[9px] tracking-[0.2em] text-white/30 uppercase"
+                className="text-[10px] tracking-[0.2em] text-white/30 uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 {e.group}

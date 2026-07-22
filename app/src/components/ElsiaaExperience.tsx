@@ -228,7 +228,7 @@ export function ElsiaaExperience() {
             className="mt-4 text-6xl leading-[0.95] font-semibold tracking-[-0.045em] text-[#111111] md:text-9xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            One more thing.
+            Partner with us in curing bad design.
           </h1>
         </div>
 
@@ -267,11 +267,11 @@ function StaticJourney() {
         className="text-5xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl"
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
-        One more thing.
+        Partner with us in curing bad design.
       </h1>
       <img
         src={STILL_SRC}
-        alt="A very frustrated, badly drawn office worker about to throw his website away"
+        alt="Bad design being torn right out of the screen"
         className="max-h-[50vh] w-auto max-w-[80vw] object-contain"
       />
     </section>

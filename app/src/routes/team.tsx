@@ -172,9 +172,7 @@ function Card({
           className="mt-4 text-[17px] leading-[1.12] font-semibold tracking-[-0.015em] text-[#111111]"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          {p.name.split(" ").slice(0, 1).join(" ")}
-          <br />
-          {p.name.split(" ").slice(1).join(" ")}
+          {p.name}
         </h3>
         <p
           className="mt-1 text-[11px] tracking-[0.14em] text-[#1e6b3c] uppercase"

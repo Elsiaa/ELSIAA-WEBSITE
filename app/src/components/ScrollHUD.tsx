@@ -64,13 +64,13 @@ export function ScrollHUD() {
               style={{ opacity: 0.32 }}
             >
               <span
-                className="text-[9px] text-[#2e9e58]"
+                className="text-[10px] text-[#2e9e58]"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 {s.id}
               </span>
               <span
-                className="text-[9px] tracking-[0.3em] text-white uppercase"
+                className="text-[10px] tracking-[0.3em] text-white uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 {s.label}
@@ -79,7 +79,7 @@ export function ScrollHUD() {
           ))}
           <span
             ref={pctRef}
-            className="mt-1 text-[9px] text-white/50"
+            className="mt-1 text-[10px] text-white/50"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             00%
