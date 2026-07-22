@@ -224,6 +224,38 @@ export function SiteNav() {
                   className="text-[10px] tracking-[0.32em] text-white/35 uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
+                  Clients
+                </p>
+                <a
+                  href="/contact"
+                  onClick={() => setOpen(false)}
+                  className="group mt-3 flex items-baseline justify-between border-b border-white/[0.06] py-2"
+                >
+                  <span className="text-[15px] font-medium text-white/85 transition-colors group-hover:text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    New client — start here
+                  </span>
+                  <span className="text-[10px] tracking-[0.2em] text-[#2e9e58] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    The process →
+                  </span>
+                </a>
+                <a
+                  href="/portal"
+                  onClick={() => setOpen(false)}
+                  className="group flex items-baseline justify-between py-2"
+                >
+                  <span className="text-[15px] font-medium text-white/85 transition-colors group-hover:text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    Existing client — Client Portal
+                  </span>
+                  <span className="text-[10px] tracking-[0.2em] text-[#2e9e58] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    Sign in →
+                  </span>
+                </a>
+              </div>
+              <div className="border-t border-white/[0.08] pt-6">
+                <p
+                  className="text-[10px] tracking-[0.32em] text-white/35 uppercase"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
                   Direct
                 </p>
                 <a

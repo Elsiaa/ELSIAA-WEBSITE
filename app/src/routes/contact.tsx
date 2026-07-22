@@ -54,6 +54,51 @@ function ContactPage() {
         </p>
       </section>
 
+
+      {/* the process — a clean timeline */}
+      <section className="mx-auto max-w-5xl border-t border-black/[0.06] px-6 py-16 md:py-20">
+        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+          The Process
+        </p>
+        <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
+          From first call to running system.
+        </h2>
+        <div className="mt-10">
+          {[
+            ["01", "The free call", "20 minutes with ELSIAA leadership. You talk, we map — a straight answer on where AI pays off in your business.", "Day 1"],
+            ["02", "Scoped proposal", "A written plan with deliverables, timeline, and a fixed price. No surprises later — the quote is the contract's spine.", "Within 3 days"],
+            ["03", "Design & build", "Sprints you can watch. Designs to approve, working software to click, automations running against real data.", "Weeks 1–6"],
+            ["04", "Review & launch", "Hardened, tested, insured — then shipped. Your team trained on everything we hand over.", "Launch week"],
+            ["05", "Ongoing partnership", "Support in every timezone, and a standing team for whatever you build next. Most clients never leave.", "Always on"],
+          ].map(([n, title, body, when], i, arr) => (
+            <div key={n} className="relative flex gap-6 pb-10 last:pb-0">
+              {/* rail */}
+              <div className="flex flex-col items-center">
+                <span
+                  className="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-[#1e6b3c]/40 bg-white text-[11px] font-bold text-[#1e6b3c]"
+                  style={mono}
+                >
+                  {n}
+                </span>
+                {i < arr.length - 1 && <span className="mt-2 w-px flex-1 bg-black/[0.08]" />}
+              </div>
+              <div className="pt-1.5">
+                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                  <h3 className="text-[17px] font-semibold tracking-[-0.02em]" style={inter}>
+                    {title}
+                  </h3>
+                  <span className="text-[10px] tracking-[0.22em] text-[#111111]/40 uppercase" style={mono}>
+                    {when}
+                  </span>
+                </div>
+                <p className="mt-1.5 max-w-xl text-[14px] leading-relaxed text-[#111111]/55" style={inter}>
+                  {body}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
       <section className="mx-auto max-w-5xl px-6 py-16 md:py-20">
         <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
           Our Packages
