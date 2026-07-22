@@ -36,6 +36,18 @@ const DEMOS: Demo[] = [
     media: { kind: "video", src: "/mr-bins/mrbins-walk.mp4", poster: "/mr-bins/mrbins-shoes-poster.jpg" },
   },
   {
+    eyebrow: "Automation division · Live demos",
+    name: "ELSIAA Automations",
+    pitch: "The automation division, running in the open — a plumbing field-assignment showcase and a catalog of custom flows, including a voice agent you can actually call.",
+    steps: [
+      "A plumbing business, before and after — request, office board, technician day",
+      "Nine flows across documents, voice, system connections, and decision logic",
+      "A live clinic-intake voice agent — call it and hear the work",
+    ],
+    cta: { label: "Open the live demo hub", href: "https://plumbing.demo.elsiaa.com", external: true },
+    media: { kind: "shot", src: "/assets/demos/automations.jpg", href: "https://plumbing.demo.elsiaa.com" },
+  },
+  {
     eyebrow: "Healthcare platform · Live site",
     name: "Dialog Healthcare",
     pitch: "A staffing platform rebuilt around one promise — the right clinician, placed fast. This is the live site; scroll it.",

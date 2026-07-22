@@ -1123,6 +1123,19 @@ export function HomeRows() {
         subs={AUTOSOFT}
         href="/services"
         cta="Explore Services"
+        extra={
+          <Reveal>
+            <a
+              href="https://plumbing.demo.elsiaa.com"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-8 inline-flex items-center gap-3 rounded-full border border-[#111111]/15 px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              See the automations run live →
+            </a>
+          </Reveal>
+        }
       />
       <DivisionRow
         n="02"

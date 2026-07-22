@@ -1178,8 +1178,8 @@ function ScrollScrubVideo() {
         <div className="w-full overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_60px_130px_-60px_rgba(17,17,17,0.35)]">
           <video
             ref={videoRef}
-            src="/assets/design_brand_white_v3.mp4"
-            poster="/assets/design_brand_white_poster_v3.jpg"
+            src="/assets/design_brand_white_v4.mp4"
+            poster="/assets/design_brand_white_poster_v4.jpg"
             muted
             playsInline
             preload="auto"
@@ -1268,7 +1268,7 @@ function ProductAdFeature() {
             <div className="overflow-hidden rounded-2xl shadow-[0_50px_110px_-50px_rgba(0,0,0,0.5)] lg:col-span-3">
               <video
                 ref={videoRef}
-                src="/assets/design_brand_white_v3.mp4"
+                src="/assets/design_brand_white_v4.mp4"
                 muted
                 playsInline
                 loop
