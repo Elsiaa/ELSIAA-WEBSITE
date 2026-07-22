@@ -103,7 +103,7 @@ export function SiteNav() {
               <a
                 key={l.href}
                 href={l.href}
-                className={`hidden text-[11px] tracking-[0.26em] uppercase transition-opacity hover:opacity-60 md:inline ${open ? "text-white/80" : "text-[#111111]/80"}`}
+                className={`hidden text-[11px] tracking-[0.26em] uppercase transition-opacity hover:opacity-60 md:inline ${open ? "pointer-events-none opacity-0" : "text-[#111111]/80"}`}
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {l.label}
@@ -111,7 +111,7 @@ export function SiteNav() {
             ))}
             <a
               href="mailto:isya@elsiaa.com"
-              className={`hidden border px-5 py-2 text-[11px] tracking-[0.26em] uppercase transition-all duration-300 md:inline-block ${open ? "border-white/40 text-white hover:border-white hover:bg-white hover:text-black" : "border-[#111111]/30 text-[#111111] hover:border-[#111111] hover:bg-[#111111] hover:text-white"}`}
+              className={`hidden border px-5 py-2 text-[11px] tracking-[0.26em] uppercase transition-all duration-300 md:inline-block ${open ? "pointer-events-none opacity-0" : "border-[#111111]/30 text-[#111111] hover:border-[#111111] hover:bg-[#111111] hover:text-white"}`}
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Contact
@@ -120,7 +120,7 @@ export function SiteNav() {
             <button
               aria-label="Search"
               onClick={() => { window.location.href = "/search"; }}
-              className="flex h-10 w-8 items-center justify-center transition-opacity hover:opacity-60"
+              className={`flex h-10 w-8 items-center justify-center transition-opacity hover:opacity-60 ${open ? "pointer-events-none opacity-0" : ""}`}
             >
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={open ? "white" : "#111111"} strokeWidth="2" strokeLinecap="round">
                 <circle cx="11" cy="11" r="7" />
@@ -162,7 +162,7 @@ export function SiteNav() {
         onClick={() => setOpen(false)}
       >
         <nav
-          className="mx-auto flex h-full max-w-6xl flex-col justify-center gap-2 px-8"
+          className="mx-auto flex h-full max-w-6xl flex-col justify-center gap-0.5 overflow-y-auto px-8 pt-24 pb-10"
           onClick={(e) => e.stopPropagation()}
         >
           {LINKS.map((l, i) => (
@@ -170,7 +170,7 @@ export function SiteNav() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="group flex items-baseline gap-4 py-2"
+              className="group flex items-baseline gap-4 py-1.5"
               style={{
                 opacity: open ? 1 : 0,
                 transform: open ? "none" : "translateY(18px)",
@@ -181,10 +181,10 @@ export function SiteNav() {
                 className="text-[10px] tracking-[0.3em] text-[#2e9e58]"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                0{i + 1}
+                {String(i + 1).padStart(2, "0")}
               </span>
               <span
-                className="text-4xl font-semibold tracking-[-0.03em] text-white transition-colors group-hover:text-[#2e9e58] md:text-5xl"
+                className="text-[26px] font-semibold tracking-[-0.03em] text-white transition-colors group-hover:text-[#2e9e58] md:text-4xl"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {l.label}
