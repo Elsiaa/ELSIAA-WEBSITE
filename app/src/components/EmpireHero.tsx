@@ -114,7 +114,7 @@ export function EmpireHero() {
           <p
             className="mb-6 text-[11px] tracking-[0.42em] text-[#2e9e58] uppercase"
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
               opacity: ready ? 1 : 0,
               transition: "opacity 1.2s ease 0.2s",
             }}
@@ -135,7 +135,7 @@ export function EmpireHero() {
           <p
             className="mt-10 text-[11px] tracking-[0.18em] text-[#F5F5F3]/60 md:text-xs"
             style={{
-              fontFamily: "'IBM Plex Mono', monospace",
+              fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace",
               opacity: ready ? 1 : 0,
               transition: "opacity 1.4s ease 0.9s",
             }}
@@ -146,7 +146,7 @@ export function EmpireHero() {
             href="#services"
             className="group mt-16 inline-flex items-center gap-3 border border-[#F5F5F3]/20 px-7 py-3 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
               opacity: ready ? 1 : 0,
               transition: "opacity 1.4s ease 1.15s, border-color .3s, color .3s",
             }}
@@ -161,7 +161,7 @@ export function EmpireHero() {
         <div className="absolute bottom-8 left-1/2 h-10 w-px -translate-x-1/2 bg-gradient-to-b from-transparent to-[#F5F5F3]/30" />
         <span
           className="absolute right-6 bottom-6 text-[10px] tracking-[0.3em] text-[#F5F5F3]/25"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           I
         </span>

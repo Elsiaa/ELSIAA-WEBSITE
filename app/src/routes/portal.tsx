@@ -113,8 +113,8 @@ async function sha256(text: string) {
     .join("");
 }
 
-const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
-const inter = { fontFamily: "'Inter', sans-serif" } as const;
+const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 function Portal() {
   const [step, setStep] = useState<"login" | "twofa" | "dash">("login");
@@ -235,7 +235,7 @@ function Portal() {
                   setStep("dash");
                 }}
                 className="rounded-full border border-black/12 px-4 py-2 text-[11px] font-medium transition-all hover:text-white"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = c.accent; (e.currentTarget as HTMLButtonElement).style.borderColor = c.accent; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = ""; (e.currentTarget as HTMLButtonElement).style.borderColor = ""; }}
               >

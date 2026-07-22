@@ -110,7 +110,7 @@ function Portrait({ init, photo, name }: { init: string; photo?: string; name?: 
       ) : (
         <span
           className="flex h-full w-full items-center justify-center text-6xl font-semibold tracking-[-0.04em] text-[#1e6b3c]/25"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {init}
         </span>
@@ -132,19 +132,19 @@ function Card({
         <Portrait init={p.init} photo={(p as { photo?: string }).photo} name={p.name} />
         <h3
           className="mt-4 text-[17px] leading-[1.12] font-semibold tracking-[-0.015em] text-[#111111]"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {p.name}
         </h3>
         <p
           className="mt-1 text-[11px] tracking-[0.14em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           {p.role}
         </p>
         <p
           className="mt-2.5 text-[13px] leading-relaxed text-[#111111]/55"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {p.line}
         </p>
@@ -162,13 +162,13 @@ function TeamPage() {
         <Reveal>
           <p
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             Who we are
           </p>
           <h1
             className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Leadership & Advisory Board.
           </h1>
@@ -187,13 +187,13 @@ function TeamPage() {
               <div key={l}>
                 <p
                   className="text-2xl font-semibold tracking-[-0.03em] text-[#111111]"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {n}
                 </p>
                 <p
                   className="mt-1 text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                 >
                   {l}
                 </p>
@@ -208,7 +208,7 @@ function TeamPage() {
         <Reveal>
           <h2
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             01 · Executive Team
           </h2>
@@ -225,7 +225,7 @@ function TeamPage() {
         <Reveal>
           <h2
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             02 · Medical & Strategic Advisory
           </h2>
@@ -242,7 +242,7 @@ function TeamPage() {
         <Reveal>
           <p
             className="text-lg font-semibold tracking-[-0.02em] md:text-2xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Want a seat at this table?
           </p>
@@ -250,14 +250,14 @@ function TeamPage() {
             <a
               href="/careers"
               className="inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-[#1e6b3c]"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               We are hiring →
             </a>
             <a
               href="/contact"
               className="inline-flex items-center gap-3 rounded-full border border-[#111111]/15 px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               Talk to the team
             </a>
@@ -265,7 +265,7 @@ function TeamPage() {
           <p
             title="With God's help we shall do and succeed."
             className="mt-12 cursor-help text-[11px] tracking-[0.2em] text-[#111111]/50 uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             בעזרת ה׳ נעשה ונצליח
           </p>

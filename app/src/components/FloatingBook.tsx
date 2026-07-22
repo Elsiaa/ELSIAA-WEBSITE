@@ -34,7 +34,7 @@ export function FloatingBook() {
         <a
           href="/#book"
           className="flex min-h-[48px] items-center text-[11px] font-bold tracking-[0.2em] text-white uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           Book a call →
         </a>

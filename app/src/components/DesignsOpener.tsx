@@ -9,8 +9,8 @@ import { useEffect, useRef, useState } from "react";
   Transform/opacity only, one rAF loop. Reduced motion → two static panels.
 */
 
-const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
-const inter = { fontFamily: "'Inter', sans-serif" } as const;
+const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 function seg(p: number, a: number, b: number) {
   if (p <= a) return 0;

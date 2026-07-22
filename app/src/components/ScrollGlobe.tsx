@@ -183,7 +183,7 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
       }
 
       // office markers
-      ctx.font = "600 10px 'IBM Plex Mono', monospace";
+      ctx.font = "600 10px 'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace";
       const visible: Array<{ o: (typeof officeVecs)[number]; p: { x: number; y: number; z: number } }> = [];
       for (const o of officeVecs) {
         const p = proj(o.v);

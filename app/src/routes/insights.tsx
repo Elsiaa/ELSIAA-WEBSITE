@@ -141,8 +141,8 @@ function RoiCalculator() {
   const [pct, setPct] = useState(70);
   const yearlyHours = Math.round(team * hours * 52 * (pct / 100));
   const yearlySavings = Math.round(yearlyHours * rate);
-  const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
-  const inter = { fontFamily: "'Inter', sans-serif" } as const;
+  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+  const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   const Row = ({ label, value, suffix, min, max, step, onChange }: { label: string; value: number; suffix: string; min: number; max: number; step: number; onChange: (n: number) => void }) => (
     <div className="py-3">
       <div className="flex items-baseline justify-between">
@@ -194,8 +194,8 @@ function RoiCalculator() {
 
 function InsightsPage() {
   const [filter, setFilter] = useState("All industries");
-  const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
-  const inter = { fontFamily: "'Inter', sans-serif" } as const;
+  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+  const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   const industries = STATS.map((s) => s.industry);
   const shown = filter === "All industries" ? STATS : STATS.filter((s) => s.industry === filter || s.industry === "All industries");
   const featured = ARTICLES[0];

@@ -10,8 +10,8 @@ import { Reveal } from "./Reveal";
   Arrows + dots, autoplay paused on hover / interaction / off-screen.
 */
 
-const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
-const inter = { fontFamily: "'Inter', sans-serif" } as const;
+const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const GREEN = "#1e6b3c";
 
 /* ----------------------------- app chrome ----------------------------- */

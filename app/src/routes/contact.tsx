@@ -20,8 +20,8 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
-const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
-const inter = { fontFamily: "'Inter', sans-serif" } as const;
+const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 function ContactPage() {
   return (

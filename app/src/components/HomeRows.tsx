@@ -176,26 +176,26 @@ function DivisionRow({
           <Reveal className="order-2 md:order-1">
             <p
               className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               {n} · Division
             </p>
             <h2
               className="mt-2 text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               {title}
             </h2>
             <p
               className="mt-3 max-w-md text-[15px] text-[#111111]/60"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               {lede}
             </p>
             <a
               href={href}
               className="mt-5 inline-block text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               {cta ?? "Explore"} ↗
             </a>
@@ -228,7 +228,7 @@ function DivisionRow({
                 <div className="flex items-center justify-between">
                   <h3
                     className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
+                    style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                   >
                     {s.name}
                   </h3>
@@ -241,7 +241,7 @@ function DivisionRow({
                     <li
                       key={it}
                       className="text-[12px] leading-snug text-[#111111]/55"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
+                      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                     >
                       {it}
                     </li>
@@ -337,7 +337,7 @@ function HomeHero() {
       <div className="mx-auto mb-6 w-full max-w-6xl px-6">
         <p
           className="border-b border-black/[0.06] pb-3 text-center text-[10px] tracking-[0.26em] text-[#111111]/55 uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           6 Cities · Fully Insured Builds · 24/7 Support
         </p>
@@ -347,20 +347,20 @@ function HomeHero() {
           <Reveal>
             <p
               className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               ELSIAA · AI Done Better
             </p>
             <h1
               className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               The world changed.
               <span className="text-[#1e6b3c]"> AI is here.</span>
             </h1>
             <p
               className="mt-5 max-w-xl text-[15.5px] leading-relaxed text-[#111111]/55 md:text-[17px]"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               We put AI to work in your business — real automation,
               world-class design, custom software, and strategy that delivers
@@ -368,7 +368,7 @@ function HomeHero() {
             </p>
             <p
               className="mt-5 max-w-xl text-[15px] leading-relaxed text-[#111111]/75"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               <span className="font-semibold text-[#111111]">78% of companies already run AI</span>{" "}
               in at least one function.{" "}
@@ -376,14 +376,14 @@ function HomeHero() {
             </p>
             <p
               className="mt-3 text-[11px] tracking-[0.22em] text-[#111111]/55 uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               Healthcare · Finance · Marketing · Retail · Manufacturing
             </p>
             <a
               href="/contact"
               className="mt-7 inline-block rounded-full bg-[#1e6b3c] px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#111111]"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               Book Free 20-Min Strategy Call →
             </a>
@@ -400,13 +400,13 @@ function HomeHero() {
                   <div key={st.label} className="text-center">
                     <p
                       className="text-2xl font-semibold tracking-[-0.03em] text-[#111111]"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
+                      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                     >
                       <CountTo target={st.n} suffix={st.suffix} />
                     </p>
                     <p
                       className="mt-1 text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                      style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                     >
                       {st.label}
                     </p>
@@ -425,14 +425,14 @@ function HomeHero() {
             <div className="flex items-baseline justify-between gap-4">
               <p
                 className="text-[12px] tracking-[0.28em] text-[#111111]/55 uppercase"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
               >
                 Right now, while you read this
               </p>
               <a
                 href="/insights"
                 className="flex-none text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
               >
                 Read the research ↗
               </a>
@@ -449,19 +449,19 @@ function HomeHero() {
               >
                 <span
                   className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                 >
                   {st.industry}
                 </span>
                 <span
                   className="mt-2 text-5xl font-semibold tracking-[-0.04em] text-[#111111]"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   <CountUp target={st.pct} />
                 </span>
                 <p
                   className="mt-2.5 text-[12.5px] leading-relaxed text-[#111111]/55"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {st.line}
                 </p>
@@ -473,7 +473,7 @@ function HomeHero() {
           <Reveal>
             <p
               className="mt-4 text-[13.5px] text-[#111111]/60"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               The question isn't whether AI takes the work — it's who's
               holding it when it does.{" "}
@@ -527,7 +527,7 @@ function HeroCards() {
         <Reveal>
           <p
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             Why ELSIAA
           </p>
@@ -541,13 +541,13 @@ function HeroCards() {
                 </span>
                 <h2
                   className="mt-4 text-[17px] font-semibold tracking-[-0.02em] text-[#111111]"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {it.title}
                 </h2>
                 <p
                   className="mt-2 text-[14px] leading-relaxed text-[#111111]/55"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {it.body}
                 </p>
@@ -634,7 +634,7 @@ function ConsultPricing() {
     <div className="mt-10">
       <h3
         className="text-[11px] tracking-[0.28em] text-[#111111]/55 uppercase"
-        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
       >
         Engagements
       </h3>
@@ -649,27 +649,27 @@ function ConsultPricing() {
             }`}
           >
             <div className="flex items-center justify-between">
-              <h3 className="text-[14px] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <h3 className="text-[14px] font-semibold" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                 {t.name}
               </h3>
               {t.featured && (
                 <span
                   className="rounded-full bg-[#2e9e58] px-2.5 py-1 text-[10px] font-bold tracking-[0.18em] text-white uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                 >
                   Most chosen
                 </span>
               )}
             </div>
             <p className="mt-3">
-              <span className="text-2xl font-semibold tracking-[-0.03em]" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <span className="text-2xl font-semibold tracking-[-0.03em]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                 {t.price}
               </span>
               <span className={`ml-2 text-[12px] ${t.featured ? "text-white/50" : "text-black/55"}`}>/ {t.unit}</span>
             </p>
             <p
               className={`mt-2.5 text-[12.5px] leading-relaxed ${t.featured ? "text-white/65" : "text-black/55"}`}
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               {t.pitch}
             </p>
@@ -688,14 +688,14 @@ function ConsultPricing() {
                   ? "bg-[#2e9e58] text-white hover:bg-white hover:text-[#111111]"
                   : "border border-[#111111]/20 text-[#111111] hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
               }`}
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               Book {t.name} →
             </a>
           </div>
         ))}
       </div>
-      <p className="mt-2.5 text-[11px] text-black/50" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <p className="mt-2.5 text-[11px] text-black/50" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
         Book directly on the consultation page — first call free, confirmation by email within hours.
       </p>
     </div>
@@ -752,8 +752,8 @@ function Locations() {
     return () => clearInterval(t);
   }, [paused]);
   const active = CITIES[idx];
-  const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
-  const inter = { fontFamily: "'Inter', sans-serif" } as const;
+  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+  const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   return (
     <section
       className="relative overflow-hidden border-t border-black/[0.06] bg-white py-16 text-[#111111] md:py-24"
@@ -916,19 +916,19 @@ function Team() {
         <Reveal>
           <p
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             04 · Who we are
           </p>
           <h2
             className="mt-3 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Leadership of consequence.
           </h2>
           <p
             className="mt-3 max-w-xl text-[15px] text-[#111111]/60"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Founders, executives, and tenured professors — decades of academic
             distinction and enterprise success at one table.
@@ -946,10 +946,10 @@ function Team() {
                   style={{ width: 52, height: 52 }}
                 />
                 <div>
-                  <h3 className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <h3 className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                     {m.name}
                   </h3>
-                  <p className="mt-0.5 text-[12px] text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <p className="mt-0.5 text-[12px] text-[#111111]/60" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                     {m.role}
                   </p>
                 </div>
@@ -961,7 +961,7 @@ function Team() {
           <a
             href="/team"
             className="mt-8 inline-flex items-center gap-3 rounded-full border border-[#111111]/15 px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             Meet the leadership →
           </a>
@@ -997,26 +997,26 @@ function MerchStrip() {
         <Reveal>
           <p
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             06 · The Store
           </p>
           <h2
             className="mt-2 max-w-2xl text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             The ELSIAA Store.
           </h2>
           <p
             className="mt-3 max-w-md text-[15px] text-[#111111]/60"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             You asked where we got our merch. Here it is.
           </p>
           <a
             href="/store"
             className="mt-5 inline-block text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             Shop the store ↗
           </a>
@@ -1040,8 +1040,8 @@ function MerchStrip() {
                 />
               </div>
               <div className="mt-2.5 flex items-baseline justify-between px-0.5">
-                <p className="text-[13.5px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>{m.name}</p>
-                <p className="text-[12.5px] text-[#111111]/60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{m.price}</p>
+                <p className="text-[13.5px] font-semibold text-[#111111]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>{m.name}</p>
+                <p className="text-[12.5px] text-[#111111]/60" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>{m.price}</p>
               </div>
             </a>
           ))}
@@ -1060,19 +1060,19 @@ function FinalCTA() {
         <Reveal>
           <p
             className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             07 · Next
           </p>
           <h2
             className="mx-auto mt-4 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             The world changed. Your business should too.
           </h2>
           <p
             className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-white/55"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Tell us what you're building. Get a scoped plan and a price —
             or take the free call first.
@@ -1083,21 +1083,21 @@ function FinalCTA() {
             <a
               href="/contact"
               className="rounded-full bg-[#2e9e58] px-10 py-5 text-[13px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-white hover:text-[#111111]"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               Book Free Strategy Call Now →
             </a>
             <a
               href="/quote"
               className="rounded-full border border-white/25 px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-[#111111]"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               Get a Quote
             </a>
           </div>
           <p
             className="mt-5 text-[12px] text-white/50"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             20 minutes. No pitch. Straight answers on where AI actually pays off for you.
           </p>
@@ -1115,21 +1115,21 @@ function AutomationCatalog() {
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-xl">
-              <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
                 Everything the division ships
               </p>
-              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                 Workflows that run while you sleep — and the software they run on.
               </h3>
-              <p className="mt-3 text-[14.5px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <p className="mt-3 text-[14.5px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                 Sales, operations, finance, support — from the first wireframe to the cloud it runs on.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-3">
-              <a href="/services" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-6 py-3 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              <a href="/services" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-6 py-3 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111]" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
                 Explore Services →
               </a>
-              <a href="https://plumbing.demo.elsiaa.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#111111]/15 px-6 py-3 text-[11px] font-bold tracking-[0.22em] text-[#111111] uppercase transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              <a href="https://plumbing.demo.elsiaa.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#111111]/15 px-6 py-3 text-[11px] font-bold tracking-[0.22em] text-[#111111] uppercase transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
                 See it run live ↗
               </a>
             </div>
@@ -1144,7 +1144,7 @@ function AutomationCatalog() {
                 className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]"
               >
                 <div className="flex items-center justify-between">
-                  <h4 className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <h4 className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                     {s.name}
                   </h4>
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[12px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">
@@ -1153,7 +1153,7 @@ function AutomationCatalog() {
                 </div>
                 <ul className="mt-2.5 space-y-1">
                   {s.items.map((it) => (
-                    <li key={it} className="text-[12px] leading-snug text-[#111111]/55" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <li key={it} className="text-[12px] leading-snug text-[#111111]/55" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                       {it}
                     </li>
                   ))}

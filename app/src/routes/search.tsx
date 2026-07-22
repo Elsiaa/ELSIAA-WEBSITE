@@ -92,13 +92,13 @@ function SearchPage() {
       <section className="mx-auto max-w-3xl px-6 pt-36 pb-24 md:pt-44">
         <p
           className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           Search
         </p>
         <h1
           className="mt-2 text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           What are you looking for?
         </h1>
@@ -115,7 +115,7 @@ function SearchPage() {
             onChange={(e) => setQ(e.target.value)}
             placeholder="Services, divisions, cities, careers…"
             className="w-full bg-transparent text-[17px] outline-none placeholder:text-[#111111]/50"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           />
           {q && (
             <button
@@ -133,7 +133,7 @@ function SearchPage() {
           <div className="mt-8">
             <p
               className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               Suggested searches
             </p>
@@ -143,7 +143,7 @@ function SearchPage() {
                   key={sug}
                   onClick={() => setQ(sug)}
                   className="rounded-full border border-black/12 bg-white px-4 py-2 text-[13px] text-[#111111]/70 transition-all duration-200 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {sug}
                 </button>
@@ -177,7 +177,7 @@ function SearchPage() {
                 <div key={group} className="mb-8">
                   <p
                     className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
-                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                    style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                   >
                     {group}
                   </p>
@@ -192,7 +192,7 @@ function SearchPage() {
                       >
                         <span
                           className="text-[15px] font-medium text-[#111111]"
-                          style={{ fontFamily: "'Inter', sans-serif" }}
+                          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                         >
                           {e.label}
                         </span>
@@ -211,7 +211,7 @@ function SearchPage() {
               <div className="mt-12 border-t border-black/[0.06] pt-8">
                 <p
                   className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                 >
                   Related
                 </p>
@@ -221,7 +221,7 @@ function SearchPage() {
                       key={e.label}
                       href={e.href}
                       className="rounded-full border border-black/12 bg-white px-4 py-2 text-[13px] text-[#111111]/70 transition-all duration-200 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
+                      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                     >
                       {e.label}
                     </a>

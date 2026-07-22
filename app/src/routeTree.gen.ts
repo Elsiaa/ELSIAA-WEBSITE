@@ -26,6 +26,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ConceptWalkRouteImport } from './routes/concept-walk'
 import { Route as CareersRouteImport } from './routes/careers'
+import { Route as AutomateRouteImport } from './routes/automate'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LegalTermsRouteImport } from './routes/legal/terms'
 import { Route as LegalPrivacyRouteImport } from './routes/legal/privacy'
@@ -122,6 +123,11 @@ const CareersRoute = CareersRouteImport.update({
   path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AutomateRoute = AutomateRouteImport.update({
+  id: '/automate',
+  path: '/automate',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -175,6 +181,7 @@ const AdminQuotesRoute = AdminQuotesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/automate': typeof AutomateRoute
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
@@ -204,6 +211,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/automate': typeof AutomateRoute
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
@@ -234,6 +242,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/automate': typeof AutomateRoute
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
@@ -265,6 +274,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/automate'
     | '/careers'
     | '/concept-walk'
     | '/consultation'
@@ -294,6 +304,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/automate'
     | '/careers'
     | '/concept-walk'
     | '/consultation'
@@ -323,6 +334,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/automate'
     | '/careers'
     | '/concept-walk'
     | '/consultation'
@@ -353,6 +365,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AutomateRoute: typeof AutomateRoute
   CareersRoute: typeof CareersRoute
   ConceptWalkRoute: typeof ConceptWalkRoute
   ConsultationRoute: typeof ConsultationRoute
@@ -502,6 +515,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/automate': {
+      id: '/automate'
+      path: '/automate'
+      fullPath: '/automate'
+      preLoaderRoute: typeof AutomateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -577,6 +597,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AutomateRoute: AutomateRoute,
   CareersRoute: CareersRoute,
   ConceptWalkRoute: ConceptWalkRoute,
   ConsultationRoute: ConsultationRoute,

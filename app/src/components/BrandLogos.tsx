@@ -22,8 +22,8 @@ export const CLIENT_LOGOS: Array<[string, string, string]> = [
   ["/assets/logos/neuro_strabismus.png", "Neuro-Ophthalmology & Strabismus Fellowship — Division of Neurology", "h-6"],
 ];
 
-const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
-const inter = { fontFamily: "'Inter', sans-serif" } as const;
+const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 const REASONS: Array<{ title: string; body: string }> = [
   {

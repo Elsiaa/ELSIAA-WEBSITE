@@ -78,7 +78,7 @@ function ServiceChip({
           ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
           : "border-black/12 bg-white text-[#111111]/70 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
       }`}
-      style={{ fontFamily: "'Inter', sans-serif" }}
+      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
     >
       {label}
     </button>
@@ -157,8 +157,8 @@ function Services() {
     }
   };
 
-  const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
-  const inter = { fontFamily: "'Inter', sans-serif" } as const;
+  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+  const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   const inputCls =
     "w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50";
 

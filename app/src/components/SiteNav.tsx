@@ -12,7 +12,7 @@ import { LangSwitcher } from "./LangSwitcher";
 */
 const LINKS = [
   { label: "Home", href: "/" },
-  { label: "Automate", href: "/#automate" },
+  { label: "Automate", href: "/automate" },
   { label: "Services", href: "/services" },
   { label: "Designs", href: "/designs" },
   { label: "Contact Us", href: "/contact" },
@@ -85,7 +85,7 @@ export function SiteNav() {
             <span className="flex flex-col leading-none">
               <span
                 className={`text-[13px] font-semibold tracking-[0.42em] uppercase ${open ? "text-white" : "text-[#111111]"}`}
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 ELSIAA
               </span>
@@ -93,7 +93,7 @@ export function SiteNav() {
                 <span className={`h-px w-4 ${open ? "bg-white/40" : "bg-[#111111]/30"}`} />
                 <span
                   className={`text-[8px] tracking-[0.34em] whitespace-nowrap uppercase ${open ? "text-white/60" : "text-[#111111]/60"}`}
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                 >
                   AI Done Better
                 </span>
@@ -103,7 +103,7 @@ export function SiteNav() {
           </a>
           <nav className="pointer-events-auto flex items-center gap-5 md:gap-7">
             {[
-              LINKS.find((x) => x.href === "/#automate")!,
+              LINKS.find((x) => x.href === "/automate")!,
               LINKS.find((x) => x.href === "/services")!,
               LINKS.find((x) => x.href === "/designs")!,
               LINKS.find((x) => x.href === "/locations")!,
@@ -113,7 +113,7 @@ export function SiteNav() {
                 key={l.href}
                 href={l.href}
                 className={`hidden text-[11px] tracking-[0.26em] uppercase transition-opacity hover:opacity-60 md:inline ${open ? "pointer-events-none opacity-0" : "text-[#111111]/80"}`}
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 {l.label}
               </a>
@@ -121,7 +121,7 @@ export function SiteNav() {
             <a
               href="/quote"
               className={`hidden border px-5 py-2 text-[11px] tracking-[0.26em] uppercase transition-all duration-300 md:inline-block ${open ? "pointer-events-none opacity-0" : "border-[#111111]/30 text-[#111111] hover:border-[#111111] hover:bg-[#111111] hover:text-white"}`}
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               Get a Quote
             </a>
@@ -184,7 +184,7 @@ export function SiteNav() {
               <p
                 className="mb-4 text-[10px] tracking-[0.32em] text-white/50 uppercase"
                 style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace",
                   opacity: open ? 1 : 0,
                   transition: "opacity .5s ease .05s",
                 }}
@@ -205,13 +205,13 @@ export function SiteNav() {
                 >
                   <span
                     className="w-6 text-[10px] tracking-[0.3em] text-[#2e9e58]"
-                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                    style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span
                     className="text-[22px] font-semibold tracking-[-0.02em] text-white/90 transition-all duration-200 group-hover:translate-x-1 group-hover:text-white md:text-[27px]"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
+                    style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                   >
                     {l.label}
                   </span>
@@ -235,7 +235,7 @@ export function SiteNav() {
               <div className="border-t border-white/[0.08] pt-6">
                 <p
                   className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                 >
                   Clients
                 </p>
@@ -244,10 +244,10 @@ export function SiteNav() {
                   onClick={() => setOpen(false)}
                   className="group mt-3 flex items-baseline justify-between border-b border-white/[0.06] py-2"
                 >
-                  <span className="text-[15px] font-medium text-white/85 transition-colors group-hover:text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <span className="text-[15px] font-medium text-white/85 transition-colors group-hover:text-white" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                     New client — start here
                   </span>
-                  <span className="text-[10px] tracking-[0.2em] text-[#2e9e58] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <span className="text-[10px] tracking-[0.2em] text-[#2e9e58] uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
                     The process →
                   </span>
                 </a>
@@ -256,10 +256,10 @@ export function SiteNav() {
                   onClick={() => setOpen(false)}
                   className="group flex items-baseline justify-between py-2"
                 >
-                  <span className="text-[15px] font-medium text-white/85 transition-colors group-hover:text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <span className="text-[15px] font-medium text-white/85 transition-colors group-hover:text-white" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                     Existing client — Client Portal
                   </span>
-                  <span className="text-[10px] tracking-[0.2em] text-[#2e9e58] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <span className="text-[10px] tracking-[0.2em] text-[#2e9e58] uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
                     Sign in →
                   </span>
                 </a>
@@ -267,14 +267,14 @@ export function SiteNav() {
               <div className="border-t border-white/[0.08] pt-6">
                 <p
                   className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                 >
                   Direct
                 </p>
                 <a
                   href="mailto:isya@elsiaa.com"
                   className="mt-3 block text-[17px] font-medium text-white transition-colors hover:text-[#2e9e58]"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   isya@elsiaa.com
                 </a>
@@ -282,7 +282,7 @@ export function SiteNav() {
                   href="/quote"
                   onClick={() => setOpen(false)}
                   className="mt-4 inline-flex w-fit items-center gap-3 border border-white/25 px-6 py-3 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   Get a Quote →
                 </a>
@@ -290,13 +290,13 @@ export function SiteNav() {
               <div className="border-t border-white/[0.08] pt-6">
                 <p
                   className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
                 >
                   Offices
                 </p>
                 <p
                   className="mt-3 text-[13px] leading-relaxed text-white/55"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv
                 </p>
@@ -314,14 +314,14 @@ export function SiteNav() {
           >
             <p
               className="text-[10px] tracking-[0.2em] text-white/50 uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               ELSIAA — AI Done Better
             </p>
             <p
               title="With God's help we shall do and succeed."
               className="cursor-help text-[10px] tracking-[0.2em] text-white/50 uppercase"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               בעזרת ה׳ נעשה ונצליח
             </p>
@@ -346,7 +346,7 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
     <div>
       <p
         className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
-        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
       >
         Search
       </p>
@@ -366,7 +366,7 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
           }}
           placeholder="Services, cities, careers…"
           className="w-full bg-transparent text-[15px] text-white outline-none placeholder:text-white/50"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         />
       </div>
       {results.length > 0 && (
@@ -377,12 +377,12 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
               href={e.href}
               onClick={onNavigate}
               className={`flex items-center justify-between px-4 py-2.5 text-[14px] text-white/80 transition-colors hover:bg-white/[0.06] hover:text-white ${i > 0 ? "border-t border-white/[0.06]" : ""}`}
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               <span>{e.label}</span>
               <span
                 className="text-[10px] tracking-[0.2em] text-white/50 uppercase"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
               >
                 {e.group}
               </span>
@@ -395,7 +395,7 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
           href={`/search?q=${encodeURIComponent(q)}`}
           onClick={onNavigate}
           className="mt-2 inline-block text-[11px] tracking-[0.22em] text-[#2e9e58] uppercase hover:underline"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           Full search →
         </a>

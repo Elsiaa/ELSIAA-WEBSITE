@@ -82,13 +82,13 @@ export function HomeLoop() {
       <div className="mx-auto max-w-6xl px-6">
         <p
           className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           What we build
         </p>
         <h2
           className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Three doors. One standard.
         </h2>
@@ -120,13 +120,13 @@ export function HomeLoop() {
               <div>
                 <h3
                   className="text-xl font-semibold tracking-[-0.02em] text-[#111111]"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {c.k}
                 </h3>
                 <p
                   className="mt-1.5 text-[14px] leading-relaxed text-[#111111]/60"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {c.d}
                 </p>
@@ -140,7 +140,7 @@ export function HomeLoop() {
             </div>
             <span
               className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold tracking-[0.22em] text-[#111111] uppercase backdrop-blur"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               ELSIAA
             </span>

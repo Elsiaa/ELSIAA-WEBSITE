@@ -199,7 +199,7 @@ function SignGlow() {
         <span
           key={i}
           className="ds-glow text-lg font-bold tracking-widest text-[#1e6b3c]"
-          style={{ animationDelay: `${i * 0.16}s`, fontFamily: "'Inter', sans-serif" }}
+          style={{ animationDelay: `${i * 0.16}s`, fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {ch}
         </span>
@@ -343,11 +343,11 @@ function ServiceCard({
       <div className="flex flex-1 flex-col p-5">
         <h4
           className="text-[15px] font-semibold tracking-[-0.01em] text-[#111111]"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {service.name}
         </h4>
-        <p className="mt-1 text-[13px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <p className="mt-1 text-[13px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
           {service.blurb}
         </p>
         <div
@@ -356,14 +356,14 @@ function ServiceCard({
           }`}
         >
           <div className="overflow-hidden">
-            <p className="text-[13px] leading-relaxed text-[#111111]/65" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <p className="text-[13px] leading-relaxed text-[#111111]/65" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
               {service.detail}
             </p>
             <a
               href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
               onClick={(e) => e.stopPropagation()}
               className="mt-4 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.22em] text-[#1e6b3c] uppercase transition-colors hover:text-[#2e9e58]"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               Start a project <span>→</span>
             </a>
@@ -373,7 +373,7 @@ function ServiceCard({
           className={`mt-auto pt-3 text-[10px] tracking-[0.26em] uppercase transition-colors duration-300 ${
             open ? "text-[#1e6b3c]" : "text-[#111111]/50 group-hover:text-[#1e6b3c]/70"
           }`}
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           {open ? "− Close" : "+ Learn more"}
         </span>
@@ -405,17 +405,17 @@ function CategoryBlock({ cat }: { cat: Category }) {
     <div ref={ref} className="ds-cat mx-auto max-w-6xl px-6 py-16 md:py-20">
       <p
         className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
-        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
       >
         {cat.eyebrow}
       </p>
       <h3
         className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-[#111111] md:text-5xl"
-        style={{ fontFamily: "'Inter', sans-serif" }}
+        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         {cat.title}
       </h3>
-      <p className="mt-3 max-w-xl text-base text-[#111111]/60 md:text-lg" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <p className="mt-3 max-w-xl text-base text-[#111111]/60 md:text-lg" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
         {cat.lead}
       </p>
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -487,19 +487,19 @@ export function DesignServices() {
       <div className="mx-auto max-w-6xl px-6 pt-24 pb-4 text-center md:pt-28">
         <p
           className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           Discover graphics
         </p>
         <h2
           className="mx-auto mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.03em] text-[#111111] md:text-6xl"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Everything we design.
         </h2>
         <p
           className="mx-auto mt-5 max-w-xl text-base text-[#111111]/60 md:text-lg"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Twenty-five disciplines, one standard. Tap any card to go deeper.
         </p>

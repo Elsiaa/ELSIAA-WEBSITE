@@ -62,13 +62,13 @@ function Careers() {
         <Reveal>
           <p
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             Press one
           </p>
           <h2
             className="mt-2 text-2xl font-semibold tracking-[-0.035em] md:text-4xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Three doors in.
           </h2>
@@ -96,7 +96,7 @@ function Careers() {
                   <div>
                     <h3
                       className="text-[15px] font-semibold"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
+                      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                     >
                       {r.id}
                     </h3>
@@ -126,7 +126,7 @@ function Careers() {
       <footer className="border-t border-black/[0.06] py-10 text-center">
         <p
           className="text-[11px] tracking-[0.2em] text-[#111111]/50 uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           בעזרת ה׳ נעשה ונצליח
         </p>
@@ -147,13 +147,13 @@ function Hero() {
       <div className="relative mx-auto w-full max-w-5xl px-6 pt-40 pb-14 md:pb-20">
         <p
           className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           Careers
         </p>
         <h1
           className="mt-3 max-w-2xl text-[11vw] leading-[1.0] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           We are hiring.
         </h1>
@@ -272,7 +272,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
           </span>
           <h3
             className="mt-5 text-xl font-semibold tracking-[-0.02em]"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Application submitted
           </h3>
@@ -292,13 +292,13 @@ function ApplyForm({ role }: { role: RoleId | null }) {
         <div className="lg:w-[240px] lg:flex-none">
           <span
             className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             The application
           </span>
           <h3
             className="mt-2 text-xl font-semibold tracking-[-0.02em] md:text-3xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Apply{role ? ` — ${role}` : ""}
           </h3>
@@ -308,7 +308,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
           </p>
           <p
             className="mt-4 hidden text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase lg:block"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             Under a minute
           </p>
@@ -324,7 +324,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
 
         {/* positions */}
         <div className="mt-6">
-          <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
             Positions — select all that apply
           </span>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -342,7 +342,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
                       ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
                       : "border-black/15 bg-white text-[#111111]/70 hover:border-black/35"
                   }`}
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {p}
                 </button>
@@ -361,12 +361,12 @@ function ApplyForm({ role }: { role: RoleId | null }) {
         {/* the essay */}
         <div className="mt-6">
           <div className="flex items-baseline justify-between gap-3">
-            <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
               In 250 words or more, tell me why I should hire you and how you plan on contributing to ELSIAA.
             </span>
             <span
               className={`flex-none text-[11px] tabular-nums ${words >= 250 ? "text-[#1e6b3c]" : "text-[#111111]/55"}`}
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
               {words} / 250
             </span>
@@ -440,7 +440,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
               ? "bg-[#111111] text-white hover:bg-[#1e6b3c]"
               : "cursor-not-allowed bg-black/[0.06] text-[#111111]/50"
           }`}
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {state === "sending" ? "Sending…" : "Apply →"}
         </button>
@@ -472,7 +472,7 @@ function Choice({
 }) {
   return (
     <div>
-      <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+      <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
         {label}
       </span>
       <div className="mt-1.5 flex gap-1.5">
@@ -486,7 +486,7 @@ function Choice({
                 ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
                 : "border-black/10 bg-[#FBFBFA] text-[#111111]/65 hover:border-black/30"
             }`}
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             {o}
           </button>
@@ -513,7 +513,7 @@ function Field({
     <label className="block">
       <span
         className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase"
-        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
       >
         {label}
       </span>

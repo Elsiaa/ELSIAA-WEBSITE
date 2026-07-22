@@ -220,13 +220,13 @@ export function ElsiaaExperience() {
         >
           <p
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
             The ELSIAA signature
           </p>
           <h1
             className="mt-4 text-6xl leading-[0.95] font-semibold tracking-[-0.045em] text-[#111111] md:text-9xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Partner with us in curing bad design.
           </h1>
@@ -265,7 +265,7 @@ function StaticJourney() {
     <section className="flex min-h-dvh flex-col items-center justify-center gap-10 bg-white px-6 py-24 text-center">
       <h1
         className="text-5xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl"
-        style={{ fontFamily: "'Inter', sans-serif" }}
+        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         Partner with us in curing bad design.
       </h1>

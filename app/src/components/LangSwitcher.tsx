@@ -36,7 +36,7 @@ export function LangSwitcher({ dark = false }: { dark?: boolean }) {
         </svg>
         <span
           className="text-[11px] tracking-[0.18em] uppercase"
-          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
         >
           {current.code}
         </span>
@@ -63,13 +63,13 @@ export function LangSwitcher({ dark = false }: { dark?: boolean }) {
             >
               <span
                 className="text-[13px] text-[#111111]"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 {l.native}
               </span>
               <span
                 className={`text-[9px] tracking-[0.16em] uppercase ${l.code === lang ? "text-[#1e6b3c]" : "text-[#111111]/35"}`}
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
               >
                 {l.code}
               </span>
