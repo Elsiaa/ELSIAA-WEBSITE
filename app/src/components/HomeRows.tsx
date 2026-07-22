@@ -630,111 +630,183 @@ function ConsultPricing() {
   );
 }
 
-/* ---------- locations ---------- */
+/* ---------- locations — the city desk: live clocks, one active city ---------- */
 const CITIES = [
-  { name: "New York City", q: "Manhattan, New York", flag: "us", art: "/assets/cityart/nyc.jpg" },
-  { name: "London", q: "London, UK", flag: "gb", art: "/assets/cityart/london.jpg" },
-  { name: "Geneva", q: "Geneva, Switzerland", flag: "ch", art: "/assets/cityart/geneva.jpg" },
-  { name: "Antwerp", q: "Antwerp, Belgium", flag: "be", art: "/assets/cityart/antwerp.jpg" },
-  { name: "Tel Aviv", q: "Tel Aviv, Israel", flag: "il", art: "/assets/cityart/telaviv.jpg" },
-  { name: "Los Angeles", q: "Los Angeles, California", flag: "us", art: "/assets/cityart/la.jpg" },
+  { name: "New York City", q: "Manhattan, New York", flag: "us", tz: "America/New_York", art: "/assets/cityart/nyc.jpg" },
+  { name: "London", q: "London, UK", flag: "gb", tz: "Europe/London", art: "/assets/cityart/london.jpg" },
+  { name: "Geneva", q: "Geneva, Switzerland", flag: "ch", tz: "Europe/Zurich", art: "/assets/cityart/geneva.jpg" },
+  { name: "Antwerp", q: "Antwerp, Belgium", flag: "be", tz: "Europe/Brussels", art: "/assets/cityart/antwerp.jpg" },
+  { name: "Tel Aviv", q: "Tel Aviv, Israel", flag: "il", tz: "Asia/Jerusalem", art: "/assets/cityart/telaviv.jpg" },
+  { name: "Los Angeles", q: "Los Angeles, California", flag: "us", tz: "America/Los_Angeles", art: "/assets/cityart/la.jpg" },
 ];
 
-/* rotating scenic footage of each city, clean loop, flags riding on top */
-function CityBackdrop() {
-  const [idx, setIdx] = useState(0);
+function useNow() {
+  const [now, setNow] = useState(() => new Date());
   useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % CITIES.length), 9000);
+    const t = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
-  return (
-    <div className="absolute inset-0 bg-white">
-      {CITIES.map((c, i) => (
-        <img
-          key={c.name}
-          src={c.art}
-          alt=""
-          loading={i === 0 ? "eager" : "lazy"}
-          className={`absolute inset-0 h-full w-full object-cover object-bottom transition-opacity duration-[1600ms] ${
-            i === idx ? "opacity-100" : "opacity-0"
-          }`}
-        />
-      ))}
-    </div>
-  );
+  return now;
+}
+
+function cityTime(now: Date, tz: string) {
+  return new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+    timeZone: tz,
+  }).format(now);
+}
+
+function cityDay(now: Date, tz: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    timeZone: tz,
+  }).format(now);
 }
 
 function Locations() {
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const now = useNow();
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(() => setIdx((i) => (i + 1) % CITIES.length), 6000);
+    return () => clearInterval(t);
+  }, [paused]);
+  const active = CITIES[idx];
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" } as const;
+  const inter = { fontFamily: "'Inter', sans-serif" } as const;
   return (
-    <section className="relative overflow-hidden bg-white py-16 text-[#111111] md:py-24">
-      <CityBackdrop />
-      <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/40 to-white/85" />
-      <div className="relative mx-auto max-w-5xl px-6">
+    <section
+      className="relative overflow-hidden border-t border-black/[0.06] bg-white py-16 text-[#111111] md:py-24"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* skyline backdrop — bright, anchored bottom-right, crossfading */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[62%] md:block">
+        {CITIES.map((c, i) => (
+          <img
+            key={c.name}
+            src={c.art}
+            alt=""
+            loading={i === 0 ? "eager" : "lazy"}
+            className={`absolute inset-0 h-full w-full object-contain object-right-bottom transition-opacity duration-[1400ms] ${
+              i === idx ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-6">
         <Reveal>
-          <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
+          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
             05 · Locations
           </p>
-          <div className="mt-4 flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#1e6b3c]/40 bg-[#1e6b3c]/10">
-              {/* headset — support */}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2e9e58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 13v-2a8 8 0 0 1 16 0v2" />
-                <path d="M4 13a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1v-6Z" />
-                <path d="M20 13a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1v-6Z" />
-                <path d="M19 19a4 4 0 0 1-4 4h-2" />
-              </svg>
-            </span>
-            <p className="text-[13px] leading-snug text-[#111111]/80" style={{ fontFamily: "'Inter', sans-serif" }}>
-              <span className="font-semibold text-[#111111]">24/7 virtual support</span>
-              <span className="text-[#111111]/50"> — and in person, on site at all times, in the following locations.</span>
-            </p>
-          </div>
-          <h2
-            className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
+          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
             One standard. Every timezone.
           </h2>
+          <p className="mt-3 max-w-md text-[14px] leading-relaxed text-[#111111]/55" style={inter}>
+            <span className="font-semibold text-[#111111]">24/7 virtual support</span> — and
+            in person, on site, in six cities. Right now it's{" "}
+            <span className="font-semibold text-[#1e6b3c]">{cityTime(now, active.tz).slice(0, 5)}</span>{" "}
+            in {active.name}.
+          </p>
         </Reveal>
-        <div className="mt-10">
-          <Rail drift={0.35}>
-            {[...CITIES, ...CITIES].map((c, i) => (
-              <div
-                key={`${c.name}-${i}`}
-                className="w-[236px] flex-none overflow-hidden rounded-xl border border-black/[0.08] bg-white shadow-[0_18px_44px_-32px_rgba(17,17,17,0.35)]"
-              >
-                <div className="pointer-events-none h-[150px] w-full overflow-hidden">
-                  <iframe
-                    title={`Map — ${c.name}`}
-                    src={`https://maps.google.com/maps?q=${encodeURIComponent(c.q)}&z=11&output=embed`}
-                    loading="lazy"
-                    className="h-full w-full opacity-90 grayscale-[0.3]"
-                    style={{ border: 0 }}
-                  />
-                </div>
-                <div className="flex items-center justify-between p-4">
-                  <h3 className="flex items-center gap-2 text-[15px] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    <img
-                      src={`/assets/flags/${c.flag}.png`}
-                      srcSet={`/assets/flags/${c.flag}@2x.png 2x`}
-                      alt=""
-                      className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-black/10"
-                    />
-                    {c.name}
-                  </h3>
+
+        <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,420px)_1fr]">
+          {/* the city desk — live clocks */}
+          <Reveal delay={0.08}>
+            <div role="tablist" aria-label="ELSIAA cities">
+              {CITIES.map((c, i) => (
+                <button
+                  key={c.name}
+                  role="tab"
+                  aria-selected={i === idx}
+                  onClick={() => setIdx(i)}
+                  className={`group flex w-full items-center gap-4 border-b border-black/[0.06] py-3.5 text-left transition-all duration-300 ${
+                    i === idx ? "" : "opacity-45 hover:opacity-80"
+                  }`}
+                >
                   <span
-                    className="text-[9px] tracking-[0.22em] text-[#1e6b3c] uppercase"
-                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                  >
-                    ELSIAA
+                    className={`h-8 w-[3px] flex-none rounded-full transition-colors duration-300 ${
+                      i === idx ? "bg-[#1e6b3c]" : "bg-black/[0.08]"
+                    }`}
+                  />
+                  <img
+                    src={`/assets/flags/${c.flag}.png`}
+                    srcSet={`/assets/flags/${c.flag}@2x.png 2x`}
+                    alt=""
+                    className="h-[13px] w-[19px] flex-none rounded-[2px] object-cover ring-1 ring-black/10"
+                  />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[15.5px] font-semibold tracking-[-0.01em]" style={inter}>
+                      {c.name}
+                    </span>
+                    <span
+                      className={`block text-[9.5px] tracking-[0.22em] uppercase transition-colors ${
+                        i === idx ? "text-[#1e6b3c]" : "text-[#111111]/35"
+                      }`}
+                      style={mono}
+                    >
+                      {i === idx ? "On site now" : "ELSIAA office"}
+                    </span>
                   </span>
-                </div>
+                  <span className="text-right">
+                    <span
+                      className={`block text-[17px] font-medium tabular-nums transition-colors ${
+                        i === idx ? "text-[#111111]" : "text-[#111111]/55"
+                      }`}
+                      style={mono}
+                    >
+                      {cityTime(now, c.tz)}
+                    </span>
+                    <span className="block text-[9.5px] tracking-[0.22em] text-[#111111]/35 uppercase" style={mono}>
+                      {cityDay(now, c.tz)} · local
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* one clean map — the active city */}
+          <Reveal delay={0.14}>
+            <div className="overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_30px_70px_-45px_rgba(17,17,17,0.4)]">
+              <div className="h-[300px] w-full md:h-[352px]">
+                <iframe
+                  key={active.name}
+                  title={`Map — ${active.name}`}
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(active.q)}&z=11&output=embed`}
+                  loading="lazy"
+                  className="h-full w-full grayscale-[0.25]"
+                  style={{ border: 0 }}
+                />
               </div>
-            ))}
-          </Rail>
+              <div className="flex items-center justify-between px-5 py-4">
+                <p className="flex items-center gap-2.5 text-[15px] font-semibold" style={inter}>
+                  <img
+                    src={`/assets/flags/${active.flag}.png`}
+                    srcSet={`/assets/flags/${active.flag}@2x.png 2x`}
+                    alt=""
+                    className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-black/10"
+                  />
+                  {active.name}
+                </p>
+                <a
+                  href={`https://maps.google.com/maps?q=${encodeURIComponent(active.q)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
+                  style={mono}
+                >
+                  Open in Maps ↗
+                </a>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
