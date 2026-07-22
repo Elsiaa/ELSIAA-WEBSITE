@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
+import { DesignsOpener } from "./DesignsOpener";
 
 /*
   ELSIAA Designs showcase — follows the cartoon opener.
@@ -1909,7 +1910,7 @@ export function DesignsShowcase() {
         ::selection { background: rgba(46,158,88,0.85); color: #fff; }
         html { scroll-behavior: smooth; }
       `}</style>
-      <Statement />
+      <DesignsOpener />
       <ProductAdFeature />
       <ClientLogos />
       <BeyondWebsites />
