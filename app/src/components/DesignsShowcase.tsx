@@ -1131,6 +1131,78 @@ function DiscoverApps() {
   );
 }
 
+/* ---------------- scroll-controlled assembly cinematic ---------------- */
+function ScrollScrubVideo() {
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const v = videoRef.current;
+    if (!wrap || !v) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      v.loop = true;
+      v.play().catch(() => {});
+      return;
+    }
+    let target = 0;
+    let current = 0;
+    let raf = 0;
+    let ready = false;
+    const onMeta = () => {
+      ready = true;
+    };
+    v.addEventListener("loadedmetadata", onMeta);
+    if (v.readyState >= 1) ready = true;
+    const measure = () => {
+      const r = wrap.getBoundingClientRect();
+      const span = r.height - window.innerHeight;
+      target = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+    };
+    const tick = () => {
+      measure();
+      current += (target - current) * 0.12;
+      if (ready && v.duration && Number.isFinite(v.duration)) {
+        const t = current * (v.duration - 0.05);
+        if (Math.abs(v.currentTime - t) > 0.001) {
+          try {
+            v.currentTime = t;
+          } catch {}
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      v.removeEventListener("loadedmetadata", onMeta);
+    };
+  }, []);
+  return (
+    <div ref={wrapRef} className="relative mt-12 h-[260vh]">
+      <div className="sticky top-0 flex h-screen flex-col items-center justify-center">
+        <div className="w-full overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_60px_130px_-60px_rgba(17,17,17,0.35)]">
+          <video
+            ref={videoRef}
+            src="/assets/design_assembly_white_v2.mp4"
+            poster="/assets/design_assembly_white_poster_v2.jpg"
+            muted
+            playsInline
+            preload="auto"
+            className="aspect-video w-full object-cover"
+          />
+        </div>
+        <p
+          className="mt-5 max-w-xl text-center text-sm leading-relaxed text-[#111111]/55 md:text-base"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
+          Scroll — and watch an ELSIAA design assemble itself: wireframe,
+          type, color, and interface converging, layer by layer.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 /* ---------------- product design — the right way ---------------- */
 function ProductAdFeature() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -1149,7 +1221,7 @@ function ProductAdFeature() {
     return () => io.disconnect();
   }, []);
   return (
-    <section className="bg-[#F5F5F3] px-6 pt-28 pb-24 md:pt-32 text-[#111111]">
+    <section className="bg-white px-6 pt-28 pb-24 md:pt-32 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2
@@ -1188,31 +1260,12 @@ function ProductAdFeature() {
           </p>
         </Reveal>
 
-        {/* the PRIME showcase — a live 3D product cinematic */}
-        <Reveal delay={0.08}>
-          <div className="relative mt-12 overflow-hidden rounded-2xl shadow-[0_60px_130px_-50px_rgba(17,17,17,0.55)]">
-            <video
-              src="/assets/design_assembly_v1.mp4"
-              poster="/assets/design_assembly_poster_v1.jpg"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="aspect-video w-full object-cover"
-            />
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 bg-gradient-to-t from-black/70 via-black/25 to-transparent p-6 pt-16">
-              <p
-                className="max-w-xl text-sm leading-relaxed text-white/90 md:text-base"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                The design process, live — wireframe, type, color, and
-                interface assembling digitally, layer by layer. This is how an
-                ELSIAA design comes together.
-              </p>
-            </div>
-          </div>
-        </Reveal>
-
+        {/* the PRIME showcase — scroll-controlled assembly cinematic */}
+      </div>
+      <div className="mx-auto max-w-6xl">
+        <ScrollScrubVideo />
+      </div>
+      <div className="mx-auto max-w-6xl">
         {/* the layers — an ambient film, no tricks */}
         <Reveal delay={0.08}>
           <div className="mt-6 grid grid-cols-1 items-center gap-8 lg:grid-cols-5">
