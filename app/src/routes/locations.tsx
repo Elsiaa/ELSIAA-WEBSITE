@@ -78,8 +78,9 @@ const OFFICES = [
 
 
 function useNow() {
-  const [now, setNow] = useState(() => new Date());
+  const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
+    setNow(new Date());
     const t = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
@@ -94,6 +95,7 @@ function LocationsPage() {
     return () => clearInterval(t);
   }, []);
   const time = (tz: string) =>
+    !now ? "--:--:--" :
     new Intl.DateTimeFormat("en-GB", {
       hour: "2-digit",
       minute: "2-digit",

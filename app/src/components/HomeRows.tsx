@@ -713,15 +713,17 @@ const CITIES = [
 ];
 
 function useNow() {
-  const [now, setNow] = useState(() => new Date());
+  const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
+    setNow(new Date());
     const t = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
   return now;
 }
 
-function cityTime(now: Date, tz: string) {
+function cityTime(now: Date | null, tz: string) {
+  if (!now) return "--:--:--";
   return new Intl.DateTimeFormat("en-GB", {
     hour: "2-digit",
     minute: "2-digit",
@@ -731,7 +733,8 @@ function cityTime(now: Date, tz: string) {
   }).format(now);
 }
 
-function cityDay(now: Date, tz: string) {
+function cityDay(now: Date | null, tz: string) {
+  if (!now) return "···";
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     timeZone: tz,
@@ -1108,10 +1111,10 @@ export function HomeRows() {
   return (
     <main className="bg-white">
       <ScrollProgress />
-      <SoftwareDemos />
       <HomeHero />
       <HeroCards />
       <WhyBrandsChose />
+      <SoftwareDemos />
       <DivisionRow
         n="01"
         title="Automation & Software"
