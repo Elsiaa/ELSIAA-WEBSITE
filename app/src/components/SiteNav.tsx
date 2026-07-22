@@ -11,6 +11,7 @@ import { SiteSearch, SEARCH_INDEX } from "./SiteSearch";
 */
 const LINKS = [
   { label: "Home", href: "/" },
+  { label: "Automate", href: "/#automate" },
   { label: "Services", href: "/services" },
   { label: "Designs", href: "/designs" },
   { label: "Contact Us", href: "/contact" },
@@ -100,7 +101,13 @@ export function SiteNav() {
             </span>
           </a>
           <nav className="pointer-events-auto flex items-center gap-5 md:gap-7">
-            {[LINKS[1], LINKS[2], LINKS.find((x) => x.href === "/locations")!, LINKS[3]].map((l) => (
+            {[
+              LINKS.find((x) => x.href === "/#automate")!,
+              LINKS.find((x) => x.href === "/services")!,
+              LINKS.find((x) => x.href === "/designs")!,
+              LINKS.find((x) => x.href === "/locations")!,
+              LINKS.find((x) => x.href === "/contact")!,
+            ].map((l) => (
               <a
                 key={l.href}
                 href={l.href}

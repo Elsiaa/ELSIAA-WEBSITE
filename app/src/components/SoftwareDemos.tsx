@@ -512,8 +512,9 @@ export function SoftwareDemos() {
   return (
     <section
       ref={sectionRef}
-      className="border-b border-black/[0.06] bg-white pt-28 pb-12 md:pt-32 md:pb-16"
-      aria-label="Live demos — custom software and AI systems we ship"
+      id="automate"
+      className="scroll-mt-24 border-b border-black/[0.06] bg-white pt-28 pb-12 md:pt-32 md:pb-16"
+      aria-label="Automation & Software — the operating system for your business"
       onMouseEnter={() => (paused.current = true)}
       onMouseLeave={() => (paused.current = false)}
       onTouchStart={() => (paused.current = true)}
@@ -524,13 +525,16 @@ export function SoftwareDemos() {
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div className="max-w-3xl">
               <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
-                Live demos · The operating system for your business
+                01 · Division · Automation & Software
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl" style={inter}>
                 Don't take our word for it. Walk through what we actually ship.
               </h2>
               <p className="mt-3 text-[15px] text-[#111111]/60" style={inter}>
                 Custom software and AI systems built to run a business — not sit beside it.
+              </p>
+              <p className="mt-3 text-[11px] leading-relaxed tracking-[0.04em] text-[#111111]/40" style={mono}>
+                Client names, data, and branding shown here have been changed or removed to protect privacy.
               </p>
             </div>
             <div className="flex items-center gap-2">

@@ -1107,6 +1107,66 @@ function FinalCTA() {
   );
 }
 
+/* ---------- automation capability catalog — the division's full range, tightened ---------- */
+function AutomationCatalog() {
+  return (
+    <section className="border-b border-black/[0.06] bg-white py-16 md:py-20">
+      <div className="mx-auto w-full max-w-6xl px-6">
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-xl">
+              <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                Everything the division ships
+              </p>
+              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: "'Inter', sans-serif" }}>
+                Workflows that run while you sleep — and the software they run on.
+              </h3>
+              <p className="mt-3 text-[14.5px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
+                Sales, operations, finance, support — from the first wireframe to the cloud it runs on.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <a href="/services" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-6 py-3 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                Explore Services →
+              </a>
+              <a href="https://plumbing.demo.elsiaa.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#111111]/15 px-6 py-3 text-[11px] font-bold tracking-[0.22em] text-[#111111] uppercase transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                See it run live ↗
+              </a>
+            </div>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="mt-9 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+            {AUTOSOFT.map((s, i) => (
+              <a
+                key={`${s.name}-${i}`}
+                href="/services"
+                className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]"
+              >
+                <div className="flex items-center justify-between">
+                  <h4 className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    {s.name}
+                  </h4>
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[12px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">
+                    →
+                  </span>
+                </div>
+                <ul className="mt-2.5 space-y-1">
+                  {s.items.map((it) => (
+                    <li key={it} className="text-[12px] leading-snug text-[#111111]/55" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+              </a>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 export function HomeRows() {
   return (
     <main className="bg-white">
@@ -1115,28 +1175,7 @@ export function HomeRows() {
       <HeroCards />
       <WhyBrandsChose />
       <SoftwareDemos />
-      <DivisionRow
-        n="01"
-        title="Automation & Software"
-        lede="Workflows that run while you sleep — and the custom software they run on. Sales, operations, finance, from first wireframe to cloud infrastructure."
-        graphic={<WorkingRobot />}
-        subs={AUTOSOFT}
-        href="/services"
-        cta="Explore Services"
-        extra={
-          <Reveal>
-            <a
-              href="https://plumbing.demo.elsiaa.com"
-              target="_blank"
-              rel="noreferrer"
-              className="mt-8 inline-flex items-center gap-3 rounded-full border border-[#111111]/15 px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              See the automations run live →
-            </a>
-          </Reveal>
-        }
-      />
+      <AutomationCatalog />
       <DivisionRow
         n="02"
         title="Design"
