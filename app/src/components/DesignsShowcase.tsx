@@ -1192,8 +1192,8 @@ function ProductAdFeature() {
         <Reveal delay={0.08}>
           <div className="relative mt-12 overflow-hidden rounded-2xl shadow-[0_60px_130px_-50px_rgba(17,17,17,0.55)]">
             <video
-              src="/assets/watch_3d_v1.mp4"
-              poster="/assets/watch_3d_poster_v1.jpg"
+              src="/assets/design_assembly_v1.mp4"
+              poster="/assets/design_assembly_poster_v1.jpg"
               autoPlay
               loop
               muted
@@ -1205,9 +1205,9 @@ function ProductAdFeature() {
                 className="max-w-xl text-sm leading-relaxed text-white/90 md:text-base"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                The product, suspended live in 3D — every component staged,
-                every surface lit like it deserves. This is how ELSIAA
-                displays a product.
+                The design process, live — wireframe, type, color, and
+                interface assembling digitally, layer by layer. This is how an
+                ELSIAA design comes together.
               </p>
             </div>
           </div>

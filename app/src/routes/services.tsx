@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 import { SiteNav } from "../components/SiteNav";
+import { DESIGN, AUTOMATION, SOFTWARE, CONSULTATION } from "../components/HomeRows";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -243,6 +244,76 @@ function Services() {
       </section>
 
       {/* closing */}
+
+      {/* the full catalog — every service from the homepage carousels, in its place */}
+      <section className="bg-white px-6 py-24">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <p
+              className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              The Full Catalog
+            </p>
+            <h2
+              className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Everything we do, in one place.
+            </h2>
+          </Reveal>
+          {[
+            { division: "Design", href: "/designs", groups: DESIGN },
+            { division: "Automation", href: "/quote", groups: AUTOMATION },
+            { division: "Software", href: "/quote", groups: SOFTWARE },
+            { division: "Consultation", href: "/contact", groups: CONSULTATION },
+          ].map((d, di) => (
+            <Reveal key={d.division} delay={di * 0.05}>
+              <div className="mt-12 first:mt-10">
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3
+                    className="text-xl font-semibold tracking-[-0.02em] md:text-2xl"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {d.division}
+                  </h3>
+                  <a
+                    href={d.href}
+                    className="flex-none text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    Start here ↗
+                  </a>
+                </div>
+                <div className="mt-5 grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {d.groups.map((g) => (
+                    <div key={g.name}>
+                      <p
+                        className="text-[10px] tracking-[0.26em] text-[#1e6b3c] uppercase"
+                        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                      >
+                        {g.name}
+                      </p>
+                      <ul className="mt-2 space-y-1.5">
+                        {g.items.map((it) => (
+                          <li
+                            key={it}
+                            className="text-[14px] text-[#111111]/65"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            {it}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       <section className="bg-[#070907] px-6 py-28 text-center text-[#F5F5F3]">
         <Reveal>
           <p

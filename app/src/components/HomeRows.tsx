@@ -119,7 +119,7 @@ function Rail({
 }
 
 /* ---------- one division row: graphic + title + subcategory cards ---------- */
-type Sub = { name: string; items: string[] };
+export type Sub = { name: string; items: string[] };
 
 function DivisionRow({
   n,
@@ -276,24 +276,24 @@ function CountUp({ target }: { target: number }) {
 /* ---------- the opener: the world changed — hero + the count, one dark screen ---------- */
 function HomeHero() {
   return (
-    <section className="flex min-h-screen flex-col justify-between bg-[#0a0a0a] pt-28 pb-10 md:pt-32">
+    <section className="flex min-h-screen flex-col justify-between bg-white pt-28 pb-10 md:pt-32">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
           <p
-            className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             ELSIAA · AI Done Better
           </p>
           <h1
-            className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-white md:text-6xl"
+            className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             The world changed.
-            <span className="text-[#2e9e58]"> AI is here.</span>
+            <span className="text-[#1e6b3c]"> AI is here.</span>
           </h1>
           <p
-            className="mt-5 max-w-xl text-[15.5px] leading-relaxed text-white/55 md:text-[17px]"
+            className="mt-5 max-w-xl text-[15.5px] leading-relaxed text-[#111111]/55 md:text-[17px]"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             We work with you to implement AI — integrating cutting-edge
@@ -309,14 +309,14 @@ function HomeHero() {
           <Reveal>
             <div className="flex items-baseline justify-between gap-4">
               <p
-                className="text-[12px] tracking-[0.28em] text-white/40 uppercase"
+                className="text-[12px] tracking-[0.28em] text-[#111111]/45 uppercase"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Right now, while you read this
               </p>
               <a
                 href="/insights"
-                className="flex-none text-[11px] tracking-[0.24em] text-[#2e9e58] uppercase hover:underline"
+                className="flex-none text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Read the research ↗
@@ -330,25 +330,22 @@ function HomeHero() {
               <a
                 key={`${s.industry}-${i}`}
                 href="/insights"
-                className="group flex w-[260px] flex-none flex-col rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#2e9e58]/50"
+                className="group flex w-[260px] flex-none flex-col rounded-xl border border-black/[0.07] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/40"
               >
                 <span
-                  className="text-[10px] tracking-[0.24em] text-[#2e9e58] uppercase"
+                  className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   {s.industry}
                 </span>
                 <span
-                  className="mt-2 text-5xl font-semibold tracking-[-0.04em] text-[#2e9e58]"
-                  style={{
-                    fontFamily: "'Inter', sans-serif",
-                    textShadow: "0 0 28px rgba(46,158,88,0.45)",
-                  }}
+                  className="mt-2 text-5xl font-semibold tracking-[-0.04em] text-[#111111]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   <CountUp target={s.pct} />
                 </span>
                 <p
-                  className="mt-2.5 text-[12.5px] leading-relaxed text-white/55"
+                  className="mt-2.5 text-[12.5px] leading-relaxed text-[#111111]/55"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   {s.line}
@@ -360,12 +357,12 @@ function HomeHero() {
         <div className="mx-auto w-full max-w-6xl px-6">
           <Reveal>
             <p
-              className="mt-4 text-[13.5px] text-white/45"
+              className="mt-4 text-[13.5px] text-[#111111]/50"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               The question isn't whether AI takes the work — it's who's
               holding it when it does.{" "}
-              <a href="/contact" className="font-medium text-[#2e9e58] hover:underline">
+              <a href="/contact" className="font-medium text-[#1e6b3c] hover:underline">
                 Make sure it's you →
               </a>
             </p>
@@ -424,28 +421,28 @@ function HeroCards() {
 }
 
 /* ---------- data: the full catalog ---------- */
-const DESIGN: Sub[] = [
+export const DESIGN: Sub[] = [
   { name: "Web", items: ["Website Design", "UI/UX Design", "Landing Pages", "SaaS Interfaces", "E-commerce Design", "Dashboard Design"] },
   { name: "Apps", items: ["Mobile App Design", "iOS & Android UI", "App Store Assets"] },
   { name: "Branding", items: ["Branding & Logo Design", "Brand Identity", "Packaging Design", "Print Design"] },
   { name: "Marketing", items: ["Marketing Graphics", "Social Media Graphics", "Motion Graphics", "Presentation Design"] },
   { name: "Product", items: ["3D Product Renders", "Product Staging", "Commercial Imagery"] },
 ];
-const AUTOMATION: Sub[] = [
+export const AUTOMATION: Sub[] = [
   { name: "Sales", items: ["CRM Automation", "Lead Qualification", "Proposal Generation", "Appointment Booking"] },
   { name: "Operations", items: ["Internal Business Automation", "Document Processing", "Data Entry Automation", "Web Scraping", "API Integrations", "Zapier / Make Automation"] },
   { name: "Customer Support", items: ["Customer Follow-up", "Email Automation", "Slack & Discord Bots"] },
   { name: "Finance", items: ["Invoice Automation", "Reporting Dashboards"] },
   { name: "AI", items: ["AI Workflow Automation", "AI Agents & Assistants"] },
 ];
-const SOFTWARE: Sub[] = [
+export const SOFTWARE: Sub[] = [
   { name: "Web", items: ["Custom Web Applications", "SaaS Development", "Client Portals"] },
   { name: "Mobile", items: ["iOS Apps", "Android Apps"] },
   { name: "Enterprise", items: ["Internal Company Software", "Employee Dashboards", "Inventory Systems", "CRM Development", "ERP Systems"] },
   { name: "AI", items: ["AI Applications", "AI Chatbots"] },
   { name: "Infrastructure", items: ["API Development", "Database Architecture", "Cloud Infrastructure", "Maintenance & Support"] },
 ];
-const CONSULTATION: Sub[] = [
+export const CONSULTATION: Sub[] = [
   { name: "Strategy", items: ["1-on-1 Strategy Calls", "AI Implementation Consulting", "Digital Transformation"] },
   { name: "Technology", items: ["Software Architecture Review", "Technical Due Diligence", "CTO Advisory", "Code Reviews"] },
   { name: "Business", items: ["Business Process Audits", "Automation Planning", "Team Training", "Ongoing Monthly Advisory"] },
