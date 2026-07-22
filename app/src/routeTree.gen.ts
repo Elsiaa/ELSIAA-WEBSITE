@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamRouteImport } from './routes/team'
+import { Route as StoreRouteImport } from './routes/store'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SearchRouteImport } from './routes/search'
@@ -18,17 +19,27 @@ import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as DesignsRouteImport } from './routes/designs'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ConceptWalkRouteImport } from './routes/concept-walk'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiQuotesRouteImport } from './routes/api/quotes'
 import { Route as ApiQuoteRouteImport } from './routes/api/quote'
+import { Route as ApiOrdersRouteImport } from './routes/api/orders'
+import { Route as ApiOrderRouteImport } from './routes/api/order'
+import { Route as ApiMeetingsRouteImport } from './routes/api/meetings'
+import { Route as ApiMeetingRouteImport } from './routes/api/meeting'
 import { Route as AdminQuotesRouteImport } from './routes/admin/quotes'
 
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreRoute = StoreRouteImport.update({
+  id: '/store',
+  path: '/store',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -71,6 +82,11 @@ const DesignsRoute = DesignsRouteImport.update({
   path: '/designs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConsultationRoute = ConsultationRouteImport.update({
   id: '/consultation',
   path: '/consultation',
@@ -101,6 +117,26 @@ const ApiQuoteRoute = ApiQuoteRouteImport.update({
   path: '/api/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiOrdersRoute = ApiOrdersRouteImport.update({
+  id: '/api/orders',
+  path: '/api/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOrderRoute = ApiOrderRouteImport.update({
+  id: '/api/order',
+  path: '/api/order',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiMeetingsRoute = ApiMeetingsRouteImport.update({
+  id: '/api/meetings',
+  path: '/api/meetings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiMeetingRoute = ApiMeetingRouteImport.update({
+  id: '/api/meeting',
+  path: '/api/meeting',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminQuotesRoute = AdminQuotesRouteImport.update({
   id: '/admin/quotes',
   path: '/admin/quotes',
@@ -112,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
+  '/contact': typeof ContactRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/portal': typeof PortalRoute
@@ -120,8 +157,13 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/admin/quotes': typeof AdminQuotesRoute
+  '/api/meeting': typeof ApiMeetingRoute
+  '/api/meetings': typeof ApiMeetingsRoute
+  '/api/order': typeof ApiOrderRoute
+  '/api/orders': typeof ApiOrdersRoute
   '/api/quote': typeof ApiQuoteRoute
   '/api/quotes': typeof ApiQuotesRoute
 }
@@ -130,6 +172,7 @@ export interface FileRoutesByTo {
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
+  '/contact': typeof ContactRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/portal': typeof PortalRoute
@@ -138,8 +181,13 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/admin/quotes': typeof AdminQuotesRoute
+  '/api/meeting': typeof ApiMeetingRoute
+  '/api/meetings': typeof ApiMeetingsRoute
+  '/api/order': typeof ApiOrderRoute
+  '/api/orders': typeof ApiOrdersRoute
   '/api/quote': typeof ApiQuoteRoute
   '/api/quotes': typeof ApiQuotesRoute
 }
@@ -149,6 +197,7 @@ export interface FileRoutesById {
   '/careers': typeof CareersRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
+  '/contact': typeof ContactRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/portal': typeof PortalRoute
@@ -157,8 +206,13 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/admin/quotes': typeof AdminQuotesRoute
+  '/api/meeting': typeof ApiMeetingRoute
+  '/api/meetings': typeof ApiMeetingsRoute
+  '/api/order': typeof ApiOrderRoute
+  '/api/orders': typeof ApiOrdersRoute
   '/api/quote': typeof ApiQuoteRoute
   '/api/quotes': typeof ApiQuotesRoute
 }
@@ -169,6 +223,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/concept-walk'
     | '/consultation'
+    | '/contact'
     | '/designs'
     | '/insights'
     | '/portal'
@@ -177,8 +232,13 @@ export interface FileRouteTypes {
     | '/search'
     | '/services'
     | '/sitemap.xml'
+    | '/store'
     | '/team'
     | '/admin/quotes'
+    | '/api/meeting'
+    | '/api/meetings'
+    | '/api/order'
+    | '/api/orders'
     | '/api/quote'
     | '/api/quotes'
   fileRoutesByTo: FileRoutesByTo
@@ -187,6 +247,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/concept-walk'
     | '/consultation'
+    | '/contact'
     | '/designs'
     | '/insights'
     | '/portal'
@@ -195,8 +256,13 @@ export interface FileRouteTypes {
     | '/search'
     | '/services'
     | '/sitemap.xml'
+    | '/store'
     | '/team'
     | '/admin/quotes'
+    | '/api/meeting'
+    | '/api/meetings'
+    | '/api/order'
+    | '/api/orders'
     | '/api/quote'
     | '/api/quotes'
   id:
@@ -205,6 +271,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/concept-walk'
     | '/consultation'
+    | '/contact'
     | '/designs'
     | '/insights'
     | '/portal'
@@ -213,8 +280,13 @@ export interface FileRouteTypes {
     | '/search'
     | '/services'
     | '/sitemap.xml'
+    | '/store'
     | '/team'
     | '/admin/quotes'
+    | '/api/meeting'
+    | '/api/meetings'
+    | '/api/order'
+    | '/api/orders'
     | '/api/quote'
     | '/api/quotes'
   fileRoutesById: FileRoutesById
@@ -224,6 +296,7 @@ export interface RootRouteChildren {
   CareersRoute: typeof CareersRoute
   ConceptWalkRoute: typeof ConceptWalkRoute
   ConsultationRoute: typeof ConsultationRoute
+  ContactRoute: typeof ContactRoute
   DesignsRoute: typeof DesignsRoute
   InsightsRoute: typeof InsightsRoute
   PortalRoute: typeof PortalRoute
@@ -232,8 +305,13 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StoreRoute: typeof StoreRoute
   TeamRoute: typeof TeamRoute
   AdminQuotesRoute: typeof AdminQuotesRoute
+  ApiMeetingRoute: typeof ApiMeetingRoute
+  ApiMeetingsRoute: typeof ApiMeetingsRoute
+  ApiOrderRoute: typeof ApiOrderRoute
+  ApiOrdersRoute: typeof ApiOrdersRoute
   ApiQuoteRoute: typeof ApiQuoteRoute
   ApiQuotesRoute: typeof ApiQuotesRoute
 }
@@ -245,6 +323,13 @@ declare module '@tanstack/react-router' {
       path: '/team'
       fullPath: '/team'
       preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -303,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DesignsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/consultation': {
       id: '/consultation'
       path: '/consultation'
@@ -345,6 +437,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiQuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/orders': {
+      id: '/api/orders'
+      path: '/api/orders'
+      fullPath: '/api/orders'
+      preLoaderRoute: typeof ApiOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/order': {
+      id: '/api/order'
+      path: '/api/order'
+      fullPath: '/api/order'
+      preLoaderRoute: typeof ApiOrderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/meetings': {
+      id: '/api/meetings'
+      path: '/api/meetings'
+      fullPath: '/api/meetings'
+      preLoaderRoute: typeof ApiMeetingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/meeting': {
+      id: '/api/meeting'
+      path: '/api/meeting'
+      fullPath: '/api/meeting'
+      preLoaderRoute: typeof ApiMeetingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/quotes': {
       id: '/admin/quotes'
       path: '/admin/quotes'
@@ -360,6 +480,7 @@ const rootRouteChildren: RootRouteChildren = {
   CareersRoute: CareersRoute,
   ConceptWalkRoute: ConceptWalkRoute,
   ConsultationRoute: ConsultationRoute,
+  ContactRoute: ContactRoute,
   DesignsRoute: DesignsRoute,
   InsightsRoute: InsightsRoute,
   PortalRoute: PortalRoute,
@@ -368,8 +489,13 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StoreRoute: StoreRoute,
   TeamRoute: TeamRoute,
   AdminQuotesRoute: AdminQuotesRoute,
+  ApiMeetingRoute: ApiMeetingRoute,
+  ApiMeetingsRoute: ApiMeetingsRoute,
+  ApiOrderRoute: ApiOrderRoute,
+  ApiOrdersRoute: ApiOrdersRoute,
   ApiQuoteRoute: ApiQuoteRoute,
   ApiQuotesRoute: ApiQuotesRoute,
 }

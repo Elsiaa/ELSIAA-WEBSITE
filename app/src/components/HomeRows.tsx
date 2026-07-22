@@ -273,6 +273,77 @@ function CountUp({ target }: { target: number }) {
   );
 }
 
+/* ---------- the opener: the world changed ---------- */
+function HomeHero() {
+  return (
+    <section className="bg-white pt-36 pb-16 md:pt-44 md:pb-24">
+      <div className="mx-auto w-full max-w-6xl px-6">
+        <Reveal>
+          <p
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            ELSIAA · AI Done Better
+          </p>
+          <h1
+            className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            The world changed.
+            <span className="text-[#1e6b3c]"> AI is here.</span>
+          </h1>
+          <p
+            className="mt-5 max-w-xl text-[16px] leading-relaxed text-[#111111]/55 md:text-[17px]"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            We work with you to implement AI — integrating cutting-edge
+            solutions, automation, and software services into every kind of
+            business.
+          </p>
+        </Reveal>
+        <div className="mt-10 grid grid-cols-1 gap-3 md:grid-cols-2">
+          <Reveal delay={0.05}>
+            <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-7">
+              <h2
+                className="text-[19px] font-semibold tracking-[-0.02em] text-[#111111]"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                If it&rsquo;s an intelligent process, we can build it.
+              </h2>
+              <p
+                className="mt-2.5 text-[14.5px] leading-relaxed text-[#111111]/55"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                AI is an algorithm that learns your data — and bends to your
+                use case. Sales, operations, medicine, law: any workflow a
+                mind can run, we can teach a model to run with it.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="h-full rounded-2xl border border-[#1e6b3c]/25 bg-[#f4faf6] p-7">
+              <h2
+                className="text-[19px] font-semibold tracking-[-0.02em] text-[#111111]"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                No bugs. No data hacks. Fully insured.
+              </h2>
+              <p
+                className="mt-2.5 text-[14.5px] leading-relaxed text-[#111111]/55"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Is your AI-built healthcare program insured? It holds
+                thousands of patients&rsquo; records. Every ELSIAA build ships
+                hardened, tested, and covered — so the answer is yes.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function StatsSection() {
   return (
     <section className="bg-white pt-32 pb-14 md:pt-36 md:pb-16">
@@ -641,10 +712,82 @@ function Team() {
   );
 }
 
+
+/* ---------- the merch strip: one clean line + carousel ---------- */
+const MERCH = [
+  { img: "/assets/store/merch_tee.jpg", name: "ELSIAA Tee", price: "$58" },
+  { img: "/assets/store/merch_pants.jpg", name: "ELSIAA Pants", price: "$118" },
+  { img: "/assets/store/merch_ny.jpg", name: "New York Hoodie", price: "$188" },
+  { img: "/assets/store/merch_la.jpg", name: "Los Angeles Tee", price: "$148" },
+  { img: "/assets/store/merch_ldn.jpg", name: "London Crewneck", price: "$178" },
+  { img: "/assets/store/merch_tlv.jpg", name: "Tel Aviv Tee", price: "$148" },
+];
+
+function MerchStrip() {
+  return (
+    <section className="border-t border-black/[0.06] bg-white py-16 md:py-24">
+      <div className="mx-auto w-full max-w-6xl px-6">
+        <Reveal>
+          <p
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            The Store
+          </p>
+          <h2
+            className="mt-2 max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Discover ELSIAA merch.
+          </h2>
+          <p
+            className="mt-3 max-w-md text-[15px] text-[#111111]/50"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Everyone loved our merch and asked where we bought it. So here it
+            is — a line of clothing the creator would wear.
+          </p>
+          <a
+            href="/store"
+            className="mt-5 inline-block text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Shop the store ↗
+          </a>
+        </Reveal>
+      </div>
+      <div className="mt-10">
+        <Rail drift={0.3}>
+          {[...MERCH, ...MERCH].map((m, i) => (
+            <a
+              key={`${m.name}-${i}`}
+              href="/store"
+              className="group w-[220px] flex-none"
+            >
+              <div className="overflow-hidden rounded-xl bg-[#F5F4F1]">
+                <img
+                  src={m.img}
+                  alt={m.name}
+                  loading="lazy"
+                  className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                />
+              </div>
+              <div className="mt-2.5 flex items-baseline justify-between px-0.5">
+                <p className="text-[13.5px] font-semibold text-[#111111]" style={{ fontFamily: "'Inter', sans-serif" }}>{m.name}</p>
+                <p className="text-[12.5px] text-[#111111]/60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{m.price}</p>
+              </div>
+            </a>
+          ))}
+        </Rail>
+      </div>
+    </section>
+  );
+}
+
 export function HomeRows() {
   return (
     <main className="bg-white">
-      <StatsSection />
+      <HomeHero />\n      <StatsSection />
       <DivisionRow
         n="01"
         title="Design"
@@ -684,6 +827,7 @@ export function HomeRows() {
         }
       />
       <Locations />
+      <MerchStrip />
       <Team />
     </main>
   );

@@ -1156,16 +1156,25 @@ function ProductAdFeature() {
             className="max-w-3xl text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            There is only one way to display a product.
-            <span className="text-[#1e6b3c]"> The right way.</span>
+            Design is art.
+            <span className="text-[#1e6b3c]"> And art has a job.</span>
           </h2>
           <p
             className="mt-4 max-w-2xl text-base leading-relaxed text-[#111111]/50 md:text-lg"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Everything in this world is packaged and layered with design — presented
-            carefully, with the right optics, capturing the core of what you&rsquo;re
-            selling.
+            The artist&rsquo;s job is to capture the core of what you want to
+            convey — and express it to the world in the best perceivable way
+            possible. Complex? We know. That&rsquo;s why you leave it up to us.
+          </p>
+          <p
+            className="mt-3 max-w-2xl text-base leading-relaxed text-[#111111]/50 md:text-lg"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Everything that follows was designed meticulously for a client.
+            Some use AI to create the bare minimum — our world-class team of
+            artists leverages the strongest AI there is to build the best
+            possible design, for every client.
           </p>
         </Reveal>
 
