@@ -632,12 +632,12 @@ function ConsultPricing() {
 
 /* ---------- locations ---------- */
 const CITIES = [
-  { name: "New York City", q: "Manhattan, New York", flag: "us", vid: "/assets/city_nyc.mp4" },
-  { name: "London", q: "London, UK", flag: "gb", vid: "/assets/city_london.mp4" },
-  { name: "Geneva", q: "Geneva, Switzerland", flag: "ch", vid: "/assets/city_geneva.mp4" },
-  { name: "Antwerp", q: "Antwerp, Belgium", flag: "be", vid: "/assets/city_antwerp.mp4" },
-  { name: "Tel Aviv", q: "Tel Aviv, Israel", flag: "il", vid: "/assets/city_telaviv.mp4" },
-  { name: "Los Angeles", q: "Los Angeles, California", flag: "us", vid: "/assets/city_la.mp4" },
+  { name: "New York City", q: "Manhattan, New York", flag: "us", art: "/assets/cityart/nyc.jpg" },
+  { name: "London", q: "London, UK", flag: "gb", art: "/assets/cityart/london.jpg" },
+  { name: "Geneva", q: "Geneva, Switzerland", flag: "ch", art: "/assets/cityart/geneva.jpg" },
+  { name: "Antwerp", q: "Antwerp, Belgium", flag: "be", art: "/assets/cityart/antwerp.jpg" },
+  { name: "Tel Aviv", q: "Tel Aviv, Israel", flag: "il", art: "/assets/cityart/telaviv.jpg" },
+  { name: "Los Angeles", q: "Los Angeles, California", flag: "us", art: "/assets/cityart/la.jpg" },
 ];
 
 /* rotating scenic footage of each city, clean loop, flags riding on top */
@@ -648,18 +648,15 @@ function CityBackdrop() {
     return () => clearInterval(t);
   }, []);
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0 bg-white">
       {CITIES.map((c, i) => (
-        <video
+        <img
           key={c.name}
-          src={c.vid}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload={i === 0 ? "auto" : "metadata"}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms] ${
-            i === idx ? "opacity-40" : "opacity-0"
+          src={c.art}
+          alt=""
+          loading={i === 0 ? "eager" : "lazy"}
+          className={`absolute inset-0 h-full w-full object-cover object-bottom transition-opacity duration-[1600ms] ${
+            i === idx ? "opacity-100" : "opacity-0"
           }`}
         />
       ))}
@@ -669,19 +666,19 @@ function CityBackdrop() {
 
 function Locations() {
   return (
-    <section className="relative overflow-hidden bg-[#0c0c0c] py-16 text-white md:py-24">
+    <section className="relative overflow-hidden bg-white py-16 text-[#111111] md:py-24">
       <CityBackdrop />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0c0c0c]/70 via-transparent to-[#0c0c0c]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/40 to-white/85" />
       <div className="relative mx-auto max-w-5xl px-6">
         <Reveal>
           <p
-            className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             05 · Locations
           </p>
           <div className="mt-4 flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#2e9e58]/50 bg-[#2e9e58]/10">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#1e6b3c]/40 bg-[#1e6b3c]/10">
               {/* headset — support */}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2e9e58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 13v-2a8 8 0 0 1 16 0v2" />
@@ -690,9 +687,9 @@ function Locations() {
                 <path d="M19 19a4 4 0 0 1-4 4h-2" />
               </svg>
             </span>
-            <p className="text-[13px] leading-snug text-white/80" style={{ fontFamily: "'Inter', sans-serif" }}>
-              <span className="font-semibold text-white">24/7 virtual support</span>
-              <span className="text-white/50"> — and in person, on site at all times, in the following locations.</span>
+            <p className="text-[13px] leading-snug text-[#111111]/80" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <span className="font-semibold text-[#111111]">24/7 virtual support</span>
+              <span className="text-[#111111]/50"> — and in person, on site at all times, in the following locations.</span>
             </p>
           </div>
           <h2
@@ -707,7 +704,7 @@ function Locations() {
             {[...CITIES, ...CITIES].map((c, i) => (
               <div
                 key={`${c.name}-${i}`}
-                className="w-[236px] flex-none overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur"
+                className="w-[236px] flex-none overflow-hidden rounded-xl border border-black/[0.08] bg-white shadow-[0_18px_44px_-32px_rgba(17,17,17,0.35)]"
               >
                 <div className="pointer-events-none h-[150px] w-full overflow-hidden">
                   <iframe
@@ -724,12 +721,12 @@ function Locations() {
                       src={`/assets/flags/${c.flag}.png`}
                       srcSet={`/assets/flags/${c.flag}@2x.png 2x`}
                       alt=""
-                      className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-white/20"
+                      className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-black/10"
                     />
                     {c.name}
                   </h3>
                   <span
-                    className="text-[9px] tracking-[0.22em] text-[#2e9e58] uppercase"
+                    className="text-[9px] tracking-[0.22em] text-[#1e6b3c] uppercase"
                     style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     ELSIAA
