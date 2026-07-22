@@ -216,7 +216,8 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
         if (lx + w > px - 2) lx = p.x - 8 - w; // flip left near the edge
         let ly = p.y + 3;
         let moved = true;
-        while (moved) {
+        let guard = 0;
+        while (moved && guard++ < 24) {
           moved = false;
           for (const r of placedLabels) {
             const xOverlap = lx < r.x + r.w + 8 && r.x < lx + w + 8;
