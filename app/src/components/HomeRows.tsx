@@ -9,6 +9,63 @@ import { WorkingRobot } from "./WorkingRobot";
    carousel per division, consultation pricing, locations, team.
    ============================================================ */
 
+/* ---------- global scroll progress — thin emerald line above everything ---------- */
+function ScrollProgress() {
+  const [w, setW] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const h = document.documentElement;
+        const max = h.scrollHeight - h.clientHeight;
+        setW(max > 0 ? (h.scrollTop / max) * 100 : 0);
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+  return (
+    <div className="fixed inset-x-0 top-0 z-[60] h-[2px] bg-transparent">
+      <div
+        className="h-full bg-[#1e6b3c] transition-[width] duration-150 ease-out"
+        style={{ width: `${w}%` }}
+      />
+    </div>
+  );
+}
+
+/* ---------- scroll parallax: gentle vertical drift while the element crosses the viewport ---------- */
+function Parallax({ children, amount = 26 }: { children: React.ReactNode; amount?: number }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const progress = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+        el.style.transform = `translateY(${(-progress * amount).toFixed(1)}px)`;
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [amount]);
+  return <div ref={ref} style={{ willChange: "transform" }}>{children}</div>;
+}
+
 function Reveal({
   children,
   delay = 0,
@@ -138,7 +195,6 @@ function DivisionRow({
   graphic?: React.ReactNode;
   subs: Sub[];
   href: string;
-  flip?: boolean;
   extra?: React.ReactNode;
 }) {
   return (
@@ -174,6 +230,7 @@ function DivisionRow({
             </a>
           </Reveal>
           <Reveal>
+            <Parallax>
             <a href={href} className="group block bg-white">
               {graphic ?? (
                 <img
@@ -184,9 +241,11 @@ function DivisionRow({
                 />
               )}
             </a>
+            </Parallax>
           </Reveal>
         </div>
         {/* the carousel — one long row across the entire width */}
+        <Reveal delay={0.1}>
         <div className="mt-10">
           <Rail>
             {[...subs, ...subs].map((s, i) => (
@@ -221,6 +280,7 @@ function DivisionRow({
             ))}
           </Rail>
         </div>
+        </Reveal>
         {extra}
       </div>
     </section>
@@ -375,9 +435,17 @@ function HomeHero() {
 
 function HeroCards() {
   return (
-    <section className="bg-white py-14 md:py-20">
+    <section className="border-t border-black/[0.06] bg-white py-14 md:py-20">
       <div className="mx-auto w-full max-w-6xl px-6">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        <Reveal>
+          <p
+            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Why ELSIAA
+          </p>
+        </Reveal>
+        <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
           <Reveal delay={0.05}>
             <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-7">
               <h2
@@ -429,10 +497,12 @@ export const DESIGN: Sub[] = [
   { name: "Product", items: ["3D Product Renders", "Product Staging", "Commercial Imagery"] },
 ];
 export const AUTOMATION: Sub[] = [
-  { name: "Sales", items: ["CRM Automation", "Lead Qualification", "Proposal Generation", "Appointment Booking"] },
-  { name: "Operations", items: ["Internal Business Automation", "Document Processing", "Data Entry Automation", "Web Scraping", "API Integrations", "Zapier / Make Automation"] },
-  { name: "Customer Support", items: ["Customer Follow-up", "Email Automation", "Slack & Discord Bots"] },
-  { name: "Finance", items: ["Invoice Automation", "Reporting Dashboards"] },
+  { name: "Sales", items: ["CRM Automation", "Lead Qualification", "Proposal Generation", "Appointment Booking", "Quote Follow-ups", "Pipeline Alerts"] },
+  { name: "Operations", items: ["Internal Business Automation", "Document Processing", "Data Entry Automation", "Web Scraping", "API Integrations", "Zapier / Make Automation", "Inventory Sync", "Meeting Notes → CRM"] },
+  { name: "Customer Support", items: ["Customer Follow-up", "Email Automation", "Slack & Discord Bots", "Ticket Triage & Routing", "Review Management"] },
+  { name: "Finance", items: ["Invoice Automation", "Reporting Dashboards", "Payroll Automation", "Expense Processing", "Payment Reminders"] },
+  { name: "Marketing", items: ["Social Posting Automation", "Ad Performance Reports", "Newsletter Automation"] },
+  { name: "HR", items: ["Recruiting Screening", "Employee Onboarding"] },
   { name: "AI", items: ["AI Workflow Automation", "AI Agents & Assistants"] },
 ];
 export const SOFTWARE: Sub[] = [
@@ -599,7 +669,7 @@ function Locations() {
             className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            06 · Locations
+            05 · Locations
           </p>
           <div className="mt-4 flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#2e9e58]/50 bg-[#2e9e58]/10">
@@ -759,7 +829,7 @@ function MerchStrip() {
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            The Store
+            06 · The Store
           </p>
           <h2
             className="mt-2 max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
@@ -783,6 +853,7 @@ function MerchStrip() {
           </a>
         </Reveal>
       </div>
+      <Reveal delay={0.08}>
       <div className="mt-10">
         <Rail drift={0.3}>
           {[...MERCH, ...MERCH].map((m, i) => (
@@ -791,7 +862,7 @@ function MerchStrip() {
               href="/store"
               className="group w-[220px] flex-none"
             >
-              <div className="overflow-hidden rounded-xl bg-[#F5F4F1]">
+              <div className="overflow-hidden rounded-xl border border-black/[0.06] bg-white">
                 <img
                   src={m.img}
                   alt={m.name}
@@ -807,6 +878,62 @@ function MerchStrip() {
           ))}
         </Rail>
       </div>
+      </Reveal>
+    </section>
+  );
+}
+
+/* ---------- closing CTA — the next step, unmissable ---------- */
+function FinalCTA() {
+  return (
+    <section className="border-t border-black/[0.06] bg-[#0c0c0c] py-20 text-white md:py-28">
+      <div className="mx-auto max-w-4xl px-6 text-center">
+        <Reveal>
+          <p
+            className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            08 · Next
+          </p>
+          <h2
+            className="mx-auto mt-4 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            The world changed. Your business should too.
+          </h2>
+          <p
+            className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-white/55"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Tell us what you're building — get a scoped plan and a price. Or
+            take the free call first and see if we fit.
+          </p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/quote"
+              className="rounded-full bg-[#2e9e58] px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-white hover:text-[#111111]"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Get a Quote →
+            </a>
+            <a
+              href="/contact"
+              className="rounded-full border border-white/25 px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-[#111111]"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Book a free call
+            </a>
+          </div>
+          <p
+            className="mt-5 text-[12px] text-white/35"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            20 minutes, no pitch — a straight answer on where AI pays off for you.
+          </p>
+        </Reveal>
+      </div>
     </section>
   );
 }
@@ -814,12 +941,13 @@ function MerchStrip() {
 export function HomeRows() {
   return (
     <main className="bg-white">
+      <ScrollProgress />
       <HomeHero />
       <HeroCards />
       <DivisionRow
         n="01"
         title="Design"
-        lede="At ELSIAA we understand design. Good artists don't use AI — they leverage it. We use AI to push the limits of what's possible, delivering the best designs for every aspect of your business."
+        lede="Good artists don't use AI — they leverage it. World-class design for every surface of your business."
         graphic={<AssemblingArtist />}
         subs={DESIGN}
         href="/designs"
@@ -831,7 +959,6 @@ export function HomeRows() {
         graphic={<WorkingRobot />}
         subs={AUTOMATION}
         href="/services"
-        flip
       />
       <DivisionRow
         n="03"
@@ -857,6 +984,7 @@ export function HomeRows() {
       <Locations />
       <MerchStrip />
       <Team />
+      <FinalCTA />
     </main>
   );
 }
