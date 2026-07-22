@@ -134,19 +134,19 @@ function Services() {
     {
       key: "Design",
       tagline: "World-class visuals that don't look AI-generated.",
-      img: "/assets/design_brand_white_poster_v3.jpg",
+      img: "/assets/pillar_design.jpg",
       items: ["Websites & Landing Pages", "UI/UX & SaaS Interfaces", "Full Branding Systems", "Marketing Assets & Motion", "3D Renders & E-commerce"],
     },
     {
       key: "Automation & Software",
       tagline: "Systems that run while you sleep.",
-      img: "/assets/robot_work_v5_poster.jpg",
+      img: "/assets/pillar_automation.jpg",
       items: ["Sales & CRM Automation", "Operations & Document AI", "Custom AI Agents & Chatbots", "Internal Tools & Dashboards", "Native Mobile Apps", "Infrastructure & Integrations"],
     },
     {
       key: "Consultation & Strategy",
       tagline: "No-BS advice from people who've done it.",
-      img: "/assets/consult_live_poster_v2.jpg",
+      img: "/assets/pillar_consult.jpg",
       items: ["AI Roadmapping", "Digital Transformation", "Technical Due Diligence", "Fractional AI Leadership", "Process Audits & Training"],
     },
   ];
