@@ -26,7 +26,7 @@ function Terms() {
           <p><strong className="text-[#111111]">Client work.</strong> Every engagement is governed by its signed agreement — scope, deliverables, ownership, and confidentiality live there, and that document controls if it differs from anything here.</p>
           <p><strong className="text-[#111111]">No warranties on the site.</strong> The website is provided as-is. We work hard to keep it accurate and available, but statistics cited from third-party research are theirs, and we may update content at any time.</p>
           <p><strong className="text-[#111111]">Liability.</strong> To the extent the law allows, ELSIAA LLC is not liable for indirect damages arising from use of this website. Nothing here limits liability that cannot lawfully be limited.</p>
-          <p><strong className="text-[#111111]">Questions.</strong> <a className="underline" href="mailto:isya@elsiaa.com">isya@elsiaa.com</a>.</p>
+          <p><strong className="text-[#111111]">Questions.</strong> <a className="underline" href="mailto:info@elsiaa.com">info@elsiaa.com</a>.</p>
           <p className="text-[13px] text-[#111111]/45">Effective July 2026 · ELSIAA LLC.</p>
         </div>
       </article>

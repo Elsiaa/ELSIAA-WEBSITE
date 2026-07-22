@@ -360,7 +360,7 @@ function ServiceCard({
               {service.detail}
             </p>
             <a
-              href="mailto:isya@elsiaa.com?subject=Design%20project%20inquiry"
+              href="mailto:info@elsiaa.com?subject=Design%20project%20inquiry"
               onClick={(e) => e.stopPropagation()}
               className="mt-4 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.22em] text-[#1e6b3c] uppercase transition-colors hover:text-[#2e9e58]"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}

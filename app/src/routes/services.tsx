@@ -149,9 +149,9 @@ function Services() {
       });
       const j = (await r.json()) as { ok?: boolean };
       if (j.ok) setDone("We got it. A scoped answer is on its way to your inbox.");
-      else setError("Something didn't go through — try again or email isya@elsiaa.com.");
+      else setError("Something didn't go through — try again or email info@elsiaa.com.");
     } catch {
-      setError("Something didn't go through — try again or email isya@elsiaa.com.");
+      setError("Something didn't go through — try again or email info@elsiaa.com.");
     } finally {
       setSending(false);
     }

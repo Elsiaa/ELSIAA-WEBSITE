@@ -251,7 +251,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
       fd.append("_template", "table");
       fd.append("_captcha", "false");
       if (file) fd.append("attachment", file, file.name);
-      const res = await fetch("https://formsubmit.co/ajax/isya@elsiaa.com", {
+      const res = await fetch("https://formsubmit.co/ajax/info@elsiaa.com", {
         method: "POST",
         body: fd,
         headers: { Accept: "application/json" },
@@ -447,8 +447,8 @@ function ApplyForm({ role }: { role: RoleId | null }) {
         {state === "error" && (
           <p className="mt-3 text-[13px] text-[#E53E3E]">
             Something broke on the way — try once more, or email{" "}
-            <a className="underline" href="mailto:isya@elsiaa.com">
-              isya@elsiaa.com
+            <a className="underline" href="mailto:info@elsiaa.com">
+              info@elsiaa.com
             </a>
             .
           </p>

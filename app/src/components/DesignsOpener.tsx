@@ -111,7 +111,7 @@ export function DesignsOpener() {
             Clean. Intentional. Quietly powerful — like the work we do for our clients.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <a href="mailto:isya@elsiaa.com?subject=Stage%20my%20product" className="inline-block rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
+            <a href="mailto:info@elsiaa.com?subject=Stage%20my%20product" className="inline-block rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
               Stage my product →
             </a>
             <a href="/contact" className="inline-block rounded-full border border-white/25 px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>
@@ -165,7 +165,7 @@ export function DesignsOpener() {
             Ready to close the gap on <span className="text-white">your brand?</span>
           </p>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-            <a href="mailto:isya@elsiaa.com?subject=Stage%20my%20product" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
+            <a href="mailto:info@elsiaa.com?subject=Stage%20my%20product" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
               Stage my product →
             </a>
             <a href="/contact" className="rounded-full border border-white/25 px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>

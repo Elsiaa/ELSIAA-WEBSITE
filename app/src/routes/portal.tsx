@@ -543,7 +543,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
             </p>
             {due && (
               <a
-                href={`mailto:isya@elsiaa.com?subject=${encodeURIComponent(`Payment — ${c.company}`)}`}
+                href={`mailto:info@elsiaa.com?subject=${encodeURIComponent(`Payment — ${c.company}`)}`}
                 className="mt-4 inline-block rounded-full px-5 py-2.5 text-[10px] font-bold tracking-[0.2em] text-white uppercase"
                 style={{ ...mono, background: c.accent }}
               >
@@ -618,7 +618,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
             {c.contracts.map((k) => (
               <a
                 key={k.name}
-                href={`mailto:isya@elsiaa.com?subject=${encodeURIComponent(`Document request — ${k.name} — ${c.company}`)}`}
+                href={`mailto:info@elsiaa.com?subject=${encodeURIComponent(`Document request — ${k.name} — ${c.company}`)}`}
                 className="group flex items-center justify-between rounded-2xl border border-black/[0.07] bg-white p-5 transition-all hover:-translate-y-0.5"
                 style={{ borderColor: undefined }}
               >
@@ -656,7 +656,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
               </p>
             </div>
             <a
-              href={`mailto:isya@elsiaa.com?subject=${encodeURIComponent(`Portal — ${c.company}`)}`}
+              href={`mailto:info@elsiaa.com?subject=${encodeURIComponent(`Portal — ${c.company}`)}`}
               className="rounded-full px-6 py-3.5 text-[10px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:opacity-85"
               style={{ ...mono, background: c.accent }}
             >

@@ -13,7 +13,7 @@ export const SEARCH_INDEX: Entry[] = [
   { label: "Services", group: "Pages", href: "/services" },
   { label: "Work — our work", group: "Pages", href: "/designs", keys: "portfolio showcase work designs" },
   { label: "Careers — we are hiring", group: "Pages", href: "/careers", keys: "jobs hiring apply application" },
-  { label: "Contact", group: "Pages", href: "mailto:isya@elsiaa.com", keys: "email reach us" },
+  { label: "Contact", group: "Pages", href: "mailto:info@elsiaa.com", keys: "email reach us" },
 
   { label: "Design division", group: "Divisions", href: "/designs" },
   { label: "Automation division", group: "Divisions", href: "/services" },

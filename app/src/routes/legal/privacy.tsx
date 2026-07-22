@@ -24,7 +24,7 @@ function Privacy() {
           <p><strong className="text-[#111111]">What we collect.</strong> Information you submit through our booking, application, and contact forms: names, email addresses, phone numbers, resumes, and the content of your messages. Standard technical logs (pages visited, device type) for keeping the site working.</p>
           <p><strong className="text-[#111111]">How we use it.</strong> To respond to you, deliver engagements, process applications, send confirmations you requested, and improve the site. Payment details are handled by our payment processor and never stored on our systems.</p>
           <p><strong className="text-[#111111]">Who sees it.</strong> The ELSIAA team, and the service providers that make the site run (hosting, email delivery, payments) — each bound to use your information only to provide their service to us.</p>
-          <p><strong className="text-[#111111]">Your choices.</strong> Ask us what we hold about you, ask us to correct it, or ask us to delete it: <a className="underline" href="mailto:isya@elsiaa.com">isya@elsiaa.com</a>. We answer these personally.</p>
+          <p><strong className="text-[#111111]">Your choices.</strong> Ask us what we hold about you, ask us to correct it, or ask us to delete it: <a className="underline" href="mailto:info@elsiaa.com">info@elsiaa.com</a>. We answer these personally.</p>
           <p><strong className="text-[#111111]">Retention.</strong> We keep engagement records as long as the law and good bookkeeping require, and delete the rest when it stops being useful.</p>
           <p className="text-[13px] text-[#111111]/45">Effective July 2026. If we change this policy, the date changes with it.</p>
         </div>

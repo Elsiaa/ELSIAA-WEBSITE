@@ -75,11 +75,11 @@ export function SiteFooter() {
               one standard.
             </p>
             <a
-              href="mailto:isya@elsiaa.com"
+              href="mailto:info@elsiaa.com"
               className="mt-5 inline-block text-[13px] font-semibold text-[#1e6b3c] hover:underline"
               style={inter}
             >
-              isya@elsiaa.com
+              info@elsiaa.com
             </a>
             <p className="mt-4 text-[10px] leading-relaxed tracking-[0.2em] text-[#111111]/50 uppercase" style={mono}>
               New York · London · Geneva · Antwerp · Tel Aviv · Los Angeles

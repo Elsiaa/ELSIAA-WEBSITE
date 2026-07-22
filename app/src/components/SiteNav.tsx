@@ -288,11 +288,11 @@ export function SiteNav() {
                   Direct
                 </p>
                 <a
-                  href="mailto:isya@elsiaa.com"
+                  href="mailto:info@elsiaa.com"
                   className="mt-3 block text-[17px] font-medium text-white transition-colors hover:text-[#2e9e58]"
                   style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
-                  isya@elsiaa.com
+                  info@elsiaa.com
                 </a>
                 <a
                   href="/quote"
