@@ -118,7 +118,9 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
 
       const cx = px / 2;
       const cy = px / 2;
-      const R = px / 2 - 26;
+      // keep generous margin so the rim, the lifted arcs (up to ~1.08·R) and
+      // the city labels never clip against the canvas edge as the globe turns
+      const R = px * 0.35;
 
       const proj = (v: V3) => {
         const r = rotX(rotY(v, yaw), tilt);
