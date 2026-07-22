@@ -349,7 +349,7 @@ function HomeHero() {
               className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
               style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
-              ELSIAA · AI Done Better
+              Automation · Software · Design · Strategy
             </p>
             <h1
               className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl"
@@ -362,9 +362,8 @@ function HomeHero() {
               className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
-              We put AI to work in your business — real automation,
-              world-class design, custom software, and strategy that delivers
-              results.
+              We put AI to work where it earns its place — and prove the
+              result before you commit a dollar.
             </p>
             <p
               className="mt-4 max-w-xl text-[14.5px] leading-relaxed text-[#111111]/75"
@@ -385,7 +384,7 @@ function HomeHero() {
               className="mt-6 inline-block rounded-full bg-[#1e6b3c] px-8 py-3.5 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#111111]"
               style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
-              Book Free 20-Min Strategy Call →
+              Book a free 20-min call →
             </a>
           </Reveal>
           <Reveal delay={0.15}>
@@ -427,7 +426,7 @@ function HomeHero() {
                 className="text-[12px] tracking-[0.28em] text-[#111111]/55 uppercase"
                 style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
               >
-                Right now, while you read this
+                Industry by industry
               </p>
               <a
                 href="/insights"
@@ -497,8 +496,8 @@ function HeroCards() {
           <path d="M8.5 12.5 11 15l4.5-6" />
         </svg>
       ),
-      title: "Built different.",
-      body: "If your team can run the process, we can teach a model to run it better — sales, operations, medicine, law, anything.",
+      title: "Any process, automated.",
+      body: "If your team can run it — sales, operations, clinical intake, legal — we can teach a model to run it faster, and around the clock.",
     },
     {
       icon: (
@@ -507,8 +506,8 @@ function HeroCards() {
           <path d="m9 12 2 2 4-4" />
         </svg>
       ),
-      title: "No bugs. No data hacks. Fully insured.",
-      body: "Every solution ships hardened, tested, and covered. Certificate of insurance available on request. Most vendors can't say the same.",
+      title: "Fixed scope. Fixed price.",
+      body: "Scoped plans and measured results — automation built to pay for itself, not an open-ended research project.",
     },
     {
       icon: (
@@ -517,8 +516,8 @@ function HeroCards() {
           <path d="M14 7h7v7" />
         </svg>
       ),
-      title: "Outcomes, not experiments.",
-      body: "Scoped plans, fixed prices, measured results — automation built to pay for itself.",
+      title: "One partner, four divisions.",
+      body: "Design, automation, software, and consultation under one roof — no relay race between a design shop, a dev agency, and a consultant.",
     },
   ];
   return (
@@ -529,7 +528,7 @@ function HeroCards() {
             className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
             style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
           >
-            Why ELSIAA
+            The difference
           </p>
         </Reveal>
         <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -1068,14 +1067,13 @@ function FinalCTA() {
             className="mx-auto mt-4 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
             style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
-            The world changed. Your business should too.
+            Let's build your first system.
           </h2>
           <p
             className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-white/55"
             style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
-            Tell us what you're building. Get a scoped plan and a price —
-            or take the free call first.
+            Tell us the step that still waits on a person. We'll scope it, price it, and show you the before and after.
           </p>
         </Reveal>
         <Reveal delay={0.1}>
@@ -1085,7 +1083,7 @@ function FinalCTA() {
               className="rounded-full bg-[#2e9e58] px-10 py-5 text-[13px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-white hover:text-[#111111]"
               style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
             >
-              Book Free Strategy Call Now →
+              Start with a free call →
             </a>
             <a
               href="/quote"
@@ -1116,10 +1114,10 @@ function AutomationCatalog() {
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-xl">
               <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
-                Everything the division ships
+                The full range
               </p>
               <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                Workflows that run while you sleep — and the software they run on.
+                Everything we can automate — and build to run it.
               </h3>
               <p className="mt-3 text-[14.5px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                 Sales, operations, finance, support — from the first wireframe to the cloud it runs on.

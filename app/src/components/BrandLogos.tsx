@@ -28,15 +28,15 @@ const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'
 const REASONS: Array<{ title: string; body: string }> = [
   {
     title: "It shipped, and it worked.",
-    body: "Scoped plans and fixed prices — working automation in their business in weeks, not a research project that never leaves the deck.",
+    body: "Working software in their business in weeks — not a deck, not a pilot that stalls before it reaches production.",
   },
   {
     title: "Their data stayed theirs.",
     body: "Hardened, tested, insured builds — and client data is never used to train models for anyone else. In healthcare, that's the whole conversation.",
   },
   {
-    title: "One partner, four divisions.",
-    body: "Design, automation, software, and strategy at one table — no relay race between a design shop, a dev agency, and a consultant.",
+    title: "Held to a higher standard.",
+    body: "Healthcare groups and university departments chose ELSIAA because the work meets an academic and clinical bar — not a startup's.",
   },
 ];
 
@@ -88,9 +88,8 @@ export function WhyBrandsChose() {
             Why brands chose ELSIAA to implement AI.
           </h2>
           <p className="mt-3 max-w-xl text-[15px] text-[#111111]/60" style={inter}>
-            Healthcare groups, service companies, and university departments —
-            the brands on this wall picked one partner to take AI from idea to
-            production. Here's what decided it.
+            The brands on this wall took AI from idea to production with one
+            team. Here's what decided it.
           </p>
         </Reveal>
         <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-3">
