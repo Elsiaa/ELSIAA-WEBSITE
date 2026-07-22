@@ -6,13 +6,13 @@ import { Reveal } from "../components/Reveal";
 export const Route = createFileRoute("/insights")({
   head: () => ({
     meta: [
-      { title: "AI Insights — ELSIAA · AI Done Better" },
+      { title: "Insights — ELSIAA · AI Done Better" },
       {
         name: "description",
         content:
-          "Live statistics and research on AI adoption across healthcare, finance, retail, manufacturing, and marketing — from the ELSIAA intelligence desk.",
+          "The research behind the standard. Field notes, adoption data, and honest analysis on where AI actually pays off — across healthcare, finance, marketing, retail, and operations — from the ELSIAA intelligence desk.",
       },
-      { property: "og:title", content: "AI Insights — ELSIAA" },
+      { property: "og:title", content: "Insights — ELSIAA" },
       { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
     ],
     links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/insights" }],
@@ -20,6 +20,13 @@ export const Route = createFileRoute("/insights")({
   component: InsightsPage,
 });
 
+const mono = {
+  fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace",
+} as const;
+const inter = {
+  fontFamily:
+    "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
+} as const;
 
 function CountUp({ target, suffix = "%" }: { target: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -61,397 +68,386 @@ function CountUp({ target, suffix = "%" }: { target: number; suffix?: string }) 
   );
 }
 
+/* Adoption figures — kept consistent with the homepage and /insights history. */
 const STATS = [
-  { pct: 78, industry: "All industries", line: "of organizations use AI in at least one business function — up from roughly half just three years ago." },
-  { pct: 66, industry: "Healthcare", line: "of physicians report using health AI tools in practice — nearly double the share from two years prior." },
-  { pct: 91, industry: "Finance", line: "of financial services firms are deploying AI or assessing it for core workflows." },
-  { pct: 71, industry: "Marketing", line: "of marketing teams use generative AI at least weekly for content, campaigns, or analysis." },
-  { pct: 63, industry: "Retail", line: "of retailers attribute measurable revenue lift to AI in pricing, recommendations, or forecasting." },
-  { pct: 55, industry: "Manufacturing", line: "of manufacturers apply AI across production, quality control, or supply-chain operations." },
+  { pct: 78, industry: "All industries" },
+  { pct: 91, industry: "Finance" },
+  { pct: 71, industry: "Marketing" },
+  { pct: 66, industry: "Healthcare" },
+  { pct: 63, industry: "Retail" },
+  { pct: 55, industry: "Manufacturing" },
 ];
+
+const FEATURED = {
+  category: "Strategy",
+  kicker: "Flagship report",
+  title: "The 22% problem: what happens to the businesses that wait",
+  dek: "Seventy-eight percent of organizations already run AI in at least one function. This report is about the other 22% — who they are, what waiting is quietly costing them, and the narrow window in which catching up is still cheap.",
+  body: "Every adoption curve has a long tail, and AI's tail is now the story. When roughly four in five organizations already run AI somewhere in the business, the remaining fifth are no longer 'early' in anything — they are late, and the gap compounds monthly. The cost of waiting rarely shows up as a single line item. It shows up as slower quotes, thinner margins, staff burning hours on work a competitor automated last quarter, and customers who quietly route to the faster vendor. Our field data across healthcare, finance, and retail engagements points to the same shape: the businesses that move first don't win because their models are better — they win because they started structuring their data, their processes, and their judgment eighteen months earlier. This report maps who the 22% are, why the honest math of falling behind is steeper than it looks, and the scoped, weeks-not-quarters way back in.",
+  author: "Yisrael Krug",
+  role: "Principal, ELSIAA Intelligence Desk",
+  read: "9 min read",
+};
 
 const ARTICLES = [
   {
-    tag: "Healthcare",
+    category: "Healthcare",
     title: "Why healthcare is AI's most demanding — and most rewarding — frontier",
-    body: "Healthcare adoption of AI has moved faster than almost anyone predicted: two-thirds of physicians now report using AI tools in their practice, from ambient scribes that draft clinical notes to imaging models that flag anomalies before a radiologist opens the study. What makes healthcare different is the cost of being wrong. A misfired marketing email is an annoyance; a misread scan is a life. That's why the winners in healthcare AI aren't the flashiest models but the best-integrated ones — systems that sit inside existing clinical workflows, keep the physician in command, and document every decision. For clinics, staffing agencies, and telehealth operators, the practical opportunity is less exotic than the headlines suggest: intake automation, scheduling, documentation, billing, and follow-up. These are the hours that burn out clinical teams, and they are exactly where AI is already reliable. The organizations winning right now are the ones that automated the boring parts first.",
+    dek: "Two-thirds of physicians now use AI tools. The winners aren't the flashiest models — they're the best-integrated ones.",
+    read: "5 min read",
   },
   {
-    tag: "Finance",
+    category: "Finance",
     title: "Finance quietly became the most AI-saturated industry on earth",
-    body: "While consumer attention fixates on chatbots, financial services crossed a threshold with little fanfare: over nine in ten firms are now deploying or actively assessing AI. Fraud detection was the beachhead — models that watch millions of transactions and flag the handful that don't belong — but the frontier has moved into underwriting, portfolio research, regulatory reporting, and client service. The lesson for every other industry is about data discipline. Finance adopted AI fastest because it had already spent decades structuring its data and defining its risk controls. Firms that know exactly what they know can hand that knowledge to a machine; firms with tribal knowledge scattered across inboxes cannot. Before buying any AI system, the highest-return investment is usually the unglamorous one: clean, centralized, well-governed data. The AI is only ever as good as what it's allowed to read.",
+    dek: "Over nine in ten firms now deploy or assess AI. The lesson for everyone else is about data discipline.",
+    read: "5 min read",
   },
   {
-    tag: "Marketing",
+    category: "Design",
     title: "Generative AI ended the content bottleneck. Now taste is the moat.",
-    body: "Seventy-one percent of marketing teams now use generative AI weekly. The immediate effect was obvious — content velocity exploded. The second-order effect is the interesting one: when everyone can produce infinite adequate content, adequate content becomes worthless. Feeds are flooded with competent, forgettable output that audiences scroll past without registering. The scarce resources now are taste, brand distinctiveness, and judgment — knowing what not to publish. The teams winning in this environment use AI as a drafting engine inside a strong editorial system: human-defined voice, human-approved concepts, machine-accelerated production, human final cut. That workflow can triple output while sharpening quality. AI without an editorial spine just triples the noise. The brands that will own the next five years treat AI as a force multiplier for a point of view — not a replacement for having one.",
+    dek: "When everyone can produce infinite adequate content, adequate content becomes worthless. Judgment is the scarce input.",
+    read: "4 min read",
   },
   {
-    tag: "Operations",
+    category: "Automation",
     title: "The honest math of automation ROI",
-    body: "The most reliable AI returns aren't in moonshots — they're in the repetitive middle of every business: data entry, document processing, follow-up emails, invoice handling, report generation. The math is simple and brutal. Take a task that takes twenty minutes, happens ten times a day, and touches three employees: that's roughly 2,500 hours a year. Automate eighty percent of it and you've recovered a full-time employee's worth of hours — without hiring, training, or turnover. Multiply across five or six such workflows and mid-sized companies routinely find six figures of annual capacity hiding in plain sight. The failure mode is equally predictable: automating a broken process just produces mistakes faster. The sequence that works is map the process, fix the process, then automate the fixed process. Companies that respect that order see payback in months. Companies that skip step two write off 'AI' as hype and never learn why.",
+    dek: "The most reliable returns hide in the repetitive middle — the twenty-minute task that happens ten times a day.",
+    read: "6 min read",
   },
   {
-    tag: "Strategy",
+    category: "Strategy",
     title: "How to choose an AI partner without getting burned",
-    body: "The AI services market is crowded with vendors selling the same three demos. Cutting through it requires asking questions that expose depth. First: ask to see something they shipped that's still running a year later — maintenance is where AI projects die, and anyone can make an impressive prototype. Second: ask how they handle your data — where it lives, who can see it, what happens when you leave. Vague answers here are disqualifying. Third: ask what they'd refuse to build. A partner with no opinion about where AI shouldn't be used hasn't been doing this long enough to have scars. Finally, insist on starting small: a scoped engagement with a measurable outcome in weeks, not a transformation roadmap measured in quarters. The right partner will welcome that structure, because they know the fastest way to earn a large engagement is to win a small one first.",
+    dek: "Three questions that expose depth, and one rule that protects you: start small, measure fast.",
+    read: "5 min read",
+  },
+  {
+    category: "Retail",
+    title: "Pricing, recommendations, forecasting: where retail's 63% shows up",
+    dek: "Retailers attributing revenue lift to AI rarely started with a moonshot. They started with three unglamorous loops.",
+    read: "4 min read",
+  },
+  {
+    category: "Automation",
+    title: "Automating a broken process just produces mistakes faster",
+    dek: "Map the process, fix the process, then automate the fixed process. Skip step two and 'AI' becomes your scapegoat.",
+    read: "3 min read",
+  },
+  {
+    category: "Design",
+    title: "The interface is the product: designing AI people actually trust",
+    dek: "Trust in an AI system is earned in the seams — how it shows its work, and how gracefully it hands control back.",
+    read: "5 min read",
+  },
+  {
+    category: "Finance",
+    title: "Beyond fraud: the second wave of financial AI",
+    dek: "Detection was the beachhead. Underwriting, regulatory reporting, and client service are where the frontier moved.",
+    read: "6 min read",
   },
 ];
 
-const AUTHORS: Record<string, { name: string; photo: string }> = {
-  Healthcare: { name: "Dr. Esther Krug, MD", photo: "/assets/team/ek.jpg" },
-  Finance: { name: "Mendel Parnas", photo: "/assets/team/mp.jpg" },
-  Marketing: { name: "Izzy Eisenberg", photo: "/assets/team/ie.jpg" },
-  Operations: { name: "David Heimowitz", photo: "/assets/team/dh.jpg" },
-  Strategy: { name: "Yisrael Krug", photo: "/assets/team/yk.jpg" },
-};
-
-const CASES = [
-  {
-    tag: "Design · Web",
-    client: "Mr. Bins — waste management",
-    before: "Dated site, no mobile path, quotes by phone tag.",
-    after: "Full brand + conversion site rebuilt; quote flow reduced to two steps.",
-    metric: "2× faster quote flow",
-  },
-  {
-    tag: "Automation · Healthcare",
-    client: "Multi-clinic group (anonymized)",
-    before: "Front desk buried in intake forms, scheduling, and documentation.",
-    after: "Intake, scheduling, and note drafting automated around the existing EHR.",
-    metric: "60% less admin time",
-  },
-  {
-    tag: "Automation · Retail",
-    client: "E-commerce brand (anonymized)",
-    before: "Manual product imagery and static pricing across 4,000 SKUs.",
-    after: "Staged product renders + automated pricing and forecasting loops.",
-    metric: "31% conversion lift",
-  },
-];
-
-function readTime(body: string) {
-  return `${Math.max(2, Math.round(body.split(/\s+/).length / 200))} min read`;
-}
-
-function RoiCalculator() {
-  const [team, setTeam] = useState(5);
-  const [rate, setRate] = useState(45);
-  const [hours, setHours] = useState(8);
-  const [pct, setPct] = useState(70);
-  const yearlyHours = Math.round(team * hours * 52 * (pct / 100));
-  const yearlySavings = Math.round(yearlyHours * rate);
-  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
-  const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-  const Row = ({ label, value, suffix, min, max, step, onChange }: { label: string; value: number; suffix: string; min: number; max: number; step: number; onChange: (n: number) => void }) => (
-    <div className="py-3">
-      <div className="flex items-baseline justify-between">
-        <p className="text-[13px] text-[#111111]/60" style={inter}>{label}</p>
-        <p className="text-[14px] font-semibold tabular-nums" style={mono}>{value}{suffix}</p>
-      </div>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="mt-2 w-full accent-[#1e6b3c]"
-        aria-label={label}
-      />
-    </div>
-  );
-  return (
-    <div className="grid grid-cols-1 overflow-hidden rounded-2xl border border-black/[0.07] bg-white md:grid-cols-2">
-      <div className="border-b border-black/[0.06] p-7 md:border-r md:border-b-0">
-        <Row label="People touching repetitive work" value={team} suffix="" min={1} max={50} step={1} onChange={setTeam} />
-        <Row label="Average fully-loaded hourly cost" value={rate} suffix=" $/h" min={20} max={150} step={5} onChange={setRate} />
-        <Row label="Repetitive hours per person, weekly" value={hours} suffix=" h" min={1} max={30} step={1} onChange={setHours} />
-        <Row label="Share we can automate" value={pct} suffix="%" min={30} max={90} step={5} onChange={setPct} />
-      </div>
-      <div className="flex flex-col justify-center p-7 text-center">
-        <p className="text-[10px] tracking-[0.28em] text-[#111111]/55 uppercase" style={mono}>Recovered annually</p>
-        <p className="mt-3 text-5xl font-semibold tracking-[-0.04em] text-[#1e6b3c]" style={inter}>
-          ${yearlySavings.toLocaleString()}
-        </p>
-        <p className="mt-2 text-[14px] text-[#111111]/55" style={inter}>
-          ≈ {yearlyHours.toLocaleString()} hours of capacity, every year
-        </p>
-        <a
-          href="/contact"
-          className="mx-auto mt-6 rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-[#111111]"
-          style={mono}
-        >
-          Reclaim these hours →
-        </a>
-        <p className="mt-3 text-[11px] text-[#111111]/50" style={inter}>
-          Directional estimate — the free call makes it precise.
-        </p>
-      </div>
-    </div>
-  );
-}
+const CATEGORIES = ["All", "Automation", "Design", "Healthcare", "Finance", "Strategy", "Retail"];
 
 function InsightsPage() {
-  const [filter, setFilter] = useState("All industries");
-  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
-  const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-  const industries = STATS.map((s) => s.industry);
-  const shown = filter === "All industries" ? STATS : STATS.filter((s) => s.industry === filter || s.industry === "All industries");
-  const featured = ARTICLES[0];
-  const rest = ARTICLES.slice(1);
+  const [filter, setFilter] = useState("All");
+
   return (
     <main className="min-h-screen bg-white text-[#111111]">
       <SiteNav />
 
       {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-40 pb-10 md:pt-44">
-        <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-[minmax(0,1fr)_420px]">
-          <Reveal>
-            <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
-              ELSIAA Insights
+      <section className="mx-auto max-w-6xl px-6 pt-40 pb-14 md:pt-44 md:pb-20">
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <p className="text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase" style={mono}>
+              Insights
             </p>
-            <h1 className="mt-3 max-w-2xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={inter}>
-              The state of AI, without the hype.
-            </h1>
-            <p className="mt-4 max-w-lg text-[15.5px] leading-relaxed text-[#111111]/55" style={inter}>
-              What adoption actually looks like across industries, what the
-              returns honestly are, and how to move before your competitors do.
+            <span className="h-px w-6 bg-black/15" />
+            <p className="text-[10px] tracking-[0.34em] text-[#111111]/45 uppercase" style={mono}>
+              Research
             </p>
-            <div className="mt-7 flex flex-wrap items-center gap-8">
-              <a
-                href="/contact"
-                className="rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-[#111111]"
+          </div>
+          <h1
+            className="mt-5 max-w-3xl text-4xl leading-[1.02] font-semibold tracking-[-0.045em] md:text-[68px]"
+            style={inter}
+          >
+            The research behind the standard.
+          </h1>
+          <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-[#111111]/55" style={inter}>
+            Field notes, adoption data, and honest analysis on where AI actually
+            pays off — and where it quietly costs you. Written from live client
+            engagements, not from a press release.
+          </p>
+        </Reveal>
+
+        {/* featured lead article */}
+        <Reveal delay={0.1}>
+          <article className="mt-12 overflow-hidden rounded-2xl border border-black/[0.07] bg-white md:grid md:grid-cols-[1.05fr_1fr]">
+            {/* type + color block instead of a photo */}
+            <div className="relative flex min-h-[240px] flex-col justify-between overflow-hidden bg-[#0f1a13] p-8 md:min-h-full md:p-10">
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.35]"
+                style={{
+                  backgroundImage:
+                    "repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 44px)",
+                }}
+              />
+              <p
+                className="relative text-[10px] tracking-[0.3em] text-[#4fb37a] uppercase"
                 style={mono}
               >
-                Book Free Strategy Call →
-              </a>
-              <div className="flex gap-8">
-                {[
-                  { n: 78, l: "Adoption" },
-                  { n: 91, l: "Finance" },
-                  { n: 66, l: "Healthcare" },
-                ].map((st) => (
-                  <div key={st.l}>
-                    <p className="text-xl font-semibold tracking-[-0.02em]" style={inter}>
-                      <CountUp target={st.n} />
-                    </p>
-                    <p className="mt-0.5 text-[10px] tracking-[0.2em] text-[#111111]/55 uppercase" style={mono}>
-                      {st.l}
-                    </p>
-                  </div>
-                ))}
+                {FEATURED.kicker}
+              </p>
+              <div className="relative">
+                <p
+                  className="text-[64px] leading-none font-semibold tracking-[-0.05em] text-white/95 md:text-[92px]"
+                  style={inter}
+                >
+                  22<span className="text-[#4fb37a]">%</span>
+                </p>
+                <p className="mt-3 max-w-[15rem] text-[13px] leading-relaxed text-white/50" style={inter}>
+                  of organizations have not yet put AI into a single function — and
+                  the gap is widening every quarter.
+                </p>
               </div>
             </div>
+            {/* copy */}
+            <div className="p-8 md:p-11">
+              <div className="flex items-center gap-3">
+                <span
+                  className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase"
+                  style={mono}
+                >
+                  {FEATURED.category}
+                </span>
+                <span className="text-[11px] text-[#111111]/50" style={inter}>
+                  {FEATURED.read}
+                </span>
+              </div>
+              <h2
+                className="mt-4 text-[26px] leading-[1.1] font-semibold tracking-[-0.03em] md:text-[34px]"
+                style={inter}
+              >
+                {FEATURED.title}
+              </h2>
+              <p className="mt-4 text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
+                {FEATURED.dek}
+              </p>
+              <p className="mt-4 line-clamp-4 text-[14px] leading-relaxed text-[#111111]/45" style={inter}>
+                {FEATURED.body}
+              </p>
+              <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-black/[0.06] pt-6">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1e6b3c]/10 text-[11px] font-semibold text-[#1e6b3c]" style={mono}>
+                    YK
+                  </span>
+                  <div>
+                    <p className="text-[13px] font-medium text-[#111111]/80" style={inter}>
+                      {FEATURED.author}
+                    </p>
+                    <p className="text-[11px] text-[#111111]/45" style={inter}>
+                      {FEATURED.role}
+                    </p>
+                  </div>
+                </div>
+                <a
+                  href="/contact"
+                  className="text-[11px] tracking-[0.22em] text-[#1e6b3c] uppercase transition-opacity hover:opacity-60"
+                  style={mono}
+                >
+                  Request the report →
+                </a>
+              </div>
+            </div>
+          </article>
+        </Reveal>
+      </section>
+
+      {/* stat band — stone */}
+      <section className="bg-[#F5F5F3]">
+        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+                  The Numbers
+                </p>
+                <h2
+                  className="mt-3 max-w-lg text-2xl font-semibold tracking-[-0.035em] md:text-4xl"
+                  style={inter}
+                >
+                  Adoption is no longer a question of if.
+                </h2>
+              </div>
+              <p className="text-[11px] text-[#111111]/45" style={inter}>
+                Compiled from published industry surveys · Updated July 2026
+              </p>
+            </div>
           </Reveal>
-          <Reveal delay={0.12}>
-            <img
-              src="/assets/insights_hero_line.jpg"
-              alt="Chaos resolving into a single clear line"
-              className="hidden w-full md:block"
-              loading="eager"
-            />
+          <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-3 lg:grid-cols-6">
+            {STATS.map((s, i) => (
+              <Reveal key={s.industry} delay={i * 0.05}>
+                <div className="border-t border-black/[0.12] pt-4">
+                  <p
+                    className="text-[10px] tracking-[0.2em] text-[#111111]/50 uppercase"
+                    style={mono}
+                  >
+                    {s.industry}
+                  </p>
+                  <p
+                    className="mt-3 text-[44px] leading-none font-semibold tracking-[-0.05em] text-[#111111] md:text-[52px]"
+                    style={inter}
+                  >
+                    <CountUp target={s.pct} />
+                  </p>
+                  <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-black/10">
+                    <div
+                      className="h-full rounded-full bg-[#1e6b3c]"
+                      style={{ width: `${s.pct}%` }}
+                    />
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.1}>
+            <p className="mt-10 max-w-2xl text-[13px] leading-relaxed text-[#111111]/50" style={inter}>
+              Read across: 78% of organizations already run AI in at least one
+              business function. The industry lines below it aren't outliers —
+              they're the baseline your customers now compare you against.
+            </p>
           </Reveal>
         </div>
       </section>
 
-      {/* stats — filterable */}
-      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 md:py-20">
+      {/* article grid */}
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
-                The Numbers
+                From the Desk
               </p>
               <h2 className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
-                Adoption, industry by industry.
+                Field notes &amp; analysis.
               </h2>
             </div>
-            <p className="text-[11px] text-[#111111]/50" style={inter}>
-              Compiled from published industry surveys · Updated July 2026
+            <p className="text-[11px] text-[#111111]/45" style={inter}>
+              {ARTICLES.length} pieces · {CATEGORIES.length - 1} categories
             </p>
           </div>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {industries.map((ind) => (
+
+          {/* category filter */}
+          <div className="mt-7 flex flex-wrap gap-2">
+            {CATEGORIES.map((c) => (
               <button
-                key={ind}
-                onClick={() => setFilter(ind)}
+                key={c}
+                onClick={() => setFilter(c)}
                 className={`rounded-full px-5 py-2 text-[11.5px] transition-all duration-200 ${
-                  filter === ind
+                  filter === c
                     ? "bg-[#111111] text-white"
                     : "border border-black/10 bg-white text-[#111111]/60 hover:border-[#111111]/40 hover:text-[#111111]"
                 }`}
                 style={inter}
               >
-                {ind}
+                {c}
               </button>
             ))}
           </div>
         </Reveal>
-        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {shown.map((s, i) => (
-            <Reveal key={s.industry} delay={i * 0.04}>
-              <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-6">
-                <p className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase" style={mono}>
-                  {s.industry}
-                </p>
-                <p className="mt-2 text-5xl font-semibold tracking-[-0.04em]" style={inter}>
-                  <CountUp target={s.pct} />
-                </p>
-                <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-black/[0.06]">
-                  <div className="h-full rounded-full bg-[#1e6b3c]" style={{ width: `${s.pct}%` }} />
-                </div>
-                <p className="mt-3 text-[13px] leading-relaxed text-[#111111]/55" style={inter}>
-                  {s.line}
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
 
-      {/* from the desk */}
-      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 md:py-20">
-        <Reveal>
-          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
-            From the Desk
-          </p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
-            What we're telling clients this quarter.
-          </h2>
-        </Reveal>
-        {/* featured */}
-        <Reveal delay={0.06}>
-          <article className="mt-8 grid grid-cols-1 overflow-hidden rounded-2xl border border-black/[0.07] bg-white md:grid-cols-[380px_minmax(0,1fr)]">
-            <div className="border-b border-black/[0.05] bg-[#FAFAF8] md:border-r md:border-b-0">
-              <img src="/assets/pillar_consult.jpg" alt="" loading="lazy" className="h-full min-h-[220px] w-full object-cover" />
-            </div>
-            <div className="p-7 md:p-9">
-              <div className="flex items-center gap-3">
-                <span className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>
-                  {featured.tag}
-                </span>
-                <span className="text-[11px] text-[#111111]/55" style={inter}>{readTime(featured.body)}</span>
-              </div>
-              <h3 className="mt-3 text-[22px] leading-snug font-semibold tracking-[-0.02em] md:text-[26px]" style={inter}>
-                {featured.title}
-              </h3>
-              <p className="mt-3 line-clamp-4 text-[14px] leading-relaxed text-[#111111]/55" style={inter}>
-                {featured.body}
-              </p>
-              <div className="mt-5 flex items-center gap-3">
-                <img src={AUTHORS[featured.tag]?.photo} alt="" className="h-9 w-9 rounded-full border border-black/[0.06] object-cover" />
-                <p className="text-[12.5px] text-[#111111]/60" style={inter}>{AUTHORS[featured.tag]?.name}</p>
-              </div>
-            </div>
-          </article>
-        </Reveal>
-        {/* the rest */}
-        <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-          {rest.map((a, i) => (
-            <Reveal key={a.title} delay={0.05 + i * 0.04}>
-              <article className="flex h-full flex-col rounded-2xl border border-black/[0.07] bg-white p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/30">
-                <div className="flex items-center gap-3">
-                  <span className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>
-                    {a.tag}
+        <div className="mt-9 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {ARTICLES.map((a, i) => {
+            const match = filter === "All" || a.category === filter;
+            return (
+              <Reveal key={a.title} delay={(i % 3) * 0.05}>
+                <article
+                  className="group flex h-full flex-col rounded-2xl border border-black/[0.07] bg-white p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/30"
+                  style={{
+                    opacity: match ? 1 : 0.2,
+                    transition: "opacity .35s ease, transform .3s ease, border-color .3s ease",
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase"
+                      style={mono}
+                    >
+                      {a.category}
+                    </span>
+                    <span className="text-[11px] text-[#111111]/50" style={inter}>
+                      {a.read}
+                    </span>
+                  </div>
+                  <h3
+                    className="mt-4 text-[18px] leading-snug font-semibold tracking-[-0.015em]"
+                    style={inter}
+                  >
+                    {a.title}
+                  </h3>
+                  <p
+                    className="mt-2.5 flex-1 text-[13.5px] leading-relaxed text-[#111111]/55"
+                    style={inter}
+                  >
+                    {a.dek}
+                  </p>
+                  <span
+                    className="mt-5 text-[11px] tracking-[0.2em] text-[#111111]/40 uppercase transition-colors group-hover:text-[#1e6b3c]"
+                    style={mono}
+                  >
+                    Read →
                   </span>
-                  <span className="text-[11px] text-[#111111]/55" style={inter}>{readTime(a.body)}</span>
-                </div>
-                <h3 className="mt-3 text-[18px] leading-snug font-semibold tracking-[-0.015em]" style={inter}>
-                  {a.title}
-                </h3>
-                <p className="mt-2.5 line-clamp-3 flex-1 text-[13.5px] leading-relaxed text-[#111111]/55" style={inter}>
-                  {a.body}
-                </p>
-                <div className="mt-4 flex items-center gap-2.5">
-                  <img src={AUTHORS[a.tag]?.photo} alt="" className="h-8 w-8 rounded-full border border-black/[0.06] object-cover" />
-                  <p className="text-[12px] text-[#111111]/55" style={inter}>{AUTHORS[a.tag]?.name}</p>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
-      {/* case studies */}
-      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 md:py-20">
-        <Reveal>
-          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
-            In the Field
-          </p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
-            Before and after.
-          </h2>
-        </Reveal>
-        <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
-          {CASES.map((c, i) => (
-            <Reveal key={c.client} delay={i * 0.05}>
-              <div className="flex h-full flex-col rounded-2xl border border-black/[0.07] bg-white p-7">
-                <p className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase" style={mono}>
-                  {c.tag}
-                </p>
-                <h3 className="mt-2 text-[16.5px] font-semibold tracking-[-0.015em]" style={inter}>
-                  {c.client}
-                </h3>
-                <div className="mt-4 space-y-3 text-[13.5px] leading-relaxed" style={inter}>
-                  <p className="text-[#111111]/55">
-                    <span className="mr-2 text-[10px] tracking-[0.2em] uppercase" style={mono}>Before</span>
-                    {c.before}
-                  </p>
-                  <p className="text-[#111111]/70">
-                    <span className="mr-2 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>After</span>
-                    {c.after}
-                  </p>
-                </div>
-                <p className="mt-auto pt-5 text-[22px] font-semibold tracking-[-0.02em] text-[#1e6b3c]" style={inter}>
-                  {c.metric}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+      {/* get the research CTA */}
+      <section className="bg-[#070907] px-6 py-24 text-[#F5F5F3]">
+        <div className="mx-auto max-w-3xl text-center">
+          <Reveal>
+            <p className="text-[10px] tracking-[0.34em] text-[#4fb37a] uppercase" style={mono}>
+              Get the research
+            </p>
+            <h2
+              className="mx-auto mt-4 max-w-xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
+              style={inter}
+            >
+              The next report, before it's public.
+            </h2>
+            <p className="mx-auto mt-4 max-w-md text-[15px] text-white/50" style={inter}>
+              We publish our field data and analysis to a short list first. No
+              noise — a few emails a quarter, each one worth reading.
+            </p>
+            <form
+              action="/contact"
+              method="get"
+              className="mx-auto mt-9 flex w-full max-w-md flex-col gap-3 sm:flex-row"
+            >
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="you@company.com"
+                aria-label="Work email"
+                className="w-full flex-1 rounded-full border border-white/15 bg-white/[0.05] px-6 py-4 text-[14px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-[#4fb37a]"
+                style={inter}
+              />
+              <button
+                type="submit"
+                className="rounded-full bg-[#2e9e58] px-8 py-4 text-[11px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]"
+                style={mono}
+              >
+                Subscribe →
+              </button>
+            </form>
+            <p className="mt-4 text-[11px] text-white/35" style={inter}>
+              Continues on our contact page — no spam, unsubscribe anytime.
+            </p>
+          </Reveal>
         </div>
-        <Reveal>
-          <p className="mt-4 text-[11px] text-[#111111]/50" style={inter}>
-            Representative engagements — anonymized where clients prefer it. References on request.
-          </p>
-        </Reveal>
-      </section>
-
-      {/* roi calculator */}
-      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 md:py-20">
-        <Reveal>
-          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
-            Do the Math
-          </p>
-          <h2 className="mt-3 max-w-xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
-            What is repetitive work costing you?
-          </h2>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <div className="mt-8">
-            <RoiCalculator />
-          </div>
-        </Reveal>
-      </section>
-
-      {/* final cta */}
-      <section className="bg-[#070907] px-6 py-24 text-center text-[#F5F5F3]">
-        <Reveal>
-          <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl" style={inter}>
-            Your competitors are already in here.
-          </h2>
-          <p className="mx-auto mt-4 max-w-md text-[15px] text-white/50" style={inter}>
-            Book your map — 20 minutes, no pitch, a straight answer on where
-            AI pays off for you.
-          </p>
-          <a
-            href="/contact"
-            className="mt-8 inline-block rounded-full bg-[#2e9e58] px-10 py-5 text-[13px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]"
-            style={mono}
-          >
-            Book Free Strategy Call →
-          </a>
-        </Reveal>
       </section>
     </main>
   );

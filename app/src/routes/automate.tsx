@@ -66,6 +66,39 @@ function MiniAfter() {
   );
 }
 
+/* closing comparison — one relatable process: the after-hours call */
+function CallBefore() {
+  return (
+    <div className="relative h-full w-full bg-[#eef0ef] p-4">
+      <div className="absolute inset-4 rounded-lg border border-black/10 bg-white p-3 shadow-inner">
+        <p className="text-[9px] tracking-[0.2em] text-[#111111]/40 uppercase" style={mono}>Voicemail · after hours</p>
+        <div className="mt-3 space-y-2.5">
+          {["Missed call · 9:14pm", "Missed call · 9:41pm", "Voicemail · 10:02pm (0:38)"].map((r, i) => (
+            <div key={i} className="flex items-center gap-2 border-b border-black/[0.06] pb-2"><span className="h-2 w-2 rounded-full bg-[#b42318]/70" /><span className="text-[11px] text-[#111111]/60" style={inter}>{r}</span></div>
+          ))}
+        </div>
+      </div>
+      <div className="absolute right-6 bottom-6 w-28 rotate-[4deg] bg-[#fde68a] p-2 shadow-md"><p className="text-[8px] leading-tight text-black/70" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>call them back first thing — hope they didn't book elsewhere</p></div>
+    </div>
+  );
+}
+function CallAfter() {
+  return (
+    <div className="flex h-full w-full flex-col bg-white p-4">
+      <p className="text-[9px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>Agent · 9:14pm · booked in 40s</p>
+      <div className="mt-3 space-y-2">
+        <div className="max-w-[85%] rounded-2xl bg-black/[0.04] px-3 py-2 text-[11.5px] text-[#111111]/75" style={inter}>"My water heater's leaking — can someone come tonight?"</div>
+        <div className="ml-auto max-w-[85%] rounded-2xl bg-[#1e6b3c]/[0.08] px-3 py-2 text-[11.5px]" style={inter}>Booked. A technician is 22 minutes out — I've texted you the ETA and a photo of who's coming.</div>
+      </div>
+      <div className="mt-auto grid grid-cols-3 gap-px overflow-hidden rounded-lg border border-black/[0.07] bg-black/[0.05]">
+        {[["Answered", "24/7"], ["Booked", "40s"], ["Lost", "0"]].map(([l, v]) => (
+          <div key={l} className="bg-white px-2 py-2 text-center"><p className="text-[7.5px] tracking-[0.14em] text-[#111111]/40 uppercase" style={mono}>{l}</p><p className="mt-0.5 text-[13px] font-semibold" style={inter}>{v}</p></div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function AutomatePage() {
   const [filter, setFilter] = useState<string>("All");
   const [step, setStep] = useState("");
@@ -231,6 +264,31 @@ function AutomatePage() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- closing side-by-side comparison ---------- */}
+      <section className="border-t border-black/[0.06] bg-white px-6 py-24 md:py-28">
+        <div className="mx-auto max-w-5xl">
+          <Reveal>
+            <p className="text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase" style={mono}>The difference, in one call</p>
+            <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>
+              A call at 9pm. That's the whole business case.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="mt-8 overflow-hidden rounded-2xl border border-black/[0.09] bg-white shadow-[0_40px_100px_-55px_rgba(17,17,17,0.5)]">
+              <Seam before={<CallBefore />} after={<CallAfter />} height="aspect-[16/9]" labelLeft="Rang out" labelRight="Booked" />
+            </div>
+            <p className="mt-4 text-center text-[13px] text-[#111111]/55" style={inter}>
+              This is what replacing manual work with intelligent systems actually looks like — not fewer people, but no revenue left on the floor at 9pm.
+            </p>
+          </Reveal>
+          <div className="mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-px overflow-hidden rounded-xl border border-black/[0.08] bg-black/[0.05]">
+            {[["Calls answered", "24/7"], ["Time to booked", "40s"], ["Revenue lost", "0"]].map(([l, v]) => (
+              <div key={l} className="bg-white px-3 py-5 text-center"><p className="text-[8px] tracking-[0.16em] text-[#111111]/40 uppercase" style={mono}>{l}</p><p className="mt-1 text-2xl font-semibold tracking-[-0.03em] text-[#1e6b3c]" style={inter}>{v}</p></div>
+            ))}
           </div>
         </div>
       </section>
