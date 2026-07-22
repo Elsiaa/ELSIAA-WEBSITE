@@ -669,6 +669,7 @@ function cityDay(now: Date, tz: string) {
 function Locations() {
   const [idx, setIdx] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const now = useNow();
   useEffect(() => {
     if (paused) return;
@@ -685,7 +686,7 @@ function Locations() {
       onMouseLeave={() => setPaused(false)}
     >
       {/* skyline backdrop — bright, anchored bottom-right, crossfading */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[62%] md:block">
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[68%] md:block">
         {CITIES.map((c, i) => (
           <img
             key={c.name}
@@ -697,7 +698,7 @@ function Locations() {
             }`}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/25 to-transparent" />
       </div>
 
       <div className="relative mx-auto max-w-6xl px-6">
@@ -772,42 +773,48 @@ function Locations() {
             </div>
           </Reveal>
 
-          {/* one clean map — the active city */}
-          <Reveal delay={0.14}>
-            <div className="overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_30px_70px_-45px_rgba(17,17,17,0.4)]">
-              <div className="h-[300px] w-full md:h-[352px]">
+          {/* open air — the skyline owns this side */}
+          <div className="hidden md:block" aria-hidden />
+        </div>
+
+        {/* map on demand — never blocks the art */}
+        <Reveal delay={0.14}>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <button
+              onClick={() => setShowMap((v) => !v)}
+              className="rounded-full border border-black/12 bg-white/80 px-6 py-2.5 text-[10.5px] font-bold tracking-[0.22em] text-[#111111] uppercase backdrop-blur transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+              style={mono}
+            >
+              {showMap ? "Hide map" : `Map of ${active.name}`} {showMap ? "↑" : "↓"}
+            </button>
+            <a
+              href={`https://maps.google.com/maps?q=${encodeURIComponent(active.q)}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
+              style={mono}
+            >
+              Open in Google Maps ↗
+            </a>
+          </div>
+          <div
+            className="overflow-hidden transition-all duration-500 ease-out"
+            style={{ maxHeight: showMap ? 260 : 0, opacity: showMap ? 1 : 0 }}
+          >
+            <div className="mt-4 overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_24px_60px_-45px_rgba(17,17,17,0.4)]">
+              {showMap && (
                 <iframe
                   key={active.name}
                   title={`Map — ${active.name}`}
                   src={`https://maps.google.com/maps?q=${encodeURIComponent(active.q)}&z=11&output=embed`}
                   loading="lazy"
-                  className="h-full w-full grayscale-[0.25]"
+                  className="h-[220px] w-full grayscale-[0.25]"
                   style={{ border: 0 }}
                 />
-              </div>
-              <div className="flex items-center justify-between px-5 py-4">
-                <p className="flex items-center gap-2.5 text-[15px] font-semibold" style={inter}>
-                  <img
-                    src={`/assets/flags/${active.flag}.png`}
-                    srcSet={`/assets/flags/${active.flag}@2x.png 2x`}
-                    alt=""
-                    className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-black/10"
-                  />
-                  {active.name}
-                </p>
-                <a
-                  href={`https://maps.google.com/maps?q=${encodeURIComponent(active.q)}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
-                  style={mono}
-                >
-                  Open in Maps ↗
-                </a>
-              </div>
+              )}
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
