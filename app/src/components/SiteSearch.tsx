@@ -9,8 +9,9 @@ export type Entry = { label: string; group: string; href: string; keys?: string 
 
 export const SEARCH_INDEX: Entry[] = [
   { label: "Home", group: "Pages", href: "/" },
+  { label: "Clients — new & existing", group: "Pages", href: "/clients", keys: "clients onboarding start portal login existing new" },
   { label: "Services", group: "Pages", href: "/services" },
-  { label: "Designs — our work", group: "Pages", href: "/designs", keys: "portfolio showcase work" },
+  { label: "Work — our work", group: "Pages", href: "/designs", keys: "portfolio showcase work designs" },
   { label: "Careers — we are hiring", group: "Pages", href: "/careers", keys: "jobs hiring apply application" },
   { label: "Contact", group: "Pages", href: "mailto:isya@elsiaa.com", keys: "email reach us" },
 

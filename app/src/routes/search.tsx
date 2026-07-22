@@ -39,6 +39,13 @@ const INDEX: Item[] = [
     snippet: "The ELSIAA studio — AI, automation and design, done better.",
   },
   {
+    title: "Clients",
+    href: "/clients",
+    category: "Clients",
+    keywords: "clients new existing onboarding start here client portal login sign in get started",
+    snippet: "Two ways in — new clients start with a call; existing clients sign in to the portal.",
+  },
+  {
     title: "Intake OS",
     href: "/intake",
     category: "Product",

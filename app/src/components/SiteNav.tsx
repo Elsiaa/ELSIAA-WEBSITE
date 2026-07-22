@@ -10,19 +10,21 @@ import { LangSwitcher } from "./LangSwitcher";
   Tabs (hamburger) icon opens a full menu overlay — primary nav on mobile,
   available everywhere.
 */
-const LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Automate", href: "/automate" },
+// Primary navigation — the only items in the top bar and the top of the menu.
+const PRIMARY = [
   { label: "Services", href: "/services" },
-  { label: "Designs", href: "/designs" },
-  { label: "Contact Us", href: "/contact" },
-  { label: "Store", href: "/store" },
-  { label: "Locations", href: "/locations" },
-  { label: "Get a Quote", href: "/quote" },
-  { label: "Careers", href: "/careers" },
-  { label: "Team", href: "/team" },
+  { label: "Work", href: "/designs" },
+  { label: "Clients", href: "/clients" },
   { label: "Insights", href: "/insights" },
-  { label: "Search", href: "/search" },
+  { label: "Contact", href: "/contact" },
+];
+// Secondary — everything else lives in the footer and the menu's "More" group.
+const MORE = [
+  { label: "Automate", href: "/automate" },
+  { label: "Locations", href: "/locations" },
+  { label: "Team", href: "/team" },
+  { label: "Careers", href: "/careers" },
+  { label: "Store", href: "/store" },
   { label: "Client Login", href: "/portal" },
 ];
 
@@ -102,13 +104,7 @@ export function SiteNav() {
             </span>
           </a>
           <nav className="pointer-events-auto flex items-center gap-5 md:gap-7">
-            {[
-              LINKS.find((x) => x.href === "/automate")!,
-              LINKS.find((x) => x.href === "/services")!,
-              LINKS.find((x) => x.href === "/designs")!,
-              LINKS.find((x) => x.href === "/locations")!,
-              LINKS.find((x) => x.href === "/contact")!,
-            ].map((l) => (
+            {PRIMARY.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
@@ -118,13 +114,6 @@ export function SiteNav() {
                 {l.label}
               </a>
             ))}
-            <a
-              href="/quote"
-              className={`hidden border px-5 py-2 text-[11px] tracking-[0.26em] uppercase transition-all duration-300 md:inline-block ${open ? "pointer-events-none opacity-0" : "border-[#111111]/30 text-[#111111] hover:border-[#111111] hover:bg-[#111111] hover:text-white"}`}
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              Get a Quote
-            </a>
             {/* language switcher */}
             <div className={`${open ? "pointer-events-none opacity-0" : ""} transition-opacity`}>
               <LangSwitcher />
@@ -191,7 +180,7 @@ export function SiteNav() {
               >
                 Menu
               </p>
-              {LINKS.map((l, i) => (
+              {PRIMARY.map((l, i) => (
                 <a
                   key={l.href}
                   href={l.href}
@@ -220,6 +209,23 @@ export function SiteNav() {
                   </span>
                 </a>
               ))}
+              {/* secondary — smaller, out of the way */}
+              <div
+                className="mt-6 flex flex-wrap gap-x-6 gap-y-2"
+                style={{ opacity: open ? 1 : 0, transition: "opacity .5s ease .4s" }}
+              >
+                {MORE.map((l) => (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className="text-[12px] tracking-[0.14em] text-white/45 uppercase transition-colors hover:text-white/80"
+                    style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                  >
+                    {l.label}
+                  </a>
+                ))}
+              </div>
             </nav>
 
             {/* utility column */}
@@ -240,7 +246,7 @@ export function SiteNav() {
                   Clients
                 </p>
                 <a
-                  href="/contact"
+                  href="/clients"
                   onClick={() => setOpen(false)}
                   className="group mt-3 flex items-baseline justify-between border-b border-white/[0.06] py-2"
                 >

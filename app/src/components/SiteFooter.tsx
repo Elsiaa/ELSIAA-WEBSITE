@@ -10,10 +10,11 @@ const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'
 
 const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string }> }> = [
   {
-    title: "Divisions",
+    title: "Work",
     links: [
       { label: "Services", href: "/services" },
-      { label: "Designs", href: "/designs" },
+      { label: "Automate", href: "/automate" },
+      { label: "Work", href: "/designs" },
       { label: "Consultation", href: "/consultation" },
       { label: "The Store", href: "/store" },
     ],
@@ -31,9 +32,10 @@ const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string
   {
     title: "Clients",
     links: [
+      { label: "Clients", href: "/clients" },
       { label: "Get a Quote", href: "/quote" },
       { label: "Book a Call", href: "/contact" },
-      { label: "Client Portal", href: "/portal" },
+      { label: "Client Login", href: "/portal" },
       { label: "Search", href: "/search" },
       { label: "Privacy", href: "/legal/privacy" },
       { label: "Terms", href: "/legal/terms" },

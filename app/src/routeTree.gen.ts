@@ -26,6 +26,7 @@ import { Route as DesignsRouteImport } from './routes/designs'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ConceptWalkRouteImport } from './routes/concept-walk'
+import { Route as ClientsRouteImport } from './routes/clients'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AutomateRouteImport } from './routes/automate'
 import { Route as IndexRouteImport } from './routes/index'
@@ -124,6 +125,11 @@ const ConceptWalkRoute = ConceptWalkRouteImport.update({
   path: '/concept-walk',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClientsRoute = ClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CareersRoute = CareersRouteImport.update({
   id: '/careers',
   path: '/careers',
@@ -189,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/automate': typeof AutomateRoute
   '/careers': typeof CareersRoute
+  '/clients': typeof ClientsRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
@@ -220,6 +227,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/automate': typeof AutomateRoute
   '/careers': typeof CareersRoute
+  '/clients': typeof ClientsRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
@@ -252,6 +260,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/automate': typeof AutomateRoute
   '/careers': typeof CareersRoute
+  '/clients': typeof ClientsRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
@@ -285,6 +294,7 @@ export interface FileRouteTypes {
     | '/'
     | '/automate'
     | '/careers'
+    | '/clients'
     | '/concept-walk'
     | '/consultation'
     | '/contact'
@@ -316,6 +326,7 @@ export interface FileRouteTypes {
     | '/'
     | '/automate'
     | '/careers'
+    | '/clients'
     | '/concept-walk'
     | '/consultation'
     | '/contact'
@@ -347,6 +358,7 @@ export interface FileRouteTypes {
     | '/'
     | '/automate'
     | '/careers'
+    | '/clients'
     | '/concept-walk'
     | '/consultation'
     | '/contact'
@@ -379,6 +391,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AutomateRoute: typeof AutomateRoute
   CareersRoute: typeof CareersRoute
+  ClientsRoute: typeof ClientsRoute
   ConceptWalkRoute: typeof ConceptWalkRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
@@ -528,6 +541,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConceptWalkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/clients': {
+      id: '/clients'
+      path: '/clients'
+      fullPath: '/clients'
+      preLoaderRoute: typeof ClientsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/careers': {
       id: '/careers'
       path: '/careers'
@@ -619,6 +639,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AutomateRoute: AutomateRoute,
   CareersRoute: CareersRoute,
+  ClientsRoute: ClientsRoute,
   ConceptWalkRoute: ConceptWalkRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
