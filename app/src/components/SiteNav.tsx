@@ -307,7 +307,8 @@ export function SiteNav() {
               ELSIAA — AI Done Better
             </p>
             <p
-              className="text-[10px] tracking-[0.2em] text-white/30 uppercase"
+              title="With God's help we shall do and succeed."
+              className="cursor-help text-[10px] tracking-[0.2em] text-white/30 uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               בעזרת ה׳ נעשה ונצליח

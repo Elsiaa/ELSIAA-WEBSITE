@@ -75,6 +75,8 @@ const PRODUCTS = [
     num: "01",
     cat: "Web presence",
     name: "Websites",
+    price: "From $3,800",
+    popular: false,
     blurb:
       "Conversion-focused sites built around one job: turning visitors into inquiries. Every scroll designed with intent — you've seen ours.",
     points: [
@@ -88,6 +90,8 @@ const PRODUCTS = [
     num: "02",
     cat: "Mobile & software",
     name: "Apps & Custom Software",
+    price: "From $12,000",
+    popular: false,
     blurb:
       "Native-feeling mobile apps and bespoke software your team actually enjoys using — designed, built, and shipped end to end.",
     points: [
@@ -101,6 +105,8 @@ const PRODUCTS = [
     num: "03",
     cat: "Operations",
     name: "AI Automation",
+    price: "From $2,500",
+    popular: true,
     blurb:
       "Workflows that run themselves. We find the repetitive work inside your business and hand it to systems that never call in sick.",
     points: [
@@ -114,6 +120,8 @@ const PRODUCTS = [
     num: "04",
     cat: "Foundation",
     name: "AI Infrastructure",
+    price: "From $8,000",
+    popular: false,
     blurb:
       "The layer underneath: model integrations, data pipelines, and the systems that let every future AI project ship faster than the last.",
     points: [
@@ -127,6 +135,8 @@ const PRODUCTS = [
     num: "05",
     cat: "Direction",
     name: "AI Consultation",
+    price: "From $450",
+    popular: false,
     blurb:
       "A working session with ELSIAA leadership: we map where AI actually pays off in your business — and where it doesn't.",
     points: [
@@ -140,6 +150,8 @@ const PRODUCTS = [
     num: "06",
     cat: "Partnership",
     name: "Ongoing Partnership",
+    price: "From $6,000/mo",
+    popular: false,
     blurb:
       "ELSIAA as your standing design and AI team — leadership, implementation, and every service above, on call.",
     points: [
@@ -454,10 +466,18 @@ function Services() {
                     <p className="text-[10px] tracking-[0.28em] text-[#1e6b3c] uppercase" style={mono}>
                       {pd.num} · {pd.cat}
                     </p>
+                    {(pd as { popular?: boolean }).popular && (
+                      <span className="rounded-full bg-[#1e6b3c] px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] text-white uppercase" style={mono}>
+                        Most popular
+                      </span>
+                    )}
                   </div>
                   <h3 className="mt-2.5 text-[19px] font-semibold tracking-[-0.02em]" style={inter}>
                     {pd.name}
                   </h3>
+                  <p className="mt-1 text-[12px] font-medium text-[#1e6b3c]" style={mono}>
+                    {(pd as { price?: string }).price}
+                  </p>
                   <p className="mt-2 text-[13.5px] leading-relaxed text-[#111111]/55" style={inter}>
                     {pd.blurb}
                   </p>

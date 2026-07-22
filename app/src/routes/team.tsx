@@ -301,7 +301,8 @@ function TeamPage() {
             </a>
           </div>
           <p
-            className="mt-12 text-[11px] tracking-[0.2em] text-[#111111]/35 uppercase"
+            title="With God's help we shall do and succeed."
+            className="mt-12 cursor-help text-[11px] tracking-[0.2em] text-[#111111]/35 uppercase"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             בעזרת ה׳ נעשה ונצליח

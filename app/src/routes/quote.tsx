@@ -38,6 +38,9 @@ function QuotePage() {
         >
           Tell us what you need. We'll quote it.
         </h1>
+        <p className="mt-3 text-[12px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          Quote delivered within 1 business day
+        </p>
         <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-[#111111]/55">
           A few focused questions — two minutes of your time. Your answers are
           distilled into a project brief for our team, and a personal quote

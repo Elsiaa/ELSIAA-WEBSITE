@@ -187,6 +187,7 @@ function DivisionRow({
   graphic,
   subs,
   href,
+  cta,
   extra,
 }: {
   n: string;
@@ -196,6 +197,7 @@ function DivisionRow({
   graphic?: React.ReactNode;
   subs: Sub[];
   href: string;
+  cta?: string;
   extra?: React.ReactNode;
 }) {
   return (
@@ -227,7 +229,7 @@ function DivisionRow({
               className="mt-5 inline-block text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Explore ↗
+              {cta ?? "Explore"} ↗
             </a>
           </Reveal>
           <Reveal>
@@ -245,15 +247,15 @@ function DivisionRow({
             </Parallax>
           </Reveal>
         </div>
-        {/* the carousel — one long row across the entire width */}
+        {/* the catalog — every group once, no repeats */}
         <Reveal delay={0.1}>
         <div className="mt-10">
-          <Rail>
-            {[...subs, ...subs].map((s, i) => (
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+            {subs.map((s, i) => (
               <a
                 key={`${s.name}-${i}`}
                 href={href}
-                className="group flex w-[208px] flex-none flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]"
+                className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]"
               >
                 <div className="flex items-center justify-between">
                   <h3
@@ -279,7 +281,7 @@ function DivisionRow({
                 </ul>
               </a>
             ))}
-          </Rail>
+          </div>
         </div>
         </Reveal>
         {extra}
@@ -337,7 +339,15 @@ function CountUp({ target }: { target: number }) {
 /* ---------- the opener: the world changed — hero + the count, one dark screen ---------- */
 function HomeHero() {
   return (
-    <section className="flex min-h-screen flex-col justify-between bg-white pt-28 pb-10 md:pt-32">
+    <section className="flex min-h-screen flex-col justify-between bg-white pt-24 pb-10 md:pt-28">
+      <div className="mx-auto mb-6 w-full max-w-6xl px-6">
+        <p
+          className="border-b border-black/[0.06] pb-3 text-center text-[10px] tracking-[0.26em] text-[#111111]/45 uppercase"
+          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          6 Cities · Fully Insured Builds · 24/7 Support
+        </p>
+      </div>
       <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_400px]">
           <Reveal>
@@ -358,9 +368,31 @@ function HomeHero() {
               className="mt-5 max-w-xl text-[15.5px] leading-relaxed text-[#111111]/55 md:text-[17px]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              We put AI to work in your business — design, automation,
-              software, and the strategy behind them.
+              We put AI to work in your business — real automation,
+              world-class design, custom software, and strategy that delivers
+              results.
             </p>
+            <p
+              className="mt-5 max-w-xl text-[15px] leading-relaxed text-[#111111]/75"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              <span className="font-semibold text-[#111111]">78% of companies already run AI</span>{" "}
+              in at least one function.{" "}
+              <span className="text-[#1e6b3c]">The other 22% are competing against it.</span>
+            </p>
+            <p
+              className="mt-3 text-[11px] tracking-[0.22em] text-[#111111]/40 uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Healthcare · Finance · Marketing · Retail · Manufacturing
+            </p>
+            <a
+              href="/contact"
+              className="mt-7 inline-block rounded-full bg-[#1e6b3c] px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#111111]"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Book Free 20-Min Strategy Call →
+            </a>
           </Reveal>
           <Reveal delay={0.15}>
             <div className="hidden md:block">
@@ -413,35 +445,35 @@ function HomeHero() {
             </div>
           </Reveal>
         </div>
-        <div className="mt-5">
-          <Rail drift={0.4}>
-            {[...STATS, ...STATS].map((s, i) => (
+        <div className="mx-auto mt-5 w-full max-w-6xl px-6">
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {STATS.slice(1, 5).map((st) => (
               <a
-                key={`${s.industry}-${i}`}
+                key={st.industry}
                 href="/insights"
-                className="group flex w-[260px] flex-none flex-col rounded-xl border border-black/[0.07] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/40"
+                className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/40"
               >
                 <span
                   className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  {s.industry}
+                  {st.industry}
                 </span>
                 <span
                   className="mt-2 text-5xl font-semibold tracking-[-0.04em] text-[#111111]"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  <CountUp target={s.pct} />
+                  <CountUp target={st.pct} />
                 </span>
                 <p
                   className="mt-2.5 text-[12.5px] leading-relaxed text-[#111111]/55"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  {s.line}
+                  {st.line}
                 </p>
               </a>
             ))}
-          </Rail>
+          </div>
         </div>
         <div className="mx-auto w-full max-w-6xl px-6">
           <Reveal>
@@ -463,6 +495,38 @@ function HomeHero() {
 }
 
 function HeroCards() {
+  const items = [
+    {
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M8.5 12.5 11 15l4.5-6" />
+        </svg>
+      ),
+      title: "Built different.",
+      body: "If your team can run the process, we can teach a model to run it better — sales, operations, medicine, law, anything.",
+    },
+    {
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10Z" />
+          <path d="m9 12 2 2 4-4" />
+        </svg>
+      ),
+      title: "No bugs. No data hacks. Fully insured.",
+      body: "Every solution ships hardened, tested, and covered. Most vendors can't say the same.",
+    },
+    {
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 17l6-6 4 4 8-8" />
+          <path d="M14 7h7v7" />
+        </svg>
+      ),
+      title: "Outcomes, not experiments.",
+      body: "Scoped plans, fixed prices, measured results — automation built to pay for itself.",
+    },
+  ];
   return (
     <section className="border-t border-black/[0.06] bg-white py-14 md:py-20">
       <div className="mx-auto w-full max-w-6xl px-6">
@@ -474,41 +538,28 @@ function HeroCards() {
             Why ELSIAA
           </p>
         </Reveal>
-        <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
-          <Reveal delay={0.05}>
-            <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-7">
-              <h2
-                className="text-[19px] font-semibold tracking-[-0.02em] text-[#111111]"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                If it&rsquo;s an intelligent process, we can build it.
-              </h2>
-              <p
-                className="mt-2.5 text-[14.5px] leading-relaxed text-[#111111]/55"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                If your team can run the workflow, we can teach a model to run
-                it with them — sales, operations, medicine, law.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="h-full rounded-2xl border border-[#1e6b3c]/25 bg-[#f4faf6] p-7">
-              <h2
-                className="text-[19px] font-semibold tracking-[-0.02em] text-[#111111]"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                No bugs. No data hacks. Fully insured.
-              </h2>
-              <p
-                className="mt-2.5 text-[14.5px] leading-relaxed text-[#111111]/55"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                Every build ships hardened, tested, and insured. Ask your
-                last vendor if they can say that.
-              </p>
-            </div>
-          </Reveal>
+        <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
+          {items.map((it, i) => (
+            <Reveal key={it.title} delay={0.05 + i * 0.05}>
+              <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/35">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1e6b3c]/10">
+                  {it.icon}
+                </span>
+                <h2
+                  className="mt-4 text-[17px] font-semibold tracking-[-0.02em] text-[#111111]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {it.title}
+                </h2>
+                <p
+                  className="mt-2 text-[14px] leading-relaxed text-[#111111]/55"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {it.body}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
@@ -954,10 +1005,10 @@ function MerchStrip() {
             06 · The Store
           </p>
           <h2
-            className="mt-2 max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
+            className="mt-2 max-w-2xl text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Discover ELSIAA merch.
+            The ELSIAA Store.
           </h2>
           <p
             className="mt-3 max-w-md text-[15px] text-[#111111]/50"
@@ -975,13 +1026,13 @@ function MerchStrip() {
         </Reveal>
       </div>
       <Reveal delay={0.08}>
-      <div className="mt-10">
-        <Rail drift={0.3}>
-          {[...MERCH, ...MERCH].map((m, i) => (
+      <div className="mt-8">
+        <div className="flex gap-3 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {MERCH.slice(0, 8).map((m, i) => (
             <a
               key={`${m.name}-${i}`}
               href="/store"
-              className="group w-[220px] flex-none"
+              className="group w-[170px] flex-none"
             >
               <div className="overflow-hidden rounded-xl border border-black/[0.06] bg-white">
                 <img
@@ -997,7 +1048,7 @@ function MerchStrip() {
               </div>
             </a>
           ))}
-        </Rail>
+        </div>
       </div>
       </Reveal>
     </section>
@@ -1033,25 +1084,25 @@ function FinalCTA() {
         <Reveal delay={0.1}>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a
-              href="/quote"
-              className="rounded-full bg-[#2e9e58] px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-white hover:text-[#111111]"
+              href="/contact"
+              className="rounded-full bg-[#2e9e58] px-10 py-5 text-[13px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-white hover:text-[#111111]"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Get a Quote →
+              Book Free Strategy Call Now →
             </a>
             <a
-              href="/contact"
+              href="/quote"
               className="rounded-full border border-white/25 px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-[#111111]"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Book a free call
+              Get a Quote
             </a>
           </div>
           <p
             className="mt-5 text-[12px] text-white/35"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            20 minutes, no pitch — a straight answer on where AI pays off for you.
+            20 minutes. No pitch. Straight answers on where AI actually pays off for you.
           </p>
         </Reveal>
       </div>
@@ -1072,6 +1123,7 @@ export function HomeRows() {
         graphic={<WorkingRobot />}
         subs={AUTOSOFT}
         href="/services"
+        cta="Explore Services"
       />
       <DivisionRow
         n="02"
@@ -1080,6 +1132,7 @@ export function HomeRows() {
         graphic={<AssemblingArtist />}
         subs={DESIGN}
         href="/designs"
+        cta="Explore Designs"
       />
       <DivisionRow
         n="03"
@@ -1087,7 +1140,8 @@ export function HomeRows() {
         lede="Strategy, technology, business, product, growth — book a seat at the table."
         graphic={<LiveGraphic src="/assets/consult_live_v2.mp4" poster="/assets/consult_live_poster_v2.jpg" />}
         subs={CONSULTATION}
-        href="/services"
+        href="/contact"
+        cta="Book Consultation"
         extra={
           <>
             <ConsultPricing />
