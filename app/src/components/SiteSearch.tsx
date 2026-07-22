@@ -34,12 +34,12 @@ export const SEARCH_INDEX: Entry[] = [
   { label: "Strategy Consultation", group: "Services", href: "/#consultation", keys: "1-on-1 calls advisory" },
   { label: "Consultation pricing", group: "Services", href: "/#consultation", keys: "basic sprint advisory 350 1850 book session" },
 
-  { label: "New York City office", group: "Locations", href: "/#locations", keys: "nyc usa america" },
-  { label: "London office", group: "Locations", href: "/#locations", keys: "uk england" },
-  { label: "Geneva office", group: "Locations", href: "/#locations", keys: "switzerland" },
-  { label: "Antwerp office", group: "Locations", href: "/#locations", keys: "belgium" },
-  { label: "Tel Aviv office", group: "Locations", href: "/#locations", keys: "israel" },
-  { label: "Los Angeles office", group: "Locations", href: "/#locations", keys: "la california usa" },
+  { label: "New York City office", group: "Locations", href: "/locations", keys: "nyc usa america" },
+  { label: "London office", group: "Locations", href: "/locations", keys: "uk england" },
+  { label: "Geneva office", group: "Locations", href: "/locations", keys: "switzerland" },
+  { label: "Antwerp office", group: "Locations", href: "/locations", keys: "belgium" },
+  { label: "Tel Aviv office", group: "Locations", href: "/locations", keys: "israel" },
+  { label: "Los Angeles office", group: "Locations", href: "/locations", keys: "la california usa" },
 
   { label: "Apply — Designers", group: "Careers", href: "/careers", keys: "design job" },
   { label: "Apply — Engineers", group: "Careers", href: "/careers", keys: "engineering developer job" },

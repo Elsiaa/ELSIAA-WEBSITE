@@ -17,6 +17,7 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PortalRouteImport } from './routes/portal'
+import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as DesignsRouteImport } from './routes/designs'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -70,6 +71,11 @@ const QuoteRoute = QuoteRouteImport.update({
 const PortalRoute = PortalRouteImport.update({
   id: '/portal',
   path: '/portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsRoute = LocationsRouteImport.update({
+  id: '/locations',
+  path: '/locations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsRoute = InsightsRouteImport.update({
@@ -151,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
+  '/locations': typeof LocationsRoute
   '/portal': typeof PortalRoute
   '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -175,6 +182,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
+  '/locations': typeof LocationsRoute
   '/portal': typeof PortalRoute
   '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
+  '/locations': typeof LocationsRoute
   '/portal': typeof PortalRoute
   '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -226,6 +235,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/designs'
     | '/insights'
+    | '/locations'
     | '/portal'
     | '/quote'
     | '/robots.txt'
@@ -250,6 +260,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/designs'
     | '/insights'
+    | '/locations'
     | '/portal'
     | '/quote'
     | '/robots.txt'
@@ -274,6 +285,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/designs'
     | '/insights'
+    | '/locations'
     | '/portal'
     | '/quote'
     | '/robots.txt'
@@ -299,6 +311,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DesignsRoute: typeof DesignsRoute
   InsightsRoute: typeof InsightsRoute
+  LocationsRoute: typeof LocationsRoute
   PortalRoute: typeof PortalRoute
   QuoteRoute: typeof QuoteRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
@@ -372,6 +385,13 @@ declare module '@tanstack/react-router' {
       path: '/portal'
       fullPath: '/portal'
       preLoaderRoute: typeof PortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations': {
+      id: '/locations'
+      path: '/locations'
+      fullPath: '/locations'
+      preLoaderRoute: typeof LocationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insights': {
@@ -483,6 +503,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DesignsRoute: DesignsRoute,
   InsightsRoute: InsightsRoute,
+  LocationsRoute: LocationsRoute,
   PortalRoute: PortalRoute,
   QuoteRoute: QuoteRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,

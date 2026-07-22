@@ -15,6 +15,7 @@ const LINKS = [
   { label: "Designs", href: "/designs" },
   { label: "Contact Us", href: "/contact" },
   { label: "Store", href: "/store" },
+  { label: "Locations", href: "/locations" },
   { label: "Get a Quote", href: "/quote" },
   { label: "Careers", href: "/careers" },
   { label: "Team", href: "/team" },
