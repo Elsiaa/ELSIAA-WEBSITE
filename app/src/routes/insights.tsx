@@ -30,34 +30,41 @@ const inter = {
 
 function CountUp({ target, suffix = "%" }: { target: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [val, setVal] = useState(0);
+  // render the FINAL value by default (SSR, crawlers, no-JS, reduced motion,
+  // any missed trigger). Only animate up from 0 as a progressive enhancement.
+  const [val, setVal] = useState(target);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (typeof IntersectionObserver === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVal(target);
+      return;
+    }
     let raf = 0;
+    let watchdog = 0;
+    const run = () => {
+      setVal(0);
+      const t0 = performance.now();
+      const dur = 1500;
+      const tick = (now: number) => {
+        const p = Math.min((now - t0) / dur, 1);
+        setVal(Math.round(target * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      watchdog = window.setTimeout(() => { cancelAnimationFrame(raf); setVal(target); }, dur + 1500);
+    };
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) { run(); return () => { cancelAnimationFrame(raf); clearTimeout(watchdog); }; }
     const io = new IntersectionObserver(
-      (e) => {
-        if (!e[0].isIntersecting) return;
-        io.disconnect();
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-          setVal(target);
-          return;
-        }
-        const t0 = performance.now();
-        const dur = 1500;
-        const tick = (now: number) => {
-          const p = Math.min((now - t0) / dur, 1);
-          setVal(Math.round(target * (1 - Math.pow(1 - p, 3))));
-          if (p < 1) raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
-      },
+      (e) => { if (!e[0].isIntersecting) return; io.disconnect(); run(); },
       { threshold: 0.4 }
     );
     io.observe(el);
     return () => {
       io.disconnect();
       cancelAnimationFrame(raf);
+      clearTimeout(watchdog);
     };
   }, [target]);
   return (
