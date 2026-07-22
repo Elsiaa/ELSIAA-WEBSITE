@@ -39,6 +39,13 @@ const INDEX: Item[] = [
     snippet: "The ELSIAA studio — AI, automation and design, done better.",
   },
   {
+    title: "Intake OS",
+    href: "/intake",
+    category: "Product",
+    keywords: "intake os voice agent phone line ai receptionist doctor matching triage healthcare clinic routing scheduling playable",
+    snippet: "The voice line that understands a caller in plain language, matches them to the right specialist, and books it — shown full-stack.",
+  },
+  {
     title: "Automate",
     href: "/automate",
     category: "Automation",

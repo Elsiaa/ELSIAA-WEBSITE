@@ -20,6 +20,7 @@ import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as LocationsRouteImport } from './routes/locations'
+import { Route as IntakeRouteImport } from './routes/intake'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as DesignsRouteImport } from './routes/designs'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -91,6 +92,11 @@ const PortalRoute = PortalRouteImport.update({
 const LocationsRoute = LocationsRouteImport.update({
   id: '/locations',
   path: '/locations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntakeRoute = IntakeRouteImport.update({
+  id: '/intake',
+  path: '/intake',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsRoute = InsightsRouteImport.update({
@@ -188,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
+  '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
   '/portal': typeof PortalRoute
   '/privacy': typeof PrivacyRoute
@@ -218,6 +225,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
+  '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
   '/portal': typeof PortalRoute
   '/privacy': typeof PrivacyRoute
@@ -249,6 +257,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
+  '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
   '/portal': typeof PortalRoute
   '/privacy': typeof PrivacyRoute
@@ -281,6 +290,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/designs'
     | '/insights'
+    | '/intake'
     | '/locations'
     | '/portal'
     | '/privacy'
@@ -311,6 +321,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/designs'
     | '/insights'
+    | '/intake'
     | '/locations'
     | '/portal'
     | '/privacy'
@@ -341,6 +352,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/designs'
     | '/insights'
+    | '/intake'
     | '/locations'
     | '/portal'
     | '/privacy'
@@ -372,6 +384,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DesignsRoute: typeof DesignsRoute
   InsightsRoute: typeof InsightsRoute
+  IntakeRoute: typeof IntakeRoute
   LocationsRoute: typeof LocationsRoute
   PortalRoute: typeof PortalRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -471,6 +484,13 @@ declare module '@tanstack/react-router' {
       path: '/locations'
       fullPath: '/locations'
       preLoaderRoute: typeof LocationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/intake': {
+      id: '/intake'
+      path: '/intake'
+      fullPath: '/intake'
+      preLoaderRoute: typeof IntakeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insights': {
@@ -604,6 +624,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DesignsRoute: DesignsRoute,
   InsightsRoute: InsightsRoute,
+  IntakeRoute: IntakeRoute,
   LocationsRoute: LocationsRoute,
   PortalRoute: PortalRoute,
   PrivacyRoute: PrivacyRoute,
