@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ElsiaaExperience } from "../components/ElsiaaExperience";
 import { SiteNav } from "../components/SiteNav";
-import { DesignsShowcase, DesignsFinalCTA } from "../components/DesignsShowcase";
+import { DesignsShowcase } from "../components/DesignsShowcase";
+import { DesignsOpener } from "../components/DesignsOpener";
 
 export const Route = createFileRoute("/designs")({
   head: () => ({
@@ -33,7 +34,7 @@ function Designs() {
       <SiteNav />
       <DesignsShowcase />
       <ElsiaaExperience />
-      <DesignsFinalCTA />
+      <DesignsOpener />
     </main>
   );
 }

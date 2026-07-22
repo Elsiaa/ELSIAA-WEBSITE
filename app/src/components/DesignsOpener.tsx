@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
 /*
-  DesignsOpener — the prologue to /designs.
-  A tight scroll-scrubbed passage: a dead rock ("a world without art") blooms
-  into a living earth ("thank god for art"). It emerges dark, then dissolves
-  to white and hands off into "Design is art. And art has a job." — so it reads
-  as a passage inside the page, not a separate takeover.
-  Transform/opacity only, one rAF loop. Reduced motion → two static panels.
+  DesignsCloser — the closing passage of /designs.
+  After the work has spoken, the page lands its thesis: a dead rock ("a world
+  without art") blooms into a living earth ("thank god for art"), resolving on
+  "Design is art. And art has a job." and a single CTA. Dark, cinematic, the
+  final note before the footer. Transform/opacity only; reduced motion → panels.
 */
 
 const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
@@ -22,10 +21,9 @@ export function DesignsOpener() {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const worldRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const qRef = useRef<HTMLDivElement | null>(null); // "What's the world…"
-  const aRef = useRef<HTMLDivElement | null>(null); // "Thank god for art."
-  const cueRef = useRef<HTMLDivElement | null>(null);
-  const exitRef = useRef<HTMLDivElement | null>(null); // white dissolve
+  const qRef = useRef<HTMLDivElement | null>(null);
+  const aRef = useRef<HTMLDivElement | null>(null);
+  const ctaRef = useRef<HTMLDivElement | null>(null);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -59,13 +57,11 @@ export function DesignsOpener() {
       const span = r.height - window.innerHeight;
       const p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
 
-      // world: gently scales up across the whole passage
-      const worldScale = 0.9 + seg(p, 0, 0.72) * 0.14;
-      set(worldRef.current, { transform: `scale(${worldScale.toFixed(3)})` });
+      const worldScale = 0.9 + seg(p, 0, 0.7) * 0.14;
+      set(worldRef.current, { transform: `scale(${worldScale.toFixed(3)})`, opacity: String(0.35 + seg(p, 0, 0.12) * 0.65) });
 
-      // scrub the bloom: hold on rock during the question, play to earth
       if (v && ready && vdur) {
-        const bloom = seg(p, 0.34, 0.72); // 0 = rock, 1 = living earth
+        const bloom = seg(p, 0.32, 0.7);
         const target = bloom * (vdur - 0.05);
         vCurrent += (target - vCurrent) * 0.15;
         if (Math.abs(v.currentTime - vCurrent) > 0.004) {
@@ -77,19 +73,18 @@ export function DesignsOpener() {
         }
       }
 
-      // 1 · What's the world without art but a rock?
       set(qRef.current, {
-        opacity: String(Math.min(seg(p, 0.04, 0.1), 1 - seg(p, 0.3, 0.38))),
-        transform: `translateY(${(1 - seg(p, 0.04, 0.1)) * 16}px)`,
+        opacity: String(Math.min(seg(p, 0.05, 0.11), 1 - seg(p, 0.28, 0.36))),
+        transform: `translateY(${(1 - seg(p, 0.05, 0.11)) * 16}px)`,
       });
-      // 2 · Thank god for art.
       set(aRef.current, {
-        opacity: String(seg(p, 0.74, 0.82)),
-        transform: `translateY(${(1 - seg(p, 0.74, 0.82)) * 16}px)`,
+        opacity: String(Math.min(seg(p, 0.7, 0.79), 1 - seg(p, 0.86, 0.92))),
+        transform: `translateY(${(1 - seg(p, 0.7, 0.79)) * 16}px)`,
       });
-      set(cueRef.current, { opacity: String(Math.min(seg(p, 0.86, 0.93), 1 - seg(p, 0.97, 1))) });
-      // dissolve to white at the very end → hands into the white section below
-      set(exitRef.current, { opacity: String(seg(p, 0.9, 1)) });
+      set(ctaRef.current, {
+        opacity: String(seg(p, 0.87, 0.95)),
+        transform: `translateY(${(1 - seg(p, 0.87, 0.95)) * 18}px)`,
+      });
 
       raf = requestAnimationFrame(tick);
     };
@@ -100,54 +95,51 @@ export function DesignsOpener() {
   if (reduced) {
     return (
       <section className="bg-[#0a0a0a] text-white" aria-label="Design is art">
-        <Panel img="/assets/cine/rock.jpg" kicker="01 · The thesis">
+        <Panel img="/assets/cine/rock.jpg" kicker="The thesis">
           <h2 className="max-w-xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl" style={inter}>
             What&rsquo;s the world without art but a rock?
           </h2>
         </Panel>
-        <Panel img="/assets/cine/earth.jpg" kicker="02 · The answer" toWhite>
+        <Panel img="/assets/cine/earth.jpg" kicker="The answer">
           <h2 className="text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={inter}>
             Thank god for <span className="text-[#2e9e58]">art.</span>
           </h2>
-          <p className="mt-4 max-w-md text-lg text-white/70" style={inter}>Because how boring would that be.</p>
+          <p className="mt-4 max-w-md text-lg text-white/70" style={inter}>
+            Design is art. And art has a job.
+          </p>
+          <a href="/contact" className="mt-7 inline-block rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
+            Start your build →
+          </a>
         </Panel>
       </section>
     );
   }
 
   return (
-    <section ref={wrapRef} className="relative bg-[#0a0a0a]" style={{ height: "300vh" }} aria-label="Design is art — the case for it">
+    <section ref={wrapRef} className="relative bg-[#0a0a0a]" style={{ height: "320vh" }} aria-label="Design is art — the close">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="absolute inset-0" style={{ background: "radial-gradient(120% 120% at 55% 45%, #141414 0%, #0a0a0a 55%, #040404 100%)" }} />
+        {/* top vignette — a soft seam from the section above */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 to-transparent" />
 
-        {/* rock → living earth bloom, scrubbed by scroll */}
-        <div ref={worldRef} className="absolute inset-0 flex items-center justify-center" style={{ willChange: "transform" }}>
-          <video
-            ref={videoRef}
-            src="/assets/cine/bloom.mp4"
-            poster="/assets/cine/rock.jpg"
-            muted
-            playsInline
-            preload="auto"
-            className="h-full w-full object-cover"
-          />
+        <div ref={worldRef} className="absolute inset-0 flex items-center justify-center" style={{ willChange: "transform, opacity" }}>
+          <video ref={videoRef} src="/assets/cine/bloom.mp4" poster="/assets/cine/rock.jpg" muted playsInline preload="auto" className="h-full w-full object-cover" />
         </div>
 
-        {/* eyebrow, ties it to the page */}
-        <p className="absolute top-[16%] left-[6vw] text-[10px] tracking-[0.34em] text-white/40 uppercase md:left-[8vw]" style={mono}>
-          ELSIAA · Designs
+        <p className="absolute top-[15%] left-[6vw] text-[10px] tracking-[0.34em] text-white/40 uppercase md:left-[8vw]" style={mono}>
+          ELSIAA · Designs — the close
         </p>
 
-        {/* 1 · the question */}
+        {/* the question */}
         <div ref={qRef} className="absolute top-1/2 left-[6vw] w-[82vw] max-w-xl -translate-y-1/2 md:left-[8vw]" style={{ willChange: "opacity, transform" }}>
-          <p className="text-[10px] tracking-[0.34em] text-[#2e9e58] uppercase" style={mono}>01 · The thesis</p>
+          <p className="text-[10px] tracking-[0.34em] text-[#2e9e58] uppercase" style={mono}>The thesis</p>
           <h2 className="mt-3 text-4xl leading-[1.04] font-semibold tracking-[-0.04em] text-white md:text-6xl" style={inter}>
             What&rsquo;s the world without art
             <span className="text-white/45"> but a rock?</span>
           </h2>
         </div>
 
-        {/* 2 · the answer */}
+        {/* the answer */}
         <div ref={aRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-6 text-center opacity-0" style={{ willChange: "opacity, transform" }}>
           <h2 className="text-5xl font-semibold tracking-[-0.045em] text-white md:text-8xl" style={inter}>
             Thank god for <span className="text-[#2e9e58]">art.</span>
@@ -155,25 +147,30 @@ export function DesignsOpener() {
           <p className="mx-auto mt-5 max-w-md text-lg text-white/65 md:text-xl" style={inter}>Because how boring would that be.</p>
         </div>
 
-        {/* continue cue */}
-        <div ref={cueRef} className="absolute bottom-[7%] left-1/2 -translate-x-1/2 text-center opacity-0">
-          <p className="text-[10px] tracking-[0.34em] text-white/45 uppercase" style={mono}>Continue</p>
-          <span className="mx-auto mt-2 block h-6 w-px animate-pulse bg-white/40" />
+        {/* the close: thesis + CTA */}
+        <div ref={ctaRef} className="absolute inset-x-0 bottom-[12%] px-6 text-center opacity-0" style={{ willChange: "opacity, transform" }}>
+          <p className="text-[15px] tracking-[0.02em] text-white/70 md:text-lg" style={inter}>
+            Design is art. <span className="text-white">And art has a job.</span>
+          </p>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+            <a href="/contact" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
+              Start your build →
+            </a>
+            <a href="/quote" className="rounded-full border border-white/25 px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>
+              Get a Quote
+            </a>
+          </div>
         </div>
-
-        {/* dissolve to white — seamless handoff into "Design is art." */}
-        <div ref={exitRef} className="pointer-events-none absolute inset-0 bg-white opacity-0" />
       </div>
     </section>
   );
 }
 
-function Panel({ img, kicker, children, toWhite }: { img: string; kicker: string; children: React.ReactNode; toWhite?: boolean }) {
+function Panel({ img, kicker, children }: { img: string; kicker: string; children: React.ReactNode }) {
   return (
     <div className="relative flex min-h-[88svh] items-center overflow-hidden">
       <img src={img} alt="" className="absolute inset-0 h-full w-full object-cover opacity-45" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/70 to-transparent" />
-      {toWhite && <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />}
       <div className="relative mx-auto w-full max-w-6xl px-6">
         <p className="text-[10px] tracking-[0.34em] text-[#2e9e58] uppercase" style={mono}>{kicker}</p>
         <div className="mt-3">{children}</div>

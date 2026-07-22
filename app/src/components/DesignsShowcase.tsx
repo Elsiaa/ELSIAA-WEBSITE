@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
-import { DesignsOpener } from "./DesignsOpener";
 
 /*
   ELSIAA Designs showcase — follows the cartoon opener.
@@ -434,12 +433,12 @@ function DiscoverDesigns() {
   }, []);
 
   return (
-    <section id="discover-designs" className="bg-[#F5F5F3] px-6 pt-20 pb-24 text-[#111111]">
+    <section id="discover-designs" className="bg-[#F5F5F3] px-6 pt-14 pb-16 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <SideToggle side={side} setSide={setSide} />
 
-        <div className="relative mt-14 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-10">
-          <div className="pointer-events-none absolute top-[42%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
+        <div className="relative mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
+          <div className="pointer-events-none absolute top-[38%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
             <span
               className="flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-[13px] font-bold tracking-[0.08em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.3)]"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
@@ -450,7 +449,7 @@ function DiscoverDesigns() {
 
           {/* ------- BEFORE ------- */}
           <Reveal delay={0.05} className={`${side === "before" ? "block" : "hidden"} lg:block`}>
-            <div className="mb-5 flex items-end justify-between">
+            <div className="mb-3 flex items-end justify-between">
               <div>
                 <h3
                   className="mt-1 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
@@ -482,11 +481,11 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="h-[540px] overflow-hidden md:h-[68svh]">
+              <div className="h-[260px] overflow-hidden md:h-[40svh]">
                 <LazyFrame src="/prime-bins/" title="Prime Bins — the original website, live" onFrame={(el) => (leftFrame.current = el)} />
               </div>
             </figure>
-            <ul className="mx-auto mt-5 max-w-md space-y-2">
+            <ul className="mx-auto mt-4 max-w-md space-y-1.5">
               {[
                 "Message competes with itself on the first screen",
                 "No single path from interest to action",
@@ -502,7 +501,7 @@ function DiscoverDesigns() {
 
           {/* ------- AFTER ------- */}
           <Reveal delay={0.15} className={`${side === "after" ? "block" : "hidden"} lg:block`}>
-            <div className="mb-5 flex items-end justify-between">
+            <div className="mb-3 flex items-end justify-between">
               <div>
                 <h3
                   className="mt-1 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
@@ -534,11 +533,11 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="h-[540px] overflow-hidden md:h-[68svh]">
+              <div className="h-[260px] overflow-hidden md:h-[40svh]">
                 <LazyFrame src="/mr-bins/" title="Mr. Bins — rebuilt by ELSIAA, live" onFrame={(el) => (rightFrame.current = el)} />
               </div>
             </figure>
-            <ul className="mx-auto mt-5 max-w-md space-y-2">
+            <ul className="mx-auto mt-4 max-w-md space-y-1.5">
               {[
                 "The offer is understood in three seconds",
                 "Every scroll ends at the next obvious step",
@@ -1910,7 +1909,6 @@ export function DesignsShowcase() {
         ::selection { background: rgba(46,158,88,0.85); color: #fff; }
         html { scroll-behavior: smooth; }
       `}</style>
-      <DesignsOpener />
       <ProductAdFeature />
       <ClientLogos />
       <BeyondWebsites />
