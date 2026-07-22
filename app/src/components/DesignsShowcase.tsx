@@ -1188,28 +1188,26 @@ function ProductAdFeature() {
           </p>
         </Reveal>
 
-        {/* the PRIME transformation — big after, small before */}
+        {/* the PRIME showcase — a live 3D product cinematic */}
         <Reveal delay={0.08}>
           <div className="relative mt-12 overflow-hidden rounded-2xl shadow-[0_60px_130px_-50px_rgba(17,17,17,0.55)]">
-            <img
-              src="/assets/laptop_premium_v1.jpg"
-              alt="The product, staged and lit as a premium campaign by ELSIAA"
-              className="aspect-[16/10] w-full object-cover md:aspect-[21/10]"
+            <video
+              src="/assets/watch_3d_v1.mp4"
+              poster="/assets/watch_3d_poster_v1.jpg"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="aspect-video w-full object-cover"
             />
-            <figure className="absolute top-4 left-4 w-[24%] max-w-[220px] overflow-hidden rounded-lg border-2 border-white/90 shadow-[0_20px_50px_-16px_rgba(0,0,0,0.7)] transition-transform duration-300 hover:origin-top-left hover:scale-[1.6]">
-              <img
-                src="/assets/laptop_bad_v1.jpg"
-                alt="The same product in the original amateur photo"
-                className="aspect-square w-full object-cover"
-              />
-            </figure>
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 bg-gradient-to-t from-black/70 via-black/25 to-transparent p-6 pt-16">
               <p
                 className="max-w-xl text-sm leading-relaxed text-white/90 md:text-base"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                One phone photo in. The product isolated, staged with its components,
-                lit like it deserves — one campaign out.
+                The product, suspended live in 3D — every component staged,
+                every surface lit like it deserves. This is how ELSIAA
+                displays a product.
               </p>
             </div>
           </div>
