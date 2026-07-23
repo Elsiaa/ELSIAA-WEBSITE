@@ -410,16 +410,12 @@ function AutomationSection() {
               </a>
             </div>
             <div className="flex items-center justify-center bg-white">
-              <video
-                src="/assets/robot_hyperspeed_fast.mp4"
-                poster="/assets/robot_hyperspeed_poster.jpg"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                className="w-full max-w-[520px] mix-blend-multiply"
-                style={{ filter: "brightness(1.06) contrast(1.04)" }}
+              <img
+                src="/assets/robot_ai_worker.png"
+                alt="The ELSIAA AI worker — many arms, every one on a different task"
+                loading="lazy"
+                className="w-full max-w-[540px] mix-blend-multiply"
+                style={{ filter: "brightness(1.03) contrast(1.03)" }}
               />
             </div>
           </div>
