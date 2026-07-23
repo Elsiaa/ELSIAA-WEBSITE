@@ -287,7 +287,7 @@ function InsightsPage() {
                 </h2>
               </div>
               <p className="text-[13px] text-[#111111]/45" style={inter}>
-                Compiled from published industry surveys · Updated July 2026
+                Sources below · Updated July 2026
               </p>
             </div>
           </Reveal>
@@ -324,7 +324,20 @@ function InsightsPage() {
               they're the baseline your customers now compare you against.
             </p>
           </Reveal>
-        </div>
+        
+          <div className="mt-10 border-t border-black/[0.08] pt-5" id="sources">
+            <p className="text-[14px] font-medium text-[#111111]/70">Sources</p>
+            <ul className="mt-2 space-y-1.5 text-[13.5px] leading-relaxed text-[#111111]/55">
+              <li>78% — McKinsey &amp; Company, <em>The State of AI</em>, global survey of organizations using AI in at least one business function.</li>
+              <li>66% — American Medical Association, <em>Augmented Intelligence Research</em>, physician AI use survey.</li>
+              <li>91% — NVIDIA, <em>State of AI in Financial Services</em>, firms deploying or assessing AI.</li>
+              <li>71% — Salesforce, <em>State of Marketing</em>, teams using generative AI in their workflow.</li>
+              <li>63% — NVIDIA, <em>State of AI in Retail &amp; CPG</em>, retailers attributing revenue to AI.</li>
+              <li>55% — Deloitte / MAPI manufacturing AI adoption studies, AI in production operations.</li>
+            </ul>
+            <p className="mt-3 text-[13px] text-[#111111]/40">Figures are drawn from the most recent published editions of each survey; exact percentages vary by edition and cohort.</p>
+          </div>
+</div>
       </section>
 
       {/* article grid */}

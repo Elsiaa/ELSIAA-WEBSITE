@@ -288,12 +288,17 @@ export function IndustryWalkthrough() {
           <h3 className="text-[24px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[28px]">{data.product}</h3>
           <p className="mt-1 max-w-xl text-[15px] leading-relaxed text-[#111111]/60">{data.tagline}</p>
         </div>
-        <button
-          onClick={() => goStep(0)}
-          className="rounded-full border border-black/[0.15] px-4 py-1.5 text-[13px] font-medium text-[#111111]/70 transition-colors hover:border-black/40"
-        >
-          {done ? "Replay ↺" : "Restart ↺"}
-        </button>
+        <div className="flex items-center gap-2">
+          <a href="/insights#sources" className="rounded-full border border-black/[0.1] px-3.5 py-1.5 text-[13px] font-medium text-[#111111]/50 transition-colors hover:border-black/30 hover:text-[#111111]/80">
+            {data.pct}% adoption — source ↗
+          </a>
+          <button
+            onClick={() => goStep(0)}
+            className="rounded-full border border-black/[0.15] px-4 py-1.5 text-[13px] font-medium text-[#111111]/70 transition-colors hover:border-black/40"
+          >
+            {done ? "Replay ↺" : "Restart ↺"}
+          </button>
+        </div>
       </div>
 
       {/* step rail */}

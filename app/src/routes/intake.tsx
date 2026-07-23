@@ -138,7 +138,7 @@ function IntakePage() {
               <a href="/contact" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]" style={mono}>Book a strategy call →</a>
               <a href="https://plumbing.demo.elsiaa.com" target="_blank" rel="noreferrer" className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>Open the live demo ↗</a>
             </div>
-            <p className="mt-8 text-[13px] text-white/35 " style={mono}>Fully insured builds · Six cities · One standard</p>
+            <p className="mt-8 text-[13px] text-white/35 " style={mono}><a href="/clients" className="underline-offset-2 hover:text-white/70 hover:underline">Fully insured builds ↗</a> · Six cities · One standard</p>
           </Reveal>
         </div>
       </section>

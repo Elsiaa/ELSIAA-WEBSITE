@@ -337,7 +337,7 @@ function AutomatePage() {
                 <a href="/quote" className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>Get a quote</a>
               </div>
             </form>
-            <p className="mt-8 text-[13px] text-white/35 " style={mono}>Fully insured builds · Six cities · One standard</p>
+            <p className="mt-8 text-[13px] text-white/35 " style={mono}><a href="/clients" className="underline-offset-2 hover:text-white/70 hover:underline">Fully insured builds ↗</a> · Six cities · One standard</p>
           </Reveal>
         </div>
       </section>
