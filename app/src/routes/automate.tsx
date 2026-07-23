@@ -6,7 +6,6 @@ import { AUTOSOFT } from "../components/HomeRows";
 import { Seam, ProofDeck, Secretary } from "../components/automate-console";
 import { IntakeOS } from "../components/intake-os";
 import { IndustryWalkthrough } from "../components/IndustryWalkthrough";
-import { SarahHero } from "../components/SarahHero";
 
 export const Route = createFileRoute("/automate")({
   head: () => ({
@@ -30,12 +29,12 @@ const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'
 
 /* ------------------------------- process ------------------------------- */
 const STEPS: Array<[string, string, string, boolean]> = [
-  ["1", "Map the work", "We sit with the people doing it and trace every step, handoff, and workaround. The engagement begins as observation, not software.", false],
-  ["2", "Find the waste", "The manual re-entry, the waiting, the double-booking. Where the business quietly pays a tax on human time — that becomes the spec.", false],
-  ["3", "Build it live", "Working software from day one, inside your real workflow. We don't demo a mockup; we hand you the thing.", false],
-  ["4", "Add the intelligence", "Voice agents, decision logic, anomaly detection — added only where they earn their place, never as a headline.", false],
-  ["5", "Prove it", "Measured against the old way, in hours, not sprints. Anything slower or less reliable than the spreadsheet gets rebuilt until it holds.", true],
-  ["6", "Run it", "It ships live and keeps improving against real use. Delivery is the beginning of the standard, not the end of it.", false],
+  ["1", "Map the real work", "We sit with the people doing it and trace every step, handoff, and workaround. The engagement begins as observation, not software.", false],
+  ["2", "Design the custom system", "We turn how your business actually runs into a spec — the exact workflows, screens, and logic your software will own. Nothing off-the-shelf.", false],
+  ["3", "Build the software live with you", "Working custom software from day one, inside your real workflow. We don't demo a mockup; we hand you the thing and build against your feedback.", false],
+  ["4", "Embed the AI where it creates leverage", "Voice agents, decision logic, reconciliation, anomaly detection — added only where they earn their place, never as a headline.", false],
+  ["5", "Prove the before/after results", "Measured against the old way, in hours, not sprints. Anything slower or less reliable than what it replaces gets rebuilt until it holds.", true],
+  ["6", "Hand it over running and insured", "It ships live, your team is trained, and it keeps improving against real use. Fully owned by you, fully insured.", false],
 ];
 
 /* -------------------- catalog category map -------------------- */
@@ -110,31 +109,101 @@ function AutomatePage() {
     <main className="bg-white text-[#111111] antialiased">
       <SiteNav />
 
-      {/* ---------- cinematic hero: Meet Sarah ---------- */}
-      <SarahHero />
-
-      {/* ---------- thesis hero ---------- */}
-      <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 md:pt-24 md:pb-20">
+      {/* ---------- hero: custom software + AI ---------- */}
+      <section className="mx-auto max-w-6xl px-6 pt-32 pb-16 md:pt-40 md:pb-20">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
           <Reveal>
-            <p className="text-[13px] text-[#1e6b3c] " style={mono}>Automate · The layer your business runs on</p>
-            <h1 className="mt-5 font-semibold tracking-[-0.045em]" style={{ ...inter, fontSize: "clamp(2.5rem, 5.5vw, 4.75rem)", lineHeight: 0.99 }}>
-              Before AI, the business<br />waited on a person.
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>Custom software · AI implementation</p>
+            <h1 className="mt-5 font-semibold tracking-[-0.045em]" style={{ ...inter, fontSize: "clamp(2.3rem, 4.8vw, 4.1rem)", lineHeight: 1.0 }}>
+              We build custom software that puts AI to work inside your business.
             </h1>
             <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-[#111111]/60" style={inter}>
-              A spreadsheet nobody trusted. A phone that had to be answered. A step only one person knew. We replace that layer with software — and prove it, side by side.
+              Not templates. Not chatbots you forget about. Real systems designed, built, and implemented for the way you actually operate.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#proof" className="rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[13px] font-bold text-white  transition-all hover:bg-[#111111]" style={mono}>See it run ↓</a>
-              <a href="/contact" className="rounded-full border border-[#111111]/20 px-7 py-3.5 text-[13px] font-bold text-[#111111]  transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]" style={mono}>Book a call</a>
+              <a href="/contact" className="rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[13px] font-bold text-white transition-all hover:bg-[#111111]" style={mono}>Show us one process → We'll build the system</a>
             </div>
+            <p className="mt-5 text-[13px] tracking-[0.02em] text-[#111111]/50" style={mono}>
+              Fully insured · Fixed scope · Live results before you commit
+            </p>
           </Reveal>
           <Reveal delay={0.12}>
             <div className="overflow-hidden rounded-2xl border border-black/[0.09] bg-white shadow-[0_40px_100px_-55px_rgba(17,17,17,0.5)]">
               <Seam before={<MiniBefore />} after={<MiniAfter />} height="aspect-[4/3]" labelLeft="Before" labelRight="After" />
             </div>
-            <p className="mt-3 text-center text-[13px] text-[#111111]/40 " style={mono}>Drag the line ↔ the whole thesis, in one tile</p>
+            <p className="mt-3 text-center text-[13px] text-[#111111]/40 " style={mono}>Drag the line ↔ the manual reality, and the system that replaces it</p>
           </Reveal>
+        </div>
+      </section>
+
+      {/* ---------- the core promise ---------- */}
+      <section className="border-t border-black/[0.06] bg-[#0c0c0c] px-6 py-20 text-white md:py-24">
+        <div className="mx-auto max-w-3xl">
+          <Reveal>
+            <h2 className="text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>Custom software. Real AI. Delivered.</h2>
+            <p className="mt-6 text-lg leading-relaxed text-white/70" style={inter}>
+              Most companies buy AI tools. We build the software layer that makes AI actually run your operations — sales, intake, dispatch, finance, support, and everything in between.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed font-medium text-white/90" style={inter}>
+              One partner. Full ownership. Systems that keep working long after the demo ends.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ---------- what "custom" means here ---------- */}
+      <section className="border-t border-black/[0.06] bg-white px-6 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>What "custom" actually means here</p>
+            <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>Nothing off-the-shelf. Every layer built for you.</h2>
+          </Reveal>
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
+            {[
+              ["We design it", "We map your exact workflows, pain points, and systems. Nothing is off-the-shelf — the spec comes from how your business actually runs."],
+              ["We build it", "Custom web apps, internal tools, AI agents, integrations, and dashboards — engineered for your business, owned by you."],
+              ["We implement it", "We put it live, train your team, connect it to your existing stack, and prove the results against the old way."],
+            ].map(([t, b], i) => (
+              <Reveal key={t} delay={i * 0.06}>
+                <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35">
+                  <p className="text-[13px] text-[#1e6b3c]" style={mono}>0{i + 1}</p>
+                  <h3 className="mt-2.5 text-[18px] font-semibold tracking-[-0.02em]" style={inter}>{t}</h3>
+                  <p className="mt-2.5 text-[14px] leading-relaxed text-[#111111]/60" style={inter}>{b}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- proof: real systems, not demos ---------- */}
+      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>The proof</p>
+            <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>Real systems. Not demos.</h2>
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
+              Every one of these was custom software, scoped and built for a specific business, and handed over running. Client names and data are changed to protect privacy.
+            </p>
+          </Reveal>
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
+            {[
+              ["Custom AI Intake + Scheduling System", "For healthcare clinics — a phone line and web intake that understand a patient in plain language, match them to the right specialist, and book it, with escalation when it isn't sure."],
+              ["Custom Dispatch & Field Service OS", "One board that takes the job, routes the nearest qualified tech, sends the ETA, and reconciles the ticket — replacing three tools and a whiteboard."],
+              ["Custom Sales + CRM Automation Layer", "Every lead captured, enriched, and routed the moment it lands; follow-ups and updates written back automatically so nothing is worked twice or dropped."],
+              ["Custom Finance Reconciliation Engine", "Invoices and payments matched automatically, exceptions surfaced for review — the month-end close measured in hours, not a week of manual keying."],
+            ].map(([t, b], i) => (
+              <Reveal key={t} delay={(i % 2) * 0.06}>
+                <div className="flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
+                  <h3 className="text-[18px] font-semibold tracking-[-0.02em]" style={inter}>{t}</h3>
+                  <p className="mt-3 flex-1 text-[14px] leading-relaxed text-[#111111]/60" style={inter}>{b}</p>
+                  <p className="mt-5 border-t border-black/[0.06] pt-4 text-[13px] text-[#1e6b3c]" style={mono}>
+                    Built from scratch · Running in production · Fully owned by the client
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -229,8 +298,8 @@ function AutomatePage() {
       <section className="border-t border-black/[0.06] bg-white px-6 py-24 md:py-28">
         <div className="mx-auto max-w-6xl">
           <Reveal>
-            <p className="text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase" style={mono}>The ELSIAA process</p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>Every automation runs the same road.</h2>
+            <p className="text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase" style={mono}>The ELSIAA build process</p>
+            <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>Every custom build runs the same road.</h2>
           </Reveal>
           {/* desktop spine */}
           <div className="mt-14 hidden lg:block">
@@ -272,8 +341,28 @@ function AutomatePage() {
       <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-24">
         <div className="mx-auto max-w-6xl">
           <Reveal>
-            <p className="text-[13px] text-[#1e6b3c] " style={mono}>Everything the division ships</p>
-            <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-3xl" style={inter}>From the first wireframe to the cloud it runs on.</h2>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>What we build</p>
+            <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl" style={inter}>Custom software + AI systems for every part of the business.</h2>
+          </Reveal>
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              ["Revenue & Sales", "custom pipelines, lead capture, and CRM automation"],
+              ["Operations & Dispatch", "custom scheduling, routing, and field-service systems"],
+              ["Customer Intake & Support", "custom intake lines, triage, and support workflows"],
+              ["Finance & Back-office", "custom reconciliation, invoicing, and reporting engines"],
+              ["Internal Tools & Dashboards", "custom apps and live dashboards for your team"],
+              ["Full AI Agents & Workflow Automation", "custom agents that run multi-step work end to end"],
+            ].map(([t, b], i) => (
+              <Reveal key={t} delay={(i % 3) * 0.05}>
+                <div className="h-full rounded-xl border border-black/[0.08] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/40">
+                  <h3 className="text-[15px] font-semibold tracking-[-0.01em]" style={inter}>{t}</h3>
+                  <p className="mt-2 text-[13.5px] leading-relaxed text-[#111111]/60" style={inter}>We build {b} — for your business.</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <p className="mt-14 text-[13px] text-[#1e6b3c] " style={mono}>Every capability, in detail</p>
           </Reveal>
           {/* filter row */}
           <div className="mt-7 flex gap-2 overflow-x-auto pb-1">
@@ -330,12 +419,12 @@ function AutomatePage() {
       <section className="bg-[#0c0c0c] px-6 py-24 text-white md:py-32">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
-            <h2 className="text-4xl font-semibold tracking-[-0.045em] md:text-6xl" style={inter}>Show us the step that waits on a person.</h2>
-            <p className="mx-auto mt-5 max-w-lg text-lg leading-relaxed text-white/60" style={inter}>
-              We'll build the system that does it instead — and show you the before and after before you commit a dollar.
+            <h2 className="text-4xl font-semibold tracking-[-0.045em] md:text-6xl" style={inter}>Stop buying AI tools. Start running custom systems.</h2>
+            <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/60" style={inter}>
+              Show us the process that still depends on people, spreadsheets, or duct-taped tools. We'll design and build the software that replaces it — and show you the working system before you spend a dollar.
             </p>
             <form action="/contact" method="get" className="mx-auto mt-9 max-w-xl">
-              <label className="block text-left text-[13px] text-white/45 " style={mono}>The step that waits on a person is…</label>
+              <label className="block text-left text-[13px] text-white/45 " style={mono}>The process we should replace is…</label>
               <input
                 name="step"
                 value={step}
@@ -346,7 +435,7 @@ function AutomatePage() {
               />
               <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
                 <button type="submit" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]" style={mono}>Book a strategy call →</button>
-                <a href="/quote" className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>Get a quote</a>
+                <a href="/quote" className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>Get a fixed-scope quote</a>
               </div>
             </form>
             <p className="mt-8 text-[13px] text-white/35 " style={mono}><a href="/clients" className="underline-offset-2 hover:text-white/70 hover:underline">Fully insured builds ↗</a> · Six cities · One standard</p>
