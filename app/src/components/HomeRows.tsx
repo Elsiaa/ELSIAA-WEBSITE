@@ -388,28 +388,38 @@ function HomeHero() {
 function AutomationSection() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
   return (
-    <section className="border-t border-black/[0.06] bg-white py-16 md:py-24" id="automation">
+    <section className="border-t border-black/[0.06] bg-white py-16 md:py-20" id="automation">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
-          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-14">
+          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[0.92fr_1.08fr] md:gap-14">
+            {/* copy */}
             <div>
-              <p className="text-[14px] font-bold text-[#1e6b3c]" style={sans}>1 · Automation</p>
-              <h2 className="mt-2 max-w-xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl" style={sans}>
-                Discover the future of how work is done.
+              <p className="text-[10px] font-semibold tracking-[0.28em] text-[#1e6b3c] uppercase" style={sans}>01 · Automation</p>
+              <h2 className="mt-3 max-w-md text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-[2.75rem] md:leading-[1.02]" style={sans}>
+                The future of how work gets done.
               </h2>
-              <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={sans}>
-                AI moves faster than any team — watch it run the desk, then watch
-                it run yours.
+              <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-[#111111]/55" style={sans}>
+                One worker. Every task at once. Watch it run the desk — then watch it run yours.
               </p>
+              {/* what it's doing right now — the many-arms idea, made explicit */}
+              <div className="mt-7 grid max-w-sm grid-cols-2 gap-x-6 gap-y-2.5 border-t border-black/[0.07] pt-5">
+                {["Writing code", "Answering support", "Reconciling invoices", "Designing graphics", "Scheduling meetings", "Drafting reports"].map((t, i) => (
+                  <div key={t} className="flex items-center gap-2.5">
+                    <span className="h-1.5 w-1.5 flex-none animate-pulse rounded-full bg-[#1e6b3c]" style={{ animationDelay: `${i * 0.3}s` }} />
+                    <span className="text-[12.5px] text-[#111111]/60" style={sans}>{t}</span>
+                  </div>
+                ))}
+              </div>
               <a
                 href="/automate"
-                className="mt-7 inline-flex min-h-[48px] items-center rounded-full border border-[#1e6b3c]/40 px-7 text-[15px] font-semibold text-[#1e6b3c] transition-all hover:bg-[#1e6b3c] hover:text-white"
+                className="mt-8 inline-flex min-h-[46px] items-center rounded-full bg-[#1e6b3c] px-7 text-[13px] font-semibold tracking-[0.02em] text-white transition-all hover:bg-[#111111]"
                 style={sans}
               >
                 See it work — live walkthrough →
               </a>
             </div>
-            <div className="flex items-center justify-center bg-white">
+            {/* the worker — floats on white, no grey base */}
+            <div className="relative flex items-center justify-center">
               <video
                 src="/assets/robot_ai_worker.mp4"
                 poster="/assets/robot_ai_worker.png"
@@ -419,8 +429,12 @@ function AutomationSection() {
                 playsInline
                 preload="auto"
                 aria-label="The ELSIAA AI worker — many arms, every one on a different task"
-                className="w-full max-w-[500px] mix-blend-multiply"
-                style={{ filter: "brightness(1.03) contrast(1.03)" }}
+                className="w-full max-w-[480px] mix-blend-multiply"
+                style={{
+                  filter: "brightness(1.03) contrast(1.03)",
+                  WebkitMaskImage: "linear-gradient(to bottom, #000 74%, rgba(0,0,0,0) 97%)",
+                  maskImage: "linear-gradient(to bottom, #000 74%, rgba(0,0,0,0) 97%)",
+                }}
               />
             </div>
           </div>
