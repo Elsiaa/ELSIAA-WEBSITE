@@ -1185,22 +1185,38 @@ function DesignDivision() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  // radial masks clip the black space away so only the sphere shows — its edge
+  // fades seamlessly into the white page, no hard disc.
+  const earthMask = "radial-gradient(circle at 50.5% 46%, #000 0 40%, rgba(0,0,0,0) 48%)";
+  const rockMask = "radial-gradient(circle at 54.5% 49%, #000 0 38%, rgba(0,0,0,0) 45%)";
   const Sphere = ({ live }: { live: boolean }) => (
-    <div className="relative flex items-center justify-center" style={{ width: "min(64vh, 440px)", height: "min(64vh, 440px)" }}>
+    <div className="relative flex items-center justify-center" style={{ width: "min(66vh, 460px)", height: "min(66vh, 460px)" }}>
       <div
         ref={live ? undefined : glowRef}
-        className="pointer-events-none absolute h-[92%] w-[92%] rounded-full blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(30,107,60,0.5), transparent 70%)", opacity: live ? 0.6 : 0.1 }}
+        className="pointer-events-none absolute h-[78%] w-[78%] rounded-full blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(46,158,88,0.45), transparent 68%)", opacity: live ? 0.5 : 0.12 }}
       />
       <div
         ref={live ? undefined : sphereRef}
-        className="relative aspect-square w-full overflow-hidden rounded-full bg-black shadow-[0_50px_130px_-40px_rgba(30,107,60,0.55)] ring-1 ring-black/10 will-change-transform"
+        className="relative aspect-square w-full will-change-transform"
+        style={{ filter: "drop-shadow(0 28px 55px rgba(12,30,20,0.34))" }}
       >
-        <img src="/assets/cine/earth.jpg" alt="A living earth" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "51% 47%" }} />
+        <img
+          src="/assets/cine/earth.jpg"
+          alt="A living earth"
+          className="absolute inset-0 h-full w-full object-cover"
+          style={{ objectPosition: "50.5% 46%", WebkitMaskImage: earthMask, maskImage: earthMask }}
+        />
         {!live && (
-          <img ref={rockRef} src="/assets/cine/rock.jpg" alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "57% 50%", filter: "saturate(0.1) brightness(0.85)" }} />
+          <img
+            ref={rockRef}
+            src="/assets/cine/rock.jpg"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: "57% 50%", WebkitMaskImage: rockMask, maskImage: rockMask, filter: "saturate(0.1) brightness(0.9)" }}
+          />
         )}
-        <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/10" />
       </div>
     </div>
   );
