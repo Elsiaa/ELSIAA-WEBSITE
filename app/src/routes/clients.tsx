@@ -20,10 +20,10 @@ const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'
 const eyebrow = "text-[13px] text-[#1e6b3c] ";
 
 const STEPS: Array<[string, string, string]> = [
-  ["01", "Free call", "Twenty minutes to understand the problem and where AI actually pays off. No deck, no obligation."],
-  ["02", "Scoped proposal", "A clear plan, timeline, and fixed price within three days — you know exactly what you're buying."],
-  ["03", "Design & build", "We build it live, inside your real workflow, reviewed as we go. You see progress, not promises."],
-  ["04", "Launch & support", "It ships into production and keeps improving against real use. Delivery is the start of the standard."],
+  ["1", "Free call", "Twenty minutes to understand the problem and where AI actually pays off. No deck, no obligation."],
+  ["2", "Scoped proposal", "A clear plan, timeline, and fixed price within three days — you know exactly what you're buying."],
+  ["3", "Design & build", "We build it live, inside your real workflow, reviewed as we go. You see progress, not promises."],
+  ["4", "Launch & support", "It ships into production and keeps improving against real use. Delivery is the start of the standard."],
 ];
 
 const EXPECT: Array<[string, string]> = [

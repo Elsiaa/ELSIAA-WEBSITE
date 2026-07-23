@@ -219,8 +219,8 @@ function TeamPage() {
           <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-black/[0.06] pt-6">
             {[
               ["10", "Leaders & advisors"],
-              ["06", "Cities on the ground"],
-              ["03", "Continents"],
+              ["6", "Cities on the ground"],
+              ["3", "Continents"],
               ["100%", "Insured builds"],
             ].map(([n, l]) => (
               <div key={l}>

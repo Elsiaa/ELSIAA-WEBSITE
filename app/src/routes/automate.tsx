@@ -28,12 +28,12 @@ const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'
 
 /* ------------------------------- process ------------------------------- */
 const STEPS: Array<[string, string, string, boolean]> = [
-  ["01", "Map the work", "We sit with the people doing it and trace every step, handoff, and workaround. The engagement begins as observation, not software.", false],
-  ["02", "Find the waste", "The manual re-entry, the waiting, the double-booking. Where the business quietly pays a tax on human time — that becomes the spec.", false],
-  ["03", "Build it live", "Working software from day one, inside your real workflow. We don't demo a mockup; we hand you the thing.", false],
-  ["04", "Add the intelligence", "Voice agents, decision logic, anomaly detection — added only where they earn their place, never as a headline.", false],
-  ["05", "Prove it", "Measured against the old way, in hours, not sprints. Anything slower or less reliable than the spreadsheet gets rebuilt until it holds.", true],
-  ["06", "Run it", "It ships live and keeps improving against real use. Delivery is the beginning of the standard, not the end of it.", false],
+  ["1", "Map the work", "We sit with the people doing it and trace every step, handoff, and workaround. The engagement begins as observation, not software.", false],
+  ["2", "Find the waste", "The manual re-entry, the waiting, the double-booking. Where the business quietly pays a tax on human time — that becomes the spec.", false],
+  ["3", "Build it live", "Working software from day one, inside your real workflow. We don't demo a mockup; we hand you the thing.", false],
+  ["4", "Add the intelligence", "Voice agents, decision logic, anomaly detection — added only where they earn their place, never as a headline.", false],
+  ["5", "Prove it", "Measured against the old way, in hours, not sprints. Anything slower or less reliable than the spreadsheet gets rebuilt until it holds.", true],
+  ["6", "Run it", "It ships live and keeps improving against real use. Delivery is the beginning of the standard, not the end of it.", false],
 ];
 
 /* -------------------- catalog category map -------------------- */

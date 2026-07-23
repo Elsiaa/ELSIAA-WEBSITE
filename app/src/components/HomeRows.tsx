@@ -1175,7 +1175,7 @@ export function HomeRows() {
       <SoftwareDemos />
       <AutomationCatalog />
       <DivisionRow
-        n="02"
+        n="2"
         title="Design"
         lede="Good artists don't use AI — they leverage it. World-class design for every surface of your business."
         graphic={<AssemblingArtist />}
@@ -1184,7 +1184,7 @@ export function HomeRows() {
         cta="Explore Designs"
       />
       <DivisionRow
-        n="03"
+        n="3"
         title="Consultation"
         lede="Strategy, technology, business, product, growth — book a seat at the table."
         graphic={<LiveGraphic src="/assets/consult_live_v2.mp4" poster="/assets/consult_live_poster_v2.jpg" />}

@@ -110,7 +110,7 @@ const CLIENTS: Record<string, Client> = {
 async function sha256(text: string) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
   return Array.from(new Uint8Array(buf))
-    .map((b) => b.toString(16).padStart(2, "0"))
+    .map((b) => b.toString(16))
     .join("");
 }
 
@@ -119,22 +119,22 @@ const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'
 
 const INSIDE: { k: string; title: string; body: string }[] = [
   {
-    k: "01",
+    k: "1",
     title: "Live project status & milestones",
     body: "Where every build stands right now — phases in production, what's in review, and what ships next.",
   },
   {
-    k: "02",
+    k: "2",
     title: "Deliverables & source",
     body: "Handoff in one place: repositories, design files, and production assets, ready when you are.",
   },
   {
-    k: "03",
+    k: "3",
     title: "Invoices & documents",
     body: "Balances, purchase history, signed agreements, and statements of work — clear and current.",
   },
   {
-    k: "04",
+    k: "4",
     title: "A direct line to your team",
     body: "Message the people building your work. No ticket queues, no forwarding — the executive team.",
   },

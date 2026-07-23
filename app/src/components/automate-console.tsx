@@ -548,7 +548,7 @@ export function ProofDeck() {
                   <ol className="mt-2 space-y-1">
                     {trace.lines.map((l, i) => (
                       <li key={i} className="flex gap-2 text-[11.5px] leading-snug text-[#111111]/70" style={inter}>
-                        <span className="mt-[3px] text-[13px] text-[#111111]/30" style={mono}>{String(i + 1).padStart(2, "0")}</span>{l}
+                        <span className="mt-[3px] text-[13px] text-[#111111]/30" style={mono}>{String(i + 1)}</span>{l}
                       </li>
                     ))}
                   </ol>
@@ -763,7 +763,7 @@ export function Secretary() {
           </summary>
           <ol className="mt-2.5 space-y-1.5">
             {script.trace.map((l, i) => (
-              <li key={i} className="flex gap-2 text-[11.5px] leading-snug text-[#111111]/70" style={inter}><span className="mt-[3px] text-[13px] text-[#111111]/30" style={mono}>{String(i + 1).padStart(2, "0")}</span>{l}</li>
+              <li key={i} className="flex gap-2 text-[11.5px] leading-snug text-[#111111]/70" style={inter}><span className="mt-[3px] text-[13px] text-[#111111]/30" style={mono}>{String(i + 1)}</span>{l}</li>
             ))}
           </ol>
         </details>

@@ -27,7 +27,7 @@ export const Route = createFileRoute("/services")({
 
 const PRODUCTS = [
   {
-    num: "01",
+    num: "1",
     name: "Website Domination",
     price: "Starting at $12k",
     outcome: "Typical 3–5× ROI in 90 days",
@@ -35,7 +35,7 @@ const PRODUCTS = [
       "High-converting websites and landing pages engineered to turn traffic into pipeline.",
   },
   {
-    num: "02",
+    num: "2",
     name: "Operations Overhaul",
     price: "Starting at $18k",
     outcome: "Clients average 40–70% time reduction",
@@ -44,7 +44,7 @@ const PRODUCTS = [
     popular: true,
   },
   {
-    num: "03",
+    num: "3",
     name: "Full AI Transformation",
     price: "Starting at $35k",
     outcome: "For companies ready to lead",
@@ -52,7 +52,7 @@ const PRODUCTS = [
       "End-to-end AI agents, custom software, and secure infrastructure — fully insured.",
   },
   {
-    num: "04",
+    num: "4",
     name: "Retained Partnership",
     price: "Custom monthly retainer",
     outcome: "Priority execution, every month",

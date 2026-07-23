@@ -25,11 +25,11 @@ const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'
 const eyebrow = "text-[13px] text-[#1e6b3c] ";
 
 const STEPS: Array<[string, string, string]> = [
-  ["01", "Free 20-min call", "We understand the problem."],
-  ["02", "Scoped proposal", "A clear plan and price within 3 days."],
-  ["03", "Design & build", "We build it, reviewed as we go."],
-  ["04", "Launch", "It ships, live, into your workflow."],
-  ["05", "Ongoing support", "We keep it running and improving."],
+  ["1", "Free 20-min call", "We understand the problem."],
+  ["2", "Scoped proposal", "A clear plan and price within 3 days."],
+  ["3", "Design & build", "We build it, reviewed as we go."],
+  ["4", "Launch", "It ships, live, into your workflow."],
+  ["5", "Ongoing support", "We keep it running and improving."],
 ];
 
 const OFFICES = ["New York", "Los Angeles", "London", "Geneva", "Antwerp", "Tel Aviv"];

@@ -253,12 +253,12 @@ export function IntakeOS() {
 
           <div className="space-y-3 p-4">
             {/* 1 · transcription */}
-            <Module n="01" title="Transcription · ASR" hint={s.lang === "EN" ? "English" : s.lang}>
+            <Module n="1" title="Transcription · ASR" hint={s.lang === "EN" ? "English" : s.lang}>
               <p className="text-[13px] leading-relaxed text-[#111111]/75" style={inter}>{d.asr ? <>“{d.asr}<span className="text-[#1e6b3c]">{playing && listening ? "▏" : ""}</span>”</> : <span className="text-[#111111]/35" style={mono}>awaiting speech…</span>}</p>
             </Module>
 
             {/* 2 · NLU */}
-            <Module n="02" title="Symptom extraction · clinical NLU" hint={`${d.entities.length} found`}>
+            <Module n="2" title="Symptom extraction · clinical NLU" hint={`${d.entities.length} found`}>
               {d.entities.length === 0 ? <span className="text-[13px] text-[#111111]/35" style={mono}>listening for symptoms…</span> : (
                 <div className="space-y-1.5">
                   {d.entities.map((en, i) => (
@@ -273,7 +273,7 @@ export function IntakeOS() {
             </Module>
 
             {/* 3 · decision logic */}
-            <Module n="03" title="Decision logic · doctor-matching" hint="deterministic">
+            <Module n="3" title="Decision logic · doctor-matching" hint="deterministic">
               <div className="space-y-1.5">
                 {DOCS.map((doc) => {
                   const on = d.ruled === doc.id || d.route === doc.id;
@@ -302,7 +302,7 @@ export function IntakeOS() {
             </Module>
 
             {/* 4 · actions */}
-            <Module n="04" title="Actions · system connections" hint={`${d.actions.length} fired`}>
+            <Module n="4" title="Actions · system connections" hint={`${d.actions.length} fired`}>
               {d.actions.length === 0 ? <span className="text-[13px] text-[#111111]/35" style={mono}>no side effects until a match is confirmed</span> : (
                 <div className="space-y-1.5">
                   {d.actions.map((a, i) => (
@@ -335,7 +335,7 @@ function Module({ n, title, hint, children }: { n: string; title: string; hint?:
     <div className="rounded-xl border border-black/[0.08] bg-white p-3">
       <div className="flex items-center justify-between">
         <div className="flex items-baseline gap-2">
-          <span className="text-[13px] text-[#1e6b3c]" style={mono}>{n}</span>
+          <span className="text-[13px] text-[#1e6b3c] font-bold" style={mono}>{n}</span>
           <span className="text-[13px] font-semibold tracking-[-0.01em]" style={inter}>{title}</span>
         </div>
         {hint && <span className="text-[13px] text-[#111111]/35 " style={mono}>{hint}</span>}

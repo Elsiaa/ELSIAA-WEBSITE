@@ -87,7 +87,7 @@ function IntakePage() {
             {STACK.map(([t, d], i) => (
               <Reveal key={t} delay={i * 0.06}>
                 <div className="border-t border-black/10 pt-4">
-                  <span className="text-[13px] text-[#1e6b3c]" style={mono}>{String(i + 1).padStart(2, "0")}</span>
+                  <span className="text-[13px] text-[#1e6b3c]" style={mono}>{String(i + 1)}</span>
                   <h3 className="mt-2 text-[17px] font-semibold tracking-[-0.02em]" style={inter}>{t}</h3>
                   <p className="mt-2 text-[13.5px] leading-relaxed text-[#111111]/60" style={inter}>{d}</p>
                 </div>

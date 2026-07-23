@@ -1715,7 +1715,7 @@ function BeyondWebsites() {
               className="text-[13px] text-[#1e6b3c]"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
-              {String((i % APPS.length) + 1).padStart(2, "0")}
+              {String((i % APPS.length) + 1)}
             </span>
             <h3
               className="mt-3 text-[17px] leading-snug font-semibold tracking-[-0.02em] text-[#111111]"
@@ -1739,12 +1739,12 @@ function BeyondWebsites() {
 /* ---------------- the process — how every uplift actually happens ---------------- */
 function OurProcess() {
   const STEPS = [
-    ["01", "Immersion", "Before anything is designed, we study the business: your market, your customers, and precisely what \u201cbetter received\u201d means for you. Every engagement begins as research, not aesthetics."],
-    ["02", "Sketch-first ideation", "Concepts are drawn by hand before a pixel exists. Structure gets decided by thinking, never by templates \u2014 which is why no two ELSIAA builds look alike."],
-    ["03", "Directed generation", "Our proprietary AI production pipeline turns creative direction into studio-grade assets \u2014 imagery, film, and interfaces \u2014 at a pace traditional studios cannot match."],
-    ["04", "Live assembly", "Designs are built as working software from day one and reviewed in the real medium. We don\u2019t present mockups of the thing; we present the thing."],
-    ["05", "Ruthless iteration", "Work is measured against the standard, not the effort. Anything below the bar is rebuilt \u2014 in hours, not sprints \u2014 until every detail holds."],
-    ["06", "Launch & refinement", "The work ships live, then keeps improving against real visitor behavior. Delivery is the beginning of the standard, not the end of it."],
+    ["1", "Immersion", "Before anything is designed, we study the business: your market, your customers, and precisely what \u201cbetter received\u201d means for you. Every engagement begins as research, not aesthetics."],
+    ["2", "Sketch-first ideation", "Concepts are drawn by hand before a pixel exists. Structure gets decided by thinking, never by templates \u2014 which is why no two ELSIAA builds look alike."],
+    ["3", "Directed generation", "Our proprietary AI production pipeline turns creative direction into studio-grade assets \u2014 imagery, film, and interfaces \u2014 at a pace traditional studios cannot match."],
+    ["4", "Live assembly", "Designs are built as working software from day one and reviewed in the real medium. We don\u2019t present mockups of the thing; we present the thing."],
+    ["5", "Ruthless iteration", "Work is measured against the standard, not the effort. Anything below the bar is rebuilt \u2014 in hours, not sprints \u2014 until every detail holds."],
+    ["6", "Launch & refinement", "The work ships live, then keeps improving against real visitor behavior. Delivery is the beginning of the standard, not the end of it."],
   ];
   return (
     <section className="bg-[#F5F5F3] px-6 py-24 text-[#111111]">
@@ -1779,7 +1779,7 @@ function OurProcess() {
                     {t}
                   </h3>
                   <span
-                    className="text-[13px] text-[#1e6b3c]"
+                    className="text-[13px] text-[#1e6b3c] font-bold"
                     style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                   >
                     {n}

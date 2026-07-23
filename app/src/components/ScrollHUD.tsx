@@ -7,11 +7,11 @@ import { useEffect, useRef } from "react";
 */
 
 const STAGES = [
-  { id: "01", label: "Problem" },
-  { id: "02", label: "Evolution" },
-  { id: "03", label: "Proof" },
-  { id: "04", label: "Craft" },
-  { id: "05", label: "Work" },
+  { id: "1", label: "Problem" },
+  { id: "2", label: "Evolution" },
+  { id: "3", label: "Proof" },
+  { id: "4", label: "Craft" },
+  { id: "5", label: "Work" },
 ];
 
 export function ScrollHUD() {
@@ -27,7 +27,7 @@ export function ScrollHUD() {
       const total = Math.max(1, doc.scrollHeight - window.innerHeight);
       const p = Math.min(1, Math.max(0, window.scrollY / total));
       if (spineRef.current) spineRef.current.style.transform = `scaleY(${p})`;
-      if (pctRef.current) pctRef.current.textContent = `${String(Math.round(p * 100)).padStart(2, "0")}%`;
+      if (pctRef.current) pctRef.current.textContent = `${Math.round(p * 100)}%`;
       const active = Math.min(STAGES.length - 1, Math.floor(p * STAGES.length));
       itemRefs.current.forEach((el, i) => {
         if (!el) return;
