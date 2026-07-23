@@ -4,20 +4,21 @@ import { SiteSearch, SEARCH_INDEX } from "./SiteSearch";
 import { LangSwitcher } from "./LangSwitcher";
 
 /*
-  ELSIAA site nav — fixed, minimal, on a solid white bar.
-  Ink text on a white backdrop-blur bar so page content never collides with
-  the nav while scrolling; colors invert to white when the menu overlay opens.
-  Tabs (hamburger) icon opens a full menu overlay — primary nav on mobile,
-  available everywhere.
+  ELSIAA site nav — fixed white bar, ink type.
+  Menu overlay: white sheet, black type, search at the very top, quiet
+  editorial styling (sentence case, no mono, no numbering), warm gold
+  accent, live lion at the bottom.
 */
-// Primary navigation — the only items in the top bar and the top of the menu.
+const SANS =
+  "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+const GOLD = "#b0812a";
+
 const PRIMARY = [
   { label: "Design", href: "/designs" },
   { label: "Automate", href: "/automate" },
   { label: "Contact", href: "/contact" },
   { label: "Client Login", href: "/portal" },
 ];
-// Secondary — everything else lives in the footer and the menu's "More" group.
 const MORE = [
   { label: "Services", href: "/services" },
   { label: "Clients", href: "/clients" },
@@ -39,6 +40,7 @@ export function SiteNav() {
         e.preventDefault();
         setSearch((s) => !s);
       }
+      if (e.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -79,31 +81,18 @@ export function SiteNav() {
             className="group pointer-events-auto flex items-center gap-3 transition-opacity hover:opacity-80"
             aria-label="ELSIAA — home"
           >
-            {/* mark: ELSIAA geometric lion */}
             <img
               src="/assets/elsiaa-lion.png"
               alt=""
               width={40}
               height={40}
-              className={`h-9 w-9 object-contain transition-opacity duration-300 ${open ? "opacity-0" : "opacity-100"}`}
+              className="h-9 w-9 object-contain"
             />
-            <span className="flex flex-col leading-none">
-              <span
-                className={`text-[13px] font-semibold tracking-[0.42em] uppercase ${open ? "text-white" : "text-[#111111]"}`}
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-              >
-                ELSIAA
-              </span>
-              <span className="mt-[5px] flex items-center gap-2">
-                <span className={`h-px w-4 ${open ? "bg-white/40" : "bg-[#111111]/30"}`} />
-                <span
-                  className={`text-[8px] tracking-[0.34em] whitespace-nowrap uppercase ${open ? "text-white/60" : "text-[#111111]/60"}`}
-                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
-                >
-                  AI Done Better
-                </span>
-                <span className={`h-px flex-1 ${open ? "bg-white/40" : "bg-[#111111]/30"}`} />
-              </span>
+            <span
+              className="text-[15px] font-semibold tracking-[0.3em] text-[#111111]"
+              style={{ fontFamily: SANS }}
+            >
+              ELSIAA
             </span>
           </a>
           <nav className="pointer-events-auto flex items-center gap-5 md:gap-7">
@@ -111,117 +100,94 @@ export function SiteNav() {
               <a
                 key={l.href}
                 href={l.href}
-                className={`hidden text-[11px] tracking-[0.26em] uppercase transition-opacity hover:opacity-60 md:inline ${open ? "pointer-events-none opacity-0" : "text-[#111111]/80"}`}
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                className={`hidden text-[13px] font-medium text-[#111111]/75 transition-opacity hover:opacity-60 md:inline ${open ? "pointer-events-none opacity-0" : ""}`}
+                style={{ fontFamily: SANS }}
               >
                 {l.label}
               </a>
             ))}
             <a
               href="/quote"
-              className={`hidden border px-5 py-2 text-[11px] tracking-[0.26em] uppercase transition-all duration-300 md:inline-block ${open ? "pointer-events-none opacity-0" : "border-[#111111]/30 text-[#111111] hover:border-[#111111] hover:bg-[#111111] hover:text-white"}`}
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              className={`hidden rounded-full border px-5 py-2 text-[13px] font-medium transition-all duration-300 md:inline-block ${open ? "pointer-events-none opacity-0" : "border-[#111111]/25 text-[#111111] hover:border-[#111111] hover:bg-[#111111] hover:text-white"}`}
+              style={{ fontFamily: SANS }}
             >
-              Get a Quote
+              Get a quote
             </a>
-            {/* language switcher */}
             <div className={`${open ? "pointer-events-none opacity-0" : ""} transition-opacity`}>
               <LangSwitcher />
             </div>
-            {/* search icon */}
             <button
               aria-label="Search"
               onClick={() => { window.location.href = "/search"; }}
               className={`flex h-10 w-8 items-center justify-center transition-opacity hover:opacity-60 ${open ? "pointer-events-none opacity-0" : ""}`}
             >
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={open ? "white" : "#111111"} strokeWidth="2" strokeLinecap="round">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round">
                 <circle cx="11" cy="11" r="7" />
                 <line x1="21" y1="21" x2="16.5" y2="16.5" />
               </svg>
             </button>
-            {/* tabs icon */}
             <button
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               onClick={() => setOpen(!open)}
               className="group relative flex h-10 w-10 items-center justify-center"
             >
-              <span
-                className={`absolute h-[1.5px] w-6 transition-all duration-300 ${open ? "bg-white" : "bg-[#111111]"} ${
-                  open ? "rotate-45" : "-translate-y-[7px]"
-                }`}
-              />
-              <span
-                className={`absolute h-[1.5px] w-6 transition-all duration-300 ${open ? "bg-white" : "bg-[#111111]"} ${
-                  open ? "opacity-0" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`absolute h-[1.5px] w-6 transition-all duration-300 ${open ? "bg-white" : "bg-[#111111]"} ${
-                  open ? "-rotate-45" : "translate-y-[7px]"
-                }`}
-              />
+              <span className={`absolute h-[1.5px] w-6 bg-[#111111] transition-all duration-300 ${open ? "rotate-45" : "-translate-y-[7px]"}`} />
+              <span className={`absolute h-[1.5px] w-6 bg-[#111111] transition-all duration-300 ${open ? "opacity-0" : "opacity-100"}`} />
+              <span className={`absolute h-[1.5px] w-6 bg-[#111111] transition-all duration-300 ${open ? "-rotate-45" : "translate-y-[7px]"}`} />
             </button>
           </nav>
         </div>
       </header>
 
-      {/* menu overlay */}
+      {/* menu overlay — white sheet, ink type */}
       <div
-        className={`fixed inset-0 z-40 bg-[#0c0c0c] transition-opacity duration-400 ${
+        className={`fixed inset-0 z-40 bg-white transition-opacity duration-400 ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={() => setOpen(false)}
       >
         <div
-          className="mx-auto flex h-full max-w-6xl flex-col overflow-y-auto px-8 pt-28 pb-10"
+          className="mx-auto flex h-full max-w-6xl flex-col overflow-y-auto px-6 pt-24 pb-8 md:px-8 md:pt-28"
           onClick={(e) => e.stopPropagation()}
+          style={{ fontFamily: SANS }}
         >
-          <div className="grid flex-1 grid-cols-1 gap-x-20 gap-y-12 md:grid-cols-[1.15fr_1fr]">
+          {/* search — first thing */}
+          <div
+            style={{
+              opacity: open ? 1 : 0,
+              transform: open ? "none" : "translateY(14px)",
+              transition: "opacity .45s ease .05s, transform .45s cubic-bezier(.2,.8,.2,1) .05s",
+            }}
+          >
+            <MenuSearch onNavigate={() => setOpen(false)} />
+          </div>
+
+          <div className="mt-10 grid flex-1 grid-cols-1 gap-x-20 gap-y-10 md:grid-cols-[1.15fr_1fr]">
             {/* nav column */}
-            <nav className="flex flex-col justify-center gap-0.5">
-              <p
-                className="mb-4 text-[10px] tracking-[0.32em] text-white/50 uppercase"
-                style={{
-                  fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace",
-                  opacity: open ? 1 : 0,
-                  transition: "opacity .5s ease .05s",
-                }}
-              >
-                Menu
-              </p>
+            <nav className="flex flex-col gap-0.5">
               {PRIMARY.map((l, i) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="group flex items-baseline gap-4 border-b border-white/[0.06] py-2.5"
+                  className="group flex items-baseline border-b border-black/[0.08] py-3"
                   style={{
                     opacity: open ? 1 : 0,
                     transform: open ? "none" : "translateY(18px)",
-                    transition: `opacity .5s ease ${0.08 + i * 0.05}s, transform .5s cubic-bezier(.2,.8,.2,1) ${0.08 + i * 0.05}s`,
+                    transition: `opacity .5s ease ${0.12 + i * 0.05}s, transform .5s cubic-bezier(.2,.8,.2,1) ${0.12 + i * 0.05}s`,
                   }}
                 >
-                  <span
-                    className="w-6 text-[10px] tracking-[0.3em] text-[#2e9e58]"
-                    style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span
-                    className="text-[22px] font-semibold tracking-[-0.02em] text-white/90 transition-all duration-200 group-hover:translate-x-1 group-hover:text-white md:text-[27px]"
-                    style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                  >
+                  <span className="text-[26px] font-semibold tracking-[-0.02em] text-[#111111] transition-all duration-200 group-hover:translate-x-1 md:text-[32px]">
                     {l.label}
                   </span>
-                  <span className="ml-auto text-white/0 transition-colors duration-200 group-hover:text-[#2e9e58]">
+                  <span className="ml-auto translate-x-1 text-[20px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" style={{ color: GOLD }}>
                     →
                   </span>
                 </a>
               ))}
-              {/* secondary — smaller, out of the way */}
               <div
-                className="mt-6 flex flex-wrap gap-x-6 gap-y-2"
+                className="mt-6 flex flex-wrap gap-x-6 gap-y-2.5"
                 style={{ opacity: open ? 1 : 0, transition: "opacity .5s ease .4s" }}
               >
                 {MORE.map((l) => (
@@ -229,8 +195,7 @@ export function SiteNav() {
                     key={l.href}
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="text-[12px] tracking-[0.14em] text-white/45 uppercase transition-colors hover:text-white/80"
-                    style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                    className="text-[14px] text-[#111111]/55 transition-colors hover:text-[#111111]"
                   >
                     {l.label}
                   </a>
@@ -240,104 +205,90 @@ export function SiteNav() {
 
             {/* utility column */}
             <div
-              className="flex flex-col justify-center gap-8"
+              className="flex flex-col gap-7"
               style={{
                 opacity: open ? 1 : 0,
                 transform: open ? "none" : "translateY(18px)",
                 transition: "opacity .6s ease .3s, transform .6s cubic-bezier(.2,.8,.2,1) .3s",
               }}
             >
-              <MenuSearch onNavigate={() => setOpen(false)} />
-              <div className="border-t border-white/[0.08] pt-6">
-                <p
-                  className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
-                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
-                >
-                  Clients
-                </p>
+              <div className="border-t border-black/[0.08] pt-5">
+                <p className="text-[12px] font-medium text-[#111111]/45">Clients</p>
                 <a
                   href="/clients"
                   onClick={() => setOpen(false)}
-                  className="group mt-3 flex items-baseline justify-between border-b border-white/[0.06] py-2"
+                  className="group mt-3 flex items-baseline justify-between border-b border-black/[0.06] py-2"
                 >
-                  <span className="text-[15px] font-medium text-white/85 transition-colors group-hover:text-white" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+                  <span className="text-[15px] font-medium text-[#111111]/85 transition-colors group-hover:text-[#111111]">
                     New client — start here
                   </span>
-                  <span className="text-[10px] tracking-[0.2em] text-[#2e9e58] uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
-                    The process →
-                  </span>
+                  <span className="text-[12px] font-medium" style={{ color: GOLD }}>The process →</span>
                 </a>
                 <a
                   href="/portal"
                   onClick={() => setOpen(false)}
                   className="group flex items-baseline justify-between py-2"
                 >
-                  <span className="text-[15px] font-medium text-white/85 transition-colors group-hover:text-white" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+                  <span className="text-[15px] font-medium text-[#111111]/85 transition-colors group-hover:text-[#111111]">
                     Existing client — Client Portal
                   </span>
-                  <span className="text-[10px] tracking-[0.2em] text-[#2e9e58] uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
-                    Sign in →
-                  </span>
+                  <span className="text-[12px] font-medium" style={{ color: GOLD }}>Sign in →</span>
                 </a>
               </div>
-              <div className="border-t border-white/[0.08] pt-6">
-                <p
-                  className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
-                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
-                >
-                  Direct
-                </p>
+              <div className="border-t border-black/[0.08] pt-5">
+                <p className="text-[12px] font-medium text-[#111111]/45">Direct</p>
                 <a
                   href="mailto:info@elsiaa.com"
-                  className="mt-3 block text-[17px] font-medium text-white transition-colors hover:text-[#2e9e58]"
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                  className="mt-3 block text-[17px] font-medium text-[#111111] transition-colors"
+                  style={{ ["--gold" as string]: GOLD }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#111111")}
                 >
                   info@elsiaa.com
                 </a>
                 <a
                   href="/quote"
                   onClick={() => setOpen(false)}
-                  className="mt-4 inline-flex w-fit items-center gap-3 border border-white/25 px-6 py-3 text-[11px] tracking-[0.26em] text-white uppercase transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                  className="mt-4 inline-flex w-fit items-center gap-3 rounded-full bg-[#111111] px-6 py-3 text-[13px] font-medium text-white transition-all duration-300 hover:opacity-85"
                 >
-                  Get a Quote →
+                  Get a quote →
                 </a>
               </div>
-              <div className="border-t border-white/[0.08] pt-6">
-                <p
-                  className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
-                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
-                >
-                  Offices
-                </p>
-                <p
-                  className="mt-3 text-[13px] leading-relaxed text-white/55"
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                >
+              <div className="border-t border-black/[0.08] pt-5">
+                <p className="text-[12px] font-medium text-[#111111]/45">Offices</p>
+                <p className="mt-3 text-[13px] leading-relaxed text-[#111111]/60">
                   New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv
                 </p>
               </div>
             </div>
           </div>
 
+          {/* live lion at the bottom */}
+          <div
+            className="pointer-events-none mt-6 flex justify-center"
+            style={{ opacity: open ? 1 : 0, transition: "opacity .7s ease .45s" }}
+          >
+            {open && (
+              <video
+                src="/assets/lion_alive_v1.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="h-24 w-auto object-contain mix-blend-multiply md:h-32"
+              />
+            )}
+          </div>
+
           {/* overlay footer */}
           <div
-            className="mt-10 flex items-center justify-between border-t border-white/[0.08] pt-5"
-            style={{
-              opacity: open ? 1 : 0,
-              transition: "opacity .5s ease .5s",
-            }}
+            className="mt-4 flex items-center justify-between border-t border-black/[0.08] pt-4"
+            style={{ opacity: open ? 1 : 0, transition: "opacity .5s ease .5s" }}
           >
-            <p
-              className="text-[10px] tracking-[0.2em] text-white/50 uppercase"
-              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
-            >
-              ELSIAA — AI Done Better
-            </p>
+            <p className="text-[12px] text-[#111111]/50">Elsiaa</p>
             <p
               title="With God's help we shall do and succeed."
-              className="cursor-help text-[10px] tracking-[0.2em] text-white/50 uppercase"
-              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+              className="cursor-help text-[12px] text-[#111111]/50"
             >
               בעזרת ה׳ נעשה ונצליח
             </p>
@@ -360,14 +311,8 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
   })();
   return (
     <div>
-      <p
-        className="text-[10px] tracking-[0.32em] text-white/50 uppercase"
-        style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
-      >
-        Search
-      </p>
-      <div className="mt-3 flex items-center gap-3 rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 transition-colors focus-within:border-[#2e9e58]">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2e9e58" strokeWidth="2" strokeLinecap="round">
+      <div className="flex items-center gap-3 rounded-2xl border border-black/[0.12] bg-black/[0.03] px-5 py-4 transition-colors focus-within:border-[#b0812a]">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b0812a" strokeWidth="2" strokeLinecap="round">
           <circle cx="11" cy="11" r="7" />
           <line x1="21" y1="21" x2="16.5" y2="16.5" />
         </svg>
@@ -380,28 +325,21 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
               window.location.href = `/search?q=${encodeURIComponent(q)}`;
             }
           }}
-          placeholder="Services, cities, careers…"
-          className="w-full bg-transparent text-[15px] text-white outline-none placeholder:text-white/50"
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          placeholder="Search services, cities, careers…"
+          className="w-full bg-transparent text-[16px] text-[#111111] outline-none placeholder:text-[#111111]/40"
         />
       </div>
       {results.length > 0 && (
-        <div className="mt-2 overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]">
+        <div className="mt-2 overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-sm">
           {results.map((e, i) => (
             <a
               key={e.label}
               href={e.href}
               onClick={onNavigate}
-              className={`flex items-center justify-between px-4 py-2.5 text-[14px] text-white/80 transition-colors hover:bg-white/[0.06] hover:text-white ${i > 0 ? "border-t border-white/[0.06]" : ""}`}
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              className={`flex items-center justify-between px-5 py-3 text-[14px] text-[#111111]/80 transition-colors hover:bg-black/[0.03] hover:text-[#111111] ${i > 0 ? "border-t border-black/[0.05]" : ""}`}
             >
               <span>{e.label}</span>
-              <span
-                className="text-[10px] tracking-[0.2em] text-white/50 uppercase"
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
-              >
-                {e.group}
-              </span>
+              <span className="text-[11px] text-[#111111]/40">{e.group}</span>
             </a>
           ))}
         </div>
@@ -410,8 +348,8 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
         <a
           href={`/search?q=${encodeURIComponent(q)}`}
           onClick={onNavigate}
-          className="mt-2 inline-block text-[11px] tracking-[0.22em] text-[#2e9e58] uppercase hover:underline"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="mt-2 inline-block text-[13px] font-medium hover:underline"
+          style={{ color: "#b0812a" }}
         >
           Full search →
         </a>
