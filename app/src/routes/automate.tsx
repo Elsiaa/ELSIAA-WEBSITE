@@ -5,6 +5,7 @@ import { Reveal } from "../components/Reveal";
 import { AUTOSOFT } from "../components/HomeRows";
 import { Seam, ProofDeck, Secretary } from "../components/automate-console";
 import { IntakeOS } from "../components/intake-os";
+import { IndustryWalkthrough } from "../components/IndustryWalkthrough";
 
 export const Route = createFileRoute("/automate")({
   head: () => ({
@@ -130,6 +131,13 @@ function AutomatePage() {
             </div>
             <p className="mt-3 text-center text-[13px] text-[#111111]/40 " style={mono}>Drag the line ↔ the whole thesis, in one tile</p>
           </Reveal>
+        </div>
+      </section>
+
+      {/* live industry walkthrough */}
+      <section className="border-t border-black/[0.06] py-14 md:py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <IndustryWalkthrough />
         </div>
       </section>
 

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { StickyCTA } from "./StickyCTA";
-import { IndustryWalkthrough } from "./IndustryWalkthrough";
 import { AssemblingArtist } from "./AssemblingArtist";
 import { LiveGraphic } from "./LiveGraphic";
 import { WorkingRobot } from "./WorkingRobot";
@@ -413,8 +412,14 @@ function AutomationSection() {
             </div>
           </div>
         </Reveal>
-        <div className="mt-10">
-          <IndustryWalkthrough />
+        <div className="mt-8">
+          <a
+            href="/automate"
+            className="inline-flex min-h-[48px] items-center rounded-full border border-[#1e6b3c]/40 px-7 text-[15px] font-semibold text-[#1e6b3c] transition-all hover:bg-[#1e6b3c] hover:text-white"
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          >
+            See it work — live walkthrough →
+          </a>
         </div>
       </div>
     </section>
