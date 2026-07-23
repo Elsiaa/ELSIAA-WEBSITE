@@ -521,11 +521,11 @@ function AutomationSection() {
                 playsInline
                 preload="auto"
                 aria-label="The ELSIAA AI worker — many arms, every one on a different task"
-                className="w-full max-w-[380px] mix-blend-multiply"
+                className="w-full max-w-[360px] mix-blend-multiply"
                 style={{
-                  filter: "brightness(1.08) contrast(1.06)",
-                  WebkitMaskImage: "radial-gradient(78% 82% at 50% 46%, #000 60%, rgba(0,0,0,0.4) 78%, rgba(0,0,0,0) 92%)",
-                  maskImage: "radial-gradient(78% 82% at 50% 46%, #000 60%, rgba(0,0,0,0.4) 78%, rgba(0,0,0,0) 92%)",
+                  filter: "brightness(1.15) contrast(1.05) saturate(0.82)",
+                  WebkitMaskImage: "radial-gradient(72% 80% at 50% 46%, #000 52%, rgba(0,0,0,0.35) 74%, rgba(0,0,0,0) 90%)",
+                  maskImage: "radial-gradient(72% 80% at 50% 46%, #000 52%, rgba(0,0,0,0.35) 74%, rgba(0,0,0,0) 90%)",
                 }}
               />
             </div>
