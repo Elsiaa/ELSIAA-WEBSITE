@@ -113,19 +113,26 @@ export function SiteNav() {
             >
               Get a quote
             </a>
-            <div className={`${open ? "pointer-events-none opacity-0" : ""} transition-opacity`}>
+            <div className={`hidden md:block ${open ? "pointer-events-none opacity-0" : ""} transition-opacity`}>
               <LangSwitcher />
             </div>
             <button
               aria-label="Search"
               onClick={() => { window.location.href = "/search"; }}
-              className={`flex h-10 w-8 items-center justify-center transition-opacity hover:opacity-60 ${open ? "pointer-events-none opacity-0" : ""}`}
+              className={`hidden h-10 w-8 items-center justify-center transition-opacity hover:opacity-60 md:flex ${open ? "pointer-events-none opacity-0" : ""}`}
             >
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round">
                 <circle cx="11" cy="11" r="7" />
                 <line x1="21" y1="21" x2="16.5" y2="16.5" />
               </svg>
             </button>
+            <a
+              href="/contact"
+              className={`inline-flex min-h-[40px] items-center rounded-full bg-[#1e6b3c] px-4 text-[13px] font-semibold text-white md:hidden ${open ? "pointer-events-none opacity-0" : ""}`}
+              style={{ fontFamily: SANS }}
+            >
+              Book a call
+            </a>
             <button
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}

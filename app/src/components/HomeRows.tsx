@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { StickyCTA } from "./StickyCTA";
 import { IndustryWalkthrough } from "./IndustryWalkthrough";
 import { AssemblingArtist } from "./AssemblingArtist";
 import { LiveGraphic } from "./LiveGraphic";
@@ -335,23 +336,9 @@ function CountUp({ target }: { target: number }) {
 function HomeHero() {
   return (
     <section className="flex min-h-screen flex-col justify-between bg-white pt-8 pb-8 md:pt-10">
-      <div className="mx-auto mb-4 w-full max-w-6xl px-6">
-        <p
-          className="border-b border-black/[0.06] pb-3 text-center text-[13px] text-[#111111]/55 "
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-        >
-          6 Cities · Fully Insured Builds · 24/7 Support
-        </p>
-      </div>
       <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_400px]">
           <Reveal>
-            <p
-              className="text-[13px] text-[#1e6b3c] "
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              Automation · Software · Design · Strategy
-            </p>
             <h1
               className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
@@ -366,20 +353,7 @@ function HomeHero() {
               We put AI to work where it earns its place — and prove the
               result before you commit a dollar.
             </p>
-            <p
-              className="mt-4 max-w-xl text-[14.5px] leading-relaxed text-[#111111]/75"
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              <span className="font-semibold text-[#111111]">78% of companies already run AI</span>{" "}
-              in at least one function.{" "}
-              <span className="text-[#1e6b3c]">The other 22% are competing against it.</span>
-            </p>
-            <p
-              className="mt-3 text-[13px] text-[#111111]/55 "
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              Healthcare · Finance · Marketing · Retail · Manufacturing
-            </p>
+            
             <a
               href="/contact"
               className="mt-6 inline-block rounded-full bg-[#1e6b3c] px-8 py-3.5 text-[13px] font-bold text-white  transition-all duration-300 hover:bg-[#111111]"
@@ -1174,6 +1148,7 @@ export function HomeRows() {
       <Team />
       <Locations />
       <FinalCTA />
+      <StickyCTA />
     </main>
   );
 }
