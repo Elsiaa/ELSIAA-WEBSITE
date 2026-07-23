@@ -326,24 +326,62 @@ function CountUp({ target }: { target: number }) {
 }
 
 /* ---------- the opener: the world changed — hero + the count, one dark screen ---------- */
+/* the hero lion — same concept as the Design planet: it comes to life.
+   Starts grey and colourless, blooms into a full-colour living lion with a
+   soft emerald life-glow; edges feather into the white so it's part of the
+   page, not a pasted photo. Carries what ELSIAA stands for. */
+function HeroLion() {
+  const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
+  const [alive, setAlive] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setAlive(true);
+      return;
+    }
+    const t = window.setTimeout(() => setAlive(true), 350);
+    return () => window.clearTimeout(t);
+  }, []);
+  const feather = "radial-gradient(115% 92% at 50% 40%, #000 66%, rgba(0,0,0,0) 100%)";
+  return (
+    <div className="pointer-events-none absolute top-1/2 right-2 hidden w-[320px] -translate-y-1/2 lg:block xl:right-0 xl:w-[380px]">
+      <div className="relative">
+        {/* emerald life-glow, blooming in — matches the planet */}
+        <div
+          className="absolute inset-[6%] -z-10 rounded-full blur-3xl transition-opacity duration-[1400ms]"
+          style={{ background: "radial-gradient(circle at 50% 44%, rgba(30,107,60,0.34), transparent 62%)", opacity: alive ? 1 : 0 }}
+        />
+        <img
+          src="/assets/hero_lion.png"
+          alt="The ELSIAA lion — alive"
+          className="w-full"
+          style={{
+            WebkitMaskImage: feather,
+            maskImage: feather,
+            filter: alive ? "grayscale(0) saturate(1.06) contrast(1.02)" : "grayscale(1) saturate(0.2) brightness(1.02)",
+            transform: alive ? "scale(1)" : "scale(0.985)",
+            transition: "filter 1500ms cubic-bezier(0.2,0.8,0.2,1), transform 1500ms cubic-bezier(0.2,0.8,0.2,1)",
+          }}
+        />
+      </div>
+      {/* what ELSIAA stands for */}
+      <p className="mt-1 text-center text-[10px] leading-relaxed tracking-[0.16em] text-[#111111]/55 uppercase" style={sans}>
+        <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
+        <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
+        <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
+        <b className="font-semibold text-[#1e6b3c]">I</b>nnovation ·{" "}
+        <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
+        <b className="font-semibold text-[#1e6b3c]">A</b>lliance
+      </p>
+    </div>
+  );
+}
+
 function HomeHero() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
   return (
     <section className="flex min-h-[92svh] flex-col justify-center bg-white pt-28 pb-10">
       <div className="relative mx-auto w-full max-w-6xl px-6">
-        {/* the living lion — small, on the right, with the mark */}
-        <div className="pointer-events-none absolute top-1/2 right-6 hidden w-[300px] -translate-y-1/2 lg:block xl:w-[340px]">
-          <img
-            src="/assets/hero_lion.png"
-            alt="The ELSIAA lion"
-            className="w-full drop-shadow-[0_34px_60px_rgba(0,0,0,0.14)]"
-            style={{ WebkitMaskImage: "linear-gradient(to bottom, #000 82%, rgba(0,0,0,0) 100%)", maskImage: "linear-gradient(to bottom, #000 82%, rgba(0,0,0,0) 100%)" }}
-          />
-          <div className="mt-1 flex items-center justify-center gap-2">
-            <img src="/assets/elsiaa-lion.png" alt="" aria-hidden="true" className="h-5 w-5 object-contain opacity-80" />
-            <span className="text-[11px] font-semibold tracking-[0.36em] text-[#111111]/70 uppercase" style={sans}>ELSIAA</span>
-          </div>
-        </div>
+        <HeroLion />
         <Reveal>
           <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
             The world changed.

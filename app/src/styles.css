@@ -164,3 +164,10 @@
    turning html/body into a scroll container, so position: sticky still works. */
 html, body { overflow-x: clip; max-width: 100vw; }
 img, video, canvas, iframe { max-width: 100%; }
+
+/* --- Sarah hero (Automate) --- */
+@keyframes sarahBob { 0%,100% { transform: translateY(0) rotate(-0.4deg); } 50% { transform: translateY(-14px) rotate(0.4deg); } }
+@keyframes sarahDrift { 0% { transform: transl3d(0,0,0); opacity:0; } 15%{opacity:.7;} 85%{opacity:.5;} 100% { transform: translate3d(var(--dx,20px), -120px, 0); opacity:0; } }
+@keyframes sarahGlow { 0%,100% { opacity:.5; transform: scale(1); } 50% { opacity:.9; transform: scale(1.08); } }
+@keyframes sarahPulseRing { 0% { transform: scale(1); opacity:.6; } 100% { transform: scale(1.9); opacity:0; } }
+@keyframes sarahCaret { 0%,100%{opacity:1;} 50%{opacity:0;} }
