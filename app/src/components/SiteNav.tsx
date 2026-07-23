@@ -81,9 +81,9 @@ export function SiteNav() {
             className="group pointer-events-auto flex items-center gap-3 transition-opacity hover:opacity-80"
             aria-label="ELSIAA — home"
           >
-            <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-[10px] bg-black ring-1 ring-black/10">
+            <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-[10px] bg-white">
               <img
-                src="/assets/wire_lion.png"
+                src="/assets/elsiaa-lion.png"
                 alt=""
                 width={40}
                 height={40}
@@ -277,14 +277,15 @@ export function SiteNav() {
             className="mt-8 flex justify-center"
             style={{ opacity: open ? 1 : 0, transition: "opacity .7s ease .45s" }}
           >
-            <div className="relative w-full max-w-[460px] overflow-hidden rounded-[28px] bg-black">
-              <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(120% 80% at 50% 30%, rgba(176,129,42,0.14), transparent 60%)" }} />
-              <img
-                src="/assets/wire_lion.png"
-                alt="The ELSIAA lion, forged in interlocking metal wire"
-                className="relative mx-auto h-52 w-auto object-contain md:h-60"
-              />
-            </div>
+            <video
+              src="/assets/lion_walk_v1.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="pointer-events-none h-40 w-auto object-contain mix-blend-multiply md:h-48"
+              aria-label="The ELSIAA lion, alive"
+            />
           </div>
 
           {/* overlay footer */}
