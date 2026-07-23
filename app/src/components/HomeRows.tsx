@@ -330,7 +330,20 @@ function HomeHero() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
   return (
     <section className="flex min-h-[92svh] flex-col justify-center bg-white pt-28 pb-10">
-      <div className="mx-auto w-full max-w-6xl px-6">
+      <div className="relative mx-auto w-full max-w-6xl px-6">
+        {/* the living lion — small, on the right, with the mark */}
+        <div className="pointer-events-none absolute top-1/2 right-6 hidden w-[300px] -translate-y-1/2 lg:block xl:w-[340px]">
+          <img
+            src="/assets/hero_lion.png"
+            alt="The ELSIAA lion"
+            className="w-full drop-shadow-[0_34px_60px_rgba(0,0,0,0.14)]"
+            style={{ WebkitMaskImage: "linear-gradient(to bottom, #000 82%, rgba(0,0,0,0) 100%)", maskImage: "linear-gradient(to bottom, #000 82%, rgba(0,0,0,0) 100%)" }}
+          />
+          <div className="mt-1 flex items-center justify-center gap-2">
+            <img src="/assets/elsiaa-lion.png" alt="" aria-hidden="true" className="h-5 w-5 object-contain opacity-80" />
+            <span className="text-[11px] font-semibold tracking-[0.36em] text-[#111111]/70 uppercase" style={sans}>ELSIAA</span>
+          </div>
+        </div>
         <Reveal>
           <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
             The world changed.
