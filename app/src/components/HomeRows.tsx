@@ -392,22 +392,23 @@ function AutomationSection() {
     <section className="border-t border-black/[0.06] bg-white py-16 md:py-24" id="automation">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
-          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[1fr_360px]">
+          <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[1fr_420px]">
             <div>
               <p className="text-[14px] font-bold text-[#1e6b3c]" style={sans}>1 · Automation</p>
               <h2 className="mt-2 max-w-xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl" style={sans}>
                 Discover the future of how work is done.
               </h2>
             </div>
-            <div className="overflow-hidden rounded-3xl border border-black/[0.07]">
+            <div className="bg-white">
               <video
-                src="/assets/robot_work_v5.mp4"
-                poster="/assets/robot_work_v5_poster.jpg"
+                src="/assets/robot_hyperspeed_fast.mp4"
+                poster="/assets/robot_hyperspeed_poster.jpg"
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="h-full w-full object-cover"
+                preload="auto"
+                className="h-auto w-full object-contain"
               />
             </div>
           </div>
