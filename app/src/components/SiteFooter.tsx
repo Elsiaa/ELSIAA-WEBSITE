@@ -5,7 +5,7 @@
   mono microcopy — same voice as the rest of the site.
 */
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string }> }> = [
@@ -53,16 +53,16 @@ export function SiteFooter() {
             <a href="/" className="group flex items-center gap-3" aria-label="ELSIAA — home">
               <img src="/assets/elsiaa-lion.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
               <span
-                className="text-[15px] font-bold tracking-[0.34em] text-[#111111]"
+                className="text-[15px] font-bold text-[#111111]"
                 style={inter}
               >
                 ELSIAA
               </span>
             </a>
-            <p className="mt-2 text-[10px] tracking-[0.3em] text-[#111111]/55 uppercase" style={mono}>
+            <p className="mt-2 text-[13px] text-[#111111]/55 " style={mono}>
               — AI Done Better
             </p>
-            <p className="mt-3 text-[10px] leading-relaxed tracking-[0.18em] text-[#111111]/50 uppercase" style={mono}>
+            <p className="mt-3 text-[13px] leading-relaxed text-[#111111]/50 " style={mono}>
               <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
               <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
               <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
@@ -81,7 +81,7 @@ export function SiteFooter() {
             >
               info@elsiaa.com
             </a>
-            <p className="mt-4 text-[10px] leading-relaxed tracking-[0.2em] text-[#111111]/50 uppercase" style={mono}>
+            <p className="mt-4 text-[13px] leading-relaxed text-[#111111]/50 " style={mono}>
               New York · London · Geneva · Antwerp · Tel Aviv · Los Angeles
             </p>
           </div>
@@ -89,7 +89,7 @@ export function SiteFooter() {
           {/* link columns */}
           {COLUMNS.map((col) => (
             <nav key={col.title} aria-label={col.title}>
-              <p className="text-[10px] tracking-[0.3em] text-[#1e6b3c] uppercase" style={mono}>
+              <p className="text-[13px] text-[#1e6b3c] " style={mono}>
                 {col.title}
               </p>
               <ul className="mt-4 space-y-2.5">
@@ -111,25 +111,25 @@ export function SiteFooter() {
 
         {/* legal line */}
         <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-black/[0.06] pt-6 md:flex-row md:items-center">
-          <p className="text-[11px] text-[#111111]/55" style={inter}>
+          <p className="text-[13px] text-[#111111]/55" style={inter}>
             © {new Date().getFullYear()} ELSIAA. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a
               href="/legal/privacy"
-              className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase transition-colors hover:text-[#1e6b3c]"
+              className="text-[13px] text-[#111111]/55  transition-colors hover:text-[#1e6b3c]"
               style={mono}
             >
               Privacy Policy
             </a>
             <a
               href="/legal/terms"
-              className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase transition-colors hover:text-[#1e6b3c]"
+              className="text-[13px] text-[#111111]/55  transition-colors hover:text-[#1e6b3c]"
               style={mono}
             >
               Terms of Service
             </a>
-            <span className="text-[10px] tracking-[0.22em] text-[#111111]/50 uppercase" style={mono}>
+            <span className="text-[13px] text-[#111111]/50 " style={mono}>
               24/7 Support
             </span>
           </div>

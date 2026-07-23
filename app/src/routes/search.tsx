@@ -19,7 +19,7 @@ export const Route = createFileRoute("/search")({
 const SANS =
   "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 const MONO =
-  "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace";
+  "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 
 type Item = {
   title: string;
@@ -284,7 +284,7 @@ function SearchPage() {
       <SiteNav />
       <section className="mx-auto max-w-3xl px-6 pt-36 pb-28 md:pt-44">
         <p
-          className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+          className="text-[13px] text-[#1e6b3c] "
           style={{ fontFamily: MONO }}
         >
           Search
@@ -333,7 +333,7 @@ function SearchPage() {
                 setQ("");
                 inputRef.current?.focus();
               }}
-              className="shrink-0 rounded-md px-2 py-1 text-[11px] tracking-[0.18em] text-[#111111]/50 uppercase transition-colors hover:text-[#111111]"
+              className="shrink-0 rounded-md px-2 py-1 text-[13px] text-[#111111]/50  transition-colors hover:text-[#111111]"
               style={{ fontFamily: MONO }}
               aria-label="Clear search"
             >
@@ -345,7 +345,7 @@ function SearchPage() {
         {/* result count / hint */}
         {hasQuery && (
           <p
-            className="mt-4 text-[11px] tracking-[0.2em] text-[#111111]/50 uppercase"
+            className="mt-4 text-[13px] text-[#111111]/50 "
             style={{ fontFamily: MONO }}
           >
             {results.length} result{results.length === 1 ? "" : "s"}
@@ -357,7 +357,7 @@ function SearchPage() {
         {!hasQuery && (
           <div className="mt-10">
             <p
-              className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
+              className="text-[13px] text-[#111111]/55 "
               style={{ fontFamily: MONO }}
             >
               Popular
@@ -420,13 +420,13 @@ function SearchPage() {
                   >
                     <div className="flex items-baseline justify-between gap-4">
                       <span
-                        className="text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase"
+                        className="text-[13px] text-[#1e6b3c] "
                         style={{ fontFamily: MONO }}
                       >
                         {item.category}
                       </span>
                       <span
-                        className="shrink-0 text-[11px] tracking-[0.12em] text-[#111111]/35"
+                        className="shrink-0 text-[13px] tracking-[0.12em] text-[#111111]/35"
                         style={{ fontFamily: MONO }}
                       >
                         {item.href}

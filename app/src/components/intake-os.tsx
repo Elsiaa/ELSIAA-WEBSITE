@@ -202,9 +202,9 @@ export function IntakeOS() {
     <div>
       {/* scenario chips */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-[9px] tracking-[0.2em] text-[#111111]/35 uppercase" style={mono}>Try a call</span>
+        <span className="text-[13px] text-[#111111]/35 " style={mono}>Try a call</span>
         {SCENARIOS.map((sc, i) => (
-          <button key={sc.id} onClick={() => load(i)} className={`rounded-full border px-3 py-1.5 text-[10px] font-semibold tracking-[0.04em] transition-all ${i === scn ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.07] text-[#1e6b3c]" : "border-black/12 text-[#111111]/55 hover:border-[#1e6b3c]/40"}`} style={{ ...mono, transitionTimingFunction: SPRING }}>{sc.label}</button>
+          <button key={sc.id} onClick={() => load(i)} className={`rounded-full border px-3 py-1.5 text-[13px] font-semibold tracking-[0.04em] transition-all ${i === scn ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.07] text-[#1e6b3c]" : "border-black/12 text-[#111111]/55 hover:border-[#1e6b3c]/40"}`} style={{ ...mono, transitionTimingFunction: SPRING }}>{sc.label}</button>
         ))}
       </div>
 
@@ -213,19 +213,19 @@ export function IntakeOS() {
         <div className="flex flex-col overflow-hidden rounded-2xl border border-black/[0.09] bg-white shadow-[0_40px_100px_-55px_rgba(17,17,17,0.5)]">
           <div className="flex items-center justify-between border-b border-black/[0.06] bg-[#FBFBFA] px-4 py-2.5">
             <div className="flex items-center gap-2">
-              <span className="rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 text-[8.5px] font-bold tracking-[0.16em] text-[#1e6b3c] uppercase" style={mono}>● Voice</span>
-              <span className="text-[11px] font-semibold" style={inter}>Intake line</span>
+              <span className="rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 text-[8.5px] font-bold text-[#1e6b3c] " style={mono}>● Voice</span>
+              <span className="text-[13px] font-semibold" style={inter}>Intake line</span>
             </div>
-            <span className="text-[9px] tracking-[0.16em] text-[#111111]/40 uppercase" style={mono}>Front end · caller</span>
+            <span className="text-[13px] text-[#111111]/40 " style={mono}>Front end · caller</span>
           </div>
-          <div className="border-b border-black/[0.06] px-4 py-2 text-[10px] tracking-[0.06em] text-[#111111]/45" style={mono}>Vista Eye — neuro-ophthalmology & surgery</div>
+          <div className="border-b border-black/[0.06] px-4 py-2 text-[13px] tracking-[0.06em] text-[#111111]/45" style={mono}>Vista Eye — neuro-ophthalmology & surgery</div>
 
           <div className="min-h-[280px] flex-1 space-y-2.5 px-4 py-4">
-            {d.transcript.length === 0 && <p className="text-[12px] text-[#111111]/40" style={mono}>Press Run call — the caller speaks in plain language.</p>}
+            {d.transcript.length === 0 && <p className="text-[13px] text-[#111111]/40" style={mono}>Press Run call — the caller speaks in plain language.</p>}
             {d.transcript.map((t, i) => (
               <div key={i} className={`flex ${t.who === "agent" ? "justify-end" : "justify-start"}`}>
                 <div className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-[13px] leading-relaxed ${t.who === "agent" ? (t.clarify ? "bg-[#b7791f]/[0.10] text-[#111111]" : "bg-[#1e6b3c]/[0.08] text-[#111111]") : "bg-black/[0.04] text-[#111111]/80"}`} style={inter}>
-                  <span className={`mb-0.5 block text-[8px] tracking-[0.18em] uppercase ${t.who === "agent" ? (t.clarify ? "text-[#8a5a12]" : "text-[#1e6b3c]") : "text-[#111111]/35"}`} style={mono}>{t.who === "agent" ? (t.clarify ? "Agent · clarifying" : "Agent") : "Caller"}</span>
+                  <span className={`mb-0.5 block text-[13px]  ${t.who === "agent" ? (t.clarify ? "text-[#8a5a12]" : "text-[#1e6b3c]") : "text-[#111111]/35"}`} style={mono}>{t.who === "agent" ? (t.clarify ? "Agent · clarifying" : "Agent") : "Caller"}</span>
                   {t.text}
                 </div>
               </div>
@@ -235,11 +235,11 @@ export function IntakeOS() {
           <div className="flex items-center justify-between border-t border-black/[0.06] px-4 py-3">
             <div className="flex items-center gap-3">
               <span className={`flex h-10 w-10 items-center justify-center rounded-full border ${listening ? "border-[#1e6b3c]" : "border-black/15"}`}><Bars active={listening} /></span>
-              <span className="text-[10px] tracking-[0.14em] text-[#111111]/50 uppercase" style={mono}>{status}</span>
+              <span className="text-[13px] text-[#111111]/50 " style={mono}>{status}</span>
             </div>
             <div className="flex items-center gap-2">
-              {step > 0 && <button onClick={restart} className="text-[10px] tracking-[0.14em] text-[#111111]/40 uppercase hover:text-[#111111]/70" style={mono}>Restart</button>}
-              <button onClick={playing ? () => setPlaying(false) : run} className="rounded-full bg-[#1e6b3c] px-5 py-2 text-[10px] font-bold tracking-[0.16em] text-white uppercase transition-all hover:bg-[#111111]" style={{ ...mono, transitionTimingFunction: SPRING }}>{playing ? "Pause" : step >= total ? "Replay" : "Run call"}</button>
+              {step > 0 && <button onClick={restart} className="text-[13px] text-[#111111]/40  hover:text-[#111111]/70" style={mono}>Restart</button>}
+              <button onClick={playing ? () => setPlaying(false) : run} className="rounded-full bg-[#1e6b3c] px-5 py-2 text-[13px] font-bold text-white  transition-all hover:bg-[#111111]" style={{ ...mono, transitionTimingFunction: SPRING }}>{playing ? "Pause" : step >= total ? "Replay" : "Run call"}</button>
             </div>
           </div>
         </div>
@@ -247,23 +247,23 @@ export function IntakeOS() {
         {/* ===== BACK END: the system ===== */}
         <div className="overflow-hidden rounded-2xl border border-black/[0.09] bg-[#FBFBFA]">
           <div className="flex items-center justify-between border-b border-black/[0.06] bg-white px-4 py-2.5">
-            <span className="text-[11px] font-semibold" style={inter}>Intake OS · runtime</span>
-            <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1e6b3c]" /><span className="text-[9px] tracking-[0.16em] text-[#1e6b3c] uppercase" style={mono}>Back end · live</span></span>
+            <span className="text-[13px] font-semibold" style={inter}>Intake OS · runtime</span>
+            <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1e6b3c]" /><span className="text-[13px] text-[#1e6b3c] " style={mono}>Back end · live</span></span>
           </div>
 
           <div className="space-y-3 p-4">
             {/* 1 · transcription */}
             <Module n="01" title="Transcription · ASR" hint={s.lang === "EN" ? "English" : s.lang}>
-              <p className="text-[12px] leading-relaxed text-[#111111]/75" style={inter}>{d.asr ? <>“{d.asr}<span className="text-[#1e6b3c]">{playing && listening ? "▏" : ""}</span>”</> : <span className="text-[#111111]/35" style={mono}>awaiting speech…</span>}</p>
+              <p className="text-[13px] leading-relaxed text-[#111111]/75" style={inter}>{d.asr ? <>“{d.asr}<span className="text-[#1e6b3c]">{playing && listening ? "▏" : ""}</span>”</> : <span className="text-[#111111]/35" style={mono}>awaiting speech…</span>}</p>
             </Module>
 
             {/* 2 · NLU */}
             <Module n="02" title="Symptom extraction · clinical NLU" hint={`${d.entities.length} found`}>
-              {d.entities.length === 0 ? <span className="text-[11px] text-[#111111]/35" style={mono}>listening for symptoms…</span> : (
+              {d.entities.length === 0 ? <span className="text-[13px] text-[#111111]/35" style={mono}>listening for symptoms…</span> : (
                 <div className="space-y-1.5">
                   {d.entities.map((en, i) => (
                     <div key={i} className="flex flex-wrap items-center gap-2 text-[11.5px]" style={inter}>
-                      <span className="rounded bg-black/[0.05] px-1.5 py-0.5 text-[10px] text-[#111111]/55" style={mono}>{en.label}</span>
+                      <span className="rounded bg-black/[0.05] px-1.5 py-0.5 text-[13px] text-[#111111]/55" style={mono}>{en.label}</span>
                       <span className="text-[#111111]/30">→</span>
                       <span className="font-medium text-[#1e6b3c]">{en.concept}</span>
                     </div>
@@ -282,10 +282,10 @@ export function IntakeOS() {
                     <div key={doc.id} className={`rounded-lg border px-2.5 py-2 transition-all ${on ? "border-[#1e6b3c]/40 bg-[#1e6b3c]/[0.06]" : "border-black/[0.07] bg-white"}`} style={{ transitionTimingFunction: SPRING }}>
                       <div className="flex items-center justify-between">
                         <span className="text-[11.5px] font-semibold" style={inter}>{doc.name}<span className="ml-1.5 font-normal text-[#111111]/45">{doc.spec}</span></span>
-                        {isRoute ? <span className="rounded-full bg-[#1e6b3c] px-2 py-0.5 text-[8px] font-bold tracking-[0.14em] text-white uppercase" style={mono}>Matched</span> : on ? <span className="text-[9px] tracking-[0.14em] text-[#1e6b3c] uppercase" style={mono}>evaluating</span> : null}
+                        {isRoute ? <span className="rounded-full bg-[#1e6b3c] px-2 py-0.5 text-[13px] font-bold text-white " style={mono}>Matched</span> : on ? <span className="text-[13px] text-[#1e6b3c] " style={mono}>evaluating</span> : null}
                       </div>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {doc.triggers.map((tr) => (<span key={tr} className={`rounded px-1.5 py-0.5 text-[9px] ${on ? "bg-[#1e6b3c]/12 text-[#1e6b3c]" : "bg-black/[0.04] text-[#111111]/40"}`} style={mono}>{tr}</span>))}
+                        {doc.triggers.map((tr) => (<span key={tr} className={`rounded px-1.5 py-0.5 text-[13px] ${on ? "bg-[#1e6b3c]/12 text-[#1e6b3c]" : "bg-black/[0.04] text-[#111111]/40"}`} style={mono}>{tr}</span>))}
                       </div>
                     </div>
                   );
@@ -293,22 +293,22 @@ export function IntakeOS() {
               </div>
               {/* confidence */}
               <div className="mt-2.5">
-                <div className="flex items-center justify-between text-[9px] tracking-[0.14em] text-[#111111]/45 uppercase" style={mono}><span>Routing confidence</span><span className={d.confidence >= 80 ? "text-[#1e6b3c]" : d.confidence > 0 ? "text-[#8a5a12]" : ""}>{d.confidence ? `${d.confidence}%` : "—"}</span></div>
+                <div className="flex items-center justify-between text-[13px] text-[#111111]/45 " style={mono}><span>Routing confidence</span><span className={d.confidence >= 80 ? "text-[#1e6b3c]" : d.confidence > 0 ? "text-[#8a5a12]" : ""}>{d.confidence ? `${d.confidence}%` : "—"}</span></div>
                 <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-black/[0.06]">
                   <div className="h-full rounded-full transition-all duration-500" style={{ width: `${d.confidence}%`, background: d.confidence >= 80 ? GREEN : "#b7791f", transitionTimingFunction: SPRING }} />
                 </div>
-                {d.confidence > 0 && d.confidence < 80 && <p className="mt-1.5 text-[10px] text-[#8a5a12]" style={mono}>Below 80% → asks one clarifying question. Never books on a guess.</p>}
+                {d.confidence > 0 && d.confidence < 80 && <p className="mt-1.5 text-[13px] text-[#8a5a12]" style={mono}>Below 80% → asks one clarifying question. Never books on a guess.</p>}
               </div>
             </Module>
 
             {/* 4 · actions */}
             <Module n="04" title="Actions · system connections" hint={`${d.actions.length} fired`}>
-              {d.actions.length === 0 ? <span className="text-[11px] text-[#111111]/35" style={mono}>no side effects until a match is confirmed</span> : (
+              {d.actions.length === 0 ? <span className="text-[13px] text-[#111111]/35" style={mono}>no side effects until a match is confirmed</span> : (
                 <div className="space-y-1.5">
                   {d.actions.map((a, i) => (
                     <div key={i} className="flex items-center gap-2.5">
                       <span className="flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c]"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
-                      <span className="text-[9px] tracking-[0.14em] text-[#1e6b3c] uppercase" style={mono}>{a.sys}</span>
+                      <span className="text-[13px] text-[#1e6b3c] " style={mono}>{a.sys}</span>
                       <span className="text-[11.5px] text-[#111111]/75" style={inter}>{a.label}</span>
                     </div>
                   ))}
@@ -318,12 +318,12 @@ export function IntakeOS() {
           </div>
         </div>
       </div>
-      <p className="mt-3 text-[11px] text-[#111111]/45" style={mono}>{s.caption}</p>
+      <p className="mt-3 text-[13px] text-[#111111]/45" style={mono}>{s.caption}</p>
 
       {/* metrics */}
       <div className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-black/[0.08] bg-black/[0.05] md:grid-cols-4">
         {[["Calls contained", "83%"], ["Avg time to booked", "41s"], ["Mis-routes", "0.4%"], ["Answered", "24/7"]].map(([l, v]) => (
-          <div key={l} className="bg-white px-3 py-3"><p className="truncate text-[8px] tracking-[0.16em] text-[#111111]/40 uppercase" style={mono}>{l}</p><p className="mt-1 text-[16px] font-semibold tracking-[-0.02em] text-[#111111]" style={inter}>{v}</p></div>
+          <div key={l} className="bg-white px-3 py-3"><p className="truncate text-[13px] text-[#111111]/40 " style={mono}>{l}</p><p className="mt-1 text-[16px] font-semibold tracking-[-0.02em] text-[#111111]" style={inter}>{v}</p></div>
         ))}
       </div>
     </div>
@@ -335,10 +335,10 @@ function Module({ n, title, hint, children }: { n: string; title: string; hint?:
     <div className="rounded-xl border border-black/[0.08] bg-white p-3">
       <div className="flex items-center justify-between">
         <div className="flex items-baseline gap-2">
-          <span className="text-[9px] tracking-[0.2em] text-[#1e6b3c]" style={mono}>{n}</span>
-          <span className="text-[11px] font-semibold tracking-[-0.01em]" style={inter}>{title}</span>
+          <span className="text-[13px] text-[#1e6b3c]" style={mono}>{n}</span>
+          <span className="text-[13px] font-semibold tracking-[-0.01em]" style={inter}>{title}</span>
         </div>
-        {hint && <span className="text-[9px] tracking-[0.14em] text-[#111111]/35 uppercase" style={mono}>{hint}</span>}
+        {hint && <span className="text-[13px] text-[#111111]/35 " style={mono}>{hint}</span>}
       </div>
       <div className="mt-2">{children}</div>
     </div>

@@ -63,7 +63,7 @@ const STEPS: { title: string, description: string, preview: ReactNode }[] = [
       <div className="flex h-full flex-col items-center justify-center gap-3 rounded-q-300 border border-dashed border-q-border-subtle px-8">
         <Icon as={IconMagicBookOutlined} size="md" color="secondary" />
         <div className="flex flex-col items-center gap-1 text-center">
-          <Typography as="span" variant="body-sm-semi-bold" color="primary" className="uppercase">
+          <Typography as="span" variant="body-sm-semi-bold" color="primary" className="">
             Browse presets
           </Typography>
           <Typography as="span" variant="caption-xs-regular" color="secondary">
@@ -214,7 +214,7 @@ function InputPanel() {
       )}
     >
       <div className="flex items-center px-2 py-0.5">
-        <Typography as="h1" variant="accent-sm-bold" color="brand" className="uppercase">
+        <Typography as="h1" variant="accent-sm-bold" color="brand" className="">
           Preset Studio
         </Typography>
       </div>
@@ -362,7 +362,7 @@ function HowItWorks() {
     <Card surface="solid" className="min-h-0 flex-1 overflow-y-auto p-6">
       <section className="flex flex-col gap-8">
         <header className="flex items-center justify-between gap-4">
-          <Typography as="h2" variant="accent-lg-bold" color="primary" className="uppercase">
+          <Typography as="h2" variant="accent-lg-bold" color="primary" className="">
             How it works
             {' '}
             <span className="text-q-text-brand">in 3 steps</span>
@@ -376,7 +376,7 @@ function HowItWorks() {
                 {step.preview}
               </div>
               <div className="flex flex-col gap-2">
-                <Typography as="h3" variant="accent-xs-bold" color="primary" className="uppercase">
+                <Typography as="h3" variant="accent-xs-bold" color="primary" className="">
                   {`${index + 1}. ${step.title}`}
                 </Typography>
                 <Typography as="p" variant="body-sm-regular" color="secondary">

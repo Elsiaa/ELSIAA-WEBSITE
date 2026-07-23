@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
   and the client sees a confirmation with their own copy of the brief.
 */
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 const TYPES = ["Design", "Automation", "Software", "Consultation"];
@@ -98,7 +98,7 @@ export function QuoteWizard() {
   if (done) {
     return (
       <div className="rounded-2xl border border-black/[0.07] bg-white p-8 md:p-10">
-        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+        <p className="text-[13px] text-[#1e6b3c] " style={mono}>
           Request received
         </p>
         <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] md:text-3xl" style={inter}>
@@ -129,7 +129,7 @@ export function QuoteWizard() {
           />
         ))}
       </div>
-      <p className="mt-6 text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+      <p className="mt-6 text-[13px] text-[#1e6b3c] " style={mono}>
         Step {step + 1} of {steps.length}
       </p>
       <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl" style={inter}>
@@ -193,13 +193,13 @@ export function QuoteWizard() {
 
         {step === 3 && (
           <>
-            <p className="text-[13px] tracking-[0.1em] text-[#111111]/55 uppercase" style={mono}>Budget range</p>
+            <p className="text-[13px] tracking-[0.1em] text-[#111111]/55 " style={mono}>Budget range</p>
             <div className="flex flex-wrap gap-2.5">
               {BUDGETS.map((b) => (
                 <button key={b} type="button" onClick={() => setBudget(budget === b ? "" : b)} className={chipCls(budget === b)} style={inter}>{b}</button>
               ))}
             </div>
-            <p className="mt-4 text-[13px] tracking-[0.1em] text-[#111111]/55 uppercase" style={mono}>Timeline</p>
+            <p className="mt-4 text-[13px] tracking-[0.1em] text-[#111111]/55 " style={mono}>Timeline</p>
             <div className="flex flex-wrap gap-2.5">
               {TIMELINES.map((t) => (
                 <button key={t} type="button" onClick={() => setTimeline(timeline === t ? "" : t)} className={chipCls(timeline === t)} style={inter}>{t}</button>
@@ -238,7 +238,7 @@ export function QuoteWizard() {
         <button
           type="button"
           onClick={() => setStep((s) => Math.max(0, s - 1))}
-          className={`text-[11px] tracking-[0.24em] uppercase transition-opacity ${step === 0 ? "pointer-events-none opacity-0" : "text-[#111111]/60 hover:text-[#111111]"}`}
+          className={`text-[13px]  transition-opacity ${step === 0 ? "pointer-events-none opacity-0" : "text-[#111111]/60 hover:text-[#111111]"}`}
           style={mono}
         >
           ← Back
@@ -248,7 +248,7 @@ export function QuoteWizard() {
             type="button"
             disabled={!steps[step].valid}
             onClick={() => setStep((s) => s + 1)}
-            className="rounded-full bg-[#1e6b3c] px-8 py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all enabled:hover:bg-[#175530] disabled:cursor-not-allowed disabled:opacity-30"
+            className="rounded-full bg-[#1e6b3c] px-8 py-3.5 text-[13px] font-bold text-white  transition-all enabled:hover:bg-[#175530] disabled:cursor-not-allowed disabled:opacity-30"
             style={mono}
           >
             Continue →
@@ -258,7 +258,7 @@ export function QuoteWizard() {
             type="button"
             disabled={sending}
             onClick={submit}
-            className="rounded-full bg-[#1e6b3c] px-8 py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all enabled:hover:bg-[#175530] disabled:opacity-50"
+            className="rounded-full bg-[#1e6b3c] px-8 py-3.5 text-[13px] font-bold text-white  transition-all enabled:hover:bg-[#175530] disabled:opacity-50"
             style={mono}
           >
             {sending ? "Sending…" : "Send my request"}

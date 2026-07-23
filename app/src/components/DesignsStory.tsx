@@ -502,8 +502,8 @@ function GraphicsSection() {
               </div>
             </TiltCard>
             <figcaption
-              className="mt-5 text-[11px] tracking-[0.3em] text-[#111111]/55 uppercase"
-              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+              className="mt-5 text-[13px] text-[#111111]/55 "
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               Presented
             </figcaption>
@@ -519,8 +519,8 @@ function GraphicsSection() {
               </div>
             </TiltCard>
             <figcaption
-              className="mt-5 text-[11px] tracking-[0.3em] text-[#1e6b3c] uppercase"
-              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+              className="mt-5 text-[13px] text-[#1e6b3c] "
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               Marketed
             </figcaption>
@@ -559,8 +559,8 @@ function PreviousWork() {
     <section className="bg-white px-6 pt-10 pb-28">
       <div className="mx-auto max-w-6xl">
         <p
-          className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="text-[13px] text-[#1e6b3c] "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Selected work
         </p>
@@ -595,8 +595,8 @@ function PreviousWork() {
                   {w.label}
                 </span>
                 <span
-                  className="text-[10px] tracking-[0.24em] text-white/60 uppercase"
-                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                  className="text-[13px] text-white/60 "
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {w.meta}
                 </span>
@@ -613,7 +613,7 @@ function ClosingCTA() {
   return (
     <section className="bg-[#070907] px-6 py-32 text-center text-[#F5F5F3]">
       <p
-        className="text-[11px] tracking-[0.42em] text-[#2e9e58] uppercase"
+        className="text-[13px] text-[#2e9e58] "
         style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         ELSIAA
@@ -626,15 +626,15 @@ function ClosingCTA() {
       </h2>
       <a
         href="/quote"
-        className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-8 py-3 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
+        className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-8 py-3 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
         style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         Start your project
         <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
       </a>
       <p
-        className="mt-14 text-[10px] tracking-[0.22em] text-[#F5F5F3]/35 uppercase"
-        style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+        className="mt-14 text-[13px] text-[#F5F5F3]/35 "
+        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         Antwerp · Geneva · London · Tel Aviv · New York · Los Angeles
       </p>

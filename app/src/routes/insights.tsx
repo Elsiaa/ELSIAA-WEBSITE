@@ -21,7 +21,7 @@ export const Route = createFileRoute("/insights")({
 });
 
 const mono = {
-  fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace",
+  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
 } as const;
 const inter = {
   fontFamily:
@@ -166,11 +166,11 @@ function InsightsPage() {
       <section className="mx-auto max-w-6xl px-6 pt-40 pb-14 md:pt-44 md:pb-20">
         <Reveal>
           <div className="flex items-center gap-3">
-            <p className="text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase" style={mono}>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>
               Insights
             </p>
             <span className="h-px w-6 bg-black/15" />
-            <p className="text-[10px] tracking-[0.34em] text-[#111111]/45 uppercase" style={mono}>
+            <p className="text-[13px] text-[#111111]/45 " style={mono}>
               Research
             </p>
           </div>
@@ -200,7 +200,7 @@ function InsightsPage() {
                 }}
               />
               <p
-                className="relative text-[10px] tracking-[0.3em] text-[#4fb37a] uppercase"
+                className="relative text-[13px] text-[#4fb37a] "
                 style={mono}
               >
                 {FEATURED.kicker}
@@ -222,12 +222,12 @@ function InsightsPage() {
             <div className="p-8 md:p-11">
               <div className="flex items-center gap-3">
                 <span
-                  className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase"
+                  className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[13px] text-[#1e6b3c] "
                   style={mono}
                 >
                   {FEATURED.category}
                 </span>
-                <span className="text-[11px] text-[#111111]/50" style={inter}>
+                <span className="text-[13px] text-[#111111]/50" style={inter}>
                   {FEATURED.read}
                 </span>
               </div>
@@ -245,21 +245,21 @@ function InsightsPage() {
               </p>
               <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-black/[0.06] pt-6">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1e6b3c]/10 text-[11px] font-semibold text-[#1e6b3c]" style={mono}>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1e6b3c]/10 text-[13px] font-semibold text-[#1e6b3c]" style={mono}>
                     YK
                   </span>
                   <div>
                     <p className="text-[13px] font-medium text-[#111111]/80" style={inter}>
                       {FEATURED.author}
                     </p>
-                    <p className="text-[11px] text-[#111111]/45" style={inter}>
+                    <p className="text-[13px] text-[#111111]/45" style={inter}>
                       {FEATURED.role}
                     </p>
                   </div>
                 </div>
                 <a
                   href="/contact"
-                  className="text-[11px] tracking-[0.22em] text-[#1e6b3c] uppercase transition-opacity hover:opacity-60"
+                  className="text-[13px] text-[#1e6b3c]  transition-opacity hover:opacity-60"
                   style={mono}
                 >
                   Request the report →
@@ -276,7 +276,7 @@ function InsightsPage() {
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+                <p className="text-[13px] text-[#1e6b3c] " style={mono}>
                   The Numbers
                 </p>
                 <h2
@@ -286,7 +286,7 @@ function InsightsPage() {
                   Adoption is no longer a question of if.
                 </h2>
               </div>
-              <p className="text-[11px] text-[#111111]/45" style={inter}>
+              <p className="text-[13px] text-[#111111]/45" style={inter}>
                 Compiled from published industry surveys · Updated July 2026
               </p>
             </div>
@@ -296,7 +296,7 @@ function InsightsPage() {
               <Reveal key={s.industry} delay={i * 0.05}>
                 <div className="border-t border-black/[0.12] pt-4">
                   <p
-                    className="text-[10px] tracking-[0.2em] text-[#111111]/50 uppercase"
+                    className="text-[13px] text-[#111111]/50 "
                     style={mono}
                   >
                     {s.industry}
@@ -332,14 +332,14 @@ function InsightsPage() {
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+              <p className="text-[13px] text-[#1e6b3c] " style={mono}>
                 From the Desk
               </p>
               <h2 className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
                 Field notes &amp; analysis.
               </h2>
             </div>
-            <p className="text-[11px] text-[#111111]/45" style={inter}>
+            <p className="text-[13px] text-[#111111]/45" style={inter}>
               {ARTICLES.length} pieces · {CATEGORIES.length - 1} categories
             </p>
           </div>
@@ -377,12 +377,12 @@ function InsightsPage() {
                 >
                   <div className="flex items-center gap-3">
                     <span
-                      className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] tracking-[0.2em] text-[#1e6b3c] uppercase"
+                      className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[13px] text-[#1e6b3c] "
                       style={mono}
                     >
                       {a.category}
                     </span>
-                    <span className="text-[11px] text-[#111111]/50" style={inter}>
+                    <span className="text-[13px] text-[#111111]/50" style={inter}>
                       {a.read}
                     </span>
                   </div>
@@ -399,7 +399,7 @@ function InsightsPage() {
                     {a.dek}
                   </p>
                   <span
-                    className="mt-5 text-[11px] tracking-[0.2em] text-[#111111]/40 uppercase transition-colors group-hover:text-[#1e6b3c]"
+                    className="mt-5 text-[13px] text-[#111111]/40  transition-colors group-hover:text-[#1e6b3c]"
                     style={mono}
                   >
                     Read →
@@ -415,7 +415,7 @@ function InsightsPage() {
       <section className="bg-[#070907] px-6 py-24 text-[#F5F5F3]">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <p className="text-[10px] tracking-[0.34em] text-[#4fb37a] uppercase" style={mono}>
+            <p className="text-[13px] text-[#4fb37a] " style={mono}>
               Get the research
             </p>
             <h2
@@ -444,13 +444,13 @@ function InsightsPage() {
               />
               <button
                 type="submit"
-                className="rounded-full bg-[#2e9e58] px-8 py-4 text-[11px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]"
+                className="rounded-full bg-[#2e9e58] px-8 py-4 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]"
                 style={mono}
               >
                 Subscribe →
               </button>
             </form>
-            <p className="mt-4 text-[11px] text-white/35" style={inter}>
+            <p className="mt-4 text-[13px] text-white/35" style={inter}>
               Continues on our contact page — no spam, unsubscribe anytime.
             </p>
           </Reveal>

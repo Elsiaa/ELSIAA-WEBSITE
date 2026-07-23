@@ -43,7 +43,7 @@ export function ElsiaaSections() {
       {/* Services */}
       <section id="services" className="bg-white px-6 py-24 md:py-32">
         <div className="mx-auto max-w-6xl">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#1e6b3c]">
+          <p className="text-xs font-medium  text-[#1e6b3c]">
             What we actually do
           </p>
           <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight text-[#111111] md:text-5xl">
@@ -100,8 +100,8 @@ export function ElsiaaSections() {
               Omnia possibilia
             </p>
             <p
-              className="text-[11px] tracking-[0.35em] text-neutral-500"
-              style={{ fontFamily: "IBM Plex Mono, ui-monospace, monospace" }}
+              className="text-[13px] text-neutral-500"
+              style={{ fontFamily: "IBM Plex Mono, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               {CITIES.join("  ·  ")}
             </p>

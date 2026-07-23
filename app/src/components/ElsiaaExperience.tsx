@@ -219,8 +219,8 @@ export function ElsiaaExperience() {
           className="z-10 flex flex-col items-center px-6 pt-[10svh] text-center will-change-transform"
         >
           <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="text-[13px] text-[#1e6b3c] "
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             The ELSIAA signature
           </p>

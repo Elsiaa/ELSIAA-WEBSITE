@@ -63,7 +63,7 @@ const STEPS: { title: string, description: string, preview: ReactNode }[] = [
       <div className="flex h-full flex-col items-center justify-center gap-3 rounded-q-300 border border-dashed border-q-border-subtle px-8">
         <Icon as={IconCloudUpload} size="md" color="secondary" />
         <div className="flex flex-col items-center gap-1 text-center">
-          <Typography as="span" variant="body-sm-semi-bold" color="primary" className="uppercase">
+          <Typography as="span" variant="body-sm-semi-bold" color="primary" className="">
             Upload image or drag &amp; drop
           </Typography>
           <Typography as="span" variant="caption-xs-regular" color="secondary">
@@ -157,7 +157,7 @@ function Hero() {
     >
       <div className="flex flex-1 flex-col gap-8 px-4 py-5">
         <div className="flex flex-col gap-2">
-          <Typography as="h1" variant="accent-xl-bold" color="primary" className="uppercase">
+          <Typography as="h1" variant="accent-xl-bold" color="primary" className="">
             Animal App
           </Typography>
           <Typography as="p" variant="body-md-regular" color="secondary">
@@ -258,7 +258,7 @@ function Steps() {
   return (
     <section className="flex flex-col gap-8">
       <header className="flex items-center justify-between gap-4">
-        <Typography as="h2" variant="accent-lg-bold" color="primary" className="uppercase">
+        <Typography as="h2" variant="accent-lg-bold" color="primary" className="">
           How it works
           {' '}
           <span className="text-q-text-brand">in 3 steps</span>
@@ -275,7 +275,7 @@ function Steps() {
               {step.preview}
             </div>
             <div className="flex flex-col gap-2">
-              <Typography as="h3" variant="accent-xs-bold" color="primary" className="uppercase">
+              <Typography as="h3" variant="accent-xs-bold" color="primary" className="">
                 {`${index + 1}. ${step.title}`}
               </Typography>
               <Typography as="p" variant="body-sm-regular" color="secondary">

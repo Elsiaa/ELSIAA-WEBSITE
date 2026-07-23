@@ -21,7 +21,7 @@ export const Route = createFileRoute("/locations")({
   component: LocationsPage,
 });
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 type Office = {
@@ -177,7 +177,7 @@ function LocationsPage() {
       {/* hero */}
       <section className="mx-auto max-w-6xl px-6 pt-40 pb-8 md:pt-44">
         <Reveal>
-          <p className="text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase" style={mono}>
+          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
             ELSIAA Worldwide
           </p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={inter}>
@@ -206,7 +206,7 @@ function LocationsPage() {
                 <p className="text-4xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>
                   <CountTo target={st.n} suffix={st.s} />
                 </p>
-                <p className="mt-2 text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
+                <p className="mt-2 text-[13px] text-[#111111]/55 " style={mono}>
                   {st.label}
                 </p>
               </div>
@@ -220,14 +220,14 @@ function LocationsPage() {
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[460px_minmax(0,1fr)]">
           <Reveal>
             <ScrollGlobe size={460} />
-            <p className="mt-2 text-center text-[10px] tracking-[0.24em] text-[#111111]/50 uppercase" style={mono}>
+            <p className="mt-2 text-center text-[13px] text-[#111111]/50 " style={mono}>
               Scroll or drag to spin
             </p>
           </Reveal>
           <Reveal delay={0.1}>
             {REGIONS.map((r) => (
               <div key={r.region} className="border-b border-black/[0.06] py-5 first:pt-0 last:border-0">
-                <p className="text-[10px] tracking-[0.3em] text-[#1e6b3c] uppercase" style={mono}>
+                <p className="text-[13px] text-[#1e6b3c] " style={mono}>
                   {r.region}
                 </p>
                 <div className="mt-3 space-y-2.5">
@@ -242,7 +242,7 @@ function LocationsPage() {
                         />
                         {c.name}
                         {c.hq && (
-                          <span className="rounded-full bg-[#1e6b3c]/10 px-2.5 py-0.5 text-[10px] tracking-[0.18em] text-[#1e6b3c] uppercase" style={mono}>
+                          <span className="rounded-full bg-[#1e6b3c]/10 px-2.5 py-0.5 text-[13px] text-[#1e6b3c] " style={mono}>
                             HQ
                           </span>
                         )}
@@ -263,7 +263,7 @@ function LocationsPage() {
       <section className="border-y border-black/[0.06] bg-[#F5F5F3]">
         <div className="mx-auto max-w-6xl px-6 py-14 md:py-16">
           <Reveal>
-            <p className="text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase" style={mono}>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>
               Follow the sun
             </p>
             <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
@@ -326,7 +326,7 @@ function LocationsPage() {
       {/* office cards */}
       <section className="mx-auto max-w-6xl px-6 py-14 md:py-20">
         <Reveal>
-          <p className="text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase" style={mono}>
+          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
             The Directory
           </p>
           <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
@@ -351,7 +351,7 @@ function LocationsPage() {
                     className="h-full w-full object-cover object-bottom transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                   <span
-                    className="absolute top-4 right-4 flex items-center gap-2 rounded-full border border-black/[0.08] bg-white/85 px-3.5 py-1.5 text-[12px] font-medium tabular-nums backdrop-blur"
+                    className="absolute top-4 right-4 flex items-center gap-2 rounded-full border border-black/[0.08] bg-white/85 px-3.5 py-1.5 text-[13px] font-medium tabular-nums backdrop-blur"
                     style={mono}
                   >
                     <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
@@ -371,16 +371,16 @@ function LocationsPage() {
                         />
                         {o.name}
                         {o.hq && (
-                          <span className="rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 text-[9px] tracking-[0.18em] text-[#1e6b3c] uppercase" style={mono}>
+                          <span className="rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 text-[13px] text-[#1e6b3c] " style={mono}>
                             HQ
                           </span>
                         )}
                       </h3>
-                      <p className="mt-1.5 text-[11px] tracking-[0.18em] text-[#111111]/45 uppercase" style={mono}>
+                      <p className="mt-1.5 text-[13px] text-[#111111]/45 " style={mono}>
                         {o.country} · {fmtOffset(now, o.tz, o.tzLabel)}
                       </p>
                     </div>
-                    <span className="shrink-0 text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase" style={mono}>
+                    <span className="shrink-0 text-[13px] text-[#1e6b3c] " style={mono}>
                       {o.role}
                     </span>
                   </div>
@@ -393,7 +393,7 @@ function LocationsPage() {
                     {o.focus.map((f) => (
                       <span
                         key={f}
-                        className="rounded-full border border-black/[0.08] bg-[#F5F5F3] px-3 py-1 text-[11px] text-[#111111]/65"
+                        className="rounded-full border border-black/[0.08] bg-[#F5F5F3] px-3 py-1 text-[13px] text-[#111111]/65"
                         style={inter}
                       >
                         {f}
@@ -403,7 +403,7 @@ function LocationsPage() {
 
                   <div className="mt-6 flex items-end justify-between gap-4 border-t border-black/[0.06] pt-5">
                     <div>
-                      <p className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>
+                      <p className="text-[13px] text-[#111111]/40 " style={mono}>
                         Regional lead
                       </p>
                       <p className="mt-1 text-[13px] font-medium text-[#111111]/80" style={inter}>
@@ -412,7 +412,7 @@ function LocationsPage() {
                     </div>
                     <a
                       href="/contact"
-                      className="shrink-0 text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase transition-colors hover:text-[#111111]"
+                      className="shrink-0 text-[13px] text-[#1e6b3c]  transition-colors hover:text-[#111111]"
                       style={mono}
                     >
                       Reach this desk →
@@ -425,7 +425,7 @@ function LocationsPage() {
         </div>
 
         <Reveal>
-          <p className="mt-8 text-[12px] text-[#111111]/55" style={inter}>
+          <p className="mt-8 text-[13px] text-[#111111]/55" style={inter}>
             On-site meetings are by appointment. Everything else runs remotely, in
             your timezone, around the clock.
           </p>
@@ -440,7 +440,7 @@ function LocationsPage() {
           </p>
           <a
             href="/contact"
-            className="mt-6 inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-[#1e6b3c]"
+            className="mt-6 inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[13px] font-bold text-white  transition-all duration-300 hover:bg-[#1e6b3c]"
             style={mono}
           >
             Start the conversation →
@@ -531,7 +531,7 @@ function CoverageArc({ now }: { now: Date | null }) {
                 letterSpacing="1.5"
                 fill="#111111"
                 fillOpacity="0.42"
-                style={{ ...mono, textTransform: "uppercase" }}
+                style={{ ...mono, textTransform: "" }}
               >
                 {o.name.split(" ")[0]}
               </text>

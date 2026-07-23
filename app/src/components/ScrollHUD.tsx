@@ -64,14 +64,14 @@ export function ScrollHUD() {
               style={{ opacity: 0.32 }}
             >
               <span
-                className="text-[10px] text-[#2e9e58]"
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                className="text-[13px] text-[#2e9e58]"
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 {s.id}
               </span>
               <span
-                className="text-[10px] tracking-[0.3em] text-white uppercase"
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                className="text-[13px] text-white "
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 {s.label}
               </span>
@@ -79,8 +79,8 @@ export function ScrollHUD() {
           ))}
           <span
             ref={pctRef}
-            className="mt-1 text-[10px] text-white/50"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="mt-1 text-[13px] text-white/50"
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             00%
           </span>

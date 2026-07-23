@@ -160,7 +160,7 @@ function InfoPanel({ generation }: { generation: GenerationDetail }) {
           aria-expanded={detailsOpen}
         >
           <Icon as={IconCircleInfoOutlined} size="sm" color="secondary" />
-          <Typography as="span" variant="label-xs-medium" color="secondary" className="flex-1 text-left uppercase">
+          <Typography as="span" variant="label-xs-medium" color="secondary" className="flex-1 text-left ">
             Details
           </Typography>
           <Icon

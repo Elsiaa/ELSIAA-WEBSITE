@@ -131,8 +131,8 @@ export function SiteSearch({
             style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           />
           <kbd
-            className="hidden rounded border border-black/10 px-1.5 py-0.5 text-[10px] text-[#111111]/55 md:block"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="hidden rounded border border-black/10 px-1.5 py-0.5 text-[13px] text-[#111111]/55 md:block"
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             ESC
           </kbd>
@@ -159,8 +159,8 @@ export function SiteSearch({
                 {r.label}
               </span>
               <span
-                className="flex-none text-[10px] tracking-[0.2em] text-[#111111]/50 uppercase"
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                className="flex-none text-[13px] text-[#111111]/50 "
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 {r.group}
               </span>

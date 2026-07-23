@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
   server-side on every request and never ships in the bundle.
 */
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 export const Route = createFileRoute("/admin/quotes")({
@@ -64,7 +64,7 @@ function StatusRow({
         <button
           key={s}
           onClick={() => onPick(s)}
-          className={`rounded-full border px-3 py-1 text-[10px] tracking-[0.12em] uppercase transition-all ${
+          className={`rounded-full border px-3 py-1 text-[13px] tracking-[0.12em]  transition-all ${
             current === s
               ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
               : "border-black/10 text-[#111111]/60 hover:border-[#1e6b3c]/50"
@@ -144,7 +144,7 @@ function AdminDash() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#0c0c0c] px-6">
         <div className="w-full max-w-sm">
-          <p className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase" style={mono}>
+          <p className="text-[13px] text-[#2e9e58] " style={mono}>
             ELSIAA Backend
           </p>
           <h1 className="mt-2 text-2xl font-semibold text-white" style={inter}>
@@ -163,7 +163,7 @@ function AdminDash() {
           <button
             onClick={() => load(key)}
             disabled={loading || !key}
-            className="mt-4 w-full rounded-full bg-[#1e6b3c] py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all enabled:hover:bg-[#2e9e58] disabled:opacity-40"
+            className="mt-4 w-full rounded-full bg-[#1e6b3c] py-3.5 text-[13px] font-bold text-white  transition-all enabled:hover:bg-[#2e9e58] disabled:opacity-40"
             style={mono}
           >
             {loading ? "Checking…" : "Enter"}
@@ -182,7 +182,7 @@ function AdminDash() {
   return (
     <main className="min-h-screen bg-[#FBFBFA] px-6 py-12 text-[#111111]">
       <div className="mx-auto max-w-5xl">
-        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+        <p className="text-[13px] text-[#1e6b3c] " style={mono}>
           ELSIAA Backend
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -190,7 +190,7 @@ function AdminDash() {
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`rounded-full border px-5 py-2.5 text-[12px] font-semibold transition-all ${
+              className={`rounded-full border px-5 py-2.5 text-[13px] font-semibold transition-all ${
                 tab === t.id
                   ? "border-[#111111] bg-[#111111] text-white"
                   : "border-black/10 bg-white text-[#111111]/60 hover:border-black/30"
@@ -202,7 +202,7 @@ function AdminDash() {
           ))}
           <button
             onClick={() => load(key)}
-            className="ml-auto text-[11px] tracking-[0.2em] text-[#111111]/55 uppercase hover:text-[#111111]"
+            className="ml-auto text-[13px] text-[#111111]/55  hover:text-[#111111]"
             style={mono}
           >
             ↻ Refresh
@@ -224,11 +224,11 @@ function AdminDash() {
                     <h2 className="text-[17px] font-semibold" style={inter}>
                       {q.name}{q.company ? ` · ${q.company}` : ""}
                     </h2>
-                    <span className={`rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.16em] uppercase ${badge[q.status] ?? "bg-black/20 text-white"}`} style={mono}>
+                    <span className={`rounded-full px-3 py-1 text-[13px] font-bold  ${badge[q.status] ?? "bg-black/20 text-white"}`} style={mono}>
                       {q.status}
                     </span>
                   </div>
-                  <p className="text-[12px] text-[#111111]/55" style={mono}>{fmtWhen(q.created_at)}</p>
+                  <p className="text-[13px] text-[#111111]/55" style={mono}>{fmtWhen(q.created_at)}</p>
                 </div>
                 <p className="mt-1 text-[13px] text-[#1e6b3c]" style={mono}>
                   {q.project_types} · {q.email}{q.phone ? ` · ${q.phone}` : ""}
@@ -239,7 +239,7 @@ function AdminDash() {
                 <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
                   <button
                     onClick={() => setOpen(open === q.id ? null : q.id)}
-                    className="text-[11px] tracking-[0.2em] text-[#111111]/60 uppercase hover:text-[#111111]"
+                    className="text-[13px] text-[#111111]/60  hover:text-[#111111]"
                     style={mono}
                   >
                     {open === q.id ? "Hide full answers ↑" : "Full answers ↓"}
@@ -283,11 +283,11 @@ function AdminDash() {
                     <h2 className="text-[17px] font-semibold" style={inter}>
                       {m.name}{m.company ? ` · ${m.company}` : ""}
                     </h2>
-                    <span className={`rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.16em] uppercase ${badge[m.status] ?? "bg-black/20 text-white"}`} style={mono}>
+                    <span className={`rounded-full px-3 py-1 text-[13px] font-bold  ${badge[m.status] ?? "bg-black/20 text-white"}`} style={mono}>
                       {m.status}
                     </span>
                   </div>
-                  <p className="text-[12px] text-[#111111]/55" style={mono}>{fmtWhen(m.created_at)}</p>
+                  <p className="text-[13px] text-[#111111]/55" style={mono}>{fmtWhen(m.created_at)}</p>
                 </div>
                 <p className="mt-1 text-[13px] text-[#1e6b3c]" style={mono}>
                   Wants: {m.slot_date} at {m.slot_time} · {m.email}
@@ -328,11 +328,11 @@ function AdminDash() {
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <h2 className="text-[17px] font-semibold" style={inter}>{o.name}</h2>
-                      <span className={`rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.16em] uppercase ${badge[o.status] ?? "bg-black/20 text-white"}`} style={mono}>
+                      <span className={`rounded-full px-3 py-1 text-[13px] font-bold  ${badge[o.status] ?? "bg-black/20 text-white"}`} style={mono}>
                         {o.status}
                       </span>
                     </div>
-                    <p className="text-[12px] text-[#111111]/55" style={mono}>{fmtWhen(o.created_at)}</p>
+                    <p className="text-[13px] text-[#111111]/55" style={mono}>{fmtWhen(o.created_at)}</p>
                   </div>
                   <p className="mt-1 text-[13px] text-[#1e6b3c]" style={mono}>
                     ${o.total} · {o.email}

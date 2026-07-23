@@ -10,7 +10,7 @@ import { Reveal } from "./Reveal";
   Arrows + dots, autoplay paused on hover / interaction / off-screen.
 */
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const GREEN = "#1e6b3c";
 
@@ -23,7 +23,7 @@ function Chrome({ url, children }: { url: string; children: React.ReactNode }) {
         <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#1e6b3c]/50" />
         <span
-          className="ml-3 truncate rounded-md bg-black/[0.04] px-3 py-1 text-[10px] tracking-[0.12em] text-[#111111]/45"
+          className="ml-3 truncate rounded-md bg-black/[0.04] px-3 py-1 text-[13px] tracking-[0.12em] text-[#111111]/45"
           style={mono}
         >
           {url}
@@ -70,10 +70,10 @@ function Dash({
         {/* header */}
         <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-2.5">
           <div className="flex items-baseline gap-2.5">
-            <span className="text-[12px] font-semibold tracking-[-0.01em]" style={inter}>
+            <span className="text-[13px] font-semibold tracking-[-0.01em]" style={inter}>
               {name}
             </span>
-            <span className="hidden text-[9px] tracking-[0.2em] text-[#111111]/35 uppercase md:inline" style={mono}>
+            <span className="hidden text-[13px] text-[#111111]/35  md:inline" style={mono}>
               {nav[active]}
             </span>
           </div>
@@ -81,7 +81,7 @@ function Dash({
             <span className="hidden h-4 w-24 rounded bg-black/[0.05] md:block" />
             <span className="flex items-center gap-1.5 rounded-full bg-[#1e6b3c]/10 px-2 py-0.5">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1e6b3c]" />
-              <span className="text-[8px] tracking-[0.18em] text-[#1e6b3c] uppercase" style={mono}>
+              <span className="text-[13px] text-[#1e6b3c] " style={mono}>
                 Live
               </span>
             </span>
@@ -91,7 +91,7 @@ function Dash({
         <div className="grid grid-cols-4 gap-px border-b border-black/[0.06] bg-black/[0.05]">
           {kpis.map(([label, val, dir]) => (
             <div key={label} className="bg-white px-3 py-2.5">
-              <p className="truncate text-[8px] tracking-[0.18em] text-[#111111]/40 uppercase" style={mono}>
+              <p className="truncate text-[13px] text-[#111111]/40 " style={mono}>
                 {label}
               </p>
               <p className="mt-1 flex items-baseline gap-1 text-[15px] font-semibold tabular-nums tracking-[-0.02em]" style={inter}>
@@ -121,7 +121,7 @@ function Pill({ tone, children }: { tone: "ok" | "warn" | "crit"; children: Reac
     crit: "bg-[#b42318]/10 text-[#b42318]",
   } as const;
   return (
-    <span className={`rounded-full px-2 py-0.5 text-[8.5px] font-semibold tracking-[0.12em] uppercase ${map[tone]}`} style={mono}>
+    <span className={`rounded-full px-2 py-0.5 text-[8.5px] font-semibold tracking-[0.12em]  ${map[tone]}`} style={mono}>
       {children}
     </span>
   );
@@ -135,7 +135,7 @@ function MessyBefore() {
       <div className="absolute top-3 left-3 w-[62%] rotate-[-1.5deg] overflow-hidden rounded-md border border-black/15 bg-white shadow-lg">
         <div className="flex items-center gap-1 bg-[#1f7a45] px-2 py-1">
           <span className="h-2 w-2 rounded-full bg-white/70" />
-          <span className="text-[8px] font-semibold text-white" style={inter}>jobs_final_v7_USE THIS ONE.xlsx</span>
+          <span className="text-[13px] font-semibold text-white" style={inter}>jobs_final_v7_USE THIS ONE.xlsx</span>
         </div>
         <div className="grid grid-cols-6">
           {Array.from({ length: 42 }).map((_, i) => (
@@ -158,7 +158,7 @@ function MessyBefore() {
       </div>
       {/* email thread */}
       <div className="absolute bottom-3 left-6 w-[46%] -rotate-1 overflow-hidden rounded-md border border-black/15 bg-white shadow-lg">
-        <div className="bg-[#f3f4f6] px-2 py-1 text-[8px] font-semibold text-black/60" style={inter}>Re: Re: Re: FWD: schedule?? (17)</div>
+        <div className="bg-[#f3f4f6] px-2 py-1 text-[13px] font-semibold text-black/60" style={inter}>Re: Re: Re: FWD: schedule?? (17)</div>
         <div className="space-y-1 p-2">
           {["w-full", "w-11/12", "w-3/4"].map((w, i) => (
             <div key={i} className="flex items-center gap-1.5">
@@ -179,7 +179,7 @@ function MessyBefore() {
       </div>
       {/* sticky note */}
       <div className="absolute top-1/2 left-1/2 w-24 -translate-x-1/2 -translate-y-1/2 rotate-[6deg] bg-[#fde68a] p-2 shadow-md">
-        <p className="text-[8px] leading-tight text-black/70" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+        <p className="text-[13px] leading-tight text-black/70" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
           call back the Delgado job — DON'T double book!!
         </p>
       </div>
@@ -200,15 +200,15 @@ function HospitalBoard() {
     <div className="flex h-full">
       <div className="min-w-0 flex-1 overflow-hidden">
         <div className="flex items-center justify-between px-3 py-2">
-          <p className="text-[9px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Live census · 214 beds</p>
+          <p className="text-[13px] text-[#111111]/45 " style={mono}>Live census · 214 beds</p>
           <div className="flex gap-1"><Pill tone="ok">Stable 186</Pill><Pill tone="warn">Watch 22</Pill><Pill tone="crit">Critical 6</Pill></div>
         </div>
         <div className="px-3">
-          <div className="grid grid-cols-[1fr_1.4fr_auto_1fr_auto] gap-x-2 border-b border-black/[0.06] pb-1 text-[8px] tracking-[0.14em] text-[#111111]/35 uppercase" style={mono}>
+          <div className="grid grid-cols-[1fr_1.4fr_auto_1fr_auto] gap-x-2 border-b border-black/[0.06] pb-1 text-[13px] text-[#111111]/35 " style={mono}>
             <span>Unit</span><span>Stage</span><span>Status</span><span>Clinician</span><span>Elapsed</span>
           </div>
           {rows.map((r, i) => (
-            <div key={i} className="grid grid-cols-[1fr_1.4fr_auto_1fr_auto] items-center gap-x-2 border-b border-black/[0.04] py-[7px] text-[10px]" style={inter}>
+            <div key={i} className="grid grid-cols-[1fr_1.4fr_auto_1fr_auto] items-center gap-x-2 border-b border-black/[0.04] py-[7px] text-[13px]" style={inter}>
               <span className="font-medium">{r[0]}</span>
               <span className="text-[#111111]/60">{r[1]}</span>
               <Pill tone={r[2] as "ok" | "warn" | "crit"}>{r[2] === "ok" ? "OK" : r[2] === "warn" ? "Wait" : "Now"}</Pill>
@@ -220,22 +220,22 @@ function HospitalBoard() {
       </div>
       {/* AI intake side */}
       <div className="hidden w-[38%] flex-none border-l border-black/[0.06] bg-[#FBFBFA] p-3 lg:block">
-        <p className="text-[9px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>AI intake agent · call #2214</p>
+        <p className="text-[13px] text-[#1e6b3c] " style={mono}>AI intake agent · call #2214</p>
         <div className="mt-2 space-y-2">
           <div className="rounded-lg bg-white p-2 shadow-sm">
-            <p className="text-[9px] text-[#111111]/45" style={mono}>PATIENT</p>
-            <p className="mt-0.5 text-[10px]" style={inter}>"...chest tightness since this morning, and I'm short of breath."</p>
+            <p className="text-[13px] text-[#111111]/45" style={mono}>PATIENT</p>
+            <p className="mt-0.5 text-[13px]" style={inter}>"...chest tightness since this morning, and I'm short of breath."</p>
           </div>
           <div className="rounded-lg border border-[#1e6b3c]/25 bg-[#1e6b3c]/[0.06] p-2">
-            <p className="text-[9px] tracking-[0.14em] text-[#1e6b3c] uppercase" style={mono}>Agent · triage</p>
-            <p className="mt-0.5 text-[10px]" style={inter}>Flagged <b>urgent</b> · cardiac pathway · bed request sent to 4-West.</p>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>Agent · triage</p>
+            <p className="mt-0.5 text-[13px]" style={inter}>Flagged <b>urgent</b> · cardiac pathway · bed request sent to 4-West.</p>
           </div>
         </div>
         <div className="mt-3 flex items-center gap-1.5">
           {[3, 6, 4, 8, 5, 7, 3, 6, 9, 4, 6, 3].map((h, i) => (
             <span key={i} className="w-1 rounded-full bg-[#1e6b3c]/50" style={{ height: h * 2 }} />
           ))}
-          <span className="ml-1 text-[8px] text-[#111111]/40" style={mono}>listening</span>
+          <span className="ml-1 text-[13px] text-[#111111]/40" style={mono}>listening</span>
         </div>
       </div>
     </div>
@@ -254,7 +254,7 @@ function AutoInventory() {
     <div className="flex h-full">
       <div className="min-w-0 flex-1 p-3">
         <div className="flex items-center justify-between">
-          <p className="text-[9px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Inventory · 42 rooftops</p>
+          <p className="text-[13px] text-[#111111]/45 " style={mono}>Inventory · 42 rooftops</p>
           <Pill tone="ok">8,412 units synced</Pill>
         </div>
         <div className="mt-2 grid grid-cols-2 gap-2">
@@ -263,7 +263,7 @@ function AutoInventory() {
               <div className="flex h-10 items-center justify-center rounded bg-[#f3f4f6]">
                 <div className="h-4 w-14 rounded-t-[10px] rounded-b-[3px] bg-[#111111]/70" />
               </div>
-              <p className="mt-1.5 text-[10px] font-medium" style={inter}>{c[0]}</p>
+              <p className="mt-1.5 text-[13px] font-medium" style={inter}>{c[0]}</p>
               <p className="text-[8.5px] text-[#111111]/50" style={mono}>{c[1]}</p>
               <div className="mt-1"><Pill tone={c[3] as "ok" | "warn" | "crit"}>{c[4]}</Pill></div>
             </div>
@@ -271,14 +271,14 @@ function AutoInventory() {
         </div>
       </div>
       <div className="hidden w-[36%] flex-none border-l border-black/[0.06] bg-[#FBFBFA] p-3 lg:block">
-        <p className="text-[9px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>AI pricing engine</p>
+        <p className="text-[13px] text-[#1e6b3c] " style={mono}>AI pricing engine</p>
         <div className="mt-2 rounded-lg bg-white p-2 shadow-sm">
-          <p className="text-[10px]" style={inter}>Coupe · 74 days aging</p>
-          <p className="mt-1 text-[9px] text-[#111111]/55" style={inter}>Recommend <b className="text-[#1e6b3c]">−$1,450</b> to clear in 8 days. Regional demand softening.</p>
-          <button className="mt-2 w-full rounded-md bg-[#1e6b3c] py-1 text-[9px] font-bold tracking-[0.15em] text-white uppercase" style={mono}>Approve</button>
+          <p className="text-[13px]" style={inter}>Coupe · 74 days aging</p>
+          <p className="mt-1 text-[13px] text-[#111111]/55" style={inter}>Recommend <b className="text-[#1e6b3c]">−$1,450</b> to clear in 8 days. Regional demand softening.</p>
+          <button className="mt-2 w-full rounded-md bg-[#1e6b3c] py-1 text-[13px] font-bold text-white " style={mono}>Approve</button>
         </div>
         <div className="mt-3 space-y-1.5">
-          <p className="text-[9px] tracking-[0.14em] text-[#111111]/40 uppercase" style={mono}>Leads → showroom</p>
+          <p className="text-[13px] text-[#111111]/40 " style={mono}>Leads → showroom</p>
           {["Financing pre-qual", "Trade-in valued", "Test drive booked"].map((t, i) => (
             <div key={i} className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
@@ -296,7 +296,7 @@ function RentalFleet() {
   return (
     <div className="flex h-full flex-col p-3">
       <div className="flex items-center justify-between">
-        <p className="text-[9px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Fleet board · 12,480 vehicles</p>
+        <p className="text-[13px] text-[#111111]/45 " style={mono}>Fleet board · 12,480 vehicles</p>
         <div className="flex gap-1"><Pill tone="ok">Available 3,102</Pill><Pill tone="warn">Cleaning 288</Pill><Pill tone="crit">Damage AI 14</Pill></div>
       </div>
       {/* gantt-style reservation grid */}
@@ -317,8 +317,8 @@ function RentalFleet() {
         ))}
       </div>
       <div className="rounded-lg border border-[#1e6b3c]/25 bg-[#1e6b3c]/[0.06] p-2">
-        <p className="text-[9px] tracking-[0.14em] text-[#1e6b3c] uppercase" style={mono}>AI return inspection</p>
-        <p className="mt-0.5 text-[10px]" style={inter}>Unit EV-2231 · <b>2 new dents</b> detected from 6 photos · claim drafted, $840 estimated.</p>
+        <p className="text-[13px] text-[#1e6b3c] " style={mono}>AI return inspection</p>
+        <p className="mt-0.5 text-[13px]" style={inter}>Unit EV-2231 · <b>2 new dents</b> detected from 6 photos · claim drafted, $840 estimated.</p>
       </div>
     </div>
   );
@@ -339,21 +339,21 @@ function FieldDispatch() {
             <span className={`block h-3 w-3 rounded-full ring-2 ring-white ${t === "ok" ? "bg-[#1e6b3c]" : t === "warn" ? "bg-[#b7791f]" : "bg-[#b42318]"}`} />
           </span>
         ))}
-        <div className="absolute bottom-2 left-2 rounded-md bg-white/90 px-2 py-1 text-[8px] tracking-[0.14em] text-[#111111]/55 uppercase backdrop-blur" style={mono}>18 techs · live</div>
+        <div className="absolute bottom-2 left-2 rounded-md bg-white/90 px-2 py-1 text-[13px] text-[#111111]/55  backdrop-blur" style={mono}>18 techs · live</div>
       </div>
       <div className="w-[42%] flex-none border-l border-black/[0.06] p-3">
-        <p className="text-[9px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Dispatch queue</p>
+        <p className="text-[13px] text-[#111111]/45 " style={mono}>Dispatch queue</p>
         {[["Delgado · burst pipe", "crit", "assigned · 6m"], ["Okafor · water heater", "warn", "en route"], ["Kim · inspection", "ok", "scheduled"]].map((j, i) => (
           <div key={i} className="mt-2 rounded-lg border border-black/[0.07] p-2">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-medium" style={inter}>{j[0]}</span>
+              <span className="text-[13px] font-medium" style={inter}>{j[0]}</span>
               <Pill tone={j[1] as "ok" | "warn" | "crit"}>{j[1] === "crit" ? "Now" : j[1] === "warn" ? "Soon" : "Set"}</Pill>
             </div>
             <p className="mt-0.5 text-[8.5px] text-[#111111]/50" style={mono}>{j[2]}</p>
           </div>
         ))}
         <div className="mt-2 rounded-lg border border-[#1e6b3c]/25 bg-[#1e6b3c]/[0.06] p-2">
-          <p className="text-[9px] tracking-[0.14em] text-[#1e6b3c] uppercase" style={mono}>Voice agent</p>
+          <p className="text-[13px] text-[#1e6b3c] " style={mono}>Voice agent</p>
           <p className="mt-0.5 text-[9.5px]" style={inter}>Booked the Delgado emergency, matched the nearest tech, and texted the ETA — no dispatcher.</p>
         </div>
       </div>
@@ -374,12 +374,12 @@ function FinanceClose() {
     <div className="flex h-full">
       <div className="min-w-0 flex-1 p-3">
         <div className="flex items-center justify-between">
-          <p className="text-[9px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Close · Day 2 of 2</p>
+          <p className="text-[13px] text-[#111111]/45 " style={mono}>Close · Day 2 of 2</p>
           <Pill tone="ok">92% reconciled</Pill>
         </div>
         <div className="mt-2">
           {rows.map((r, i) => (
-            <div key={i} className="grid grid-cols-[1.4fr_1fr_auto] items-center gap-2 border-b border-black/[0.04] py-[7px] text-[10px]" style={inter}>
+            <div key={i} className="grid grid-cols-[1.4fr_1fr_auto] items-center gap-2 border-b border-black/[0.04] py-[7px] text-[13px]" style={inter}>
               <span className="truncate font-medium">{r[0]}</span>
               <span className="tabular-nums text-[#111111]/60" style={mono}>{r[1]}</span>
               <Pill tone={r[3] as "ok" | "warn" | "crit"}>{r[2]}</Pill>
@@ -388,13 +388,13 @@ function FinanceClose() {
         </div>
       </div>
       <div className="hidden w-[38%] flex-none border-l border-black/[0.06] bg-[#FBFBFA] p-3 lg:block">
-        <p className="text-[9px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>Anomaly · AI</p>
+        <p className="text-[13px] text-[#1e6b3c] " style={mono}>Anomaly · AI</p>
         <div className="mt-2 rounded-lg bg-white p-2 shadow-sm">
-          <p className="text-[10px]" style={inter}>Deferred revenue · Contract #8841</p>
-          <p className="mt-1 text-[9px] text-[#111111]/55" style={inter}>Recognition schedule off by <b className="text-[#b42318]">$41,200</b> vs. contract terms. Draft correcting entry ready.</p>
-          <button className="mt-2 w-full rounded-md border border-[#111111]/20 py-1 text-[9px] font-bold tracking-[0.15em] uppercase" style={mono}>Review entry</button>
+          <p className="text-[13px]" style={inter}>Deferred revenue · Contract #8841</p>
+          <p className="mt-1 text-[13px] text-[#111111]/55" style={inter}>Recognition schedule off by <b className="text-[#b42318]">$41,200</b> vs. contract terms. Draft correcting entry ready.</p>
+          <button className="mt-2 w-full rounded-md border border-[#111111]/20 py-1 text-[13px] font-bold " style={mono}>Review entry</button>
         </div>
-        <p className="mt-3 text-[9px] tracking-[0.14em] text-[#111111]/40 uppercase" style={mono}>Audit trail</p>
+        <p className="mt-3 text-[13px] text-[#111111]/40 " style={mono}>Audit trail</p>
         <div className="mt-1.5 space-y-1">{["Every entry sourced", "Approvals timestamped", "SOX-ready export"].map((t, i) => (
           <div key={i} className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" /><span className="text-[9.5px] text-[#111111]/65" style={inter}>{t}</span></div>
         ))}</div>
@@ -524,7 +524,7 @@ export function SoftwareDemos() {
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div className="max-w-3xl">
-              <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+              <p className="text-[13px] text-[#1e6b3c] " style={mono}>
                 01 · Division · Automation & Software
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl" style={inter}>
@@ -533,7 +533,7 @@ export function SoftwareDemos() {
               <p className="mt-3 text-[15px] text-[#111111]/60" style={inter}>
                 Custom software and AI systems built to run a business — not sit beside it.
               </p>
-              <p className="mt-3 text-[11px] leading-relaxed tracking-[0.04em] text-[#111111]/40" style={mono}>
+              <p className="mt-3 text-[13px] leading-relaxed tracking-[0.04em] text-[#111111]/40" style={mono}>
                 Client names, data, and branding shown here have been changed or removed to protect privacy.
               </p>
             </div>
@@ -549,10 +549,10 @@ export function SoftwareDemos() {
             {/* copy rail */}
             <div className="order-2 md:order-1">
               <div className="flex items-center gap-2">
-                <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold tracking-[0.16em] uppercase ${s.kind === "before" ? "bg-[#111111] text-white" : "bg-[#1e6b3c]/12 text-[#1e6b3c]"}`} style={mono}>
+                <span className={`rounded-full px-2 py-0.5 text-[13px] font-bold  ${s.kind === "before" ? "bg-[#111111] text-white" : "bg-[#1e6b3c]/12 text-[#1e6b3c]"}`} style={mono}>
                   {s.kind === "before" ? "Before" : "After"}
                 </span>
-                <p className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>{s.eyebrow}</p>
+                <p className="text-[13px] text-[#111111]/40 " style={mono}>{s.eyebrow}</p>
               </div>
               <h3 className="mt-2.5 text-xl font-semibold tracking-[-0.02em] text-[#111111]" style={inter}>{s.name}</h3>
               <p className="mt-2 text-[14px] leading-relaxed text-[#111111]/60" style={inter}>{s.pitch}</p>
@@ -573,7 +573,7 @@ export function SoftwareDemos() {
               )}
 
               {s.cta && (
-                <a href={s.cta.href} {...(s.cta.external ? { target: "_blank", rel: "noreferrer" } : {})} className="mt-6 inline-block text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline" style={mono}>
+                <a href={s.cta.href} {...(s.cta.external ? { target: "_blank", rel: "noreferrer" } : {})} className="mt-6 inline-block text-[13px] text-[#1e6b3c]  hover:underline" style={mono}>
                   {s.cta.label} ↗
                 </a>
               )}

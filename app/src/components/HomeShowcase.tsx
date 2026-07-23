@@ -139,8 +139,8 @@ export function HomeShowcase() {
       <div className="mx-auto max-w-6xl px-6 text-center">
         <Reveal>
           <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="text-[13px] text-[#1e6b3c] "
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             ELSIAA · AI Done Better
           </p>
@@ -177,8 +177,8 @@ export function HomeShowcase() {
             <div className="aspect-[4/3] overflow-hidden">{b.media}</div>
             <div className="flex flex-1 flex-col p-6 text-left">
               <p
-                className="text-[10px] tracking-[0.3em] text-[#1e6b3c] uppercase"
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                className="text-[13px] text-[#1e6b3c] "
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 {b.eyebrow}
               </p>
@@ -195,8 +195,8 @@ export function HomeShowcase() {
                 {b.desc}
               </p>
               <span
-                className="mt-auto pt-4 text-[10px] tracking-[0.26em] text-[#111111]/50 uppercase transition-colors duration-300 group-hover:text-[#1e6b3c]"
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                className="mt-auto pt-4 text-[13px] text-[#111111]/50  transition-colors duration-300 group-hover:text-[#1e6b3c]"
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 Explore →
               </span>
@@ -209,7 +209,7 @@ export function HomeShowcase() {
         <Reveal>
           <a
             href="/designs"
-            className="inline-flex items-center gap-3 rounded-full border border-[#111111] bg-[#111111] px-9 py-3.5 text-[11px] tracking-[0.28em] text-white uppercase transition-colors duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c]"
+            className="inline-flex items-center gap-3 rounded-full border border-[#111111] bg-[#111111] px-9 py-3.5 text-[13px] text-white  transition-colors duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c]"
             style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Discover designs →

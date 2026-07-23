@@ -6,14 +6,14 @@ export const Route = createFileRoute("/legal/terms")({
   component: Terms,
 });
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 function Terms() {
   return (
     <main className="min-h-screen bg-white text-[#111111]">
       <SiteNav />
       <article className="mx-auto max-w-2xl px-6 pt-40 pb-20 md:pt-44">
-        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>Legal</p>
+        <p className="text-[13px] text-[#1e6b3c] " style={mono}>Legal</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-[-0.04em]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>Terms.</h1>
         <p className="mt-5 rounded-xl border border-black/[0.07] bg-white p-5 text-[14px] leading-relaxed text-[#111111]/70">
           <span className="font-semibold text-[#111111]">The short version:</span> browse freely, book honestly,

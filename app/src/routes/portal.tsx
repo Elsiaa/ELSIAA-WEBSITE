@@ -114,7 +114,7 @@ async function sha256(text: string) {
     .join("");
 }
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 const INSIDE: { k: string; title: string; body: string }[] = [
@@ -188,7 +188,7 @@ function Portal() {
       <main className="min-h-screen bg-white text-[#111111]">
         <SiteNav />
         <section className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-32">
-          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
             Client portal
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
@@ -210,19 +210,19 @@ function Portal() {
               inputMode="numeric"
               autoComplete="one-time-code"
               placeholder="••••••"
-              className="w-full rounded-xl border border-black/10 bg-white px-4 py-4 text-center text-[24px] tracking-[0.5em] outline-none transition-colors focus-visible:border-[#1e6b3c] focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/30"
+              className="w-full rounded-xl border border-black/10 bg-white px-4 py-4 text-center text-[24px] outline-none transition-colors focus-visible:border-[#1e6b3c] focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/30"
               style={mono}
             />
             <button
               onClick={verify}
-              className="w-full rounded-full bg-[#111111] px-6 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all outline-none hover:bg-[#1e6b3c] focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 focus-visible:ring-offset-2"
+              className="w-full rounded-full bg-[#111111] px-6 py-4 text-[13px] font-bold text-white  transition-all outline-none hover:bg-[#1e6b3c] focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 focus-visible:ring-offset-2"
               style={mono}
             >
               Verify →
             </button>
             <button
               onClick={() => { setStep("login"); setErr(""); }}
-              className="w-full rounded-lg py-2 text-center text-[12px] text-[#111111]/55 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/30"
+              className="w-full rounded-lg py-2 text-center text-[13px] text-[#111111]/55 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/30"
             >
               ← Back to sign in
             </button>
@@ -249,7 +249,7 @@ function Portal() {
           {/* intro */}
           <Reveal>
             <div className="md:pt-6">
-              <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+              <p className="text-[13px] text-[#1e6b3c] " style={mono}>
                 The client portal
               </p>
               <h1 className="mt-5 text-4xl leading-[1.05] font-semibold tracking-[-0.04em] md:text-[52px]" style={inter}>
@@ -267,7 +267,7 @@ function Portal() {
                       <path d="M20 6 9 17l-5-5" />
                     </svg>
                   </span>
-                  <span className="text-[12px] tracking-[0.06em] text-[#111111]/60" style={inter}>
+                  <span className="text-[13px] tracking-[0.06em] text-[#111111]/60" style={inter}>
                     Two-factor on every account
                   </span>
                 </div>
@@ -278,7 +278,7 @@ function Portal() {
                       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                     </svg>
                   </span>
-                  <span className="text-[12px] tracking-[0.06em] text-[#111111]/60" style={inter}>
+                  <span className="text-[13px] tracking-[0.06em] text-[#111111]/60" style={inter}>
                     Credentials handled securely
                   </span>
                 </div>
@@ -290,10 +290,10 @@ function Portal() {
           <Reveal delay={0.08}>
             <div className="rounded-2xl border border-black/[0.06] bg-white p-7 shadow-[0_18px_50px_-24px_rgba(17,17,17,0.28)] md:p-8">
               <div className="flex items-center justify-between">
-                <p className="text-[10px] tracking-[0.28em] text-[#111111]/55 uppercase" style={mono}>
+                <p className="text-[13px] text-[#111111]/55 " style={mono}>
                   Sign in
                 </p>
-                <span className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] text-[#1e6b3c] uppercase" style={mono}>
+                <span className="flex items-center gap-1.5 text-[13px] text-[#1e6b3c] " style={mono}>
                   <span className="h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
                   Secure
                 </span>
@@ -304,7 +304,7 @@ function Portal() {
 
               <div className="mt-6 space-y-4">
                 <div>
-                  <label htmlFor="client-id" className="mb-1.5 block text-[12px] font-medium text-[#111111]/70" style={inter}>
+                  <label htmlFor="client-id" className="mb-1.5 block text-[13px] font-medium text-[#111111]/70" style={inter}>
                     Client ID
                   </label>
                   <input
@@ -319,7 +319,7 @@ function Portal() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="password" className="mb-1.5 block text-[12px] font-medium text-[#111111]/70" style={inter}>
+                  <label htmlFor="password" className="mb-1.5 block text-[13px] font-medium text-[#111111]/70" style={inter}>
                     Password
                   </label>
                   <input
@@ -337,7 +337,7 @@ function Portal() {
 
                 <button
                   onClick={login}
-                  className="w-full rounded-full bg-[#111111] px-6 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all outline-none hover:bg-[#1e6b3c] focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 focus-visible:ring-offset-2"
+                  className="w-full rounded-full bg-[#111111] px-6 py-4 text-[13px] font-bold text-white  transition-all outline-none hover:bg-[#1e6b3c] focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 focus-visible:ring-offset-2"
                   style={mono}
                 >
                   Sign in →
@@ -373,7 +373,7 @@ function Portal() {
 
               {/* ELSIAA bypass — quick in and out, no credentials */}
               <div className="mt-6 rounded-xl border border-dashed border-black/12 p-4">
-                <p className="text-[10px] tracking-[0.24em] text-[#111111]/50 uppercase" style={mono}>
+                <p className="text-[13px] text-[#111111]/50 " style={mono}>
                   ELSIAA bypass
                 </p>
                 <div className="mt-2.5 flex flex-wrap gap-2">
@@ -384,7 +384,7 @@ function Portal() {
                         setClientId(c.id);
                         setStep("dash");
                       }}
-                      className="rounded-full border border-black/12 px-4 py-2 text-[11px] font-medium outline-none transition-all hover:text-white focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/30"
+                      className="rounded-full border border-black/12 px-4 py-2 text-[13px] font-medium outline-none transition-all hover:text-white focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/30"
                       style={inter}
                       onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = c.accent; (e.currentTarget as HTMLButtonElement).style.borderColor = c.accent; }}
                       onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = ""; (e.currentTarget as HTMLButtonElement).style.borderColor = ""; }}
@@ -403,7 +403,7 @@ function Portal() {
       <section className="border-t border-black/[0.06] bg-[#F5F5F3]">
         <div className="mx-auto max-w-6xl px-6 py-20 md:py-24">
           <Reveal>
-            <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>
               What's inside
             </p>
             <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-[-0.03em] md:text-[38px]" style={inter}>
@@ -415,7 +415,7 @@ function Portal() {
             {INSIDE.map((t, i) => (
               <Reveal key={t.k} delay={0.05 * i}>
                 <div className="h-full rounded-2xl border border-black/[0.06] bg-white p-7">
-                  <p className="text-[11px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>
+                  <p className="text-[13px] text-[#111111]/40 " style={mono}>
                     {t.k}
                   </p>
                   <h3 className="mt-4 text-[17px] font-semibold tracking-[-0.01em]" style={inter}>
@@ -435,7 +435,7 @@ function Portal() {
       <section className="border-t border-black/[0.06] bg-white">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
           <Reveal>
-            <p className="text-[10px] tracking-[0.32em] text-[#111111]/45 uppercase" style={mono}>
+            <p className="text-[13px] text-[#111111]/45 " style={mono}>
               Security posture
             </p>
           </Reveal>
@@ -474,7 +474,7 @@ function Portal() {
           <Reveal delay={0.05}>
             <a
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-black/15 px-6 py-3 text-[11px] font-bold tracking-[0.2em] uppercase outline-none transition-all hover:border-[#111111] hover:bg-[#111111] hover:text-white focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 focus-visible:ring-offset-2"
+              className="inline-flex items-center gap-2 rounded-full border border-black/15 px-6 py-3 text-[13px] font-bold  outline-none transition-all hover:border-[#111111] hover:bg-[#111111] hover:text-white focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 focus-visible:ring-offset-2"
               style={mono}
             >
               Contact your ELSIAA lead →
@@ -505,14 +505,14 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
               <p className="text-[14px] font-semibold leading-tight" style={inter}>
                 {c.company}
               </p>
-              <p className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
+              <p className="text-[13px] text-[#111111]/55 " style={mono}>
                 ELSIAA client portal
               </p>
             </div>
           </a>
           <button
             onClick={onOut}
-            className="rounded-full border border-black/15 px-5 py-2.5 text-[10px] font-bold tracking-[0.2em] uppercase transition-all hover:border-[#111111] hover:bg-[#111111] hover:text-white"
+            className="rounded-full border border-black/15 px-5 py-2.5 text-[13px] font-bold  transition-all hover:border-[#111111] hover:bg-[#111111] hover:text-white"
             style={mono}
           >
             Sign out
@@ -532,7 +532,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
         {/* balance + projects */}
         <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-black/[0.07] p-6" style={{ background: c.accentSoft }}>
-            <p className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
+            <p className="text-[13px] text-[#111111]/55 " style={mono}>
               Current balance
             </p>
             <p className="mt-2 text-4xl font-semibold tracking-[-0.03em]" style={{ ...inter, color: due ? "#E53E3E" : c.accent }}>
@@ -544,7 +544,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
             {due && (
               <a
                 href={`mailto:info@elsiaa.com?subject=${encodeURIComponent(`Payment — ${c.company}`)}`}
-                className="mt-4 inline-block rounded-full px-5 py-2.5 text-[10px] font-bold tracking-[0.2em] text-white uppercase"
+                className="mt-4 inline-block rounded-full px-5 py-2.5 text-[13px] font-bold text-white "
                 style={{ ...mono, background: c.accent }}
               >
                 Settle balance →
@@ -553,7 +553,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
           </div>
           {c.projects.map((p) => (
             <div key={p.name} className="rounded-2xl border border-black/[0.07] bg-white p-6">
-              <p className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
+              <p className="text-[13px] text-[#111111]/55 " style={mono}>
                 Active project
               </p>
               <p className="mt-2 text-[16px] font-semibold" style={inter}>
@@ -563,7 +563,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
               <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-black/[0.06]">
                 <div className="h-full rounded-full transition-all" style={{ width: `${p.pct}%`, background: c.accent }} />
               </div>
-              <p className="mt-1.5 text-right text-[11px] text-[#111111]/55" style={mono}>
+              <p className="mt-1.5 text-right text-[13px] text-[#111111]/55" style={mono}>
                 {p.pct}%
               </p>
             </div>
@@ -572,7 +572,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
 
         {/* purchase history */}
         <section className="mt-10">
-          <h2 className="text-[11px] tracking-[0.28em] text-[#111111]/55 uppercase" style={mono}>
+          <h2 className="text-[13px] text-[#111111]/55 " style={mono}>
             Purchase history
           </h2>
           <div className="mt-3 overflow-hidden rounded-2xl border border-black/[0.07]">
@@ -594,7 +594,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
                     {p.amount}
                   </span>
                   <span
-                    className="rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.16em] uppercase"
+                    className="rounded-full px-3 py-1 text-[13px] font-bold "
                     style={{
                       ...mono,
                       color: p.status === "Due" ? "#E53E3E" : c.accent,
@@ -611,7 +611,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
 
         {/* contracts */}
         <section className="mt-10">
-          <h2 className="text-[11px] tracking-[0.28em] text-[#111111]/55 uppercase" style={mono}>
+          <h2 className="text-[13px] text-[#111111]/55 " style={mono}>
             Contracts & documents
           </h2>
           <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -657,7 +657,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
             </div>
             <a
               href={`mailto:info@elsiaa.com?subject=${encodeURIComponent(`Portal — ${c.company}`)}`}
-              className="rounded-full px-6 py-3.5 text-[10px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:opacity-85"
+              className="rounded-full px-6 py-3.5 text-[13px] font-bold text-white  transition-all hover:opacity-85"
               style={{ ...mono, background: c.accent }}
             >
               Message us →
@@ -665,7 +665,7 @@ function Dashboard({ c, onOut }: { c: Client; onOut: () => void }) {
           </div>
         </section>
 
-        <p className="mt-12 pb-8 text-center text-[11px] tracking-[0.2em] text-[#111111]/50 uppercase" style={mono}>
+        <p className="mt-12 pb-8 text-center text-[13px] text-[#111111]/50 " style={mono}>
           בעזרת ה׳ נעשה ונצליח
         </p>
       </div>

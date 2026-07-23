@@ -61,7 +61,7 @@ function CompareLabel({ side, children }: { side: 'left' | 'right', children: Re
         side === 'left' ? 'left-3' : 'right-3',
       )}
     >
-      <Typography as="span" variant="caption-xs-medium" color="primary" className="uppercase">
+      <Typography as="span" variant="caption-xs-medium" color="primary" className="">
         {children}
       </Typography>
     </span>

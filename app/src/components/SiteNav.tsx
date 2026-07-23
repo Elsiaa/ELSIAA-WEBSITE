@@ -89,7 +89,7 @@ export function SiteNav() {
               className="h-9 w-9 object-contain"
             />
             <span
-              className="text-[15px] font-semibold tracking-[0.3em] text-[#111111]"
+              className="text-[15px] font-semibold text-[#111111]"
               style={{ fontFamily: SANS }}
             >
               ELSIAA
@@ -213,7 +213,7 @@ export function SiteNav() {
               }}
             >
               <div className="border-t border-black/[0.08] pt-5">
-                <p className="text-[12px] font-medium text-[#111111]/45">Clients</p>
+                <p className="text-[13px] font-medium text-[#111111]/45">Clients</p>
                 <a
                   href="/clients"
                   onClick={() => setOpen(false)}
@@ -222,7 +222,7 @@ export function SiteNav() {
                   <span className="text-[15px] font-medium text-[#111111]/85 transition-colors group-hover:text-[#111111]">
                     New client — start here
                   </span>
-                  <span className="text-[12px] font-medium" style={{ color: GOLD }}>The process →</span>
+                  <span className="text-[13px] font-medium" style={{ color: GOLD }}>The process →</span>
                 </a>
                 <a
                   href="/portal"
@@ -232,11 +232,11 @@ export function SiteNav() {
                   <span className="text-[15px] font-medium text-[#111111]/85 transition-colors group-hover:text-[#111111]">
                     Existing client — Client Portal
                   </span>
-                  <span className="text-[12px] font-medium" style={{ color: GOLD }}>Sign in →</span>
+                  <span className="text-[13px] font-medium" style={{ color: GOLD }}>Sign in →</span>
                 </a>
               </div>
               <div className="border-t border-black/[0.08] pt-5">
-                <p className="text-[12px] font-medium text-[#111111]/45">Direct</p>
+                <p className="text-[13px] font-medium text-[#111111]/45">Direct</p>
                 <a
                   href="mailto:info@elsiaa.com"
                   className="mt-3 block text-[17px] font-medium text-[#111111] transition-colors"
@@ -255,7 +255,7 @@ export function SiteNav() {
                 </a>
               </div>
               <div className="border-t border-black/[0.08] pt-5">
-                <p className="text-[12px] font-medium text-[#111111]/45">Offices</p>
+                <p className="text-[13px] font-medium text-[#111111]/45">Offices</p>
                 <p className="mt-3 text-[13px] leading-relaxed text-[#111111]/60">
                   New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv
                 </p>
@@ -285,10 +285,10 @@ export function SiteNav() {
             className="mt-4 flex items-center justify-between border-t border-black/[0.08] pt-4"
             style={{ opacity: open ? 1 : 0, transition: "opacity .5s ease .5s" }}
           >
-            <p className="text-[12px] text-[#111111]/50">Elsiaa</p>
+            <p className="text-[13px] text-[#111111]/50">Elsiaa</p>
             <p
               title="With God's help we shall do and succeed."
-              className="cursor-help text-[12px] text-[#111111]/50"
+              className="cursor-help text-[13px] text-[#111111]/50"
             >
               בעזרת ה׳ נעשה ונצליח
             </p>
@@ -339,7 +339,7 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
               className={`flex items-center justify-between px-5 py-3 text-[14px] text-[#111111]/80 transition-colors hover:bg-black/[0.03] hover:text-[#111111] ${i > 0 ? "border-t border-black/[0.05]" : ""}`}
             >
               <span>{e.label}</span>
-              <span className="text-[11px] text-[#111111]/40">{e.group}</span>
+              <span className="text-[13px] text-[#111111]/40">{e.group}</span>
             </a>
           ))}
         </div>

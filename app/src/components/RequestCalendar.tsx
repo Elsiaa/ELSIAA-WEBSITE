@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from "react";
   the request lands in the ELSIAA backend, and we confirm by email.
 */
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 const HOURS = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00"];
@@ -106,7 +106,7 @@ export function RequestCalendar() {
     const d = days.find((x) => x.iso === picked.date);
     return (
       <div className="rounded-2xl border border-black/[0.07] bg-white p-8 md:p-10">
-        <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+        <p className="text-[13px] text-[#1e6b3c] " style={mono}>
           Request sent
         </p>
         <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]" style={inter}>
@@ -135,7 +135,7 @@ export function RequestCalendar() {
                 : "border-black/[0.08] bg-white text-[#111111]/70 hover:border-[#1e6b3c]/40"
             }`}
           >
-            <span className="text-[10px] tracking-[0.14em] uppercase opacity-70" style={mono}>{d.dow}</span>
+            <span className="text-[13px]  opacity-70" style={mono}>{d.dow}</span>
             <span className="mt-1 text-[13px] font-semibold" style={inter}>{d.label}</span>
           </button>
         ))}
@@ -143,7 +143,7 @@ export function RequestCalendar() {
 
       {day && (
         <>
-          <p className="mt-5 text-[12px] text-[#111111]/55" style={mono}>
+          <p className="mt-5 text-[13px] text-[#111111]/55" style={mono}>
             {openCount === 0
               ? "Fully booked — try another day."
               : `${openCount} opening${openCount === 1 ? "" : "s"} left on ${day.dow} ${day.label}`}
@@ -181,7 +181,7 @@ export function RequestCalendar() {
 
       {picked && (
         <div className="mt-6 border-t border-black/[0.06] pt-6">
-          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
             Request {picked.time} · {days.find((d) => d.iso === picked.date)?.label}
           </p>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
@@ -194,7 +194,7 @@ export function RequestCalendar() {
           <button
             onClick={submit}
             disabled={sending || !name.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)}
-            className="mt-4 rounded-full bg-[#1e6b3c] px-8 py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all enabled:hover:bg-[#175530] disabled:opacity-30"
+            className="mt-4 rounded-full bg-[#1e6b3c] px-8 py-3.5 text-[13px] font-bold text-white  transition-all enabled:hover:bg-[#175530] disabled:opacity-30"
             style={mono}
           >
             {sending ? "Sending…" : "Request this slot"}

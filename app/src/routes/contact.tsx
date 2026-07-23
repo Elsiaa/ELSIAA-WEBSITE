@@ -20,9 +20,9 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-const eyebrow = "text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase";
+const eyebrow = "text-[13px] text-[#1e6b3c] ";
 
 const STEPS: Array<[string, string, string]> = [
   ["01", "Free 20-min call", "We understand the problem."],
@@ -52,7 +52,7 @@ function ContactPage() {
           <p className="mt-2 max-w-xl text-[15px] text-[#111111]/45" style={inter}>
             Tell us your business — we integrate the AI that runs it.
           </p>
-          <p className="mt-6 text-[10px] tracking-[0.22em] text-[#111111]/45 uppercase" style={mono}>
+          <p className="mt-6 text-[13px] text-[#111111]/45 " style={mono}>
             <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
             <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
             <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
@@ -61,10 +61,10 @@ function ContactPage() {
             <b className="font-semibold text-[#1e6b3c]">A</b>lliance
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a href="#book" className="inline-flex items-center justify-center rounded-full bg-[#1e6b3c] px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-[#111111]" style={mono}>
+            <a href="#book" className="inline-flex items-center justify-center rounded-full bg-[#1e6b3c] px-8 py-4 text-[13px] font-bold text-white  transition-all hover:bg-[#111111]" style={mono}>
               Book a free 20-min call
             </a>
-            <a href="#message" className="inline-flex items-center justify-center rounded-full border border-[#111111]/20 px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-[#111111] uppercase transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]" style={mono}>
+            <a href="#message" className="inline-flex items-center justify-center rounded-full border border-[#111111]/20 px-8 py-4 text-[13px] font-bold text-[#111111]  transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]" style={mono}>
               Send us a message
             </a>
           </div>
@@ -101,7 +101,7 @@ function ContactPage() {
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[10px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Email</span>
+                  <span className="block text-[13px] text-[#111111]/45 " style={mono}>Email</span>
                   <span className="mt-1 block text-[17px] font-semibold tracking-[-0.01em] text-[#111111] group-hover:text-[#1e6b3c]" style={inter}>info@elsiaa.com</span>
                   <span className="mt-0.5 block text-[13px] text-[#111111]/55" style={inter}>Or email us directly at info@elsiaa.com.</span>
                 </span>
@@ -114,7 +114,7 @@ function ContactPage() {
                   <PhoneMark />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[10px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>By phone</span>
+                  <span className="block text-[13px] text-[#111111]/45 " style={mono}>By phone</span>
                   <span className="mt-1 block text-[17px] font-semibold tracking-[-0.01em] text-[#111111] group-hover:text-[#1e6b3c]" style={inter}>Book a call, we'll ring you</span>
                   <span className="mt-0.5 block text-[13px] text-[#111111]/55" style={inter}>Pick a time below and we'll call at the number you share.</span>
                 </span>
@@ -152,7 +152,7 @@ function ContactPage() {
             {STEPS.map(([n, t, d], i) => (
               <Reveal key={n} delay={i * 0.05}>
                 <li className="border-t border-black/10 pt-4">
-                  <span className="text-[11px] font-semibold tracking-[0.24em] text-[#1e6b3c]" style={mono}>{n}</span>
+                  <span className="text-[13px] font-semibold text-[#1e6b3c]" style={mono}>{n}</span>
                   <h3 className="mt-2 text-[16px] font-semibold tracking-[-0.01em]" style={inter}>{t}</h3>
                   <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#111111]/55" style={inter}>{d}</p>
                 </li>
@@ -165,7 +165,7 @@ function ContactPage() {
       {/* 6 · Offices */}
       <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 md:py-20">
         <div className="mx-auto max-w-5xl">
-          <p className="text-[10px] tracking-[0.28em] text-[#111111]/45 uppercase" style={mono}>Offices</p>
+          <p className="text-[13px] text-[#111111]/45 " style={mono}>Offices</p>
           <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-lg font-medium tracking-[-0.01em] text-[#111111] md:text-xl" style={inter}>
             {OFFICES.map((o, i) => (
               <span key={o} className="flex items-center gap-3">
@@ -293,7 +293,7 @@ function MessageForm() {
       {error && <p className="mt-4 text-[13px] text-red-600" style={inter} role="alert">{error}</p>}
 
       <button type="submit" disabled={sending || !name.trim() || !emailValid}
-        className="mt-6 min-h-[48px] w-full rounded-full bg-[#1e6b3c] px-8 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all outline-none focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 enabled:hover:bg-[#111111] disabled:opacity-30 sm:w-auto"
+        className="mt-6 min-h-[48px] w-full rounded-full bg-[#1e6b3c] px-8 text-[13px] font-bold text-white  transition-all outline-none focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 enabled:hover:bg-[#111111] disabled:opacity-30 sm:w-auto"
         style={mono}>
         {sending ? "Sending…" : "Send message"}
       </button>
@@ -397,7 +397,7 @@ function BookingCalendar() {
     <div className="overflow-hidden rounded-2xl border border-black/[0.07] bg-white shadow-[0_1px_30px_-12px_rgba(0,0,0,0.12)]">
       <div className="flex items-center justify-between gap-4 border-b border-black/[0.06] px-6 py-4 md:px-8">
         <p className={eyebrow} style={mono}>Free intro call · 20 min</p>
-        <p className="text-[11px] tracking-[0.14em] text-[#111111]/45 uppercase" style={mono}>{picked ? "Step 2 · Details" : "Step 1 · Time"}</p>
+        <p className="text-[13px] text-[#111111]/45 " style={mono}>{picked ? "Step 2 · Details" : "Step 1 · Time"}</p>
       </div>
 
       <div className="p-6 md:p-8">
@@ -408,7 +408,7 @@ function BookingCalendar() {
             return (
               <button key={d.iso} role="tab" aria-selected={on} aria-label={`${d.dow} ${d.label}`} onClick={() => selectDay(i)}
                 className={`flex min-h-[64px] w-[60px] flex-none flex-col items-center justify-center rounded-xl border transition-all outline-none focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 ${on ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/[0.08] bg-white text-[#111111]/70 hover:border-[#1e6b3c]/40"}`}>
-                <span className="text-[10px] tracking-[0.12em] uppercase opacity-70" style={mono}>{d.dow}</span>
+                <span className="text-[13px] tracking-[0.12em]  opacity-70" style={mono}>{d.dow}</span>
                 <span className="mt-1 text-[17px] font-semibold leading-none" style={inter}>{d.num}</span>
               </button>
             );
@@ -419,7 +419,7 @@ function BookingCalendar() {
           <>
             <div className="mt-5 flex items-center gap-2">
               <span className={`inline-block h-1.5 w-1.5 rounded-full ${openCount === 0 ? "bg-[#111111]/25" : "bg-[#1e6b3c]"}`} />
-              <p className="text-[12px] text-[#111111]/55" style={mono}>
+              <p className="text-[13px] text-[#111111]/55" style={mono}>
                 {openCount === 0 ? "Fully booked — try another day" : `${openCount} opening${openCount === 1 ? "" : "s"} on ${day.dow} ${day.label}`}
               </p>
             </div>
@@ -473,11 +473,11 @@ function BookingCalendar() {
             {error && <p className="mt-3 text-[13px] text-red-600" style={inter} role="alert">{error}</p>}
 
             <button type="submit" disabled={sending || !name.trim() || !emailValid}
-              className="mt-5 min-h-[48px] w-full rounded-full bg-[#1e6b3c] px-8 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all outline-none focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 enabled:hover:bg-[#111111] disabled:opacity-30 md:w-auto"
+              className="mt-5 min-h-[48px] w-full rounded-full bg-[#1e6b3c] px-8 text-[13px] font-bold text-white  transition-all outline-none focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 enabled:hover:bg-[#111111] disabled:opacity-30 md:w-auto"
               style={mono}>
               {sending ? "Sending…" : "Request this slot"}
             </button>
-            <p className="mt-3 text-[12px] text-[#111111]/45" style={inter}>We'll confirm by email — no charge, no obligation.</p>
+            <p className="mt-3 text-[13px] text-[#111111]/45" style={inter}>We'll confirm by email — no charge, no obligation.</p>
           </form>
         )}
       </div>

@@ -91,7 +91,7 @@ function LazyFrame({
         aria-label={`Load ${title}`}
       >
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-white">▶</span>
-        <span className="text-[11px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+        <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif" }}>
           Tap to explore live
         </span>
       </button>
@@ -120,8 +120,8 @@ function LazyFrame({
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-[#ECECEA]">
           <span
-            className="text-[10px] tracking-[0.3em] text-black/50 uppercase"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="text-[13px] text-black/50 "
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Loading live site…
           </span>
@@ -139,14 +139,14 @@ function DialogNewPreview() {
         <span className="text-lg font-bold tracking-tight text-[#111111]">
           Dialog<span className="text-[#111111]/55"> Healthcare</span>
         </span>
-        <span className="rounded-full bg-[#1e6b3c] px-5 py-2 text-[10px] font-semibold tracking-[0.18em] text-white uppercase">
+        <span className="rounded-full bg-[#1e6b3c] px-5 py-2 text-[13px] font-semibold text-white ">
           Request staff
         </span>
       </div>
       <div className="flex flex-1 flex-col justify-center px-8">
         <p
-          className="text-[10px] tracking-[0.3em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="text-[13px] text-[#1e6b3c] "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Healthcare staffing
         </p>
@@ -171,14 +171,14 @@ function DialogNewPreview() {
       </div>
       <div className="flex items-center justify-between border-t border-black/5 px-8 py-4">
         <span
-          className="text-[10px] tracking-[0.26em] text-black/50 uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="text-[13px] text-black/50 "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           New site · in production
         </span>
         <span
-          className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[10px] font-bold tracking-[0.22em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[13px] font-bold text-[#1e6b3c] "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           ELSIAA
         </span>
@@ -247,14 +247,14 @@ function CompareSlider() {
             </div>
           </div>
           <span
-            className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-full bg-[#1e6b3c] px-3 py-1 text-[10px] font-bold tracking-[0.2em] text-white uppercase"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-full bg-[#1e6b3c] px-3 py-1 text-[13px] font-bold text-white "
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             ELSIAA — in production
           </span>
           <span
-            className="pointer-events-none absolute right-3 bottom-3 z-10 rounded-full bg-black/55 px-3 py-1 text-[10px] font-bold tracking-[0.2em] text-white/85 uppercase backdrop-blur"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="pointer-events-none absolute right-3 bottom-3 z-10 rounded-full bg-black/55 px-3 py-1 text-[13px] font-bold text-white/85  backdrop-blur"
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Their site today
           </span>
@@ -341,8 +341,8 @@ function Ticker() {
   const row = WORDS.map((w, i) => (
     <span key={i} className="flex items-center gap-8">
       <span
-        className="text-[12px] tracking-[0.32em] whitespace-nowrap text-[#111111]/55 uppercase"
-        style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+        className="text-[13px] whitespace-nowrap text-[#111111]/55 "
+        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         {w}
       </span>
@@ -379,10 +379,10 @@ function SideToggle({
           <button
             key={k}
             onClick={() => setSide(k)}
-            className={`rounded-full px-5 py-2 text-[10px] font-bold tracking-[0.2em] uppercase transition-all ${
+            className={`rounded-full px-5 py-2 text-[13px] font-bold  transition-all ${
               side === k ? (k === "after" ? "bg-[#1e6b3c] text-white" : "bg-[#111111] text-white") : "text-black/55"
             }`}
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             {k === "after" ? "After — ELSIAA" : "Before"}
           </button>
@@ -482,8 +482,8 @@ function DiscoverDesigns() {
                 href="https://primebins.com"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase underline-offset-4 hover:underline"
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                className="text-[13px] text-[#111111]/55  underline-offset-4 hover:underline"
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 Open ↗
               </a>
@@ -494,8 +494,8 @@ function DiscoverDesigns() {
                 <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
                 <span className="h-2 w-2 rounded-full bg-[#57A85C]" />
                 <span
-                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[10px] tracking-[0.08em] text-black/55"
-                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[13px] tracking-[0.08em] text-black/55"
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   primebins.com
                 </span>
@@ -512,7 +512,7 @@ function DiscoverDesigns() {
                 "Busy visuals working against the sale",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[10px] font-bold text-white">✕</span>
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[13px] font-bold text-white">✕</span>
                   {t}
                 </li>
               ))}
@@ -534,8 +534,8 @@ function DiscoverDesigns() {
                 href="/mr-bins/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase underline-offset-4 hover:underline"
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                className="text-[13px] text-[#1e6b3c]  underline-offset-4 hover:underline"
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 Open ↗
               </a>
@@ -546,8 +546,8 @@ function DiscoverDesigns() {
                 <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
                 <span className="h-2 w-2 rounded-full bg-[#57A85C]" />
                 <span
-                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[10px] tracking-[0.08em] text-black/55"
-                  style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                  className="mx-auto rounded-md bg-white px-4 py-0.5 text-[13px] tracking-[0.08em] text-black/55"
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   mr. bins — by ELSIAA
                 </span>
@@ -564,7 +564,7 @@ function DiscoverDesigns() {
                 "Premium restraint — design that earns trust",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[10px] font-bold text-white">✓</span>
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[13px] font-bold text-white">✓</span>
                   {t}
                 </li>
               ))}
@@ -610,10 +610,10 @@ function AfterApp({
   return (
     <div className="flex h-full flex-col bg-[#FBFBFA] pt-9" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
       <div className="flex items-center justify-between px-4 pb-2">
-        <span className="text-[12px] font-bold tracking-tight text-[#111111]">
+        <span className="text-[13px] font-bold tracking-tight text-[#111111]">
           Mitzva<span className="text-[#1e6b3c]">.</span>
         </span>
-        <span className="rounded-full bg-[#1e6b3c] px-2.5 py-1 text-[10px] font-bold tracking-[0.12em] text-white uppercase">
+        <span className="rounded-full bg-[#1e6b3c] px-2.5 py-1 text-[13px] font-bold tracking-[0.12em] text-white ">
           🔥 {streak}-day streak
         </span>
       </div>
@@ -633,9 +633,9 @@ function AfterApp({
                   done[i] ? "bg-[#1e6b3c] text-white" : "bg-white text-[#111111]"
                 }`}
               >
-                <span className="text-[11px] font-semibold">{m}</span>
+                <span className="text-[13px] font-semibold">{m}</span>
                 <span
-                  className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
+                  className={`flex h-5 w-5 items-center justify-center rounded-full text-[13px] font-bold ${
                     done[i] ? "bg-white text-[#1e6b3c]" : "border border-black/15 text-transparent"
                   }`}
                 >
@@ -660,7 +660,7 @@ function AfterApp({
               </svg>
               <div>
                 <p className="text-[13px] font-semibold text-[#111111]">{doneCount} of 3</p>
-                <p className="text-[10px] text-black/55">
+                <p className="text-[13px] text-black/55">
                   {doneCount === 3 ? "Day complete — streak grows" : "Finish the day, feed the streak"}
                 </p>
               </div>
@@ -677,15 +677,15 @@ function AfterApp({
                     className={`w-full rounded-t-sm transition-all duration-500 ${v === 3 ? "bg-[#1e6b3c]" : "bg-[#1e6b3c]/30"}`}
                     style={{ height: 14 + v * 12 }}
                   />
-                  <span className="text-[10px] tracking-wide text-black/55 uppercase">
+                  <span className="text-[13px] tracking-wide text-black/55 ">
                     {["S", "M", "T", "W", "T", "F", "S"][i]}
                   </span>
                 </div>
               ))}
             </div>
             <div className="rounded-xl bg-white p-3 shadow-sm">
-              <p className="text-[10px] font-semibold text-[#111111]">{15 + doneCount} of 21 this week</p>
-              <p className="mt-0.5 text-[10px] text-black/55">Best week this month</p>
+              <p className="text-[13px] font-semibold text-[#111111]">{15 + doneCount} of 21 this week</p>
+              <p className="mt-0.5 text-[13px] text-black/55">Best week this month</p>
             </div>
           </div>
         )}
@@ -693,8 +693,8 @@ function AfterApp({
           <div className="space-y-2.5">
             <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]">Community</p>
             <div className="rounded-xl bg-[#111111] p-3.5 text-white">
-              <p className="text-[10px] tracking-[0.2em] uppercase opacity-60">Family circle</p>
-              <p className="mt-2 text-[12px] font-semibold">{245 + doneCount} mitzvot together</p>
+              <p className="text-[13px]  opacity-60">Family circle</p>
+              <p className="mt-2 text-[13px] font-semibold">{245 + doneCount} mitzvot together</p>
               <div className="mt-2 h-1.5 w-full rounded-full bg-white/20">
                 <div
                   className="h-full rounded-full bg-[#2e9e58] transition-all duration-500"
@@ -703,8 +703,8 @@ function AfterApp({
               </div>
             </div>
             <div className="rounded-xl bg-white p-3 shadow-sm">
-              <p className="text-[10px] font-semibold text-[#111111]">Abba is 2 ahead of you</p>
-              <p className="mt-0.5 text-[10px] text-black/55">Friendly competition, eternal rewards</p>
+              <p className="text-[13px] font-semibold text-[#111111]">Abba is 2 ahead of you</p>
+              <p className="mt-0.5 text-[13px] text-black/55">Friendly competition, eternal rewards</p>
             </div>
           </div>
         )}
@@ -714,7 +714,7 @@ function AfterApp({
           <button
             key={t}
             onClick={() => setTab(i)}
-            className={`flex-1 py-3 text-[10px] font-semibold tracking-[0.12em] uppercase transition-colors ${
+            className={`flex-1 py-3 text-[13px] font-semibold tracking-[0.12em]  transition-colors ${
               tab === i ? "text-[#1e6b3c]" : "text-black/50"
             }`}
           >
@@ -730,19 +730,19 @@ function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }
   return (
     <div className="flex h-full flex-col bg-[#e8e4d8] pt-9" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
       <div className="bg-[#3d3a33] px-3 py-2">
-        <p className="text-[11px] font-bold tracking-wide text-[#c9a227]">PSI CONSTRUCTION APP</p>
-        <p className="text-[10px] text-white/50">v1.0.2 — update required</p>
+        <p className="text-[13px] font-bold tracking-wide text-[#c9a227]">PSI CONSTRUCTION APP</p>
+        <p className="text-[13px] text-white/50">v1.0.2 — update required</p>
       </div>
       <div className="bg-[#c9a227] px-3 py-1.5">
-        <p className="text-[10px] font-bold text-[#3d3a33]">⚠️ CALL NOW FOR FREE ESTIMATE!!! ⚠️</p>
+        <p className="text-[13px] font-bold text-[#3d3a33]">⚠️ CALL NOW FOR FREE ESTIMATE!!! ⚠️</p>
       </div>
       <div className="flex-1 overflow-hidden px-3 pt-2">
         {tab === 0 && (
           <div className="space-y-1.5">
             {["Home", "About Us", "Our Services", "Photo Gallery", "Request Estimate", "Insurance Info", "Testimonials", "Service Areas", "Contact Us", "Terms of Use"].map((m) => (
               <div key={m} className="flex items-center justify-between border-b border-black/10 bg-white px-2.5 py-1.5">
-                <span className="text-[10px] text-[#3d3a33]">{m}</span>
-                <span className="text-[10px] text-black/50">›</span>
+                <span className="text-[13px] text-[#3d3a33]">{m}</span>
+                <span className="text-[13px] text-black/50">›</span>
               </div>
             ))}
           </div>
@@ -750,23 +750,23 @@ function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }
         {tab === 1 && (
           <div className="space-y-1.5">
             <div className="bg-white p-2">
-              <p className="text-[10px] leading-relaxed text-[#444]">
+              <p className="text-[13px] leading-relaxed text-[#444]">
                 Photos coming soon. Please check back later. For examples of our work
                 please visit our office or call during business hours (Mon-Fri 8-4)...
               </p>
             </div>
             <div className="bg-[#d6d0c0] p-2 text-center">
-              <p className="text-[10px] text-black/60">[ image failed to load ]</p>
+              <p className="text-[13px] text-black/60">[ image failed to load ]</p>
             </div>
             <div className="bg-[#d6d0c0] p-2 text-center">
-              <p className="text-[10px] text-black/60">[ image failed to load ]</p>
+              <p className="text-[13px] text-black/60">[ image failed to load ]</p>
             </div>
           </div>
         )}
         {tab === 2 && (
           <div className="bg-white p-2.5">
-            <p className="text-[10px] font-bold text-[#3d3a33]">REQUEST AN ESTIMATE</p>
-            <p className="mt-1 text-[10px] leading-relaxed text-black/60">
+            <p className="text-[13px] font-bold text-[#3d3a33]">REQUEST AN ESTIMATE</p>
+            <p className="mt-1 text-[13px] leading-relaxed text-black/60">
               Please fill out all 14 required fields. Estimates are processed within
               5-7 business days...
             </p>
@@ -781,7 +781,7 @@ function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }
           <button
             key={t}
             onClick={() => setTab(i)}
-            className={`flex-1 py-3 text-[10px] font-bold tracking-wide uppercase ${
+            className={`flex-1 py-3 text-[13px] font-bold tracking-wide  ${
               tab === i ? "text-[#c9a227]" : "text-white/50"
             }`}
           >
@@ -805,7 +805,7 @@ function StoreBadges() {
           <path d="M17.05 12.54c-.03-2.89 2.36-4.27 2.47-4.34-1.35-1.97-3.44-2.24-4.18-2.27-1.78-.18-3.47 1.05-4.37 1.05-.9 0-2.29-1.02-3.77-1-1.94.03-3.72 1.13-4.72 2.86-2.01 3.49-.51 8.66 1.45 11.49.96 1.39 2.1 2.94 3.6 2.88 1.44-.06 1.99-.93 3.73-.93s2.23.93 3.76.9c1.55-.03 2.53-1.41 3.48-2.8 1.1-1.61 1.55-3.17 1.57-3.25-.03-.02-3.01-1.16-3.02-4.59zM14.17 4.06c.8-.96 1.33-2.3 1.18-3.64-1.14.05-2.53.76-3.35 1.72-.73.85-1.38 2.21-1.2 3.52 1.27.1 2.58-.65 3.37-1.6z" />
         </svg>
         <span className="text-left leading-none">
-          <span className="block text-[10px] opacity-70">Download on the</span>
+          <span className="block text-[13px] opacity-70">Download on the</span>
           <span className="block text-[13px] font-semibold">App Store</span>
         </span>
       </a>
@@ -821,7 +821,7 @@ function StoreBadges() {
           <path d="m17.3 15.6-.6-.6L5.03 22.82c-.4.23-.83.24-1.13.08l13.4-7.3z" fill="#F63448" />
         </svg>
         <span className="text-left leading-none">
-          <span className="block text-[10px] opacity-70">Get it on</span>
+          <span className="block text-[13px] opacity-70">Get it on</span>
           <span className="block text-[13px] font-semibold">Google Play</span>
         </span>
       </a>
@@ -1007,8 +1007,8 @@ function DiscoverApps() {
             <p className="mt-4 text-center">
               <span
                 ref={mStatusRef}
-                className="text-[10px] tracking-[0.24em] text-[#1e6b3c] uppercase"
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                className="text-[13px] text-[#1e6b3c] "
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 Watching the Mitzva app demo itself…
               </span>
@@ -1020,7 +1020,7 @@ function DiscoverApps() {
                 "Design that makes the habit effortless",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[10px] font-bold text-white">✓</span>
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[13px] font-bold text-white">✓</span>
                   {t}
                 </li>
               ))}
@@ -1053,8 +1053,8 @@ function DiscoverApps() {
             <p className="mt-4 text-center">
               <span
                 ref={pStatusRef}
-                className="text-[10px] tracking-[0.24em] text-[#111111]/55 uppercase"
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                className="text-[13px] text-[#111111]/55 "
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 Watching the legacy app struggle…
               </span>
@@ -1066,7 +1066,7 @@ function DiscoverApps() {
                 "Broken galleries instead of a reason to trust",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[10px] font-bold text-white">✕</span>
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[13px] font-bold text-white">✕</span>
                   {t}
                 </li>
               ))}
@@ -1323,7 +1323,7 @@ function ProductAdFeature() {
               </div>
               <a
                 href="/quote"
-                className="group mt-8 inline-flex items-center gap-3 rounded-full border border-[#111111]/20 px-7 py-3 text-[11px] tracking-[0.26em] text-[#111111] uppercase transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+                className="group mt-8 inline-flex items-center gap-3 rounded-full border border-[#111111]/20 px-7 py-3 text-[13px] text-[#111111]  transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
                 style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 Stage my product
@@ -1400,8 +1400,8 @@ const CASES: Mini[] = [
     after: (
       <div className="h-full w-full bg-white p-3" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-bold tracking-tight text-[#111111]">Dialog<span className="text-[#111111]/55"> Healthcare</span></span>
-          <span className="rounded-full bg-[#1e6b3c] px-2.5 py-0.5 text-[10px] font-semibold tracking-[0.14em] text-white uppercase">Request staff</span>
+          <span className="text-[13px] font-bold tracking-tight text-[#111111]">Dialog<span className="text-[#111111]/55"> Healthcare</span></span>
+          <span className="rounded-full bg-[#1e6b3c] px-2.5 py-0.5 text-[13px] font-semibold text-white ">Request staff</span>
         </div>
         <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.035em] text-[#111111]">The right clinician.<br />Placed in days, not months.</p>
         <div className="mt-2 flex gap-1">{bar("w-16", "#111111", "h-4")}{bar("w-12", "#e8e8e6", "h-4")}</div>
@@ -1423,7 +1423,7 @@ const CASES: Mini[] = [
           <img src="/assets/psi_logo_v1.png" alt="" className="h-6 w-auto object-contain" />
           <div className="flex gap-2">
             {["Home", "Services", "Contact"].map((m) => (
-              <span key={m} className="text-[10px] text-black/60">{m}</span>
+              <span key={m} className="text-[13px] text-black/60">{m}</span>
             ))}
           </div>
         </div>
@@ -1431,7 +1431,7 @@ const CASES: Mini[] = [
           <img src="/assets/psi_hero_v1.jpg" alt="PSI Construction original homepage" className="h-full w-full object-cover" />
         </div>
         <div className="px-3 pt-2 text-center">
-          <p className="text-[10px] font-bold tracking-wide text-[#2b2b2b]">Our Services</p>
+          <p className="text-[13px] font-bold tracking-wide text-[#2b2b2b]">Our Services</p>
           <div className="mx-auto mt-1.5 flex justify-center gap-1.5">
             <div className="h-6 w-1/4 rounded-sm bg-[#e8e4dc]" />
             <div className="h-6 w-1/4 rounded-sm bg-[#e8e4dc]" />
@@ -1443,8 +1443,8 @@ const CASES: Mini[] = [
     after: (
       <div className="h-full w-full bg-[#15140f] p-3 text-white" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-bold tracking-[0.2em] uppercase">PSI<span className="text-[#d9a441]"> Construction</span></span>
-          <span className="rounded-full border border-white/25 px-2.5 py-0.5 text-[10px] font-semibold tracking-[0.14em] uppercase">Get a bid</span>
+          <span className="text-[13px] font-bold ">PSI<span className="text-[#d9a441]"> Construction</span></span>
+          <span className="rounded-full border border-white/25 px-2.5 py-0.5 text-[13px] font-semibold ">Get a bid</span>
         </div>
         <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.035em]">Built to outlast<br />the blueprint.</p>
         <div className="mt-2.5 grid grid-cols-3 gap-1.5">
@@ -1475,10 +1475,10 @@ const CASES: Mini[] = [
     after: (
       <div className="h-full w-full bg-[#FBFAF7] p-3" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-semibold tracking-[0.12em] text-[#14140f]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "11px" }}>
+          <span className="text-[13px] font-semibold tracking-[0.12em] text-[#14140f]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "11px" }}>
             Michael Elbaz Law
           </span>
-          <span className="rounded-full bg-[#14140f] px-2.5 py-0.5 text-[10px] font-semibold tracking-[0.14em] text-white uppercase">Consultation</span>
+          <span className="rounded-full bg-[#14140f] px-2.5 py-0.5 text-[13px] font-semibold text-white ">Consultation</span>
         </div>
         <p className="mt-3 text-[13px] leading-snug text-[#14140f]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "15px" }}>
           Clarity, in your corner.
@@ -1517,8 +1517,8 @@ function Transformations() {
                 <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-black/[0.07] bg-white shadow-[0_18px_44px_-28px_rgba(17,17,17,0.3)]">
                   {c.after}
                   <span
-                    className="absolute top-2.5 right-2.5 rounded-sm bg-[#1e6b3c] px-2.5 py-1 text-[10px] font-bold tracking-[0.22em] text-white uppercase"
-                    style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                    className="absolute top-2.5 right-2.5 rounded-sm bg-[#1e6b3c] px-2.5 py-1 text-[13px] font-bold text-white "
+                    style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                   >
                     After — ELSIAA
                   </span>
@@ -1526,8 +1526,8 @@ function Transformations() {
                   <div className="absolute bottom-2.5 left-2.5 w-[38%] overflow-hidden rounded-md border-2 border-white shadow-[0_14px_34px_-10px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:scale-[1.9] group-hover:origin-bottom-left">
                     <div className="aspect-[4/3]">{c.before}</div>
                     <span
-                      className="absolute top-1 left-1 rounded-sm bg-black/65 px-1.5 py-0.5 text-[10px] font-bold tracking-[0.16em] text-white uppercase"
-                      style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                      className="absolute top-1 left-1 rounded-sm bg-black/65 px-1.5 py-0.5 text-[13px] font-bold text-white "
+                      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                     >
                       Before
                     </span>
@@ -1541,8 +1541,8 @@ function Transformations() {
                     href={c.link ?? "/contact"}
                     target={c.link ? "_blank" : undefined}
                     rel={c.link ? "noreferrer" : undefined}
-                    className="text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase transition-colors hover:text-[#2e9e58]"
-                    style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                    className="text-[13px] text-[#1e6b3c]  transition-colors hover:text-[#2e9e58]"
+                    style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                   >
                     {c.link ? "View original ↗" : "View case study →"}
                   </a>
@@ -1712,8 +1712,8 @@ function BeyondWebsites() {
             className="group flex w-[280px] flex-none flex-col rounded-2xl border border-black/[0.06] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_24px_60px_-30px_rgba(30,107,60,0.35)]"
           >
             <span
-              className="text-[10px] tracking-[0.3em] text-[#1e6b3c]"
-              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+              className="text-[13px] text-[#1e6b3c]"
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               {String((i % APPS.length) + 1).padStart(2, "0")}
             </span>
@@ -1751,8 +1751,8 @@ function OurProcess() {
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="text-[13px] text-[#1e6b3c] "
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             The ELSIAA process
           </p>
@@ -1779,8 +1779,8 @@ function OurProcess() {
                     {t}
                   </h3>
                   <span
-                    className="text-[11px] tracking-[0.3em] text-[#1e6b3c]"
-                    style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                    className="text-[13px] text-[#1e6b3c]"
+                    style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                   >
                     {n}
                   </span>
@@ -1870,7 +1870,7 @@ function FinalCTA() {
     <section className="bg-[#070907] px-6 py-32 text-center text-[#F5F5F3]">
       <Reveal>
         <p
-          className="text-[11px] tracking-[0.42em] text-[#2e9e58] uppercase"
+          className="text-[13px] text-[#2e9e58] "
           style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           ELSIAA
@@ -1883,7 +1883,7 @@ function FinalCTA() {
         </h2>
         <a
           href="/contact"
-          className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-9 py-3.5 text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
+          className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-9 py-3.5 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
           style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Book a strategy call

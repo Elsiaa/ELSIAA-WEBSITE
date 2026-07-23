@@ -60,7 +60,7 @@ export type MediaCardProps = Omit<ComponentPropsWithRef<'div'>, 'title'> & {
   media?: ReactNode
   /** Bottom title. Any node. */
   title?: ReactNode
-  /** Title style: gallery `body` (default) or uppercase `accent` cover. */
+  /** Title style: gallery `body` (default) or  `accent` cover. */
   titleVariant?: MediaCardTitleVariant
   /** Dark gradient behind the title (default true; covers pass false). */
   scrim?: boolean

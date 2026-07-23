@@ -157,7 +157,7 @@ function Services() {
     }
   };
 
-  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+  const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   const inputCls =
     "w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50";
@@ -169,7 +169,7 @@ function Services() {
       {/* hero */}
       <section className="flex min-h-[52svh] flex-col items-center justify-center bg-white px-6 pt-28 pb-14 text-center">
         <Reveal>
-          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
             ELSIAA Services
           </p>
           <h1
@@ -186,14 +186,14 @@ function Services() {
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={jumpToForm}
-              className="rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111]"
+              className="rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[13px] font-bold text-white  transition-all hover:bg-[#111111]"
               style={mono}
             >
               Contact us by service ↓
             </button>
             <a
               href="/quote"
-              className="rounded-full border border-[#111111]/15 px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-[#111111] uppercase transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+              className="rounded-full border border-[#111111]/15 px-7 py-3.5 text-[13px] font-bold text-[#111111]  transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
               style={mono}
             >
               Full quote builder →
@@ -206,7 +206,7 @@ function Services() {
       <section className="border-t border-black/[0.06] bg-white px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <Reveal>
-            <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>
               The Solutions
             </p>
             <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl" style={inter}>
@@ -258,7 +258,7 @@ function Services() {
                 </p>
                 <button
                   onClick={jumpToForm}
-                  className="rounded-full bg-[#1e6b3c] px-6 py-3 text-[10.5px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-[#111111]"
+                  className="rounded-full bg-[#1e6b3c] px-6 py-3 text-[10.5px] font-bold text-white  transition-all hover:bg-[#111111]"
                   style={mono}
                 >
                   Contact us about these →
@@ -273,7 +273,7 @@ function Services() {
       <section ref={formRef} className="border-t border-black/[0.06] bg-[#F7F7F5] px-6 py-20">
         <div className="mx-auto max-w-3xl">
           <Reveal>
-            <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>
               Contact by Service
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
@@ -295,7 +295,7 @@ function Services() {
           ) : (
             <div className="mt-8 rounded-2xl border border-black/[0.07] bg-white p-6 md:p-8">
               <div>
-                <p className="text-[11px] tracking-[0.24em] text-[#111111]/55 uppercase" style={mono}>
+                <p className="text-[13px] text-[#111111]/55 " style={mono}>
                   Selected services {selected.length > 0 ? `· ${selected.length}/6` : ""}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -336,7 +336,7 @@ function Services() {
               <button
                 onClick={submit}
                 disabled={sending}
-                className="mt-5 w-full rounded-full bg-[#1e6b3c] px-6 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111] disabled:opacity-50"
+                className="mt-5 w-full rounded-full bg-[#1e6b3c] px-6 py-4 text-[13px] font-bold text-white  transition-all hover:bg-[#111111] disabled:opacity-50"
                 style={mono}
               >
                 {sending ? "Sending…" : "Send the inquiry →"}
@@ -353,7 +353,7 @@ function Services() {
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <Reveal>
-            <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>
               Service Packages
             </p>
             <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl" style={inter}>
@@ -369,11 +369,11 @@ function Services() {
                     : "border-black/[0.07] bg-white hover:border-[#1e6b3c]/40 hover:shadow-[0_24px_60px_-30px_rgba(17,17,17,0.3)]"
                 }`}>
                   <div className="flex items-baseline justify-between">
-                    <p className={`text-[10px] tracking-[0.28em] uppercase ${pd.popular ? "text-[#2e9e58]" : "text-[#1e6b3c]"}`} style={mono}>
+                    <p className={`text-[13px]  ${pd.popular ? "text-[#2e9e58]" : "text-[#1e6b3c]"}`} style={mono}>
                       {pd.num}
                     </p>
                     {pd.popular && (
-                      <span className="rounded-full bg-[#2e9e58] px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] text-white uppercase" style={mono}>
+                      <span className="rounded-full bg-[#2e9e58] px-2.5 py-1 text-[13px] font-bold text-white " style={mono}>
                         Most popular
                       </span>
                     )}
@@ -388,12 +388,12 @@ function Services() {
                     <p className={`text-[14px] font-semibold ${pd.popular ? "text-white" : "text-[#111111]"}`} style={mono}>
                       {pd.price}
                     </p>
-                    <p className={`mt-1 text-[12px] ${pd.popular ? "text-[#2e9e58]" : "text-[#1e6b3c]"}`} style={inter}>
+                    <p className={`mt-1 text-[13px] ${pd.popular ? "text-[#2e9e58]" : "text-[#1e6b3c]"}`} style={inter}>
                       {pd.outcome}
                     </p>
                     <button
                       onClick={jumpToForm}
-                      className={`mt-4 w-full rounded-full px-4 py-3 text-[10.5px] font-bold tracking-[0.18em] uppercase transition-all ${
+                      className={`mt-4 w-full rounded-full px-4 py-3 text-[10.5px] font-bold  transition-all ${
                         pd.popular
                           ? "bg-[#2e9e58] text-white hover:bg-white hover:text-[#111111]"
                           : "border border-[#111111]/20 text-[#111111] hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
@@ -422,7 +422,7 @@ function Services() {
           </p>
           <a
             href="/contact"
-            className="mt-8 inline-block rounded-full bg-[#2e9e58] px-10 py-5 text-[13px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]"
+            className="mt-8 inline-block rounded-full bg-[#2e9e58] px-10 py-5 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]"
             style={mono}
           >
             Book Free Strategy Call →

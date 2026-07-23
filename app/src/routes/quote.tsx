@@ -27,8 +27,8 @@ function QuotePage() {
       <SiteNav />
       <section className="mx-auto max-w-3xl px-6 pt-36 pb-24 md:pt-44">
         <p
-          className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="text-[13px] text-[#1e6b3c] "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Project Quote
         </p>
@@ -38,7 +38,7 @@ function QuotePage() {
         >
           Tell us what you need. We'll quote it.
         </h1>
-        <p className="mt-3 text-[12px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
+        <p className="mt-3 text-[13px] text-[#1e6b3c] " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
           Quote delivered within 1 business day
         </p>
         <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-[#111111]/55">

@@ -293,10 +293,10 @@ function BeforeState() {
       <div className="relative flex w-full flex-col items-center gap-12 px-6 pb-16 pt-16">
         <div className="flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-2">
-            <Typography as="span" variant="accent-xs-bold" color="secondary" className="text-[1rem]! leading-[1.25rem]! uppercase opacity-60">
+            <Typography as="span" variant="accent-xs-bold" color="secondary" className="text-[1rem]! leading-[1.25rem]!  opacity-60">
               Marketing Studio
             </Typography>
-            <Typography as="h1" variant="headline-lg-bold" color="primary" className="max-w-[420px] text-center uppercase">
+            <Typography as="h1" variant="headline-lg-bold" color="primary" className="max-w-[420px] text-center ">
               Turn any product into a video ad
             </Typography>
           </div>

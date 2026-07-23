@@ -75,7 +75,7 @@ export function Booking() {
         <h3 className="text-lg font-semibold tracking-[-0.02em] md:text-xl" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
           Book your call
         </h3>
-        <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
+        <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
           First call free
         </span>
       </div>
@@ -98,25 +98,25 @@ export function Booking() {
           >
             <div className="flex items-center justify-between">
               <span className="text-[14px] font-semibold" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>{o.title}</span>
-              <span className={`text-[11px] font-semibold ${kind === o.id ? "text-[#1e6b3c]" : "text-[#111111]/55"}`} style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
+              <span className={`text-[13px] font-semibold ${kind === o.id ? "text-[#1e6b3c]" : "text-[#111111]/55"}`} style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                 {o.meta}
               </span>
             </div>
-            <p className="mt-1 text-[12px] leading-snug text-[#111111]/60">{o.pitch}</p>
+            <p className="mt-1 text-[13px] leading-snug text-[#111111]/60">{o.pitch}</p>
           </button>
         ))}
       </div>
 
       {/* schedule */}
       <div className="mt-5">
-        <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>Pick a day</span>
+        <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>Pick a day</span>
         <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {days.map((d) => (
             <button
               key={d.iso}
               type="button"
               onClick={() => setDay(d.label)}
-              className={`flex-none rounded-lg border px-3.5 py-2.5 text-[12px] font-medium transition-all ${
+              className={`flex-none rounded-lg border px-3.5 py-2.5 text-[13px] font-medium transition-all ${
                 day === d.label ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/10 bg-white text-[#111111]/65 hover:border-black/30"
               }`}
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
@@ -125,17 +125,17 @@ export function Booking() {
             </button>
           ))}
         </div>
-        <span className="mt-4 block text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>Pick a time</span>
+        <span className="mt-4 block text-[13px] text-[#111111]/55 " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>Pick a time</span>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {HOURS.map((h) => (
             <button
               key={h}
               type="button"
               onClick={() => setTime(h)}
-              className={`rounded-lg border px-3.5 py-2 text-[12px] font-medium transition-all ${
+              className={`rounded-lg border px-3.5 py-2 text-[13px] font-medium transition-all ${
                 time === h ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/10 bg-white text-[#111111]/65 hover:border-black/30"
               }`}
-              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               {h}
             </button>
@@ -164,10 +164,10 @@ export function Booking() {
         <button
           onClick={book}
           disabled={!valid || state === "sending"}
-          className={`rounded-full px-7 py-3.5 text-[11px] font-bold tracking-[0.2em] uppercase transition-all ${
+          className={`rounded-full px-7 py-3.5 text-[13px] font-bold  transition-all ${
             valid ? "bg-[#111111] text-white hover:bg-[#1e6b3c]" : "cursor-not-allowed bg-black/[0.06] text-[#111111]/50"
           }`}
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {state === "sending" ? "Booking…" : kind === "free" ? "Book free call →" : "Book — $100 →"}
         </button>

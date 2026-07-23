@@ -35,8 +35,8 @@ export function LangSwitcher({ dark = false }: { dark?: boolean }) {
           <path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18" />
         </svg>
         <span
-          className="text-[11px] tracking-[0.18em] uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="text-[13px] "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {current.code}
         </span>
@@ -68,8 +68,8 @@ export function LangSwitcher({ dark = false }: { dark?: boolean }) {
                 {l.native}
               </span>
               <span
-                className={`text-[9px] tracking-[0.16em] uppercase ${l.code === lang ? "text-[#1e6b3c]" : "text-[#111111]/35"}`}
-                style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+                className={`text-[13px]  ${l.code === lang ? "text-[#1e6b3c]" : "text-[#111111]/35"}`}
+                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 {l.code}
               </span>

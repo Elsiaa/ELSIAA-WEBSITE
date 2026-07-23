@@ -208,7 +208,7 @@ function EnhancerCard() {
 
       {/* Title + subtitle — always present, like the live hero. */}
       <div className="flex flex-col items-center gap-2 text-center">
-        <Typography as="h1" variant="accent-xl-bold" color="primary" className="uppercase">
+        <Typography as="h1" variant="accent-xl-bold" color="primary" className="">
           Skin Enhancer
         </Typography>
         <Typography as="p" variant="body-md-regular" color="secondary">
@@ -304,7 +304,7 @@ function AddRail() {
 function Steps() {
   return (
     <section className="flex flex-col gap-8">
-      <Typography as="h2" variant="accent-lg-bold" color="primary" className="uppercase">
+      <Typography as="h2" variant="accent-lg-bold" color="primary" className="">
         How it works
         {' '}
         <span className="text-q-text-brand">in 3 steps</span>
@@ -316,7 +316,7 @@ function Steps() {
               <Icon as={step.icon} size="md" color="secondary" />
             </div>
             <div className="flex flex-col gap-2">
-              <Typography as="h3" variant="accent-xs-bold" color="primary" className="uppercase">
+              <Typography as="h3" variant="accent-xs-bold" color="primary" className="">
                 {`${index + 1}. ${step.title}`}
               </Typography>
               <Typography as="p" variant="body-sm-regular" color="secondary">
@@ -334,7 +334,7 @@ function Steps() {
 function History() {
   return (
     <section className="flex flex-col gap-6">
-      <Typography as="h2" variant="accent-lg-bold" color="primary" className="uppercase">
+      <Typography as="h2" variant="accent-lg-bold" color="primary" className="">
         Your enhancements
       </Typography>
       <HistoryGrid />

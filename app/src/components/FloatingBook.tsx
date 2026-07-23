@@ -33,8 +33,8 @@ export function FloatingBook() {
       <div className="flex items-center gap-1.5 rounded-full bg-[#111111] pl-6 pr-2 shadow-[0_18px_44px_-18px_rgba(0,0,0,0.5)]">
         <a
           href="/#book"
-          className="flex min-h-[48px] items-center text-[11px] font-bold tracking-[0.2em] text-white uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="flex min-h-[48px] items-center text-[13px] font-bold text-white "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Book a call →
         </a>

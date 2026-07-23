@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
   final note before the footer. Transform/opacity only; reduced motion → panels.
 */
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 function seg(p: number, a: number, b: number) {
@@ -111,10 +111,10 @@ export function DesignsOpener() {
             Clean. Intentional. Quietly powerful — like the work we do for our clients.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <a href="mailto:info@elsiaa.com?subject=Stage%20my%20product" className="inline-block rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
+            <a href="mailto:info@elsiaa.com?subject=Stage%20my%20product" className="inline-block rounded-full bg-[#2e9e58] px-9 py-4 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]" style={mono}>
               Stage my product →
             </a>
-            <a href="/contact" className="inline-block rounded-full border border-white/25 px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>
+            <a href="/contact" className="inline-block rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>
               Book a strategy call →
             </a>
           </div>
@@ -134,13 +134,13 @@ export function DesignsOpener() {
           <video ref={videoRef} src="/assets/cine/bloom.mp4" poster="/assets/cine/rock.jpg" muted playsInline preload="auto" className="h-full w-full object-cover" />
         </div>
 
-        <p className="absolute top-[15%] left-[6vw] text-[10px] tracking-[0.34em] text-white/40 uppercase md:left-[8vw]" style={mono}>
+        <p className="absolute top-[15%] left-[6vw] text-[13px] text-white/40  md:left-[8vw]" style={mono}>
           ELSIAA · Designs — the last mile
         </p>
 
         {/* the philosophy */}
         <div ref={qRef} className="absolute top-1/2 left-[6vw] w-[82vw] max-w-xl -translate-y-1/2 md:left-[8vw]" style={{ willChange: "opacity, transform" }}>
-          <p className="text-[10px] tracking-[0.34em] text-[#2e9e58] uppercase" style={mono}>The last mile</p>
+          <p className="text-[13px] text-[#2e9e58] " style={mono}>The last mile</p>
           <h2 className="mt-3 text-4xl leading-[1.04] font-semibold tracking-[-0.04em] text-white md:text-6xl" style={inter}>
             Design is the
             <span className="text-white/45"> last mile.</span>
@@ -152,7 +152,7 @@ export function DesignsOpener() {
 
         {/* the moon */}
         <div ref={aRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-6 text-center opacity-0" style={{ willChange: "opacity, transform" }}>
-          <p className="text-[10px] tracking-[0.34em] text-[#2e9e58] uppercase" style={mono}>The Moon</p>
+          <p className="text-[13px] text-[#2e9e58] " style={mono}>The Moon</p>
           <h2 className="mt-3 text-5xl font-semibold tracking-[-0.045em] text-white md:text-8xl" style={inter}>
             Built to feel like the <span className="text-[#2e9e58]">future.</span>
           </h2>
@@ -165,10 +165,10 @@ export function DesignsOpener() {
             Ready to close the gap on <span className="text-white">your brand?</span>
           </p>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-            <a href="mailto:info@elsiaa.com?subject=Stage%20my%20product" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>
+            <a href="mailto:info@elsiaa.com?subject=Stage%20my%20product" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]" style={mono}>
               Stage my product →
             </a>
-            <a href="/contact" className="rounded-full border border-white/25 px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>
+            <a href="/contact" className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>
               Book a strategy call →
             </a>
           </div>
@@ -184,7 +184,7 @@ function Panel({ img, kicker, children }: { img: string; kicker: string; childre
       <img src={img} alt="" className="absolute inset-0 h-full w-full object-cover opacity-45" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/70 to-transparent" />
       <div className="relative mx-auto w-full max-w-6xl px-6">
-        <p className="text-[10px] tracking-[0.34em] text-[#2e9e58] uppercase" style={mono}>{kicker}</p>
+        <p className="text-[13px] text-[#2e9e58] " style={mono}>{kicker}</p>
         <div className="mt-3">{children}</div>
       </div>
     </div>

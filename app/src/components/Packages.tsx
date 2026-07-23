@@ -5,7 +5,7 @@
   real prices.
 */
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 type Pkg = { name: string; blurb: string; price: string };
@@ -52,7 +52,7 @@ export function Packages() {
     <div>
       {GROUPS.map((g) => (
         <div key={g.division} className="mt-10 first:mt-0">
-          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
             {g.division}
           </p>
           <ul className="mt-3 divide-y divide-black/[0.06] border-y border-black/[0.06]">

@@ -15,9 +15,9 @@ export const Route = createFileRoute("/clients")({
   component: ClientsPage,
 });
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-const eyebrow = "text-[10px] tracking-[0.34em] text-[#1e6b3c] uppercase";
+const eyebrow = "text-[13px] text-[#1e6b3c] ";
 
 const STEPS: Array<[string, string, string]> = [
   ["01", "Free call", "Twenty minutes to understand the problem and where AI actually pays off. No deck, no obligation."],
@@ -69,24 +69,24 @@ function ClientsPage() {
                 Tell us the step in your business that still waits on a person. We'll map where AI fits, then hand you a scoped plan and a price — the first twenty minutes are free.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-3">
-                <a href="/contact" className="inline-flex items-center justify-center rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-[#111111]" style={mono}>Start here →</a>
-                <a href="/quote" className="text-[11px] tracking-[0.22em] text-[#111111]/55 uppercase transition-colors hover:text-[#1e6b3c]" style={mono}>Get a quote</a>
+                <a href="/contact" className="inline-flex items-center justify-center rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[13px] font-bold text-white  transition-all hover:bg-[#111111]" style={mono}>Start here →</a>
+                <a href="/quote" className="text-[13px] text-[#111111]/55  transition-colors hover:text-[#1e6b3c]" style={mono}>Get a quote</a>
               </div>
             </div>
           </Reveal>
           {/* existing clients */}
           <Reveal delay={0.08}>
             <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-[#0c0c0c] p-8 text-white md:p-10">
-              <p className="text-[10px] tracking-[0.34em] text-[#2e9e58] uppercase" style={mono}>Already working with us?</p>
+              <p className="text-[13px] text-[#2e9e58] " style={mono}>Already working with us?</p>
               <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] md:text-3xl" style={inter}>Go to your portal.</h2>
               <p className="mt-3 flex-1 text-[15px] leading-relaxed text-white/60" style={inter}>
                 Live project status, deliverables and source, invoices and documents, and a direct line to your team — all in one place.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-3">
-                <a href="/portal" className="inline-flex items-center justify-center rounded-full bg-[#2e9e58] px-7 py-3.5 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>Go to Client Portal →</a>
-                <a href="/portal" className="text-[11px] tracking-[0.22em] text-white/50 uppercase transition-colors hover:text-white" style={mono}>Sign in</a>
+                <a href="/portal" className="inline-flex items-center justify-center rounded-full bg-[#2e9e58] px-7 py-3.5 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]" style={mono}>Go to Client Portal →</a>
+                <a href="/portal" className="text-[13px] text-white/50  transition-colors hover:text-white" style={mono}>Sign in</a>
               </div>
-              <p className="mt-4 text-[12px] text-white/40" style={inter}>Trouble signing in? Email <a href="mailto:info@elsiaa.com" className="text-[#2e9e58] hover:underline">info@elsiaa.com</a>.</p>
+              <p className="mt-4 text-[13px] text-white/40" style={inter}>Trouble signing in? Email <a href="mailto:info@elsiaa.com" className="text-[#2e9e58] hover:underline">info@elsiaa.com</a>.</p>
             </div>
           </Reveal>
         </div>
@@ -103,7 +103,7 @@ function ClientsPage() {
             {STEPS.map(([n, t, d], i) => (
               <Reveal key={n} delay={i * 0.05}>
                 <li className="border-t border-black/10 pt-4">
-                  <span className="text-[11px] font-semibold tracking-[0.24em] text-[#1e6b3c]" style={mono}>{n}</span>
+                  <span className="text-[13px] font-semibold text-[#1e6b3c]" style={mono}>{n}</span>
                   <h3 className="mt-2 text-[16px] font-semibold tracking-[-0.01em]" style={inter}>{t}</h3>
                   <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#111111]/55" style={inter}>{d}</p>
                 </li>
@@ -139,21 +139,21 @@ function ClientsPage() {
           <Reveal>
             <p className={eyebrow} style={mono}>Results</p>
             <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl" style={inter}>What the work looks like.</h2>
-            <p className="mt-3 text-[12px] tracking-[0.04em] text-[#111111]/40" style={mono}>Figures are attached to anonymized engagements to protect client privacy.</p>
+            <p className="mt-3 text-[13px] tracking-[0.04em] text-[#111111]/40" style={mono}>Figures are attached to anonymized engagements to protect client privacy.</p>
           </Reveal>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {RESULTS.map(([n, label, d], i) => (
               <Reveal key={label} delay={i * 0.06}>
                 <div className="flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-6">
                   <p className="text-4xl font-semibold tracking-[-0.04em] text-[#1e6b3c]" style={inter}>{n}</p>
-                  <p className="mt-1 text-[10px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>{label}</p>
+                  <p className="mt-1 text-[13px] text-[#111111]/45 " style={mono}>{label}</p>
                   <p className="mt-3 text-[13.5px] leading-relaxed text-[#111111]/60" style={inter}>{d}</p>
                 </div>
               </Reveal>
             ))}
           </div>
           <Reveal delay={0.1}>
-            <a href="/automate" className="mt-6 inline-block text-[11px] tracking-[0.22em] text-[#1e6b3c] uppercase hover:underline" style={mono}>See the systems, running live →</a>
+            <a href="/automate" className="mt-6 inline-block text-[13px] text-[#1e6b3c]  hover:underline" style={mono}>See the systems, running live →</a>
           </Reveal>
         </div>
       </section>
@@ -167,8 +167,8 @@ function ClientsPage() {
               The first conversation is free, and you'll leave with a clear sense of what's possible.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a href="/contact" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:bg-white hover:text-[#111111]" style={mono}>Book a free call →</a>
-              <a href="/portal" className="rounded-full border border-white/25 px-8 py-4 text-[12px] font-bold tracking-[0.2em] text-white uppercase transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>Client sign in</a>
+              <a href="/contact" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]" style={mono}>Book a free call →</a>
+              <a href="/portal" className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>Client sign in</a>
             </div>
           </Reveal>
         </div>

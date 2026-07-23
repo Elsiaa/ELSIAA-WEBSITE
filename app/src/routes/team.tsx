@@ -21,7 +21,7 @@ export const Route = createFileRoute("/team")({
 
 const SANS =
   "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
-const MONO = "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace";
+const MONO = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 
 type Person = {
   name: string;
@@ -140,7 +140,7 @@ function Card({ p, i }: { p: Person; i: number }) {
           {p.name}
         </h3>
         <p
-          className="mt-1.5 text-[11px] tracking-[0.14em] text-[#1e6b3c] uppercase"
+          className="mt-1.5 text-[13px] text-[#1e6b3c] "
           style={{ fontFamily: MONO }}
         >
           {p.role}
@@ -151,7 +151,7 @@ function Card({ p, i }: { p: Person; i: number }) {
         <div className="mt-4 flex items-center gap-2 border-t border-black/[0.06] pt-3">
           <span className="h-[5px] w-[5px] rotate-45 bg-[#1e6b3c]/50" />
           <span
-            className="text-[10px] tracking-[0.2em] text-[#111111]/45 uppercase"
+            className="text-[13px] text-[#111111]/45 "
             style={{ fontFamily: MONO }}
           >
             {p.loc}
@@ -177,7 +177,7 @@ function Group({
     >
       <Reveal>
         <h2
-          className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+          className="text-[13px] text-[#1e6b3c] "
           style={{ fontFamily: MONO }}
         >
           {label}
@@ -201,7 +201,7 @@ function TeamPage() {
       <section className="mx-auto max-w-6xl px-6 pt-40 pb-6 md:pt-44">
         <Reveal>
           <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+            className="text-[13px] text-[#1e6b3c] "
             style={{ fontFamily: MONO }}
           >
             Who we are
@@ -231,7 +231,7 @@ function TeamPage() {
                   {n}
                 </p>
                 <p
-                  className="mt-1 text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase"
+                  className="mt-1 text-[13px] text-[#111111]/55 "
                   style={{ fontFamily: MONO }}
                 >
                   {l}
@@ -252,7 +252,7 @@ function TeamPage() {
         <div className="mx-auto max-w-6xl px-6 py-12 text-center md:py-14">
           <Reveal>
             <p
-              className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
+              className="text-[13px] text-[#1e6b3c] "
               style={{ fontFamily: MONO }}
             >
               The measure of it
@@ -279,7 +279,7 @@ function TeamPage() {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <a
               href="/contact"
-              className="inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all duration-300 hover:bg-[#1e6b3c]"
+              className="inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[13px] font-bold text-white  transition-all duration-300 hover:bg-[#1e6b3c]"
               style={{ fontFamily: MONO }}
             >
               Meet with us →
@@ -287,7 +287,7 @@ function TeamPage() {
           </div>
           <p
             title="With God's help we shall do and succeed."
-            className="mt-12 cursor-help text-[11px] tracking-[0.2em] text-[#111111]/50 uppercase"
+            className="mt-12 cursor-help text-[13px] text-[#111111]/50 "
             style={{ fontFamily: MONO }}
           >
             בעזרת ה׳ נעשה ונצליח

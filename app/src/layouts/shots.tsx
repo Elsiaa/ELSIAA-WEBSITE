@@ -134,7 +134,7 @@ function UploadStep({ source, onUpload, onGenerate }: UploadStepProps) {
                 className="justify-center opacity-0 backdrop-blur-[2px] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
               >
                 <span className="flex h-9 items-center gap-1.5 rounded-q-full bg-q-transparent-dark-60 px-3 text-q-text-primary backdrop-blur-sm">
-                  <Typography as="span" variant="caption-xs-medium" color="primary" className="uppercase">
+                  <Typography as="span" variant="caption-xs-medium" color="primary" className="">
                     {source != null ? 'Change image' : 'Upload image'}
                   </Typography>
                   <Icon as={IconAddPhotoOutlined} size="sm" />
@@ -146,7 +146,7 @@ function UploadStep({ source, onUpload, onGenerate }: UploadStepProps) {
       />
 
       <div className="flex flex-col gap-2">
-        <Typography as="h1" variant="accent-xl-bold" color="primary" className="uppercase">
+        <Typography as="h1" variant="accent-xl-bold" color="primary" className="">
           Shots
         </Typography>
         <Typography as="p" variant="body-md-regular" color="secondary">
@@ -275,7 +275,7 @@ function GridStep({ source, stage, selected, onToggle, onRegenerate, onUpscale }
             </Media>
           </div>
           <div className="flex flex-col">
-            <Typography as="h2" variant="accent-sm-bold" color="primary" className="uppercase">
+            <Typography as="h2" variant="accent-sm-bold" color="primary" className="">
               9 cinematic angles
             </Typography>
             <Typography as="span" variant="body-sm-regular" color="secondary">
@@ -357,7 +357,7 @@ function UpscaleStep({ stage, tiles, onUpscale }: UpscaleStepProps) {
     <div className="flex flex-col gap-5">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col">
-          <Typography as="h2" variant="accent-sm-bold" color="primary" className="uppercase">
+          <Typography as="h2" variant="accent-sm-bold" color="primary" className="">
             Upscale to 4K
           </Typography>
           <Typography as="span" variant="body-sm-regular" color="secondary">

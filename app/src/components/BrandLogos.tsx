@@ -22,7 +22,7 @@ export const CLIENT_LOGOS: Array<[string, string, string]> = [
   ["/assets/logos/neuro_strabismus.png", "Neuro-Ophthalmology & Strabismus Fellowship — Division of Neurology", "h-6"],
 ];
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 const REASONS: Array<{ title: string; body: string }> = [
@@ -78,7 +78,7 @@ export function WhyBrandsChose() {
     <section className="border-t border-black/[0.06] bg-white py-16 md:py-24" aria-label="Why brands chose ELSIAA">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
-          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>
+          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
             Chosen by brands
           </p>
           <h2
@@ -96,7 +96,7 @@ export function WhyBrandsChose() {
           {REASONS.map((r, i) => (
             <Reveal key={r.title} delay={0.05 + i * 0.05}>
               <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/35">
-                <p className="text-[10px] tracking-[0.28em] text-[#1e6b3c] uppercase" style={mono}>
+                <p className="text-[13px] text-[#1e6b3c] " style={mono}>
                   0{i + 1}
                 </p>
                 <h3 className="mt-2.5 text-[16px] font-semibold tracking-[-0.02em] text-[#111111]" style={inter}>
@@ -117,7 +117,7 @@ export function WhyBrandsChose() {
         <Reveal>
           <a
             href="/designs"
-            className="mt-8 inline-block text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline"
+            className="mt-8 inline-block text-[13px] text-[#1e6b3c]  hover:underline"
             style={mono}
           >
             See the work behind the logos ↗

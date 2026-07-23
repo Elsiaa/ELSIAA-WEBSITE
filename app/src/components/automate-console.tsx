@@ -133,13 +133,13 @@ export function Seam({
 
       {/* corner labels fade with position */}
       <span
-        className="pointer-events-none absolute top-2 left-2 rounded-full bg-white/85 px-2 py-0.5 text-[8.5px] font-bold tracking-[0.18em] text-[#b42318] uppercase backdrop-blur"
+        className="pointer-events-none absolute top-2 left-2 rounded-full bg-white/85 px-2 py-0.5 text-[8.5px] font-bold text-[#b42318]  backdrop-blur"
         style={{ ...mono, opacity: Math.max(0, (pos - 20) / 40) }}
       >
         {labelLeft}
       </span>
       <span
-        className="pointer-events-none absolute top-2 right-2 rounded-full bg-white/85 px-2 py-0.5 text-[8.5px] font-bold tracking-[0.18em] uppercase backdrop-blur"
+        className="pointer-events-none absolute top-2 right-2 rounded-full bg-white/85 px-2 py-0.5 text-[8.5px] font-bold  backdrop-blur"
         style={{ ...mono, color: GREEN, opacity: Math.max(0, (80 - pos) / 40) }}
       >
         {labelRight}
@@ -190,11 +190,11 @@ function ChromeBar({ host }: { host: string }) {
       <span className="h-2.5 w-2.5 rounded-full bg-[#1e6b3c]/50" />
       <span className="ml-3 flex min-w-0 flex-1 items-center gap-1.5 rounded-md bg-black/[0.04] px-3 py-1">
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="2.4"><path d="M6 10V8a6 6 0 1112 0v2" /><rect x="4" y="10" width="16" height="10" rx="2" fill="#1e6b3c" stroke="none" opacity="0.15" /></svg>
-        <span className="truncate text-[10px] tracking-[0.12em] text-[#111111]/50" style={mono}>{typed}<span className="text-[#1e6b3c]">{typed.length < host.length ? "▏" : ""}</span></span>
+        <span className="truncate text-[13px] tracking-[0.12em] text-[#111111]/50" style={mono}>{typed}<span className="text-[#1e6b3c]">{typed.length < host.length ? "▏" : ""}</span></span>
       </span>
       <span className="ml-2 hidden items-center gap-1.5 rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 sm:flex">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1e6b3c]" />
-        <span className="text-[8px] tracking-[0.18em] text-[#1e6b3c] uppercase" style={mono}>Live</span>
+        <span className="text-[13px] text-[#1e6b3c] " style={mono}>Live</span>
       </span>
     </div>
   );
@@ -227,7 +227,7 @@ const clampBand = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(h
 
 /* — small board primitives — */
 function Row({ cols, children }: { cols: string; children: React.ReactNode }) {
-  return <div className="grid items-center gap-x-2 border-b border-black/[0.04] py-[7px] text-[10px]" style={{ gridTemplateColumns: cols }}>{children}</div>;
+  return <div className="grid items-center gap-x-2 border-b border-black/[0.04] py-[7px] text-[13px]" style={{ gridTemplateColumns: cols }}>{children}</div>;
 }
 
 function DispatchBoard({ s }: { s: SysState }) {
@@ -247,13 +247,13 @@ function DispatchBoard({ s }: { s: SysState }) {
             <span className={`block h-3 w-3 rounded-full ring-2 ring-white ${t === "ok" ? "bg-[#1e6b3c]" : t === "warn" ? "bg-[#b7791f]" : "bg-[#b42318]"}`} />
           </span>
         ))}
-        <div className="absolute bottom-2 left-2 rounded-md bg-white/90 px-2 py-1 text-[8px] tracking-[0.14em] text-[#111111]/55 uppercase backdrop-blur" style={mono}>18 techs · live</div>
+        <div className="absolute bottom-2 left-2 rounded-md bg-white/90 px-2 py-1 text-[13px] text-[#111111]/55  backdrop-blur" style={mono}>18 techs · live</div>
       </div>
       <div className="w-[44%] flex-none border-l border-black/[0.06] p-3">
-        <p className="text-[9px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Dispatch queue</p>
+        <p className="text-[13px] text-[#111111]/45 " style={mono}>Dispatch queue</p>
         {jobs.map((j, i) => (
           <div key={i} className={`mt-2 rounded-lg border p-2 transition-all duration-500 ${i === 0 && s.assigned ? "border-[#1e6b3c]/40 bg-[#1e6b3c]/[0.05]" : "border-black/[0.07]"}`} style={{ transitionTimingFunction: SPRING }}>
-            <div className="flex items-center justify-between"><span className="text-[10px] font-medium" style={inter}>{j[0]}</span><Pill tone={j[1]}>{j[1] === "crit" ? "Now" : j[1] === "warn" ? "Soon" : "Set"}</Pill></div>
+            <div className="flex items-center justify-between"><span className="text-[13px] font-medium" style={inter}>{j[0]}</span><Pill tone={j[1]}>{j[1] === "crit" ? "Now" : j[1] === "warn" ? "Soon" : "Set"}</Pill></div>
             <p className="mt-0.5 text-[8.5px] text-[#111111]/50" style={mono}>{j[2]}</p>
           </div>
         ))}
@@ -273,11 +273,11 @@ function HealthBoard({ s }: { s: SysState }) {
   return (
     <div className="flex h-full">
       <div className="min-w-0 flex-1 overflow-hidden">
-        <div className="flex items-center justify-between px-3 py-2"><p className="text-[9px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Live census · 214 beds</p><div className="flex gap-1"><Pill tone="ok">Stable</Pill><Pill tone="warn">Watch</Pill><Pill tone="crit">Crit</Pill></div></div>
+        <div className="flex items-center justify-between px-3 py-2"><p className="text-[13px] text-[#111111]/45 " style={mono}>Live census · 214 beds</p><div className="flex gap-1"><Pill tone="ok">Stable</Pill><Pill tone="warn">Watch</Pill><Pill tone="crit">Crit</Pill></div></div>
         <div className="px-3">
-          <div className="grid grid-cols-[1fr_1.5fr_auto_1.1fr_auto] gap-x-2 border-b border-black/[0.06] pb-1 text-[8px] tracking-[0.14em] text-[#111111]/35 uppercase" style={mono}><span>Unit</span><span>Stage</span><span>St</span><span>Clinician</span><span>Elap</span></div>
+          <div className="grid grid-cols-[1fr_1.5fr_auto_1.1fr_auto] gap-x-2 border-b border-black/[0.06] pb-1 text-[13px] text-[#111111]/35 " style={mono}><span>Unit</span><span>Stage</span><span>St</span><span>Clinician</span><span>Elap</span></div>
           {rows.map((r, i) => (
-            <div key={i} className={`grid grid-cols-[1fr_1.5fr_auto_1.1fr_auto] items-center gap-x-2 border-b border-black/[0.04] py-[6px] text-[10px] ${i === 0 && s.intake ? "bg-[#1e6b3c]/[0.05]" : ""}`} style={inter}>
+            <div key={i} className={`grid grid-cols-[1fr_1.5fr_auto_1.1fr_auto] items-center gap-x-2 border-b border-black/[0.04] py-[6px] text-[13px] ${i === 0 && s.intake ? "bg-[#1e6b3c]/[0.05]" : ""}`} style={inter}>
               <span className="font-medium">{r[0]}</span><span className="truncate text-[#111111]/60">{r[1]}</span><Pill tone={r[2]}>{r[2] === "ok" ? "OK" : r[2] === "warn" ? "Wait" : "Now"}</Pill><span className="truncate text-[#111111]/60">{r[3]}</span><span className="tabular-nums text-[#111111]/50" style={mono}>{r[4]}</span>
             </div>
           ))}
@@ -297,7 +297,7 @@ function FinanceBoard({ s }: { s: SysState }) {
   ];
   return (
     <div className="h-full p-3">
-      <div className="flex items-center justify-between"><p className="text-[9px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Close · Day 2 of 2</p><Pill tone="ok"><LiveNum value={s.reconciled} fmt={(n) => `${Math.round(n)}% reconciled`} /></Pill></div>
+      <div className="flex items-center justify-between"><p className="text-[13px] text-[#111111]/45 " style={mono}>Close · Day 2 of 2</p><Pill tone="ok"><LiveNum value={s.reconciled} fmt={(n) => `${Math.round(n)}% reconciled`} /></Pill></div>
       <div className="mt-2">{rows.map((r, i) => (<Row key={i} cols="1.4fr 1fr auto"><span className="truncate font-medium" style={inter}>{r[0]}</span><span className="tabular-nums text-[#111111]/60" style={mono}>{r[1]}</span><Pill tone={r[3]}>{r[2]}</Pill></Row>))}</div>
     </div>
   );
@@ -306,7 +306,7 @@ function FinanceBoard({ s }: { s: SysState }) {
 function FleetBoard({ s }: { s: SysState }) {
   return (
     <div className="flex h-full flex-col p-3">
-      <div className="flex items-center justify-between"><p className="text-[9px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Fleet board · 12,480 vehicles</p><div className="flex gap-1"><Pill tone="ok">Avail 3,102</Pill><Pill tone="crit">Damage AI {s.claims}</Pill></div></div>
+      <div className="flex items-center justify-between"><p className="text-[13px] text-[#111111]/45 " style={mono}>Fleet board · 12,480 vehicles</p><div className="flex gap-1"><Pill tone="ok">Avail 3,102</Pill><Pill tone="crit">Damage AI {s.claims}</Pill></div></div>
       <div className="mt-2 flex-1">{["Compact · A-fleet", "SUV · premium", "Van · commercial", "EV · airport"].map((label, r) => (
         <div key={r} className="grid grid-cols-[1.1fr_3fr] items-center gap-2 border-b border-black/[0.05] py-2"><span className="truncate text-[9.5px] text-[#111111]/70" style={inter}>{label}</span><div className="relative h-4 rounded bg-black/[0.04]">{[[4, 22], [30, 26], [60, 14], [78, 18]].map(([l, w], i) => (<span key={i} className={`absolute top-0 h-4 rounded ${(r + i) % 4 === 3 ? "bg-[#b7791f]/70" : "bg-[#1e6b3c]/70"}`} style={{ left: `${l}%`, width: `${w}%` }} />))}</div></div>
       ))}</div>
@@ -427,13 +427,13 @@ function BeforeArtifact({ id }: { id: string }) {
     return (
       <div className="relative h-full w-full bg-[#eef0ef] p-3">
         <div className="absolute inset-3 rounded-md border-2 border-[#c9cdcb] bg-white shadow-inner">
-          <div className="flex items-center justify-between border-b-2 border-[#e2e5e3] px-3 py-1.5"><span className="text-[10px] font-bold tracking-wide text-[#1f3a5f]" style={scrawl}>{title}</span><span className="text-[9px] text-[#b42318]" style={scrawl}>?? = who knows</span></div>
+          <div className="flex items-center justify-between border-b-2 border-[#e2e5e3] px-3 py-1.5"><span className="text-[13px] font-bold tracking-wide text-[#1f3a5f]" style={scrawl}>{title}</span><span className="text-[13px] text-[#b42318]" style={scrawl}>?? = who knows</span></div>
           <div className="grid grid-cols-3 gap-px bg-[#e2e5e3]">
-            {cells.map(([a, b, c], i) => (<div key={i} className="bg-white px-2 py-2"><p className="text-[9px] font-bold text-[#111111]/70" style={mono}>{a}</p><p className="mt-0.5 text-[12px] leading-none" style={{ ...scrawl, color: c as string }}>{b}</p></div>))}
+            {cells.map(([a, b, c], i) => (<div key={i} className="bg-white px-2 py-2"><p className="text-[13px] font-bold text-[#111111]/70" style={mono}>{a}</p><p className="mt-0.5 text-[13px] leading-none" style={{ ...scrawl, color: c as string }}>{b}</p></div>))}
           </div>
-          <div className="px-3 py-2"><span className="text-[9px] text-black/50" style={scrawl}>erase + rewrite every shift · phone for the rest</span></div>
+          <div className="px-3 py-2"><span className="text-[13px] text-black/50" style={scrawl}>erase + rewrite every shift · phone for the rest</span></div>
         </div>
-        <div className="absolute top-6 right-6 w-24 rotate-[5deg] bg-[#fde68a] p-2 shadow-md"><p className="text-[8px] leading-tight text-black/70" style={scrawl}>{id === "dispatch" ? "DON'T double-book Delgado!!" : "intake line ringing — page on-call?? ext 4021"}</p></div>
+        <div className="absolute top-6 right-6 w-24 rotate-[5deg] bg-[#fde68a] p-2 shadow-md"><p className="text-[13px] leading-tight text-black/70" style={scrawl}>{id === "dispatch" ? "DON'T double-book Delgado!!" : "intake line ringing — page on-call?? ext 4021"}</p></div>
       </div>
     );
   }
@@ -443,10 +443,10 @@ function BeforeArtifact({ id }: { id: string }) {
   return (
     <div className="relative h-full w-full bg-[#e9eaec] p-3">
       <div className="absolute inset-x-3 top-3 h-[64%] overflow-hidden rounded-md border border-black/15 bg-white shadow-lg">
-        <div className="flex items-center gap-1 bg-[#1f7a45] px-2 py-1"><span className="h-2 w-2 rounded-full bg-white/70" /><span className="truncate text-[8px] font-semibold text-white" style={inter}>{fname}</span></div>
+        <div className="flex items-center gap-1 bg-[#1f7a45] px-2 py-1"><span className="h-2 w-2 rounded-full bg-white/70" /><span className="truncate text-[13px] font-semibold text-white" style={inter}>{fname}</span></div>
         <div className="grid grid-cols-8">{Array.from({ length: 96 }).map((_, i) => (<div key={i} className={`h-3 border-r border-b border-black/[0.07] ${i % 8 === 0 ? "bg-[#f3f4f6]" : "bg-white"} ${[11, 27, 43].includes(i) ? "bg-[#fecaca]/70" : ""} ${[18, 34, 52, 61].includes(i) ? "bg-[#fde68a]/60" : ""}`} />))}</div>
       </div>
-      <div className="absolute right-6 bottom-6 w-24 rotate-[4deg] bg-[#fde68a] p-2 shadow-md"><p className="text-[8px] leading-tight text-black/70" style={scrawl}>{note}</p></div>
+      <div className="absolute right-6 bottom-6 w-24 rotate-[4deg] bg-[#fde68a] p-2 shadow-md"><p className="text-[13px] leading-tight text-black/70" style={scrawl}>{note}</p></div>
     </div>
   );
 }
@@ -491,7 +491,7 @@ export function ProofDeck() {
             return (
               <button key={s.id} onClick={() => select(i)} className={`flex-none rounded-lg border px-3 py-2 text-left transition-all lg:w-full lg:rounded-none lg:border-0 lg:border-l-2 lg:px-3 lg:py-3 ${on ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.05] lg:bg-transparent" : "border-black/10 lg:border-black/[0.08]"}`} style={{ transitionTimingFunction: SPRING }}>
                 <span className={`block text-[13px] font-semibold tracking-[-0.01em] ${on ? "text-[#111111]" : "text-[#111111]/55"}`} style={inter}>{s.name}</span>
-                <span className={`mt-0.5 block text-[9px] tracking-[0.16em] uppercase ${on ? "text-[#1e6b3c]" : "text-[#111111]/35"}`} style={mono}>{s.sector.split(" · ")[0]}</span>
+                <span className={`mt-0.5 block text-[13px]  ${on ? "text-[#1e6b3c]" : "text-[#111111]/35"}`} style={mono}>{s.sector.split(" · ")[0]}</span>
               </button>
             );
           })}
@@ -505,15 +505,15 @@ export function ProofDeck() {
           {/* tabs */}
           <div className="flex items-center gap-1 border-b border-black/[0.06] bg-[#FBFBFA] px-3 py-1.5">
             {sys.tabs.map((t, i) => (
-              <button key={t} onClick={() => setTab(i)} className={`rounded-md px-2.5 py-1 text-[10px] tracking-[0.08em] transition-all ${i === tab ? "bg-[#1e6b3c]/12 text-[#1e6b3c]" : "text-[#111111]/45 hover:text-[#111111]/70"}`} style={mono}>{t}</button>
+              <button key={t} onClick={() => setTab(i)} className={`rounded-md px-2.5 py-1 text-[13px] tracking-[0.08em] transition-all ${i === tab ? "bg-[#1e6b3c]/12 text-[#1e6b3c]" : "text-[#111111]/45 hover:text-[#111111]/70"}`} style={mono}>{t}</button>
             ))}
-            <span className="ml-auto text-[9px] tracking-[0.16em] text-[#111111]/30 uppercase" style={mono}>{sys.name}</span>
+            <span className="ml-auto text-[13px] text-[#111111]/30 " style={mono}>{sys.name}</span>
           </div>
           {/* live KPI strip */}
           <div className="grid grid-cols-3 gap-px border-b border-black/[0.06] bg-black/[0.05]">
             {sys.kpis(st).map((k) => (
               <div key={k.label} className="bg-white px-3 py-2.5">
-                <p className="truncate text-[8px] tracking-[0.18em] text-[#111111]/40 uppercase" style={mono}>{k.label}</p>
+                <p className="truncate text-[13px] text-[#111111]/40 " style={mono}>{k.label}</p>
                 <p className="mt-1 flex items-baseline gap-1 text-[15px] font-semibold tracking-[-0.02em]" style={inter}><LiveNum value={k.val} fmt={k.fmt} /><span className={k.dir === "down" ? "text-[#b42318]" : "text-[#1e6b3c]"} style={{ fontSize: 9 }}>{k.dir === "up" ? "▲" : k.dir === "down" ? "▼" : "—"}</span></p>
               </div>
             ))}
@@ -533,9 +533,9 @@ export function ProofDeck() {
         <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-[1fr_1fr]">
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <button onClick={() => runAction(false)} className="rounded-full bg-[#1e6b3c] px-4 py-2 text-[10px] font-bold tracking-[0.14em] text-white uppercase transition-all hover:bg-[#111111]" style={{ ...mono, transitionTimingFunction: SPRING }}>{sys.actionLabel}</button>
-              <button onClick={() => { setEdge(true); runAction(true); }} className="rounded-full border border-black/15 px-4 py-2 text-[10px] font-bold tracking-[0.14em] text-[#111111]/70 uppercase transition-all hover:border-[#b7791f] hover:text-[#8a5a12]" style={mono}>{sys.edgeLabel}</button>
-              {trace && <button onClick={resetSys} aria-label="Reset" className="text-[10px] tracking-[0.14em] text-[#111111]/40 uppercase hover:text-[#111111]/70" style={mono}>Reset</button>}
+              <button onClick={() => runAction(false)} className="rounded-full bg-[#1e6b3c] px-4 py-2 text-[13px] font-bold text-white  transition-all hover:bg-[#111111]" style={{ ...mono, transitionTimingFunction: SPRING }}>{sys.actionLabel}</button>
+              <button onClick={() => { setEdge(true); runAction(true); }} className="rounded-full border border-black/15 px-4 py-2 text-[13px] font-bold text-[#111111]/70  transition-all hover:border-[#b7791f] hover:text-[#8a5a12]" style={mono}>{sys.edgeLabel}</button>
+              {trace && <button onClick={resetSys} aria-label="Reset" className="text-[13px] text-[#111111]/40  hover:text-[#111111]/70" style={mono}>Reset</button>}
             </div>
             {/* reasoning trace */}
             <div className="mt-3 min-h-[132px] rounded-xl border border-black/[0.08] bg-[#FBFBFA] p-3">
@@ -543,36 +543,36 @@ export function ProofDeck() {
                 <div>
                   <div className="flex items-center gap-2">
                     <span className={`h-1.5 w-1.5 rounded-full ${trace.tone === "ok" ? "bg-[#1e6b3c]" : "bg-[#b7791f]"}`} />
-                    <p className={`text-[10px] font-bold tracking-[0.16em] uppercase ${trace.tone === "ok" ? "text-[#1e6b3c]" : "text-[#8a5a12]"}`} style={mono}>{trace.title}</p>
+                    <p className={`text-[13px] font-bold  ${trace.tone === "ok" ? "text-[#1e6b3c]" : "text-[#8a5a12]"}`} style={mono}>{trace.title}</p>
                   </div>
                   <ol className="mt-2 space-y-1">
                     {trace.lines.map((l, i) => (
                       <li key={i} className="flex gap-2 text-[11.5px] leading-snug text-[#111111]/70" style={inter}>
-                        <span className="mt-[3px] text-[8px] text-[#111111]/30" style={mono}>{String(i + 1).padStart(2, "0")}</span>{l}
+                        <span className="mt-[3px] text-[13px] text-[#111111]/30" style={mono}>{String(i + 1).padStart(2, "0")}</span>{l}
                       </li>
                     ))}
                   </ol>
                 </div>
               ) : (
-                <p className="text-[11px] leading-relaxed text-[#111111]/40" style={mono}>Reasoning trace — run the system above. Every decision it makes is shown here: what it saw, and why it acted.</p>
+                <p className="text-[13px] leading-relaxed text-[#111111]/40" style={mono}>Reasoning trace — run the system above. Every decision it makes is shown here: what it saw, and why it acted.</p>
               )}
             </div>
           </div>
           {/* ledger */}
           <div className="md:pt-1">
-            <p className="text-[9px] tracking-[0.2em] text-[#111111]/40 uppercase" style={mono}>Old way → the system</p>
+            <p className="text-[13px] text-[#111111]/40 " style={mono}>Old way → the system</p>
             <div className="mt-2.5 space-y-2">
               {sys.ledger.map(([label, o, n]) => (
                 <div key={label} className="border-b border-black/[0.06] pb-2">
-                  <p className="text-[10px] tracking-[0.06em] text-[#111111]/45 uppercase" style={mono}>{label}</p>
+                  <p className="text-[13px] tracking-[0.06em] text-[#111111]/45 " style={mono}>{label}</p>
                   <p className="mt-0.5 flex items-center gap-2 text-[12.5px]" style={inter}><span className="text-[#b42318]/70 line-through" style={mono}>{o}</span><span className="text-[#111111]/25">→</span><span className="font-semibold text-[#1e6b3c]">{n}</span></p>
                 </div>
               ))}
             </div>
             {sys.live ? (
-              <a href={sys.live.href} target="_blank" rel="noreferrer" className="mt-3 inline-block text-[11px] tracking-[0.22em] text-[#1e6b3c] uppercase hover:underline" style={mono}>{sys.live.label} ↗</a>
+              <a href={sys.live.href} target="_blank" rel="noreferrer" className="mt-3 inline-block text-[13px] text-[#1e6b3c]  hover:underline" style={mono}>{sys.live.label} ↗</a>
             ) : (
-              <a href="/contact" className="mt-3 inline-block text-[11px] tracking-[0.22em] text-[#111111]/50 uppercase hover:text-[#1e6b3c]" style={mono}>Request a walkthrough →</a>
+              <a href="/contact" className="mt-3 inline-block text-[13px] text-[#111111]/50  hover:text-[#1e6b3c]" style={mono}>Request a walkthrough →</a>
             )}
           </div>
         </div>
@@ -705,20 +705,20 @@ export function Secretary() {
         <div className="flex items-center justify-between border-b border-black/[0.06] bg-[#FBFBFA] px-4 py-2.5">
           <div className="flex items-center gap-2">
             <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1e6b3c]/10"><span className="relative flex h-3 w-3 items-center justify-center"><span className="absolute inset-0 rotate-45 border border-[#1e6b3c]" /><span className="h-[3px] w-[3px] rotate-45 bg-[#1e6b3c]" /></span></span>
-            <span className="text-[12px] font-semibold" style={inter}>AI Secretary</span>
+            <span className="text-[13px] font-semibold" style={inter}>AI Secretary</span>
           </div>
-          <span className="rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 text-[8.5px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase" style={mono}>{script.badge}</span>
+          <span className="rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 text-[8.5px] font-semibold text-[#1e6b3c] " style={mono}>{script.badge}</span>
         </div>
 
         {/* language + scenario controls */}
         <div className="flex flex-wrap items-center gap-2 border-b border-black/[0.06] px-4 py-2.5">
-          <span className="text-[9px] tracking-[0.18em] text-[#111111]/35 uppercase" style={mono}>Call in</span>
+          <span className="text-[13px] text-[#111111]/35 " style={mono}>Call in</span>
           {(["en", "he", "ru"] as Lang[]).map((l) => (
-            <button key={l} onClick={() => start(l, SCRIPT_ORDER[l][0])} className={`rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.1em] transition-all ${lang === l ? "bg-[#111111] text-white" : "border border-black/12 text-[#111111]/60"}`} style={mono}>{SECRETARY[l].label}</button>
+            <button key={l} onClick={() => start(l, SCRIPT_ORDER[l][0])} className={`rounded-full px-3 py-1 text-[13px] font-bold tracking-[0.1em] transition-all ${lang === l ? "bg-[#111111] text-white" : "border border-black/12 text-[#111111]/60"}`} style={mono}>{SECRETARY[l].label}</button>
           ))}
           <span className="mx-1 h-4 w-px bg-black/10" />
           {SCRIPT_ORDER[lang].map((k) => (
-            <button key={k} onClick={() => start(lang, k)} className={`rounded-full px-3 py-1 text-[10px] tracking-[0.06em] transition-all ${scriptKey === k ? "bg-[#1e6b3c]/12 text-[#1e6b3c]" : "text-[#111111]/45 hover:text-[#111111]/70"}`} style={mono}>{cfg.scripts[k] ? scenarioLabel(k) : k}</button>
+            <button key={k} onClick={() => start(lang, k)} className={`rounded-full px-3 py-1 text-[13px] tracking-[0.06em] transition-all ${scriptKey === k ? "bg-[#1e6b3c]/12 text-[#1e6b3c]" : "text-[#111111]/45 hover:text-[#111111]/70"}`} style={mono}>{cfg.scripts[k] ? scenarioLabel(k) : k}</button>
           ))}
         </div>
 
@@ -727,7 +727,7 @@ export function Secretary() {
           {script.conv.slice(0, revealed).map((t, i) => (
             <div key={i} className={`flex ${t.who === "agent" ? (cfg.dir === "rtl" ? "justify-start" : "justify-end") : cfg.dir === "rtl" ? "justify-end" : "justify-start"}`}>
               <div className={`max-w-[82%] rounded-2xl px-3.5 py-2 text-[13px] leading-relaxed ${t.who === "agent" ? "bg-[#1e6b3c]/[0.08] text-[#111111]" : "bg-black/[0.04] text-[#111111]/80"}`} style={inter}>
-                <span className={`mb-0.5 block text-[8px] tracking-[0.18em] uppercase ${t.who === "agent" ? "text-[#1e6b3c]" : "text-[#111111]/35"}`} style={mono}>{t.who === "agent" ? "Secretary" : "Caller"}</span>
+                <span className={`mb-0.5 block text-[13px]  ${t.who === "agent" ? "text-[#1e6b3c]" : "text-[#111111]/35"}`} style={mono}>{t.who === "agent" ? "Secretary" : "Caller"}</span>
                 {t.text}
               </div>
             </div>
@@ -735,21 +735,21 @@ export function Secretary() {
           {!done && revealed > 0 && !reduced && (
             <div className="flex gap-1 px-1"><Dot /><Dot d={0.15} /><Dot d={0.3} /></div>
           )}
-          {revealed === 0 && <p className="text-[12px] text-[#111111]/40" style={mono}>Pick a language above to place a call.</p>}
+          {revealed === 0 && <p className="text-[13px] text-[#111111]/40" style={mono}>Pick a language above to place a call.</p>}
         </div>
       </div>
 
       {/* backend actions + reasoning + metrics */}
       <div className="flex flex-col gap-4">
         <div className="rounded-2xl border border-black/[0.08] bg-[#FBFBFA] p-4">
-          <p className="text-[9px] tracking-[0.2em] text-[#1e6b3c] uppercase" style={mono}>Actions · running in the background</p>
+          <p className="text-[13px] text-[#1e6b3c] " style={mono}>Actions · running in the background</p>
           <div className="mt-3 space-y-2">
             {script.actions.map((a, i) => {
               const on = shownActions.length > i;
               return (
                 <div key={i} className="flex items-center gap-2.5" style={{ opacity: on ? 1 : 0.28, transition: `opacity .4s ${SPRING}` }}>
                   <span className={`flex h-4 w-4 flex-none items-center justify-center rounded-full ${on ? "bg-[#1e6b3c]" : "bg-black/10"}`}>{on && <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" /></svg>}</span>
-                  <span className="text-[12px] text-[#111111]/75" style={inter}>{a}</span>
+                  <span className="text-[13px] text-[#111111]/75" style={inter}>{a}</span>
                 </div>
               );
             })}
@@ -758,19 +758,19 @@ export function Secretary() {
 
         <details className="group rounded-2xl border border-black/[0.08] bg-white p-4" open>
           <summary className="flex cursor-pointer list-none items-center justify-between">
-            <span className="text-[9px] tracking-[0.2em] text-[#111111]/45 uppercase" style={mono}>Reasoning trace</span>
-            <span className="text-[9px] text-[#111111]/35 group-open:rotate-180" style={mono}>▾</span>
+            <span className="text-[13px] text-[#111111]/45 " style={mono}>Reasoning trace</span>
+            <span className="text-[13px] text-[#111111]/35 group-open:rotate-180" style={mono}>▾</span>
           </summary>
           <ol className="mt-2.5 space-y-1.5">
             {script.trace.map((l, i) => (
-              <li key={i} className="flex gap-2 text-[11.5px] leading-snug text-[#111111]/70" style={inter}><span className="mt-[3px] text-[8px] text-[#111111]/30" style={mono}>{String(i + 1).padStart(2, "0")}</span>{l}</li>
+              <li key={i} className="flex gap-2 text-[11.5px] leading-snug text-[#111111]/70" style={inter}><span className="mt-[3px] text-[13px] text-[#111111]/30" style={mono}>{String(i + 1).padStart(2, "0")}</span>{l}</li>
             ))}
           </ol>
         </details>
 
         <div className="grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-black/[0.08] bg-black/[0.05]">
           {[["Tasks autonomous", "89%"], [script.metrics[0], script.metrics[1]], ["Escalation rate", "6%"]].map(([l, v]) => (
-            <div key={l} className="bg-white px-3 py-3"><p className="truncate text-[8px] tracking-[0.16em] text-[#111111]/40 uppercase" style={mono}>{l}</p><p className="mt-1 text-[15px] font-semibold tracking-[-0.02em] text-[#111111]" style={inter}>{v}</p></div>
+            <div key={l} className="bg-white px-3 py-3"><p className="truncate text-[13px] text-[#111111]/40 " style={mono}>{l}</p><p className="mt-1 text-[15px] font-semibold tracking-[-0.02em] text-[#111111]" style={inter}>{v}</p></div>
           ))}
         </div>
       </div>

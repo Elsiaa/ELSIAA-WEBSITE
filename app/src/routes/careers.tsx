@@ -61,8 +61,8 @@ function Careers() {
       <section className="mx-auto max-w-5xl px-6 py-16 md:py-24">
         <Reveal>
           <p
-            className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="text-[13px] text-[#1e6b3c] "
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Press one
           </p>
@@ -100,7 +100,7 @@ function Careers() {
                     >
                       {r.id}
                     </h3>
-                    <p className="mt-1 text-[12px] leading-snug text-[#111111]/60">
+                    <p className="mt-1 text-[13px] leading-snug text-[#111111]/60">
                       {r.line}
                     </p>
                   </div>
@@ -125,8 +125,8 @@ function Careers() {
       </div>
       <footer className="border-t border-black/[0.06] py-10 text-center">
         <p
-          className="text-[11px] tracking-[0.2em] text-[#111111]/50 uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="text-[13px] text-[#111111]/50 "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           בעזרת ה׳ נעשה ונצליח
         </p>
@@ -146,8 +146,8 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-[#0c0c0c]/30 to-[#0c0c0c]/60" />
       <div className="relative mx-auto w-full max-w-5xl px-6 pt-40 pb-14 md:pb-20">
         <p
-          className="text-[10px] tracking-[0.32em] text-[#2e9e58] uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="text-[13px] text-[#2e9e58] "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Careers
         </p>
@@ -291,8 +291,8 @@ function ApplyForm({ role }: { role: RoleId | null }) {
         {/* identity rail — desktop left column */}
         <div className="lg:w-[240px] lg:flex-none">
           <span
-            className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="text-[13px] text-[#111111]/55 "
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             The application
           </span>
@@ -307,8 +307,8 @@ function ApplyForm({ role }: { role: RoleId | null }) {
             application ourselves and reply to all of them.
           </p>
           <p
-            className="mt-4 hidden text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase lg:block"
-            style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+            className="mt-4 hidden text-[13px] text-[#1e6b3c]  lg:block"
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Under a minute
           </p>
@@ -324,7 +324,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
 
         {/* positions */}
         <div className="mt-6">
-          <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
+          <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
             Positions — select all that apply
           </span>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -361,12 +361,12 @@ function ApplyForm({ role }: { role: RoleId | null }) {
         {/* the essay */}
         <div className="mt-6">
           <div className="flex items-baseline justify-between gap-3">
-            <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
+            <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
               In 250 words or more, tell me why I should hire you and how you plan on contributing to ELSIAA.
             </span>
             <span
-              className={`flex-none text-[11px] tabular-nums ${words >= 250 ? "text-[#1e6b3c]" : "text-[#111111]/55"}`}
-              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+              className={`flex-none text-[13px] tabular-nums ${words >= 250 ? "text-[#1e6b3c]" : "text-[#111111]/55"}`}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               {words} / 250
             </span>
@@ -435,7 +435,7 @@ function ApplyForm({ role }: { role: RoleId | null }) {
         <button
           onClick={submit}
           disabled={!valid || state === "sending"}
-          className={`mt-6 w-full rounded-full px-6 py-4 text-[12px] font-semibold tracking-[0.24em] uppercase transition-all duration-300 md:w-auto md:min-w-[220px] ${
+          className={`mt-6 w-full rounded-full px-6 py-4 text-[13px] font-semibold  transition-all duration-300 md:w-auto md:min-w-[220px] ${
             valid
               ? "bg-[#111111] text-white hover:bg-[#1e6b3c]"
               : "cursor-not-allowed bg-black/[0.06] text-[#111111]/50"
@@ -472,7 +472,7 @@ function Choice({
 }) {
   return (
     <div>
-      <span className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}>
+      <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
         {label}
       </span>
       <div className="mt-1.5 flex gap-1.5">
@@ -481,7 +481,7 @@ function Choice({
             key={o}
             type="button"
             onClick={() => onChange(o)}
-            className={`flex-1 rounded-xl border px-2 py-3 text-[12px] font-medium transition-all duration-200 ${
+            className={`flex-1 rounded-xl border px-2 py-3 text-[13px] font-medium transition-all duration-200 ${
               value === o
                 ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
                 : "border-black/10 bg-[#FBFBFA] text-[#111111]/65 hover:border-black/30"
@@ -512,8 +512,8 @@ function Field({
   return (
     <label className="block">
       <span
-        className="text-[10px] tracking-[0.22em] text-[#111111]/55 uppercase"
-        style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+        className="text-[13px] text-[#111111]/55 "
+        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         {label}
       </span>

@@ -81,8 +81,8 @@ export function HomeLoop() {
     <section className="bg-gradient-to-b from-white to-[#F5F5F3] py-20">
       <div className="mx-auto max-w-6xl px-6">
         <p
-          className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="text-[13px] text-[#1e6b3c] "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           What we build
         </p>
@@ -139,8 +139,8 @@ export function HomeLoop() {
               </span>
             </div>
             <span
-              className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold tracking-[0.22em] text-[#111111] uppercase backdrop-blur"
-              style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+              className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-[13px] font-bold text-[#111111]  backdrop-blur"
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               ELSIAA
             </span>

@@ -190,7 +190,7 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
       }
 
       // office markers
-      ctx.font = "600 10px 'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace";
+      ctx.font = "600 10px -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
       const visible: Array<{ o: (typeof officeVecs)[number]; p: { x: number; y: number; z: number } }> = [];
       for (const o of officeVecs) {
         const p = proj(o.v);

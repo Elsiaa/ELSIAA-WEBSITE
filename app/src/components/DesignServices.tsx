@@ -101,7 +101,7 @@ function AdTiles() {
       {[0, 1, 2, 3, 4, 5].map((i) => (
         <div
           key={i}
-          className="ds-tile flex aspect-square items-center justify-center rounded-md bg-[#F5F5F3] text-[10px] font-bold text-[#111111]/60"
+          className="ds-tile flex aspect-square items-center justify-center rounded-md bg-[#F5F5F3] text-[13px] font-bold text-[#111111]/60"
           style={{ animationDelay: `${i * 0.12}s` }}
         >
           AD
@@ -362,7 +362,7 @@ function ServiceCard({
             <a
               href="mailto:info@elsiaa.com?subject=Design%20project%20inquiry"
               onClick={(e) => e.stopPropagation()}
-              className="mt-4 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.22em] text-[#1e6b3c] uppercase transition-colors hover:text-[#2e9e58]"
+              className="mt-4 inline-flex items-center gap-2 text-[13px] font-semibold text-[#1e6b3c]  transition-colors hover:text-[#2e9e58]"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               Start a project <span>→</span>
@@ -370,10 +370,10 @@ function ServiceCard({
           </div>
         </div>
         <span
-          className={`mt-auto pt-3 text-[10px] tracking-[0.26em] uppercase transition-colors duration-300 ${
+          className={`mt-auto pt-3 text-[13px]  transition-colors duration-300 ${
             open ? "text-[#1e6b3c]" : "text-[#111111]/50 group-hover:text-[#1e6b3c]/70"
           }`}
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {open ? "− Close" : "+ Learn more"}
         </span>
@@ -404,8 +404,8 @@ function CategoryBlock({ cat }: { cat: Category }) {
   return (
     <div ref={ref} className="ds-cat mx-auto max-w-6xl px-6 py-16 md:py-20">
       <p
-        className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
-        style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+        className="text-[13px] text-[#1e6b3c] "
+        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         {cat.eyebrow}
       </p>
@@ -486,8 +486,8 @@ export function DesignServices() {
 
       <div className="mx-auto max-w-6xl px-6 pt-24 pb-4 text-center md:pt-28">
         <p
-          className="text-[11px] tracking-[0.34em] text-[#1e6b3c] uppercase"
-          style={{ fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" }}
+          className="text-[13px] text-[#1e6b3c] "
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Discover graphics
         </p>

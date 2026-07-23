@@ -8,7 +8,7 @@ import { useMemo, useState } from "react";
   by email.
 */
 
-const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
 
 export type Product = {
@@ -61,10 +61,10 @@ function ProductCard({ p, onAdd }: { p: Product; onAdd: (p: Product, size: strin
       </div>
       <div className="mt-4 text-center">
         <h3 className="text-[13px] font-medium tracking-[0.02em] lowercase" style={inter}>{p.name}</h3>
-        <p className="mt-0.5 text-[12px] text-[#111111]/60" style={mono}>${p.price}</p>
+        <p className="mt-0.5 text-[13px] text-[#111111]/60" style={mono}>${p.price}</p>
       </div>
       {p.tag !== "Day-to-Day" && (
-        <p className="mt-1 text-[10px] tracking-[0.22em] text-[#1e6b3c] uppercase" style={mono}>Limited</p>
+        <p className="mt-1 text-[13px] text-[#1e6b3c] " style={mono}>Limited</p>
       )}
       <div className="mt-3 flex items-center justify-between gap-2">
         <div className="flex gap-1">
@@ -72,7 +72,7 @@ function ProductCard({ p, onAdd }: { p: Product; onAdd: (p: Product, size: strin
             <button
               key={s}
               onClick={() => setSize(s)}
-              className={`h-8 w-8 rounded-md border text-[11px] transition-all ${
+              className={`h-8 w-8 rounded-md border text-[13px] transition-all ${
                 size === s
                   ? "border-[#111111] bg-[#111111] font-semibold text-white"
                   : "border-black/10 text-[#111111]/55 hover:border-black/30"
@@ -89,7 +89,7 @@ function ProductCard({ p, onAdd }: { p: Product; onAdd: (p: Product, size: strin
             setAdded(true);
             setTimeout(() => setAdded(false), 1200);
           }}
-          className="rounded-full border border-[#111111] px-4 py-2 text-[10.5px] font-bold tracking-[0.18em] uppercase transition-all hover:bg-[#111111] hover:text-white"
+          className="rounded-full border border-[#111111] px-4 py-2 text-[10.5px] font-bold  transition-all hover:bg-[#111111] hover:text-white"
           style={mono}
         >
           {added ? "Added ✓" : "Add"}
@@ -157,7 +157,7 @@ export function StoreFront() {
 
       {/* standard line */}
       <div className="mt-20">
-        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/55 lowercase" style={mono}>day-to-day — black / white / grey</p>
+        <p className="text-center text-[13px] text-[#111111]/55 lowercase" style={mono}>day-to-day — black / white / grey</p>
         <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/55 lowercase" style={inter}>
           three fits — fitted professional, tailored casual, slightly oversized.
         </p>
@@ -168,7 +168,7 @@ export function StoreFront() {
 
       {/* city line */}
       <div className="mt-20">
-        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/55 lowercase" style={mono}>city line — limited</p>
+        <p className="text-center text-[13px] text-[#111111]/55 lowercase" style={mono}>city line — limited</p>
         <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/55 lowercase" style={inter}>
           europe, new york, los angeles — pop colors, one drop per city.
         </p>
@@ -179,7 +179,7 @@ export function StoreFront() {
 
       {/* old money line */}
       <div className="mt-20">
-        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/55 lowercase" style={mono}>old money — oversized</p>
+        <p className="text-center text-[13px] text-[#111111]/55 lowercase" style={mono}>old money — oversized</p>
         <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/55 lowercase" style={inter}>
           oversized, heavyweight, one tiny crest — nothing more.
         </p>
@@ -190,7 +190,7 @@ export function StoreFront() {
 
       {/* objects line */}
       <div className="mt-20">
-        <p className="text-center text-[10px] tracking-[0.3em] text-[#111111]/55 lowercase" style={mono}>objects — scandinavian minimal</p>
+        <p className="text-center text-[13px] text-[#111111]/55 lowercase" style={mono}>objects — scandinavian minimal</p>
         <p className="mx-auto mt-2 max-w-md text-center text-[12.5px] text-[#111111]/55 lowercase" style={inter}>
           the studio, portable. pure white, one mark each.
         </p>
@@ -203,7 +203,7 @@ export function StoreFront() {
       {count > 0 && !drawer && (
         <button
           onClick={() => setDrawer(true)}
-          className="fixed right-6 bottom-6 z-40 flex items-center gap-2 rounded-full bg-[#111111] px-6 py-4 text-[11px] font-bold tracking-[0.2em] text-white uppercase shadow-xl transition-transform hover:scale-105"
+          className="fixed right-6 bottom-6 z-40 flex items-center gap-2 rounded-full bg-[#111111] px-6 py-4 text-[13px] font-bold text-white  shadow-xl transition-transform hover:scale-105"
           style={mono}
         >
           Bag · {count}
@@ -248,7 +248,7 @@ export function StoreFront() {
                   <button
                     onClick={placeOrder}
                     disabled={sending || !name.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)}
-                    className="mt-4 w-full rounded-full bg-[#111111] py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all enabled:hover:bg-[#1e6b3c] disabled:opacity-30"
+                    className="mt-4 w-full rounded-full bg-[#111111] py-4 text-[13px] font-bold text-white  transition-all enabled:hover:bg-[#1e6b3c] disabled:opacity-30"
                     style={mono}
                   >
                     {sending ? "Placing…" : "Place order request"}
@@ -265,7 +265,7 @@ export function StoreFront() {
                     <li key={`${i.id}-${i.size}`} className="flex items-center justify-between gap-3">
                       <div>
                         <p className="text-[14.5px] font-medium" style={inter}>{i.name}</p>
-                        <p className="text-[12px] text-[#111111]/55" style={mono}>Size {i.size} · ${i.price}</p>
+                        <p className="text-[13px] text-[#111111]/55" style={mono}>Size {i.size} · ${i.price}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <button onClick={() => setCart((c) => c.map((x) => x === i ? { ...x, qty: Math.max(1, x.qty - 1) } : x))} className="h-7 w-7 rounded-md border border-black/10 text-[14px]">−</button>
@@ -282,7 +282,7 @@ export function StoreFront() {
                   </div>
                   <button
                     onClick={() => setCheckout(true)}
-                    className="mt-4 w-full rounded-full bg-[#111111] py-4 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#1e6b3c]"
+                    className="mt-4 w-full rounded-full bg-[#111111] py-4 text-[13px] font-bold text-white  transition-all hover:bg-[#1e6b3c]"
                     style={mono}
                   >
                     Checkout →
