@@ -177,10 +177,10 @@ function DivisionRow({
         <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-[minmax(0,1fr)_640px] md:gap-6">
           <Reveal className="order-2 md:order-1">
             <p
-              className="text-[13px] text-[#1e6b3c] "
+              className="text-[14px] font-bold text-[#1e6b3c]"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
-              {n} · Division
+              {n} · {title}
             </p>
             <h2
               className="mt-2 text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
@@ -450,7 +450,7 @@ function GlobeReveal() {
         transition: "filter .15s linear",
       }}
     >
-      <ScrollGlobe size={380} />
+      <ScrollGlobe size={300} />
     </div>
   );
 }
@@ -1226,7 +1226,7 @@ function DesignDivision() {
     return (
       <section className="border-t border-black/[0.06] bg-white py-16 md:py-24">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 px-6 text-center">
-          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>02 · Division</p>
+          <p className="text-[14px] font-bold text-[#1e6b3c]">2 · Design</p>
           <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={inter}>Design</h2>
           <Sphere live />
           <p className="max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
@@ -1246,7 +1246,7 @@ function DesignDivision() {
       <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "260vh" }}>
         <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-5 overflow-hidden px-6 text-center">
           <div>
-            <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>02 · Division</p>
+            <p className="text-[14px] font-bold text-[#1e6b3c]">2 · Design</p>
             <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
           </div>
           <Sphere live={false} />
@@ -1297,6 +1297,36 @@ function DesignCatalog() {
   );
 }
 
+
+/* ---- anti-fatigue: collapsed chapter that mounts content only when opened ---- */
+function ExpandSection({ title, blurb, children }: { title: string; blurb: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
+  return (
+    <section className="border-t border-black/[0.06]">
+      <button
+        onClick={() => setOpen(!open)}
+        className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-7 text-left transition-colors hover:bg-black/[0.015] md:py-9"
+        aria-expanded={open}
+        style={sans}
+      >
+        <span>
+          <span className="block text-[19px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[22px]">{title}</span>
+          <span className="mt-1 block text-[14px] text-[#111111]/50">{blurb}</span>
+        </span>
+        <span
+          className={`flex h-10 w-10 flex-none items-center justify-center rounded-full border border-black/[0.12] text-[#111111] transition-transform duration-300 ${open ? "rotate-45" : ""}`}
+        >
+          +
+        </span>
+      </button>
+      <div className={`overflow-hidden transition-all duration-500 ${open ? "max-h-none opacity-100" : "max-h-0 opacity-0"}`}>
+        {open && children}
+      </div>
+    </section>
+  );
+}
+
 export function HomeRows() {
   return (
     <main className="bg-white">
@@ -1319,11 +1349,17 @@ export function HomeRows() {
           </>
         }
       />
-      <HeroCards />
-      <WhyBrandsChose />
-      <SoftwareDemos />
-      <Team />
-      <Locations />
+      <ExpandSection title="Proof — live systems and results" blurb="Real deployments, real numbers, why brands chose ELSIAA.">
+        <HeroCards />
+        <WhyBrandsChose />
+        <SoftwareDemos />
+      </ExpandSection>
+      <ExpandSection title="The team" blurb="Who builds it, who stands behind it.">
+        <Team />
+      </ExpandSection>
+      <ExpandSection title="Offices — six cities" blurb="New York, Los Angeles, London, Geneva, Antwerp, Tel Aviv.">
+        <Locations />
+      </ExpandSection>
       <FinalCTA />
       <StickyCTA />
     </main>

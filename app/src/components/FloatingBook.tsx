@@ -22,7 +22,7 @@ export function FloatingBook() {
   if (dead) return null;
   return (
     <div
-      className="fixed right-4 z-40 transition-all duration-500"
+      className="fixed right-4 z-40 hidden transition-all duration-500 md:block"
       style={{
         bottom: "calc(env(safe-area-inset-bottom, 0px) + 16px)",
         opacity: show ? 1 : 0,
