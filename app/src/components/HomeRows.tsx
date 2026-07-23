@@ -332,39 +332,63 @@ function CountUp({ target }: { target: number }) {
    page, not a pasted photo. Carries what ELSIAA stands for. */
 function HeroLion() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
-  const [alive, setAlive] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const glowRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setAlive(true);
+    const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const img = imgRef.current;
+    const glow = glowRef.current;
+    if (reduced) {
+      if (img) img.style.filter = "grayscale(0) saturate(1.06) contrast(1.02)";
+      if (glow) glow.style.opacity = "1";
       return;
     }
-    const t = window.setTimeout(() => setAlive(true), 350);
-    return () => window.clearTimeout(t);
+    let raf = 0;
+    const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        // grey at the very top → full colour as you scroll into the page
+        const p = clamp01(window.scrollY / (window.innerHeight * 0.55));
+        if (img) {
+          img.style.filter = `grayscale(${(1 - p).toFixed(2)}) saturate(${(0.2 + p * 0.9).toFixed(2)}) contrast(1.02)`;
+          img.style.transform = `scale(${(0.98 + p * 0.03).toFixed(3)})`;
+        }
+        if (glow) glow.style.opacity = String(0.15 + p * 0.85);
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
   }, []);
-  const feather = "radial-gradient(115% 92% at 50% 40%, #000 66%, rgba(0,0,0,0) 100%)";
+  // soft circular vignette so the portrait blends into the white — no hard edge
+  const circle = "radial-gradient(circle at 50% 46%, #000 62%, rgba(0,0,0,0) 82%)";
   return (
-    <div className="pointer-events-none absolute top-1/2 right-2 hidden w-[320px] -translate-y-1/2 lg:block xl:right-0 xl:w-[380px]">
-      <div className="relative">
-        {/* emerald life-glow, blooming in — matches the planet */}
+    <div ref={ref} className="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 lg:block xl:right-6">
+      <div className="relative h-[300px] w-[300px] xl:h-[360px] xl:w-[360px]">
+        {/* emerald life-glow, grows with scroll — matches the planet */}
         <div
-          className="absolute inset-[6%] -z-10 rounded-full blur-3xl transition-opacity duration-[1400ms]"
-          style={{ background: "radial-gradient(circle at 50% 44%, rgba(30,107,60,0.34), transparent 62%)", opacity: alive ? 1 : 0 }}
+          ref={glowRef}
+          className="absolute inset-[-6%] -z-10 rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle at 50% 48%, rgba(30,107,60,0.4), transparent 66%)", opacity: 0.15 }}
         />
         <img
+          ref={imgRef}
           src="/assets/hero_lion.png"
           alt="The ELSIAA lion — alive"
-          className="w-full"
+          className="h-full w-full object-cover"
           style={{
-            WebkitMaskImage: feather,
-            maskImage: feather,
-            filter: alive ? "grayscale(0) saturate(1.06) contrast(1.02)" : "grayscale(1) saturate(0.2) brightness(1.02)",
-            transform: alive ? "scale(1)" : "scale(0.985)",
-            transition: "filter 1500ms cubic-bezier(0.2,0.8,0.2,1), transform 1500ms cubic-bezier(0.2,0.8,0.2,1)",
+            objectPosition: "50% 20%",
+            WebkitMaskImage: circle,
+            maskImage: circle,
+            filter: "grayscale(1) saturate(0.2)",
+            willChange: "filter, transform",
           }}
         />
       </div>
       {/* what ELSIAA stands for */}
-      <p className="mt-1 text-center text-[10px] leading-relaxed tracking-[0.16em] text-[#111111]/55 uppercase" style={sans}>
+      <p className="mt-2 text-center text-[10px] leading-relaxed tracking-[0.16em] text-[#111111]/55 uppercase" style={sans}>
         <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
         <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
         <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
