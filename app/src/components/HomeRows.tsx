@@ -1132,6 +1132,154 @@ function AutomationCatalog() {
   );
 }
 
+/* ---------- Design division: scroll-scrubbed rock → living earth ----------
+   A pinned, sticky passage. As you scroll through it the sphere transforms
+   from a dead rock into a vibrant earth — "a world without art is a rock."
+   You move through the whole animation before the section releases; the CTA
+   "Discover how we design" resolves at the end. Reduced motion → static earth. */
+function DesignDivision() {
+  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+  const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const sphereRef = useRef<HTMLDivElement | null>(null);
+  const rockCapRef = useRef<HTMLParagraphElement | null>(null);
+  const lifeCapRef = useRef<HTMLParagraphElement | null>(null);
+  const ctaRef = useRef<HTMLDivElement | null>(null);
+  const hintRef = useRef<HTMLParagraphElement | null>(null);
+  const [reduced, setReduced] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setReduced(true);
+      return;
+    }
+    const wrap = wrapRef.current;
+    const v = videoRef.current;
+    if (!wrap) return;
+    let vdur = 0;
+    let ready = false;
+    let vCurrent = 0;
+    if (v) {
+      const onMeta = () => { ready = true; vdur = Number.isFinite(v.duration) ? v.duration : 0; };
+      v.addEventListener("loadedmetadata", onMeta);
+      if (v.readyState >= 1) onMeta();
+    }
+    let raf = 0;
+    const set = (el: HTMLElement | null, o: Partial<CSSStyleDeclaration>) => { if (el) Object.assign(el.style, o); };
+    const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+    const seg = (p: number, a: number, b: number) => (p <= a ? 0 : p >= b ? 1 : (p - a) / (b - a));
+    const tick = () => {
+      const r = wrap.getBoundingClientRect();
+      const span = r.height - window.innerHeight;
+      const p = span > 0 ? clamp01(-r.top / span) : 0;
+      // scrub the rock→earth film
+      if (v && ready && vdur) {
+        const target = clamp01(seg(p, 0.05, 0.92)) * (vdur - 0.05);
+        vCurrent += (target - vCurrent) * 0.16;
+        if (Math.abs(v.currentTime - vCurrent) > 0.004) {
+          try { v.currentTime = vCurrent; } catch { /* noop */ }
+        }
+      }
+      // the sphere breathes to life: subtle scale + saturation
+      const grow = 0.92 + seg(p, 0, 0.9) * 0.12;
+      const sat = 0.15 + seg(p, 0.3, 0.85) * 0.95;
+      set(sphereRef.current, { transform: `scale(${grow.toFixed(3)})`, filter: `saturate(${sat.toFixed(2)}) contrast(1.05)` });
+      // captions cross-fade
+      set(rockCapRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.32, 0.5))) });
+      set(lifeCapRef.current, { opacity: String(seg(p, 0.5, 0.66)), transform: `translateY(${(1 - seg(p, 0.5, 0.66)) * 8}px)` });
+      set(ctaRef.current, { opacity: String(seg(p, 0.78, 0.94)), transform: `translateY(${(1 - seg(p, 0.78, 0.94)) * 10}px)` });
+      set(hintRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.7, 0.9))) });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  if (reduced) {
+    return (
+      <section className="border-t border-black/[0.06] bg-white py-16 md:py-24">
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-6 md:grid-cols-2">
+          <div>
+            <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>02 · Division</p>
+            <h2 className="mt-2 text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={inter}>Design</h2>
+            <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
+              A world without art is a rock. Design gives your business a living surface — every screen, every touchpoint, brought to life.
+            </p>
+            <a href="/designs" className="mt-6 inline-block text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline" style={mono}>Discover how we design ↗</a>
+          </div>
+          <div className="overflow-hidden rounded-2xl border border-black/[0.08] bg-[#050608]">
+            <img src="/assets/cine/earth.jpg" alt="A living earth" className="aspect-square w-full object-cover" />
+          </div>
+        </div>
+        <DesignCatalog />
+      </section>
+    );
+  }
+
+  return (
+    <>
+      <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "240vh" }}>
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+          <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-6 md:grid-cols-2">
+            <div>
+              <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>02 · Division</p>
+              <h2 className="mt-2 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
+              <div className="relative mt-4 h-[76px] max-w-md">
+                <p ref={rockCapRef} className="absolute inset-0 text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
+                  A world without art is a rock. Cold, correct, and completely forgettable.
+                </p>
+                <p ref={lifeCapRef} className="absolute inset-0 text-[15px] leading-relaxed text-[#111111]/70 opacity-0" style={inter}>
+                  Design gives it life — a living surface for every screen and every touchpoint your brand meets.
+                </p>
+              </div>
+              <div ref={ctaRef} className="opacity-0">
+                <a href="/designs" className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111]" style={mono}>
+                  Discover how we design →
+                </a>
+              </div>
+              <p ref={hintRef} className="mt-5 text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>Keep scrolling — watch it come to life</p>
+            </div>
+            <div className="flex items-center justify-center">
+              <div ref={sphereRef} className="relative aspect-square w-[78%] max-w-[420px] overflow-hidden rounded-full shadow-[0_40px_120px_-40px_rgba(30,107,60,0.45)] will-change-transform">
+                <video ref={videoRef} src="/assets/cine/bloom.mp4" poster="/assets/cine/rock.jpg" muted playsInline preload="auto" className="h-full w-full object-cover" />
+                <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/10" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="bg-white pb-16 md:pb-24">
+        <DesignCatalog />
+      </section>
+    </>
+  );
+}
+
+function DesignCatalog() {
+  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+  const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+  return (
+    <div className="mx-auto w-full max-w-6xl px-6">
+      <Reveal delay={0.05}>
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+          {DESIGN.map((s, i) => (
+            <a key={`${s.name}-${i}`} href="/designs" className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={inter}>{s.name}</h3>
+                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[12px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">→</span>
+              </div>
+              <ul className="mt-2.5 space-y-1">
+                {s.items.map((it) => (<li key={it} className="text-[12px] leading-snug text-[#111111]/55" style={inter}>{it}</li>))}
+              </ul>
+            </a>
+          ))}
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
 export function HomeRows() {
   return (
     <main className="bg-white">
@@ -1139,15 +1287,7 @@ export function HomeRows() {
       <HomeHero />
       <AutomationSection />
       <AutomationCatalog />
-      <DivisionRow
-        n="2"
-        title="Design"
-        lede="Good artists don't use AI — they leverage it. World-class design for every surface of your business."
-        graphic={<GlobeReveal />}
-        subs={DESIGN}
-        href="/designs"
-        cta="Explore Designs"
-      />
+      <DesignDivision />
       <DivisionRow
         n="3"
         title="Consultation"
