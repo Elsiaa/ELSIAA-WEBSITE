@@ -1141,20 +1141,22 @@ function AutomationCatalog() {
   );
 }
 
-/* ---------- Design division: scroll-scrubbed rock → living earth ----------
-   A pinned, sticky passage. As you scroll through it the sphere transforms
-   from a dead rock into a vibrant earth — "a world without art is a rock."
-   You move through the whole animation before the section releases; the CTA
-   "Discover how we design" resolves at the end. Reduced motion → static earth. */
+/* ---------- Design division: rock → living earth, scroll-scrubbed ----------
+   One sphere, hard circular clip, two perfectly-registered layers.
+   Life crosses the planet as a dawn line — a rotating light sweep — driven
+   directly by scroll with lerp smoothing. Copy arrives in stages:
+   rock (cold) → dawn (curiosity) → alive (revelation) → CTA (desire).
+   Reduced motion: static living earth. */
 function DesignDivision() {
-  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
   const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   const wrapRef = useRef<HTMLDivElement | null>(null);
-  const sphereRef = useRef<HTMLDivElement | null>(null);
+  const earthRef = useRef<HTMLDivElement | null>(null);
   const rockRef = useRef<HTMLImageElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
-  const rockCapRef = useRef<HTMLParagraphElement | null>(null);
-  const lifeCapRef = useRef<HTMLParagraphElement | null>(null);
+  const atmoRef = useRef<HTMLDivElement | null>(null);
+  const sphereRef = useRef<HTMLDivElement | null>(null);
+  const cap1Ref = useRef<HTMLParagraphElement | null>(null);
+  const cap2Ref = useRef<HTMLParagraphElement | null>(null);
   const ctaRef = useRef<HTMLDivElement | null>(null);
   const hintRef = useRef<HTMLParagraphElement | null>(null);
   const [reduced, setReduced] = useState(false);
@@ -1167,65 +1169,90 @@ function DesignDivision() {
     const wrap = wrapRef.current;
     if (!wrap) return;
     let raf = 0;
+    let sp = 0; // smoothed progress
     const set = (el: HTMLElement | null, o: Partial<CSSStyleDeclaration>) => { if (el) Object.assign(el.style, o); };
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
-    const seg = (p: number, a: number, b: number) => (p <= a ? 0 : p >= b ? 1 : (p - a) / (b - a));
+    const seg = (p: number, a2: number, b2: number) => (p <= a2 ? 0 : p >= b2 ? 1 : (p - a2) / (b2 - a2));
+    const ease = (t: number) => t * t * (3 - 2 * t); // smoothstep
     const tick = () => {
       const r = wrap.getBoundingClientRect();
       const span = r.height - window.innerHeight;
-      const p = span > 0 ? clamp01(-r.top / span) : 0;
-      // the rock dissolves to reveal the living, colourful earth beneath it —
-      // assembled early in the scroll so it's fully alive before the pin releases
-      const reveal = seg(p, 0.04, 0.62);
-      set(rockRef.current, { opacity: String(1 - reveal), filter: `saturate(0.1) brightness(0.85)` });
-      // the sphere orbits into place — grows and rotates upright
-      const grow = 0.82 + seg(p, 0, 0.7) * 0.18;
-      const rot = -12 + seg(p, 0, 0.72) * 12;
-      set(sphereRef.current, { transform: `scale(${grow.toFixed(3)}) rotate(${rot.toFixed(1)}deg)` });
-      set(glowRef.current, { opacity: String(0.1 + reveal * 0.65) });
-      // captions cross-fade
-      set(rockCapRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.22, 0.42))) });
-      set(lifeCapRef.current, { opacity: String(seg(p, 0.42, 0.58)), transform: `translateY(${(1 - seg(p, 0.42, 0.58)) * 8}px)` });
-      set(ctaRef.current, { opacity: String(seg(p, 0.66, 0.86)), transform: `translateY(${(1 - seg(p, 0.66, 0.86)) * 10}px)` });
-      set(hintRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.3, 0.55))) });
+      const target = span > 0 ? clamp01(-r.top / span) : 0;
+      sp += (target - sp) * 0.14; // lerp — momentum without lag
+      const p = sp;
+
+      // dawn sweep: life crosses the sphere left→right, 8%→60% of scroll
+      const sweep = ease(seg(p, 0.08, 0.6));
+      const edge = -20 + sweep * 140; // percentage position of the terminator line
+      const soft = 26; // width of the dawn gradient
+      const mask = `linear-gradient(105deg, #000 ${edge}%, rgba(0,0,0,0) ${edge + soft}%)`;
+      set(earthRef.current, { WebkitMaskImage: mask, maskImage: mask } as unknown as Partial<CSSStyleDeclaration>);
+
+      // the rock cools as it is overtaken
+      set(rockRef.current, { filter: `grayscale(1) brightness(${0.88 - sweep * 0.1}) contrast(1.04)` });
+
+      // atmosphere + glow bloom once life is mostly across
+      const alive = ease(seg(p, 0.42, 0.68));
+      set(glowRef.current, { opacity: String(0.08 + alive * 0.6) });
+      set(atmoRef.current, { opacity: String(alive * 0.9) });
+
+      // sphere settles: slight grow + upright rotation
+      const grow = 0.86 + ease(seg(p, 0, 0.7)) * 0.14;
+      const rot = -8 + ease(seg(p, 0, 0.7)) * 8;
+      set(sphereRef.current, { transform: `scale(${grow.toFixed(3)}) rotate(${rot.toFixed(2)}deg)` });
+
+      // copy arc
+      set(cap1Ref.current, { opacity: String(Math.max(0, 1 - seg(p, 0.18, 0.36))) });
+      set(cap2Ref.current, { opacity: String(seg(p, 0.5, 0.66)), transform: `translateY(${(1 - ease(seg(p, 0.5, 0.66))) * 10}px)` });
+      set(ctaRef.current, { opacity: String(seg(p, 0.68, 0.84)), transform: `translateY(${(1 - ease(seg(p, 0.68, 0.84))) * 12}px)`, pointerEvents: p > 0.7 ? "auto" : "none" });
+      set(hintRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.1, 0.28))) });
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  // radial masks clip the black space away so only the sphere shows — its edge
-  // fades seamlessly into the white page, no hard disc.
-  const earthMask = "radial-gradient(circle at 50.5% 46%, #000 0 40%, rgba(0,0,0,0) 48%)";
-  const rockMask = "radial-gradient(circle at 54.5% 49%, #000 0 38%, rgba(0,0,0,0) 45%)";
   const Sphere = ({ live }: { live: boolean }) => (
-    <div className="relative flex items-center justify-center" style={{ width: "min(66vh, 460px)", height: "min(66vh, 460px)" }}>
+    <div className="relative flex items-center justify-center" style={{ width: "min(58vh, min(82vw, 440px))", height: "min(58vh, min(82vw, 440px))" }}>
+      {/* green life-glow behind the planet */}
       <div
         ref={live ? undefined : glowRef}
-        className="pointer-events-none absolute h-[78%] w-[78%] rounded-full blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(46,158,88,0.45), transparent 68%)", opacity: live ? 0.5 : 0.12 }}
+        className="pointer-events-none absolute h-[86%] w-[86%] rounded-full blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(46,158,88,0.42), transparent 66%)", opacity: live ? 0.55 : 0.08 }}
       />
       <div
         ref={live ? undefined : sphereRef}
-        className="relative aspect-square w-full will-change-transform"
-        style={{ filter: "drop-shadow(0 28px 55px rgba(12,30,20,0.34))" }}
+        className="relative aspect-square w-[82%] will-change-transform"
       >
-        <img
-          src="/assets/cine/earth.jpg"
-          alt="A living earth"
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: "50.5% 46%", WebkitMaskImage: earthMask, maskImage: earthMask }}
-        />
-        {!live && (
+        {/* one hard circular clip — both layers perfectly registered */}
+        <div className="absolute inset-0 overflow-hidden rounded-full" style={{ boxShadow: "0 30px 70px -28px rgba(12,30,20,0.4)" }}>
           <img
-            ref={rockRef}
+            ref={live ? undefined : rockRef}
             src="/assets/cine/rock.jpg"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{ objectPosition: "57% 50%", WebkitMaskImage: rockMask, maskImage: rockMask, filter: "saturate(0.1) brightness(0.9)" }}
+            className="absolute inset-0 h-full w-full scale-[1.15] object-cover"
+            style={{ objectPosition: "57% 50%", filter: live ? "none" : "grayscale(1) brightness(0.88) contrast(1.04)", display: live ? "none" : "block" }}
           />
-        )}
+          <div
+            ref={live ? undefined : earthRef}
+            className="absolute inset-0"
+            style={live ? undefined : { WebkitMaskImage: "linear-gradient(105deg, #000 -20%, rgba(0,0,0,0) 6%)", maskImage: "linear-gradient(105deg, #000 -20%, rgba(0,0,0,0) 6%)" }}
+          >
+            <img
+              src="/assets/cine/earth.jpg"
+              alt="A living earth"
+              className="absolute inset-0 h-full w-full scale-[1.28] object-cover"
+              style={{ objectPosition: "50.5% 46%" }}
+            />
+          </div>
+        </div>
+        {/* thin atmosphere ring, appears with life */}
+        <div
+          ref={live ? undefined : atmoRef}
+          className="pointer-events-none absolute -inset-[2.5%] rounded-full"
+          style={{ boxShadow: "inset 0 0 24px rgba(120,180,255,0.35), 0 0 34px rgba(120,180,255,0.25)", opacity: live ? 0.9 : 0 }}
+        />
       </div>
     </div>
   );
@@ -1238,9 +1265,9 @@ function DesignDivision() {
           <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={inter}>Design</h2>
           <Sphere live />
           <p className="max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
-            A world without art is a rock. Design gives your business a living surface — every screen, every touchpoint, brought to life.
+            A world without design is a rock. Design gives it life — a living surface for every screen your brand meets.
           </p>
-          <a href="/designs" className="inline-block rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111]" style={mono}>Discover how we design →</a>
+          <a href="/designs" className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-7 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={inter}>Discover how we design →</a>
         </div>
         <div className="mt-14"><DesignCatalog /></div>
       </section>
@@ -1249,29 +1276,29 @@ function DesignDivision() {
 
   return (
     <>
-      {/* pinned stage — the earth assembles from a rock as you scroll; it is
-          fully alive before the pin releases you to the next section */}
-      <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "260vh" }}>
-        <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-5 overflow-hidden px-6 text-center">
+      <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "300vh" }}>
+        <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-4 overflow-hidden px-6 text-center">
           <div>
-            <p className="text-[14px] font-bold text-[#1e6b3c]">2 · Design</p>
+            <p className="text-[14px] font-bold text-[#1e6b3c]" style={inter}>2 · Design</p>
             <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
           </div>
           <Sphere live={false} />
-          <div className="relative h-[52px] w-full max-w-lg">
-            <p ref={rockCapRef} className="absolute inset-x-0 mx-auto max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
-              A world without art is a rock. Cold, correct, and completely forgettable.
+          <div className="relative h-[64px] w-full max-w-lg">
+            <p ref={cap1Ref} className="absolute inset-x-0 mx-auto max-w-md text-[16px] leading-relaxed text-[#111111]/65" style={inter}>
+              A world without design is a rock.
+              <span className="mt-0.5 block text-[13.5px] text-[#111111]/40">Cold. Correct. Forgettable.</span>
             </p>
-            <p ref={lifeCapRef} className="absolute inset-x-0 mx-auto max-w-md text-[15px] leading-relaxed text-[#111111]/75 opacity-0" style={inter}>
-              Design gives it life — a living surface for every screen your brand meets.
+            <p ref={cap2Ref} className="absolute inset-x-0 mx-auto max-w-md text-[16px] leading-relaxed text-[#111111]/80 opacity-0" style={inter}>
+              Design gives it life.
+              <span className="mt-0.5 block text-[13.5px] text-[#111111]/50">A living surface for every screen your brand meets.</span>
             </p>
           </div>
-          <div ref={ctaRef} className="opacity-0">
-            <a href="/designs" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111]" style={mono}>
+          <div ref={ctaRef} className="opacity-0" style={{ pointerEvents: "none" }}>
+            <a href="/designs" className="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={inter}>
               Discover how we design →
             </a>
           </div>
-          <p ref={hintRef} className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>Keep scrolling — watch it come to life ↓</p>
+          <p ref={hintRef} className="text-[13px] font-medium text-[#111111]/40" style={inter}>Scroll — watch it come to life ↓</p>
         </div>
       </section>
       <section className="bg-white pb-16 md:pb-24">
