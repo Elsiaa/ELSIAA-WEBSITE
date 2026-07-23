@@ -81,13 +81,15 @@ export function SiteNav() {
             className="group pointer-events-auto flex items-center gap-3 transition-opacity hover:opacity-80"
             aria-label="ELSIAA — home"
           >
-            <img
-              src="/assets/elsiaa-lion.png"
-              alt=""
-              width={40}
-              height={40}
-              className="h-9 w-9 object-contain"
-            />
+            <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-[10px] bg-black ring-1 ring-black/10">
+              <img
+                src="/assets/wire_lion.png"
+                alt=""
+                width={40}
+                height={40}
+                className="h-full w-full scale-[1.18] object-cover"
+              />
+            </span>
             <span
               className="text-[15px] font-semibold text-[#111111]"
               style={{ fontFamily: SANS }}
@@ -256,7 +258,7 @@ export function SiteNav() {
                 <a
                   href="/quote"
                   onClick={() => setOpen(false)}
-                  className="mt-4 inline-flex w-fit items-center gap-3 rounded-full bg-[#111111] px-6 py-3 text-[13px] font-medium text-white transition-all duration-300 hover:opacity-85"
+                  className="mt-4 inline-flex w-fit items-center gap-3 rounded-full bg-[#111111] px-6 py-3 text-[13px] font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-18px_rgba(0,0,0,0.55)]"
                 >
                   Get a quote →
                 </a>
@@ -270,21 +272,19 @@ export function SiteNav() {
             </div>
           </div>
 
-          {/* live lion at the bottom */}
+          {/* the ELSIAA lion — forged in wire, a signature plate */}
           <div
-            className="pointer-events-none mt-6 flex justify-center"
+            className="mt-8 flex justify-center"
             style={{ opacity: open ? 1 : 0, transition: "opacity .7s ease .45s" }}
           >
-            {open && (
-              <video
-                src="/assets/lion_alive_v1.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="h-24 w-auto object-contain mix-blend-multiply md:h-32"
+            <div className="relative w-full max-w-[460px] overflow-hidden rounded-[28px] bg-black">
+              <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(120% 80% at 50% 30%, rgba(176,129,42,0.14), transparent 60%)" }} />
+              <img
+                src="/assets/wire_lion.png"
+                alt="The ELSIAA lion, forged in interlocking metal wire"
+                className="relative mx-auto h-52 w-auto object-contain md:h-60"
               />
-            )}
+            </div>
           </div>
 
           {/* overlay footer */}
@@ -318,7 +318,7 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
   })();
   return (
     <div>
-      <div className="flex items-center gap-3 rounded-2xl border border-black/[0.12] bg-black/[0.03] px-5 py-4 transition-colors focus-within:border-[#b0812a]">
+      <div className="flex items-center gap-3 rounded-2xl border border-black/[0.12] bg-black/[0.03] px-5 py-4 transition-all duration-200 focus-within:border-[#b0812a] focus-within:bg-white focus-within:shadow-[0_18px_50px_-34px_rgba(176,129,42,0.5)]">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b0812a" strokeWidth="2" strokeLinecap="round">
           <circle cx="11" cy="11" r="7" />
           <line x1="21" y1="21" x2="16.5" y2="16.5" />
