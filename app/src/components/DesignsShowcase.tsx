@@ -67,7 +67,13 @@ function LazyFrame({
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [load, setLoad] = useState(false);
+  const [gated, setGated] = useState(false);
   useEffect(() => {
+    // phones: don't mount heavy live sites until the visitor asks
+    if (window.matchMedia("(pointer: coarse) and (max-width: 767px)").matches) {
+      setGated(true);
+      return;
+    }
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
@@ -77,6 +83,20 @@ function LazyFrame({
     io.observe(el);
     return () => io.disconnect();
   }, []);
+  if (gated && !load) {
+    return (
+      <button
+        onClick={() => setLoad(true)}
+        className="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#f4f4f2]"
+        aria-label={`Load ${title}`}
+      >
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-white">▶</span>
+        <span className="text-[11px] tracking-[0.22em] text-[#111111]/55 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          Tap to explore live
+        </span>
+      </button>
+    );
+  }
   return (
     <div ref={ref} className="h-full w-full">
       {load ? (

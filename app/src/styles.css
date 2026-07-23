@@ -158,3 +158,7 @@
   0%, 100% { transform: scaleY(0.5); }
   50% { transform: scaleY(1.4); }
 }
+
+/* elsiaa-global-guards — nothing overflows, media always contained */
+html, body { overflow-x: hidden; max-width: 100vw; }
+img, video, canvas, iframe { max-width: 100%; }

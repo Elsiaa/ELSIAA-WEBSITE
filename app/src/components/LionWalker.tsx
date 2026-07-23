@@ -1,12 +1,11 @@
-import { useEffect, useRef } from "react";
+import { Component, type ReactNode, useEffect, useRef } from "react";
 
 /*
-  ELSIAA lion — a live animal in the header line.
-  Behavior engine: he walks the full lane between the far left and the tabs
-  icon, and every so often stops to be a lion — roars, lies down to rest,
-  pounces — then carries on. All clips share the same white-background
-  source lion; white is keyed out per-frame on canvas so he stands directly
-  on the page. The whole lion is a button that returns home.
+  ELSIAA lion — lite engine.
+  One video element, behavior clips swapped by src. White keyed on a small
+  throttled canvas (20fps, 128px) so phones never sweat. Pauses when the
+  tab is hidden. Wrapped in an error boundary: if anything inside fails,
+  the lion simply disappears — the site never goes down with him.
 */
 const CLIPS = {
   walk: "/assets/lion_mesh_walk_v1.mp4",
@@ -17,15 +16,26 @@ const CLIPS = {
 type Mode = keyof typeof CLIPS;
 const ACTIONS: Mode[] = ["roar", "rest", "pounce"];
 
-export function LionWalker() {
+class LionBoundary extends Component<{ children: ReactNode }, { dead: boolean }> {
+  state = { dead: false };
+  static getDerivedStateFromError() {
+    return { dead: true };
+  }
+  render() {
+    return this.state.dead ? null : this.props.children;
+  }
+}
+
+function LionEngine() {
   const wrapRef = useRef<HTMLButtonElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const videosRef = useRef<Partial<Record<Mode, HTMLVideoElement>>>({});
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const wrap = wrapRef.current;
     const canvas = canvasRef.current;
-    if (!wrap || !canvas) return;
+    const video = videoRef.current;
+    if (!wrap || !canvas || !video) return;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
@@ -33,49 +43,53 @@ export function LionWalker() {
     let pos = 0;
     let dir = 1;
     let last = performance.now();
+    let lastKey = 0;
     let mode: Mode = "walk";
-    let nextActionAt = performance.now() + 6000 + Math.random() * 8000;
+    let nextActionAt = performance.now() + 8000 + Math.random() * 8000;
     const SPEED = 24;
+    const KEY_INTERVAL = 50; // ms → 20fps keying
 
-    const vids = videosRef.current;
-    const active = () => vids[mode] ?? vids.walk;
-
-    const startAction = (m: Mode) => {
-      const v = vids[m];
-      if (!v || v.readyState < 2) return; // clip not ready — stay walking
+    const setClip = (m: Mode) => {
       mode = m;
-      v.currentTime = 0;
-      v.play().catch(() => {
-        mode = "walk";
+      video.loop = m === "walk";
+      video.src = CLIPS[m];
+      video.currentTime = 0;
+      video.play().catch(() => {
+        if (m !== "walk") setClip("walk");
       });
-      v.onended = () => {
-        mode = "walk";
-        vids.walk?.play().catch(() => {});
-        nextActionAt = performance.now() + 7000 + Math.random() * 9000;
-      };
     };
-
-    const key = () => {
-      const v = active();
-      if (!v || v.readyState < 2) return;
-      const w = canvas.width;
-      const h = canvas.height;
-      ctx.clearRect(0, 0, w, h);
-      ctx.drawImage(v, 0, 0, w, h);
-      const frame = ctx.getImageData(0, 0, w, h);
-      const d = frame.data;
-      for (let i = 0; i < d.length; i += 4) {
-        const min = Math.min(d[i], d[i + 1], d[i + 2]);
-        if (min > 232) d[i + 3] = 0;
-        else if (min > 200) d[i + 3] = ((232 - min) / 32) * 255;
+    video.onended = () => {
+      if (mode !== "walk") {
+        setClip("walk");
+        nextActionAt = performance.now() + 9000 + Math.random() * 9000;
       }
-      ctx.putImageData(frame, 0, 0);
+    };
+    setClip("walk");
+
+    const key = (now: number) => {
+      if (now - lastKey < KEY_INTERVAL || video.readyState < 2) return;
+      lastKey = now;
+      try {
+        const w = canvas.width;
+        const h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(video, 0, 0, w, h);
+        const frame = ctx.getImageData(0, 0, w, h);
+        const d = frame.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const min = Math.min(d[i], d[i + 1], d[i + 2]);
+          if (min > 232) d[i + 3] = 0;
+          else if (min > 200) d[i + 3] = ((232 - min) / 32) * 255;
+        }
+        ctx.putImageData(frame, 0, 0);
+      } catch {
+        /* drawing hiccup — skip frame */
+      }
     };
 
     const step = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
-
       if (mode === "walk") {
         const bound = Math.max(
           (wrap.parentElement?.clientWidth ?? 300) - wrap.clientWidth,
@@ -90,16 +104,32 @@ export function LionWalker() {
           dir = 1;
         }
         wrap.style.transform = `translateX(${pos}px)`;
-        if (now >= nextActionAt) {
-          startAction(ACTIONS[Math.floor(Math.random() * ACTIONS.length)]);
+        if (now >= nextActionAt && video.readyState >= 2) {
+          setClip(ACTIONS[Math.floor(Math.random() * ACTIONS.length)]);
         }
       }
       canvas.style.transform = `scaleX(${dir === 1 ? -1 : 1})`;
-      key();
+      key(now);
       raf = requestAnimationFrame(step);
     };
+
+    const onVis = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+        video.pause();
+      } else {
+        video.play().catch(() => {});
+        last = performance.now();
+        raf = requestAnimationFrame(step);
+      }
+    };
+    document.addEventListener("visibilitychange", onVis);
     raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      document.removeEventListener("visibilitychange", onVis);
+      video.onended = null;
+    };
   }, []);
 
   return (
@@ -116,25 +146,25 @@ export function LionWalker() {
             className="pointer-events-auto absolute bottom-1 left-0 h-[56px] w-[84px] cursor-pointer border-0 bg-transparent p-0 md:h-[64px] md:w-[96px]"
             style={{ willChange: "transform" }}
           >
-            <canvas ref={canvasRef} width={168} height={112} className="h-full w-full" />
+            <canvas ref={canvasRef} width={128} height={86} className="h-full w-full" />
           </button>
         </div>
       </div>
-      {(Object.keys(CLIPS) as Mode[]).map((m) => (
-        <video
-          key={m}
-          ref={(el) => {
-            if (el) videosRef.current[m] = el;
-          }}
-          src={CLIPS[m]}
-          autoPlay={m === "walk"}
-          loop={m === "walk"}
-          muted
-          playsInline
-          preload="auto"
-          className="pointer-events-none fixed h-px w-px opacity-0"
-        />
-      ))}
+      <video
+        ref={videoRef}
+        muted
+        playsInline
+        preload="auto"
+        className="pointer-events-none fixed h-px w-px opacity-0"
+      />
     </div>
+  );
+}
+
+export function LionWalker() {
+  return (
+    <LionBoundary>
+      <LionEngine />
+    </LionBoundary>
   );
 }
