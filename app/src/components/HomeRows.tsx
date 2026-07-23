@@ -410,11 +410,16 @@ function AutomationSection() {
               </a>
             </div>
             <div className="flex items-center justify-center bg-white">
-              <img
-                src="/assets/robot_ai_worker.png"
-                alt="The ELSIAA AI worker — many arms, every one on a different task"
-                loading="lazy"
-                className="w-full max-w-[540px] mix-blend-multiply"
+              <video
+                src="/assets/robot_ai_worker.mp4"
+                poster="/assets/robot_ai_worker.png"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                aria-label="The ELSIAA AI worker — many arms, every one on a different task"
+                className="w-full max-w-[500px] mix-blend-multiply"
                 style={{ filter: "brightness(1.03) contrast(1.03)" }}
               />
             </div>
