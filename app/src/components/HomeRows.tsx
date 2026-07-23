@@ -391,14 +391,25 @@ function AutomationSection() {
     <section className="border-t border-black/[0.06] bg-white py-16 md:py-24" id="automation">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
-          <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[1fr_420px]">
+          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-14">
             <div>
               <p className="text-[14px] font-bold text-[#1e6b3c]" style={sans}>1 · Automation</p>
               <h2 className="mt-2 max-w-xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl" style={sans}>
                 Discover the future of how work is done.
               </h2>
+              <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={sans}>
+                AI moves faster than any team — watch it run the desk, then watch
+                it run yours.
+              </p>
+              <a
+                href="/automate"
+                className="mt-7 inline-flex min-h-[48px] items-center rounded-full border border-[#1e6b3c]/40 px-7 text-[15px] font-semibold text-[#1e6b3c] transition-all hover:bg-[#1e6b3c] hover:text-white"
+                style={sans}
+              >
+                See it work — live walkthrough →
+              </a>
             </div>
-            <div className="bg-white">
+            <div className="flex items-center justify-center bg-white">
               <video
                 src="/assets/robot_hyperspeed_fast.mp4"
                 poster="/assets/robot_hyperspeed_poster.jpg"
@@ -407,20 +418,12 @@ function AutomationSection() {
                 muted
                 playsInline
                 preload="auto"
-                className="h-auto w-full object-contain"
+                className="w-full max-w-[520px] mix-blend-multiply"
+                style={{ filter: "brightness(1.06) contrast(1.04)" }}
               />
             </div>
           </div>
         </Reveal>
-        <div className="mt-8">
-          <a
-            href="/automate"
-            className="inline-flex min-h-[48px] items-center rounded-full border border-[#1e6b3c]/40 px-7 text-[15px] font-semibold text-[#1e6b3c] transition-all hover:bg-[#1e6b3c] hover:text-white"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            See it work — live walkthrough →
-          </a>
-        </div>
       </div>
     </section>
   );
