@@ -1256,7 +1256,7 @@ function DesignDivision() {
           <p className="max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
             A world without design is a rock. Design gives it life — a living surface for every screen your brand meets.
           </p>
-          <a href="/designs" className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-7 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={inter}>Discover how we design →</a>
+          <a href="/designs" className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-7 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={inter}>Discover design →</a>
         </div>
         <div className="mt-14"><DesignCatalog /></div>
       </section>
@@ -1284,7 +1284,7 @@ function DesignDivision() {
           </div>
           <div ref={ctaRef} className="opacity-0" style={{ pointerEvents: "none" }}>
             <a href="/designs" className="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={inter}>
-              Discover how we design →
+              Discover design →
             </a>
           </div>
           <p ref={hintRef} className="text-[13px] font-medium text-[#111111]/40" style={inter}>Scroll — watch it come to life ↓</p>
