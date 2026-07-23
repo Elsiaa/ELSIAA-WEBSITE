@@ -1153,7 +1153,6 @@ function DesignDivision() {
   const earthRef = useRef<HTMLDivElement | null>(null);
   const rockRef = useRef<HTMLImageElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
-  const atmoRef = useRef<HTMLDivElement | null>(null);
   const sphereRef = useRef<HTMLDivElement | null>(null);
   const cap1Ref = useRef<HTMLParagraphElement | null>(null);
   const cap2Ref = useRef<HTMLParagraphElement | null>(null);
@@ -1189,12 +1188,11 @@ function DesignDivision() {
       set(earthRef.current, { WebkitMaskImage: mask, maskImage: mask } as unknown as Partial<CSSStyleDeclaration>);
 
       // the rock cools as it is overtaken
-      set(rockRef.current, { filter: `grayscale(1) brightness(${0.88 - sweep * 0.1}) contrast(1.04)` });
+      set(rockRef.current, { filter: `saturate(0.15) brightness(${0.98 - sweep * 0.05})` });
 
       // atmosphere + glow bloom once life is mostly across
       const alive = ease(seg(p, 0.42, 0.68));
       set(glowRef.current, { opacity: String(0.08 + alive * 0.6) });
-      set(atmoRef.current, { opacity: String(alive * 0.9) });
 
       // sphere settles: slight grow + upright rotation
       const grow = 0.86 + ease(seg(p, 0, 0.7)) * 0.14;
@@ -1218,41 +1216,25 @@ function DesignDivision() {
       <div
         ref={live ? undefined : glowRef}
         className="pointer-events-none absolute h-[86%] w-[86%] rounded-full blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(46,158,88,0.42), transparent 66%)", opacity: live ? 0.55 : 0.08 }}
+        style={{ background: "radial-gradient(circle, rgba(46,158,88,0.4), transparent 66%)", opacity: live ? 0.5 : 0.08 }}
       />
-      <div
-        ref={live ? undefined : sphereRef}
-        className="relative aspect-square w-[82%] will-change-transform"
-      >
-        {/* one hard circular clip — both layers perfectly registered */}
-        <div className="absolute inset-0 overflow-hidden rounded-full" style={{ boxShadow: "0 30px 70px -28px rgba(12,30,20,0.4)" }}>
-          <img
-            ref={live ? undefined : rockRef}
-            src="/assets/cine/rock.jpg"
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 h-full w-full scale-[1.15] object-cover"
-            style={{ objectPosition: "57% 50%", filter: live ? "none" : "grayscale(1) brightness(0.88) contrast(1.04)", display: live ? "none" : "block" }}
-          />
-          <div
-            ref={live ? undefined : earthRef}
-            className="absolute inset-0"
-            style={live ? undefined : { WebkitMaskImage: "linear-gradient(105deg, #000 -20%, rgba(0,0,0,0) 6%)", maskImage: "linear-gradient(105deg, #000 -20%, rgba(0,0,0,0) 6%)" }}
-          >
-            <img
-              src="/assets/cine/earth.jpg"
-              alt="A living earth"
-              className="absolute inset-0 h-full w-full scale-[1.28] object-cover"
-              style={{ objectPosition: "50.5% 46%" }}
-            />
-          </div>
-        </div>
-        {/* thin atmosphere ring, appears with life */}
-        <div
-          ref={live ? undefined : atmoRef}
-          className="pointer-events-none absolute -inset-[2.5%] rounded-full"
-          style={{ boxShadow: "inset 0 0 24px rgba(120,180,255,0.35), 0 0 34px rgba(120,180,255,0.25)", opacity: live ? 0.9 : 0 }}
+      <div ref={live ? undefined : sphereRef} className="relative aspect-square w-full will-change-transform">
+        {/* both assets live on pure white — no clip, no ring, ever */}
+        <img
+          ref={live ? undefined : rockRef}
+          src="/assets/cine/rock_white.jpg"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-contain"
+          style={{ display: live ? "none" : "block", filter: "saturate(0.15) brightness(0.98)" }}
         />
+        <div
+          ref={live ? undefined : earthRef}
+          className="absolute inset-0"
+          style={live ? undefined : { WebkitMaskImage: "linear-gradient(105deg, #000 -20%, rgba(0,0,0,0) 6%)", maskImage: "linear-gradient(105deg, #000 -20%, rgba(0,0,0,0) 6%)" }}
+        >
+          <img src="/assets/cine/earth_white.jpg" alt="A living earth" className="absolute inset-0 h-full w-full object-contain" />
+        </div>
       </div>
     </div>
   );
