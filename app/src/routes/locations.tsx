@@ -178,16 +178,17 @@ function LocationsPage() {
       <section className="mx-auto max-w-6xl px-6 pt-40 pb-8 md:pt-44">
         <Reveal>
           <p className="text-[13px] text-[#1e6b3c] " style={mono}>
-            ELSIAA Worldwide
+            ELSIAA on the ground
           </p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={inter}>
-            Six cities. Every timezone.
-            <br className="hidden md:block" /> One standard.
+            We're where our clients are —
+            <br className="hidden md:block" /> and we go anywhere.
           </h1>
-          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[#111111]/55" style={inter}>
-            We are a boutique firm with local presence on three continents. Strategy
-            in New York, engineering in Tel Aviv, partnerships in London — and a desk
-            already awake wherever your work is.
+          <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
+            We have people on the ground in six cities across three continents — New
+            York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv. All work is fully
+            insured. When the job is somewhere else, we travel to it and work anywhere in
+            the world. Visits are by appointment; virtual support runs 24/7.
           </p>
         </Reveal>
       </section>
@@ -197,10 +198,10 @@ function LocationsPage() {
         <Reveal>
           <div className="grid grid-cols-2 gap-y-8 border-y border-black/[0.06] py-8 md:grid-cols-4">
             {[
-              { n: 6, s: "", label: "Cities worldwide" },
-              { n: 3, s: "", label: "Continents covered" },
-              { n: 9, s: "h", label: "Working overlap, daily" },
-              { n: 24, s: "/7", label: "Coverage, every timezone" },
+              { n: 6, s: "", label: "Cities on the ground" },
+              { n: 3, s: "", label: "Continents active" },
+              { n: 24, s: "/7", label: "Virtual support, every day" },
+              { n: 100, s: "%", label: "Fully insured work" },
             ].map((st) => (
               <div key={st.label} className="text-center">
                 <p className="text-4xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>
@@ -330,11 +331,12 @@ function LocationsPage() {
             The Directory
           </p>
           <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
-            One firm, on the ground in six places.
+            People on the ground in six cities.
           </h2>
           <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-[#111111]/55" style={inter}>
-            Every city has a named lead and a clear remit. No franchises, no
-            resellers — the same people, the same standard, wherever you engage us.
+            Real presence, not a mailbox. Each city has a working team you can meet
+            in person by appointment — the same people, the same standard, wherever
+            you engage us. Exact addresses are shared when we book.
           </p>
         </Reveal>
 
@@ -401,18 +403,17 @@ function LocationsPage() {
                     ))}
                   </div>
 
-                  <div className="mt-6 flex items-end justify-between gap-4 border-t border-black/[0.06] pt-5">
-                    <div>
-                      <p className="text-[13px] text-[#111111]/40 " style={mono}>
-                        Regional lead
-                      </p>
-                      <p className="mt-1 text-[13px] font-medium text-[#111111]/80" style={inter}>
-                        {o.lead}
-                      </p>
-                    </div>
+                  <div className="mt-6 border-t border-black/[0.06] pt-5">
+                    <p className="flex items-center gap-2 text-[13px] font-medium text-[#111111]/80" style={inter}>
+                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
+                      On-site team available by appointment
+                    </p>
+                    <p className="mt-1.5 text-[13px] text-[#111111]/45" style={mono}>
+                      Exact address provided upon booking
+                    </p>
                     <a
                       href="/contact"
-                      className="shrink-0 text-[13px] text-[#1e6b3c]  transition-colors hover:text-[#111111]"
+                      className="mt-4 inline-block text-[13px] text-[#1e6b3c] transition-colors hover:text-[#111111]"
                       style={mono}
                     >
                       Reach this desk →
@@ -432,19 +433,60 @@ function LocationsPage() {
         </Reveal>
       </section>
 
-      {/* closing */}
-      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 text-center md:py-20">
-        <Reveal>
-          <p className="text-lg font-semibold tracking-[-0.02em] md:text-2xl" style={inter}>
-            The nearest office is a message away.
+      {/* global flexibility */}
+      <section className="border-t border-black/[0.06] bg-[#F5F5F3]">
+        <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+          <Reveal>
+            <p className="text-[13px] text-[#1e6b3c] " style={mono}>
+              Anywhere in the world
+            </p>
+            <h2 className="mt-3 max-w-3xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
+              Six cities is where we live. Not where we stop.
+            </h2>
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
+              Our people can deploy and work anywhere on earth. If your business is
+              outside these six cities, we come to you — on-site when it matters, and
+              fully remote the rest of the time, in your timezone, around the clock.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* insurance & trust */}
+      <section className="border-t border-black/[0.06] bg-white">
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 px-6 py-10 md:flex-row md:items-center md:justify-between">
+          <p className="flex items-center gap-3 text-[15px] font-medium text-[#111111]/80" style={inter}>
+            <span className="inline-block h-2 w-2 rounded-full bg-[#1e6b3c]" />
+            Every engagement is fully insured — the same standard in all six cities and anywhere we travel.
           </p>
-          <a
-            href="/contact"
-            className="mt-6 inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[13px] font-bold text-white  transition-all duration-300 hover:bg-[#1e6b3c]"
-            style={mono}
-          >
-            Start the conversation →
+          <a href="/clients" className="text-[13px] text-[#1e6b3c] hover:underline" style={mono}>
+            How we work ↗
           </a>
+        </div>
+      </section>
+
+      {/* closing */}
+      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 text-center md:py-24">
+        <Reveal>
+          <h2 className="mx-auto max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl" style={inter}>
+            Tell us where you are. We'll be there — or already awake for you.
+          </h2>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/contact"
+              className="inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[13px] font-bold text-white transition-all duration-300 hover:bg-[#1e6b3c]"
+              style={mono}
+            >
+              Book a call →
+            </a>
+            <a
+              href="/contact"
+              className="inline-flex items-center gap-3 rounded-full border border-[#111111]/20 px-8 py-4 text-[13px] font-bold text-[#111111] transition-all duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+              style={mono}
+            >
+              Request on-site support
+            </a>
+          </div>
         </Reveal>
       </section>
     </main>
