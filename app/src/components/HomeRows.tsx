@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { IndustryWalkthrough } from "./IndustryWalkthrough";
 import { AssemblingArtist } from "./AssemblingArtist";
 import { LiveGraphic } from "./LiveGraphic";
 import { WorkingRobot } from "./WorkingRobot";
@@ -438,35 +439,8 @@ function HomeHero() {
             </div>
           </Reveal>
         </div>
-        <div className="mx-auto mt-5 w-full max-w-6xl px-6">
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {STATS.slice(1, 5).map((st) => (
-              <a
-                key={st.industry}
-                href="/insights"
-                className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/40"
-              >
-                <span
-                  className="text-[13px] text-[#1e6b3c] "
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                >
-                  {st.industry}
-                </span>
-                <span
-                  className="mt-1.5 text-4xl font-semibold tracking-[-0.04em] text-[#111111]"
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                >
-                  <CountUp target={st.pct} />
-                </span>
-                <p
-                  className="mt-2 text-[13px] leading-relaxed text-[#111111]/55"
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                >
-                  {st.line}
-                </p>
-              </a>
-            ))}
-          </div>
+        <div className="mx-auto mt-6 w-full max-w-6xl px-6">
+          <IndustryWalkthrough />
         </div>
         <div className="mx-auto w-full max-w-6xl px-6">
           <Reveal>
