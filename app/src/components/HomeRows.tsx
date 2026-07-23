@@ -334,104 +334,123 @@ function CountUp({ target }: { target: number }) {
 
 /* ---------- the opener: the world changed — hero + the count, one dark screen ---------- */
 function HomeHero() {
+  const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
   return (
-    <section className="flex min-h-screen flex-col justify-between bg-white pt-8 pb-8 md:pt-10">
+    <section className="flex min-h-[92svh] flex-col justify-center bg-white pt-28 pb-10">
       <div className="mx-auto w-full max-w-6xl px-6">
-        <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_400px]">
-          <Reveal>
-            <h1
-              className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl"
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              The world changed.
-              <span className="text-[#1e6b3c]"> AI is here.</span>
-            </h1>
-            <p
-              className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]"
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              We put AI to work where it earns its place — and prove the
-              result before you commit a dollar.
+        <Reveal>
+          <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
+            The world changed.
+            <span className="text-[#1e6b3c]"> AI is here.</span>
+          </h1>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="mt-8 max-w-2xl rounded-3xl border border-black/[0.08] bg-[#fafaf8] p-6 md:p-8">
+            <p className="text-[20px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[24px]" style={sans}>
+              ELSIAA + AI, together.
             </p>
-            
-            <a
-              href="/contact"
-              className="mt-6 inline-block rounded-full bg-[#1e6b3c] px-8 py-3.5 text-[13px] font-bold text-white  transition-all duration-300 hover:bg-[#111111]"
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              Book a free 20-min call →
-            </a>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <div className="hidden md:block">
-              <ScrollGlobe size={400} />
-              <div className="mt-2 flex items-start justify-center gap-10">
-                {[
-                  { n: 6, suffix: "", label: "Cities on site" },
-                  { n: 3, suffix: "", label: "Continents" },
-                  { n: 24, suffix: "/7", label: "Support" },
-                ].map((st) => (
-                  <div key={st.label} className="text-center">
-                    <p
-                      className="text-2xl font-semibold tracking-[-0.03em] text-[#111111]"
-                      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                    >
-                      <CountTo target={st.n} suffix={st.suffix} />
-                    </p>
-                    <p
-                      className="mt-1 text-[13px] text-[#111111]/55 "
-                      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                    >
-                      {st.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </div>
-
-      {/* the count — live adoption, industry by industry */}
-      <div className="mt-8">
-        <div className="mx-auto w-full max-w-6xl px-6">
-          <Reveal>
-            <div className="flex items-baseline justify-between gap-4">
-              <p
-                className="text-[13px] text-[#111111]/55 "
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-              >
-                Industry by industry
-              </p>
+            <p className="mt-2 text-[15px] leading-relaxed text-[#111111]/60" style={sans}>
+              We put AI to work where it earns its place — and prove the result
+              before you commit a dollar.
+            </p>
+            <div className="mt-5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
               <a
-                href="/insights"
-                className="flex-none text-[13px] text-[#1e6b3c]  hover:underline"
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                href="/quote"
+                className="flex min-h-[52px] items-center justify-between rounded-2xl border border-black/[0.1] bg-white px-5 text-[15px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c]/50"
+                style={sans}
               >
-                Read the research ↗
+                New client — start here <span className="text-[#1e6b3c]">→</span>
+              </a>
+              <a
+                href="/portal"
+                className="flex min-h-[52px] items-center justify-between rounded-2xl border border-black/[0.1] bg-white px-5 text-[15px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c]/50"
+                style={sans}
+              >
+                Client login <span className="text-[#1e6b3c]">→</span>
               </a>
             </div>
-          </Reveal>
-        </div>
-        <div className="mx-auto mt-6 w-full max-w-6xl px-6">
+          </div>
+        </Reveal>
+        <Reveal delay={0.16}>
+          <a
+            href="/contact"
+            className="mt-6 inline-flex min-h-[52px] items-center rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:bg-[#111111]"
+            style={sans}
+          >
+            Speak to AI today →
+          </a>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Automation: robot + walkthrough, per sketch ---------- */
+function AutomationSection() {
+  const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
+  return (
+    <section className="border-t border-black/[0.06] bg-white py-16 md:py-24" id="automation">
+      <div className="mx-auto w-full max-w-6xl px-6">
+        <Reveal>
+          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[1fr_360px]">
+            <div>
+              <p className="text-[14px] font-bold text-[#1e6b3c]" style={sans}>1 · Automation</p>
+              <h2 className="mt-2 max-w-xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl" style={sans}>
+                Discover the future of how work is done.
+              </h2>
+            </div>
+            <div className="overflow-hidden rounded-3xl border border-black/[0.07]">
+              <video
+                src="/assets/robot_work_v5.mp4"
+                poster="/assets/robot_work_v5_poster.jpg"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+        </Reveal>
+        <div className="mt-10">
           <IndustryWalkthrough />
-        </div>
-        <div className="mx-auto w-full max-w-6xl px-6">
-          <Reveal>
-            <p
-              className="mt-4 text-[13.5px] text-[#111111]/60"
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              The question isn't whether AI takes the work — it's who's
-              holding it when it does.{" "}
-              <a href="/contact" className="font-medium text-[#1e6b3c] hover:underline">
-                Make sure it's you →
-              </a>
-            </p>
-          </Reveal>
         </div>
       </div>
     </section>
+  );
+}
+
+/* Globe that lights up as you scroll — black to fully lit. */
+function GlobeReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [p, setP] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setP(1);
+      return;
+    }
+    const on = () => {
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const t = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.9)));
+      setP(t);
+    };
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
+  return (
+    <div
+      ref={ref}
+      style={{
+        filter: `brightness(${0.15 + p * 0.85}) saturate(${0.2 + p * 0.8})`,
+        transition: "filter .15s linear",
+      }}
+    >
+      <ScrollGlobe size={380} />
+    </div>
   );
 }
 
@@ -1118,15 +1137,13 @@ export function HomeRows() {
     <main className="bg-white">
       <ScrollProgress />
       <HomeHero />
-      <HeroCards />
-      <WhyBrandsChose />
-      <SoftwareDemos />
+      <AutomationSection />
       <AutomationCatalog />
       <DivisionRow
         n="2"
         title="Design"
         lede="Good artists don't use AI — they leverage it. World-class design for every surface of your business."
-        graphic={<AssemblingArtist />}
+        graphic={<GlobeReveal />}
         subs={DESIGN}
         href="/designs"
         cta="Explore Designs"
@@ -1145,6 +1162,9 @@ export function HomeRows() {
           </>
         }
       />
+      <HeroCards />
+      <WhyBrandsChose />
+      <SoftwareDemos />
       <Team />
       <Locations />
       <FinalCTA />
