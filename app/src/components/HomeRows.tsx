@@ -175,14 +175,8 @@ function DivisionRow({
         {/* header + graphic — one clean composed row */}
         <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-[minmax(0,1fr)_640px] md:gap-6">
           <Reveal className="order-2 md:order-1">
-            <p
-              className="text-[14px] font-bold text-[#1e6b3c]"
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              {n} · {title}
-            </p>
             <h2
-              className="mt-2 text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
+              className="text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
               style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               {title}
@@ -394,19 +388,15 @@ function AutomationSection() {
           <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[0.92fr_1.08fr] md:gap-14">
             {/* copy */}
             <div>
-              <p className="text-[10px] font-semibold tracking-[0.28em] text-[#1e6b3c] uppercase" style={sans}>01 · Automation</p>
-              <h2 className="mt-3 max-w-md text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-[2.75rem] md:leading-[1.02]" style={sans}>
+              <h2 className="max-w-md text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-[2.75rem] md:leading-[1.02]" style={sans}>
                 The future of how work gets done.
               </h2>
               <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-[#111111]/55" style={sans}>
                 One worker. Every task at once. Watch it run the desk — then watch it run yours.
               </p>
               {/* what it's doing right now — the many-arms idea, as tidy chips */}
-              <div className="mt-7 border-t border-black/[0.07] pt-5">
-                <p className="flex items-center gap-2 text-[10px] font-semibold tracking-[0.24em] text-[#111111]/40 uppercase" style={sans}>
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1e6b3c]" /> Working now
-                </p>
-                <div className="mt-3 flex max-w-md flex-wrap gap-2">
+              <div className="mt-7 border-t border-black/[0.07] pt-6">
+                <div className="flex max-w-md flex-wrap gap-2">
                   {["Writing code", "Answering support", "Reconciling invoices", "Designing graphics", "Scheduling meetings", "Drafting reports"].map((t) => (
                     <span key={t} className="inline-flex items-center rounded-full border border-black/[0.09] bg-white px-3.5 py-1.5 text-[12.5px] text-[#111111]/70 transition-colors hover:border-[#1e6b3c]/40 hover:text-[#111111]" style={sans}>
                       {t}
@@ -518,15 +508,7 @@ function HeroCards() {
   return (
     <section className="border-t border-black/[0.06] bg-white py-14 md:py-20">
       <div className="mx-auto w-full max-w-6xl px-6">
-        <Reveal>
-          <p
-            className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            The difference
-          </p>
-        </Reveal>
-        <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           {items.map((it, i) => (
             <Reveal key={it.title} delay={0.05 + i * 0.05}>
               <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/35">
@@ -1108,10 +1090,7 @@ function AutomationCatalog() {
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-xl">
-              <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                The full range
-              </p>
-              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+              <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
                 Everything we can automate — and build to run it.
               </h3>
               <p className="mt-3 text-[14.5px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
@@ -1250,7 +1229,6 @@ function DesignDivision() {
     return (
       <section className="border-t border-black/[0.06] bg-white py-16 md:py-24">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 px-6 text-center">
-          <p className="text-[14px] font-bold text-[#1e6b3c]">2 · Design</p>
           <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={inter}>Design</h2>
           <Sphere live />
           <p className="max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
@@ -1268,7 +1246,6 @@ function DesignDivision() {
       <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "300vh" }}>
         <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-4 overflow-hidden px-6 text-center">
           <div>
-            <p className="text-[14px] font-bold text-[#1e6b3c]" style={inter}>2 · Design</p>
             <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
           </div>
           <Sphere live={false} />
@@ -1287,7 +1264,6 @@ function DesignDivision() {
               Discover design →
             </a>
           </div>
-          <p ref={hintRef} className="text-[13px] font-medium text-[#111111]/40" style={inter}>Scroll — watch it come to life ↓</p>
         </div>
       </section>
       <section className="bg-white pb-16 md:pb-24">

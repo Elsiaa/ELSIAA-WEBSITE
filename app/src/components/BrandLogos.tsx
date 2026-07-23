@@ -85,14 +85,8 @@ export function WhyBrandsChose() {
       />
       <div className="relative mx-auto w-full max-w-6xl px-6">
         <Reveal>
-          <div className="flex items-center gap-2.5">
-            <img src="/assets/elsiaa-lion.png" alt="" aria-hidden="true" className="h-5 w-5 object-contain opacity-70" />
-            <p className="text-[13px] text-[#1e6b3c]" style={mono}>
-              Chosen by brands
-            </p>
-          </div>
           <h2
-            className="mt-2 max-w-2xl text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
+            className="max-w-2xl text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
             style={inter}
           >
             Why brands chose ELSIAA to implement AI.
