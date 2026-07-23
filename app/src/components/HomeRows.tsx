@@ -1141,8 +1141,9 @@ function DesignDivision() {
   const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
   const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   const wrapRef = useRef<HTMLDivElement | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const sphereRef = useRef<HTMLDivElement | null>(null);
+  const rockRef = useRef<HTMLImageElement | null>(null);
+  const glowRef = useRef<HTMLDivElement | null>(null);
   const rockCapRef = useRef<HTMLParagraphElement | null>(null);
   const lifeCapRef = useRef<HTMLParagraphElement | null>(null);
   const ctaRef = useRef<HTMLDivElement | null>(null);
@@ -1155,16 +1156,7 @@ function DesignDivision() {
       return;
     }
     const wrap = wrapRef.current;
-    const v = videoRef.current;
     if (!wrap) return;
-    let vdur = 0;
-    let ready = false;
-    let vCurrent = 0;
-    if (v) {
-      const onMeta = () => { ready = true; vdur = Number.isFinite(v.duration) ? v.duration : 0; };
-      v.addEventListener("loadedmetadata", onMeta);
-      if (v.readyState >= 1) onMeta();
-    }
     let raf = 0;
     const set = (el: HTMLElement | null, o: Partial<CSSStyleDeclaration>) => { if (el) Object.assign(el.style, o); };
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
@@ -1173,28 +1165,44 @@ function DesignDivision() {
       const r = wrap.getBoundingClientRect();
       const span = r.height - window.innerHeight;
       const p = span > 0 ? clamp01(-r.top / span) : 0;
-      // scrub the rock→earth film
-      if (v && ready && vdur) {
-        const target = clamp01(seg(p, 0.05, 0.92)) * (vdur - 0.05);
-        vCurrent += (target - vCurrent) * 0.16;
-        if (Math.abs(v.currentTime - vCurrent) > 0.004) {
-          try { v.currentTime = vCurrent; } catch { /* noop */ }
-        }
-      }
-      // the sphere breathes to life: subtle scale + saturation
-      const grow = 0.92 + seg(p, 0, 0.9) * 0.12;
-      const sat = 0.15 + seg(p, 0.3, 0.85) * 0.95;
-      set(sphereRef.current, { transform: `scale(${grow.toFixed(3)})`, filter: `saturate(${sat.toFixed(2)}) contrast(1.05)` });
+      // the rock dissolves to reveal the living, colourful earth beneath it
+      const reveal = seg(p, 0.1, 0.66);
+      set(rockRef.current, { opacity: String(1 - reveal), filter: `saturate(0.1) brightness(0.85)` });
+      // the sphere orbits into place — grows and rotates upright
+      const grow = 0.88 + seg(p, 0, 0.85) * 0.16;
+      const rot = -10 + seg(p, 0, 0.9) * 10;
+      set(sphereRef.current, { transform: `scale(${grow.toFixed(3)}) rotate(${rot.toFixed(1)}deg)` });
+      set(glowRef.current, { opacity: String(0.1 + reveal * 0.6) });
       // captions cross-fade
-      set(rockCapRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.32, 0.5))) });
-      set(lifeCapRef.current, { opacity: String(seg(p, 0.5, 0.66)), transform: `translateY(${(1 - seg(p, 0.5, 0.66)) * 8}px)` });
-      set(ctaRef.current, { opacity: String(seg(p, 0.78, 0.94)), transform: `translateY(${(1 - seg(p, 0.78, 0.94)) * 10}px)` });
-      set(hintRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.7, 0.9))) });
+      set(rockCapRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.3, 0.5))) });
+      set(lifeCapRef.current, { opacity: String(seg(p, 0.48, 0.64)), transform: `translateY(${(1 - seg(p, 0.48, 0.64)) * 8}px)` });
+      set(ctaRef.current, { opacity: String(seg(p, 0.7, 0.9)), transform: `translateY(${(1 - seg(p, 0.7, 0.9)) * 10}px)` });
+      set(hintRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.55, 0.82))) });
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
+
+  const Sphere = ({ live }: { live: boolean }) => (
+    <div className="relative flex items-center justify-center">
+      <div
+        ref={live ? undefined : glowRef}
+        className="pointer-events-none absolute h-[85%] w-[85%] rounded-full blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(30,107,60,0.5), transparent 70%)", opacity: live ? 0.6 : 0.1 }}
+      />
+      <div
+        ref={live ? undefined : sphereRef}
+        className="relative aspect-square w-[82%] max-w-[440px] overflow-hidden rounded-full bg-black shadow-[0_50px_130px_-40px_rgba(30,107,60,0.55)] ring-1 ring-black/10 will-change-transform"
+      >
+        <img src="/assets/cine/earth.jpg" alt="A living earth" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "51% 47%" }} />
+        {!live && (
+          <img ref={rockRef} src="/assets/cine/rock.jpg" alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "57% 50%", filter: "saturate(0.1) brightness(0.85)" }} />
+        )}
+        <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/10" />
+      </div>
+    </div>
+  );
 
   if (reduced) {
     return (
@@ -1208,24 +1216,22 @@ function DesignDivision() {
             </p>
             <a href="/designs" className="mt-6 inline-block text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline" style={mono}>Discover how we design ↗</a>
           </div>
-          <div className="overflow-hidden rounded-2xl border border-black/[0.08] bg-[#050608]">
-            <img src="/assets/cine/earth.jpg" alt="A living earth" className="aspect-square w-full object-cover" />
-          </div>
+          <Sphere live />
         </div>
-        <DesignCatalog />
+        <div className="mt-14"><DesignCatalog /></div>
       </section>
     );
   }
 
   return (
     <>
-      <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "240vh" }}>
+      <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "200vh" }}>
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
           <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-6 md:grid-cols-2">
             <div>
               <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>02 · Division</p>
               <h2 className="mt-2 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
-              <div className="relative mt-4 h-[76px] max-w-md">
+              <div className="relative mt-4 h-[80px] max-w-md">
                 <p ref={rockCapRef} className="absolute inset-0 text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
                   A world without art is a rock. Cold, correct, and completely forgettable.
                 </p>
@@ -1240,12 +1246,7 @@ function DesignDivision() {
               </div>
               <p ref={hintRef} className="mt-5 text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>Keep scrolling — watch it come to life</p>
             </div>
-            <div className="flex items-center justify-center">
-              <div ref={sphereRef} className="relative aspect-square w-[78%] max-w-[420px] overflow-hidden rounded-full shadow-[0_40px_120px_-40px_rgba(30,107,60,0.45)] will-change-transform">
-                <video ref={videoRef} src="/assets/cine/bloom.mp4" poster="/assets/cine/rock.jpg" muted playsInline preload="auto" className="h-full w-full object-cover" />
-                <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/10" />
-              </div>
-            </div>
+            <Sphere live={false} />
           </div>
         </div>
       </section>
