@@ -362,16 +362,18 @@ function HeroLion() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
   }, []);
-  // soft circular vignette so the portrait blends into the white — no hard edge
-  const circle = "radial-gradient(circle at 50% 46%, #000 62%, rgba(0,0,0,0) 82%)";
+  // feather every edge into the page. Because the photo sits on white and we
+  // multiply-blend it, the box disappears and only the lion melts onto the page.
+  const feather =
+    "radial-gradient(120% 115% at 50% 40%, #000 52%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0) 84%)";
   return (
-    <div ref={ref} className="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 lg:block xl:right-6">
-      <div className="relative h-[300px] w-[300px] xl:h-[360px] xl:w-[360px]">
+    <div ref={ref} className="pointer-events-none absolute top-1/2 right-0 hidden -translate-y-1/2 lg:block xl:right-2">
+      <div className="relative h-[380px] w-[320px] xl:h-[440px] xl:w-[380px]">
         {/* emerald life-glow, grows with scroll — matches the planet */}
         <div
           ref={glowRef}
-          className="absolute inset-[-6%] -z-10 rounded-full blur-3xl"
-          style={{ background: "radial-gradient(circle at 50% 48%, rgba(30,107,60,0.4), transparent 66%)", opacity: 0.15 }}
+          className="absolute inset-[8%] -z-10 rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle at 50% 44%, rgba(30,107,60,0.45), transparent 64%)", opacity: 0.15 }}
         />
         <img
           ref={imgRef}
@@ -379,9 +381,10 @@ function HeroLion() {
           alt="The ELSIAA lion — alive"
           className="h-full w-full object-cover"
           style={{
-            objectPosition: "50% 20%",
-            WebkitMaskImage: circle,
-            maskImage: circle,
+            objectPosition: "50% 12%",
+            mixBlendMode: "multiply",
+            WebkitMaskImage: feather,
+            maskImage: feather,
             filter: "grayscale(1) saturate(0.2)",
             willChange: "filter, transform",
           }}
@@ -498,11 +501,11 @@ function AutomationSection() {
                 playsInline
                 preload="auto"
                 aria-label="The ELSIAA AI worker — many arms, every one on a different task"
-                className="w-full max-w-[480px] mix-blend-multiply"
+                className="w-full max-w-[380px] mix-blend-multiply"
                 style={{
-                  filter: "brightness(1.03) contrast(1.03)",
-                  WebkitMaskImage: "linear-gradient(to bottom, #000 74%, rgba(0,0,0,0) 97%)",
-                  maskImage: "linear-gradient(to bottom, #000 74%, rgba(0,0,0,0) 97%)",
+                  filter: "brightness(1.08) contrast(1.06)",
+                  WebkitMaskImage: "radial-gradient(78% 82% at 50% 46%, #000 60%, rgba(0,0,0,0.4) 78%, rgba(0,0,0,0) 92%)",
+                  maskImage: "radial-gradient(78% 82% at 50% 46%, #000 60%, rgba(0,0,0,0.4) 78%, rgba(0,0,0,0) 92%)",
                 }}
               />
             </div>
