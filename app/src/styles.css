@@ -159,6 +159,8 @@
   50% { transform: scaleY(1.4); }
 }
 
-/* elsiaa-global-guards — nothing overflows, media always contained */
-html, body { overflow-x: hidden; max-width: 100vw; }
+/* elsiaa-global-guards — nothing overflows, media always contained.
+   Use overflow-x: clip (not hidden): clip contains horizontal bleed WITHOUT
+   turning html/body into a scroll container, so position: sticky still works. */
+html, body { overflow-x: clip; max-width: 100vw; }
 img, video, canvas, iframe { max-width: 100%; }
