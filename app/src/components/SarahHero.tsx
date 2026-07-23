@@ -323,7 +323,7 @@ function Workforce({ stage }: { stage: Stage }) {
           {AGENTS.map(([name, desc], i) => (
             <div
               key={name}
-              className="rounded-2xl border border-[#e6a58f]/20 bg-white/[0.03] p-3.5 backdrop-blur"
+              className="rounded-2xl border border-black/[0.08] bg-white p-3.5 shadow-[0_24px_60px_-45px_rgba(17,17,17,0.5)]"
               style={{
                 opacity: on ? 1 : 0,
                 transform: on ? "translateY(0)" : "translateY(14px)",
@@ -333,20 +333,20 @@ function Workforce({ stage }: { stage: Stage }) {
               <div className="flex items-center gap-2">
                 <span
                   className="h-2 w-2 rounded-full"
-                  style={{ background: GOLD, boxShadow: `0 0 10px ${GOLD}`, animation: "sarahGlow 2.4s ease-in-out infinite" }}
+                  style={{ background: "#c67a56", boxShadow: "0 0 10px rgba(198,122,86,0.6)", animation: "sarahGlow 2.4s ease-in-out infinite" }}
                 />
-                <p className="text-[12.5px] font-semibold text-white" style={sans}>{name}</p>
-                <span className="ml-auto text-[8.5px] tracking-[0.18em] text-emerald-300/70 uppercase" style={mono}>Active</span>
+                <p className="text-[12.5px] font-semibold text-[#111111]" style={sans}>{name}</p>
+                <span className="ml-auto text-[8.5px] tracking-[0.18em] text-[#1e6b3c]/80 uppercase" style={mono}>Active</span>
               </div>
-              <p className="mt-1.5 text-[11px] leading-snug text-white/55" style={sans}>{desc}</p>
+              <p className="mt-1.5 text-[11px] leading-snug text-[#111111]/55" style={sans}>{desc}</p>
             </div>
           ))}
         </div>
         <p
-          className="mt-4 text-center text-[13px] text-white/75"
+          className="mt-4 text-center text-[13px] text-[#111111]/70"
           style={{ ...sans, opacity: stage === "done" ? 1 : 0, transition: "opacity 0.8s ease 0.3s" }}
         >
-          "All done. Anything else I can take care of?" <span className="text-[#e6a58f]">— Sarah</span>
+          "All done. Anything else I can take care of?" <span className="text-[#b8663f]">— Sarah</span>
         </p>
       </div>
     </div>
@@ -392,18 +392,18 @@ export function SarahHero() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden bg-[#08060c] text-white"
+      className="relative overflow-hidden bg-white text-[#111111]"
       aria-label="Meet Sarah — your always-on AI employee"
     >
-      {/* rose-gold ambience */}
+      {/* soft rose-gold warmth on white */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <div
-          className="absolute -top-1/3 left-1/2 h-[70vh] w-[70vh] -translate-x-1/2 rounded-full blur-[120px]"
-          style={{ background: "radial-gradient(circle, rgba(230,165,143,0.22), transparent 65%)", animation: "sarahGlow 9s ease-in-out infinite" }}
+          className="absolute -top-1/4 right-[6%] h-[60vh] w-[60vh] rounded-full blur-[130px]"
+          style={{ background: "radial-gradient(circle, rgba(230,165,143,0.22), transparent 66%)", animation: "sarahGlow 9s ease-in-out infinite" }}
         />
         <div
-          className="absolute right-[8%] bottom-[6%] h-[42vh] w-[42vh] rounded-full blur-[110px]"
-          style={{ background: "radial-gradient(circle, rgba(232,185,143,0.15), transparent 65%)" }}
+          className="absolute bottom-[4%] left-[4%] h-[38vh] w-[38vh] rounded-full blur-[120px]"
+          style={{ background: "radial-gradient(circle, rgba(232,185,143,0.16), transparent 66%)" }}
         />
       </div>
       <Particles />
@@ -411,31 +411,31 @@ export function SarahHero() {
       <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 pt-36 pb-24 md:pb-28 lg:grid-cols-[1.05fr_1fr] lg:pt-40">
         {/* copy */}
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3 py-1 text-[10.5px] tracking-[0.24em] text-[#e6a58f] uppercase" style={mono}>
-            <span className="h-1.5 w-1.5 rounded-full bg-[#e6a58f]" style={{ boxShadow: "0 0 8px #e6a58f" }} />
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#111111]/10 bg-[#111111]/[0.03] px-3 py-1 text-[10.5px] tracking-[0.24em] text-[#b8663f] uppercase" style={mono}>
+            <span className="h-1.5 w-1.5 rounded-full bg-[#d0865c]" style={{ boxShadow: "0 0 8px rgba(208,134,92,0.7)" }} />
             Always on
           </span>
           <h1 className="mt-6 font-semibold tracking-[-0.045em]" style={{ ...sans, fontSize: "clamp(2.4rem, 5vw, 4.4rem)", lineHeight: 1.0 }}>
             Meet Sarah —<br />
-            <span style={{ background: "linear-gradient(100deg, #ffffff, #e6a58f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(100deg, #111111, #c67a56)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               your always-on AI employee.
             </span>
           </h1>
-          <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-white/65" style={sans}>
+          <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-[#111111]/65" style={sans}>
             She answers every call, books the meeting, updates your systems, and never clocks out.
           </p>
-          <p className="mt-3 max-w-lg text-[14px] leading-relaxed text-white/45" style={sans}>
+          <p className="mt-3 max-w-lg text-[14px] leading-relaxed text-[#111111]/50" style={sans}>
             One AI employee doing the work of a full front office — live, 24/7, in your brand's own voice.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <a href="/intake" className="rounded-full px-7 py-3.5 text-[13px] font-bold text-[#0a0710] transition-all hover:brightness-110" style={{ ...mono, background: "linear-gradient(100deg, #f0c9ad, #e6a58f)" }}>
+            <a href="/intake" className="rounded-full px-7 py-3.5 text-[13px] font-bold text-[#3a1e12] transition-all hover:brightness-105" style={{ ...mono, background: "linear-gradient(100deg, #f0c9ad, #e0996f)" }}>
               Hear Sarah live →
             </a>
-            <a href="/contact" className="rounded-full border border-white/22 px-7 py-3.5 text-[13px] font-bold text-white transition-all hover:border-[#e6a58f] hover:text-[#e6a58f]" style={mono}>
+            <a href="/contact" className="rounded-full border border-[#111111]/20 px-7 py-3.5 text-[13px] font-bold text-[#111111] transition-all hover:border-[#c67a56] hover:text-[#b8663f]" style={mono}>
               Put Sarah to work
             </a>
           </div>
-          <p className="mt-6 text-[11px] tracking-[0.14em] text-white/30 uppercase" style={mono}>
+          <p className="mt-6 text-[11px] tracking-[0.14em] text-[#111111]/35 uppercase" style={mono}>
             Voice · Scheduling · CRM · Follow-up · Insights
           </p>
         </div>
@@ -446,9 +446,6 @@ export function SarahHero() {
           <Workforce stage={stage} />
         </div>
       </div>
-
-      {/* seam into the white page below */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
     </section>
   );
 }

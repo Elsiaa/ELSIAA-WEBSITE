@@ -330,127 +330,147 @@ function CountUp({ target }: { target: number }) {
    Starts grey and colourless, blooms into a full-colour living lion with a
    soft emerald life-glow; edges feather into the white so it's part of the
    page, not a pasted photo. Carries what ELSIAA stands for. */
-function HeroLion() {
+/* The hero is a pinned scroll-scrub: on desktop the page holds still on a
+   sticky full-height stage while your scroll brings the lion from grey to full
+   colour. Only once he's fully alive does the pin release and the page scrolls
+   on. On mobile / reduced-motion it degrades to a normal hero with a live lion. */
+function HomeHero() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
-  const ref = useRef<HTMLDivElement | null>(null);
+  const wrapRef = useRef<HTMLElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
+  const hintRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
-    const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const img = imgRef.current;
     const glow = glowRef.current;
-    if (reduced) {
-      if (img) img.style.filter = "grayscale(0) saturate(1.06) contrast(1.02)";
-      if (glow) glow.style.opacity = "1";
+    const hint = hintRef.current;
+    const setColour = (p: number) => {
+      if (img) {
+        img.style.filter = `grayscale(${(1 - p).toFixed(3)}) saturate(${(0.2 + p * 0.95).toFixed(3)}) contrast(1.02)`;
+        img.style.transform = `scale(${(0.97 + p * 0.05).toFixed(3)})`;
+      }
+      if (glow) glow.style.opacity = String((0.12 + p * 0.88).toFixed(3));
+      if (hint) hint.style.opacity = String(Math.max(0, 1 - p * 1.8).toFixed(3));
+    };
+
+    const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isDesktop = typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches;
+    if (reduced || !isDesktop) {
+      setColour(1);
       return;
     }
+
     let raf = 0;
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
     const onScroll = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        // grey at the very top → full colour as you scroll into the page
-        const p = clamp01(window.scrollY / (window.innerHeight * 0.55));
-        if (img) {
-          img.style.filter = `grayscale(${(1 - p).toFixed(2)}) saturate(${(0.2 + p * 0.9).toFixed(2)}) contrast(1.02)`;
-          img.style.transform = `scale(${(0.98 + p * 0.03).toFixed(3)})`;
-        }
-        if (glow) glow.style.opacity = String(0.15 + p * 0.85);
+        const el = wrapRef.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const runway = el.offsetHeight - window.innerHeight;
+        const p = clamp01(runway > 0 ? -rect.top / runway : 1);
+        setColour(p);
       });
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
+    window.addEventListener("resize", onScroll);
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); cancelAnimationFrame(raf); };
   }, []);
-  // feather every edge into the page. Because the photo sits on white and we
-  // multiply-blend it, the box disappears and only the lion melts onto the page.
-  const feather =
-    "radial-gradient(120% 115% at 50% 40%, #000 52%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0) 84%)";
-  return (
-    <div ref={ref} className="pointer-events-none absolute top-1/2 right-0 hidden -translate-y-1/2 lg:block xl:right-2">
-      <div className="relative h-[380px] w-[320px] xl:h-[440px] xl:w-[380px]">
-        {/* emerald life-glow, grows with scroll — matches the planet */}
-        <div
-          ref={glowRef}
-          className="absolute inset-[8%] -z-10 rounded-full blur-3xl"
-          style={{ background: "radial-gradient(circle at 50% 44%, rgba(30,107,60,0.45), transparent 64%)", opacity: 0.15 }}
-        />
-        <img
-          ref={imgRef}
-          src="/assets/hero_lion.png"
-          alt="The ELSIAA lion — alive"
-          className="h-full w-full object-cover"
-          style={{
-            objectPosition: "50% 12%",
-            mixBlendMode: "multiply",
-            WebkitMaskImage: feather,
-            maskImage: feather,
-            filter: "grayscale(1) saturate(0.2)",
-            willChange: "filter, transform",
-          }}
-        />
-      </div>
-      {/* what ELSIAA stands for */}
-      <p className="mt-2 text-center text-[10px] leading-relaxed tracking-[0.16em] text-[#111111]/55 uppercase" style={sans}>
-        <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
-        <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
-        <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
-        <b className="font-semibold text-[#1e6b3c]">I</b>nnovation ·{" "}
-        <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
-        <b className="font-semibold text-[#1e6b3c]">A</b>lliance
-      </p>
-    </div>
-  );
-}
 
-function HomeHero() {
-  const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
+  // feather every edge into the page — with multiply-blend the photo's white
+  // background disappears and only the lion melts onto the page.
+  const feather = "radial-gradient(120% 115% at 50% 42%, #000 54%, rgba(0,0,0,0.5) 72%, rgba(0,0,0,0) 86%)";
+
   return (
-    <section className="flex min-h-[92svh] flex-col justify-center bg-white pt-28 pb-10">
-      <div className="relative mx-auto w-full max-w-6xl px-6">
-        <HeroLion />
-        <Reveal>
-          <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
-            The world changed.
-            <span className="text-[#1e6b3c]"> AI is here.</span>
-          </h1>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <div className="mt-8 max-w-2xl rounded-3xl border border-black/[0.08] bg-[#fafaf8] p-6 md:p-8">
-            <p className="text-[20px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[24px]" style={sans}>
-              ELSIAA + AI, together.
-            </p>
-            <p className="mt-2 text-[15px] leading-relaxed text-[#111111]/60" style={sans}>
-              We put AI to work where it earns its place — and prove the result
-              before you commit a dollar.
-            </p>
-            <div className="mt-5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+    <section ref={wrapRef} className="relative bg-white lg:h-[220vh]">
+      <div className="flex min-h-[92svh] flex-col justify-center pt-28 pb-10 lg:sticky lg:top-0 lg:h-screen lg:min-h-0 lg:justify-center lg:pt-0 lg:pb-0">
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6">
+          {/* copy */}
+          <div>
+            <Reveal>
+              <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
+                The world changed.
+                <span className="text-[#1e6b3c]"> AI is here.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="mt-8 max-w-2xl rounded-3xl border border-black/[0.08] bg-[#fafaf8] p-6 md:p-8">
+                <p className="text-[20px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[24px]" style={sans}>
+                  ELSIAA + AI, together.
+                </p>
+                <p className="mt-2 text-[15px] leading-relaxed text-[#111111]/60" style={sans}>
+                  We put AI to work where it earns its place — and prove the result
+                  before you commit a dollar.
+                </p>
+                <div className="mt-5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                  <a
+                    href="/quote"
+                    className="flex min-h-[52px] items-center justify-between rounded-2xl border border-black/[0.1] bg-white px-5 text-[15px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c]/50"
+                    style={sans}
+                  >
+                    New client — start here <span className="text-[#1e6b3c]">→</span>
+                  </a>
+                  <a
+                    href="/portal"
+                    className="flex min-h-[52px] items-center justify-between rounded-2xl border border-black/[0.1] bg-white px-5 text-[15px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c]/50"
+                    style={sans}
+                  >
+                    Client login <span className="text-[#1e6b3c]">→</span>
+                  </a>
+                </div>
+              </div>
+            </Reveal>
+            <Reveal delay={0.16}>
               <a
-                href="/quote"
-                className="flex min-h-[52px] items-center justify-between rounded-2xl border border-black/[0.1] bg-white px-5 text-[15px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c]/50"
+                href="/contact"
+                className="mt-6 inline-flex min-h-[52px] items-center rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:bg-[#111111]"
                 style={sans}
               >
-                New client — start here <span className="text-[#1e6b3c]">→</span>
+                Speak to AI today →
               </a>
-              <a
-                href="/portal"
-                className="flex min-h-[52px] items-center justify-between rounded-2xl border border-black/[0.1] bg-white px-5 text-[15px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c]/50"
-                style={sans}
-              >
-                Client login <span className="text-[#1e6b3c]">→</span>
-              </a>
+            </Reveal>
+          </div>
+
+          {/* the lion — comes to life as you scroll */}
+          <div className="pointer-events-none relative mx-auto hidden w-full max-w-[440px] lg:block">
+            <div className="relative mx-auto h-[440px] w-[380px] xl:h-[500px] xl:w-[430px]">
+              <div
+                ref={glowRef}
+                className="absolute inset-[8%] -z-10 rounded-full blur-3xl"
+                style={{ background: "radial-gradient(circle at 50% 44%, rgba(30,107,60,0.5), transparent 64%)", opacity: 0.12 }}
+              />
+              <img
+                ref={imgRef}
+                src="/assets/hero_lion.png"
+                alt="The ELSIAA lion — brought to life"
+                className="h-full w-full object-cover"
+                style={{
+                  objectPosition: "50% 12%",
+                  mixBlendMode: "multiply",
+                  WebkitMaskImage: feather,
+                  maskImage: feather,
+                  filter: "grayscale(1) saturate(0.2) contrast(1.02)",
+                  willChange: "filter, transform",
+                }}
+              />
+            </div>
+            <p className="mt-1 text-center text-[10px] leading-relaxed tracking-[0.16em] text-[#111111]/55 uppercase" style={sans}>
+              <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
+              <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
+              <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
+              <b className="font-semibold text-[#1e6b3c]">I</b>nnovation ·{" "}
+              <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
+              <b className="font-semibold text-[#1e6b3c]">A</b>lliance
+            </p>
+            <div ref={hintRef} className="mt-3 flex flex-col items-center gap-1 text-center transition-opacity duration-300">
+              <span className="text-[11px] tracking-[0.22em] text-[#1e6b3c] uppercase" style={sans}>Scroll — bring him to life</span>
+              <span className="text-[#1e6b3c]" style={{ animation: "elsiaaDot 1.6s ease-in-out infinite" }}>↓</span>
             </div>
           </div>
-        </Reveal>
-        <Reveal delay={0.16}>
-          <a
-            href="/contact"
-            className="mt-6 inline-flex min-h-[52px] items-center rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:bg-[#111111]"
-            style={sans}
-          >
-            Speak to AI today →
-          </a>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

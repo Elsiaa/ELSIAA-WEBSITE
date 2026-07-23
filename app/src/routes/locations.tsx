@@ -11,7 +11,7 @@ export const Route = createFileRoute("/locations")({
       {
         name: "description",
         content:
-          "ELSIAA on the ground — New York, London, Geneva, Antwerp, Tel Aviv, and Los Angeles. Local presence in every timezone, one standard of work.",
+          "ELSIAA has people on the ground in New York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv — fully insured, by appointment, and able to deploy anywhere in the world. 24/7 virtual support.",
       },
       { property: "og:title", content: "Locations — ELSIAA" },
       { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
