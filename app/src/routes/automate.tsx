@@ -6,6 +6,7 @@ import { AUTOSOFT } from "../components/HomeRows";
 import { Seam, ProofDeck, Secretary } from "../components/automate-console";
 import { IntakeOS } from "../components/intake-os";
 import { IndustryWalkthrough } from "../components/IndustryWalkthrough";
+import { SarahHero } from "../components/SarahHero";
 
 export const Route = createFileRoute("/automate")({
   head: () => ({
@@ -109,8 +110,11 @@ function AutomatePage() {
     <main className="bg-white text-[#111111] antialiased">
       <SiteNav />
 
-      {/* ---------- hero ---------- */}
-      <section className="mx-auto max-w-6xl px-6 pt-32 pb-16 md:pt-40 md:pb-20">
+      {/* ---------- cinematic hero: Meet Sarah ---------- */}
+      <SarahHero />
+
+      {/* ---------- thesis hero ---------- */}
+      <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 md:pt-24 md:pb-20">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
           <Reveal>
             <p className="text-[13px] text-[#1e6b3c] " style={mono}>Automate · The layer your business runs on</p>
