@@ -75,12 +75,22 @@ function LogoRow() {
 
 export function WhyBrandsChose() {
   return (
-    <section className="border-t border-black/[0.06] bg-white py-16 md:py-24" aria-label="Why brands chose ELSIAA">
-      <div className="mx-auto w-full max-w-6xl px-6">
+    <section className="relative overflow-hidden border-t border-black/[0.06] bg-white py-16 md:py-24" aria-label="Why brands chose ELSIAA">
+      {/* subtle brand watermark — the ELSIAA lion, barely there */}
+      <img
+        src="/assets/elsiaa-lion.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-10 -right-16 hidden w-[360px] opacity-[0.035] select-none md:block lg:-right-8 lg:w-[440px]"
+      />
+      <div className="relative mx-auto w-full max-w-6xl px-6">
         <Reveal>
-          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
-            Chosen by brands
-          </p>
+          <div className="flex items-center gap-2.5">
+            <img src="/assets/elsiaa-lion.png" alt="" aria-hidden="true" className="h-5 w-5 object-contain opacity-70" />
+            <p className="text-[13px] text-[#1e6b3c]" style={mono}>
+              Chosen by brands
+            </p>
+          </div>
           <h2
             className="mt-2 max-w-2xl text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
             style={inter}
