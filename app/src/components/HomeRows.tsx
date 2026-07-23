@@ -401,14 +401,18 @@ function AutomationSection() {
               <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-[#111111]/55" style={sans}>
                 One worker. Every task at once. Watch it run the desk — then watch it run yours.
               </p>
-              {/* what it's doing right now — the many-arms idea, made explicit */}
-              <div className="mt-7 grid max-w-sm grid-cols-2 gap-x-6 gap-y-2.5 border-t border-black/[0.07] pt-5">
-                {["Writing code", "Answering support", "Reconciling invoices", "Designing graphics", "Scheduling meetings", "Drafting reports"].map((t, i) => (
-                  <div key={t} className="flex items-center gap-2.5">
-                    <span className="h-1.5 w-1.5 flex-none animate-pulse rounded-full bg-[#1e6b3c]" style={{ animationDelay: `${i * 0.3}s` }} />
-                    <span className="text-[12.5px] text-[#111111]/60" style={sans}>{t}</span>
-                  </div>
-                ))}
+              {/* what it's doing right now — the many-arms idea, as tidy chips */}
+              <div className="mt-7 border-t border-black/[0.07] pt-5">
+                <p className="flex items-center gap-2 text-[10px] font-semibold tracking-[0.24em] text-[#111111]/40 uppercase" style={sans}>
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1e6b3c]" /> Working now
+                </p>
+                <div className="mt-3 flex max-w-md flex-wrap gap-2">
+                  {["Writing code", "Answering support", "Reconciling invoices", "Designing graphics", "Scheduling meetings", "Drafting reports"].map((t) => (
+                    <span key={t} className="inline-flex items-center rounded-full border border-black/[0.09] bg-white px-3.5 py-1.5 text-[12.5px] text-[#111111]/70 transition-colors hover:border-[#1e6b3c]/40 hover:text-[#111111]" style={sans}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
               <a
                 href="/automate"
@@ -1299,7 +1303,7 @@ function DesignCatalog() {
   return (
     <div className="mx-auto w-full max-w-6xl px-6">
       <Reveal delay={0.05}>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
           {DESIGN.map((s, i) => (
             <a key={`${s.name}-${i}`} href="/designs" className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]">
               <div className="flex items-center justify-between">
