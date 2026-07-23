@@ -1150,8 +1150,7 @@ function AutomationCatalog() {
 function DesignDivision() {
   const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   const wrapRef = useRef<HTMLDivElement | null>(null);
-  const earthRef = useRef<HTMLDivElement | null>(null);
-  const rockRef = useRef<HTMLImageElement | null>(null);
+  const earthRef = useRef<HTMLImageElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
   const sphereRef = useRef<HTMLDivElement | null>(null);
   const cap1Ref = useRef<HTMLParagraphElement | null>(null);
@@ -1180,21 +1179,18 @@ function DesignDivision() {
       sp += (target - sp) * 0.14; // lerp — momentum without lag
       const p = sp;
 
-      // dawn sweep: life crosses the sphere left→right, 8%→60% of scroll
-      const sweep = ease(seg(p, 0.08, 0.6));
-      const edge = -20 + sweep * 140; // percentage position of the terminator line
-      const soft = 26; // width of the dawn gradient
-      const mask = `linear-gradient(105deg, #000 ${edge}%, rgba(0,0,0,0) ${edge + soft}%)`;
-      set(earthRef.current, { WebkitMaskImage: mask, maskImage: mask } as unknown as Partial<CSSStyleDeclaration>);
+      // ONE seamless earth: a grey, colourless, artless planet that turns
+      // beautiful and full-colour in place as you scroll — same globe, no moon.
+      const reveal = ease(seg(p, 0.06, 0.6));
+      set(earthRef.current, {
+        filter: `grayscale(${(1 - reveal).toFixed(2)}) saturate(${(0.12 + reveal * 0.98).toFixed(2)}) contrast(${(1 + reveal * 0.06).toFixed(2)})`,
+      });
 
-      // the rock cools as it is overtaken
-      set(rockRef.current, { filter: `saturate(0.15) brightness(${0.98 - sweep * 0.05})` });
-
-      // atmosphere + glow bloom once life is mostly across
+      // atmosphere glow blooms as life crosses in
       const alive = ease(seg(p, 0.42, 0.68));
-      set(glowRef.current, { opacity: String(0.08 + alive * 0.6) });
+      set(glowRef.current, { opacity: String(0.05 + alive * 0.6) });
 
-      // sphere settles: slight grow + upright rotation
+      // the planet settles: slight grow + upright rotation
       const grow = 0.86 + ease(seg(p, 0, 0.7)) * 0.14;
       const rot = -8 + ease(seg(p, 0, 0.7)) * 8;
       set(sphereRef.current, { transform: `scale(${grow.toFixed(3)}) rotate(${rot.toFixed(2)}deg)` });
@@ -1215,26 +1211,18 @@ function DesignDivision() {
       {/* green life-glow behind the planet */}
       <div
         ref={live ? undefined : glowRef}
-        className="pointer-events-none absolute h-[86%] w-[86%] rounded-full blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(46,158,88,0.4), transparent 66%)", opacity: live ? 0.5 : 0.08 }}
+        className="pointer-events-none absolute h-[82%] w-[82%] rounded-full blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(46,158,88,0.42), transparent 67%)", opacity: live ? 0.5 : 0.06 }}
       />
       <div ref={live ? undefined : sphereRef} className="relative aspect-square w-full will-change-transform">
-        {/* both assets live on pure white — no clip, no ring, ever */}
+        {/* one earth on pure white — no clip, no ring; grey → full colour */}
         <img
-          ref={live ? undefined : rockRef}
-          src="/assets/cine/rock_white.jpg"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-contain"
-          style={{ display: live ? "none" : "block", filter: "saturate(0.15) brightness(0.98)" }}
-        />
-        <div
           ref={live ? undefined : earthRef}
-          className="absolute inset-0"
-          style={live ? undefined : { WebkitMaskImage: "linear-gradient(105deg, #000 -20%, rgba(0,0,0,0) 6%)", maskImage: "linear-gradient(105deg, #000 -20%, rgba(0,0,0,0) 6%)" }}
-        >
-          <img src="/assets/cine/earth_white.jpg" alt="A living earth" className="absolute inset-0 h-full w-full object-contain" />
-        </div>
+          src="/assets/cine/earth_white.jpg"
+          alt="Planet earth"
+          className="absolute inset-0 h-full w-full object-contain"
+          style={{ filter: live ? "none" : "grayscale(1) saturate(0.12)" }}
+        />
       </div>
     </div>
   );
