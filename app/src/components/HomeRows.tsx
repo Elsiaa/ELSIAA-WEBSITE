@@ -1165,19 +1165,20 @@ function DesignDivision() {
       const r = wrap.getBoundingClientRect();
       const span = r.height - window.innerHeight;
       const p = span > 0 ? clamp01(-r.top / span) : 0;
-      // the rock dissolves to reveal the living, colourful earth beneath it
-      const reveal = seg(p, 0.1, 0.66);
+      // the rock dissolves to reveal the living, colourful earth beneath it —
+      // assembled early in the scroll so it's fully alive before the pin releases
+      const reveal = seg(p, 0.04, 0.62);
       set(rockRef.current, { opacity: String(1 - reveal), filter: `saturate(0.1) brightness(0.85)` });
       // the sphere orbits into place — grows and rotates upright
-      const grow = 0.88 + seg(p, 0, 0.85) * 0.16;
-      const rot = -10 + seg(p, 0, 0.9) * 10;
+      const grow = 0.82 + seg(p, 0, 0.7) * 0.18;
+      const rot = -12 + seg(p, 0, 0.72) * 12;
       set(sphereRef.current, { transform: `scale(${grow.toFixed(3)}) rotate(${rot.toFixed(1)}deg)` });
-      set(glowRef.current, { opacity: String(0.1 + reveal * 0.6) });
+      set(glowRef.current, { opacity: String(0.1 + reveal * 0.65) });
       // captions cross-fade
-      set(rockCapRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.3, 0.5))) });
-      set(lifeCapRef.current, { opacity: String(seg(p, 0.48, 0.64)), transform: `translateY(${(1 - seg(p, 0.48, 0.64)) * 8}px)` });
-      set(ctaRef.current, { opacity: String(seg(p, 0.7, 0.9)), transform: `translateY(${(1 - seg(p, 0.7, 0.9)) * 10}px)` });
-      set(hintRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.55, 0.82))) });
+      set(rockCapRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.22, 0.42))) });
+      set(lifeCapRef.current, { opacity: String(seg(p, 0.42, 0.58)), transform: `translateY(${(1 - seg(p, 0.42, 0.58)) * 8}px)` });
+      set(ctaRef.current, { opacity: String(seg(p, 0.66, 0.86)), transform: `translateY(${(1 - seg(p, 0.66, 0.86)) * 10}px)` });
+      set(hintRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.3, 0.55))) });
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -1185,15 +1186,15 @@ function DesignDivision() {
   }, []);
 
   const Sphere = ({ live }: { live: boolean }) => (
-    <div className="relative flex items-center justify-center">
+    <div className="relative flex items-center justify-center" style={{ width: "min(64vh, 440px)", height: "min(64vh, 440px)" }}>
       <div
         ref={live ? undefined : glowRef}
-        className="pointer-events-none absolute h-[85%] w-[85%] rounded-full blur-3xl"
+        className="pointer-events-none absolute h-[92%] w-[92%] rounded-full blur-3xl"
         style={{ background: "radial-gradient(circle, rgba(30,107,60,0.5), transparent 70%)", opacity: live ? 0.6 : 0.1 }}
       />
       <div
         ref={live ? undefined : sphereRef}
-        className="relative aspect-square w-[82%] max-w-[440px] overflow-hidden rounded-full bg-black shadow-[0_50px_130px_-40px_rgba(30,107,60,0.55)] ring-1 ring-black/10 will-change-transform"
+        className="relative aspect-square w-full overflow-hidden rounded-full bg-black shadow-[0_50px_130px_-40px_rgba(30,107,60,0.55)] ring-1 ring-black/10 will-change-transform"
       >
         <img src="/assets/cine/earth.jpg" alt="A living earth" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "51% 47%" }} />
         {!live && (
@@ -1207,16 +1208,14 @@ function DesignDivision() {
   if (reduced) {
     return (
       <section className="border-t border-black/[0.06] bg-white py-16 md:py-24">
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-6 md:grid-cols-2">
-          <div>
-            <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>02 · Division</p>
-            <h2 className="mt-2 text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={inter}>Design</h2>
-            <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
-              A world without art is a rock. Design gives your business a living surface — every screen, every touchpoint, brought to life.
-            </p>
-            <a href="/designs" className="mt-6 inline-block text-[11px] tracking-[0.24em] text-[#1e6b3c] uppercase hover:underline" style={mono}>Discover how we design ↗</a>
-          </div>
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 px-6 text-center">
+          <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>02 · Division</p>
+          <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={inter}>Design</h2>
           <Sphere live />
+          <p className="max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
+            A world without art is a rock. Design gives your business a living surface — every screen, every touchpoint, brought to life.
+          </p>
+          <a href="/designs" className="inline-block rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111]" style={mono}>Discover how we design →</a>
         </div>
         <div className="mt-14"><DesignCatalog /></div>
       </section>
@@ -1225,29 +1224,29 @@ function DesignDivision() {
 
   return (
     <>
-      <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "200vh" }}>
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-          <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-6 md:grid-cols-2">
-            <div>
-              <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>02 · Division</p>
-              <h2 className="mt-2 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
-              <div className="relative mt-4 h-[80px] max-w-md">
-                <p ref={rockCapRef} className="absolute inset-0 text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
-                  A world without art is a rock. Cold, correct, and completely forgettable.
-                </p>
-                <p ref={lifeCapRef} className="absolute inset-0 text-[15px] leading-relaxed text-[#111111]/70 opacity-0" style={inter}>
-                  Design gives it life — a living surface for every screen and every touchpoint your brand meets.
-                </p>
-              </div>
-              <div ref={ctaRef} className="opacity-0">
-                <a href="/designs" className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111]" style={mono}>
-                  Discover how we design →
-                </a>
-              </div>
-              <p ref={hintRef} className="mt-5 text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>Keep scrolling — watch it come to life</p>
-            </div>
-            <Sphere live={false} />
+      {/* pinned stage — the earth assembles from a rock as you scroll; it is
+          fully alive before the pin releases you to the next section */}
+      <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "260vh" }}>
+        <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-5 overflow-hidden px-6 text-center">
+          <div>
+            <p className="text-[10px] tracking-[0.32em] text-[#1e6b3c] uppercase" style={mono}>02 · Division</p>
+            <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
           </div>
+          <Sphere live={false} />
+          <div className="relative h-[52px] w-full max-w-lg">
+            <p ref={rockCapRef} className="absolute inset-x-0 mx-auto max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
+              A world without art is a rock. Cold, correct, and completely forgettable.
+            </p>
+            <p ref={lifeCapRef} className="absolute inset-x-0 mx-auto max-w-md text-[15px] leading-relaxed text-[#111111]/75 opacity-0" style={inter}>
+              Design gives it life — a living surface for every screen your brand meets.
+            </p>
+          </div>
+          <div ref={ctaRef} className="opacity-0">
+            <a href="/designs" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[11px] font-bold tracking-[0.22em] text-white uppercase transition-all hover:bg-[#111111]" style={mono}>
+              Discover how we design →
+            </a>
+          </div>
+          <p ref={hintRef} className="text-[10px] tracking-[0.24em] text-[#111111]/40 uppercase" style={mono}>Keep scrolling — watch it come to life ↓</p>
         </div>
       </section>
       <section className="bg-white pb-16 md:pb-24">
