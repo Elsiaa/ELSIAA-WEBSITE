@@ -225,7 +225,7 @@ function CompareSlider() {
           className="relative mt-6 aspect-[16/9] overflow-hidden rounded-2xl border border-black/10 shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)]"
         >
           <div className="absolute inset-0">
-            <LazyFrame src="https://dialoghealthcare.com" title="Dialog Healthcare — current website" zoom={0.5} />
+            <SiteThumb src="https://dialoghealthcare.com" title="Dialog Healthcare — current website" />
           </div>
           <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
             <DialogNewPreview />
@@ -392,65 +392,50 @@ function SideToggle({
   );
 }
 
+/* ---------------- site thumbnail — desktop viewport scaled to fit, top-anchored, non-interactive ---------------- */
+function SiteThumb({ src, title }: { src: string; title: string }) {
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const [scale, setScale] = useState(0);
+  const [load, setLoad] = useState(false);
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setScale(el.clientWidth / 1280));
+    ro.observe(el);
+    const io = new IntersectionObserver(
+      (es) => es.forEach((e) => e.isIntersecting && (setLoad(true), io.disconnect())),
+      { rootMargin: "500px" },
+    );
+    io.observe(el);
+    return () => { ro.disconnect(); io.disconnect(); };
+  }, []);
+  return (
+    <div ref={boxRef} className="relative h-full w-full overflow-hidden bg-[#f4f4f2]">
+      {load && scale > 0 ? (
+        <iframe
+          src={src}
+          title={title}
+          loading="lazy"
+          scrolling="no"
+          tabIndex={-1}
+          aria-hidden="true"
+          className="pointer-events-none absolute top-0 left-0 origin-top-left select-none"
+          style={{ width: "1280px", height: `${Math.ceil((boxRef.current?.clientHeight ?? 400) / scale)}px`, transform: `scale(${scale})`, border: "0" }}
+        />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center">
+          <span className="text-[13px] text-black/40" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+            Loading preview…
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function DiscoverDesigns() {
   const [side, setSide] = useState<"after" | "before">("after");
-  const leftFrame = useRef<HTMLIFrameElement | null>(null);
-  const rightFrame = useRef<HTMLIFrameElement | null>(null);
 
-  useEffect(() => {
-    let cleanup: (() => void) | null = null;
-    const iv = window.setInterval(() => {
-      const L = leftFrame.current;
-      const R = rightFrame.current;
-      if (!L || !R) return;
-      let lDoc: Document | null = null;
-      let rDoc: Document | null = null;
-      try {
-        lDoc = L.contentDocument;
-        rDoc = R.contentDocument;
-      } catch {
-        return;
-      }
-      if (!lDoc?.documentElement || !rDoc?.documentElement) return;
-      if ((lDoc.readyState !== "complete" && lDoc.readyState !== "interactive") || (rDoc.readyState !== "complete" && rDoc.readyState !== "interactive")) return;
-      window.clearInterval(iv);
-
-      let lock: "L" | "R" | null = null;
-      let unlockT = 0;
-      const range = (d: Document, w: Window) =>
-        Math.max(1, d.documentElement.scrollHeight - w.innerHeight);
-      const follow = (
-        srcW: Window,
-        srcD: Document,
-        dstW: Window,
-        dstD: Document,
-        tag: "L" | "R",
-      ) => {
-        const h = () => {
-          const now = performance.now();
-          if (lock && lock !== tag && now < unlockT) return;
-          lock = tag;
-          unlockT = now + 120;
-          const p = srcW.scrollY / range(srcD, srcW);
-          dstW.scrollTo(0, p * range(dstD, dstW));
-        };
-        srcW.addEventListener("scroll", h, { passive: true });
-        return () => srcW.removeEventListener("scroll", h);
-      };
-      const lw = L.contentWindow!;
-      const rw = R.contentWindow!;
-      const offL = follow(lw, lDoc, rw, rDoc, "L");
-      const offR = follow(rw, rDoc, lw, lDoc, "R");
-      cleanup = () => {
-        offL();
-        offR();
-      };
-    }, 600);
-    return () => {
-      window.clearInterval(iv);
-      cleanup?.();
-    };
-  }, []);
 
   return (
     <section id="discover-designs" className="bg-[#F5F5F3] px-6 pt-14 pb-16 text-[#111111]">
@@ -501,8 +486,8 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="h-[260px] overflow-hidden md:h-[40svh]">
-                <LazyFrame src="/prime-bins/" title="Prime Bins — the original website, live" onFrame={(el) => (leftFrame.current = el)} />
+              <div className="h-[300px] overflow-hidden md:h-[46svh]">
+                <SiteThumb src="/prime-bins/" title="Prime Bins — the original website" />
               </div>
             </figure>
             <ul className="mx-auto mt-4 max-w-md space-y-1.5">
@@ -540,7 +525,7 @@ function DiscoverDesigns() {
                 Open ↗
               </a>
             </div>
-            <figure className="overflow-hidden rounded-2xl border-2 border-[#1e6b3c] bg-[#0B2447] shadow-[0_60px_130px_-45px_rgba(30,107,60,0.5)] ring-4 ring-[#1e6b3c]/10">
+            <figure className="overflow-hidden rounded-2xl border-2 border-[#1e6b3c] bg-white shadow-[0_60px_130px_-45px_rgba(30,107,60,0.5)] ring-4 ring-[#1e6b3c]/10">
               <div className="flex items-center gap-2 border-b border-black/10 bg-[#F0F0EE] px-4 py-2.5">
                 <span className="h-2 w-2 rounded-full bg-[#E5695E]" />
                 <span className="h-2 w-2 rounded-full bg-[#E0A63F]" />
@@ -553,8 +538,8 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="h-[260px] overflow-hidden md:h-[40svh]">
-                <LazyFrame src="/mr-bins/" title="Mr. Bins — rebuilt by ELSIAA, live" onFrame={(el) => (rightFrame.current = el)} />
+              <div className="h-[300px] overflow-hidden md:h-[46svh]">
+                <SiteThumb src="/mr-bins/" title="Mr. Bins — rebuilt by ELSIAA" />
               </div>
             </figure>
             <ul className="mx-auto mt-4 max-w-md space-y-1.5">
