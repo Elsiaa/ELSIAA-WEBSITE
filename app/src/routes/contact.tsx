@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -13,9 +14,9 @@ export const Route = createFileRoute("/contact")({
           "Let's talk. The first 20 minutes are free. Tell us your business — we integrate the AI. Book a call or send ELSIAA a message.",
       },
       { property: "og:title", content: "Contact — ELSIAA" },
-      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/contact" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/contact") }],
   }),
   component: ContactPage,
 });

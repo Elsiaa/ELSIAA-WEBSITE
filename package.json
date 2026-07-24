@@ -1,0 +1,9 @@
+{
+  "name": "elsiaa-website",
+  "private": true,
+  "scripts": {
+    "dev": "bun run --cwd app dev",
+    "build": "bun run --cwd app build",
+    "typecheck": "bun run --cwd app typecheck"
+  }
+}

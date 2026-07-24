@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/clients")({
   head: () => ({
@@ -8,9 +9,9 @@ export const Route = createFileRoute("/clients")({
       { title: "Clients — ELSIAA · AI Done Better" },
       { name: "description", content: "Working with ELSIAA. New clients start here; existing clients sign in to the portal. How we work, what to expect, and the results." },
       { property: "og:title", content: "Clients — ELSIAA" },
-      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/clients" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/clients") }],
   }),
   component: ClientsPage,
 });

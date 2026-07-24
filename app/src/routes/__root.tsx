@@ -20,6 +20,7 @@ import { reportHiggsfieldError } from "../lib/higgsfield-error-reporting";
 // repo by the marketplace meta API and read at BUILD time — no runtime fetch.
 // Editing it via the app settings UI rewrites this file and redeploys the app.
 import appMetaJson from "../app-meta.json";
+import { absoluteUrl } from "../lib/site-url";
 
 declare const __HF_DESIGN_INSPECTOR__: boolean;
 
@@ -68,12 +69,10 @@ function toOwnAssetUrl(value: string | null | undefined): string | null {
 }
 
 // Social scrapers require absolute og:image / og:video URLs — root-relative
-// paths are silently dropped by most platforms. Canonical public host:
-const SITE_URL = "https://elsiaa.higgsfield.app";
-
+// paths are silently dropped by most platforms.
 function toAbsolute(value: string | null): string | null {
   if (!value) return null;
-  return value.startsWith("/") ? `${SITE_URL}${value}` : value;
+  return absoluteUrl(value);
 }
 
 function buildHead(meta: AppMeta) {

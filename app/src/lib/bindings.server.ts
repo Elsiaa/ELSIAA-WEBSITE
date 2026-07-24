@@ -1,12 +1,10 @@
-// Server-only access to this app's Cloudflare bindings. Each is present ONLY if
-// opted into via app.manifest.json (D1 `DB`, R2 `STORAGE`, KV `KV`, and the
-// container `CONTAINER`) — so the accessors are optional; guard before use.
-// `cloudflare:workers` is the Workers-runtime module that exposes the Worker
-// env (bindings) — usable inside any server-side code (server functions,
-// server routes). It is NOT bundled; the runtime provides it.
+// Server-only access to this app's platform bindings / env.
+//
+// On Cloudflare Workers, `cloudflare:workers` exposes D1 `DB`, R2 `STORAGE`,
+// KV, and secrets. On Vercel / Node (Nitro), Vite aliases that import to
+// `cloudflare-workers.dev-stub.ts`, which mirrors process.env (no D1).
+// Accessors that need DB must guard — `bindings().DB` is optional.
 import { env } from "cloudflare:workers";
-// Import the binding types directly — NOT via the global tsconfig `types` list,
-// which would clobber the DOM globals the client/SSR React code relies on.
 import type {
   D1Database,
   DurableObjectNamespace,
@@ -24,10 +22,19 @@ type AppEnv = {
   CONTAINER?: DurableObjectNamespace;
   HF_ENV?: string;
   APP_SLUG?: string;
-  // Site secrets (set via the platform, staged until next deploy)
+  // Site secrets (Vercel env / Cloudflare Worker secrets)
   ADMIN_KEY?: string;
 };
 
 export function bindings(): AppEnv {
-  return env as unknown as AppEnv;
+  const platform = env as unknown as AppEnv;
+  // Merge process.env so Vercel dashboard secrets (ADMIN_KEY, etc.) win when
+  // the Cloudflare module stub left them unset.
+  return {
+    ...platform,
+    HF_ENV:
+      platform.HF_ENV ?? process.env.HF_ENV ?? process.env.VERCEL_ENV ?? undefined,
+    APP_SLUG: platform.APP_SLUG ?? process.env.APP_SLUG,
+    ADMIN_KEY: platform.ADMIN_KEY ?? process.env.ADMIN_KEY,
+  };
 }

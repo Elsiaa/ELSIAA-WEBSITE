@@ -3,6 +3,7 @@ import { useState } from "react";
 import { StoreShell, F } from "../components/StoreShell";
 import { useCart } from "../lib/cart";
 import { bySlug, byCategory, CATEGORY_META, SIZES } from "../lib/merch";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/product/$slug")({
   head: ({ params }) => {
@@ -14,9 +15,9 @@ export const Route = createFileRoute("/product/$slug")({
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: title },
-        { property: "og:image", content: p?.img ?? "/assets/store/merch_hero.jpg" },
+        { property: "og:image", content: absoluteUrl(p?.img ?? "/assets/store/merch_hero.jpg") },
       ],
-      links: [{ rel: "canonical", href: `https://elsiaa.higgsfield.app/product/${params.slug}` }],
+      links: [{ rel: "canonical", href: absoluteUrl(`/product/${params.slug}`) }],
     };
   },
   component: ProductPage,

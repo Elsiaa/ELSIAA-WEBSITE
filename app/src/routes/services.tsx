@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -17,9 +18,9 @@ export const Route = createFileRoute("/services")({
         property: "og:description",
         content: "Pick the box that matches the problem.",
       },
-      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/services" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/services") }],
   }),
   component: Services,
 });

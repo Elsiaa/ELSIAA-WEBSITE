@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/search")({
   head: () => ({
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/search")({
           "Search everything ELSIAA builds — custom software, AI systems, case studies, the build process, locations and careers.",
       },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/search" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/search") }],
   }),
   component: SearchPage,
 });

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StoreFront } from "../components/StoreFront";
 import { StoreShell } from "../components/StoreShell";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/store")({
   head: () => ({
@@ -14,7 +15,7 @@ export const Route = createFileRoute("/store")({
       { property: "og:title", content: "ELSIAA Merch — The Store" },
       { property: "og:image", content: "/assets/store/merch_hero.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/store" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/store") }],
   }),
   component: StorePage,
 });

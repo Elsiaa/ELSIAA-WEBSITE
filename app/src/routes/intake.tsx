@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
 import { IntakeOS } from "../components/intake-os";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/intake")({
   head: () => ({
@@ -9,9 +10,9 @@ export const Route = createFileRoute("/intake")({
       { title: "Intake OS — ELSIAA · AI Done Better" },
       { name: "description", content: "Intake OS is ELSIAA's voice intake product: a phone line that understands a caller in plain language, matches them to the right specialist, and books the appointment — shown full-stack, front end and back end." },
       { property: "og:title", content: "Intake OS — ELSIAA" },
-      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/intake" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/intake") }],
   }),
   component: IntakePage,
 });

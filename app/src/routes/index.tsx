@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { HomeRows } from "../components/HomeRows";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,9 +17,9 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Four divisions. One empire of detail.",
       },
-      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/") }],
   }),
   component: Home,
 });

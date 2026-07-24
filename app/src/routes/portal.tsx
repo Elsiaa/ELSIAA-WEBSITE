@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/portal")({
   head: () => ({
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/portal")({
         content: "Secure client portal — balances, purchase history, contracts, and project updates.",
       },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/portal" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/portal") }],
   }),
   component: Portal,
 });

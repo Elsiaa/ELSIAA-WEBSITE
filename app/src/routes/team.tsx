@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/team")({
   head: () => ({
@@ -12,9 +13,9 @@ export const Route = createFileRoute("/team")({
           "The leadership, counsel, and medical advisory board behind ELSIAA — an international AI services firm.",
       },
       { property: "og:title", content: "Leadership — ELSIAA" },
-      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/team" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/team") }],
   }),
   component: TeamPage,
 });

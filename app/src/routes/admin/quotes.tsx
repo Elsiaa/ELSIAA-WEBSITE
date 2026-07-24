@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { getSiteHost } from "../../lib/site-url";
 
 /*
   ELSIAA backend — one dashboard, three streams:
@@ -214,7 +215,7 @@ function AdminDash() {
           <div className="mt-8 space-y-4">
             {quotes.length === 0 && (
               <p className="mt-12 text-center text-[15px] text-[#111111]/55" style={inter}>
-                No quote requests yet. Share: elsiaa.higgsfield.app/quote
+                {"No quote requests yet. Share: " + getSiteHost() + "/quote"}
               </p>
             )}
             {quotes.map((q) => (
@@ -317,7 +318,7 @@ function AdminDash() {
           <div className="mt-8 space-y-4">
             {orders.length === 0 && (
               <p className="mt-12 text-center text-[15px] text-[#111111]/55" style={inter}>
-                No merch orders yet. Share the store: elsiaa.higgsfield.app/store
+                {"No merch orders yet. Share the store: " + getSiteHost() + "/store"}
               </p>
             )}
             {orders.map((o) => {

@@ -6,6 +6,7 @@ import { AUTOSOFT } from "../components/HomeRows";
 import { Seam, ProofDeck, Secretary } from "../components/automate-console";
 import { IntakeOS } from "../components/intake-os";
 import { IndustryWalkthrough } from "../components/IndustryWalkthrough";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/automate")({
   head: () => ({
@@ -17,9 +18,9 @@ export const Route = createFileRoute("/automate")({
           "Before AI, the business waited on a person. Operate the software ELSIAA builds to run it instead — live consoles, a draggable before/after seam, and a multilingual AI secretary you can talk to.",
       },
       { property: "og:title", content: "Automate — ELSIAA" },
-      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/automate" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/automate") }],
   }),
   component: AutomatePage,
 });

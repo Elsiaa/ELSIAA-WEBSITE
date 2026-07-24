@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -14,9 +15,9 @@ export const Route = createFileRoute("/careers")({
       },
       { property: "og:title", content: "Careers — ELSIAA" },
       { property: "og:description", content: "We are hiring. Press one." },
-      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/careers" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/careers") }],
   }),
   component: Careers,
 });

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { ScrollGlobe, CountTo } from "../components/ScrollGlobe";
 import { Reveal } from "../components/Reveal";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/locations")({
   head: () => ({
@@ -14,9 +15,9 @@ export const Route = createFileRoute("/locations")({
           "ELSIAA has people on the ground in New York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv — fully insured, by appointment, and able to deploy anywhere in the world. 24/7 virtual support.",
       },
       { property: "og:title", content: "Locations — ELSIAA" },
-      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/locations" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/locations") }],
   }),
   component: LocationsPage,
 });

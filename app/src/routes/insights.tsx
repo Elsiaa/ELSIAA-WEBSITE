@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
+import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/insights")({
   head: () => ({
@@ -13,9 +14,9 @@ export const Route = createFileRoute("/insights")({
           "The research behind the standard. Field notes, adoption data, and honest analysis on where AI actually pays off — across healthcare, finance, marketing, retail, and operations — from the ELSIAA intelligence desk.",
       },
       { property: "og:title", content: "Insights — ELSIAA" },
-      { property: "og:image", content: "https://elsiaa.higgsfield.app/assets/og_cover.png" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
-    links: [{ rel: "canonical", href: "https://elsiaa.higgsfield.app/insights" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/insights") }],
   }),
   component: InsightsPage,
 });

@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "vite dev",
     "dev:design": "HF_DESIGN_INSPECTOR=1 vite dev --mode design",
-    "build": "tsc --noEmit & p1=$!; vite build & p2=$!; wait $p1 && wait $p2",
+    "build": "vite build",
+    "build:check": "tsc --noEmit & p1=$!; vite build & p2=$!; wait $p1 && wait $p2",
+    "build:cloudflare": "DEPLOY_TARGET=cloudflare vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
