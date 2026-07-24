@@ -66,9 +66,9 @@ header.bar{position:fixed;top:0;left:0;right:0;z-index:80;background:#10263E;bor
 .toast b{color:var(--bright)}
 
 /* WALKTHROUGH — the opening. Scroll drives the glide; captions swap on scroll */
-#walk{height:520vh;position:relative}
+#walk{height:300vh;position:relative}
 /* mobile-only: shorter walk so the story lands faster on phones (desktop untouched) */
-@media(max-width:940px){#walk{height:340vh}}
+@media(max-width:940px){#walk{height:240vh}}
 .stage{position:sticky;top:0;height:100vh;overflow:hidden;background:#04070e}
 .walkvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#04070e}
 .tint{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(4,10,22,.78),rgba(4,10,22,.5) 30%,rgba(4,10,22,.18) 55%,rgba(4,10,22,.34))}
@@ -89,7 +89,7 @@ header.bar{position:fixed;top:0;left:0;right:0;z-index:80;background:#10263E;bor
 .hprog{position:absolute;left:0;bottom:0;height:3px;background:var(--orange);z-index:4;width:0}
 
 /* cart roll-in: 100% scroll-controlled (all-intra + fastSeek) */
-#cart{height:240vh;position:relative}
+#cart{height:170vh;position:relative}
 .cartstage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;background:#fff;overflow:hidden}
 /* trio: clothing rack · bin (smaller) · shoe rack — all scroll-driven */
 .trio{flex:0 1 auto;display:flex;align-items:flex-end;justify-content:center;gap:clamp(14px,3vw,60px);margin:auto;width:100%;padding:0 2vw}
@@ -522,7 +522,7 @@ footer{background:#fff;color:var(--navy);padding:clamp(40px,5vw,72px) clamp(20px
  .locs{grid-template-columns:1fr 1fr}
  .ladder{grid-template-columns:repeat(4,1fr)}
  /* cart: trio stacks — bin on top, clothes + shoes side by side beneath */
- #cart{height:260vh}
+ #cart{height:190vh}
  .trio{flex-wrap:wrap;gap:14px;align-items:flex-end}
  .cartvid{height:auto;width:92vw;max-width:92vw;order:1}
  .tside{order:2;width:45vw}
@@ -1333,7 +1333,7 @@ function seekTo(v,t){if(v.fastSeek){try{v.fastSeek(t);return;}catch(e){}}try{v.c
   hprog.style.width=(p*100).toFixed(1)+'%';
   hcue.style.opacity=(p>0.03?'0':'1');
   /* fade captions out over the last 8% so the final line never clips under the header at the unpin */
-  document.getElementById('wcaps').style.opacity=(p>0.92?String(clampN((1-p)/0.08)):'1');
+  document.getElementById('wcaps').style.opacity=(p>0.97?String(clampN((1-p)/0.03)):'1');
   if(dur){seekTo(v,p*(dur-0.05));}
   var seg=p*n,idx=Math.min(n-1,Math.floor(seg*0.9999));
   if(idx!==cur){cur=idx;for(var i=0;i<n;i++)caps[i].classList.toggle('on',i===idx);}
