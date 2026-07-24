@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SiteNav } from "../components/SiteNav";
 import { StoreFront } from "../components/StoreFront";
+import { StoreShell } from "../components/StoreShell";
 
 export const Route = createFileRoute("/store")({
   head: () => ({
@@ -20,26 +20,21 @@ export const Route = createFileRoute("/store")({
 });
 
 function StorePage() {
+  const F = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
   return (
-    <main className="min-h-screen bg-white text-[#111111]">
-      <SiteNav />
-      <section className="mx-auto max-w-6xl px-6 pt-36 pb-24 md:pt-44">
-        <p
-          className="text-[13px] text-[#1e6b3c] "
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-        >
-          The Store
-        </p>
-        <h1
-          className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl"
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-        >
-          ELSIAA merch.
+    <StoreShell>
+      <section className="mx-auto max-w-6xl px-6 pt-12 pb-20 md:pt-16 md:pb-24">
+        <p className="text-[13px] font-bold text-[#1e6b3c]" style={F}>The Store</p>
+        <h1 className="mt-2 max-w-2xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={F}>
+          ELSIAA Merch — AI Done Better.
         </h1>
-        <div className="mt-10">
+        <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-[#111111]/55" style={F}>
+          Quiet, heavy, never reprinted. Four chapters — pick yours.
+        </p>
+        <div className="mt-10 md:mt-14">
           <StoreFront />
         </div>
       </section>
-    </main>
+    </StoreShell>
   );
 }

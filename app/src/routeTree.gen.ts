@@ -19,6 +19,7 @@ import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortalRouteImport } from './routes/portal'
+import { Route as OrderConfirmationRouteImport } from './routes/order-confirmation'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IntakeRouteImport } from './routes/intake'
 import { Route as InsightsRouteImport } from './routes/insights'
@@ -27,9 +28,12 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ConceptWalkRouteImport } from './routes/concept-walk'
 import { Route as ClientsRouteImport } from './routes/clients'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as CartRouteImport } from './routes/cart'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AutomateRouteImport } from './routes/automate'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as LegalTermsRouteImport } from './routes/legal/terms'
 import { Route as LegalPrivacyRouteImport } from './routes/legal/privacy'
 import { Route as ApiQuotesRouteImport } from './routes/api/quotes'
@@ -90,6 +94,11 @@ const PortalRoute = PortalRouteImport.update({
   path: '/portal',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrderConfirmationRoute = OrderConfirmationRouteImport.update({
+  id: '/order-confirmation',
+  path: '/order-confirmation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocationsRoute = LocationsRouteImport.update({
   id: '/locations',
   path: '/locations',
@@ -130,6 +139,16 @@ const ClientsRoute = ClientsRouteImport.update({
   path: '/clients',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CareersRoute = CareersRouteImport.update({
   id: '/careers',
   path: '/careers',
@@ -143,6 +162,11 @@ const AutomateRoute = AutomateRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductSlugRoute = ProductSlugRouteImport.update({
+  id: '/product/$slug',
+  path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalTermsRoute = LegalTermsRouteImport.update({
@@ -195,6 +219,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/automate': typeof AutomateRoute
   '/careers': typeof CareersRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/clients': typeof ClientsRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
@@ -203,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/insights': typeof InsightsRoute
   '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
+  '/order-confirmation': typeof OrderConfirmationRoute
   '/portal': typeof PortalRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
@@ -222,11 +249,14 @@ export interface FileRoutesByFullPath {
   '/api/quotes': typeof ApiQuotesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/automate': typeof AutomateRoute
   '/careers': typeof CareersRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/clients': typeof ClientsRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
@@ -235,6 +265,7 @@ export interface FileRoutesByTo {
   '/insights': typeof InsightsRoute
   '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
+  '/order-confirmation': typeof OrderConfirmationRoute
   '/portal': typeof PortalRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
@@ -254,12 +285,15 @@ export interface FileRoutesByTo {
   '/api/quotes': typeof ApiQuotesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/automate': typeof AutomateRoute
   '/careers': typeof CareersRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/clients': typeof ClientsRoute
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
@@ -268,6 +302,7 @@ export interface FileRoutesById {
   '/insights': typeof InsightsRoute
   '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
+  '/order-confirmation': typeof OrderConfirmationRoute
   '/portal': typeof PortalRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
@@ -287,6 +322,7 @@ export interface FileRoutesById {
   '/api/quotes': typeof ApiQuotesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -294,6 +330,8 @@ export interface FileRouteTypes {
     | '/'
     | '/automate'
     | '/careers'
+    | '/cart'
+    | '/checkout'
     | '/clients'
     | '/concept-walk'
     | '/consultation'
@@ -302,6 +340,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/intake'
     | '/locations'
+    | '/order-confirmation'
     | '/portal'
     | '/privacy'
     | '/quote'
@@ -321,11 +360,14 @@ export interface FileRouteTypes {
     | '/api/quotes'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/product/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/automate'
     | '/careers'
+    | '/cart'
+    | '/checkout'
     | '/clients'
     | '/concept-walk'
     | '/consultation'
@@ -334,6 +376,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/intake'
     | '/locations'
+    | '/order-confirmation'
     | '/portal'
     | '/privacy'
     | '/quote'
@@ -353,11 +396,14 @@ export interface FileRouteTypes {
     | '/api/quotes'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/product/$slug'
   id:
     | '__root__'
     | '/'
     | '/automate'
     | '/careers'
+    | '/cart'
+    | '/checkout'
     | '/clients'
     | '/concept-walk'
     | '/consultation'
@@ -366,6 +412,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/intake'
     | '/locations'
+    | '/order-confirmation'
     | '/portal'
     | '/privacy'
     | '/quote'
@@ -385,12 +432,15 @@ export interface FileRouteTypes {
     | '/api/quotes'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/product/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AutomateRoute: typeof AutomateRoute
   CareersRoute: typeof CareersRoute
+  CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
   ClientsRoute: typeof ClientsRoute
   ConceptWalkRoute: typeof ConceptWalkRoute
   ConsultationRoute: typeof ConsultationRoute
@@ -399,6 +449,7 @@ export interface RootRouteChildren {
   InsightsRoute: typeof InsightsRoute
   IntakeRoute: typeof IntakeRoute
   LocationsRoute: typeof LocationsRoute
+  OrderConfirmationRoute: typeof OrderConfirmationRoute
   PortalRoute: typeof PortalRoute
   PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRoute
@@ -418,6 +469,7 @@ export interface RootRouteChildren {
   ApiQuotesRoute: typeof ApiQuotesRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
+  ProductSlugRoute: typeof ProductSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -492,6 +544,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/order-confirmation': {
+      id: '/order-confirmation'
+      path: '/order-confirmation'
+      fullPath: '/order-confirmation'
+      preLoaderRoute: typeof OrderConfirmationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/locations': {
       id: '/locations'
       path: '/locations'
@@ -548,6 +607,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClientsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/careers': {
       id: '/careers'
       path: '/careers'
@@ -567,6 +640,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/$slug': {
+      id: '/product/$slug'
+      path: '/product/$slug'
+      fullPath: '/product/$slug'
+      preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/terms': {
@@ -639,6 +719,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AutomateRoute: AutomateRoute,
   CareersRoute: CareersRoute,
+  CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
   ClientsRoute: ClientsRoute,
   ConceptWalkRoute: ConceptWalkRoute,
   ConsultationRoute: ConsultationRoute,
@@ -647,6 +729,7 @@ const rootRouteChildren: RootRouteChildren = {
   InsightsRoute: InsightsRoute,
   IntakeRoute: IntakeRoute,
   LocationsRoute: LocationsRoute,
+  OrderConfirmationRoute: OrderConfirmationRoute,
   PortalRoute: PortalRoute,
   PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
@@ -666,6 +749,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiQuotesRoute: ApiQuotesRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
+  ProductSlugRoute: ProductSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
