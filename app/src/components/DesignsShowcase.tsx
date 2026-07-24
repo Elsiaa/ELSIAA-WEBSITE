@@ -441,7 +441,7 @@ function SitePreview({ src, poster, title }: { src: string; poster: string; titl
           loading="lazy"
           onLoad={() => setReady(true)}
           className="absolute top-0 left-0 origin-top-left"
-          style={{ width: "1280px", height: `${Math.ceil(h / scale)}px`, transform: `scale(${scale})`, border: "0" }}
+          style={{ width: "1280px", maxWidth: "none", minWidth: "1280px", height: `${Math.ceil(h / scale)}px`, transform: `scale(${scale})`, transformOrigin: "top left", border: "0", display: "block" }}
         />
       )}
       {gated && !load && (
