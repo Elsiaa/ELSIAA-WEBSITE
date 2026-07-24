@@ -62,6 +62,9 @@ export function SiteFooter() {
             <p className="mt-1.5 text-[13px] text-[#111111]/55" style={mono}>
               — AI Done Better
             </p>
+            <p className="mt-1 text-[12.5px] text-[#111111]/45" style={mono}>
+              ELSIAA — pronounced “ell-see-yuh”
+            </p>
             <p className="mt-2 text-[12.5px] leading-snug text-[#111111]/50" style={mono}>
               <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
               <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
