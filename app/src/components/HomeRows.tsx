@@ -483,12 +483,18 @@ function AutomationSection() {
     <section className="border-t border-black/[0.06] bg-white py-16 md:py-20" id="automation">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
-          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-[0.92fr_1.08fr] md:gap-14">
+          <div className="text-center">
+            <p className="text-[14px] font-bold text-[#1e6b3c]" style={sans}>1 · Automation</p>
+            <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={sans}>Automation</h2>
+          </div>
+        </Reveal>
+        <Reveal>
+          <div className="mt-10 grid grid-cols-1 items-center gap-8 md:mt-14 md:grid-cols-[0.92fr_1.08fr] md:gap-14">
             {/* copy */}
             <div>
-              <h2 className="max-w-md text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-[2.75rem] md:leading-[1.02]" style={sans}>
+              <h3 className="max-w-md text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-[2.75rem] md:leading-[1.02]" style={sans}>
                 The future of how work gets done.
-              </h2>
+              </h3>
               <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-[#111111]/55" style={sans}>
                 One worker. Every task at once. Watch it run the desk — then watch it run yours.
               </p>
