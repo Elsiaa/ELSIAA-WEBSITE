@@ -512,7 +512,7 @@ function AutomationSection() {
       const wake = ease(seg(p, 0.08, 0.55));
       const v = vidRef.current;
       if (v) {
-        v.style.filter = `grayscale(${1 - wake}) brightness(${1.15 - wake * 0.0}) contrast(1.05) saturate(${0.2 + wake * 0.75})`;
+        v.style.filter = `grayscale(${1 - wake}) brightness(1.32) contrast(1.12) saturate(${0.2 + wake * 0.72})`;
         v.style.transform = `scale(${0.9 + wake * 0.1})`;
         if (wake > 0.12 && !playing) { playing = true; v.play().catch(() => {}); }
         if (wake <= 0.12 && playing) { playing = false; v.pause(); }
@@ -529,24 +529,29 @@ function AutomationSection() {
   }, []);
 
   const Worker = ({ live }: { live: boolean }) => (
-    <video
-      ref={live ? undefined : vidRef}
-      src="/assets/robot_ai_worker.mp4"
-      poster="/assets/robot_ai_worker.png"
-      autoPlay={live}
-      loop
-      muted
-      playsInline
-      preload="auto"
-      aria-label="The ELSIAA AI worker — many arms, every one on a different task"
-      className="w-auto mix-blend-multiply will-change-transform"
-      style={{
-        height: "min(52vh, min(78vw, 420px))",
-        filter: live ? "brightness(1.15) contrast(1.05) saturate(0.9)" : "grayscale(1) brightness(1.15) contrast(1.05) saturate(0.2)",
-        WebkitMaskImage: "radial-gradient(72% 80% at 50% 46%, #000 52%, rgba(0,0,0,0.35) 74%, rgba(0,0,0,0) 90%)",
-        maskImage: "radial-gradient(72% 80% at 50% 46%, #000 52%, rgba(0,0,0,0.35) 74%, rgba(0,0,0,0) 90%)",
-      }}
-    />
+    <div className="robot-breath">
+      <video
+        ref={live ? undefined : vidRef}
+        src="/assets/robot_ai_worker.mp4"
+        poster="/assets/robot_ai_worker.png"
+        autoPlay={live}
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-label="The ELSIAA AI worker — many arms, every one on a different task"
+        className="w-auto mix-blend-multiply will-change-transform"
+        style={{
+          height: "min(52vh, min(78vw, 420px))",
+          // brightness lifts the light-grey studio backdrop up to pure white so it
+          // clips into the white page; the robot's silver/dark tones survive it.
+          filter: live ? "brightness(1.32) contrast(1.12) saturate(0.92)" : "grayscale(1) brightness(1.32) contrast(1.12) saturate(0.2)",
+          // wide, heavily feathered oval so the frame edges dissolve — no box.
+          WebkitMaskImage: "radial-gradient(78% 84% at 50% 46%, #000 44%, rgba(0,0,0,0.55) 66%, rgba(0,0,0,0) 86%)",
+          maskImage: "radial-gradient(78% 84% at 50% 46%, #000 44%, rgba(0,0,0,0.55) 66%, rgba(0,0,0,0) 86%)",
+        }}
+      />
+    </div>
   );
 
   if (reduced) {
