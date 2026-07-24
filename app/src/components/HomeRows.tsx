@@ -496,7 +496,9 @@ function AutomationSection() {
     if (!wrap) return;
     let raf = 0;
     let sp = 0;
-    let playing = false;
+    // keep the worker's hands moving the whole time — the scroll only lights him
+    // up (gray → colour), it no longer freezes/pauses the video.
+    vidRef.current?.play().catch(() => {});
     const set = (el: HTMLElement | null, o: Record<string, string>) => { if (el) Object.assign(el.style, o); };
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
     const seg = (p: number, a2: number, b2: number) => (p <= a2 ? 0 : p >= b2 ? 1 : (p - a2) / (b2 - a2));
@@ -512,10 +514,9 @@ function AutomationSection() {
       const wake = ease(seg(p, 0.08, 0.55));
       const v = vidRef.current;
       if (v) {
-        v.style.filter = `grayscale(${1 - wake}) brightness(${1.15 - wake * 0.0}) contrast(1.05) saturate(${0.2 + wake * 0.75})`;
+        v.style.filter = `grayscale(${1 - wake}) brightness(1.0) contrast(1.22) saturate(${0.2 + wake * 0.75})`;
         v.style.transform = `scale(${0.9 + wake * 0.1})`;
-        if (wake > 0.12 && !playing) { playing = true; v.play().catch(() => {}); }
-        if (wake <= 0.12 && playing) { playing = false; v.pause(); }
+        if (v.paused) v.play().catch(() => {});
       }
 
       set(cap1Ref.current, { opacity: String(Math.max(0, 1 - seg(p, 0.18, 0.36))) });
@@ -529,24 +530,30 @@ function AutomationSection() {
   }, []);
 
   const Worker = ({ live }: { live: boolean }) => (
-    <video
-      ref={live ? undefined : vidRef}
-      src="/assets/robot_ai_worker.mp4"
-      poster="/assets/robot_ai_worker.png"
-      autoPlay={live}
-      loop
-      muted
-      playsInline
-      preload="auto"
-      aria-label="The ELSIAA AI worker — many arms, every one on a different task"
-      className="w-auto mix-blend-multiply will-change-transform"
-      style={{
-        height: "min(52vh, min(78vw, 420px))",
-        filter: live ? "brightness(1.15) contrast(1.05) saturate(0.9)" : "grayscale(1) brightness(1.15) contrast(1.05) saturate(0.2)",
-        WebkitMaskImage: "radial-gradient(72% 80% at 50% 46%, #000 52%, rgba(0,0,0,0.35) 74%, rgba(0,0,0,0) 90%)",
-        maskImage: "radial-gradient(72% 80% at 50% 46%, #000 52%, rgba(0,0,0,0.35) 74%, rgba(0,0,0,0) 90%)",
-      }}
-    />
+    <div className="robot-breath">
+      <video
+        ref={live ? undefined : vidRef}
+        src="/assets/robot_work_v1.mp4"
+        poster="/assets/robot_work_poster.jpg"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-label="The ELSIAA AI worker — many arms, every one on a different task"
+        className="w-auto mix-blend-multiply will-change-transform"
+        style={{
+          height: "min(46vh, min(86vw, 400px))",
+          // this clip already has a white backdrop, so mix-blend-multiply drops it
+          // straight into the page; contrast (not brightness) keeps the silver/dark
+          // robot readable without washing it into the white.
+          filter: live ? "brightness(1.0) contrast(1.22) saturate(0.95)" : "grayscale(1) brightness(1.0) contrast(1.22) saturate(0.2)",
+          // wide, heavily feathered oval so the (landscape) frame edges dissolve — no box.
+          WebkitMaskImage: "radial-gradient(82% 82% at 50% 48%, #000 46%, rgba(0,0,0,0.5) 68%, rgba(0,0,0,0) 88%)",
+          maskImage: "radial-gradient(82% 82% at 50% 48%, #000 46%, rgba(0,0,0,0.5) 68%, rgba(0,0,0,0) 88%)",
+        }}
+      />
+    </div>
   );
 
   if (reduced) {
