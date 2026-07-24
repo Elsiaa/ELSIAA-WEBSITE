@@ -225,7 +225,7 @@ function CompareSlider() {
           className="relative mt-6 aspect-[16/9] overflow-hidden rounded-2xl border border-black/10 shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)]"
         >
           <div className="absolute inset-0">
-            <SiteThumb src="https://dialoghealthcare.com" title="Dialog Healthcare — current website" />
+            <SitePreview src="https://dialoghealthcare.com" poster="/assets/compare/mrbins_old.jpg" title="Dialog Healthcare — current website" />
           </div>
           <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
             <DialogNewPreview />
@@ -392,16 +392,30 @@ function SideToggle({
   );
 }
 
-/* ---------------- site thumbnail — desktop viewport scaled to fit, top-anchored, non-interactive ---------------- */
-function SiteThumb({ src, title }: { src: string; title: string }) {
+/* ---------------- site preview — real desktop site, scrollable inside the window ----------------
+   The page renders at a true 1280px viewport and is scaled to fit the frame, so
+   layout is always the desktop layout. A pre-rendered screenshot holds the exact
+   same frame until the iframe is ready, so there is never a blank or a jump.
+   Phones gate the load behind a tap (the poster is shown meanwhile). */
+function SitePreview({ src, poster, title }: { src: string; poster: string; title: string }) {
   const boxRef = useRef<HTMLDivElement | null>(null);
   const [scale, setScale] = useState(0);
+  const [h, setH] = useState(0);
   const [load, setLoad] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [gated, setGated] = useState(false);
+
   useEffect(() => {
     const el = boxRef.current;
     if (!el) return;
-    const ro = new ResizeObserver(() => setScale(el.clientWidth / 1280));
+    const measure = () => { setScale(el.clientWidth / 1280); setH(el.clientHeight); };
+    measure();
+    const ro = new ResizeObserver(measure);
     ro.observe(el);
+    if (window.matchMedia("(pointer: coarse) and (max-width: 1023px)").matches) {
+      setGated(true);
+      return () => ro.disconnect();
+    }
     const io = new IntersectionObserver(
       (es) => es.forEach((e) => e.isIntersecting && (setLoad(true), io.disconnect())),
       { rootMargin: "500px" },
@@ -409,25 +423,46 @@ function SiteThumb({ src, title }: { src: string; title: string }) {
     io.observe(el);
     return () => { ro.disconnect(); io.disconnect(); };
   }, []);
+
   return (
     <div ref={boxRef} className="relative h-full w-full overflow-hidden bg-[#f4f4f2]">
-      {load && scale > 0 ? (
+      {/* poster — always mounted underneath, hidden once the live page paints */}
+      <img
+        src={poster}
+        alt={title}
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500"
+        style={{ opacity: ready ? 0 : 1 }}
+      />
+      {load && scale > 0 && (
         <iframe
           src={src}
           title={title}
           loading="lazy"
-          scrolling="no"
-          tabIndex={-1}
-          aria-hidden="true"
-          className="pointer-events-none absolute top-0 left-0 origin-top-left select-none"
-          style={{ width: "1280px", height: `${Math.ceil((boxRef.current?.clientHeight ?? 400) / scale)}px`, transform: `scale(${scale})`, border: "0" }}
+          onLoad={() => setReady(true)}
+          className="absolute top-0 left-0 origin-top-left"
+          style={{ width: "1280px", height: `${Math.ceil(h / scale)}px`, transform: `scale(${scale})`, border: "0" }}
         />
-      ) : (
-        <div className="flex h-full w-full items-center justify-center">
-          <span className="text-[13px] text-black/40" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-            Loading preview…
+      )}
+      {gated && !load && (
+        <button
+          onClick={() => setLoad(true)}
+          className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 bg-white/45 backdrop-blur-[1px]"
+          aria-label={`Explore ${title}`}
+        >
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-white shadow-lg">▶</span>
+          <span className="rounded-full bg-white/90 px-3 py-1 text-[13px] font-medium text-[#111111]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif" }}>
+            Tap to scroll the live site
           </span>
-        </div>
+        </button>
+      )}
+      {!gated && ready && (
+        <span
+          className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-white/85 px-3 py-1 text-[12px] font-medium text-[#111111]/70 shadow-sm backdrop-blur-sm"
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif" }}
+        >
+          Scroll inside ↕
+        </span>
       )}
     </div>
   );
@@ -486,8 +521,8 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="h-[300px] overflow-hidden md:h-[46svh]">
-                <img src="/assets/compare/mrbins_old.jpg" alt="Prime Bins — the original website" loading="lazy" className="h-full w-full object-cover object-top" />
+              <div className="h-[340px] overflow-hidden md:h-[54svh]">
+                <SitePreview src="/prime-bins/" poster="/assets/compare/mrbins_old.jpg" title="Prime Bins — the original website" />
               </div>
             </figure>
             <ul className="mx-auto mt-4 max-w-md space-y-1.5">
@@ -538,8 +573,8 @@ function DiscoverDesigns() {
                 </span>
                 <span className="h-2 w-6" />
               </div>
-              <div className="h-[300px] overflow-hidden md:h-[46svh]">
-                <img src="/assets/compare/mrbins_new.jpg" alt="Mr. Bins — rebuilt by ELSIAA" loading="lazy" className="h-full w-full object-cover object-top" />
+              <div className="h-[340px] overflow-hidden md:h-[54svh]">
+                <SitePreview src="/mr-bins/" poster="/assets/compare/mrbins_new.jpg" title="Mr. Bins — rebuilt by ELSIAA" />
               </div>
             </figure>
             <ul className="mx-auto mt-4 max-w-md space-y-1.5">
