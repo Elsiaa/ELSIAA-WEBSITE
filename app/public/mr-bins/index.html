@@ -69,7 +69,7 @@ header.bar{position:fixed;top:0;left:0;right:0;z-index:80;background:#10263E;bor
 #walk{height:300vh;position:relative}
 /* mobile-only: shorter walk so the story lands faster on phones (desktop untouched) */
 @media(max-width:940px){#walk{height:240vh}}
-.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:#04070e}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:#04070e url('mrbins-store.jpg') center/cover no-repeat}
 .walkvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#04070e}
 .tint{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(4,10,22,.78),rgba(4,10,22,.5) 30%,rgba(4,10,22,.18) 55%,rgba(4,10,22,.34))}
 .wcaps{position:absolute;inset:0;z-index:2;pointer-events:none}
@@ -659,7 +659,7 @@ footer{background:#fff;color:var(--navy);padding:clamp(40px,5vw,72px) clamp(20px
 </style>
 <style id="elsiaa-hardening">
 /* ELSIAA display hardening — no horizontal overflow, media always contained */
-html,body{overflow-x:hidden !important;max-width:100vw;}
+html,body{overflow-x:clip;max-width:100vw;}
 img,video{max-width:100%;}
 iframe{max-width:100%;}
 </style>
@@ -1665,6 +1665,23 @@ if(!MRB_PHONE)makeScrollFreeze(function(){var e=document.getElementById('footer'
  });
  /* safety net: if anything is still hidden after 4s, force it visible */
  setTimeout(function(){all.forEach(function(el){if(getComputedStyle(el).opacity==='0'){el.style.opacity='';el.style.transform='';}});},4000);
+})();
+</script>
+
+<script>
+/* poster fallback — no video may ever leave an empty colored panel */
+(function(){
+ function back(v){
+  var ps=v.getAttribute('poster'); if(!ps) return;
+  var fit=(getComputedStyle(v).objectFit||'cover');
+  v.style.backgroundImage="url('"+ps+"')";
+  v.style.backgroundSize=(fit==='contain'?'contain':'cover');
+  v.style.backgroundPosition='center';
+  v.style.backgroundRepeat='no-repeat';
+ }
+ function run(){ [].forEach.call(document.querySelectorAll('video[poster]'), back); }
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
+ window.addEventListener('load',run);
 })();
 </script>
 </body></html>
