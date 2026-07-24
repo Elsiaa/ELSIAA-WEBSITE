@@ -478,71 +478,122 @@ function HomeHero() {
 
 /* ---------- Automation: robot + walkthrough, per sketch ---------- */
 function AutomationSection() {
-  const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
+  const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const vidRef = useRef<HTMLVideoElement | null>(null);
+  const cap1Ref = useRef<HTMLParagraphElement | null>(null);
+  const cap2Ref = useRef<HTMLParagraphElement | null>(null);
+  const ctaRef = useRef<HTMLDivElement | null>(null);
+  const hintRef = useRef<HTMLParagraphElement | null>(null);
+  const [reduced, setReduced] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setReduced(true);
+      return;
+    }
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    let raf = 0;
+    let sp = 0;
+    let playing = false;
+    const set = (el: HTMLElement | null, o: Record<string, string>) => { if (el) Object.assign(el.style, o); };
+    const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+    const seg = (p: number, a2: number, b2: number) => (p <= a2 ? 0 : p >= b2 ? 1 : (p - a2) / (b2 - a2));
+    const ease = (t: number) => t * t * (3 - 2 * t);
+    const tick = () => {
+      const r = wrap.getBoundingClientRect();
+      const span = r.height - window.innerHeight;
+      const target = span > 0 ? clamp01(-r.top / span) : 0;
+      sp += (target - sp) * 0.14;
+      const p = sp;
+
+      // the worker wakes: gray + frozen → full color + motion, 8%→55%
+      const wake = ease(seg(p, 0.08, 0.55));
+      const v = vidRef.current;
+      if (v) {
+        v.style.filter = `grayscale(${1 - wake}) brightness(${1.15 - wake * 0.0}) contrast(1.05) saturate(${0.2 + wake * 0.75})`;
+        v.style.transform = `scale(${0.9 + wake * 0.1})`;
+        if (wake > 0.12 && !playing) { playing = true; v.play().catch(() => {}); }
+        if (wake <= 0.12 && playing) { playing = false; v.pause(); }
+      }
+
+      set(cap1Ref.current, { opacity: String(Math.max(0, 1 - seg(p, 0.18, 0.36))) });
+      set(cap2Ref.current, { opacity: String(seg(p, 0.48, 0.64)), transform: `translateY(${(1 - ease(seg(p, 0.48, 0.64))) * 10}px)` });
+      set(ctaRef.current, { opacity: String(seg(p, 0.66, 0.82)), transform: `translateY(${(1 - ease(seg(p, 0.66, 0.82))) * 12}px)`, pointerEvents: p > 0.68 ? "auto" : "none" });
+      set(hintRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.1, 0.28))) });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const Worker = ({ live }: { live: boolean }) => (
+    <video
+      ref={live ? undefined : vidRef}
+      src="/assets/robot_ai_worker.mp4"
+      poster="/assets/robot_ai_worker.png"
+      autoPlay={live}
+      loop
+      muted
+      playsInline
+      preload="auto"
+      aria-label="The ELSIAA AI worker — many arms, every one on a different task"
+      className="w-auto mix-blend-multiply will-change-transform"
+      style={{
+        height: "min(52vh, min(78vw, 420px))",
+        filter: live ? "brightness(1.15) contrast(1.05) saturate(0.9)" : "grayscale(1) brightness(1.15) contrast(1.05) saturate(0.2)",
+        WebkitMaskImage: "radial-gradient(72% 80% at 50% 46%, #000 52%, rgba(0,0,0,0.35) 74%, rgba(0,0,0,0) 90%)",
+        maskImage: "radial-gradient(72% 80% at 50% 46%, #000 52%, rgba(0,0,0,0.35) 74%, rgba(0,0,0,0) 90%)",
+      }}
+    />
+  );
+
+  if (reduced) {
+    return (
+      <section className="border-t border-black/[0.06] bg-white py-16 md:py-24" id="automation">
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 px-6 text-center">
+          <p className="text-[14px] font-bold text-[#1e6b3c]" style={sans}>1 · Automation</p>
+          <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>Automation</h2>
+          <Worker live />
+          <p className="max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={sans}>
+            Work without automation stands still. Automation sets it in motion — one worker, every task at once.
+          </p>
+          <a href="/automate" className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-7 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={sans}>See it work — live walkthrough →</a>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="border-t border-black/[0.06] bg-white py-16 md:py-20" id="automation">
-      <div className="mx-auto w-full max-w-6xl px-6">
-        <Reveal>
-          <div className="text-center">
-            <p className="text-[14px] font-bold text-[#1e6b3c]" style={sans}>1 · Automation</p>
-            <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={sans}>Automation</h2>
-          </div>
-        </Reveal>
-        <Reveal>
-          <div className="mt-10 grid grid-cols-1 items-center gap-8 md:mt-14 md:grid-cols-[0.92fr_1.08fr] md:gap-14">
-            {/* copy */}
-            <div>
-              <h3 className="max-w-md text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-[2.75rem] md:leading-[1.02]" style={sans}>
-                The future of how work gets done.
-              </h3>
-              <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-[#111111]/55" style={sans}>
-                One worker. Every task at once. Watch it run the desk — then watch it run yours.
-              </p>
-              {/* what it's doing right now — the many-arms idea, as tidy chips */}
-              <div className="mt-7 border-t border-black/[0.07] pt-6">
-                <div className="flex max-w-md flex-wrap gap-2">
-                  {["Writing code", "Answering support", "Reconciling invoices", "Designing graphics", "Scheduling meetings", "Drafting reports"].map((t) => (
-                    <span key={t} className="inline-flex items-center rounded-full border border-black/[0.09] bg-white px-3.5 py-1.5 text-[12.5px] text-[#111111]/70 transition-colors hover:border-[#1e6b3c]/40 hover:text-[#111111]" style={sans}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <a
-                href="/automate"
-                className="mt-8 inline-flex min-h-[46px] items-center rounded-full bg-[#1e6b3c] px-7 text-[13px] font-semibold tracking-[0.02em] text-white transition-all hover:bg-[#111111]"
-                style={sans}
-              >
-                See it work — live walkthrough →
-              </a>
-            </div>
-            {/* the worker — floats on white, no grey base */}
-            <div className="relative flex items-center justify-center">
-              <video
-                src="/assets/robot_ai_worker.mp4"
-                poster="/assets/robot_ai_worker.png"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                aria-label="The ELSIAA AI worker — many arms, every one on a different task"
-                className="w-full max-w-[360px] mix-blend-multiply"
-                style={{
-                  filter: "brightness(1.15) contrast(1.05) saturate(0.82)",
-                  WebkitMaskImage: "radial-gradient(72% 80% at 50% 46%, #000 52%, rgba(0,0,0,0.35) 74%, rgba(0,0,0,0) 90%)",
-                  maskImage: "radial-gradient(72% 80% at 50% 46%, #000 52%, rgba(0,0,0,0.35) 74%, rgba(0,0,0,0) 90%)",
-                }}
-              />
-            </div>
-          </div>
-        </Reveal>
+    <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "300vh" }} id="automation">
+      <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-4 overflow-hidden px-6 text-center">
+        <div>
+          <p className="text-[14px] font-bold text-[#1e6b3c]" style={sans}>1 · Automation</p>
+          <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={sans}>Automation</h2>
+        </div>
+        <Worker live={false} />
+        <div className="relative h-[64px] w-full max-w-lg">
+          <p ref={cap1Ref} className="absolute inset-x-0 mx-auto max-w-md text-[16px] leading-relaxed text-[#111111]/65" style={sans}>
+            Work without automation stands still.
+            <span className="mt-0.5 block text-[13.5px] text-[#111111]/40">Manual. Repetitive. One task at a time.</span>
+          </p>
+          <p ref={cap2Ref} className="absolute inset-x-0 mx-auto max-w-md text-[16px] leading-relaxed text-[#111111]/80 opacity-0" style={sans}>
+            Automation sets it in motion.
+            <span className="mt-0.5 block text-[13.5px] text-[#111111]/50">One worker. Every task at once.</span>
+          </p>
+        </div>
+        <div ref={ctaRef} className="opacity-0" style={{ pointerEvents: "none" }}>
+          <a href="/automate" className="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={sans}>
+            See it work — live walkthrough →
+          </a>
+        </div>
+        <p ref={hintRef} className="text-[13px] font-medium text-[#111111]/40" style={sans}>Scroll — watch it come to life ↓</p>
       </div>
     </section>
   );
 }
 
-/* Globe that lights up as you scroll — black to fully lit. */
 function GlobeReveal() {
   const ref = useRef<HTMLDivElement>(null);
   const [p, setP] = useState(0);
