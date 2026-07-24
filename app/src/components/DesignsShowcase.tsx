@@ -487,7 +487,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[300px] overflow-hidden md:h-[46svh]">
-                <SiteThumb src="/prime-bins/" title="Prime Bins — the original website" />
+                <img src="/assets/compare/mrbins_old.jpg" alt="Prime Bins — the original website" loading="lazy" className="h-full w-full object-cover object-top" />
               </div>
             </figure>
             <ul className="mx-auto mt-4 max-w-md space-y-1.5">
@@ -539,7 +539,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[300px] overflow-hidden md:h-[46svh]">
-                <SiteThumb src="/mr-bins/" title="Mr. Bins — rebuilt by ELSIAA" />
+                <img src="/assets/compare/mrbins_new.jpg" alt="Mr. Bins — rebuilt by ELSIAA" loading="lazy" className="h-full w-full object-cover object-top" />
               </div>
             </figure>
             <ul className="mx-auto mt-4 max-w-md space-y-1.5">
