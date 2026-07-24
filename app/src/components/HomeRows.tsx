@@ -382,7 +382,7 @@ function HomeHero() {
 
   // feather every edge into the page — with multiply-blend the photo's white
   // background disappears and only the lion melts onto the page.
-  const feather = "radial-gradient(120% 115% at 50% 42%, #000 54%, rgba(0,0,0,0.5) 72%, rgba(0,0,0,0) 86%)";
+  const feather = "radial-gradient(100% 112% at 50% 34%, #000 40%, rgba(0,0,0,0.4) 62%, rgba(0,0,0,0) 80%)";
 
   return (
     <section ref={wrapRef} className="relative bg-white lg:h-[220vh]">
@@ -429,7 +429,7 @@ function HomeHero() {
                 className="mt-6 inline-flex min-h-[52px] items-center rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:bg-[#111111]"
                 style={sans}
               >
-                Speak to AI today →
+                Speak to ELSIAA today →
               </a>
             </Reveal>
           </div>
