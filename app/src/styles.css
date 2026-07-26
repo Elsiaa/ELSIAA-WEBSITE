@@ -194,3 +194,15 @@ img, video, canvas, iframe { max-width: 100%; }
    white (not the layer's black) once the animation promotes it to its own layer */
 .robot-breath { animation: robotBreath 5.5s ease-in-out infinite; will-change: transform; background: #fff; isolation: isolate; }
 @media (prefers-reduced-motion: reduce) { .robot-breath { animation: none; } }
+
+/* social-media phones: an endless "someone scrolling their feed" loop. The feed
+   strip is rendered twice; translating it up by half its height and looping
+   seamlessly reads as a thumb flicking through posts forever. */
+@keyframes feedScroll { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+.feed-scroll { animation: feedScroll linear infinite; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .feed-scroll { animation: none; } }
+/* a phone held by a person — a gentle, offset idle sway so a row of them reads
+   as a few different people, each scrolling at their own rhythm. */
+@keyframes phoneSway { 0%,100% { transform: translateY(0) rotate(var(--tilt,0deg)); } 50% { transform: translateY(-7px) rotate(calc(var(--tilt,0deg) + 0.6deg)); } }
+.phone-sway { animation: phoneSway ease-in-out infinite; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .phone-sway { animation: none; } }
