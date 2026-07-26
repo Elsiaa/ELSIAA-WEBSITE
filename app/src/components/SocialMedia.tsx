@@ -1,17 +1,20 @@
 import { useEffect, useRef } from "react";
-import { Reveal } from "./Reveal";
 
 /*
-  Social-media building blocks — shared by the homepage teaser and the /social
-  page. Everything is code-drawn (no image assets): phone frames whose feeds are
-  driven ENTIRELY by page scroll. As you scroll the section through the viewport
-  the video phone swipes up through clips, LinkedIn scrolls its feed, Facebook /
-  Google Reviews scroll theirs — all locked to the same scroll progress.
-  Pure ink-on-white with ELSIAA green accents. Respects reduced motion.
+  Social-media building blocks — code-drawn phones (no image assets) whose feeds
+  are driven ENTIRELY by page scroll.
+
+  On the homepage the section is a PINNED scroll-scrub (like the globe and the
+  robot): the stage sticks to the viewport and your scroll swipes the video up,
+  scrolls LinkedIn, scrolls Facebook — the page holds until the feeds finish,
+  then releases to the next section. On /social the same phones scrub as the row
+  crosses the viewport. Pure ink-on-white, green accents, reduced-motion aware.
 */
 
 const SANS =
   "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+
+const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 export const PLATFORMS = ["Instagram", "TikTok", "Meta", "Facebook", "LinkedIn"] as const;
 
@@ -176,10 +179,141 @@ type PhoneItem = {
   speed?: number; // fraction of its feed to travel across the scrub (1 = full)
 };
 
-/* ScrollPhones — one rAF loop reads how far the group has moved through the
-   viewport (0→1) and drives every phone's feed by that shared progress, so all
-   the motion is controlled by page scroll. */
-function ScrollPhones({ items, variant }: { items: PhoneItem[]; variant: "crowd" | "row" }) {
+/* Presentational phone. viewRef = the fixed screen; stripRef = the feed that the
+   scroll engine translates. */
+function PhoneFrame({
+  item,
+  viewRef,
+  stripRef,
+}: {
+  item: PhoneItem;
+  viewRef: (el: HTMLDivElement | null) => void;
+  stripRef: (el: HTMLDivElement | null) => void;
+}) {
+  return (
+    <div style={{ transform: `rotate(${item.tilt ?? 0}deg)` }}>
+      <div className="relative mx-auto w-[168px] overflow-hidden rounded-[26px] border-[6px] border-[#111111] bg-white shadow-[0_30px_60px_-30px_rgba(17,17,17,0.45)]">
+        <div className="absolute top-0 left-1/2 z-10 h-4 w-16 -translate-x-1/2 rounded-b-xl bg-[#111111]" />
+        <div className="flex items-center justify-between px-4 pt-1.5 pb-1">
+          <span className="text-[8px] font-bold text-[#111111]" style={{ fontFamily: SANS }}>
+            {HEADER[item.kind]}
+          </span>
+          <span className="h-1.5 w-4 rounded-sm bg-[#111111]/20" />
+        </div>
+        <div ref={viewRef} className="relative overflow-hidden" style={{ height: VIEW_H }}>
+          <div ref={stripRef} className="will-change-transform">
+            <FeedCards kind={item.kind} />
+          </div>
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-5 bg-gradient-to-b from-white to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-5 bg-gradient-to-t from-white to-transparent" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* translate each feed strip to `cur` (0→1) of its scrollable range */
+function driveFeeds(
+  strips: Array<HTMLDivElement | null>,
+  views: Array<HTMLDivElement | null>,
+  cur: number,
+  items: PhoneItem[],
+) {
+  for (let i = 0; i < strips.length; i++) {
+    const strip = strips[i];
+    const view = views[i];
+    if (!strip || !view) continue;
+    const scrollable = Math.max(0, strip.scrollHeight - view.clientHeight);
+    const y = Math.min(scrollable, cur * scrollable * (items[i].speed ?? 1));
+    strip.style.transform = `translateY(${-y}px)`;
+  }
+}
+
+const CROWD = [
+  { kind: "linkedin" as FeedKind, tilt: -8 },
+  { kind: "video" as FeedKind, tilt: 3 },
+  { kind: "facebook" as FeedKind, tilt: 9 },
+];
+
+/* Homepage — a PINNED scroll-scrub. The stage sticks; scroll drives the feeds
+   0→1; only when they finish does the page release to the next section. */
+export function SocialHomeSection() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const strips = useRef<Array<HTMLDivElement | null>>([]);
+  const views = useRef<Array<HTMLDivElement | null>>([]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const track = trackRef.current;
+    if (!track) return;
+    let raf = 0;
+    let cur = 0;
+    const tick = () => {
+      const r = track.getBoundingClientRect();
+      const span = r.height - window.innerHeight;
+      const target = span > 0 ? clamp01(-r.top / span) : 0;
+      cur += (target - cur) * 0.12;
+      driveFeeds(strips.current, views.current, cur, CROWD);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return (
+    <section ref={trackRef} id="social" className="relative border-t border-black/[0.06] bg-white" style={{ height: "300vh" }}>
+      <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-7 overflow-hidden px-6 text-center">
+        <div>
+          <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+            Social Media
+          </p>
+          <h2 className="mt-2 text-4xl font-semibold tracking-[-0.045em] text-[#111111] md:text-6xl" style={{ fontFamily: SANS }}>
+            Where attention already lives.
+          </h2>
+          <p className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]" style={{ fontFamily: SANS }}>
+            Every age, every feed — thumbs already scrolling. Keep scrolling: the
+            feeds move with you.
+          </p>
+        </div>
+
+        <div className="flex items-center justify-center">
+          {CROWD.map((item, i) => (
+            <div
+              key={i}
+              className={i === 1 ? "z-30 -mx-3 scale-[1.02] md:-mx-1" : i === 0 ? "z-10 scale-[0.86]" : "z-20 scale-[0.86]"}
+            >
+              <PhoneFrame
+                item={item}
+                viewRef={(el) => { views.current[i] = el; }}
+                stripRef={(el) => { strips.current[i] = el; }}
+              />
+            </div>
+          ))}
+        </div>
+
+        <PlatformBadges />
+
+        <a
+          href="/social"
+          className="inline-flex min-h-[50px] items-center rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]"
+          style={{ fontFamily: SANS }}
+        >
+          Discover social →
+        </a>
+      </div>
+    </section>
+  );
+}
+
+const ROW: PhoneItem[] = [
+  { kind: "video", title: "The For-You Page", blurb: "Native, thumb-stopping video built for the algorithm that already owns your customer's attention." },
+  { kind: "linkedin", title: "LinkedIn", blurb: "Authority in the feed buyers actually trust — founder voice, company presence, inbound that closes." },
+  { kind: "reviews", title: "Google Reviews", blurb: "Reputation on autopilot — the five-star proof that closes the customer before they ever call." },
+];
+
+/* /social page — the three titled phones scrub as the row crosses the viewport. */
+export function SocialPhoneRow() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const strips = useRef<Array<HTMLDivElement | null>>([]);
   const views = useRef<Array<HTMLDivElement | null>>([]);
@@ -191,163 +325,35 @@ function ScrollPhones({ items, variant }: { items: PhoneItem[]; variant: "crowd"
     if (!wrap) return;
     let raf = 0;
     let cur = 0;
-    const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
     const tick = () => {
       const r = wrap.getBoundingClientRect();
       const vh = window.innerHeight;
-      // 0 as the group enters from the bottom, 1 as it clears the top
       const target = clamp01((vh - r.top) / (vh + r.height));
       cur += (target - cur) * 0.1;
-      for (let i = 0; i < strips.current.length; i++) {
-        const strip = strips.current[i];
-        const view = views.current[i];
-        if (!strip || !view) continue;
-        const scrollable = Math.max(0, strip.scrollHeight - view.clientHeight);
-        const y = Math.min(scrollable, cur * scrollable * (items[i].speed ?? 1));
-        strip.style.transform = `translateY(${-y}px)`;
-      }
+      driveFeeds(strips.current, views.current, cur, ROW);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [items]);
+  }, []);
 
-  const Phone = ({ item, i }: { item: PhoneItem; i: number }) => (
-    <div style={{ transform: `rotate(${item.tilt ?? 0}deg)` }}>
-      <div className="relative mx-auto w-[168px] overflow-hidden rounded-[26px] border-[6px] border-[#111111] bg-white shadow-[0_30px_60px_-30px_rgba(17,17,17,0.45)]">
-        <div className="absolute top-0 left-1/2 z-10 h-4 w-16 -translate-x-1/2 rounded-b-xl bg-[#111111]" />
-        <div className="flex items-center justify-between px-4 pt-1.5 pb-1">
-          <span className="text-[8px] font-bold text-[#111111]" style={{ fontFamily: SANS }}>
-            {HEADER[item.kind]}
-          </span>
-          <span className="h-1.5 w-4 rounded-sm bg-[#111111]/20" />
-        </div>
-        <div
-          ref={(el) => {
-            views.current[i] = el;
-          }}
-          className="relative overflow-hidden"
-          style={{ height: VIEW_H }}
-        >
-          <div
-            ref={(el) => {
-              strips.current[i] = el;
-            }}
-            className="will-change-transform"
-          >
-            <FeedCards kind={item.kind} />
-          </div>
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-5 bg-gradient-to-b from-white to-transparent" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-5 bg-gradient-to-t from-white to-transparent" />
-        </div>
-      </div>
-    </div>
-  );
-
-  if (variant === "crowd") {
-    return (
-      <div ref={wrapRef} className="flex items-center justify-center">
-        {items.map((item, i) => (
-          <div
-            key={i}
-            className={i === 1 ? "z-30 -mx-3 scale-[1.06] md:-mx-1" : i === 0 ? "z-10 scale-[0.9]" : "z-20 scale-[0.9]"}
-          >
-            <Phone item={item} i={i} />
-          </div>
-        ))}
-      </div>
-    );
-  }
   return (
     <div ref={wrapRef} className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
-      {items.map((item, i) => (
+      {ROW.map((item, i) => (
         <div key={i} className="flex flex-col items-center text-center">
-          <Phone item={item} i={i} />
-          {item.title && (
-            <h3 className="mt-8 text-xl font-semibold tracking-[-0.03em] text-[#111111]" style={{ fontFamily: SANS }}>
-              {item.title}
-            </h3>
-          )}
-          {item.blurb && (
-            <p className="mt-2 max-w-[240px] text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
-              {item.blurb}
-            </p>
-          )}
+          <PhoneFrame
+            item={item}
+            viewRef={(el) => { views.current[i] = el; }}
+            stripRef={(el) => { strips.current[i] = el; }}
+          />
+          <h3 className="mt-8 text-xl font-semibold tracking-[-0.03em] text-[#111111]" style={{ fontFamily: SANS }}>
+            {item.title}
+          </h3>
+          <p className="mt-2 max-w-[240px] text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
+            {item.blurb}
+          </p>
         </div>
       ))}
     </div>
-  );
-}
-
-/* Homepage graphic: a few people scrolling — a LinkedIn feed, a swipe-up video,
-   and Facebook, all moving as you scroll the page. */
-export function PhoneCrowd() {
-  return (
-    <ScrollPhones
-      variant="crowd"
-      items={[
-        { kind: "linkedin", tilt: -8 },
-        { kind: "video", tilt: 3 },
-        { kind: "facebook", tilt: 9 },
-      ]}
-    />
-  );
-}
-
-/* The three titled columns on the /social page — also scroll-driven. */
-export function SocialPhoneRow() {
-  return (
-    <ScrollPhones
-      variant="row"
-      items={[
-        { kind: "video", title: "The For-You Page", blurb: "Native, thumb-stopping video built for the algorithm that already owns your customer's attention." },
-        { kind: "linkedin", title: "LinkedIn", blurb: "Authority in the feed buyers actually trust — founder voice, company presence, inbound that closes." },
-        { kind: "reviews", title: "Google Reviews", blurb: "Reputation on autopilot — the five-star proof that closes the customer before they ever call." },
-      ]}
-    />
-  );
-}
-
-/* The section that lives on the homepage. */
-export function SocialHomeSection() {
-  return (
-    <section className="border-t border-black/[0.06] bg-white px-6 py-24 md:py-28" id="social">
-      <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <div className="text-center">
-            <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
-              Social Media
-            </p>
-            <h2 className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={{ fontFamily: SANS }}>
-              Where attention already lives.
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-[16px] leading-relaxed text-[#111111]/60 md:text-[18px]" style={{ fontFamily: SANS }}>
-              Every age, every feed — thumbs already scrolling. Scroll and watch
-              the feeds move: we put your brand in that scroll and make it stop.
-            </p>
-          </div>
-        </Reveal>
-
-        <div className="mt-14 flex justify-center">
-          <PhoneCrowd />
-        </div>
-
-        <Reveal delay={0.15}>
-          <PlatformBadges className="mt-14" />
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <div className="mt-10 flex justify-center">
-            <a
-              href="/social"
-              className="inline-flex min-h-[52px] items-center rounded-full bg-[#1e6b3c] px-9 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]"
-              style={{ fontFamily: SANS }}
-            >
-              Discover social →
-            </a>
-          </div>
-        </Reveal>
-      </div>
-    </section>
   );
 }
