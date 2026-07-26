@@ -32,9 +32,6 @@ export default defineConfig(({ command, mode }) => {
   }
 
   const designInspectorEnabled = process.env.HF_DESIGN_INSPECTOR === "1" || mode === "design";
-  // GitHub Pages has no server, so that build prerenders every route to static
-  // HTML and ships dist/client only.
-  const prerenderForPages = process.env.GH_PAGES === "1";
   // Default target is Vercel (Nitro). Set DEPLOY_TARGET=cloudflare for the
   // legacy Workers-for-Platforms / Higgsfield Worker bundle.
   const deployCloudflare = process.env.DEPLOY_TARGET === "cloudflare";
@@ -129,14 +126,6 @@ export default defineConfig(({ command, mode }) => {
       // Cloudflare (DEPLOY_TARGET=cloudflare): custom Worker `fetch` entry.
       tanstackStart({
         ...(deployCloudflare ? { server: { entry: "server" } } : {}),
-        ...(prerenderForPages
-          ? {
-              prerender: { enabled: true, crawlLinks: true, failOnError: true },
-              // crawlLinks starts at "/" and follows nav links; concept-walk is
-              // not linked from the nav, so name it explicitly.
-              pages: [{ path: "/concept-walk" }],
-            }
-          : {}),
       }),
       // Required for Vercel (and other Nitro targets). Skip when intentionally
       // building the raw Cloudflare Worker bundle.

@@ -2,7 +2,7 @@
  * Public site origin for canonical / og: absolute URLs.
  *
  * Prefer `VITE_SITE_URL` (set in Vercel env). Fallbacks: Vercel system hosts,
- * then the production domain from public/CNAME.
+ * then the production domain.
  */
 export function getSiteUrl(): string {
   const configured = (import.meta.env.VITE_SITE_URL as string | undefined)?.trim();
