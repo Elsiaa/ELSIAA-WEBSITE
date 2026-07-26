@@ -6,7 +6,7 @@ import {
   higgsfieldDesignSourceBabelPlugin,
 } from "./src/module/design-inspector/vite";
 import svgr from "vite-plugin-svgr";
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import { nitro } from "nitro/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { fileURLToPath } from "node:url";
@@ -24,6 +24,13 @@ const CLOUDFLARE_WORKERS_STUB = fileURLToPath(
 );
 
 export default defineConfig(({ command, mode }) => {
+  // Load ALL .env / .env.local keys into process.env (not just VITE_*).
+  // Without this, SUPABASE_* and other server keys stay undefined under SSR.
+  const loaded = loadEnv(mode, process.cwd(), "");
+  for (const [key, value] of Object.entries(loaded)) {
+    if (process.env[key] === undefined) process.env[key] = value;
+  }
+
   const designInspectorEnabled = process.env.HF_DESIGN_INSPECTOR === "1" || mode === "design";
   // GitHub Pages has no server, so that build prerenders every route to static
   // HTML and ships dist/client only.
@@ -34,9 +41,52 @@ export default defineConfig(({ command, mode }) => {
   const needsWorkersStub = !deployCloudflare;
 
   return {
+    define: {
+      "process.env.NEXT_PUBLIC_SUPABASE_URL": JSON.stringify(
+        loaded.SUPABASE_URL || loaded.VITE_SUPABASE_URL || "",
+      ),
+      "process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY": JSON.stringify(
+        loaded.SUPABASE_PUBLISHABLE_KEY ||
+          loaded.SUPABASE_ANON_KEY ||
+          loaded.VITE_SUPABASE_PUBLISHABLE_KEY ||
+          "",
+      ),
+    },
     resolve: {
       alias: [
         { find: /^@higgsfield-ai\/icons(\/.*)?$/, replacement: QUANTA_ICONS_SHIM },
+        {
+          find: "next/server",
+          replacement: fileURLToPath(new URL("./src/shims/next-server.ts", import.meta.url)),
+        },
+        {
+          find: "next/headers",
+          replacement: fileURLToPath(new URL("./src/shims/next-headers.ts", import.meta.url)),
+        },
+        {
+          find: "next/navigation",
+          replacement: fileURLToPath(
+            new URL("./src/shims/next-navigation.ts", import.meta.url),
+          ),
+        },
+        {
+          find: "next/image",
+          replacement: fileURLToPath(new URL("./src/shims/next-image.tsx", import.meta.url)),
+        },
+        {
+          find: "next/link",
+          replacement: fileURLToPath(new URL("./src/shims/next-link.tsx", import.meta.url)),
+        },
+        {
+          find: "next-auth/react",
+          replacement: fileURLToPath(
+            new URL("./src/shims/next-auth-react.tsx", import.meta.url),
+          ),
+        },
+        {
+          find: "@/auth",
+          replacement: fileURLToPath(new URL("./src/auth.ts", import.meta.url)),
+        },
         // `cloudflare:workers` only exists inside workerd. Stub it for Vite
         // serve, Nitro, and Vercel so SSR can resolve the import.
         ...(needsWorkersStub

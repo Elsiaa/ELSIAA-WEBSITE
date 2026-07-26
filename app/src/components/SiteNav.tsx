@@ -17,7 +17,7 @@ const PRIMARY = [
   { label: "Design", href: "/designs" },
   { label: "Automate", href: "/automate" },
   { label: "Contact", href: "/contact" },
-  { label: "Client Login", href: "/portal" },
+  { label: "Client Login", href: "/portal/sign-in" },
 ];
 const MORE = [
   { label: "Services", href: "/services" },
@@ -234,7 +234,7 @@ export function SiteNav() {
                   <span className="text-[13px] font-medium" style={{ color: GOLD }}>The process →</span>
                 </a>
                 <a
-                  href="/portal"
+                  href="/portal/sign-in"
                   onClick={() => setOpen(false)}
                   className="group flex items-baseline justify-between py-2"
                 >

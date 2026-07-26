@@ -11,6 +11,8 @@ export function FloatingBook() {
 
   useEffect(() => {
     if (window.location.pathname.startsWith("/portal")) return;
+    if (window.location.pathname.startsWith("/admin")) return;
+    if (window.location.pathname.startsWith("/pay")) return;
     if (sessionStorage.getItem("elsiaa-book-dismissed")) return;
     setDead(false);
     const onScroll = () => setShow(window.scrollY > 600);

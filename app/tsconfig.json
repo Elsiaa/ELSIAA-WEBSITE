@@ -25,7 +25,13 @@
     "noUncheckedSideEffectImports": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@higgsfield-ai/icons/*": ["./src/lib/quanta-material-icons.ts"]
+      "@higgsfield-ai/icons/*": ["./src/lib/quanta-material-icons.ts"],
+      "next/server": ["./src/shims/next-server.ts"],
+      "next/navigation": ["./src/shims/next-navigation.ts"],
+      "next/image": ["./src/shims/next-image.tsx"],
+      "next/link": ["./src/shims/next-link.tsx"],
+      "next-auth/react": ["./src/shims/next-auth-react.tsx"],
+      "@/auth": ["./src/auth.ts"]
     }
   }
 }

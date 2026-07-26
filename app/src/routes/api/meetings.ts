@@ -1,31 +1,34 @@
-// Private endpoint: list meeting requests + update status (admin key).
+/* Auto-generated from Poel API — do not edit by hand */
 import { createFileRoute } from "@tanstack/react-router";
-import { isAdmin, listMeetings, setMeetingStatus } from "../../lib/quotes.server";
+import { NextRequest } from "next/server";
+
+type Ctx = { request: Request; params: Record<string, string> };
+
+function method(name: "GET" | "POST" | "PUT" | "PATCH" | "DELETE") {
+  return async ({ request, params }: Ctx) => {
+    const handlers = await import("../../poel-api/meetings/route");
+    const fn = (handlers as Record<string, unknown>)[name];
+    if (typeof fn !== "function") {
+      return new Response("Method Not Allowed", { status: 405 });
+    }
+    const req = new NextRequest(request.url, request);
+    return await (
+      fn as (
+        req: NextRequest,
+        ctx: { params: Promise<Record<string, string>> },
+      ) => Promise<Response> | Response
+    )(req, { params: Promise.resolve(params ?? {}) });
+  };
+}
 
 export const Route = createFileRoute("/api/meetings")({
   server: {
     handlers: {
-      GET: async ({ request }) => {
-        if (!isAdmin(request))
-          return Response.json({ ok: false, code: "unauthorized" }, { status: 401 });
-        try {
-          return Response.json({ ok: true, meetings: await listMeetings() });
-        } catch {
-          return Response.json({ ok: false, code: "storage_error" }, { status: 500 });
-        }
-      },
-      POST: async ({ request }) => {
-        if (!isAdmin(request))
-          return Response.json({ ok: false, code: "unauthorized" }, { status: 401 });
-        try {
-          const body = (await request.json()) as { id?: string; status?: string };
-          if (typeof body.id === "string" && typeof body.status === "string")
-            await setMeetingStatus(body.id, body.status);
-          return Response.json({ ok: true });
-        } catch {
-          return Response.json({ ok: false, code: "storage_error" }, { status: 500 });
-        }
-      },
+      GET: method("GET"),
+      POST: method("POST"),
+      PUT: method("PUT"),
+      PATCH: method("PATCH"),
+      DELETE: method("DELETE"),
     },
   },
 });

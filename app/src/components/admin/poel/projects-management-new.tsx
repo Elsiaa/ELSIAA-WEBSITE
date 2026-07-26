@@ -1,0 +1,499 @@
+"use client";
+
+import { useState } from "react";
+import { Plus, Edit2, Trash2, X, ExternalLink, FolderOpen, Building2, ChevronDown, ChevronRight, Key, Copy, Eye, EyeOff, RefreshCw } from "lucide-react";
+import type { Company } from "@/types/company";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+
+interface Project {
+  id: string;
+  companyId: string;
+  title: string;
+  url: string;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ProjectWithCompany extends Project {
+  company?: Company;
+}
+
+interface ProjectsManagementProps {
+  initialProjects: ProjectWithCompany[];
+  companies: Company[];
+  isSuperAdmin: boolean;
+  currentCompanyId: string | null;
+  onDataChange?: () => void;
+}
+
+export default function ProjectsManagementNew({
+  initialProjects,
+  companies,
+  isSuperAdmin,
+  currentCompanyId,
+  onDataChange,
+}: ProjectsManagementProps) {
+  const [projects, setProjects] = useState<ProjectWithCompany[]>(initialProjects);
+  const [showModal, setShowModal] = useState(false);
+  const [editingProject, setEditingProject] = useState<ProjectWithCompany | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [expandedCompanies, setExpandedCompanies] = useState<Set<string>>(new Set(companies.map(c => c.id)));
+  const [projectApiKeyReveal, setProjectApiKeyReveal] = useState<Record<string, string>>({});
+  const [apiKeyLoading, setApiKeyLoading] = useState<Record<string, boolean>>({});
+  const [formData, setFormData] = useState({
+    title: "",
+    url: "http://vercatryx.com/projects/blank",
+    description: "",
+    companyId: currentCompanyId || (companies.length > 0 ? companies[0].id : ""),
+  });
+
+  // Group projects by company
+  const projectsByCompany = projects.reduce((acc, project) => {
+    const companyId = project.companyId;
+    if (!acc[companyId]) {
+      acc[companyId] = [];
+    }
+    acc[companyId].push(project);
+    return acc;
+  }, {} as Record<string, ProjectWithCompany[]>);
+
+  const toggleCompany = (companyId: string) => {
+    setExpandedCompanies(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(companyId)) {
+        newSet.delete(companyId);
+      } else {
+        newSet.add(companyId);
+      }
+      return newSet;
+    });
+  };
+
+  const openAddModal = () => {
+    setEditingProject(null);
+    setFormData({
+      title: "",
+      url: "http://vercatryx.com/projects/blank",
+      description: "",
+      companyId: currentCompanyId || (companies.length > 0 ? companies[0].id : ""),
+    });
+    setShowModal(true);
+  };
+
+  const openEditModal = (project: ProjectWithCompany) => {
+    setEditingProject(project);
+    setFormData({
+      title: project.title,
+      url: project.url,
+      description: project.description || "",
+      companyId: project.companyId,
+    });
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setEditingProject(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      if (editingProject) {
+        // Update project
+        const res = await fetch(`/api/projects/${editingProject.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        if (res.ok) {
+          const { project } = await res.json();
+          const company = companies.find(c => c.id === project.companyId);
+          setProjects(prev => prev.map(p => p.id === project.id ? { ...project, company } : p));
+          onDataChange?.();
+        } else {
+          alert("Failed to update project");
+        }
+      } else {
+        // Create project
+        const res = await fetch("/api/projects", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...formData,
+            targetCompanyId: formData.companyId,
+          }),
+        });
+
+        if (res.ok) {
+          const { project } = await res.json();
+          const company = companies.find(c => c.id === project.companyId);
+          setProjects(prev => [...prev, { ...project, company }]);
+          onDataChange?.();
+        } else {
+          alert("Failed to create project");
+        }
+      }
+
+      closeModal();
+    } catch (error) {
+      console.error("Error saving project:", error);
+      alert("Failed to save project");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (projectId: string) => {
+    if (!confirm("Are you sure you want to delete this project?")) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(`/api/projects/${projectId}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        setProjects(prev => prev.filter(p => p.id !== projectId));
+        onDataChange?.();
+      } else {
+        alert("Failed to delete project");
+      }
+    } catch (error) {
+      console.error("Error deleting project:", error);
+      alert("Failed to delete project");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const revealApiKey = async (projectId: string) => {
+    if (projectApiKeyReveal[projectId] !== undefined) {
+      setProjectApiKeyReveal(prev => {
+        const next = { ...prev };
+        delete next[projectId];
+        return next;
+      });
+      return;
+    }
+    setApiKeyLoading(prev => ({ ...prev, [projectId]: true }));
+    try {
+      const res = await fetch(`/api/projects/${projectId}/api-key`);
+      const data = await res.json();
+      if (res.ok) {
+        setProjectApiKeyReveal(prev => ({ ...prev, [projectId]: data.apiKey ?? "(not set)" }));
+      } else {
+        setProjectApiKeyReveal(prev => ({ ...prev, [projectId]: "(error)" }));
+      }
+    } catch {
+      setProjectApiKeyReveal(prev => ({ ...prev, [projectId]: "(error)" }));
+    } finally {
+      setApiKeyLoading(prev => ({ ...prev, [projectId]: false }));
+    }
+  };
+
+  const copyApiKey = async (projectId: string) => {
+    const value = projectApiKeyReveal[projectId];
+    if (!value || value === "(not set)" || value === "(error)") return;
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      // ignore
+    }
+  };
+
+  const regenerateApiKey = async (projectId: string) => {
+    setApiKeyLoading(prev => ({ ...prev, [projectId]: true }));
+    try {
+      const res = await fetch(`/api/projects/${projectId}/api-key`, { method: "POST" });
+      const data = await res.json();
+      if (res.ok && data.apiKey) {
+        setProjectApiKeyReveal(prev => ({ ...prev, [projectId]: data.apiKey }));
+      }
+    } finally {
+      setApiKeyLoading(prev => ({ ...prev, [projectId]: false }));
+    }
+  };
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-semibold">Projects</h2>
+        {isSuperAdmin && (
+          <button
+            onClick={openAddModal}
+            className="px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Add Project
+          </button>
+        )}
+      </div>
+
+      <div className="space-y-4">
+        {companies.map((company) => {
+          const companyProjects = projectsByCompany[company.id] || [];
+          const isExpanded = expandedCompanies.has(company.id);
+
+          return (
+            <Collapsible
+              key={company.id}
+              open={isExpanded}
+              onOpenChange={() => toggleCompany(company.id)}
+            >
+              <div className="bg-card/80 rounded-lg border border-border/50 overflow-hidden">
+                <CollapsibleTrigger className="w-full">
+                  <div className="flex items-center justify-between p-4 hover:bg-secondary/30 transition-colors">
+                    <div className="flex items-center gap-3">
+                      {isExpanded ? (
+                        <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                      ) : (
+                        <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                      )}
+                      <Building2 className="w-5 h-5 text-primary" />
+                      <div>
+                        <h3 className="font-semibold text-lg text-left">{company.name}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {companyProjects.length} {companyProjects.length === 1 ? 'project' : 'projects'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </CollapsibleTrigger>
+
+                <CollapsibleContent>
+                  <div className="p-4 pt-0">
+                    {companyProjects.length > 0 ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {companyProjects.map((project) => (
+                          <div
+                            key={project.id}
+                            className="bg-secondary/40 rounded-lg p-6 border border-border/50 hover:border-border transition-colors flex flex-col"
+                          >
+                            <div className="flex items-start justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <FolderOpen className="w-5 h-5 text-primary" />
+                                <h3 className="font-semibold text-lg">{project.title}</h3>
+                              </div>
+                              {isSuperAdmin && (
+                                <div className="flex gap-2">
+                                  <button
+                                    onClick={() => openEditModal(project)}
+                                    className="p-1.5 hover:bg-secondary/60 rounded transition-colors"
+                                    title="Edit project"
+                                  >
+                                    <Edit2 className="w-4 h-4" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleDelete(project.id)}
+                                    className="p-1.5 hover:bg-red-500/20/40 rounded transition-colors text-red-400"
+                                    title="Delete project"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+
+                            {project.description && (
+                              <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{project.description}</p>
+                            )}
+
+                            <div className="mt-auto space-y-3">
+                              <a
+                                href={project.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-sm text-primary hover:text-primary/80 break-all"
+                              >
+                                <ExternalLink className="w-4 h-4 flex-shrink-0" />
+                                <span className="truncate">{project.url}</span>
+                              </a>
+
+                              <div className="space-y-1.5">
+                                <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                                  <Key className="w-3.5 h-3.5" />
+                                  API Key
+                                </p>
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  {projectApiKeyReveal[project.id] === undefined ? (
+                                    <code className="text-xs bg-secondary/80 px-2 py-1 rounded font-mono text-muted-foreground">
+                                      ••••••••••••••••
+                                    </code>
+                                  ) : (
+                                    <code className="text-xs bg-secondary/80 px-2 py-1 rounded font-mono break-all max-w-full">
+                                      {projectApiKeyReveal[project.id]}
+                                    </code>
+                                  )}
+                                  <div className="flex items-center gap-1">
+                                    <button
+                                      type="button"
+                                      onClick={() => revealApiKey(project.id)}
+                                      disabled={apiKeyLoading[project.id]}
+                                      className="p-1.5 hover:bg-secondary/60 rounded transition-colors text-muted-foreground hover:text-foreground disabled:opacity-50"
+                                      title={projectApiKeyReveal[project.id] !== undefined ? "Hide" : "Reveal"}
+                                    >
+                                      {projectApiKeyReveal[project.id] !== undefined ? (
+                                        <EyeOff className="w-4 h-4" />
+                                      ) : (
+                                        <Eye className="w-4 h-4" />
+                                      )}
+                                    </button>
+                                    {projectApiKeyReveal[project.id] !== undefined &&
+                                     projectApiKeyReveal[project.id] !== "(not set)" &&
+                                     projectApiKeyReveal[project.id] !== "(error)" && (
+                                      <button
+                                        type="button"
+                                        onClick={() => copyApiKey(project.id)}
+                                        className="p-1.5 hover:bg-secondary/60 rounded transition-colors text-muted-foreground hover:text-foreground"
+                                        title="Copy"
+                                      >
+                                        <Copy className="w-4 h-4" />
+                                      </button>
+                                    )}
+                                    <button
+                                      type="button"
+                                      onClick={() => regenerateApiKey(project.id)}
+                                      disabled={apiKeyLoading[project.id]}
+                                      className="p-1.5 hover:bg-secondary/60 rounded transition-colors text-muted-foreground hover:text-foreground disabled:opacity-50"
+                                      title="Regenerate (old key will stop working)"
+                                    >
+                                      <RefreshCw className="w-4 h-4" />
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="pt-3 border-t border-border/50">
+                                <p className="text-xs text-muted-foreground">
+                                  Created {new Date(project.createdAt).toLocaleDateString()}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <FolderOpen className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                        <p>No projects for this company</p>
+                      </div>
+                    )}
+                  </div>
+                </CollapsibleContent>
+              </div>
+            </Collapsible>
+          );
+        })}
+      </div>
+
+      {projects.length === 0 && (
+        <div className="text-center py-12 text-muted-foreground bg-card/80 rounded-lg border border-border/50">
+          <FolderOpen className="w-12 h-12 mx-auto mb-3 opacity-50" />
+          <p>No projects found. Click "Add Project" to create one.</p>
+        </div>
+      )}
+
+      {/* Add/Edit Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-card rounded-lg p-6 max-w-lg w-full border border-border/50 shadow-lg">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-semibold">
+                {editingProject ? "Edit Project" : "Add Project"}
+              </h3>
+              <button
+                onClick={closeModal}
+                className="p-1 hover:bg-secondary/60 rounded transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block mb-2 font-medium text-foreground">Project Title *</label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  required
+                  className="w-full bg-secondary/80 rounded-lg p-3 border border-border/50 focus:border-ring focus:ring-1 focus:ring-ring/40 focus:bg-secondary outline-none text-foreground placeholder-muted-foreground transition-colors"
+                  placeholder="Website Redesign"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 font-medium text-foreground">Project URL *</label>
+                <input
+                  type="url"
+                  value={formData.url}
+                  onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                  required
+                  className="w-full bg-secondary/80 rounded-lg p-3 border border-border/50 focus:border-ring focus:ring-1 focus:ring-ring/40 focus:bg-secondary outline-none text-foreground placeholder-muted-foreground transition-colors"
+                  placeholder="https://example.com"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 font-medium text-foreground">Description</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  rows={3}
+                  className="w-full bg-secondary/80 rounded-lg p-3 border border-border/50 focus:border-ring focus:ring-1 focus:ring-ring/40 focus:bg-secondary outline-none text-foreground placeholder-muted-foreground transition-colors resize-none"
+                  placeholder="Project description..."
+                />
+              </div>
+
+              {isSuperAdmin && (
+                <div>
+                  <label className="block mb-2 font-medium text-foreground">Company *</label>
+                  <select
+                    value={formData.companyId}
+                    onChange={(e) => setFormData({ ...formData, companyId: e.target.value })}
+                    required
+                    disabled={!isSuperAdmin}
+                    className="w-full bg-secondary/80 rounded-lg p-3 border border-border/50 focus:border-ring focus:ring-1 focus:ring-ring/40 focus:bg-secondary outline-none text-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <option value="">Select company...</option>
+                    {companies.map((company) => (
+                      <option key={company.id} value={company.id}>
+                        {company.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              <div className="flex gap-3 justify-end pt-4">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="px-4 py-2 bg-secondary/80 hover:bg-secondary rounded-lg transition-colors"
+                  disabled={loading}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors disabled:bg-secondary/50 disabled:cursor-not-allowed"
+                  disabled={loading}
+                >
+                  {loading ? "Saving..." : editingProject ? "Update" : "Create"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

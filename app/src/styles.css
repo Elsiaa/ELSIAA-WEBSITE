@@ -41,6 +41,13 @@
  */
 @theme {
   --spacing: 0.25rem;
+
+  /* Poel class names remapped to ELSIAA green (portal/admin UI). */
+  --color-flame: #1e6b3c;
+  --color-coral: #2e9e58;
+  --color-brand-blue: #1e6b3c;
+  --color-steel: #1e6b3c;
+  --color-navy: #1a3d28;
 }
 
 @theme inline {
@@ -109,6 +116,11 @@
 
   * {
     border-color: var(--hf-color-border-default);
+  }
+
+  /* ELSIAA ops (admin/portal): force readable light surfaces even if a token slips */
+  .elsiaa-ops {
+    color-scheme: light;
   }
 }
 

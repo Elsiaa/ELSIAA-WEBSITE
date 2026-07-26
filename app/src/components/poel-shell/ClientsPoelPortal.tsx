@@ -1,0 +1,2195 @@
+
+"use client";
+
+import { useState, useEffect, useRef, useMemo, useCallback, Fragment } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { MessageCircle, Maximize2, Minimize2, Menu, X, UserCircle, LogOut, Paperclip, File as FileIcon, Download, Image as ImageIcon, Trash2, Mic, Plus, MoreVertical, FileText, Play, Pause, Square, Send, LifeBuoy, Timer } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useSession } from "next-auth/react";
+import { signOutAndHardRedirect } from "@/lib/auth-sign-out-client";
+import { getClientSupabaseClient } from "@/lib/supabase";
+import { getProjectMessagesClient, rowToMessage } from "@/lib/chat";
+import type { RealtimeChannel } from "@supabase/supabase-js";
+import { OpsLightTheme } from "@/components/ops/OpsLightTheme";
+import { readPortalPlace, writePortalPlace } from "@/lib/ui-place";
+
+function ElsiaaMark({ className }: { className?: string }) {
+  return (
+    <div className={className}>
+      <img src="/assets/elsiaa-lion.png" alt="ELSIAA" className="h-10 w-10 object-contain" />
+    </div>
+  );
+}
+
+interface Project {
+  id: string;
+  companyId?: string;
+  userId?: string;
+  title: string;
+  url: string;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface UserWithCompany {
+  id: string;
+  company_id: string | null;
+  email: string;
+  first_name: string | null;
+  last_name: string | null;
+  phone: string | null;
+  role: 'admin' | 'member';
+  is_active: boolean;
+  authorizations_allowed?: boolean;
+  program_logs_allowed?: boolean;
+  files_allowed?: boolean;
+  support_allowed?: boolean;
+  company?: {
+    id: string;
+    name: string;
+  } | null;
+}
+
+interface Company {
+  id: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface ClientPortalProps {
+  userName: string;
+  companyName: string;
+  projects: Project[];
+  user: UserWithCompany | null;
+  isSuperAdmin?: boolean;
+  companies?: Company[];
+  users?: UserWithCompany[];
+  hasNoProjects?: boolean;
+  /** Supabase auth user id for chat identity. */
+  authUserId?: string | null;
+}
+
+interface ChatAttachment {
+  type: 'image' | 'file' | 'voice';
+  url: string;
+  filename: string;
+  size: number;
+  mimeType: string;
+  duration?: number;
+}
+
+interface ChatMessage {
+  id: string;
+  userId: string;
+  userName: string;
+  message: string;
+  timestamp: number;
+  attachments?: ChatAttachment[];
+}
+
+export default function ClientPortal({ projects, userName, companyName, user, isSuperAdmin = false, companies = [], users = [], hasNoProjects = false, authUserId = null }: ClientPortalProps) {
+  const searchParams = useSearchParams();
+  const isAdmin = user?.role === 'admin' || isSuperAdmin;
+  // Super admin state for selecting company
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>("");
+  const [userProjects, setUserProjects] = useState<Project[]>(projects);
+  const [loadingProjects, setLoadingProjects] = useState(false);
+  const [supportNavVisible, setSupportNavVisible] = useState(false);
+
+  // Fetch projects for selected company
+  useEffect(() => {
+    if (!isSuperAdmin || !selectedCompanyId) {
+      setUserProjects(projects);
+      return;
+    }
+
+    const fetchCompanyProjects = async () => {
+      setLoadingProjects(true);
+      try {
+        const res = await fetch(`/api/companies/${selectedCompanyId}/projects`);
+        if (res.ok) {
+          const data = await res.json();
+          setUserProjects(data.projects || []);
+        }
+      } catch (error) {
+        console.error('Error fetching company projects:', error);
+      } finally {
+        setLoadingProjects(false);
+      }
+    };
+
+    fetchCompanyProjects();
+  }, [selectedCompanyId, isSuperAdmin, projects]);
+
+  useEffect(() => {
+    if (isSuperAdmin || !user) {
+      setSupportNavVisible(false);
+      return;
+    }
+    let cancelled = false;
+    fetch('/api/support/threads')
+      .then((r) => (r.ok ? r.json() : { threads: [] }))
+      .then((d: { threads?: unknown[] }) => {
+        if (cancelled) return;
+        const n = Array.isArray(d.threads) ? d.threads.length : 0;
+        setSupportNavVisible(Boolean(user.support_allowed) || user.role === 'admin' || n > 0);
+      })
+      .catch(() => {
+        if (!cancelled) setSupportNavVisible(Boolean(user.support_allowed) || user.role === 'admin');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isSuperAdmin, user]);
+
+  // Create admin project for company admins, module-granted users, or super admins
+  const adminProject: Project | null = useMemo(() => {
+    const canAdmin =
+      isSuperAdmin ||
+      user?.role === 'admin' ||
+      Boolean(
+        user?.authorizations_allowed ||
+          user?.program_logs_allowed ||
+          user?.files_allowed ||
+          user?.support_allowed
+      );
+    if (!canAdmin) return null;
+    return {
+      id: 'admin-dashboard',
+      title: 'Admin',
+      url: '/admin',
+      description: isSuperAdmin ? 'Super Admin Dashboard' : 'User Management Dashboard',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+  }, [user, isSuperAdmin]);
+
+  // For admins, prepend the admin project to the list
+  const currentProjects = useMemo(() => 
+    adminProject
+      ? [adminProject, ...userProjects]
+      : userProjects,
+    [adminProject, userProjects]
+  );
+
+  // Helper function to update URL (soft history — no full navigation / remount)
+  const updateURL = useCallback((params: { chat?: string; chatState?: string; userId?: string; project?: string }) => {
+    const newParams = new URLSearchParams(
+      typeof window !== "undefined" ? window.location.search : searchParams.toString(),
+    );
+
+    if (params.chat !== undefined) {
+      if (params.chat) {
+        newParams.set('chat', params.chat);
+      } else {
+        newParams.delete('chat');
+      }
+    }
+    if (params.chatState !== undefined) {
+      if (params.chatState && params.chatState !== 'closed') {
+        newParams.set('chatState', params.chatState);
+      } else {
+        newParams.delete('chatState');
+      }
+    }
+    if (params.userId !== undefined) {
+      if (params.userId) {
+        newParams.set('userId', params.userId);
+      } else {
+        newParams.delete('userId');
+      }
+    }
+    if (params.project !== undefined) {
+      if (params.project) {
+        newParams.set('project', params.project);
+      } else {
+        newParams.delete('project');
+      }
+    }
+
+    const qs = newParams.toString();
+    const next = qs ? `/portal?${qs}` : "/portal";
+    writePortalPlace({
+      projectId: newParams.get("project"),
+      chat: newParams.get("chat"),
+      chatState: (newParams.get("chatState") as "closed" | "sidebar" | "expanded" | null) || "closed",
+    });
+    // Soft URL update only — never location.assign/reload (that remounts the whole portal).
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", next);
+    }
+  }, [searchParams]);
+
+  // Initialize state from URL params, then session place, then defaults
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [chatState, setChatState] = useState<'closed' | 'sidebar' | 'expanded'>(() => {
+    const chatStateFromUrl = searchParams.get('chatState');
+    if (chatStateFromUrl === 'sidebar' || chatStateFromUrl === 'expanded' || chatStateFromUrl === 'closed') {
+      return chatStateFromUrl;
+    }
+    const saved = readPortalPlace();
+    if (saved?.chatState === 'sidebar' || saved?.chatState === 'expanded') {
+      return saved.chatState;
+    }
+    return 'closed';
+  });
+  const [isMobile, setIsMobile] = useState(false);
+  const [chatProjectId, setChatProjectId] = useState<string | null>(() => {
+    return searchParams.get('chat') || readPortalPlace()?.chat || null;
+  });
+  const projectIdFromUrlRef = useRef<string | null>(
+    searchParams.get('project') || readPortalPlace()?.projectId || null,
+  );
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [uploadingFiles, setUploadingFiles] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [isProjectLoading, setIsProjectLoading] = useState(false);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const messageInputRef = useRef<HTMLInputElement>(null);
+  const previousMessageCountRef = useRef<number>(0);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const { data: session } = useSession();
+  const sessionAuthUserId = session?.user?.id || authUserId || undefined;
+  const hasInitialized = useRef(false);
+  const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
+  const [isLoadingUnreadCounts, setIsLoadingUnreadCounts] = useState(true);
+  const lastViewedTimestampsRef = useRef<Record<string, number>>({});
+  const openingTimestampRef = useRef<Record<string, number>>({});
+  const hasLoadedUnreadCountsForUserRef = useRef<string | null>(null);
+  const previousChatStateRef = useRef<'closed' | 'sidebar' | 'expanded'>(
+    (() => {
+      const chatStateFromUrl = searchParams.get('chatState');
+      return (chatStateFromUrl as 'closed' | 'sidebar' | 'expanded') || 'closed';
+    })()
+  );
+
+  // Initialize selected project from URL or default
+  useEffect(() => {
+    if (currentProjects.length > 0 && !hasInitialized.current) {
+      const projectIdFromUrl = projectIdFromUrlRef.current;
+
+      // Try to find the project from URL
+      if (projectIdFromUrl) {
+        const projectFromUrl = currentProjects.find(p => p.id === projectIdFromUrl);
+        if (projectFromUrl) {
+          console.log('Restoring project from URL:', projectFromUrl.title, projectFromUrl.id);
+          setSelectedProject(projectFromUrl);
+          hasInitialized.current = true;
+          return;
+        } else {
+          console.log('Project from URL not found:', projectIdFromUrl);
+        }
+      }
+
+      // Default: Company/super admins open Admin first; members use first real project (skip synthetic admin row).
+      console.log('🆕 No URL project found, using default');
+      const adminDashboard = currentProjects.find((p) => p.id === 'admin-dashboard');
+      if (isAdmin && adminDashboard) {
+        setSelectedProject(adminDashboard);
+      } else if (currentProjects.length > 1 && currentProjects[0].id === 'admin-dashboard') {
+        setSelectedProject(currentProjects[1]);
+      } else {
+        setSelectedProject(currentProjects[0]);
+      }
+      hasInitialized.current = true;
+    }
+  }, [currentProjects, isAdmin]);
+
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Sync state to URL (combined to prevent race conditions)
+  useEffect(() => {
+    if (hasInitialized.current) {
+      updateURL({
+        chat: chatProjectId || undefined,
+        chatState: chatState,
+        project: selectedProject?.id || undefined,
+      });
+    }
+  }, [chatProjectId, chatState, selectedProject, updateURL]);
+
+  // Helper function to scroll to bottom
+  const scrollToBottom = useCallback(() => {
+    const container = chatContainerRef.current;
+    if (container) {
+      // Use setTimeout to ensure DOM has updated
+      setTimeout(() => {
+        container.scrollTop = container.scrollHeight;
+      }, 100);
+    }
+  }, []);
+
+  useEffect(() => {
+    const container = chatContainerRef.current;
+    if (!container || messages.length === 0) return;
+
+    // Always scroll to bottom when messages change
+    // Use requestAnimationFrame for smoother scrolling
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        if (container) {
+          container.scrollTop = container.scrollHeight;
+        }
+      }, 50);
+    });
+
+    previousMessageCountRef.current = messages.length;
+  }, [messages]);
+
+  // Load last viewed timestamps from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('chat_last_viewed');
+      if (stored) {
+        try {
+          lastViewedTimestampsRef.current = JSON.parse(stored);
+        } catch (e) {
+          console.error('Error parsing last viewed timestamps:', e);
+        }
+      }
+    }
+  }, []);
+
+  // Calculate unread counts for all projects
+  const calculateUnreadCounts = useCallback(async () => {
+    if (!sessionAuthUserId) return;
+
+    // Only show loading on the very first load for this user
+    const isInitialLoad = hasLoadedUnreadCountsForUserRef.current !== sessionAuthUserId;
+    if (isInitialLoad) {
+      setIsLoadingUnreadCounts(true);
+    }
+
+    const supabase = getClientSupabaseClient();
+    const counts: Record<string, number> = {};
+
+    // Get unread counts for all projects
+    // Use userProjects instead of currentProjects to avoid admin-dashboard and get actual projects
+    const projectsToCheck = userProjects.length > 0 ? userProjects : currentProjects.filter(p => p.id !== 'admin-dashboard');
+    
+    for (const project of projectsToCheck) {
+      if (project.id === 'admin-dashboard') continue;
+
+      try {
+        const projectMessages = await getProjectMessagesClient(supabase, project.id);
+        const lastViewed = lastViewedTimestampsRef.current[project.id] || 0;
+        
+        // Count messages that are:
+        // 1. Not from the current user
+        // 2. Created after the last viewed timestamp
+        const unread = projectMessages.filter(
+          msg => msg.userId !== sessionAuthUserId && msg.timestamp > lastViewed
+        ).length;
+
+        if (unread > 0) {
+          counts[project.id] = unread;
+        }
+      } catch (error) {
+        console.error(`Error calculating unread count for project ${project.id}:`, error);
+      }
+    }
+
+    setUnreadCounts(counts);
+    
+    // Mark as loaded for this user and hide loading spinner after first load
+    if (isInitialLoad) {
+      hasLoadedUnreadCountsForUserRef.current = sessionAuthUserId;
+      setIsLoadingUnreadCounts(false);
+    }
+  }, [userProjects, currentProjects, sessionAuthUserId]);
+
+  // Calculate unread counts when projects or user changes
+  useEffect(() => {
+    if (sessionAuthUserId) {
+      calculateUnreadCounts();
+      // Also recalculate periodically (without loading indicator)
+      const interval = setInterval(() => calculateUnreadCounts(), 10000); // Every 10 seconds
+      return () => clearInterval(interval);
+    } else {
+      // Reset when user logs out
+      hasLoadedUnreadCountsForUserRef.current = null;
+      setIsLoadingUnreadCounts(true);
+    }
+  }, [calculateUnreadCounts, sessionAuthUserId]);
+
+  // Mark messages as read when chat is opened
+  useEffect(() => {
+    if (chatProjectId && chatState !== 'closed' && sessionAuthUserId) {
+      // Store the previous last viewed timestamp before updating it
+      // This allows us to show the "New messages" separator for messages received before opening
+      openingTimestampRef.current[chatProjectId] = lastViewedTimestampsRef.current[chatProjectId] || 0;
+      
+      // Mark all messages as read by updating last viewed timestamp
+      const now = Date.now();
+      lastViewedTimestampsRef.current[chatProjectId] = now;
+      
+      // Save to localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('chat_last_viewed', JSON.stringify(lastViewedTimestampsRef.current));
+      }
+
+      // Update unread counts
+      setUnreadCounts(prev => {
+        const updated = { ...prev };
+        delete updated[chatProjectId];
+        return updated;
+      });
+    }
+  }, [chatProjectId, chatState, sessionAuthUserId]);
+
+  // Mark messages as read when chat is closed (user leaves the chat)
+  useEffect(() => {
+    // Only mark as read when transitioning from open (sidebar/expanded) to closed
+    const wasOpen = previousChatStateRef.current !== 'closed';
+    const isNowClosed = chatState === 'closed';
+    
+    if (chatProjectId && wasOpen && isNowClosed && sessionAuthUserId && messages.length > 0) {
+      // Mark all messages as read by updating last viewed timestamp to the latest message timestamp
+      // Find the latest message timestamp
+      const latestMessageTimestamp = Math.max(...messages.map(msg => msg.timestamp));
+      const now = Date.now();
+      // Use the later of the two: latest message timestamp or current time
+      // This ensures we mark all visible messages as read
+      const readTimestamp = Math.max(latestMessageTimestamp, now);
+      
+      // Only update if this is newer than the current stored timestamp
+      const currentLastViewed = lastViewedTimestampsRef.current[chatProjectId] || 0;
+      if (readTimestamp > currentLastViewed) {
+        lastViewedTimestampsRef.current[chatProjectId] = readTimestamp;
+        
+        // Save to localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('chat_last_viewed', JSON.stringify(lastViewedTimestampsRef.current));
+        }
+
+        // Update unread counts
+        setUnreadCounts(prev => {
+          const updated = { ...prev };
+          delete updated[chatProjectId];
+          return updated;
+        });
+
+        // Recalculate unread counts to ensure accuracy
+        calculateUnreadCounts();
+      }
+    }
+    
+    // Update the previous state ref
+    previousChatStateRef.current = chatState;
+  }, [chatState, chatProjectId, sessionAuthUserId, messages, calculateUnreadCounts]);
+
+  useEffect(() => {
+    if (!chatProjectId) return;
+
+    const supabase = getClientSupabaseClient();
+    let channel: RealtimeChannel | null = null;
+    let pollFallback: NodeJS.Timeout | null = null;
+
+    const setupRealtimeSubscription = async () => {
+      setIsLoadingMessages(true);
+      setMessages([]); // Clear previous messages when switching chats
+      
+      try {
+        // Initial fetch of messages
+        console.log(`[Chat] Fetching messages for project: ${chatProjectId}`);
+        const initialMessages = await getProjectMessagesClient(supabase, chatProjectId);
+        console.log(`[Chat] Received ${initialMessages.length} messages`);
+        setMessages(initialMessages);
+        setIsLoadingMessages(false);
+        // Scroll to bottom after initial load
+        setTimeout(() => {
+          scrollToBottom();
+        }, 200);
+
+        // Set up realtime subscription for new/updated/deleted messages
+        channel = supabase
+          .channel(`chat:${chatProjectId}`, {
+            config: {
+              broadcast: { self: false },
+            },
+          })
+          .on(
+            'postgres_changes',
+            {
+              event: '*', // Listen to INSERT, UPDATE, DELETE
+              schema: 'public',
+              table: 'chat_messages',
+              filter: `project_id=eq.${chatProjectId}`,
+            },
+            async (payload) => {
+              console.log('Chat message change:', payload.eventType, payload);
+              
+              if (payload.eventType === 'INSERT') {
+                // New message added
+                const newMessage = rowToMessage(payload.new as any);
+                setMessages((prev) => {
+                  // Check if message already exists to avoid duplicates
+                  // Check by ID first (most reliable), then by content + timestamp + userId as fallback
+                  const isDuplicate = prev.some((msg) => 
+                    msg.id === newMessage.id ||
+                    (msg.userId === newMessage.userId &&
+                     msg.message === newMessage.message &&
+                     Math.abs(msg.timestamp - newMessage.timestamp) < 1000 && // Within 1 second
+                     (!msg.attachments?.length && !newMessage.attachments?.length || 
+                      JSON.stringify(msg.attachments) === JSON.stringify(newMessage.attachments)))
+                  );
+                  if (isDuplicate) {
+                    console.log('Duplicate message detected, skipping:', newMessage.id);
+                    return prev;
+                  }
+                  // Insert in sorted order by timestamp
+                  const updated = [...prev, newMessage].sort((a, b) => a.timestamp - b.timestamp);
+                  return updated;
+                });
+
+                // Update unread count if message is not from current user and chat is closed
+                if (newMessage.userId !== sessionAuthUserId && chatState === 'closed' && chatProjectId) {
+                  const lastViewed = lastViewedTimestampsRef.current[chatProjectId] || 0;
+                  if (newMessage.timestamp > lastViewed) {
+                    setUnreadCounts(prev => ({
+                      ...prev,
+                      [chatProjectId]: (prev[chatProjectId] || 0) + 1
+                    }));
+                  }
+                }
+              } else if (payload.eventType === 'UPDATE') {
+                // Message updated
+                const updatedMessage = rowToMessage(payload.new as any);
+                setMessages((prev) =>
+                  prev.map((msg) => (msg.id === updatedMessage.id ? updatedMessage : msg))
+                );
+              } else if (payload.eventType === 'DELETE') {
+                // Message deleted
+                const deletedId = payload.old.id;
+                setMessages((prev) => prev.filter((msg) => msg.id !== deletedId));
+                
+                // Recalculate unread count for this project
+                if (chatState === 'closed' && chatProjectId) {
+                  calculateUnreadCounts();
+                }
+              }
+            }
+          )
+          .subscribe((status) => {
+            console.log('Subscription status:', status);
+            if (status === 'SUBSCRIBED') {
+              console.log('Successfully subscribed to chat messages (realtime)');
+              // Clear any fallback polling if subscription is successful
+              if (pollFallback) {
+                clearInterval(pollFallback);
+                pollFallback = null;
+              }
+            } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+              console.warn('Realtime subscription failed, falling back to polling');
+              // Fallback to polling if realtime fails
+              if (!pollFallback) {
+                pollFallback = setInterval(async () => {
+                  if (chatState !== 'closed') {
+                    try {
+                      const messages = await getProjectMessagesClient(supabase, chatProjectId);
+                      setMessages(messages);
+                    } catch (error) {
+                      console.error('Error fetching messages (fallback):', error);
+                    }
+                  }
+                }, 5000);
+              }
+            }
+          });
+      } catch (error) {
+        console.error('[Chat] Error setting up chat subscription:', error);
+        console.error('[Chat] Error details:', {
+          message: error instanceof Error ? error.message : 'Unknown error',
+          stack: error instanceof Error ? error.stack : undefined,
+          projectId: chatProjectId,
+        });
+        setIsLoadingMessages(false);
+        // Fallback to polling on error
+        pollFallback = setInterval(async () => {
+          if (chatState !== 'closed') {
+            try {
+              console.log(`[Chat] Polling fallback: fetching messages for ${chatProjectId}`);
+              const messages = await getProjectMessagesClient(supabase, chatProjectId);
+              console.log(`[Chat] Polling fallback: received ${messages.length} messages`);
+              setMessages(messages);
+            } catch (error) {
+              console.error('[Chat] Error fetching messages (fallback):', error);
+            }
+          }
+        }, 5000);
+      }
+    };
+
+    setupRealtimeSubscription();
+
+    // Cleanup subscription and polling on unmount or when chatProjectId changes
+    return () => {
+      if (channel) {
+        console.log('Unsubscribing from chat channel');
+        supabase.removeChannel(channel);
+      }
+      if (pollFallback) {
+        clearInterval(pollFallback);
+      }
+    };
+  }, [chatProjectId, chatState]);
+
+  // Debug: Log when selectedProject changes
+  useEffect(() => {
+    console.log('Selected project changed:', selectedProject?.title, selectedProject?.id);
+  }, [selectedProject]);
+
+  // Load project URL dynamically to hide it from HTML
+  useEffect(() => {
+    if (selectedProject && iframeRef.current) {
+      console.log('Loading project:', selectedProject.title, selectedProject.id);
+      setIsProjectLoading(true);
+
+      // For admin dashboard, load URL directly
+      if (selectedProject.id === 'admin-dashboard') {
+        console.log('Loading admin dashboard at:', selectedProject.url);
+        iframeRef.current.src = selectedProject.url;
+      } else {
+        // For regular projects, fetch the URL from our proxy endpoint
+        console.log('Fetching project URL from proxy for:', selectedProject.id);
+        fetch(`/api/projects/proxy/${selectedProject.id}`)
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+            }
+            return res.json();
+          })
+          .then((data) => {
+            console.log('Received URL from proxy:', data.url);
+            if (data.url && iframeRef.current) {
+              iframeRef.current.src = data.url;
+            }
+          })
+          .catch((error) => {
+            console.error('Error loading project:', error);
+            setIsProjectLoading(false);
+          });
+      }
+    }
+  }, [selectedProject]);
+
+  const toggleFullscreen = () => {
+    if (!isFullscreen) {
+      // Enter fullscreen and hide sidebar
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+      setIsSidebarOpen(false);
+    } else {
+      // Exit fullscreen and show sidebar
+      document.exitFullscreen();
+      setIsFullscreen(false);
+      setIsSidebarOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isNowFullscreen = !!document.fullscreenElement;
+      setIsFullscreen(isNowFullscreen);
+
+      // Hide sidebar when entering fullscreen, show when exiting
+      if (isNowFullscreen) {
+        setIsSidebarOpen(false);
+      } else {
+        setIsSidebarOpen(true);
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const getProjectForChat = () => currentProjects.find(p => p.id === chatProjectId);
+
+  // Helper function to find the index of the first unread message
+  const getFirstUnreadIndex = useCallback(() => {
+    if (!chatProjectId || !sessionAuthUserId || messages.length === 0) return -1;
+    
+    // Use the opening timestamp (when chat was opened) to determine unread messages
+    // This ensures we show the separator for messages received before opening the chat
+    const lastViewed = openingTimestampRef.current[chatProjectId] ?? (lastViewedTimestampsRef.current[chatProjectId] || 0);
+    
+    // Find the first message that is unread (not from current user and after last viewed)
+    const firstUnreadIndex = messages.findIndex(
+      msg => msg.userId !== sessionAuthUserId && msg.timestamp > lastViewed
+    );
+    
+    return firstUnreadIndex;
+  }, [messages, chatProjectId, sessionAuthUserId]);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    setSelectedFiles(prev => [...prev, ...files]);
+    // Focus the message input after selecting files
+    setTimeout(() => {
+      messageInputRef.current?.focus();
+    }, 100);
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const input = form.elements.namedItem('message') as HTMLInputElement;
+    const message = input.value;
+
+    if ((!message.trim() && selectedFiles.length === 0) || !chatProjectId) {
+      return;
+    }
+
+    try {
+      setUploadingFiles(true);
+
+      // Generate message ID
+      const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+      // Upload files first if any
+      const attachments: ChatAttachment[] = [];
+      for (const file of selectedFiles) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('messageId', messageId);
+
+        const uploadRes = await fetch(`/api/chat/${chatProjectId}/upload`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!uploadRes.ok) {
+          const error = await uploadRes.json();
+          throw new Error(error.error || 'Upload failed');
+        }
+
+        const attachment = await uploadRes.json();
+        attachments.push(attachment);
+      }
+
+      // Send message with attachments
+      const res = await fetch(`/api/chat/${chatProjectId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: message || '',
+          userId: sessionAuthUserId,
+          userName: userName,
+          attachments: attachments.length > 0 ? attachments : undefined,
+        }),
+      });
+
+      if (res.ok) {
+        // Don't add message optimistically - let the realtime subscription handle it
+        // This prevents duplicate messages
+        input.value = '';
+        setSelectedFiles([]);
+        // Scroll to bottom after sending message (realtime will add it shortly)
+        setTimeout(() => scrollToBottom(), 100);
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert(error instanceof Error ? error.message : 'Failed to send message');
+    } finally {
+      setUploadingFiles(false);
+    }
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      // Try different MIME types for better mobile compatibility
+      let mimeType = 'audio/webm;codecs=opus';
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        mimeType = 'audio/webm';
+      }
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        mimeType = 'audio/mp4';
+      }
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        mimeType = 'audio/ogg;codecs=opus';
+      }
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        // Fallback to default
+        mimeType = '';
+      }
+
+      const options = mimeType ? { mimeType } : {};
+      const mediaRecorder = new MediaRecorder(stream, options);
+      const actualMimeType = mediaRecorder.mimeType;
+
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: actualMimeType });
+        setAudioBlob(audioBlob);
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      mediaRecorderRef.current = mediaRecorder;
+      mediaRecorder.start();
+      setIsRecording(true);
+      setRecordingTime(0);
+
+      recordingIntervalRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+      alert('Could not access microphone. Please check permissions.');
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      if (recordingIntervalRef.current) {
+        clearInterval(recordingIntervalRef.current);
+      }
+    }
+  };
+
+  const cancelRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      if (recordingIntervalRef.current) {
+        clearInterval(recordingIntervalRef.current);
+      }
+    }
+    setAudioBlob(null);
+    setRecordingTime(0);
+  };
+
+  const sendVoiceNote = async () => {
+    if (!audioBlob || !chatProjectId) return;
+
+    try {
+      setUploadingFiles(true);
+
+      const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+      // Get file extension from MIME type
+      let extension = 'webm';
+      if (audioBlob.type.includes('mp4')) {
+        extension = 'mp4';
+      } else if (audioBlob.type.includes('ogg')) {
+        extension = 'ogg';
+      } else if (audioBlob.type.includes('wav')) {
+        extension = 'wav';
+      }
+
+      const filename = `voice-${Date.now()}.${extension}`;
+      const file = new File([audioBlob], filename, { type: audioBlob.type });
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('messageId', messageId);
+
+      const uploadRes = await fetch(`/api/chat/${chatProjectId}/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!uploadRes.ok) {
+        const error = await uploadRes.json();
+        throw new Error(error.error || 'Upload failed');
+      }
+
+      const attachment = await uploadRes.json();
+      attachment.duration = recordingTime;
+
+      const res = await fetch(`/api/chat/${chatProjectId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: '',
+          userId: sessionAuthUserId,
+          userName: userName,
+          attachments: [attachment],
+        }),
+      });
+
+      if (res.ok) {
+        // Don't add message optimistically - let the realtime subscription handle it
+        // This prevents duplicate messages
+        setAudioBlob(null);
+        setRecordingTime(0);
+        // Scroll to bottom after sending voice note (realtime will add it shortly)
+        setTimeout(() => scrollToBottom(), 100);
+      }
+    } catch (error) {
+      console.error('Error sending voice note:', error);
+      alert(error instanceof Error ? error.message : 'Failed to send voice note');
+    } finally {
+      setUploadingFiles(false);
+    }
+  };
+
+  const deleteAttachment = async (messageId: string, attachmentUrl: string, attachmentFilename: string) => {
+    if (!chatProjectId || !isAdmin) return;
+
+    if (!confirm('Delete this attachment? This cannot be undone.')) return;
+
+    try {
+      // Immediately update UI to show deletion
+      setMessages(prevMessages =>
+        prevMessages.map(msg => {
+          if (msg.id === messageId && msg.attachments) {
+            const remainingAttachments = msg.attachments.filter(att => att.url !== attachmentUrl);
+
+            // If no attachments left and no message text, replace with deletion notice
+            if (remainingAttachments.length === 0 && (!msg.message || !msg.message.trim())) {
+              return {
+                ...msg,
+                message: `"${attachmentFilename}" was deleted`,
+                attachments: undefined
+              };
+            }
+
+            return {
+              ...msg,
+              attachments: remainingAttachments.length > 0 ? remainingAttachments : undefined
+            };
+          }
+          return msg;
+        })
+      );
+
+      // Delete on server in background
+      const res = await fetch(`/api/chat/${chatProjectId}/delete-attachment`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messageId, attachmentUrl }),
+      });
+
+      if (res.ok) {
+        // Give the server time to delete old blobs and create new one
+        await new Promise(resolve => setTimeout(resolve, 600));
+
+        // Fetch fresh data from server to ensure sync
+        const refreshRes = await fetch(`/api/chat/${chatProjectId}`, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+          },
+        });
+        if (refreshRes.ok) {
+          const updatedMessages = await refreshRes.json();
+          console.log('Server sync: Updated messages received:', updatedMessages.length, 'messages');
+          setMessages(updatedMessages);
+        } else {
+          console.error('Failed to fetch after deletion');
+        }
+      } else {
+        // Revert the optimistic update on error
+        alert('Failed to delete attachment');
+        const refreshRes = await fetch(`/api/chat/${chatProjectId}?t=${Date.now()}`);
+        if (refreshRes.ok) {
+          const updatedMessages = await refreshRes.json();
+          setMessages(updatedMessages);
+        }
+      }
+    } catch (error) {
+      console.error('Delete attachment error:', error);
+      alert('Failed to delete attachment');
+      // Revert optimistic update
+      const refreshRes = await fetch(`/api/chat/${chatProjectId}?t=${Date.now()}`);
+      if (refreshRes.ok) {
+        const updatedMessages = await refreshRes.json();
+        setMessages(updatedMessages);
+      }
+    }
+  };
+
+  const deleteEntireChat = async () => {
+    if (!chatProjectId || !isSuperAdmin) return;
+
+    if (!confirm('Delete entire chat history? This will delete all messages and attachments. This cannot be undone.')) return;
+
+    try {
+      const res = await fetch(`/api/chat/${chatProjectId}/delete`, {
+        method: 'DELETE',
+      });
+
+      if (res.ok) {
+        setMessages([]);
+        alert('Chat deleted successfully');
+      } else {
+        alert('Failed to delete chat');
+      }
+    } catch (error) {
+      console.error('Delete chat error:', error);
+      alert('Failed to delete chat');
+    }
+  };
+
+  // Only show "no projects" message for regular users (admins always have the Admin project)
+  if (currentProjects.length === 0) {
+    const displayEmail = user?.email?.trim() || session?.user?.email?.trim() || null;
+    return (
+      <OpsLightTheme>
+      <div className="flex items-center justify-center min-h-screen bg-[#F5F5F3] text-[#111]">
+        <div className="text-center p-8 max-w-md">
+          <div className="mb-8 rounded-xl border border-black/[0.08] bg-white px-6 py-5 text-left shadow-sm">
+            <p className="text-xs font-medium uppercase tracking-wide text-[#111]/55 mb-2">Signed in as</p>
+            <p className="text-lg font-semibold text-[#111]">{userName}</p>
+            {displayEmail && (
+              <p className="text-sm text-[#111]/55 mt-1">{displayEmail}</p>
+            )}
+            <p className="text-sm text-[#111]/55 mt-3">
+              <span className="text-[#111]/55">Organization: </span>
+              <span className="text-[#111] font-medium">{companyName}</span>
+            </p>
+          </div>
+          <h2 className="text-2xl font-bold mb-4 text-[#111]">No Projects Yet</h2>
+          <p className="text-[#111]/55">
+            Your admin will add projects for you soon! If you expected to see work here, ask your admin to confirm
+            this account is on the right company and has access to the correct projects.
+          </p>
+        </div>
+      </div>
+      </OpsLightTheme>
+    );
+  }
+
+  return (
+    <OpsLightTheme>
+    <div className="flex h-screen bg-[#F5F5F3] text-[#111] overflow-hidden">
+      {/* Sidebar - full width on mobile, toggleable on desktop */}
+      <div
+        className={`${isMobile ? 'w-full' : isSidebarOpen ? 'w-80' : 'w-0'
+          } bg-[#F5F5F3] border-r border-black/[0.08] transition-all duration-300 overflow-hidden flex flex-col relative`}
+      >
+        {chatState === 'sidebar' ? (
+          <>
+            {/* Chat Header */}
+            <div className="p-4 border-b border-black/[0.08] bg-white/80">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="font-bold text-lg text-[#111]">
+                  {getProjectForChat()?.title}
+                </h3>
+                <div className="flex items-center gap-1">
+                  {isSuperAdmin && (
+                    <button
+                      onClick={deleteEntireChat}
+                      className="p-2 hover:bg-[#1e6b3c]/20 rounded-lg text-[#1e6b3c] transition-colors"
+                      title="Delete entire chat"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setChatState('expanded')}
+                    className="p-2 hover:bg-black/[0.05] rounded-lg transition-colors"
+                    title="Expand chat"
+                  >
+                    <Maximize2 className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => setChatState('closed')}
+                    className="p-2 hover:bg-black/[0.05] rounded-lg transition-colors"
+                    title="Close chat"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+              <p className="text-sm text-[#111]/55">
+                {getProjectForChat()?.description}
+              </p>
+            </div>
+            {/* Chat Content */}
+            <div ref={chatContainerRef} className="flex-1 p-4 overflow-y-auto flex flex-col min-h-0">
+              {isLoadingMessages ? (
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="w-8 h-8 border-4 border-[#1e6b3c] border-t-transparent rounded-full animate-spin" />
+                    <p className="text-sm text-[#111]/55">Loading messages...</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {messages.map((msg, index) => {
+                  const firstUnreadIndex = getFirstUnreadIndex();
+                  const showSeparator = firstUnreadIndex >= 0 && index === firstUnreadIndex;
+                  
+                  return (
+                    <Fragment key={msg.id}>
+                      {showSeparator && (
+                        <div className="relative my-4">
+                          <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-dashed border-muted-foreground/30"></div>
+                          </div>
+                          <div className="relative flex justify-center">
+                            <span className="bg-[#F5F5F3] px-2 text-xs text-[#111]/55">New messages</span>
+                          </div>
+                        </div>
+                      )}
+                      <div
+                        className={`flex flex-col ${msg.userId === sessionAuthUserId ? 'items-end' : 'items-start'
+                          }`}
+                      >
+                    <p className="text-xs text-[#111]/55 mb-1 px-1">
+                      {msg.userId === sessionAuthUserId ? 'You' : (msg.userName || 'Vercatryx')}
+                    </p>
+                    <div
+                      className={`rounded-lg px-3 py-2 max-w-xs ${msg.userId === sessionAuthUserId
+                        ? 'bg-[#1e6b3c] text-white'
+                        : 'bg-black/[0.04] border border-black/[0.08] text-[#111]'
+                        }`}
+                    >
+                      {msg.message && msg.message.trim() && (
+                        <p className={msg.message.includes('was deleted') ? 'italic text-[#111]/55' : ''}>
+                          {msg.message}
+                        </p>
+                      )}
+                      {msg.attachments && msg.attachments.length > 0 && (
+                        <div className={msg.message && msg.message.trim() ? "mt-2 space-y-2" : "space-y-2"}>
+                          {msg.attachments.map((attachment, idx) => (
+                            <div key={idx} className="relative group">
+                              {attachment.type === 'image' ? (
+                                <div className="relative">
+                                  <a href={attachment.url} target="_blank" rel="noopener noreferrer">
+                                    <img
+                                      src={attachment.url}
+                                      alt={attachment.filename}
+                                      className="max-w-full rounded border border-black/[0.08]"
+                                      style={{ maxHeight: '200px' }}
+                                    />
+                                  </a>
+                                  {isAdmin && (
+                                    <button
+                                      onClick={() => deleteAttachment(msg.id, attachment.url, attachment.filename)}
+                                      className="absolute top-1 right-1 bg-[#1e6b3c] hover:bg-[#2e9e58] rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                      title="Delete attachment"
+                                    >
+                                      <Trash2 className="w-3 h-3" />
+                                    </button>
+                                  )}
+                                </div>
+                              ) : attachment.type === 'voice' ? (
+                                <div className="flex items-center gap-2">
+                                  <Mic className="w-4 h-4 text-steel" />
+                                  <audio
+                                    controls
+                                    preload="metadata"
+                                    controlsList="nodownload"
+                                    className="h-8 flex-1"
+                                    style={{ maxWidth: '200px' }}
+                                  >
+                                    <source src={attachment.url} type={attachment.mimeType} />
+                                    Your browser does not support audio playback.
+                                  </audio>
+                                  {attachment.duration && (
+                                    <span className="text-xs text-[#111]/55">{formatTime(attachment.duration)}</span>
+                                  )}
+                                  {isAdmin && (
+                                    <button
+                                      onClick={() => deleteAttachment(msg.id, attachment.url, attachment.filename)}
+                                      className="text-[#1e6b3c] hover:text-coral"
+                                      title="Delete voice note"
+                                    >
+                                      <Trash2 className="w-3 h-3" />
+                                    </button>
+                                  )}
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-2 bg-black/[0.04] rounded px-2 py-1 text-xs">
+                                  <a
+                                    href={attachment.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 flex-1 hover:text-[#111]"
+                                  >
+                                    <FileIcon className="w-4 h-4" />
+                                    <span className="flex-1 truncate">{attachment.filename}</span>
+                                    <Download className="w-3 h-3" />
+                                  </a>
+                                  {isAdmin && (
+                                    <button
+                                      onClick={() => deleteAttachment(msg.id, attachment.url, attachment.filename)}
+                                      className="text-[#1e6b3c] hover:text-coral ml-1"
+                                      title="Delete attachment"
+                                    >
+                                      <Trash2 className="w-3 h-3" />
+                                    </button>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <p className="text-xs opacity-70 text-right mt-1">
+                        {new Date(msg.timestamp).toLocaleTimeString()}
+                      </p>
+                    </div>
+                  </div>
+                  </Fragment>
+                );
+                })}
+                </div>
+              )}
+            </div>
+            {/* Chat Input */}
+            <div className="p-4 border-t border-black/[0.08] bg-white/70">
+              {selectedFiles.length > 0 && (
+                <div className="mb-2 space-y-1">
+                  {selectedFiles.map((file, index) => (
+                    <div key={index} className="flex items-center gap-2 bg-black/[0.06]/70 rounded px-2 py-1 text-xs">
+                      {file.type.startsWith('image/') ? (
+                        <ImageIcon className="w-3 h-3" />
+                      ) : (
+                        <FileIcon className="w-3 h-3" />
+                      )}
+                      <span className="flex-1 truncate">{file.name}</span>
+                      <span className="text-[#111]/55">{formatFileSize(file.size)}</span>
+                      <button
+                        onClick={() => removeFile(index)}
+                        className="text-[#1e6b3c] hover:text-coral"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {audioBlob && (
+                <div className="mb-2 bg-black/[0.06]/70 rounded px-3 py-2 flex items-center gap-2">
+                  <Mic className="w-4 h-4 text-steel" />
+                  <span className="text-sm flex-1">Voice note ({formatTime(recordingTime)})</span>
+                  <button
+                    onClick={sendVoiceNote}
+                    className="bg-[#1e6b3c]/90 hover:bg-[#155a32] rounded px-3 py-1 text-xs transition-colors"
+                    disabled={uploadingFiles}
+                  >
+                    Send
+                  </button>
+                  <button
+                    onClick={cancelRecording}
+                    className="text-[#1e6b3c] hover:text-coral transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+              {isRecording && (
+                <div className="mb-2 bg-[#1e6b3c]/20 border border-[#1e6b3c]/50 rounded px-3 py-2 flex items-center gap-2">
+                  <div className="w-3 h-3 bg-[#1e6b3c] rounded-full animate-pulse" />
+                  <span className="text-sm flex-1">Recording... {formatTime(recordingTime)}</span>
+                  <button
+                    onClick={stopRecording}
+                    className="bg-[#1e6b3c]/90 hover:bg-[#2e9e58] rounded-lg p-2 transition-colors"
+                  >
+                    <Square className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+              <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileSelect}
+                  className="hidden"
+                  multiple
+                  accept="image/jpeg,image/png,image/gif,image/webp,application/pdf,.doc,.docx,.xls,.xlsx,.txt"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="bg-black/[0.06] hover:bg-black/[0.06] rounded-lg p-2 transition-colors"
+                  disabled={uploadingFiles || isRecording}
+                >
+                  <Paperclip className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={isRecording ? stopRecording : startRecording}
+                  className={`${isRecording ? 'bg-[#1e6b3c]/90 hover:bg-[#2e9e58]' : 'bg-black/[0.06] hover:bg-black/[0.06]'
+                    } rounded-lg p-2 transition-colors`}
+                  disabled={uploadingFiles || audioBlob !== null}
+                >
+                  <Mic className="w-5 h-5" />
+                </button>
+                <input
+                  ref={messageInputRef}
+                  name="message"
+                  className="w-full bg-black/[0.06] border border-black/[0.08]/50 rounded-lg px-3 py-2 text-[#111] placeholder-muted-foreground focus:border-[#1e6b3c]/50 focus:bg-black/[0.06] outline-none transition-colors"
+                  placeholder="Type a message..."
+                  disabled={uploadingFiles || isRecording}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      e.currentTarget.form?.requestSubmit();
+                    }
+                  }}
+                />
+                <button
+                  type="submit"
+                  className="bg-[#1e6b3c]/90 hover:bg-[#155a32] rounded-lg p-2 disabled:opacity-50 transition-colors"
+                  disabled={uploadingFiles || isRecording}
+                >
+                  {uploadingFiles ? (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <Send className="w-5 h-5" />
+                  )}
+                </button>
+              </form>
+            </div>
+
+          </>
+        ) : chatState === 'expanded' && isMobile ? (
+          /* Mobile Expanded Chat - takes over entire screen */
+          <div className="w-full h-screen bg-white flex flex-col fixed inset-0 z-50">
+            <div className="flex-shrink-0 p-4 border-b border-black/[0.08]/50 flex justify-between items-center bg-white/80">
+              <h3 className="font-bold">
+                {getProjectForChat()?.title}
+              </h3>
+              <div className="flex items-center gap-1">
+                {isSuperAdmin && (
+                  <button
+                    onClick={deleteEntireChat}
+                    className="p-2 hover:bg-[#1e6b3c]/20 rounded-lg text-[#1e6b3c] transition-colors"
+                    title="Delete entire chat"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
+                <button
+                  onClick={() => setChatState('sidebar')}
+                  className="p-2 hover:bg-black/[0.05] rounded-lg transition-colors"
+                >
+                  <Minimize2 className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setChatState('closed')}
+                  className="p-2 hover:bg-black/[0.05] rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            <div ref={chatContainerRef} className="flex-1 min-h-0 p-4 overflow-y-auto flex flex-col bg-[#F5F5F3]/50">
+              {isLoadingMessages ? (
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="w-8 h-8 border-4 border-[#1e6b3c] border-t-transparent rounded-full animate-spin" />
+                    <p className="text-sm text-[#111]/55">Loading messages...</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {messages.map((msg, index) => {
+                  const firstUnreadIndex = getFirstUnreadIndex();
+                  const showSeparator = firstUnreadIndex >= 0 && index === firstUnreadIndex;
+                  
+                  return (
+                    <Fragment key={msg.id}>
+                      {showSeparator && (
+                        <div className="relative my-4">
+                          <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-dashed border-muted-foreground/30"></div>
+                          </div>
+                          <div className="relative flex justify-center">
+                            <span className="bg-[#F5F5F3] px-2 text-xs text-[#111]/55">New messages</span>
+                          </div>
+                        </div>
+                      )}
+                      <div
+                        className={`flex flex-col ${msg.userId === sessionAuthUserId ? 'items-end' : 'items-start'
+                          }`}
+                      >
+                    <p className="text-xs text-[#111]/55 mb-1 px-1">
+                      {msg.userId === sessionAuthUserId ? 'You' : (msg.userName || 'Vercatryx')}
+                    </p>
+                    <div
+                      className={`rounded-lg px-3 py-2 max-w-md ${msg.userId === sessionAuthUserId
+                        ? 'bg-[#1e6b3c] text-white'
+                        : 'bg-black/[0.04] border border-black/[0.08] text-[#111]'
+                        }`}
+                    >
+                      {msg.message && msg.message.trim() && (
+                        <p className={msg.message.includes('was deleted') ? 'italic text-[#111]/55' : ''}>
+                          {msg.message}
+                        </p>
+                      )}
+                      {msg.attachments && msg.attachments.length > 0 && (
+                        <div className={msg.message && msg.message.trim() ? "mt-2 space-y-2" : "space-y-2"}>
+                          {msg.attachments.map((attachment, idx) => (
+                            <div key={idx} className="relative group">
+                              {attachment.type === 'image' ? (
+                                <div className="relative">
+                                  <a href={attachment.url} target="_blank" rel="noopener noreferrer">
+                                    <img
+                                      src={attachment.url}
+                                      alt={attachment.filename}
+                                      className="max-w-full rounded border border-black/[0.08]"
+                                      style={{ maxHeight: '300px' }}
+                                    />
+                                  </a>
+                                  {isAdmin && (
+                                    <button
+                                      onClick={() => deleteAttachment(msg.id, attachment.url, attachment.filename)}
+                                      className="absolute top-1 right-1 bg-[#1e6b3c] hover:bg-[#2e9e58] rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                      title="Delete attachment"
+                                    >
+                                      <Trash2 className="w-3 h-3" />
+                                    </button>
+                                  )}
+                                </div>
+                              ) : attachment.type === 'voice' ? (
+                                <div className="flex items-center gap-2">
+                                  <Mic className="w-4 h-4 text-steel" />
+                                  <audio
+                                    controls
+                                    preload="metadata"
+                                    controlsList="nodownload"
+                                    className="h-8 flex-1"
+                                    style={{ maxWidth: '200px' }}
+                                  >
+                                    <source src={attachment.url} type={attachment.mimeType} />
+                                    Your browser does not support audio playback.
+                                  </audio>
+                                  {attachment.duration && (
+                                    <span className="text-xs text-[#111]/55">{formatTime(attachment.duration)}</span>
+                                  )}
+                                  {isAdmin && (
+                                    <button
+                                      onClick={() => deleteAttachment(msg.id, attachment.url, attachment.filename)}
+                                      className="text-[#1e6b3c] hover:text-coral"
+                                      title="Delete voice note"
+                                    >
+                                      <Trash2 className="w-3 h-3" />
+                                    </button>
+                                  )}
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-2 bg-black/[0.04] rounded px-2 py-1 text-xs">
+                                  <a
+                                    href={attachment.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 flex-1 hover:text-[#111]"
+                                  >
+                                    <FileIcon className="w-4 h-4" />
+                                    <span className="flex-1 truncate">{attachment.filename}</span>
+                                    <Download className="w-3 h-3" />
+                                  </a>
+                                  {isAdmin && (
+                                    <button
+                                      onClick={() => deleteAttachment(msg.id, attachment.url, attachment.filename)}
+                                      className="text-[#1e6b3c] hover:text-coral ml-1"
+                                      title="Delete attachment"
+                                    >
+                                      <Trash2 className="w-3 h-3" />
+                                    </button>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <p className="text-xs opacity-70 text-right mt-1">
+                        {new Date(msg.timestamp).toLocaleTimeString()}
+                      </p>
+                    </div>
+                  </div>
+                  </Fragment>
+                );
+                })}
+                </div>
+              )}
+            </div>
+            <div className="flex-shrink-0 p-4 border-t border-black/[0.08]/50 bg-white/70">
+              {selectedFiles.length > 0 && (
+                <div className="mb-2 space-y-1">
+                  {selectedFiles.map((file, index) => (
+                    <div key={index} className="flex items-center gap-2 bg-black/[0.06]/70 rounded px-2 py-1 text-xs">
+                      {file.type.startsWith('image/') ? (
+                        <ImageIcon className="w-3 h-3" />
+                      ) : (
+                        <FileIcon className="w-3 h-3" />
+                      )}
+                      <span className="flex-1 truncate">{file.name}</span>
+                      <span className="text-[#111]/55">{formatFileSize(file.size)}</span>
+                      <button
+                        onClick={() => removeFile(index)}
+                        className="text-[#1e6b3c] hover:text-coral"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {audioBlob && (
+                <div className="mb-2 bg-black/[0.06]/70 rounded px-3 py-2 flex items-center gap-2">
+                  <Mic className="w-4 h-4 text-steel" />
+                  <span className="text-sm flex-1">Voice note ({formatTime(recordingTime)})</span>
+                  <button
+                    onClick={sendVoiceNote}
+                    className="bg-[#1e6b3c]/90 hover:bg-[#155a32] rounded px-3 py-1 text-xs transition-colors"
+                    disabled={uploadingFiles}
+                  >
+                    Send
+                  </button>
+                  <button
+                    onClick={cancelRecording}
+                    className="text-[#1e6b3c] hover:text-coral transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+              {isRecording && (
+                <div className="mb-2 bg-[#1e6b3c]/20 border border-[#1e6b3c]/50 rounded px-3 py-2 flex items-center gap-2">
+                  <div className="w-3 h-3 bg-[#1e6b3c] rounded-full animate-pulse" />
+                  <span className="text-sm flex-1">Recording... {formatTime(recordingTime)}</span>
+                  <button
+                    onClick={stopRecording}
+                    className="bg-[#1e6b3c]/90 hover:bg-[#2e9e58] rounded-lg p-2 transition-colors"
+                  >
+                    <Square className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+              <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileSelect}
+                  className="hidden"
+                  multiple
+                  accept="image/jpeg,image/png,image/gif,image/webp,application/pdf,.doc,.docx,.xls,.xlsx,.txt"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="bg-black/[0.06] hover:bg-black/[0.06] rounded-lg p-2 transition-colors"
+                  disabled={uploadingFiles || isRecording}
+                >
+                  <Paperclip className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={isRecording ? stopRecording : startRecording}
+                  className={`${isRecording ? 'bg-[#1e6b3c]/90 hover:bg-[#2e9e58]' : 'bg-black/[0.06] hover:bg-black/[0.06]'
+                    } rounded-lg p-2 transition-colors`}
+                  disabled={uploadingFiles || audioBlob !== null}
+                >
+                  <Mic className="w-5 h-5" />
+                </button>
+                <input
+                  ref={messageInputRef}
+                  name="message"
+                  className="w-full bg-black/[0.06] border border-black/[0.08]/50 rounded-lg px-3 py-2 text-[#111] placeholder-muted-foreground focus:border-[#1e6b3c]/50 focus:bg-black/[0.06] outline-none transition-colors"
+                  placeholder="Type a message..."
+                  disabled={uploadingFiles || isRecording}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      e.currentTarget.form?.requestSubmit();
+                    }
+                  }}
+                />
+                <button
+                  type="submit"
+                  className="bg-[#1e6b3c]/90 hover:bg-[#155a32] rounded-lg p-2 disabled:opacity-50 transition-colors"
+                  disabled={uploadingFiles || isRecording}
+                >
+                  {uploadingFiles ? (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <Send className="w-5 h-5" />
+                  )}
+                </button>
+              </form>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Sidebar Header */}
+            <div className="p-4 border-b border-black/[0.08]/50 flex justify-between items-center bg-white/70 relative z-10">
+              <div>
+                <h2 className="text-xl font-bold mb-1 text-[#111]">{companyName}</h2>
+                <p className="text-sm text-[#111]/55">
+                  Welcome, {userName}!
+                </p>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="p-2 hover:bg-black/[0.05] rounded-full transition-colors">
+                    <UserCircle className="w-6 h-6" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {supportNavVisible && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/portal/support" className="cursor-pointer flex items-center">
+                        <LifeBuoy className="w-4 h-4 mr-2" />
+                        Support
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem asChild>
+                    <Link href="/portal/time-tracking" className="cursor-pointer flex items-center">
+                      <Timer className="w-4 h-4 mr-2" />
+                      Time tracking
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="text-destructive hover:!text-destructive hover:!bg-destructive/15 cursor-pointer"
+                    onSelect={(e) => {
+                      e.preventDefault();
+                      void signOutAndHardRedirect("/portal/sign-in");
+                    }}
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Log Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            {/* Super Admin Company Selector */}
+            {isSuperAdmin && (
+              <div className="p-4 border-b border-black/[0.08]/50 bg-white/20 space-y-3 relative z-10">
+                <div>
+                  <label className="block text-xs font-medium text-[#111]/55 mb-1.5">
+                    Select Company
+                  </label>
+                  <select
+                    value={selectedCompanyId}
+                    onChange={(e) => setSelectedCompanyId(e.target.value)}
+                    className="w-full bg-black/[0.06] border border-black/[0.08]/50 rounded-lg px-3 py-2 text-sm text-[#111] focus:border-[#1e6b3c]/50 focus:outline-none transition-colors"
+                  >
+                    <option value="">Select a company...</option>
+                    {Array.from(
+                      new Set(users.filter((u) => u.company_id).map((u) => u.company_id as string))
+                    ).map((companyId) => {
+                      const company = users.find((u) => u.company_id === companyId)?.company;
+                      return (
+                        <option key={companyId} value={companyId}>
+                          {company?.name || 'Unknown Company'}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+
+                {loadingProjects && (
+                  <div className="text-xs text-[#111]/55 text-center py-2">
+                    Loading projects...
+                  </div>
+                )}
+
+                {selectedCompanyId && !loadingProjects && (
+                  <div className="text-xs text-[#111]/55">
+                    Showing {userProjects.length} project{userProjects.length !== 1 ? 's' : ''} for{' '}
+                    {users.find((u) => u.company_id === selectedCompanyId)?.company?.name}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Projects List */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-2 min-h-0">
+              {currentProjects.map((project) => (
+                <div key={project.id} className="relative">
+                  <button
+                    onClick={() => {
+                      console.log('Project clicked:', project.title, project.id);
+                      setSelectedProject(project);
+                    }}
+                    className={`w-full text-left p-4 ${project.id !== 'admin-dashboard' && unreadCounts[project.id] > 0 ? 'pr-12' : ''} rounded-lg transition-colors ${selectedProject?.id === project.id
+                      ? 'bg-[#1e6b3c] text-white'
+                      : 'bg-white/80 hover:bg-black/[0.06] text-[#111]'
+                      }`}
+                  >
+                    <h3 className="font-semibold mb-1">{project.title}</h3>
+                    {project.description && (
+                      <p className="text-sm opacity-80 line-clamp-2">
+                        {project.description}
+                      </p>
+                    )}
+                  </button>
+                  {project.id !== 'admin-dashboard' && (
+                    <button
+                      onClick={() => {
+                        setSelectedProject(project);
+                        if (chatState === 'closed' || chatProjectId !== project.id) {
+                          setChatState('sidebar');
+                          setChatProjectId(project.id);
+                        } else {
+                          setChatState('closed');
+                          setChatProjectId(null);
+                        }
+                      }}
+                      className="absolute top-2 right-2 p-2 bg-black/[0.06] rounded-full hover:bg-black/[0.06] transition-colors z-10"
+                    >
+                      <span className="relative inline-block">
+                        {chatState !== 'closed' && chatProjectId === project.id ? (
+                          <X className="w-4 h-4" />
+                        ) : (
+                          <>
+                            {isLoadingUnreadCounts ? (
+                              <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                              <>
+                                <MessageCircle className="w-4 h-4" />
+                                {unreadCounts[project.id] > 0 && (
+                                  <span className="absolute -top-0.5 -right-0.5 bg-[#1e6b3c] text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1.5 shadow-lg border-2 border-background">
+                                    {unreadCounts[project.id] > 99 ? '99+' : unreadCounts[project.id]}
+                                  </span>
+                                )}
+                              </>
+                            )}
+                          </>
+                        )}
+                      </span>
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Chat Button & Logout */}
+
+          </>
+        )}
+      </div>
+
+      {/* Main Content Area - hidden on mobile */}
+      <div className="hidden md:flex flex-1 flex-col overflow-hidden">
+        {/* Top Bar */}
+        <div className="bg-white/80 border-b border-black/[0.08]/50 p-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {/* Toggle Sidebar Button */}
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="p-2 hover:bg-black/[0.05] rounded-lg transition-colors"
+              title={isSidebarOpen ? 'Hide sidebar' : 'Show sidebar'}
+            >
+              {isSidebarOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </button>
+
+            {/* Project Title */}
+            {selectedProject && (
+              <div>
+                <h1 className="font-semibold text-lg">
+                  {selectedProject.title}
+                </h1>
+              </div>
+            )}
+          </div>
+
+          {/* Fullscreen Toggle */}
+          <button
+            onClick={toggleFullscreen}
+            className="flex items-center gap-2 px-4 py-2 bg-black/[0.06] hover:bg-black/[0.06] rounded-lg transition-colors"
+            title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+          >
+            {isFullscreen ? (
+              <>
+                <Minimize2 className="w-4 h-4" />
+                <span className="text-sm">Exit Fullscreen</span>
+              </>
+            ) : (
+              <>
+                <Maximize2 className="w-4 h-4" />
+                <span className="text-sm">Fullscreen</span>
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Iframe Container */}
+        <div className="flex-1 bg-[#F5F5F3] relative">
+          {chatState === 'expanded' ? (
+            <div className="w-full h-full bg-white flex flex-col">
+              <div className="p-4 border-b border-black/[0.08]/50 flex justify-between items-center bg-white/80">
+                <h3 className="font-bold">
+                  {getProjectForChat()?.title}
+                </h3>
+                <div className="flex items-center gap-1">
+                  {isSuperAdmin && (
+                    <button
+                      onClick={deleteEntireChat}
+                      className="p-2 hover:bg-[#1e6b3c]/20 rounded-lg text-[#1e6b3c] transition-colors"
+                      title="Delete entire chat"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setChatState('sidebar')}
+                    className="p-2 hover:bg-black/[0.05] rounded-lg transition-colors"
+                  >
+                    <Minimize2 className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => setChatState('closed')}
+                    className="p-2 hover:bg-black/[0.05] rounded-lg transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+              <div ref={chatContainerRef} className="flex-1 p-4 overflow-y-auto flex flex-col bg-[#F5F5F3]/50">
+                <div className="space-y-4">
+                  {messages.map((msg, index) => {
+                    const firstUnreadIndex = getFirstUnreadIndex();
+                    const showSeparator = firstUnreadIndex >= 0 && index === firstUnreadIndex;
+                    
+                    return (
+                      <Fragment key={msg.id}>
+                        {showSeparator && (
+                          <div className="relative my-4">
+                            <div className="absolute inset-0 flex items-center">
+                              <div className="w-full border-t border-dashed border-muted-foreground/30"></div>
+                            </div>
+                            <div className="relative flex justify-center">
+                              <span className="bg-[#F5F5F3] px-2 text-xs text-[#111]/55">New messages</span>
+                            </div>
+                          </div>
+                        )}
+                        <div
+                          className={`flex flex-col ${msg.userId === sessionAuthUserId ? 'items-end' : 'items-start'
+                            }`}
+                        >
+                      <p className="text-xs text-[#111]/55 mb-1 px-1">
+                        {msg.userId === sessionAuthUserId ? 'You' : (msg.userName || 'Vercatryx')}
+                      </p>
+                      <div
+                        className={`rounded-lg px-3 py-2 max-w-md ${msg.userId === sessionAuthUserId
+                          ? 'bg-[#1e6b3c] text-white'
+                          : 'bg-black/[0.04] border border-black/[0.08] text-[#111]'
+                          }`}
+                      >
+                        {msg.message && msg.message.trim() && (
+                          <p className={msg.message.includes('was deleted') ? 'italic text-[#111]/55' : ''}>
+                            {msg.message}
+                          </p>
+                        )}
+                        {msg.attachments && msg.attachments.length > 0 && (
+                          <div className={msg.message && msg.message.trim() ? "mt-2 space-y-2" : "space-y-2"}>
+                            {msg.attachments.map((attachment, idx) => (
+                              <div key={idx} className="relative group">
+                                {attachment.type === 'image' ? (
+                                  <div className="relative">
+                                    <a href={attachment.url} target="_blank" rel="noopener noreferrer">
+                                      <img
+                                        src={attachment.url}
+                                        alt={attachment.filename}
+                                        className="max-w-full rounded border border-black/[0.08]"
+                                        style={{ maxHeight: '300px' }}
+                                      />
+                                    </a>
+                                    {isAdmin && (
+                                      <button
+                                        onClick={() => deleteAttachment(msg.id, attachment.url, attachment.filename)}
+                                        className="absolute top-1 right-1 bg-[#1e6b3c] hover:bg-[#2e9e58] rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        title="Delete attachment"
+                                      >
+                                        <Trash2 className="w-3 h-3" />
+                                      </button>
+                                    )}
+                                  </div>
+                                ) : attachment.type === 'voice' ? (
+                                  <div className="flex items-center gap-2 bg-black/[0.04] rounded px-3 py-2">
+                                    <Mic className="w-4 h-4 text-steel" />
+                                    <audio
+                                      controls
+                                      preload="metadata"
+                                      controlsList="nodownload"
+                                      className="h-8 flex-1"
+                                      style={{ maxWidth: '200px' }}
+                                    >
+                                      <source src={attachment.url} type={attachment.mimeType} />
+                                      Your browser does not support audio playback.
+                                    </audio>
+                                    {attachment.duration && (
+                                      <span className="text-xs text-[#111]/55">{formatTime(attachment.duration)}</span>
+                                    )}
+                                    {isAdmin && (
+                                      <button
+                                        onClick={() => deleteAttachment(msg.id, attachment.url, attachment.filename)}
+                                        className="text-[#1e6b3c] hover:text-coral"
+                                        title="Delete voice note"
+                                      >
+                                        <Trash2 className="w-3 h-3" />
+                                      </button>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center gap-2 bg-black/[0.04] rounded px-2 py-1 text-xs">
+                                    <a
+                                      href={attachment.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="flex items-center gap-2 flex-1 hover:text-[#111]"
+                                    >
+                                      <FileIcon className="w-4 h-4" />
+                                      <span className="flex-1 truncate">{attachment.filename}</span>
+                                      <Download className="w-3 h-3" />
+                                    </a>
+                                    {isAdmin && (
+                                      <button
+                                        onClick={() => deleteAttachment(msg.id, attachment.url, attachment.filename)}
+                                        className="text-[#1e6b3c] hover:text-coral ml-1"
+                                        title="Delete attachment"
+                                      >
+                                        <Trash2 className="w-3 h-3" />
+                                      </button>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <p className="text-xs opacity-70 text-right mt-1">
+                          {new Date(msg.timestamp).toLocaleTimeString()}
+                        </p>
+                      </div>
+                    </div>
+                    </Fragment>
+                  );
+                  })}
+                </div>
+              </div>
+              <div className="p-4 border-t border-black/[0.08]/50 bg-white/70">
+                {selectedFiles.length > 0 && (
+                  <div className="mb-2 space-y-1">
+                    {selectedFiles.map((file, index) => (
+                      <div key={index} className="flex items-center gap-2 bg-black/[0.06]/70 rounded px-2 py-1 text-xs">
+                        {file.type.startsWith('image/') ? (
+                          <ImageIcon className="w-3 h-3" />
+                        ) : (
+                          <FileIcon className="w-3 h-3" />
+                        )}
+                        <span className="flex-1 truncate">{file.name}</span>
+                        <span className="text-[#111]/55">{formatFileSize(file.size)}</span>
+                        <button
+                          onClick={() => removeFile(index)}
+                          className="text-[#1e6b3c] hover:text-coral"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {audioBlob && (
+                  <div className="mb-2 bg-black/[0.06] rounded px-3 py-2 flex items-center gap-2">
+                    <Mic className="w-4 h-4 text-steel" />
+                    <span className="text-sm flex-1">Voice note ({formatTime(recordingTime)})</span>
+                    <button
+                      onClick={sendVoiceNote}
+                      className="bg-[#1e6b3c] hover:bg-[#2e9e58] rounded px-3 py-1 text-xs"
+                      disabled={uploadingFiles}
+                    >
+                      Send
+                    </button>
+                    <button
+                      onClick={cancelRecording}
+                      className="text-[#1e6b3c] hover:text-coral"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+                {isRecording && (
+                  <div className="mb-2 bg-[#1e6b3c]/20 border border-[#1e6b3c] rounded px-3 py-2 flex items-center gap-2">
+                    <div className="w-3 h-3 bg-[#1e6b3c] rounded-full animate-pulse" />
+                    <span className="text-sm flex-1">Recording... {formatTime(recordingTime)}</span>
+                    <button
+                      onClick={stopRecording}
+                      className="bg-[#1e6b3c] hover:bg-[#2e9e58] rounded-lg p-2"
+                    >
+                      <Square className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+                <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileSelect}
+                    className="hidden"
+                    multiple
+                    accept="image/jpeg,image/png,image/gif,image/webp,application/pdf,.doc,.docx,.xls,.xlsx,.txt"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="bg-black/[0.06] hover:bg-black/[0.04] rounded-lg p-2"
+                    disabled={uploadingFiles || isRecording}
+                  >
+                    <Paperclip className="w-5 h-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={isRecording ? stopRecording : startRecording}
+                    className={`${isRecording ? 'bg-[#1e6b3c] hover:bg-[#2e9e58]' : 'bg-black/[0.06] hover:bg-black/[0.04]'
+                      } rounded-lg p-2`}
+                    disabled={uploadingFiles || audioBlob !== null}
+                  >
+                    <Mic className="w-5 h-5" />
+                  </button>
+                  <input
+                    name="message"
+                    className="w-full bg-black/[0.06] border border-black/[0.08] rounded-lg px-3 py-2 text-[#111] focus:border-[#1e6b3c] outline-none"
+                    placeholder="Type a message..."
+                    disabled={uploadingFiles || isRecording}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        e.currentTarget.form?.requestSubmit();
+                      }
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    className="bg-[#1e6b3c] hover:bg-[#2e9e58] rounded-lg p-2 disabled:opacity-50"
+                    disabled={uploadingFiles || isRecording}
+                  >
+                    {uploadingFiles ? (
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <Send className="w-5 h-5" />
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
+          ) : selectedProject ? (
+            <div className="relative w-full h-full">
+              {isProjectLoading && (
+                <div className="absolute inset-0 bg-[#F5F5F3] flex items-center justify-center z-10">
+                  <div className="flex flex-col items-center gap-3">
+                    <ElsiaaMark
+                      width="300px"
+                      height="300px"
+                      speed={3}
+                    />
+                    <p className="text-[#111]/55 text-lg mt-4">Loading {selectedProject.title}...</p>
+                  </div>
+                </div>
+              )}
+              <iframe
+                ref={iframeRef}
+                className="w-full h-full border-0"
+                title={selectedProject.title}
+                sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation allow-downloads allow-modals allow-pointer-lock allow-presentation"
+                allow="accelerometer; autoplay; clipboard-write; clipboard-read; encrypted-media; gyroscope; picture-in-picture; fullscreen; microphone; camera; geolocation; payment; storage-access-by-user-activation"
+                onLoad={() => {
+                  console.log('Iframe loaded successfully');
+                  setIsProjectLoading(false);
+                }}
+                onError={(e) => {
+                  console.error('Iframe error:', e);
+                  setIsProjectLoading(false);
+                }}
+              />
+            </div>
+          ) : hasNoProjects ? (
+            <div className="flex items-center justify-center h-full bg-[#F5F5F3] text-[#111]">
+              <div className="text-center max-w-md p-8">
+                <div className="mb-4">
+                  <svg className="w-20 h-20 mx-auto text-[#111]/55" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold mb-2 text-[#111]">No Projects Assigned</h2>
+                <p className="text-[#111]/55 mb-6">
+                  You haven't been assigned to any projects yet. Please contact your administrator to get access to projects.
+                </p>
+                <div className="flex flex-col gap-3">
+                  <a
+                    href="/contact"
+                    className="inline-block px-6 py-3 bg-[#1e6b3c] hover:bg-[#2e9e58] rounded-lg transition-colors text-white font-medium"
+                  >
+                    Contact Administrator
+                  </a>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-full bg-[#F5F5F3] text-[#111]">
+              <p className="text-[#111]/55">Select a project from the sidebar</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+    </OpsLightTheme>
+  );
+}

@@ -13,12 +13,13 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as StoreRouteImport } from './routes/store'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as PortalRouteImport } from './routes/portal'
+import { Route as OverviewRouteImport } from './routes/overview'
 import { Route as OrderConfirmationRouteImport } from './routes/order-confirmation'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IntakeRouteImport } from './routes/intake'
@@ -33,16 +34,194 @@ import { Route as CartRouteImport } from './routes/cart'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AutomateRouteImport } from './routes/automate'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PortalIndexRouteImport } from './routes/portal/index'
+import { Route as PaymentsIndexRouteImport } from './routes/payments/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as SignTokenRouteImport } from './routes/sign/$token'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as PortalTimeTrackingRouteImport } from './routes/portal/time-tracking'
+import { Route as PortalSupportRouteImport } from './routes/portal/support'
+import { Route as PortalSignInRouteImport } from './routes/portal/sign-in'
+import { Route as PayTokenRouteImport } from './routes/pay.$token'
 import { Route as LegalTermsRouteImport } from './routes/legal/terms'
 import { Route as LegalPrivacyRouteImport } from './routes/legal/privacy'
 import { Route as ApiQuotesRouteImport } from './routes/api/quotes'
 import { Route as ApiQuoteRouteImport } from './routes/api/quote'
+import { Route as ApiProjectsRouteImport } from './routes/api/projects'
 import { Route as ApiOrdersRouteImport } from './routes/api/orders'
 import { Route as ApiOrderRouteImport } from './routes/api/order'
 import { Route as ApiMeetingsRouteImport } from './routes/api/meetings'
+import { Route as ApiMeetingRequestsRouteImport } from './routes/api/meeting-requests'
 import { Route as ApiMeetingRouteImport } from './routes/api/meeting'
-import { Route as AdminQuotesRouteImport } from './routes/admin/quotes'
+import { Route as ApiEntitlementRouteImport } from './routes/api/entitlement'
+import { Route as ApiCompaniesRouteImport } from './routes/api/companies'
+import { Route as ApiBlockedSlotsRouteImport } from './routes/api/blocked-slots'
+import { Route as AdminSignInRouteImport } from './routes/admin/sign-in'
+import { Route as AdminCalendarRouteImport } from './routes/admin/calendar'
+import { Route as MeetingsMeetingIdJoinRouteImport } from './routes/meetings/$meetingId/join'
+import { Route as ApiWebhooksStripeRouteImport } from './routes/api/webhooks/stripe'
+import { Route as ApiWebhooksClerkRouteImport } from './routes/api/webhooks/clerk'
+import { Route as ApiUsersMeRouteImport } from './routes/api/users/me'
+import { Route as ApiUsersIdRouteImport } from './routes/api/users/$id'
+import { Route as ApiTimeTrackingTimerRouteImport } from './routes/api/time-tracking/timer'
+import { Route as ApiTimeTrackingTasksRouteImport } from './routes/api/time-tracking/tasks'
+import { Route as ApiTimeTrackingRunningSyncRouteImport } from './routes/api/time-tracking/running-sync'
+import { Route as ApiTimeTrackingReportRouteImport } from './routes/api/time-tracking/report'
+import { Route as ApiTimeTrackingOverviewRouteImport } from './routes/api/time-tracking/overview'
+import { Route as ApiTimeTrackingExportRouteImport } from './routes/api/time-tracking/export'
+import { Route as ApiTimeTrackingEntriesRouteImport } from './routes/api/time-tracking/entries'
+import { Route as ApiTimeTrackingClientsRouteImport } from './routes/api/time-tracking/clients'
+import { Route as ApiSupportThreadsRouteImport } from './routes/api/support/threads'
+import { Route as ApiSupportAttachmentPreviewRouteImport } from './routes/api/support/attachment-preview'
+import { Route as ApiSubscriptionsProcessDueRouteImport } from './routes/api/subscriptions/process-due'
+import { Route as ApiPublicUploadTokenRouteImport } from './routes/api/public-upload/$token'
+import { Route as ApiProjectsIdRouteImport } from './routes/api/projects/$id'
+import { Route as ApiPdfSignaturesRequestsRouteImport } from './routes/api/pdf-signatures/requests'
+import { Route as ApiPaymentsUpdateStatusRouteImport } from './routes/api/payments/update-status'
+import { Route as ApiPaymentsSendReceiptRouteImport } from './routes/api/payments/send-receipt'
+import { Route as ApiPaymentsSendInvoiceRouteImport } from './routes/api/payments/send-invoice'
+import { Route as ApiPaymentsSavedMethodsRouteImport } from './routes/api/payments/saved-methods'
+import { Route as ApiPaymentsSavePaymentMethodToAccountRouteImport } from './routes/api/payments/save-payment-method-to-account'
+import { Route as ApiPaymentsSavePaymentMethodRouteImport } from './routes/api/payments/save-payment-method'
+import { Route as ApiPaymentsRequestRouteImport } from './routes/api/payments/request'
+import { Route as ApiPaymentsRecordSuccessRouteImport } from './routes/api/payments/record-success'
+import { Route as ApiPaymentsPaymentIntentMethodRouteImport } from './routes/api/payments/payment-intent-method'
+import { Route as ApiPaymentsNotifyPaymentRouteImport } from './routes/api/payments/notify-payment'
+import { Route as ApiPaymentsDocumentRouteImport } from './routes/api/payments/document'
+import { Route as ApiPaymentsCreateSetupIntentAccountRouteImport } from './routes/api/payments/create-setup-intent-account'
+import { Route as ApiPaymentsCreateSetupIntentRouteImport } from './routes/api/payments/create-setup-intent'
+import { Route as ApiPaymentsCreateIntentRouteImport } from './routes/api/payments/create-intent'
+import { Route as ApiMeetingsUpcomingRouteImport } from './routes/api/meetings/upcoming'
+import { Route as ApiMeetingsMeetingIdRouteImport } from './routes/api/meetings/$meetingId'
+import { Route as ApiMeetingRequestsAvailableSlotsRouteImport } from './routes/api/meeting-requests/available-slots'
+import { Route as ApiMeetingRequestsIdRouteImport } from './routes/api/meeting-requests/$id'
+import { Route as ApiExtensionRepoListRouteImport } from './routes/api/extension/repo-list'
+import { Route as ApiExtensionGithubCheckRouteImport } from './routes/api/extension/github-check'
+import { Route as ApiExtensionConfigRouteImport } from './routes/api/extension/config'
+import { Route as ApiEntitlementRequestDeviceRouteImport } from './routes/api/entitlement/request-device'
+import { Route as ApiEntitlementDevicesRouteImport } from './routes/api/entitlement/devices'
+import { Route as ApiDebugLogRouteImport } from './routes/api/debug/log'
+import { Route as ApiCronBillingRouteImport } from './routes/api/cron/billing'
+import { Route as ApiCompaniesIdRouteImport } from './routes/api/companies/$id'
+import { Route as ApiClerkUsersRouteImport } from './routes/api/clerk/users'
+import { Route as ApiChatProjectIdRouteImport } from './routes/api/chat/$projectId'
+import { Route as ApiBlockedSlotsIdRouteImport } from './routes/api/blocked-slots/$id'
+import { Route as ApiAvailabilityCheckRouteImport } from './routes/api/availability/check'
+import { Route as ApiAuthSignOutRouteImport } from './routes/api/auth/sign-out'
+import { Route as ApiAdminUsersRouteImport } from './routes/api/admin/users'
+import { Route as ApiAdminSupportAgentsRouteImport } from './routes/api/admin/support-agents'
+import { Route as ApiAdminProjectsRouteImport } from './routes/api/admin/projects'
+import { Route as ApiAdminPaymentsRouteImport } from './routes/api/admin/payments'
+import { Route as ApiAdminLeadMeetingsRouteImport } from './routes/api/admin/lead-meetings'
+import { Route as ApiAdminCompanyFilesRouteImport } from './routes/api/admin/company-files'
+import { Route as ApiAdminBillsRouteImport } from './routes/api/admin/bills'
+import { Route as AdminSignaturesIdRouteImport } from './routes/admin/signatures/$id'
+import { Route as ApiWebhooksClerkSyncUserRouteImport } from './routes/api/webhooks/clerk/sync-user'
+import { Route as ApiUsersIdProjectsRouteImport } from './routes/api/users/$id/projects'
+import { Route as ApiUsersIdInviteRouteImport } from './routes/api/users/$id/invite'
+import { Route as ApiTimeTrackingTasksIdRouteImport } from './routes/api/time-tracking/tasks/$id'
+import { Route as ApiTimeTrackingEntriesIdRouteImport } from './routes/api/time-tracking/entries/$id'
+import { Route as ApiTimeTrackingClientsIdRouteImport } from './routes/api/time-tracking/clients/$id'
+import { Route as ApiShareCompanyFilesZipRouteImport } from './routes/api/share/company-files/zip'
+import { Route as ApiPublicUploadTokenPresignRouteImport } from './routes/api/public-upload/$token/presign'
+import { Route as ApiPublicUploadTokenCompleteRouteImport } from './routes/api/public-upload/$token/complete'
+import { Route as ApiProjectsProxyIdRouteImport } from './routes/api/projects/proxy/$id'
+import { Route as ApiProjectsIdSubscriptionsRouteImport } from './routes/api/projects/$id/subscriptions'
+import { Route as ApiProjectsIdProgramLogsRouteImport } from './routes/api/projects/$id/program-logs'
+import { Route as ApiProjectsIdProgramLogIngestUrlRouteImport } from './routes/api/projects/$id/program-log-ingest-url'
+import { Route as ApiProjectsIdGithubStatusRouteImport } from './routes/api/projects/$id/github-status'
+import { Route as ApiProjectsIdGithubRefRouteImport } from './routes/api/projects/$id/github-ref'
+import { Route as ApiProjectsIdGithubCommitsRouteImport } from './routes/api/projects/$id/github-commits'
+import { Route as ApiProjectsIdFeesRouteImport } from './routes/api/projects/$id/fees'
+import { Route as ApiProjectsIdFeaturesRouteImport } from './routes/api/projects/$id/features'
+import { Route as ApiProjectsIdDeviceLimitRouteImport } from './routes/api/projects/$id/device-limit'
+import { Route as ApiProjectsIdAuthDevicesRouteImport } from './routes/api/projects/$id/auth-devices'
+import { Route as ApiProjectsIdApiKeyRouteImport } from './routes/api/projects/$id/api-key'
+import { Route as ApiProjectsIdAccessOverrideRouteImport } from './routes/api/projects/$id/access-override'
+import { Route as ApiPdfSignaturesRequestsIdRouteImport } from './routes/api/pdf-signatures/requests/$id'
+import { Route as ApiPdfSignaturesPublicTokenRouteImport } from './routes/api/pdf-signatures/public/$token'
+import { Route as ApiMeetingsMeetingIdTokenRouteImport } from './routes/api/meetings/$meetingId/token'
+import { Route as ApiMeetingsMeetingIdDocumentsRouteImport } from './routes/api/meetings/$meetingId/documents'
+import { Route as ApiMailV1SendRouteImport } from './routes/api/mail/v1/send'
+import { Route as ApiExtensionScriptsNameRouteImport } from './routes/api/extension/scripts/$name'
+import { Route as ApiExtensionProjectConfigRouteImport } from './routes/api/extension/project/config'
+import { Route as ApiCompaniesIdUsersRouteImport } from './routes/api/companies/$id/users'
+import { Route as ApiCompaniesIdProjectsRouteImport } from './routes/api/companies/$id/projects'
+import { Route as ApiCompaniesIdPaymentStatusRouteImport } from './routes/api/companies/$id/payment-status'
+import { Route as ApiCompaniesIdFeesAndSubscriptionsRouteImport } from './routes/api/companies/$id/fees-and-subscriptions'
+import { Route as ApiChatProjectIdUploadRouteImport } from './routes/api/chat/$projectId/upload'
+import { Route as ApiChatProjectIdDeleteAttachmentRouteImport } from './routes/api/chat/$projectId/delete-attachment'
+import { Route as ApiChatProjectIdDeleteRouteImport } from './routes/api/chat/$projectId/delete'
+import { Route as ApiAvailabilityStatusIdRouteImport } from './routes/api/availability/status/$id'
+import { Route as ApiAvailabilityRespondIdRouteImport } from './routes/api/availability/respond/$id'
+import { Route as ApiAdminSupportAgentsUserIdRouteImport } from './routes/api/admin/support-agents/$userId'
+import { Route as ApiAdminPaymentsWithProjectsRouteImport } from './routes/api/admin/payments/with-projects'
+import { Route as ApiAdminPaymentsTestStripeKeysRouteImport } from './routes/api/admin/payments/test-stripe-keys'
+import { Route as ApiAdminPaymentsSendInvoiceRouteImport } from './routes/api/admin/payments/send-invoice'
+import { Route as ApiAdminPaymentsRunCompanyBillingRouteImport } from './routes/api/admin/payments/run-company-billing'
+import { Route as ApiAdminPaymentsResolveRequestRouteImport } from './routes/api/admin/payments/resolve-request'
+import { Route as ApiAdminPaymentsProjectTransactionsRouteImport } from './routes/api/admin/payments/project-transactions'
+import { Route as ApiAdminPaymentsPayNowRouteImport } from './routes/api/admin/payments/pay-now'
+import { Route as ApiAdminPaymentsFailureReasonsRouteImport } from './routes/api/admin/payments/failure-reasons'
+import { Route as ApiAdminPaymentsBillingHistoryRouteImport } from './routes/api/admin/payments/billing-history'
+import { Route as ApiAdminPaymentsBillingDryRunRouteImport } from './routes/api/admin/payments/billing-dry-run'
+import { Route as ApiAdminPaymentsBillRouteImport } from './routes/api/admin/payments/bill'
+import { Route as ApiAdminPaymentsAttachMethodRouteImport } from './routes/api/admin/payments/attach-method'
+import { Route as ApiAdminPaymentsAttachDefaultToCompanyRouteImport } from './routes/api/admin/payments/attach-default-to-company'
+import { Route as ApiAdminPaymentsIdRouteImport } from './routes/api/admin/payments/$id'
+import { Route as ApiAdminCompanyFilesZipRouteImport } from './routes/api/admin/company-files/zip'
+import { Route as ApiAdminCompanyFilesUploadLinkRouteImport } from './routes/api/admin/company-files/upload-link'
+import { Route as ApiAdminCompanyFilesShareLinkRouteImport } from './routes/api/admin/company-files/share-link'
+import { Route as ApiAdminCompanyFilesPresignBatchRouteImport } from './routes/api/admin/company-files/presign-batch'
+import { Route as ApiAdminCompanyFilesPresignRouteImport } from './routes/api/admin/company-files/presign'
+import { Route as ApiAdminCompanyFilesMoveRouteImport } from './routes/api/admin/company-files/move'
+import { Route as ApiAdminCompanyFilesFolderRouteImport } from './routes/api/admin/company-files/folder'
+import { Route as ApiAdminCompanyFilesDownloadRouteImport } from './routes/api/admin/company-files/download'
+import { Route as ApiAdminBillsIdRouteImport } from './routes/api/admin/bills/$id'
+import { Route as ApiAdminBillingSubscriptionsBatchRouteImport } from './routes/api/admin/billing/subscriptions-batch'
+import { Route as ApiAdminBillingRunTodayRouteImport } from './routes/api/admin/billing/run-today'
+import { Route as ApiAdminBillingHistoryRouteImport } from './routes/api/admin/billing/history'
+import { Route as ApiSupportThreadsIdUploadRouteImport } from './routes/api/support/threads/$id/upload'
+import { Route as ApiSupportThreadsIdParticipantsRouteImport } from './routes/api/support/threads/$id/participants'
+import { Route as ApiSupportThreadsIdMessagesRouteImport } from './routes/api/support/threads/$id/messages'
+import { Route as ApiProjectsIdSubscriptionsSubscriptionIdRouteImport } from './routes/api/projects/$id/subscriptions/$subscriptionId'
+import { Route as ApiProjectsIdProgramLogsLogIdRouteImport } from './routes/api/projects/$id/program-logs/$logId'
+import { Route as ApiProjectsIdAuthDevicesDeviceIdRouteImport } from './routes/api/projects/$id/auth-devices/$deviceId'
+import { Route as ApiPdfSignaturesRequestsIdSignaturesRouteImport } from './routes/api/pdf-signatures/requests/$id/signatures'
+import { Route as ApiPdfSignaturesRequestsIdPdfRouteImport } from './routes/api/pdf-signatures/requests/$id/pdf'
+import { Route as ApiPdfSignaturesRequestsIdFieldsRouteImport } from './routes/api/pdf-signatures/requests/$id/fields'
+import { Route as ApiPdfSignaturesPublicTokenSubmitRouteImport } from './routes/api/pdf-signatures/public/$token/submit'
+import { Route as ApiPdfSignaturesPublicTokenSignedPdfRouteImport } from './routes/api/pdf-signatures/public/$token/signed-pdf'
+import { Route as ApiPdfSignaturesPublicTokenSignRouteImport } from './routes/api/pdf-signatures/public/$token/sign'
+import { Route as ApiPdfSignaturesPublicTokenPdfRouteImport } from './routes/api/pdf-signatures/public/$token/pdf'
+import { Route as ApiPdfSignaturesPublicTokenEmailRouteImport } from './routes/api/pdf-signatures/public/$token/email'
+import { Route as ApiMailV1SendBatchRouteImport } from './routes/api/mail/v1/send/batch'
+import { Route as ApiIngestProgramLogsProjectIdTokenRouteImport } from './routes/api/ingest/program-logs/$projectId/$token'
+import { Route as ApiExtensionProjectScriptsNameRouteImport } from './routes/api/extension/project/scripts/$name'
+import { Route as ApiAdminProjectsIdExtensionSourceRouteImport } from './routes/api/admin/projects/$id/extension-source'
+import { Route as ApiAdminPaymentsIdTransactionsRouteImport } from './routes/api/admin/payments/$id/transactions'
+import { Route as ApiAdminPaymentsIdReceiptRouteImport } from './routes/api/admin/payments/$id/receipt'
+import { Route as ApiAdminPaymentsIdMarkPaidRouteImport } from './routes/api/admin/payments/$id/mark-paid'
+import { Route as ApiAdminPaymentsIdInvoiceRouteImport } from './routes/api/admin/payments/$id/invoice'
+import { Route as ApiAdminPaymentsIdFailureReasonRouteImport } from './routes/api/admin/payments/$id/failure-reason'
+import { Route as ApiAdminPaymentsIdBillingsRouteImport } from './routes/api/admin/payments/$id/billings'
+import { Route as ApiAdminCompaniesCompanyIdAuthorizationsDataRouteImport } from './routes/api/admin/companies/$companyId/authorizations-data'
+import { Route as ApiAdminBillsIdSendInvoiceRouteImport } from './routes/api/admin/bills/$id/send-invoice'
+import { Route as ApiAdminBillsIdResumeRouteImport } from './routes/api/admin/bills/$id/resume'
+import { Route as ApiAdminBillsIdReceiptRouteImport } from './routes/api/admin/bills/$id/receipt'
+import { Route as ApiAdminBillsIdPauseRouteImport } from './routes/api/admin/bills/$id/pause'
+import { Route as ApiAdminBillsIdMarkPaidRouteImport } from './routes/api/admin/bills/$id/mark-paid'
+import { Route as ApiAdminBillsIdDuplicateRouteImport } from './routes/api/admin/bills/$id/duplicate'
+import { Route as ApiAdminBillsIdChargesRouteImport } from './routes/api/admin/bills/$id/charges'
+import { Route as ApiAdminBillsIdChargeNowRouteImport } from './routes/api/admin/bills/$id/charge-now'
+import { Route as ApiAdminBillsIdActivateRouteImport } from './routes/api/admin/bills/$id/activate'
+import { Route as ApiSupportThreadsIdMessagesMessageIdRouteImport } from './routes/api/support/threads/$id/messages/$messageId'
+import { Route as ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRouteImport } from './routes/api/projects/$id/subscriptions/$subscriptionId/transactions'
+import { Route as ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRouteImport } from './routes/api/projects/$id/subscriptions/$subscriptionId/mark-completed'
+import { Route as ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRouteImport } from './routes/api/projects/$id/subscriptions/$subscriptionId/create-payment'
+import { Route as ApiProjectsIdFeesFeeIdTransactionsRouteImport } from './routes/api/projects/$id/fees/$feeId/transactions'
+import { Route as ApiProjectsIdFeesFeeIdMarkCompletedRouteImport } from './routes/api/projects/$id/fees/$feeId/mark-completed'
+import { Route as ApiProjectsIdFeesFeeIdCreatePaymentRouteImport } from './routes/api/projects/$id/fees/$feeId/create-payment'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -62,6 +241,11 @@ const StoreRoute = StoreRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignUpRoute = SignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -89,9 +273,9 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PortalRoute = PortalRouteImport.update({
-  id: '/portal',
-  path: '/portal',
+const OverviewRoute = OverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OrderConfirmationRoute = OrderConfirmationRouteImport.update({
@@ -164,9 +348,49 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalIndexRoute = PortalIndexRouteImport.update({
+  id: '/portal/',
+  path: '/portal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsIndexRoute = PaymentsIndexRouteImport.update({
+  id: '/payments/',
+  path: '/payments/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignTokenRoute = SignTokenRouteImport.update({
+  id: '/sign/$token',
+  path: '/sign/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductSlugRoute = ProductSlugRouteImport.update({
   id: '/product/$slug',
   path: '/product/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalTimeTrackingRoute = PortalTimeTrackingRouteImport.update({
+  id: '/portal/time-tracking',
+  path: '/portal/time-tracking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalSupportRoute = PortalSupportRouteImport.update({
+  id: '/portal/support',
+  path: '/portal/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalSignInRoute = PortalSignInRouteImport.update({
+  id: '/portal/sign-in',
+  path: '/portal/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PayTokenRoute = PayTokenRouteImport.update({
+  id: '/pay/$token',
+  path: '/pay/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalTermsRoute = LegalTermsRouteImport.update({
@@ -189,6 +413,11 @@ const ApiQuoteRoute = ApiQuoteRouteImport.update({
   path: '/api/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProjectsRoute = ApiProjectsRouteImport.update({
+  id: '/api/projects',
+  path: '/api/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiOrdersRoute = ApiOrdersRouteImport.update({
   id: '/api/orders',
   path: '/api/orders',
@@ -204,16 +433,950 @@ const ApiMeetingsRoute = ApiMeetingsRouteImport.update({
   path: '/api/meetings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMeetingRequestsRoute = ApiMeetingRequestsRouteImport.update({
+  id: '/api/meeting-requests',
+  path: '/api/meeting-requests',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiMeetingRoute = ApiMeetingRouteImport.update({
   id: '/api/meeting',
   path: '/api/meeting',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminQuotesRoute = AdminQuotesRouteImport.update({
-  id: '/admin/quotes',
-  path: '/admin/quotes',
+const ApiEntitlementRoute = ApiEntitlementRouteImport.update({
+  id: '/api/entitlement',
+  path: '/api/entitlement',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCompaniesRoute = ApiCompaniesRouteImport.update({
+  id: '/api/companies',
+  path: '/api/companies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiBlockedSlotsRoute = ApiBlockedSlotsRouteImport.update({
+  id: '/api/blocked-slots',
+  path: '/api/blocked-slots',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSignInRoute = AdminSignInRouteImport.update({
+  id: '/admin/sign-in',
+  path: '/admin/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCalendarRoute = AdminCalendarRouteImport.update({
+  id: '/admin/calendar',
+  path: '/admin/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeetingsMeetingIdJoinRoute = MeetingsMeetingIdJoinRouteImport.update({
+  id: '/meetings/$meetingId/join',
+  path: '/meetings/$meetingId/join',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWebhooksStripeRoute = ApiWebhooksStripeRouteImport.update({
+  id: '/api/webhooks/stripe',
+  path: '/api/webhooks/stripe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWebhooksClerkRoute = ApiWebhooksClerkRouteImport.update({
+  id: '/api/webhooks/clerk',
+  path: '/api/webhooks/clerk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiUsersMeRoute = ApiUsersMeRouteImport.update({
+  id: '/api/users/me',
+  path: '/api/users/me',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiUsersIdRoute = ApiUsersIdRouteImport.update({
+  id: '/api/users/$id',
+  path: '/api/users/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTimeTrackingTimerRoute = ApiTimeTrackingTimerRouteImport.update({
+  id: '/api/time-tracking/timer',
+  path: '/api/time-tracking/timer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTimeTrackingTasksRoute = ApiTimeTrackingTasksRouteImport.update({
+  id: '/api/time-tracking/tasks',
+  path: '/api/time-tracking/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTimeTrackingRunningSyncRoute =
+  ApiTimeTrackingRunningSyncRouteImport.update({
+    id: '/api/time-tracking/running-sync',
+    path: '/api/time-tracking/running-sync',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiTimeTrackingReportRoute = ApiTimeTrackingReportRouteImport.update({
+  id: '/api/time-tracking/report',
+  path: '/api/time-tracking/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTimeTrackingOverviewRoute = ApiTimeTrackingOverviewRouteImport.update({
+  id: '/api/time-tracking/overview',
+  path: '/api/time-tracking/overview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTimeTrackingExportRoute = ApiTimeTrackingExportRouteImport.update({
+  id: '/api/time-tracking/export',
+  path: '/api/time-tracking/export',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTimeTrackingEntriesRoute = ApiTimeTrackingEntriesRouteImport.update({
+  id: '/api/time-tracking/entries',
+  path: '/api/time-tracking/entries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTimeTrackingClientsRoute = ApiTimeTrackingClientsRouteImport.update({
+  id: '/api/time-tracking/clients',
+  path: '/api/time-tracking/clients',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSupportThreadsRoute = ApiSupportThreadsRouteImport.update({
+  id: '/api/support/threads',
+  path: '/api/support/threads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSupportAttachmentPreviewRoute =
+  ApiSupportAttachmentPreviewRouteImport.update({
+    id: '/api/support/attachment-preview',
+    path: '/api/support/attachment-preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiSubscriptionsProcessDueRoute =
+  ApiSubscriptionsProcessDueRouteImport.update({
+    id: '/api/subscriptions/process-due',
+    path: '/api/subscriptions/process-due',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicUploadTokenRoute = ApiPublicUploadTokenRouteImport.update({
+  id: '/api/public-upload/$token',
+  path: '/api/public-upload/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiProjectsIdRoute = ApiProjectsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiProjectsRoute,
+} as any)
+const ApiPdfSignaturesRequestsRoute =
+  ApiPdfSignaturesRequestsRouteImport.update({
+    id: '/api/pdf-signatures/requests',
+    path: '/api/pdf-signatures/requests',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPaymentsUpdateStatusRoute = ApiPaymentsUpdateStatusRouteImport.update({
+  id: '/api/payments/update-status',
+  path: '/api/payments/update-status',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaymentsSendReceiptRoute = ApiPaymentsSendReceiptRouteImport.update({
+  id: '/api/payments/send-receipt',
+  path: '/api/payments/send-receipt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaymentsSendInvoiceRoute = ApiPaymentsSendInvoiceRouteImport.update({
+  id: '/api/payments/send-invoice',
+  path: '/api/payments/send-invoice',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaymentsSavedMethodsRoute = ApiPaymentsSavedMethodsRouteImport.update({
+  id: '/api/payments/saved-methods',
+  path: '/api/payments/saved-methods',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaymentsSavePaymentMethodToAccountRoute =
+  ApiPaymentsSavePaymentMethodToAccountRouteImport.update({
+    id: '/api/payments/save-payment-method-to-account',
+    path: '/api/payments/save-payment-method-to-account',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPaymentsSavePaymentMethodRoute =
+  ApiPaymentsSavePaymentMethodRouteImport.update({
+    id: '/api/payments/save-payment-method',
+    path: '/api/payments/save-payment-method',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPaymentsRequestRoute = ApiPaymentsRequestRouteImport.update({
+  id: '/api/payments/request',
+  path: '/api/payments/request',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaymentsRecordSuccessRoute =
+  ApiPaymentsRecordSuccessRouteImport.update({
+    id: '/api/payments/record-success',
+    path: '/api/payments/record-success',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPaymentsPaymentIntentMethodRoute =
+  ApiPaymentsPaymentIntentMethodRouteImport.update({
+    id: '/api/payments/payment-intent-method',
+    path: '/api/payments/payment-intent-method',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPaymentsNotifyPaymentRoute =
+  ApiPaymentsNotifyPaymentRouteImport.update({
+    id: '/api/payments/notify-payment',
+    path: '/api/payments/notify-payment',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPaymentsDocumentRoute = ApiPaymentsDocumentRouteImport.update({
+  id: '/api/payments/document',
+  path: '/api/payments/document',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaymentsCreateSetupIntentAccountRoute =
+  ApiPaymentsCreateSetupIntentAccountRouteImport.update({
+    id: '/api/payments/create-setup-intent-account',
+    path: '/api/payments/create-setup-intent-account',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPaymentsCreateSetupIntentRoute =
+  ApiPaymentsCreateSetupIntentRouteImport.update({
+    id: '/api/payments/create-setup-intent',
+    path: '/api/payments/create-setup-intent',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPaymentsCreateIntentRoute = ApiPaymentsCreateIntentRouteImport.update({
+  id: '/api/payments/create-intent',
+  path: '/api/payments/create-intent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiMeetingsUpcomingRoute = ApiMeetingsUpcomingRouteImport.update({
+  id: '/upcoming',
+  path: '/upcoming',
+  getParentRoute: () => ApiMeetingsRoute,
+} as any)
+const ApiMeetingsMeetingIdRoute = ApiMeetingsMeetingIdRouteImport.update({
+  id: '/$meetingId',
+  path: '/$meetingId',
+  getParentRoute: () => ApiMeetingsRoute,
+} as any)
+const ApiMeetingRequestsAvailableSlotsRoute =
+  ApiMeetingRequestsAvailableSlotsRouteImport.update({
+    id: '/available-slots',
+    path: '/available-slots',
+    getParentRoute: () => ApiMeetingRequestsRoute,
+  } as any)
+const ApiMeetingRequestsIdRoute = ApiMeetingRequestsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiMeetingRequestsRoute,
+} as any)
+const ApiExtensionRepoListRoute = ApiExtensionRepoListRouteImport.update({
+  id: '/api/extension/repo-list',
+  path: '/api/extension/repo-list',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiExtensionGithubCheckRoute = ApiExtensionGithubCheckRouteImport.update({
+  id: '/api/extension/github-check',
+  path: '/api/extension/github-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiExtensionConfigRoute = ApiExtensionConfigRouteImport.update({
+  id: '/api/extension/config',
+  path: '/api/extension/config',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEntitlementRequestDeviceRoute =
+  ApiEntitlementRequestDeviceRouteImport.update({
+    id: '/request-device',
+    path: '/request-device',
+    getParentRoute: () => ApiEntitlementRoute,
+  } as any)
+const ApiEntitlementDevicesRoute = ApiEntitlementDevicesRouteImport.update({
+  id: '/devices',
+  path: '/devices',
+  getParentRoute: () => ApiEntitlementRoute,
+} as any)
+const ApiDebugLogRoute = ApiDebugLogRouteImport.update({
+  id: '/api/debug/log',
+  path: '/api/debug/log',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCronBillingRoute = ApiCronBillingRouteImport.update({
+  id: '/api/cron/billing',
+  path: '/api/cron/billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCompaniesIdRoute = ApiCompaniesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiCompaniesRoute,
+} as any)
+const ApiClerkUsersRoute = ApiClerkUsersRouteImport.update({
+  id: '/api/clerk/users',
+  path: '/api/clerk/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiChatProjectIdRoute = ApiChatProjectIdRouteImport.update({
+  id: '/api/chat/$projectId',
+  path: '/api/chat/$projectId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiBlockedSlotsIdRoute = ApiBlockedSlotsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiBlockedSlotsRoute,
+} as any)
+const ApiAvailabilityCheckRoute = ApiAvailabilityCheckRouteImport.update({
+  id: '/api/availability/check',
+  path: '/api/availability/check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthSignOutRoute = ApiAuthSignOutRouteImport.update({
+  id: '/api/auth/sign-out',
+  path: '/api/auth/sign-out',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminUsersRoute = ApiAdminUsersRouteImport.update({
+  id: '/api/admin/users',
+  path: '/api/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminSupportAgentsRoute = ApiAdminSupportAgentsRouteImport.update({
+  id: '/api/admin/support-agents',
+  path: '/api/admin/support-agents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminProjectsRoute = ApiAdminProjectsRouteImport.update({
+  id: '/api/admin/projects',
+  path: '/api/admin/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminPaymentsRoute = ApiAdminPaymentsRouteImport.update({
+  id: '/api/admin/payments',
+  path: '/api/admin/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminLeadMeetingsRoute = ApiAdminLeadMeetingsRouteImport.update({
+  id: '/api/admin/lead-meetings',
+  path: '/api/admin/lead-meetings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminCompanyFilesRoute = ApiAdminCompanyFilesRouteImport.update({
+  id: '/api/admin/company-files',
+  path: '/api/admin/company-files',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminBillsRoute = ApiAdminBillsRouteImport.update({
+  id: '/api/admin/bills',
+  path: '/api/admin/bills',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSignaturesIdRoute = AdminSignaturesIdRouteImport.update({
+  id: '/admin/signatures/$id',
+  path: '/admin/signatures/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWebhooksClerkSyncUserRoute =
+  ApiWebhooksClerkSyncUserRouteImport.update({
+    id: '/sync-user',
+    path: '/sync-user',
+    getParentRoute: () => ApiWebhooksClerkRoute,
+  } as any)
+const ApiUsersIdProjectsRoute = ApiUsersIdProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => ApiUsersIdRoute,
+} as any)
+const ApiUsersIdInviteRoute = ApiUsersIdInviteRouteImport.update({
+  id: '/invite',
+  path: '/invite',
+  getParentRoute: () => ApiUsersIdRoute,
+} as any)
+const ApiTimeTrackingTasksIdRoute = ApiTimeTrackingTasksIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiTimeTrackingTasksRoute,
+} as any)
+const ApiTimeTrackingEntriesIdRoute =
+  ApiTimeTrackingEntriesIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => ApiTimeTrackingEntriesRoute,
+  } as any)
+const ApiTimeTrackingClientsIdRoute =
+  ApiTimeTrackingClientsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => ApiTimeTrackingClientsRoute,
+  } as any)
+const ApiShareCompanyFilesZipRoute = ApiShareCompanyFilesZipRouteImport.update({
+  id: '/api/share/company-files/zip',
+  path: '/api/share/company-files/zip',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicUploadTokenPresignRoute =
+  ApiPublicUploadTokenPresignRouteImport.update({
+    id: '/presign',
+    path: '/presign',
+    getParentRoute: () => ApiPublicUploadTokenRoute,
+  } as any)
+const ApiPublicUploadTokenCompleteRoute =
+  ApiPublicUploadTokenCompleteRouteImport.update({
+    id: '/complete',
+    path: '/complete',
+    getParentRoute: () => ApiPublicUploadTokenRoute,
+  } as any)
+const ApiProjectsProxyIdRoute = ApiProjectsProxyIdRouteImport.update({
+  id: '/proxy/$id',
+  path: '/proxy/$id',
+  getParentRoute: () => ApiProjectsRoute,
+} as any)
+const ApiProjectsIdSubscriptionsRoute =
+  ApiProjectsIdSubscriptionsRouteImport.update({
+    id: '/subscriptions',
+    path: '/subscriptions',
+    getParentRoute: () => ApiProjectsIdRoute,
+  } as any)
+const ApiProjectsIdProgramLogsRoute =
+  ApiProjectsIdProgramLogsRouteImport.update({
+    id: '/program-logs',
+    path: '/program-logs',
+    getParentRoute: () => ApiProjectsIdRoute,
+  } as any)
+const ApiProjectsIdProgramLogIngestUrlRoute =
+  ApiProjectsIdProgramLogIngestUrlRouteImport.update({
+    id: '/program-log-ingest-url',
+    path: '/program-log-ingest-url',
+    getParentRoute: () => ApiProjectsIdRoute,
+  } as any)
+const ApiProjectsIdGithubStatusRoute =
+  ApiProjectsIdGithubStatusRouteImport.update({
+    id: '/github-status',
+    path: '/github-status',
+    getParentRoute: () => ApiProjectsIdRoute,
+  } as any)
+const ApiProjectsIdGithubRefRoute = ApiProjectsIdGithubRefRouteImport.update({
+  id: '/github-ref',
+  path: '/github-ref',
+  getParentRoute: () => ApiProjectsIdRoute,
+} as any)
+const ApiProjectsIdGithubCommitsRoute =
+  ApiProjectsIdGithubCommitsRouteImport.update({
+    id: '/github-commits',
+    path: '/github-commits',
+    getParentRoute: () => ApiProjectsIdRoute,
+  } as any)
+const ApiProjectsIdFeesRoute = ApiProjectsIdFeesRouteImport.update({
+  id: '/fees',
+  path: '/fees',
+  getParentRoute: () => ApiProjectsIdRoute,
+} as any)
+const ApiProjectsIdFeaturesRoute = ApiProjectsIdFeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => ApiProjectsIdRoute,
+} as any)
+const ApiProjectsIdDeviceLimitRoute =
+  ApiProjectsIdDeviceLimitRouteImport.update({
+    id: '/device-limit',
+    path: '/device-limit',
+    getParentRoute: () => ApiProjectsIdRoute,
+  } as any)
+const ApiProjectsIdAuthDevicesRoute =
+  ApiProjectsIdAuthDevicesRouteImport.update({
+    id: '/auth-devices',
+    path: '/auth-devices',
+    getParentRoute: () => ApiProjectsIdRoute,
+  } as any)
+const ApiProjectsIdApiKeyRoute = ApiProjectsIdApiKeyRouteImport.update({
+  id: '/api-key',
+  path: '/api-key',
+  getParentRoute: () => ApiProjectsIdRoute,
+} as any)
+const ApiProjectsIdAccessOverrideRoute =
+  ApiProjectsIdAccessOverrideRouteImport.update({
+    id: '/access-override',
+    path: '/access-override',
+    getParentRoute: () => ApiProjectsIdRoute,
+  } as any)
+const ApiPdfSignaturesRequestsIdRoute =
+  ApiPdfSignaturesRequestsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => ApiPdfSignaturesRequestsRoute,
+  } as any)
+const ApiPdfSignaturesPublicTokenRoute =
+  ApiPdfSignaturesPublicTokenRouteImport.update({
+    id: '/api/pdf-signatures/public/$token',
+    path: '/api/pdf-signatures/public/$token',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiMeetingsMeetingIdTokenRoute =
+  ApiMeetingsMeetingIdTokenRouteImport.update({
+    id: '/token',
+    path: '/token',
+    getParentRoute: () => ApiMeetingsMeetingIdRoute,
+  } as any)
+const ApiMeetingsMeetingIdDocumentsRoute =
+  ApiMeetingsMeetingIdDocumentsRouteImport.update({
+    id: '/documents',
+    path: '/documents',
+    getParentRoute: () => ApiMeetingsMeetingIdRoute,
+  } as any)
+const ApiMailV1SendRoute = ApiMailV1SendRouteImport.update({
+  id: '/api/mail/v1/send',
+  path: '/api/mail/v1/send',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiExtensionScriptsNameRoute = ApiExtensionScriptsNameRouteImport.update({
+  id: '/api/extension/scripts/$name',
+  path: '/api/extension/scripts/$name',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiExtensionProjectConfigRoute =
+  ApiExtensionProjectConfigRouteImport.update({
+    id: '/api/extension/project/config',
+    path: '/api/extension/project/config',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiCompaniesIdUsersRoute = ApiCompaniesIdUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => ApiCompaniesIdRoute,
+} as any)
+const ApiCompaniesIdProjectsRoute = ApiCompaniesIdProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => ApiCompaniesIdRoute,
+} as any)
+const ApiCompaniesIdPaymentStatusRoute =
+  ApiCompaniesIdPaymentStatusRouteImport.update({
+    id: '/payment-status',
+    path: '/payment-status',
+    getParentRoute: () => ApiCompaniesIdRoute,
+  } as any)
+const ApiCompaniesIdFeesAndSubscriptionsRoute =
+  ApiCompaniesIdFeesAndSubscriptionsRouteImport.update({
+    id: '/fees-and-subscriptions',
+    path: '/fees-and-subscriptions',
+    getParentRoute: () => ApiCompaniesIdRoute,
+  } as any)
+const ApiChatProjectIdUploadRoute = ApiChatProjectIdUploadRouteImport.update({
+  id: '/upload',
+  path: '/upload',
+  getParentRoute: () => ApiChatProjectIdRoute,
+} as any)
+const ApiChatProjectIdDeleteAttachmentRoute =
+  ApiChatProjectIdDeleteAttachmentRouteImport.update({
+    id: '/delete-attachment',
+    path: '/delete-attachment',
+    getParentRoute: () => ApiChatProjectIdRoute,
+  } as any)
+const ApiChatProjectIdDeleteRoute = ApiChatProjectIdDeleteRouteImport.update({
+  id: '/delete',
+  path: '/delete',
+  getParentRoute: () => ApiChatProjectIdRoute,
+} as any)
+const ApiAvailabilityStatusIdRoute = ApiAvailabilityStatusIdRouteImport.update({
+  id: '/api/availability/status/$id',
+  path: '/api/availability/status/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAvailabilityRespondIdRoute =
+  ApiAvailabilityRespondIdRouteImport.update({
+    id: '/api/availability/respond/$id',
+    path: '/api/availability/respond/$id',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAdminSupportAgentsUserIdRoute =
+  ApiAdminSupportAgentsUserIdRouteImport.update({
+    id: '/$userId',
+    path: '/$userId',
+    getParentRoute: () => ApiAdminSupportAgentsRoute,
+  } as any)
+const ApiAdminPaymentsWithProjectsRoute =
+  ApiAdminPaymentsWithProjectsRouteImport.update({
+    id: '/with-projects',
+    path: '/with-projects',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsTestStripeKeysRoute =
+  ApiAdminPaymentsTestStripeKeysRouteImport.update({
+    id: '/test-stripe-keys',
+    path: '/test-stripe-keys',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsSendInvoiceRoute =
+  ApiAdminPaymentsSendInvoiceRouteImport.update({
+    id: '/send-invoice',
+    path: '/send-invoice',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsRunCompanyBillingRoute =
+  ApiAdminPaymentsRunCompanyBillingRouteImport.update({
+    id: '/run-company-billing',
+    path: '/run-company-billing',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsResolveRequestRoute =
+  ApiAdminPaymentsResolveRequestRouteImport.update({
+    id: '/resolve-request',
+    path: '/resolve-request',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsProjectTransactionsRoute =
+  ApiAdminPaymentsProjectTransactionsRouteImport.update({
+    id: '/project-transactions',
+    path: '/project-transactions',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsPayNowRoute = ApiAdminPaymentsPayNowRouteImport.update({
+  id: '/pay-now',
+  path: '/pay-now',
+  getParentRoute: () => ApiAdminPaymentsRoute,
+} as any)
+const ApiAdminPaymentsFailureReasonsRoute =
+  ApiAdminPaymentsFailureReasonsRouteImport.update({
+    id: '/failure-reasons',
+    path: '/failure-reasons',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsBillingHistoryRoute =
+  ApiAdminPaymentsBillingHistoryRouteImport.update({
+    id: '/billing-history',
+    path: '/billing-history',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsBillingDryRunRoute =
+  ApiAdminPaymentsBillingDryRunRouteImport.update({
+    id: '/billing-dry-run',
+    path: '/billing-dry-run',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsBillRoute = ApiAdminPaymentsBillRouteImport.update({
+  id: '/bill',
+  path: '/bill',
+  getParentRoute: () => ApiAdminPaymentsRoute,
+} as any)
+const ApiAdminPaymentsAttachMethodRoute =
+  ApiAdminPaymentsAttachMethodRouteImport.update({
+    id: '/attach-method',
+    path: '/attach-method',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsAttachDefaultToCompanyRoute =
+  ApiAdminPaymentsAttachDefaultToCompanyRouteImport.update({
+    id: '/attach-default-to-company',
+    path: '/attach-default-to-company',
+    getParentRoute: () => ApiAdminPaymentsRoute,
+  } as any)
+const ApiAdminPaymentsIdRoute = ApiAdminPaymentsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiAdminPaymentsRoute,
+} as any)
+const ApiAdminCompanyFilesZipRoute = ApiAdminCompanyFilesZipRouteImport.update({
+  id: '/zip',
+  path: '/zip',
+  getParentRoute: () => ApiAdminCompanyFilesRoute,
+} as any)
+const ApiAdminCompanyFilesUploadLinkRoute =
+  ApiAdminCompanyFilesUploadLinkRouteImport.update({
+    id: '/upload-link',
+    path: '/upload-link',
+    getParentRoute: () => ApiAdminCompanyFilesRoute,
+  } as any)
+const ApiAdminCompanyFilesShareLinkRoute =
+  ApiAdminCompanyFilesShareLinkRouteImport.update({
+    id: '/share-link',
+    path: '/share-link',
+    getParentRoute: () => ApiAdminCompanyFilesRoute,
+  } as any)
+const ApiAdminCompanyFilesPresignBatchRoute =
+  ApiAdminCompanyFilesPresignBatchRouteImport.update({
+    id: '/presign-batch',
+    path: '/presign-batch',
+    getParentRoute: () => ApiAdminCompanyFilesRoute,
+  } as any)
+const ApiAdminCompanyFilesPresignRoute =
+  ApiAdminCompanyFilesPresignRouteImport.update({
+    id: '/presign',
+    path: '/presign',
+    getParentRoute: () => ApiAdminCompanyFilesRoute,
+  } as any)
+const ApiAdminCompanyFilesMoveRoute =
+  ApiAdminCompanyFilesMoveRouteImport.update({
+    id: '/move',
+    path: '/move',
+    getParentRoute: () => ApiAdminCompanyFilesRoute,
+  } as any)
+const ApiAdminCompanyFilesFolderRoute =
+  ApiAdminCompanyFilesFolderRouteImport.update({
+    id: '/folder',
+    path: '/folder',
+    getParentRoute: () => ApiAdminCompanyFilesRoute,
+  } as any)
+const ApiAdminCompanyFilesDownloadRoute =
+  ApiAdminCompanyFilesDownloadRouteImport.update({
+    id: '/download',
+    path: '/download',
+    getParentRoute: () => ApiAdminCompanyFilesRoute,
+  } as any)
+const ApiAdminBillsIdRoute = ApiAdminBillsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiAdminBillsRoute,
+} as any)
+const ApiAdminBillingSubscriptionsBatchRoute =
+  ApiAdminBillingSubscriptionsBatchRouteImport.update({
+    id: '/api/admin/billing/subscriptions-batch',
+    path: '/api/admin/billing/subscriptions-batch',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAdminBillingRunTodayRoute = ApiAdminBillingRunTodayRouteImport.update({
+  id: '/api/admin/billing/run-today',
+  path: '/api/admin/billing/run-today',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminBillingHistoryRoute = ApiAdminBillingHistoryRouteImport.update({
+  id: '/api/admin/billing/history',
+  path: '/api/admin/billing/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSupportThreadsIdUploadRoute =
+  ApiSupportThreadsIdUploadRouteImport.update({
+    id: '/$id/upload',
+    path: '/$id/upload',
+    getParentRoute: () => ApiSupportThreadsRoute,
+  } as any)
+const ApiSupportThreadsIdParticipantsRoute =
+  ApiSupportThreadsIdParticipantsRouteImport.update({
+    id: '/$id/participants',
+    path: '/$id/participants',
+    getParentRoute: () => ApiSupportThreadsRoute,
+  } as any)
+const ApiSupportThreadsIdMessagesRoute =
+  ApiSupportThreadsIdMessagesRouteImport.update({
+    id: '/$id/messages',
+    path: '/$id/messages',
+    getParentRoute: () => ApiSupportThreadsRoute,
+  } as any)
+const ApiProjectsIdSubscriptionsSubscriptionIdRoute =
+  ApiProjectsIdSubscriptionsSubscriptionIdRouteImport.update({
+    id: '/$subscriptionId',
+    path: '/$subscriptionId',
+    getParentRoute: () => ApiProjectsIdSubscriptionsRoute,
+  } as any)
+const ApiProjectsIdProgramLogsLogIdRoute =
+  ApiProjectsIdProgramLogsLogIdRouteImport.update({
+    id: '/$logId',
+    path: '/$logId',
+    getParentRoute: () => ApiProjectsIdProgramLogsRoute,
+  } as any)
+const ApiProjectsIdAuthDevicesDeviceIdRoute =
+  ApiProjectsIdAuthDevicesDeviceIdRouteImport.update({
+    id: '/$deviceId',
+    path: '/$deviceId',
+    getParentRoute: () => ApiProjectsIdAuthDevicesRoute,
+  } as any)
+const ApiPdfSignaturesRequestsIdSignaturesRoute =
+  ApiPdfSignaturesRequestsIdSignaturesRouteImport.update({
+    id: '/signatures',
+    path: '/signatures',
+    getParentRoute: () => ApiPdfSignaturesRequestsIdRoute,
+  } as any)
+const ApiPdfSignaturesRequestsIdPdfRoute =
+  ApiPdfSignaturesRequestsIdPdfRouteImport.update({
+    id: '/pdf',
+    path: '/pdf',
+    getParentRoute: () => ApiPdfSignaturesRequestsIdRoute,
+  } as any)
+const ApiPdfSignaturesRequestsIdFieldsRoute =
+  ApiPdfSignaturesRequestsIdFieldsRouteImport.update({
+    id: '/fields',
+    path: '/fields',
+    getParentRoute: () => ApiPdfSignaturesRequestsIdRoute,
+  } as any)
+const ApiPdfSignaturesPublicTokenSubmitRoute =
+  ApiPdfSignaturesPublicTokenSubmitRouteImport.update({
+    id: '/submit',
+    path: '/submit',
+    getParentRoute: () => ApiPdfSignaturesPublicTokenRoute,
+  } as any)
+const ApiPdfSignaturesPublicTokenSignedPdfRoute =
+  ApiPdfSignaturesPublicTokenSignedPdfRouteImport.update({
+    id: '/signed-pdf',
+    path: '/signed-pdf',
+    getParentRoute: () => ApiPdfSignaturesPublicTokenRoute,
+  } as any)
+const ApiPdfSignaturesPublicTokenSignRoute =
+  ApiPdfSignaturesPublicTokenSignRouteImport.update({
+    id: '/sign',
+    path: '/sign',
+    getParentRoute: () => ApiPdfSignaturesPublicTokenRoute,
+  } as any)
+const ApiPdfSignaturesPublicTokenPdfRoute =
+  ApiPdfSignaturesPublicTokenPdfRouteImport.update({
+    id: '/pdf',
+    path: '/pdf',
+    getParentRoute: () => ApiPdfSignaturesPublicTokenRoute,
+  } as any)
+const ApiPdfSignaturesPublicTokenEmailRoute =
+  ApiPdfSignaturesPublicTokenEmailRouteImport.update({
+    id: '/email',
+    path: '/email',
+    getParentRoute: () => ApiPdfSignaturesPublicTokenRoute,
+  } as any)
+const ApiMailV1SendBatchRoute = ApiMailV1SendBatchRouteImport.update({
+  id: '/batch',
+  path: '/batch',
+  getParentRoute: () => ApiMailV1SendRoute,
+} as any)
+const ApiIngestProgramLogsProjectIdTokenRoute =
+  ApiIngestProgramLogsProjectIdTokenRouteImport.update({
+    id: '/api/ingest/program-logs/$projectId/$token',
+    path: '/api/ingest/program-logs/$projectId/$token',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiExtensionProjectScriptsNameRoute =
+  ApiExtensionProjectScriptsNameRouteImport.update({
+    id: '/api/extension/project/scripts/$name',
+    path: '/api/extension/project/scripts/$name',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAdminProjectsIdExtensionSourceRoute =
+  ApiAdminProjectsIdExtensionSourceRouteImport.update({
+    id: '/$id/extension-source',
+    path: '/$id/extension-source',
+    getParentRoute: () => ApiAdminProjectsRoute,
+  } as any)
+const ApiAdminPaymentsIdTransactionsRoute =
+  ApiAdminPaymentsIdTransactionsRouteImport.update({
+    id: '/transactions',
+    path: '/transactions',
+    getParentRoute: () => ApiAdminPaymentsIdRoute,
+  } as any)
+const ApiAdminPaymentsIdReceiptRoute =
+  ApiAdminPaymentsIdReceiptRouteImport.update({
+    id: '/receipt',
+    path: '/receipt',
+    getParentRoute: () => ApiAdminPaymentsIdRoute,
+  } as any)
+const ApiAdminPaymentsIdMarkPaidRoute =
+  ApiAdminPaymentsIdMarkPaidRouteImport.update({
+    id: '/mark-paid',
+    path: '/mark-paid',
+    getParentRoute: () => ApiAdminPaymentsIdRoute,
+  } as any)
+const ApiAdminPaymentsIdInvoiceRoute =
+  ApiAdminPaymentsIdInvoiceRouteImport.update({
+    id: '/invoice',
+    path: '/invoice',
+    getParentRoute: () => ApiAdminPaymentsIdRoute,
+  } as any)
+const ApiAdminPaymentsIdFailureReasonRoute =
+  ApiAdminPaymentsIdFailureReasonRouteImport.update({
+    id: '/failure-reason',
+    path: '/failure-reason',
+    getParentRoute: () => ApiAdminPaymentsIdRoute,
+  } as any)
+const ApiAdminPaymentsIdBillingsRoute =
+  ApiAdminPaymentsIdBillingsRouteImport.update({
+    id: '/billings',
+    path: '/billings',
+    getParentRoute: () => ApiAdminPaymentsIdRoute,
+  } as any)
+const ApiAdminCompaniesCompanyIdAuthorizationsDataRoute =
+  ApiAdminCompaniesCompanyIdAuthorizationsDataRouteImport.update({
+    id: '/api/admin/companies/$companyId/authorizations-data',
+    path: '/api/admin/companies/$companyId/authorizations-data',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAdminBillsIdSendInvoiceRoute =
+  ApiAdminBillsIdSendInvoiceRouteImport.update({
+    id: '/send-invoice',
+    path: '/send-invoice',
+    getParentRoute: () => ApiAdminBillsIdRoute,
+  } as any)
+const ApiAdminBillsIdResumeRoute = ApiAdminBillsIdResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
+  getParentRoute: () => ApiAdminBillsIdRoute,
+} as any)
+const ApiAdminBillsIdReceiptRoute = ApiAdminBillsIdReceiptRouteImport.update({
+  id: '/receipt',
+  path: '/receipt',
+  getParentRoute: () => ApiAdminBillsIdRoute,
+} as any)
+const ApiAdminBillsIdPauseRoute = ApiAdminBillsIdPauseRouteImport.update({
+  id: '/pause',
+  path: '/pause',
+  getParentRoute: () => ApiAdminBillsIdRoute,
+} as any)
+const ApiAdminBillsIdMarkPaidRoute = ApiAdminBillsIdMarkPaidRouteImport.update({
+  id: '/mark-paid',
+  path: '/mark-paid',
+  getParentRoute: () => ApiAdminBillsIdRoute,
+} as any)
+const ApiAdminBillsIdDuplicateRoute =
+  ApiAdminBillsIdDuplicateRouteImport.update({
+    id: '/duplicate',
+    path: '/duplicate',
+    getParentRoute: () => ApiAdminBillsIdRoute,
+  } as any)
+const ApiAdminBillsIdChargesRoute = ApiAdminBillsIdChargesRouteImport.update({
+  id: '/charges',
+  path: '/charges',
+  getParentRoute: () => ApiAdminBillsIdRoute,
+} as any)
+const ApiAdminBillsIdChargeNowRoute =
+  ApiAdminBillsIdChargeNowRouteImport.update({
+    id: '/charge-now',
+    path: '/charge-now',
+    getParentRoute: () => ApiAdminBillsIdRoute,
+  } as any)
+const ApiAdminBillsIdActivateRoute = ApiAdminBillsIdActivateRouteImport.update({
+  id: '/activate',
+  path: '/activate',
+  getParentRoute: () => ApiAdminBillsIdRoute,
+} as any)
+const ApiSupportThreadsIdMessagesMessageIdRoute =
+  ApiSupportThreadsIdMessagesMessageIdRouteImport.update({
+    id: '/$messageId',
+    path: '/$messageId',
+    getParentRoute: () => ApiSupportThreadsIdMessagesRoute,
+  } as any)
+const ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRoute =
+  ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRouteImport.update({
+    id: '/transactions',
+    path: '/transactions',
+    getParentRoute: () => ApiProjectsIdSubscriptionsSubscriptionIdRoute,
+  } as any)
+const ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRoute =
+  ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRouteImport.update({
+    id: '/mark-completed',
+    path: '/mark-completed',
+    getParentRoute: () => ApiProjectsIdSubscriptionsSubscriptionIdRoute,
+  } as any)
+const ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRoute =
+  ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRouteImport.update({
+    id: '/create-payment',
+    path: '/create-payment',
+    getParentRoute: () => ApiProjectsIdSubscriptionsSubscriptionIdRoute,
+  } as any)
+const ApiProjectsIdFeesFeeIdTransactionsRoute =
+  ApiProjectsIdFeesFeeIdTransactionsRouteImport.update({
+    id: '/$feeId/transactions',
+    path: '/$feeId/transactions',
+    getParentRoute: () => ApiProjectsIdFeesRoute,
+  } as any)
+const ApiProjectsIdFeesFeeIdMarkCompletedRoute =
+  ApiProjectsIdFeesFeeIdMarkCompletedRouteImport.update({
+    id: '/$feeId/mark-completed',
+    path: '/$feeId/mark-completed',
+    getParentRoute: () => ApiProjectsIdFeesRoute,
+  } as any)
+const ApiProjectsIdFeesFeeIdCreatePaymentRoute =
+  ApiProjectsIdFeesFeeIdCreatePaymentRouteImport.update({
+    id: '/$feeId/create-payment',
+    path: '/$feeId/create-payment',
+    getParentRoute: () => ApiProjectsIdFeesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -230,26 +1393,205 @@ export interface FileRoutesByFullPath {
   '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
   '/order-confirmation': typeof OrderConfirmationRoute
-  '/portal': typeof PortalRoute
+  '/overview': typeof OverviewRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
+  '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
-  '/admin/quotes': typeof AdminQuotesRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/sign-in': typeof AdminSignInRoute
+  '/api/blocked-slots': typeof ApiBlockedSlotsRouteWithChildren
+  '/api/companies': typeof ApiCompaniesRouteWithChildren
+  '/api/entitlement': typeof ApiEntitlementRouteWithChildren
   '/api/meeting': typeof ApiMeetingRoute
-  '/api/meetings': typeof ApiMeetingsRoute
+  '/api/meeting-requests': typeof ApiMeetingRequestsRouteWithChildren
+  '/api/meetings': typeof ApiMeetingsRouteWithChildren
   '/api/order': typeof ApiOrderRoute
   '/api/orders': typeof ApiOrdersRoute
+  '/api/projects': typeof ApiProjectsRouteWithChildren
   '/api/quote': typeof ApiQuoteRoute
   '/api/quotes': typeof ApiQuotesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/pay/$token': typeof PayTokenRoute
+  '/portal/sign-in': typeof PortalSignInRoute
+  '/portal/support': typeof PortalSupportRoute
+  '/portal/time-tracking': typeof PortalTimeTrackingRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/sign/$token': typeof SignTokenRoute
+  '/admin/': typeof AdminIndexRoute
+  '/payments/': typeof PaymentsIndexRoute
+  '/portal/': typeof PortalIndexRoute
+  '/admin/signatures/$id': typeof AdminSignaturesIdRoute
+  '/api/admin/bills': typeof ApiAdminBillsRouteWithChildren
+  '/api/admin/company-files': typeof ApiAdminCompanyFilesRouteWithChildren
+  '/api/admin/lead-meetings': typeof ApiAdminLeadMeetingsRoute
+  '/api/admin/payments': typeof ApiAdminPaymentsRouteWithChildren
+  '/api/admin/projects': typeof ApiAdminProjectsRouteWithChildren
+  '/api/admin/support-agents': typeof ApiAdminSupportAgentsRouteWithChildren
+  '/api/admin/users': typeof ApiAdminUsersRoute
+  '/api/auth/sign-out': typeof ApiAuthSignOutRoute
+  '/api/availability/check': typeof ApiAvailabilityCheckRoute
+  '/api/blocked-slots/$id': typeof ApiBlockedSlotsIdRoute
+  '/api/chat/$projectId': typeof ApiChatProjectIdRouteWithChildren
+  '/api/clerk/users': typeof ApiClerkUsersRoute
+  '/api/companies/$id': typeof ApiCompaniesIdRouteWithChildren
+  '/api/cron/billing': typeof ApiCronBillingRoute
+  '/api/debug/log': typeof ApiDebugLogRoute
+  '/api/entitlement/devices': typeof ApiEntitlementDevicesRoute
+  '/api/entitlement/request-device': typeof ApiEntitlementRequestDeviceRoute
+  '/api/extension/config': typeof ApiExtensionConfigRoute
+  '/api/extension/github-check': typeof ApiExtensionGithubCheckRoute
+  '/api/extension/repo-list': typeof ApiExtensionRepoListRoute
+  '/api/meeting-requests/$id': typeof ApiMeetingRequestsIdRoute
+  '/api/meeting-requests/available-slots': typeof ApiMeetingRequestsAvailableSlotsRoute
+  '/api/meetings/$meetingId': typeof ApiMeetingsMeetingIdRouteWithChildren
+  '/api/meetings/upcoming': typeof ApiMeetingsUpcomingRoute
+  '/api/payments/create-intent': typeof ApiPaymentsCreateIntentRoute
+  '/api/payments/create-setup-intent': typeof ApiPaymentsCreateSetupIntentRoute
+  '/api/payments/create-setup-intent-account': typeof ApiPaymentsCreateSetupIntentAccountRoute
+  '/api/payments/document': typeof ApiPaymentsDocumentRoute
+  '/api/payments/notify-payment': typeof ApiPaymentsNotifyPaymentRoute
+  '/api/payments/payment-intent-method': typeof ApiPaymentsPaymentIntentMethodRoute
+  '/api/payments/record-success': typeof ApiPaymentsRecordSuccessRoute
+  '/api/payments/request': typeof ApiPaymentsRequestRoute
+  '/api/payments/save-payment-method': typeof ApiPaymentsSavePaymentMethodRoute
+  '/api/payments/save-payment-method-to-account': typeof ApiPaymentsSavePaymentMethodToAccountRoute
+  '/api/payments/saved-methods': typeof ApiPaymentsSavedMethodsRoute
+  '/api/payments/send-invoice': typeof ApiPaymentsSendInvoiceRoute
+  '/api/payments/send-receipt': typeof ApiPaymentsSendReceiptRoute
+  '/api/payments/update-status': typeof ApiPaymentsUpdateStatusRoute
+  '/api/pdf-signatures/requests': typeof ApiPdfSignaturesRequestsRouteWithChildren
+  '/api/projects/$id': typeof ApiProjectsIdRouteWithChildren
+  '/api/public-upload/$token': typeof ApiPublicUploadTokenRouteWithChildren
+  '/api/subscriptions/process-due': typeof ApiSubscriptionsProcessDueRoute
+  '/api/support/attachment-preview': typeof ApiSupportAttachmentPreviewRoute
+  '/api/support/threads': typeof ApiSupportThreadsRouteWithChildren
+  '/api/time-tracking/clients': typeof ApiTimeTrackingClientsRouteWithChildren
+  '/api/time-tracking/entries': typeof ApiTimeTrackingEntriesRouteWithChildren
+  '/api/time-tracking/export': typeof ApiTimeTrackingExportRoute
+  '/api/time-tracking/overview': typeof ApiTimeTrackingOverviewRoute
+  '/api/time-tracking/report': typeof ApiTimeTrackingReportRoute
+  '/api/time-tracking/running-sync': typeof ApiTimeTrackingRunningSyncRoute
+  '/api/time-tracking/tasks': typeof ApiTimeTrackingTasksRouteWithChildren
+  '/api/time-tracking/timer': typeof ApiTimeTrackingTimerRoute
+  '/api/users/$id': typeof ApiUsersIdRouteWithChildren
+  '/api/users/me': typeof ApiUsersMeRoute
+  '/api/webhooks/clerk': typeof ApiWebhooksClerkRouteWithChildren
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
+  '/meetings/$meetingId/join': typeof MeetingsMeetingIdJoinRoute
+  '/api/admin/billing/history': typeof ApiAdminBillingHistoryRoute
+  '/api/admin/billing/run-today': typeof ApiAdminBillingRunTodayRoute
+  '/api/admin/billing/subscriptions-batch': typeof ApiAdminBillingSubscriptionsBatchRoute
+  '/api/admin/bills/$id': typeof ApiAdminBillsIdRouteWithChildren
+  '/api/admin/company-files/download': typeof ApiAdminCompanyFilesDownloadRoute
+  '/api/admin/company-files/folder': typeof ApiAdminCompanyFilesFolderRoute
+  '/api/admin/company-files/move': typeof ApiAdminCompanyFilesMoveRoute
+  '/api/admin/company-files/presign': typeof ApiAdminCompanyFilesPresignRoute
+  '/api/admin/company-files/presign-batch': typeof ApiAdminCompanyFilesPresignBatchRoute
+  '/api/admin/company-files/share-link': typeof ApiAdminCompanyFilesShareLinkRoute
+  '/api/admin/company-files/upload-link': typeof ApiAdminCompanyFilesUploadLinkRoute
+  '/api/admin/company-files/zip': typeof ApiAdminCompanyFilesZipRoute
+  '/api/admin/payments/$id': typeof ApiAdminPaymentsIdRouteWithChildren
+  '/api/admin/payments/attach-default-to-company': typeof ApiAdminPaymentsAttachDefaultToCompanyRoute
+  '/api/admin/payments/attach-method': typeof ApiAdminPaymentsAttachMethodRoute
+  '/api/admin/payments/bill': typeof ApiAdminPaymentsBillRoute
+  '/api/admin/payments/billing-dry-run': typeof ApiAdminPaymentsBillingDryRunRoute
+  '/api/admin/payments/billing-history': typeof ApiAdminPaymentsBillingHistoryRoute
+  '/api/admin/payments/failure-reasons': typeof ApiAdminPaymentsFailureReasonsRoute
+  '/api/admin/payments/pay-now': typeof ApiAdminPaymentsPayNowRoute
+  '/api/admin/payments/project-transactions': typeof ApiAdminPaymentsProjectTransactionsRoute
+  '/api/admin/payments/resolve-request': typeof ApiAdminPaymentsResolveRequestRoute
+  '/api/admin/payments/run-company-billing': typeof ApiAdminPaymentsRunCompanyBillingRoute
+  '/api/admin/payments/send-invoice': typeof ApiAdminPaymentsSendInvoiceRoute
+  '/api/admin/payments/test-stripe-keys': typeof ApiAdminPaymentsTestStripeKeysRoute
+  '/api/admin/payments/with-projects': typeof ApiAdminPaymentsWithProjectsRoute
+  '/api/admin/support-agents/$userId': typeof ApiAdminSupportAgentsUserIdRoute
+  '/api/availability/respond/$id': typeof ApiAvailabilityRespondIdRoute
+  '/api/availability/status/$id': typeof ApiAvailabilityStatusIdRoute
+  '/api/chat/$projectId/delete': typeof ApiChatProjectIdDeleteRoute
+  '/api/chat/$projectId/delete-attachment': typeof ApiChatProjectIdDeleteAttachmentRoute
+  '/api/chat/$projectId/upload': typeof ApiChatProjectIdUploadRoute
+  '/api/companies/$id/fees-and-subscriptions': typeof ApiCompaniesIdFeesAndSubscriptionsRoute
+  '/api/companies/$id/payment-status': typeof ApiCompaniesIdPaymentStatusRoute
+  '/api/companies/$id/projects': typeof ApiCompaniesIdProjectsRoute
+  '/api/companies/$id/users': typeof ApiCompaniesIdUsersRoute
+  '/api/extension/project/config': typeof ApiExtensionProjectConfigRoute
+  '/api/extension/scripts/$name': typeof ApiExtensionScriptsNameRoute
+  '/api/mail/v1/send': typeof ApiMailV1SendRouteWithChildren
+  '/api/meetings/$meetingId/documents': typeof ApiMeetingsMeetingIdDocumentsRoute
+  '/api/meetings/$meetingId/token': typeof ApiMeetingsMeetingIdTokenRoute
+  '/api/pdf-signatures/public/$token': typeof ApiPdfSignaturesPublicTokenRouteWithChildren
+  '/api/pdf-signatures/requests/$id': typeof ApiPdfSignaturesRequestsIdRouteWithChildren
+  '/api/projects/$id/access-override': typeof ApiProjectsIdAccessOverrideRoute
+  '/api/projects/$id/api-key': typeof ApiProjectsIdApiKeyRoute
+  '/api/projects/$id/auth-devices': typeof ApiProjectsIdAuthDevicesRouteWithChildren
+  '/api/projects/$id/device-limit': typeof ApiProjectsIdDeviceLimitRoute
+  '/api/projects/$id/features': typeof ApiProjectsIdFeaturesRoute
+  '/api/projects/$id/fees': typeof ApiProjectsIdFeesRouteWithChildren
+  '/api/projects/$id/github-commits': typeof ApiProjectsIdGithubCommitsRoute
+  '/api/projects/$id/github-ref': typeof ApiProjectsIdGithubRefRoute
+  '/api/projects/$id/github-status': typeof ApiProjectsIdGithubStatusRoute
+  '/api/projects/$id/program-log-ingest-url': typeof ApiProjectsIdProgramLogIngestUrlRoute
+  '/api/projects/$id/program-logs': typeof ApiProjectsIdProgramLogsRouteWithChildren
+  '/api/projects/$id/subscriptions': typeof ApiProjectsIdSubscriptionsRouteWithChildren
+  '/api/projects/proxy/$id': typeof ApiProjectsProxyIdRoute
+  '/api/public-upload/$token/complete': typeof ApiPublicUploadTokenCompleteRoute
+  '/api/public-upload/$token/presign': typeof ApiPublicUploadTokenPresignRoute
+  '/api/share/company-files/zip': typeof ApiShareCompanyFilesZipRoute
+  '/api/time-tracking/clients/$id': typeof ApiTimeTrackingClientsIdRoute
+  '/api/time-tracking/entries/$id': typeof ApiTimeTrackingEntriesIdRoute
+  '/api/time-tracking/tasks/$id': typeof ApiTimeTrackingTasksIdRoute
+  '/api/users/$id/invite': typeof ApiUsersIdInviteRoute
+  '/api/users/$id/projects': typeof ApiUsersIdProjectsRoute
+  '/api/webhooks/clerk/sync-user': typeof ApiWebhooksClerkSyncUserRoute
+  '/api/admin/bills/$id/activate': typeof ApiAdminBillsIdActivateRoute
+  '/api/admin/bills/$id/charge-now': typeof ApiAdminBillsIdChargeNowRoute
+  '/api/admin/bills/$id/charges': typeof ApiAdminBillsIdChargesRoute
+  '/api/admin/bills/$id/duplicate': typeof ApiAdminBillsIdDuplicateRoute
+  '/api/admin/bills/$id/mark-paid': typeof ApiAdminBillsIdMarkPaidRoute
+  '/api/admin/bills/$id/pause': typeof ApiAdminBillsIdPauseRoute
+  '/api/admin/bills/$id/receipt': typeof ApiAdminBillsIdReceiptRoute
+  '/api/admin/bills/$id/resume': typeof ApiAdminBillsIdResumeRoute
+  '/api/admin/bills/$id/send-invoice': typeof ApiAdminBillsIdSendInvoiceRoute
+  '/api/admin/companies/$companyId/authorizations-data': typeof ApiAdminCompaniesCompanyIdAuthorizationsDataRoute
+  '/api/admin/payments/$id/billings': typeof ApiAdminPaymentsIdBillingsRoute
+  '/api/admin/payments/$id/failure-reason': typeof ApiAdminPaymentsIdFailureReasonRoute
+  '/api/admin/payments/$id/invoice': typeof ApiAdminPaymentsIdInvoiceRoute
+  '/api/admin/payments/$id/mark-paid': typeof ApiAdminPaymentsIdMarkPaidRoute
+  '/api/admin/payments/$id/receipt': typeof ApiAdminPaymentsIdReceiptRoute
+  '/api/admin/payments/$id/transactions': typeof ApiAdminPaymentsIdTransactionsRoute
+  '/api/admin/projects/$id/extension-source': typeof ApiAdminProjectsIdExtensionSourceRoute
+  '/api/extension/project/scripts/$name': typeof ApiExtensionProjectScriptsNameRoute
+  '/api/ingest/program-logs/$projectId/$token': typeof ApiIngestProgramLogsProjectIdTokenRoute
+  '/api/mail/v1/send/batch': typeof ApiMailV1SendBatchRoute
+  '/api/pdf-signatures/public/$token/email': typeof ApiPdfSignaturesPublicTokenEmailRoute
+  '/api/pdf-signatures/public/$token/pdf': typeof ApiPdfSignaturesPublicTokenPdfRoute
+  '/api/pdf-signatures/public/$token/sign': typeof ApiPdfSignaturesPublicTokenSignRoute
+  '/api/pdf-signatures/public/$token/signed-pdf': typeof ApiPdfSignaturesPublicTokenSignedPdfRoute
+  '/api/pdf-signatures/public/$token/submit': typeof ApiPdfSignaturesPublicTokenSubmitRoute
+  '/api/pdf-signatures/requests/$id/fields': typeof ApiPdfSignaturesRequestsIdFieldsRoute
+  '/api/pdf-signatures/requests/$id/pdf': typeof ApiPdfSignaturesRequestsIdPdfRoute
+  '/api/pdf-signatures/requests/$id/signatures': typeof ApiPdfSignaturesRequestsIdSignaturesRoute
+  '/api/projects/$id/auth-devices/$deviceId': typeof ApiProjectsIdAuthDevicesDeviceIdRoute
+  '/api/projects/$id/program-logs/$logId': typeof ApiProjectsIdProgramLogsLogIdRoute
+  '/api/projects/$id/subscriptions/$subscriptionId': typeof ApiProjectsIdSubscriptionsSubscriptionIdRouteWithChildren
+  '/api/support/threads/$id/messages': typeof ApiSupportThreadsIdMessagesRouteWithChildren
+  '/api/support/threads/$id/participants': typeof ApiSupportThreadsIdParticipantsRoute
+  '/api/support/threads/$id/upload': typeof ApiSupportThreadsIdUploadRoute
+  '/api/projects/$id/fees/$feeId/create-payment': typeof ApiProjectsIdFeesFeeIdCreatePaymentRoute
+  '/api/projects/$id/fees/$feeId/mark-completed': typeof ApiProjectsIdFeesFeeIdMarkCompletedRoute
+  '/api/projects/$id/fees/$feeId/transactions': typeof ApiProjectsIdFeesFeeIdTransactionsRoute
+  '/api/projects/$id/subscriptions/$subscriptionId/create-payment': typeof ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRoute
+  '/api/projects/$id/subscriptions/$subscriptionId/mark-completed': typeof ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRoute
+  '/api/projects/$id/subscriptions/$subscriptionId/transactions': typeof ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRoute
+  '/api/support/threads/$id/messages/$messageId': typeof ApiSupportThreadsIdMessagesMessageIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -266,26 +1608,205 @@ export interface FileRoutesByTo {
   '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
   '/order-confirmation': typeof OrderConfirmationRoute
-  '/portal': typeof PortalRoute
+  '/overview': typeof OverviewRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
+  '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
-  '/admin/quotes': typeof AdminQuotesRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/sign-in': typeof AdminSignInRoute
+  '/api/blocked-slots': typeof ApiBlockedSlotsRouteWithChildren
+  '/api/companies': typeof ApiCompaniesRouteWithChildren
+  '/api/entitlement': typeof ApiEntitlementRouteWithChildren
   '/api/meeting': typeof ApiMeetingRoute
-  '/api/meetings': typeof ApiMeetingsRoute
+  '/api/meeting-requests': typeof ApiMeetingRequestsRouteWithChildren
+  '/api/meetings': typeof ApiMeetingsRouteWithChildren
   '/api/order': typeof ApiOrderRoute
   '/api/orders': typeof ApiOrdersRoute
+  '/api/projects': typeof ApiProjectsRouteWithChildren
   '/api/quote': typeof ApiQuoteRoute
   '/api/quotes': typeof ApiQuotesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/pay/$token': typeof PayTokenRoute
+  '/portal/sign-in': typeof PortalSignInRoute
+  '/portal/support': typeof PortalSupportRoute
+  '/portal/time-tracking': typeof PortalTimeTrackingRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/sign/$token': typeof SignTokenRoute
+  '/admin': typeof AdminIndexRoute
+  '/payments': typeof PaymentsIndexRoute
+  '/portal': typeof PortalIndexRoute
+  '/admin/signatures/$id': typeof AdminSignaturesIdRoute
+  '/api/admin/bills': typeof ApiAdminBillsRouteWithChildren
+  '/api/admin/company-files': typeof ApiAdminCompanyFilesRouteWithChildren
+  '/api/admin/lead-meetings': typeof ApiAdminLeadMeetingsRoute
+  '/api/admin/payments': typeof ApiAdminPaymentsRouteWithChildren
+  '/api/admin/projects': typeof ApiAdminProjectsRouteWithChildren
+  '/api/admin/support-agents': typeof ApiAdminSupportAgentsRouteWithChildren
+  '/api/admin/users': typeof ApiAdminUsersRoute
+  '/api/auth/sign-out': typeof ApiAuthSignOutRoute
+  '/api/availability/check': typeof ApiAvailabilityCheckRoute
+  '/api/blocked-slots/$id': typeof ApiBlockedSlotsIdRoute
+  '/api/chat/$projectId': typeof ApiChatProjectIdRouteWithChildren
+  '/api/clerk/users': typeof ApiClerkUsersRoute
+  '/api/companies/$id': typeof ApiCompaniesIdRouteWithChildren
+  '/api/cron/billing': typeof ApiCronBillingRoute
+  '/api/debug/log': typeof ApiDebugLogRoute
+  '/api/entitlement/devices': typeof ApiEntitlementDevicesRoute
+  '/api/entitlement/request-device': typeof ApiEntitlementRequestDeviceRoute
+  '/api/extension/config': typeof ApiExtensionConfigRoute
+  '/api/extension/github-check': typeof ApiExtensionGithubCheckRoute
+  '/api/extension/repo-list': typeof ApiExtensionRepoListRoute
+  '/api/meeting-requests/$id': typeof ApiMeetingRequestsIdRoute
+  '/api/meeting-requests/available-slots': typeof ApiMeetingRequestsAvailableSlotsRoute
+  '/api/meetings/$meetingId': typeof ApiMeetingsMeetingIdRouteWithChildren
+  '/api/meetings/upcoming': typeof ApiMeetingsUpcomingRoute
+  '/api/payments/create-intent': typeof ApiPaymentsCreateIntentRoute
+  '/api/payments/create-setup-intent': typeof ApiPaymentsCreateSetupIntentRoute
+  '/api/payments/create-setup-intent-account': typeof ApiPaymentsCreateSetupIntentAccountRoute
+  '/api/payments/document': typeof ApiPaymentsDocumentRoute
+  '/api/payments/notify-payment': typeof ApiPaymentsNotifyPaymentRoute
+  '/api/payments/payment-intent-method': typeof ApiPaymentsPaymentIntentMethodRoute
+  '/api/payments/record-success': typeof ApiPaymentsRecordSuccessRoute
+  '/api/payments/request': typeof ApiPaymentsRequestRoute
+  '/api/payments/save-payment-method': typeof ApiPaymentsSavePaymentMethodRoute
+  '/api/payments/save-payment-method-to-account': typeof ApiPaymentsSavePaymentMethodToAccountRoute
+  '/api/payments/saved-methods': typeof ApiPaymentsSavedMethodsRoute
+  '/api/payments/send-invoice': typeof ApiPaymentsSendInvoiceRoute
+  '/api/payments/send-receipt': typeof ApiPaymentsSendReceiptRoute
+  '/api/payments/update-status': typeof ApiPaymentsUpdateStatusRoute
+  '/api/pdf-signatures/requests': typeof ApiPdfSignaturesRequestsRouteWithChildren
+  '/api/projects/$id': typeof ApiProjectsIdRouteWithChildren
+  '/api/public-upload/$token': typeof ApiPublicUploadTokenRouteWithChildren
+  '/api/subscriptions/process-due': typeof ApiSubscriptionsProcessDueRoute
+  '/api/support/attachment-preview': typeof ApiSupportAttachmentPreviewRoute
+  '/api/support/threads': typeof ApiSupportThreadsRouteWithChildren
+  '/api/time-tracking/clients': typeof ApiTimeTrackingClientsRouteWithChildren
+  '/api/time-tracking/entries': typeof ApiTimeTrackingEntriesRouteWithChildren
+  '/api/time-tracking/export': typeof ApiTimeTrackingExportRoute
+  '/api/time-tracking/overview': typeof ApiTimeTrackingOverviewRoute
+  '/api/time-tracking/report': typeof ApiTimeTrackingReportRoute
+  '/api/time-tracking/running-sync': typeof ApiTimeTrackingRunningSyncRoute
+  '/api/time-tracking/tasks': typeof ApiTimeTrackingTasksRouteWithChildren
+  '/api/time-tracking/timer': typeof ApiTimeTrackingTimerRoute
+  '/api/users/$id': typeof ApiUsersIdRouteWithChildren
+  '/api/users/me': typeof ApiUsersMeRoute
+  '/api/webhooks/clerk': typeof ApiWebhooksClerkRouteWithChildren
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
+  '/meetings/$meetingId/join': typeof MeetingsMeetingIdJoinRoute
+  '/api/admin/billing/history': typeof ApiAdminBillingHistoryRoute
+  '/api/admin/billing/run-today': typeof ApiAdminBillingRunTodayRoute
+  '/api/admin/billing/subscriptions-batch': typeof ApiAdminBillingSubscriptionsBatchRoute
+  '/api/admin/bills/$id': typeof ApiAdminBillsIdRouteWithChildren
+  '/api/admin/company-files/download': typeof ApiAdminCompanyFilesDownloadRoute
+  '/api/admin/company-files/folder': typeof ApiAdminCompanyFilesFolderRoute
+  '/api/admin/company-files/move': typeof ApiAdminCompanyFilesMoveRoute
+  '/api/admin/company-files/presign': typeof ApiAdminCompanyFilesPresignRoute
+  '/api/admin/company-files/presign-batch': typeof ApiAdminCompanyFilesPresignBatchRoute
+  '/api/admin/company-files/share-link': typeof ApiAdminCompanyFilesShareLinkRoute
+  '/api/admin/company-files/upload-link': typeof ApiAdminCompanyFilesUploadLinkRoute
+  '/api/admin/company-files/zip': typeof ApiAdminCompanyFilesZipRoute
+  '/api/admin/payments/$id': typeof ApiAdminPaymentsIdRouteWithChildren
+  '/api/admin/payments/attach-default-to-company': typeof ApiAdminPaymentsAttachDefaultToCompanyRoute
+  '/api/admin/payments/attach-method': typeof ApiAdminPaymentsAttachMethodRoute
+  '/api/admin/payments/bill': typeof ApiAdminPaymentsBillRoute
+  '/api/admin/payments/billing-dry-run': typeof ApiAdminPaymentsBillingDryRunRoute
+  '/api/admin/payments/billing-history': typeof ApiAdminPaymentsBillingHistoryRoute
+  '/api/admin/payments/failure-reasons': typeof ApiAdminPaymentsFailureReasonsRoute
+  '/api/admin/payments/pay-now': typeof ApiAdminPaymentsPayNowRoute
+  '/api/admin/payments/project-transactions': typeof ApiAdminPaymentsProjectTransactionsRoute
+  '/api/admin/payments/resolve-request': typeof ApiAdminPaymentsResolveRequestRoute
+  '/api/admin/payments/run-company-billing': typeof ApiAdminPaymentsRunCompanyBillingRoute
+  '/api/admin/payments/send-invoice': typeof ApiAdminPaymentsSendInvoiceRoute
+  '/api/admin/payments/test-stripe-keys': typeof ApiAdminPaymentsTestStripeKeysRoute
+  '/api/admin/payments/with-projects': typeof ApiAdminPaymentsWithProjectsRoute
+  '/api/admin/support-agents/$userId': typeof ApiAdminSupportAgentsUserIdRoute
+  '/api/availability/respond/$id': typeof ApiAvailabilityRespondIdRoute
+  '/api/availability/status/$id': typeof ApiAvailabilityStatusIdRoute
+  '/api/chat/$projectId/delete': typeof ApiChatProjectIdDeleteRoute
+  '/api/chat/$projectId/delete-attachment': typeof ApiChatProjectIdDeleteAttachmentRoute
+  '/api/chat/$projectId/upload': typeof ApiChatProjectIdUploadRoute
+  '/api/companies/$id/fees-and-subscriptions': typeof ApiCompaniesIdFeesAndSubscriptionsRoute
+  '/api/companies/$id/payment-status': typeof ApiCompaniesIdPaymentStatusRoute
+  '/api/companies/$id/projects': typeof ApiCompaniesIdProjectsRoute
+  '/api/companies/$id/users': typeof ApiCompaniesIdUsersRoute
+  '/api/extension/project/config': typeof ApiExtensionProjectConfigRoute
+  '/api/extension/scripts/$name': typeof ApiExtensionScriptsNameRoute
+  '/api/mail/v1/send': typeof ApiMailV1SendRouteWithChildren
+  '/api/meetings/$meetingId/documents': typeof ApiMeetingsMeetingIdDocumentsRoute
+  '/api/meetings/$meetingId/token': typeof ApiMeetingsMeetingIdTokenRoute
+  '/api/pdf-signatures/public/$token': typeof ApiPdfSignaturesPublicTokenRouteWithChildren
+  '/api/pdf-signatures/requests/$id': typeof ApiPdfSignaturesRequestsIdRouteWithChildren
+  '/api/projects/$id/access-override': typeof ApiProjectsIdAccessOverrideRoute
+  '/api/projects/$id/api-key': typeof ApiProjectsIdApiKeyRoute
+  '/api/projects/$id/auth-devices': typeof ApiProjectsIdAuthDevicesRouteWithChildren
+  '/api/projects/$id/device-limit': typeof ApiProjectsIdDeviceLimitRoute
+  '/api/projects/$id/features': typeof ApiProjectsIdFeaturesRoute
+  '/api/projects/$id/fees': typeof ApiProjectsIdFeesRouteWithChildren
+  '/api/projects/$id/github-commits': typeof ApiProjectsIdGithubCommitsRoute
+  '/api/projects/$id/github-ref': typeof ApiProjectsIdGithubRefRoute
+  '/api/projects/$id/github-status': typeof ApiProjectsIdGithubStatusRoute
+  '/api/projects/$id/program-log-ingest-url': typeof ApiProjectsIdProgramLogIngestUrlRoute
+  '/api/projects/$id/program-logs': typeof ApiProjectsIdProgramLogsRouteWithChildren
+  '/api/projects/$id/subscriptions': typeof ApiProjectsIdSubscriptionsRouteWithChildren
+  '/api/projects/proxy/$id': typeof ApiProjectsProxyIdRoute
+  '/api/public-upload/$token/complete': typeof ApiPublicUploadTokenCompleteRoute
+  '/api/public-upload/$token/presign': typeof ApiPublicUploadTokenPresignRoute
+  '/api/share/company-files/zip': typeof ApiShareCompanyFilesZipRoute
+  '/api/time-tracking/clients/$id': typeof ApiTimeTrackingClientsIdRoute
+  '/api/time-tracking/entries/$id': typeof ApiTimeTrackingEntriesIdRoute
+  '/api/time-tracking/tasks/$id': typeof ApiTimeTrackingTasksIdRoute
+  '/api/users/$id/invite': typeof ApiUsersIdInviteRoute
+  '/api/users/$id/projects': typeof ApiUsersIdProjectsRoute
+  '/api/webhooks/clerk/sync-user': typeof ApiWebhooksClerkSyncUserRoute
+  '/api/admin/bills/$id/activate': typeof ApiAdminBillsIdActivateRoute
+  '/api/admin/bills/$id/charge-now': typeof ApiAdminBillsIdChargeNowRoute
+  '/api/admin/bills/$id/charges': typeof ApiAdminBillsIdChargesRoute
+  '/api/admin/bills/$id/duplicate': typeof ApiAdminBillsIdDuplicateRoute
+  '/api/admin/bills/$id/mark-paid': typeof ApiAdminBillsIdMarkPaidRoute
+  '/api/admin/bills/$id/pause': typeof ApiAdminBillsIdPauseRoute
+  '/api/admin/bills/$id/receipt': typeof ApiAdminBillsIdReceiptRoute
+  '/api/admin/bills/$id/resume': typeof ApiAdminBillsIdResumeRoute
+  '/api/admin/bills/$id/send-invoice': typeof ApiAdminBillsIdSendInvoiceRoute
+  '/api/admin/companies/$companyId/authorizations-data': typeof ApiAdminCompaniesCompanyIdAuthorizationsDataRoute
+  '/api/admin/payments/$id/billings': typeof ApiAdminPaymentsIdBillingsRoute
+  '/api/admin/payments/$id/failure-reason': typeof ApiAdminPaymentsIdFailureReasonRoute
+  '/api/admin/payments/$id/invoice': typeof ApiAdminPaymentsIdInvoiceRoute
+  '/api/admin/payments/$id/mark-paid': typeof ApiAdminPaymentsIdMarkPaidRoute
+  '/api/admin/payments/$id/receipt': typeof ApiAdminPaymentsIdReceiptRoute
+  '/api/admin/payments/$id/transactions': typeof ApiAdminPaymentsIdTransactionsRoute
+  '/api/admin/projects/$id/extension-source': typeof ApiAdminProjectsIdExtensionSourceRoute
+  '/api/extension/project/scripts/$name': typeof ApiExtensionProjectScriptsNameRoute
+  '/api/ingest/program-logs/$projectId/$token': typeof ApiIngestProgramLogsProjectIdTokenRoute
+  '/api/mail/v1/send/batch': typeof ApiMailV1SendBatchRoute
+  '/api/pdf-signatures/public/$token/email': typeof ApiPdfSignaturesPublicTokenEmailRoute
+  '/api/pdf-signatures/public/$token/pdf': typeof ApiPdfSignaturesPublicTokenPdfRoute
+  '/api/pdf-signatures/public/$token/sign': typeof ApiPdfSignaturesPublicTokenSignRoute
+  '/api/pdf-signatures/public/$token/signed-pdf': typeof ApiPdfSignaturesPublicTokenSignedPdfRoute
+  '/api/pdf-signatures/public/$token/submit': typeof ApiPdfSignaturesPublicTokenSubmitRoute
+  '/api/pdf-signatures/requests/$id/fields': typeof ApiPdfSignaturesRequestsIdFieldsRoute
+  '/api/pdf-signatures/requests/$id/pdf': typeof ApiPdfSignaturesRequestsIdPdfRoute
+  '/api/pdf-signatures/requests/$id/signatures': typeof ApiPdfSignaturesRequestsIdSignaturesRoute
+  '/api/projects/$id/auth-devices/$deviceId': typeof ApiProjectsIdAuthDevicesDeviceIdRoute
+  '/api/projects/$id/program-logs/$logId': typeof ApiProjectsIdProgramLogsLogIdRoute
+  '/api/projects/$id/subscriptions/$subscriptionId': typeof ApiProjectsIdSubscriptionsSubscriptionIdRouteWithChildren
+  '/api/support/threads/$id/messages': typeof ApiSupportThreadsIdMessagesRouteWithChildren
+  '/api/support/threads/$id/participants': typeof ApiSupportThreadsIdParticipantsRoute
+  '/api/support/threads/$id/upload': typeof ApiSupportThreadsIdUploadRoute
+  '/api/projects/$id/fees/$feeId/create-payment': typeof ApiProjectsIdFeesFeeIdCreatePaymentRoute
+  '/api/projects/$id/fees/$feeId/mark-completed': typeof ApiProjectsIdFeesFeeIdMarkCompletedRoute
+  '/api/projects/$id/fees/$feeId/transactions': typeof ApiProjectsIdFeesFeeIdTransactionsRoute
+  '/api/projects/$id/subscriptions/$subscriptionId/create-payment': typeof ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRoute
+  '/api/projects/$id/subscriptions/$subscriptionId/mark-completed': typeof ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRoute
+  '/api/projects/$id/subscriptions/$subscriptionId/transactions': typeof ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRoute
+  '/api/support/threads/$id/messages/$messageId': typeof ApiSupportThreadsIdMessagesMessageIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -303,26 +1824,205 @@ export interface FileRoutesById {
   '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
   '/order-confirmation': typeof OrderConfirmationRoute
-  '/portal': typeof PortalRoute
+  '/overview': typeof OverviewRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/services': typeof ServicesRoute
+  '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
-  '/admin/quotes': typeof AdminQuotesRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/sign-in': typeof AdminSignInRoute
+  '/api/blocked-slots': typeof ApiBlockedSlotsRouteWithChildren
+  '/api/companies': typeof ApiCompaniesRouteWithChildren
+  '/api/entitlement': typeof ApiEntitlementRouteWithChildren
   '/api/meeting': typeof ApiMeetingRoute
-  '/api/meetings': typeof ApiMeetingsRoute
+  '/api/meeting-requests': typeof ApiMeetingRequestsRouteWithChildren
+  '/api/meetings': typeof ApiMeetingsRouteWithChildren
   '/api/order': typeof ApiOrderRoute
   '/api/orders': typeof ApiOrdersRoute
+  '/api/projects': typeof ApiProjectsRouteWithChildren
   '/api/quote': typeof ApiQuoteRoute
   '/api/quotes': typeof ApiQuotesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/pay/$token': typeof PayTokenRoute
+  '/portal/sign-in': typeof PortalSignInRoute
+  '/portal/support': typeof PortalSupportRoute
+  '/portal/time-tracking': typeof PortalTimeTrackingRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/sign/$token': typeof SignTokenRoute
+  '/admin/': typeof AdminIndexRoute
+  '/payments/': typeof PaymentsIndexRoute
+  '/portal/': typeof PortalIndexRoute
+  '/admin/signatures/$id': typeof AdminSignaturesIdRoute
+  '/api/admin/bills': typeof ApiAdminBillsRouteWithChildren
+  '/api/admin/company-files': typeof ApiAdminCompanyFilesRouteWithChildren
+  '/api/admin/lead-meetings': typeof ApiAdminLeadMeetingsRoute
+  '/api/admin/payments': typeof ApiAdminPaymentsRouteWithChildren
+  '/api/admin/projects': typeof ApiAdminProjectsRouteWithChildren
+  '/api/admin/support-agents': typeof ApiAdminSupportAgentsRouteWithChildren
+  '/api/admin/users': typeof ApiAdminUsersRoute
+  '/api/auth/sign-out': typeof ApiAuthSignOutRoute
+  '/api/availability/check': typeof ApiAvailabilityCheckRoute
+  '/api/blocked-slots/$id': typeof ApiBlockedSlotsIdRoute
+  '/api/chat/$projectId': typeof ApiChatProjectIdRouteWithChildren
+  '/api/clerk/users': typeof ApiClerkUsersRoute
+  '/api/companies/$id': typeof ApiCompaniesIdRouteWithChildren
+  '/api/cron/billing': typeof ApiCronBillingRoute
+  '/api/debug/log': typeof ApiDebugLogRoute
+  '/api/entitlement/devices': typeof ApiEntitlementDevicesRoute
+  '/api/entitlement/request-device': typeof ApiEntitlementRequestDeviceRoute
+  '/api/extension/config': typeof ApiExtensionConfigRoute
+  '/api/extension/github-check': typeof ApiExtensionGithubCheckRoute
+  '/api/extension/repo-list': typeof ApiExtensionRepoListRoute
+  '/api/meeting-requests/$id': typeof ApiMeetingRequestsIdRoute
+  '/api/meeting-requests/available-slots': typeof ApiMeetingRequestsAvailableSlotsRoute
+  '/api/meetings/$meetingId': typeof ApiMeetingsMeetingIdRouteWithChildren
+  '/api/meetings/upcoming': typeof ApiMeetingsUpcomingRoute
+  '/api/payments/create-intent': typeof ApiPaymentsCreateIntentRoute
+  '/api/payments/create-setup-intent': typeof ApiPaymentsCreateSetupIntentRoute
+  '/api/payments/create-setup-intent-account': typeof ApiPaymentsCreateSetupIntentAccountRoute
+  '/api/payments/document': typeof ApiPaymentsDocumentRoute
+  '/api/payments/notify-payment': typeof ApiPaymentsNotifyPaymentRoute
+  '/api/payments/payment-intent-method': typeof ApiPaymentsPaymentIntentMethodRoute
+  '/api/payments/record-success': typeof ApiPaymentsRecordSuccessRoute
+  '/api/payments/request': typeof ApiPaymentsRequestRoute
+  '/api/payments/save-payment-method': typeof ApiPaymentsSavePaymentMethodRoute
+  '/api/payments/save-payment-method-to-account': typeof ApiPaymentsSavePaymentMethodToAccountRoute
+  '/api/payments/saved-methods': typeof ApiPaymentsSavedMethodsRoute
+  '/api/payments/send-invoice': typeof ApiPaymentsSendInvoiceRoute
+  '/api/payments/send-receipt': typeof ApiPaymentsSendReceiptRoute
+  '/api/payments/update-status': typeof ApiPaymentsUpdateStatusRoute
+  '/api/pdf-signatures/requests': typeof ApiPdfSignaturesRequestsRouteWithChildren
+  '/api/projects/$id': typeof ApiProjectsIdRouteWithChildren
+  '/api/public-upload/$token': typeof ApiPublicUploadTokenRouteWithChildren
+  '/api/subscriptions/process-due': typeof ApiSubscriptionsProcessDueRoute
+  '/api/support/attachment-preview': typeof ApiSupportAttachmentPreviewRoute
+  '/api/support/threads': typeof ApiSupportThreadsRouteWithChildren
+  '/api/time-tracking/clients': typeof ApiTimeTrackingClientsRouteWithChildren
+  '/api/time-tracking/entries': typeof ApiTimeTrackingEntriesRouteWithChildren
+  '/api/time-tracking/export': typeof ApiTimeTrackingExportRoute
+  '/api/time-tracking/overview': typeof ApiTimeTrackingOverviewRoute
+  '/api/time-tracking/report': typeof ApiTimeTrackingReportRoute
+  '/api/time-tracking/running-sync': typeof ApiTimeTrackingRunningSyncRoute
+  '/api/time-tracking/tasks': typeof ApiTimeTrackingTasksRouteWithChildren
+  '/api/time-tracking/timer': typeof ApiTimeTrackingTimerRoute
+  '/api/users/$id': typeof ApiUsersIdRouteWithChildren
+  '/api/users/me': typeof ApiUsersMeRoute
+  '/api/webhooks/clerk': typeof ApiWebhooksClerkRouteWithChildren
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
+  '/meetings/$meetingId/join': typeof MeetingsMeetingIdJoinRoute
+  '/api/admin/billing/history': typeof ApiAdminBillingHistoryRoute
+  '/api/admin/billing/run-today': typeof ApiAdminBillingRunTodayRoute
+  '/api/admin/billing/subscriptions-batch': typeof ApiAdminBillingSubscriptionsBatchRoute
+  '/api/admin/bills/$id': typeof ApiAdminBillsIdRouteWithChildren
+  '/api/admin/company-files/download': typeof ApiAdminCompanyFilesDownloadRoute
+  '/api/admin/company-files/folder': typeof ApiAdminCompanyFilesFolderRoute
+  '/api/admin/company-files/move': typeof ApiAdminCompanyFilesMoveRoute
+  '/api/admin/company-files/presign': typeof ApiAdminCompanyFilesPresignRoute
+  '/api/admin/company-files/presign-batch': typeof ApiAdminCompanyFilesPresignBatchRoute
+  '/api/admin/company-files/share-link': typeof ApiAdminCompanyFilesShareLinkRoute
+  '/api/admin/company-files/upload-link': typeof ApiAdminCompanyFilesUploadLinkRoute
+  '/api/admin/company-files/zip': typeof ApiAdminCompanyFilesZipRoute
+  '/api/admin/payments/$id': typeof ApiAdminPaymentsIdRouteWithChildren
+  '/api/admin/payments/attach-default-to-company': typeof ApiAdminPaymentsAttachDefaultToCompanyRoute
+  '/api/admin/payments/attach-method': typeof ApiAdminPaymentsAttachMethodRoute
+  '/api/admin/payments/bill': typeof ApiAdminPaymentsBillRoute
+  '/api/admin/payments/billing-dry-run': typeof ApiAdminPaymentsBillingDryRunRoute
+  '/api/admin/payments/billing-history': typeof ApiAdminPaymentsBillingHistoryRoute
+  '/api/admin/payments/failure-reasons': typeof ApiAdminPaymentsFailureReasonsRoute
+  '/api/admin/payments/pay-now': typeof ApiAdminPaymentsPayNowRoute
+  '/api/admin/payments/project-transactions': typeof ApiAdminPaymentsProjectTransactionsRoute
+  '/api/admin/payments/resolve-request': typeof ApiAdminPaymentsResolveRequestRoute
+  '/api/admin/payments/run-company-billing': typeof ApiAdminPaymentsRunCompanyBillingRoute
+  '/api/admin/payments/send-invoice': typeof ApiAdminPaymentsSendInvoiceRoute
+  '/api/admin/payments/test-stripe-keys': typeof ApiAdminPaymentsTestStripeKeysRoute
+  '/api/admin/payments/with-projects': typeof ApiAdminPaymentsWithProjectsRoute
+  '/api/admin/support-agents/$userId': typeof ApiAdminSupportAgentsUserIdRoute
+  '/api/availability/respond/$id': typeof ApiAvailabilityRespondIdRoute
+  '/api/availability/status/$id': typeof ApiAvailabilityStatusIdRoute
+  '/api/chat/$projectId/delete': typeof ApiChatProjectIdDeleteRoute
+  '/api/chat/$projectId/delete-attachment': typeof ApiChatProjectIdDeleteAttachmentRoute
+  '/api/chat/$projectId/upload': typeof ApiChatProjectIdUploadRoute
+  '/api/companies/$id/fees-and-subscriptions': typeof ApiCompaniesIdFeesAndSubscriptionsRoute
+  '/api/companies/$id/payment-status': typeof ApiCompaniesIdPaymentStatusRoute
+  '/api/companies/$id/projects': typeof ApiCompaniesIdProjectsRoute
+  '/api/companies/$id/users': typeof ApiCompaniesIdUsersRoute
+  '/api/extension/project/config': typeof ApiExtensionProjectConfigRoute
+  '/api/extension/scripts/$name': typeof ApiExtensionScriptsNameRoute
+  '/api/mail/v1/send': typeof ApiMailV1SendRouteWithChildren
+  '/api/meetings/$meetingId/documents': typeof ApiMeetingsMeetingIdDocumentsRoute
+  '/api/meetings/$meetingId/token': typeof ApiMeetingsMeetingIdTokenRoute
+  '/api/pdf-signatures/public/$token': typeof ApiPdfSignaturesPublicTokenRouteWithChildren
+  '/api/pdf-signatures/requests/$id': typeof ApiPdfSignaturesRequestsIdRouteWithChildren
+  '/api/projects/$id/access-override': typeof ApiProjectsIdAccessOverrideRoute
+  '/api/projects/$id/api-key': typeof ApiProjectsIdApiKeyRoute
+  '/api/projects/$id/auth-devices': typeof ApiProjectsIdAuthDevicesRouteWithChildren
+  '/api/projects/$id/device-limit': typeof ApiProjectsIdDeviceLimitRoute
+  '/api/projects/$id/features': typeof ApiProjectsIdFeaturesRoute
+  '/api/projects/$id/fees': typeof ApiProjectsIdFeesRouteWithChildren
+  '/api/projects/$id/github-commits': typeof ApiProjectsIdGithubCommitsRoute
+  '/api/projects/$id/github-ref': typeof ApiProjectsIdGithubRefRoute
+  '/api/projects/$id/github-status': typeof ApiProjectsIdGithubStatusRoute
+  '/api/projects/$id/program-log-ingest-url': typeof ApiProjectsIdProgramLogIngestUrlRoute
+  '/api/projects/$id/program-logs': typeof ApiProjectsIdProgramLogsRouteWithChildren
+  '/api/projects/$id/subscriptions': typeof ApiProjectsIdSubscriptionsRouteWithChildren
+  '/api/projects/proxy/$id': typeof ApiProjectsProxyIdRoute
+  '/api/public-upload/$token/complete': typeof ApiPublicUploadTokenCompleteRoute
+  '/api/public-upload/$token/presign': typeof ApiPublicUploadTokenPresignRoute
+  '/api/share/company-files/zip': typeof ApiShareCompanyFilesZipRoute
+  '/api/time-tracking/clients/$id': typeof ApiTimeTrackingClientsIdRoute
+  '/api/time-tracking/entries/$id': typeof ApiTimeTrackingEntriesIdRoute
+  '/api/time-tracking/tasks/$id': typeof ApiTimeTrackingTasksIdRoute
+  '/api/users/$id/invite': typeof ApiUsersIdInviteRoute
+  '/api/users/$id/projects': typeof ApiUsersIdProjectsRoute
+  '/api/webhooks/clerk/sync-user': typeof ApiWebhooksClerkSyncUserRoute
+  '/api/admin/bills/$id/activate': typeof ApiAdminBillsIdActivateRoute
+  '/api/admin/bills/$id/charge-now': typeof ApiAdminBillsIdChargeNowRoute
+  '/api/admin/bills/$id/charges': typeof ApiAdminBillsIdChargesRoute
+  '/api/admin/bills/$id/duplicate': typeof ApiAdminBillsIdDuplicateRoute
+  '/api/admin/bills/$id/mark-paid': typeof ApiAdminBillsIdMarkPaidRoute
+  '/api/admin/bills/$id/pause': typeof ApiAdminBillsIdPauseRoute
+  '/api/admin/bills/$id/receipt': typeof ApiAdminBillsIdReceiptRoute
+  '/api/admin/bills/$id/resume': typeof ApiAdminBillsIdResumeRoute
+  '/api/admin/bills/$id/send-invoice': typeof ApiAdminBillsIdSendInvoiceRoute
+  '/api/admin/companies/$companyId/authorizations-data': typeof ApiAdminCompaniesCompanyIdAuthorizationsDataRoute
+  '/api/admin/payments/$id/billings': typeof ApiAdminPaymentsIdBillingsRoute
+  '/api/admin/payments/$id/failure-reason': typeof ApiAdminPaymentsIdFailureReasonRoute
+  '/api/admin/payments/$id/invoice': typeof ApiAdminPaymentsIdInvoiceRoute
+  '/api/admin/payments/$id/mark-paid': typeof ApiAdminPaymentsIdMarkPaidRoute
+  '/api/admin/payments/$id/receipt': typeof ApiAdminPaymentsIdReceiptRoute
+  '/api/admin/payments/$id/transactions': typeof ApiAdminPaymentsIdTransactionsRoute
+  '/api/admin/projects/$id/extension-source': typeof ApiAdminProjectsIdExtensionSourceRoute
+  '/api/extension/project/scripts/$name': typeof ApiExtensionProjectScriptsNameRoute
+  '/api/ingest/program-logs/$projectId/$token': typeof ApiIngestProgramLogsProjectIdTokenRoute
+  '/api/mail/v1/send/batch': typeof ApiMailV1SendBatchRoute
+  '/api/pdf-signatures/public/$token/email': typeof ApiPdfSignaturesPublicTokenEmailRoute
+  '/api/pdf-signatures/public/$token/pdf': typeof ApiPdfSignaturesPublicTokenPdfRoute
+  '/api/pdf-signatures/public/$token/sign': typeof ApiPdfSignaturesPublicTokenSignRoute
+  '/api/pdf-signatures/public/$token/signed-pdf': typeof ApiPdfSignaturesPublicTokenSignedPdfRoute
+  '/api/pdf-signatures/public/$token/submit': typeof ApiPdfSignaturesPublicTokenSubmitRoute
+  '/api/pdf-signatures/requests/$id/fields': typeof ApiPdfSignaturesRequestsIdFieldsRoute
+  '/api/pdf-signatures/requests/$id/pdf': typeof ApiPdfSignaturesRequestsIdPdfRoute
+  '/api/pdf-signatures/requests/$id/signatures': typeof ApiPdfSignaturesRequestsIdSignaturesRoute
+  '/api/projects/$id/auth-devices/$deviceId': typeof ApiProjectsIdAuthDevicesDeviceIdRoute
+  '/api/projects/$id/program-logs/$logId': typeof ApiProjectsIdProgramLogsLogIdRoute
+  '/api/projects/$id/subscriptions/$subscriptionId': typeof ApiProjectsIdSubscriptionsSubscriptionIdRouteWithChildren
+  '/api/support/threads/$id/messages': typeof ApiSupportThreadsIdMessagesRouteWithChildren
+  '/api/support/threads/$id/participants': typeof ApiSupportThreadsIdParticipantsRoute
+  '/api/support/threads/$id/upload': typeof ApiSupportThreadsIdUploadRoute
+  '/api/projects/$id/fees/$feeId/create-payment': typeof ApiProjectsIdFeesFeeIdCreatePaymentRoute
+  '/api/projects/$id/fees/$feeId/mark-completed': typeof ApiProjectsIdFeesFeeIdMarkCompletedRoute
+  '/api/projects/$id/fees/$feeId/transactions': typeof ApiProjectsIdFeesFeeIdTransactionsRoute
+  '/api/projects/$id/subscriptions/$subscriptionId/create-payment': typeof ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRoute
+  '/api/projects/$id/subscriptions/$subscriptionId/mark-completed': typeof ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRoute
+  '/api/projects/$id/subscriptions/$subscriptionId/transactions': typeof ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRoute
+  '/api/support/threads/$id/messages/$messageId': typeof ApiSupportThreadsIdMessagesMessageIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -341,26 +2041,205 @@ export interface FileRouteTypes {
     | '/intake'
     | '/locations'
     | '/order-confirmation'
-    | '/portal'
+    | '/overview'
     | '/privacy'
     | '/quote'
     | '/robots.txt'
     | '/search'
     | '/services'
+    | '/sign-up'
     | '/sitemap.xml'
     | '/store'
     | '/team'
     | '/terms'
-    | '/admin/quotes'
+    | '/admin/calendar'
+    | '/admin/sign-in'
+    | '/api/blocked-slots'
+    | '/api/companies'
+    | '/api/entitlement'
     | '/api/meeting'
+    | '/api/meeting-requests'
     | '/api/meetings'
     | '/api/order'
     | '/api/orders'
+    | '/api/projects'
     | '/api/quote'
     | '/api/quotes'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/pay/$token'
+    | '/portal/sign-in'
+    | '/portal/support'
+    | '/portal/time-tracking'
     | '/product/$slug'
+    | '/sign/$token'
+    | '/admin/'
+    | '/payments/'
+    | '/portal/'
+    | '/admin/signatures/$id'
+    | '/api/admin/bills'
+    | '/api/admin/company-files'
+    | '/api/admin/lead-meetings'
+    | '/api/admin/payments'
+    | '/api/admin/projects'
+    | '/api/admin/support-agents'
+    | '/api/admin/users'
+    | '/api/auth/sign-out'
+    | '/api/availability/check'
+    | '/api/blocked-slots/$id'
+    | '/api/chat/$projectId'
+    | '/api/clerk/users'
+    | '/api/companies/$id'
+    | '/api/cron/billing'
+    | '/api/debug/log'
+    | '/api/entitlement/devices'
+    | '/api/entitlement/request-device'
+    | '/api/extension/config'
+    | '/api/extension/github-check'
+    | '/api/extension/repo-list'
+    | '/api/meeting-requests/$id'
+    | '/api/meeting-requests/available-slots'
+    | '/api/meetings/$meetingId'
+    | '/api/meetings/upcoming'
+    | '/api/payments/create-intent'
+    | '/api/payments/create-setup-intent'
+    | '/api/payments/create-setup-intent-account'
+    | '/api/payments/document'
+    | '/api/payments/notify-payment'
+    | '/api/payments/payment-intent-method'
+    | '/api/payments/record-success'
+    | '/api/payments/request'
+    | '/api/payments/save-payment-method'
+    | '/api/payments/save-payment-method-to-account'
+    | '/api/payments/saved-methods'
+    | '/api/payments/send-invoice'
+    | '/api/payments/send-receipt'
+    | '/api/payments/update-status'
+    | '/api/pdf-signatures/requests'
+    | '/api/projects/$id'
+    | '/api/public-upload/$token'
+    | '/api/subscriptions/process-due'
+    | '/api/support/attachment-preview'
+    | '/api/support/threads'
+    | '/api/time-tracking/clients'
+    | '/api/time-tracking/entries'
+    | '/api/time-tracking/export'
+    | '/api/time-tracking/overview'
+    | '/api/time-tracking/report'
+    | '/api/time-tracking/running-sync'
+    | '/api/time-tracking/tasks'
+    | '/api/time-tracking/timer'
+    | '/api/users/$id'
+    | '/api/users/me'
+    | '/api/webhooks/clerk'
+    | '/api/webhooks/stripe'
+    | '/meetings/$meetingId/join'
+    | '/api/admin/billing/history'
+    | '/api/admin/billing/run-today'
+    | '/api/admin/billing/subscriptions-batch'
+    | '/api/admin/bills/$id'
+    | '/api/admin/company-files/download'
+    | '/api/admin/company-files/folder'
+    | '/api/admin/company-files/move'
+    | '/api/admin/company-files/presign'
+    | '/api/admin/company-files/presign-batch'
+    | '/api/admin/company-files/share-link'
+    | '/api/admin/company-files/upload-link'
+    | '/api/admin/company-files/zip'
+    | '/api/admin/payments/$id'
+    | '/api/admin/payments/attach-default-to-company'
+    | '/api/admin/payments/attach-method'
+    | '/api/admin/payments/bill'
+    | '/api/admin/payments/billing-dry-run'
+    | '/api/admin/payments/billing-history'
+    | '/api/admin/payments/failure-reasons'
+    | '/api/admin/payments/pay-now'
+    | '/api/admin/payments/project-transactions'
+    | '/api/admin/payments/resolve-request'
+    | '/api/admin/payments/run-company-billing'
+    | '/api/admin/payments/send-invoice'
+    | '/api/admin/payments/test-stripe-keys'
+    | '/api/admin/payments/with-projects'
+    | '/api/admin/support-agents/$userId'
+    | '/api/availability/respond/$id'
+    | '/api/availability/status/$id'
+    | '/api/chat/$projectId/delete'
+    | '/api/chat/$projectId/delete-attachment'
+    | '/api/chat/$projectId/upload'
+    | '/api/companies/$id/fees-and-subscriptions'
+    | '/api/companies/$id/payment-status'
+    | '/api/companies/$id/projects'
+    | '/api/companies/$id/users'
+    | '/api/extension/project/config'
+    | '/api/extension/scripts/$name'
+    | '/api/mail/v1/send'
+    | '/api/meetings/$meetingId/documents'
+    | '/api/meetings/$meetingId/token'
+    | '/api/pdf-signatures/public/$token'
+    | '/api/pdf-signatures/requests/$id'
+    | '/api/projects/$id/access-override'
+    | '/api/projects/$id/api-key'
+    | '/api/projects/$id/auth-devices'
+    | '/api/projects/$id/device-limit'
+    | '/api/projects/$id/features'
+    | '/api/projects/$id/fees'
+    | '/api/projects/$id/github-commits'
+    | '/api/projects/$id/github-ref'
+    | '/api/projects/$id/github-status'
+    | '/api/projects/$id/program-log-ingest-url'
+    | '/api/projects/$id/program-logs'
+    | '/api/projects/$id/subscriptions'
+    | '/api/projects/proxy/$id'
+    | '/api/public-upload/$token/complete'
+    | '/api/public-upload/$token/presign'
+    | '/api/share/company-files/zip'
+    | '/api/time-tracking/clients/$id'
+    | '/api/time-tracking/entries/$id'
+    | '/api/time-tracking/tasks/$id'
+    | '/api/users/$id/invite'
+    | '/api/users/$id/projects'
+    | '/api/webhooks/clerk/sync-user'
+    | '/api/admin/bills/$id/activate'
+    | '/api/admin/bills/$id/charge-now'
+    | '/api/admin/bills/$id/charges'
+    | '/api/admin/bills/$id/duplicate'
+    | '/api/admin/bills/$id/mark-paid'
+    | '/api/admin/bills/$id/pause'
+    | '/api/admin/bills/$id/receipt'
+    | '/api/admin/bills/$id/resume'
+    | '/api/admin/bills/$id/send-invoice'
+    | '/api/admin/companies/$companyId/authorizations-data'
+    | '/api/admin/payments/$id/billings'
+    | '/api/admin/payments/$id/failure-reason'
+    | '/api/admin/payments/$id/invoice'
+    | '/api/admin/payments/$id/mark-paid'
+    | '/api/admin/payments/$id/receipt'
+    | '/api/admin/payments/$id/transactions'
+    | '/api/admin/projects/$id/extension-source'
+    | '/api/extension/project/scripts/$name'
+    | '/api/ingest/program-logs/$projectId/$token'
+    | '/api/mail/v1/send/batch'
+    | '/api/pdf-signatures/public/$token/email'
+    | '/api/pdf-signatures/public/$token/pdf'
+    | '/api/pdf-signatures/public/$token/sign'
+    | '/api/pdf-signatures/public/$token/signed-pdf'
+    | '/api/pdf-signatures/public/$token/submit'
+    | '/api/pdf-signatures/requests/$id/fields'
+    | '/api/pdf-signatures/requests/$id/pdf'
+    | '/api/pdf-signatures/requests/$id/signatures'
+    | '/api/projects/$id/auth-devices/$deviceId'
+    | '/api/projects/$id/program-logs/$logId'
+    | '/api/projects/$id/subscriptions/$subscriptionId'
+    | '/api/support/threads/$id/messages'
+    | '/api/support/threads/$id/participants'
+    | '/api/support/threads/$id/upload'
+    | '/api/projects/$id/fees/$feeId/create-payment'
+    | '/api/projects/$id/fees/$feeId/mark-completed'
+    | '/api/projects/$id/fees/$feeId/transactions'
+    | '/api/projects/$id/subscriptions/$subscriptionId/create-payment'
+    | '/api/projects/$id/subscriptions/$subscriptionId/mark-completed'
+    | '/api/projects/$id/subscriptions/$subscriptionId/transactions'
+    | '/api/support/threads/$id/messages/$messageId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -377,26 +2256,205 @@ export interface FileRouteTypes {
     | '/intake'
     | '/locations'
     | '/order-confirmation'
-    | '/portal'
+    | '/overview'
     | '/privacy'
     | '/quote'
     | '/robots.txt'
     | '/search'
     | '/services'
+    | '/sign-up'
     | '/sitemap.xml'
     | '/store'
     | '/team'
     | '/terms'
-    | '/admin/quotes'
+    | '/admin/calendar'
+    | '/admin/sign-in'
+    | '/api/blocked-slots'
+    | '/api/companies'
+    | '/api/entitlement'
     | '/api/meeting'
+    | '/api/meeting-requests'
     | '/api/meetings'
     | '/api/order'
     | '/api/orders'
+    | '/api/projects'
     | '/api/quote'
     | '/api/quotes'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/pay/$token'
+    | '/portal/sign-in'
+    | '/portal/support'
+    | '/portal/time-tracking'
     | '/product/$slug'
+    | '/sign/$token'
+    | '/admin'
+    | '/payments'
+    | '/portal'
+    | '/admin/signatures/$id'
+    | '/api/admin/bills'
+    | '/api/admin/company-files'
+    | '/api/admin/lead-meetings'
+    | '/api/admin/payments'
+    | '/api/admin/projects'
+    | '/api/admin/support-agents'
+    | '/api/admin/users'
+    | '/api/auth/sign-out'
+    | '/api/availability/check'
+    | '/api/blocked-slots/$id'
+    | '/api/chat/$projectId'
+    | '/api/clerk/users'
+    | '/api/companies/$id'
+    | '/api/cron/billing'
+    | '/api/debug/log'
+    | '/api/entitlement/devices'
+    | '/api/entitlement/request-device'
+    | '/api/extension/config'
+    | '/api/extension/github-check'
+    | '/api/extension/repo-list'
+    | '/api/meeting-requests/$id'
+    | '/api/meeting-requests/available-slots'
+    | '/api/meetings/$meetingId'
+    | '/api/meetings/upcoming'
+    | '/api/payments/create-intent'
+    | '/api/payments/create-setup-intent'
+    | '/api/payments/create-setup-intent-account'
+    | '/api/payments/document'
+    | '/api/payments/notify-payment'
+    | '/api/payments/payment-intent-method'
+    | '/api/payments/record-success'
+    | '/api/payments/request'
+    | '/api/payments/save-payment-method'
+    | '/api/payments/save-payment-method-to-account'
+    | '/api/payments/saved-methods'
+    | '/api/payments/send-invoice'
+    | '/api/payments/send-receipt'
+    | '/api/payments/update-status'
+    | '/api/pdf-signatures/requests'
+    | '/api/projects/$id'
+    | '/api/public-upload/$token'
+    | '/api/subscriptions/process-due'
+    | '/api/support/attachment-preview'
+    | '/api/support/threads'
+    | '/api/time-tracking/clients'
+    | '/api/time-tracking/entries'
+    | '/api/time-tracking/export'
+    | '/api/time-tracking/overview'
+    | '/api/time-tracking/report'
+    | '/api/time-tracking/running-sync'
+    | '/api/time-tracking/tasks'
+    | '/api/time-tracking/timer'
+    | '/api/users/$id'
+    | '/api/users/me'
+    | '/api/webhooks/clerk'
+    | '/api/webhooks/stripe'
+    | '/meetings/$meetingId/join'
+    | '/api/admin/billing/history'
+    | '/api/admin/billing/run-today'
+    | '/api/admin/billing/subscriptions-batch'
+    | '/api/admin/bills/$id'
+    | '/api/admin/company-files/download'
+    | '/api/admin/company-files/folder'
+    | '/api/admin/company-files/move'
+    | '/api/admin/company-files/presign'
+    | '/api/admin/company-files/presign-batch'
+    | '/api/admin/company-files/share-link'
+    | '/api/admin/company-files/upload-link'
+    | '/api/admin/company-files/zip'
+    | '/api/admin/payments/$id'
+    | '/api/admin/payments/attach-default-to-company'
+    | '/api/admin/payments/attach-method'
+    | '/api/admin/payments/bill'
+    | '/api/admin/payments/billing-dry-run'
+    | '/api/admin/payments/billing-history'
+    | '/api/admin/payments/failure-reasons'
+    | '/api/admin/payments/pay-now'
+    | '/api/admin/payments/project-transactions'
+    | '/api/admin/payments/resolve-request'
+    | '/api/admin/payments/run-company-billing'
+    | '/api/admin/payments/send-invoice'
+    | '/api/admin/payments/test-stripe-keys'
+    | '/api/admin/payments/with-projects'
+    | '/api/admin/support-agents/$userId'
+    | '/api/availability/respond/$id'
+    | '/api/availability/status/$id'
+    | '/api/chat/$projectId/delete'
+    | '/api/chat/$projectId/delete-attachment'
+    | '/api/chat/$projectId/upload'
+    | '/api/companies/$id/fees-and-subscriptions'
+    | '/api/companies/$id/payment-status'
+    | '/api/companies/$id/projects'
+    | '/api/companies/$id/users'
+    | '/api/extension/project/config'
+    | '/api/extension/scripts/$name'
+    | '/api/mail/v1/send'
+    | '/api/meetings/$meetingId/documents'
+    | '/api/meetings/$meetingId/token'
+    | '/api/pdf-signatures/public/$token'
+    | '/api/pdf-signatures/requests/$id'
+    | '/api/projects/$id/access-override'
+    | '/api/projects/$id/api-key'
+    | '/api/projects/$id/auth-devices'
+    | '/api/projects/$id/device-limit'
+    | '/api/projects/$id/features'
+    | '/api/projects/$id/fees'
+    | '/api/projects/$id/github-commits'
+    | '/api/projects/$id/github-ref'
+    | '/api/projects/$id/github-status'
+    | '/api/projects/$id/program-log-ingest-url'
+    | '/api/projects/$id/program-logs'
+    | '/api/projects/$id/subscriptions'
+    | '/api/projects/proxy/$id'
+    | '/api/public-upload/$token/complete'
+    | '/api/public-upload/$token/presign'
+    | '/api/share/company-files/zip'
+    | '/api/time-tracking/clients/$id'
+    | '/api/time-tracking/entries/$id'
+    | '/api/time-tracking/tasks/$id'
+    | '/api/users/$id/invite'
+    | '/api/users/$id/projects'
+    | '/api/webhooks/clerk/sync-user'
+    | '/api/admin/bills/$id/activate'
+    | '/api/admin/bills/$id/charge-now'
+    | '/api/admin/bills/$id/charges'
+    | '/api/admin/bills/$id/duplicate'
+    | '/api/admin/bills/$id/mark-paid'
+    | '/api/admin/bills/$id/pause'
+    | '/api/admin/bills/$id/receipt'
+    | '/api/admin/bills/$id/resume'
+    | '/api/admin/bills/$id/send-invoice'
+    | '/api/admin/companies/$companyId/authorizations-data'
+    | '/api/admin/payments/$id/billings'
+    | '/api/admin/payments/$id/failure-reason'
+    | '/api/admin/payments/$id/invoice'
+    | '/api/admin/payments/$id/mark-paid'
+    | '/api/admin/payments/$id/receipt'
+    | '/api/admin/payments/$id/transactions'
+    | '/api/admin/projects/$id/extension-source'
+    | '/api/extension/project/scripts/$name'
+    | '/api/ingest/program-logs/$projectId/$token'
+    | '/api/mail/v1/send/batch'
+    | '/api/pdf-signatures/public/$token/email'
+    | '/api/pdf-signatures/public/$token/pdf'
+    | '/api/pdf-signatures/public/$token/sign'
+    | '/api/pdf-signatures/public/$token/signed-pdf'
+    | '/api/pdf-signatures/public/$token/submit'
+    | '/api/pdf-signatures/requests/$id/fields'
+    | '/api/pdf-signatures/requests/$id/pdf'
+    | '/api/pdf-signatures/requests/$id/signatures'
+    | '/api/projects/$id/auth-devices/$deviceId'
+    | '/api/projects/$id/program-logs/$logId'
+    | '/api/projects/$id/subscriptions/$subscriptionId'
+    | '/api/support/threads/$id/messages'
+    | '/api/support/threads/$id/participants'
+    | '/api/support/threads/$id/upload'
+    | '/api/projects/$id/fees/$feeId/create-payment'
+    | '/api/projects/$id/fees/$feeId/mark-completed'
+    | '/api/projects/$id/fees/$feeId/transactions'
+    | '/api/projects/$id/subscriptions/$subscriptionId/create-payment'
+    | '/api/projects/$id/subscriptions/$subscriptionId/mark-completed'
+    | '/api/projects/$id/subscriptions/$subscriptionId/transactions'
+    | '/api/support/threads/$id/messages/$messageId'
   id:
     | '__root__'
     | '/'
@@ -413,26 +2471,205 @@ export interface FileRouteTypes {
     | '/intake'
     | '/locations'
     | '/order-confirmation'
-    | '/portal'
+    | '/overview'
     | '/privacy'
     | '/quote'
     | '/robots.txt'
     | '/search'
     | '/services'
+    | '/sign-up'
     | '/sitemap.xml'
     | '/store'
     | '/team'
     | '/terms'
-    | '/admin/quotes'
+    | '/admin/calendar'
+    | '/admin/sign-in'
+    | '/api/blocked-slots'
+    | '/api/companies'
+    | '/api/entitlement'
     | '/api/meeting'
+    | '/api/meeting-requests'
     | '/api/meetings'
     | '/api/order'
     | '/api/orders'
+    | '/api/projects'
     | '/api/quote'
     | '/api/quotes'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/pay/$token'
+    | '/portal/sign-in'
+    | '/portal/support'
+    | '/portal/time-tracking'
     | '/product/$slug'
+    | '/sign/$token'
+    | '/admin/'
+    | '/payments/'
+    | '/portal/'
+    | '/admin/signatures/$id'
+    | '/api/admin/bills'
+    | '/api/admin/company-files'
+    | '/api/admin/lead-meetings'
+    | '/api/admin/payments'
+    | '/api/admin/projects'
+    | '/api/admin/support-agents'
+    | '/api/admin/users'
+    | '/api/auth/sign-out'
+    | '/api/availability/check'
+    | '/api/blocked-slots/$id'
+    | '/api/chat/$projectId'
+    | '/api/clerk/users'
+    | '/api/companies/$id'
+    | '/api/cron/billing'
+    | '/api/debug/log'
+    | '/api/entitlement/devices'
+    | '/api/entitlement/request-device'
+    | '/api/extension/config'
+    | '/api/extension/github-check'
+    | '/api/extension/repo-list'
+    | '/api/meeting-requests/$id'
+    | '/api/meeting-requests/available-slots'
+    | '/api/meetings/$meetingId'
+    | '/api/meetings/upcoming'
+    | '/api/payments/create-intent'
+    | '/api/payments/create-setup-intent'
+    | '/api/payments/create-setup-intent-account'
+    | '/api/payments/document'
+    | '/api/payments/notify-payment'
+    | '/api/payments/payment-intent-method'
+    | '/api/payments/record-success'
+    | '/api/payments/request'
+    | '/api/payments/save-payment-method'
+    | '/api/payments/save-payment-method-to-account'
+    | '/api/payments/saved-methods'
+    | '/api/payments/send-invoice'
+    | '/api/payments/send-receipt'
+    | '/api/payments/update-status'
+    | '/api/pdf-signatures/requests'
+    | '/api/projects/$id'
+    | '/api/public-upload/$token'
+    | '/api/subscriptions/process-due'
+    | '/api/support/attachment-preview'
+    | '/api/support/threads'
+    | '/api/time-tracking/clients'
+    | '/api/time-tracking/entries'
+    | '/api/time-tracking/export'
+    | '/api/time-tracking/overview'
+    | '/api/time-tracking/report'
+    | '/api/time-tracking/running-sync'
+    | '/api/time-tracking/tasks'
+    | '/api/time-tracking/timer'
+    | '/api/users/$id'
+    | '/api/users/me'
+    | '/api/webhooks/clerk'
+    | '/api/webhooks/stripe'
+    | '/meetings/$meetingId/join'
+    | '/api/admin/billing/history'
+    | '/api/admin/billing/run-today'
+    | '/api/admin/billing/subscriptions-batch'
+    | '/api/admin/bills/$id'
+    | '/api/admin/company-files/download'
+    | '/api/admin/company-files/folder'
+    | '/api/admin/company-files/move'
+    | '/api/admin/company-files/presign'
+    | '/api/admin/company-files/presign-batch'
+    | '/api/admin/company-files/share-link'
+    | '/api/admin/company-files/upload-link'
+    | '/api/admin/company-files/zip'
+    | '/api/admin/payments/$id'
+    | '/api/admin/payments/attach-default-to-company'
+    | '/api/admin/payments/attach-method'
+    | '/api/admin/payments/bill'
+    | '/api/admin/payments/billing-dry-run'
+    | '/api/admin/payments/billing-history'
+    | '/api/admin/payments/failure-reasons'
+    | '/api/admin/payments/pay-now'
+    | '/api/admin/payments/project-transactions'
+    | '/api/admin/payments/resolve-request'
+    | '/api/admin/payments/run-company-billing'
+    | '/api/admin/payments/send-invoice'
+    | '/api/admin/payments/test-stripe-keys'
+    | '/api/admin/payments/with-projects'
+    | '/api/admin/support-agents/$userId'
+    | '/api/availability/respond/$id'
+    | '/api/availability/status/$id'
+    | '/api/chat/$projectId/delete'
+    | '/api/chat/$projectId/delete-attachment'
+    | '/api/chat/$projectId/upload'
+    | '/api/companies/$id/fees-and-subscriptions'
+    | '/api/companies/$id/payment-status'
+    | '/api/companies/$id/projects'
+    | '/api/companies/$id/users'
+    | '/api/extension/project/config'
+    | '/api/extension/scripts/$name'
+    | '/api/mail/v1/send'
+    | '/api/meetings/$meetingId/documents'
+    | '/api/meetings/$meetingId/token'
+    | '/api/pdf-signatures/public/$token'
+    | '/api/pdf-signatures/requests/$id'
+    | '/api/projects/$id/access-override'
+    | '/api/projects/$id/api-key'
+    | '/api/projects/$id/auth-devices'
+    | '/api/projects/$id/device-limit'
+    | '/api/projects/$id/features'
+    | '/api/projects/$id/fees'
+    | '/api/projects/$id/github-commits'
+    | '/api/projects/$id/github-ref'
+    | '/api/projects/$id/github-status'
+    | '/api/projects/$id/program-log-ingest-url'
+    | '/api/projects/$id/program-logs'
+    | '/api/projects/$id/subscriptions'
+    | '/api/projects/proxy/$id'
+    | '/api/public-upload/$token/complete'
+    | '/api/public-upload/$token/presign'
+    | '/api/share/company-files/zip'
+    | '/api/time-tracking/clients/$id'
+    | '/api/time-tracking/entries/$id'
+    | '/api/time-tracking/tasks/$id'
+    | '/api/users/$id/invite'
+    | '/api/users/$id/projects'
+    | '/api/webhooks/clerk/sync-user'
+    | '/api/admin/bills/$id/activate'
+    | '/api/admin/bills/$id/charge-now'
+    | '/api/admin/bills/$id/charges'
+    | '/api/admin/bills/$id/duplicate'
+    | '/api/admin/bills/$id/mark-paid'
+    | '/api/admin/bills/$id/pause'
+    | '/api/admin/bills/$id/receipt'
+    | '/api/admin/bills/$id/resume'
+    | '/api/admin/bills/$id/send-invoice'
+    | '/api/admin/companies/$companyId/authorizations-data'
+    | '/api/admin/payments/$id/billings'
+    | '/api/admin/payments/$id/failure-reason'
+    | '/api/admin/payments/$id/invoice'
+    | '/api/admin/payments/$id/mark-paid'
+    | '/api/admin/payments/$id/receipt'
+    | '/api/admin/payments/$id/transactions'
+    | '/api/admin/projects/$id/extension-source'
+    | '/api/extension/project/scripts/$name'
+    | '/api/ingest/program-logs/$projectId/$token'
+    | '/api/mail/v1/send/batch'
+    | '/api/pdf-signatures/public/$token/email'
+    | '/api/pdf-signatures/public/$token/pdf'
+    | '/api/pdf-signatures/public/$token/sign'
+    | '/api/pdf-signatures/public/$token/signed-pdf'
+    | '/api/pdf-signatures/public/$token/submit'
+    | '/api/pdf-signatures/requests/$id/fields'
+    | '/api/pdf-signatures/requests/$id/pdf'
+    | '/api/pdf-signatures/requests/$id/signatures'
+    | '/api/projects/$id/auth-devices/$deviceId'
+    | '/api/projects/$id/program-logs/$logId'
+    | '/api/projects/$id/subscriptions/$subscriptionId'
+    | '/api/support/threads/$id/messages'
+    | '/api/support/threads/$id/participants'
+    | '/api/support/threads/$id/upload'
+    | '/api/projects/$id/fees/$feeId/create-payment'
+    | '/api/projects/$id/fees/$feeId/mark-completed'
+    | '/api/projects/$id/fees/$feeId/transactions'
+    | '/api/projects/$id/subscriptions/$subscriptionId/create-payment'
+    | '/api/projects/$id/subscriptions/$subscriptionId/mark-completed'
+    | '/api/projects/$id/subscriptions/$subscriptionId/transactions'
+    | '/api/support/threads/$id/messages/$messageId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -450,26 +2687,103 @@ export interface RootRouteChildren {
   IntakeRoute: typeof IntakeRoute
   LocationsRoute: typeof LocationsRoute
   OrderConfirmationRoute: typeof OrderConfirmationRoute
-  PortalRoute: typeof PortalRoute
+  OverviewRoute: typeof OverviewRoute
   PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SearchRoute: typeof SearchRoute
   ServicesRoute: typeof ServicesRoute
+  SignUpRoute: typeof SignUpRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StoreRoute: typeof StoreRoute
   TeamRoute: typeof TeamRoute
   TermsRoute: typeof TermsRoute
-  AdminQuotesRoute: typeof AdminQuotesRoute
+  AdminCalendarRoute: typeof AdminCalendarRoute
+  AdminSignInRoute: typeof AdminSignInRoute
+  ApiBlockedSlotsRoute: typeof ApiBlockedSlotsRouteWithChildren
+  ApiCompaniesRoute: typeof ApiCompaniesRouteWithChildren
+  ApiEntitlementRoute: typeof ApiEntitlementRouteWithChildren
   ApiMeetingRoute: typeof ApiMeetingRoute
-  ApiMeetingsRoute: typeof ApiMeetingsRoute
+  ApiMeetingRequestsRoute: typeof ApiMeetingRequestsRouteWithChildren
+  ApiMeetingsRoute: typeof ApiMeetingsRouteWithChildren
   ApiOrderRoute: typeof ApiOrderRoute
   ApiOrdersRoute: typeof ApiOrdersRoute
+  ApiProjectsRoute: typeof ApiProjectsRouteWithChildren
   ApiQuoteRoute: typeof ApiQuoteRoute
   ApiQuotesRoute: typeof ApiQuotesRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
+  PayTokenRoute: typeof PayTokenRoute
+  PortalSignInRoute: typeof PortalSignInRoute
+  PortalSupportRoute: typeof PortalSupportRoute
+  PortalTimeTrackingRoute: typeof PortalTimeTrackingRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  SignTokenRoute: typeof SignTokenRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  PaymentsIndexRoute: typeof PaymentsIndexRoute
+  PortalIndexRoute: typeof PortalIndexRoute
+  AdminSignaturesIdRoute: typeof AdminSignaturesIdRoute
+  ApiAdminBillsRoute: typeof ApiAdminBillsRouteWithChildren
+  ApiAdminCompanyFilesRoute: typeof ApiAdminCompanyFilesRouteWithChildren
+  ApiAdminLeadMeetingsRoute: typeof ApiAdminLeadMeetingsRoute
+  ApiAdminPaymentsRoute: typeof ApiAdminPaymentsRouteWithChildren
+  ApiAdminProjectsRoute: typeof ApiAdminProjectsRouteWithChildren
+  ApiAdminSupportAgentsRoute: typeof ApiAdminSupportAgentsRouteWithChildren
+  ApiAdminUsersRoute: typeof ApiAdminUsersRoute
+  ApiAuthSignOutRoute: typeof ApiAuthSignOutRoute
+  ApiAvailabilityCheckRoute: typeof ApiAvailabilityCheckRoute
+  ApiChatProjectIdRoute: typeof ApiChatProjectIdRouteWithChildren
+  ApiClerkUsersRoute: typeof ApiClerkUsersRoute
+  ApiCronBillingRoute: typeof ApiCronBillingRoute
+  ApiDebugLogRoute: typeof ApiDebugLogRoute
+  ApiExtensionConfigRoute: typeof ApiExtensionConfigRoute
+  ApiExtensionGithubCheckRoute: typeof ApiExtensionGithubCheckRoute
+  ApiExtensionRepoListRoute: typeof ApiExtensionRepoListRoute
+  ApiPaymentsCreateIntentRoute: typeof ApiPaymentsCreateIntentRoute
+  ApiPaymentsCreateSetupIntentRoute: typeof ApiPaymentsCreateSetupIntentRoute
+  ApiPaymentsCreateSetupIntentAccountRoute: typeof ApiPaymentsCreateSetupIntentAccountRoute
+  ApiPaymentsDocumentRoute: typeof ApiPaymentsDocumentRoute
+  ApiPaymentsNotifyPaymentRoute: typeof ApiPaymentsNotifyPaymentRoute
+  ApiPaymentsPaymentIntentMethodRoute: typeof ApiPaymentsPaymentIntentMethodRoute
+  ApiPaymentsRecordSuccessRoute: typeof ApiPaymentsRecordSuccessRoute
+  ApiPaymentsRequestRoute: typeof ApiPaymentsRequestRoute
+  ApiPaymentsSavePaymentMethodRoute: typeof ApiPaymentsSavePaymentMethodRoute
+  ApiPaymentsSavePaymentMethodToAccountRoute: typeof ApiPaymentsSavePaymentMethodToAccountRoute
+  ApiPaymentsSavedMethodsRoute: typeof ApiPaymentsSavedMethodsRoute
+  ApiPaymentsSendInvoiceRoute: typeof ApiPaymentsSendInvoiceRoute
+  ApiPaymentsSendReceiptRoute: typeof ApiPaymentsSendReceiptRoute
+  ApiPaymentsUpdateStatusRoute: typeof ApiPaymentsUpdateStatusRoute
+  ApiPdfSignaturesRequestsRoute: typeof ApiPdfSignaturesRequestsRouteWithChildren
+  ApiPublicUploadTokenRoute: typeof ApiPublicUploadTokenRouteWithChildren
+  ApiSubscriptionsProcessDueRoute: typeof ApiSubscriptionsProcessDueRoute
+  ApiSupportAttachmentPreviewRoute: typeof ApiSupportAttachmentPreviewRoute
+  ApiSupportThreadsRoute: typeof ApiSupportThreadsRouteWithChildren
+  ApiTimeTrackingClientsRoute: typeof ApiTimeTrackingClientsRouteWithChildren
+  ApiTimeTrackingEntriesRoute: typeof ApiTimeTrackingEntriesRouteWithChildren
+  ApiTimeTrackingExportRoute: typeof ApiTimeTrackingExportRoute
+  ApiTimeTrackingOverviewRoute: typeof ApiTimeTrackingOverviewRoute
+  ApiTimeTrackingReportRoute: typeof ApiTimeTrackingReportRoute
+  ApiTimeTrackingRunningSyncRoute: typeof ApiTimeTrackingRunningSyncRoute
+  ApiTimeTrackingTasksRoute: typeof ApiTimeTrackingTasksRouteWithChildren
+  ApiTimeTrackingTimerRoute: typeof ApiTimeTrackingTimerRoute
+  ApiUsersIdRoute: typeof ApiUsersIdRouteWithChildren
+  ApiUsersMeRoute: typeof ApiUsersMeRoute
+  ApiWebhooksClerkRoute: typeof ApiWebhooksClerkRouteWithChildren
+  ApiWebhooksStripeRoute: typeof ApiWebhooksStripeRoute
+  MeetingsMeetingIdJoinRoute: typeof MeetingsMeetingIdJoinRoute
+  ApiAdminBillingHistoryRoute: typeof ApiAdminBillingHistoryRoute
+  ApiAdminBillingRunTodayRoute: typeof ApiAdminBillingRunTodayRoute
+  ApiAdminBillingSubscriptionsBatchRoute: typeof ApiAdminBillingSubscriptionsBatchRoute
+  ApiAvailabilityRespondIdRoute: typeof ApiAvailabilityRespondIdRoute
+  ApiAvailabilityStatusIdRoute: typeof ApiAvailabilityStatusIdRoute
+  ApiExtensionProjectConfigRoute: typeof ApiExtensionProjectConfigRoute
+  ApiExtensionScriptsNameRoute: typeof ApiExtensionScriptsNameRoute
+  ApiMailV1SendRoute: typeof ApiMailV1SendRouteWithChildren
+  ApiPdfSignaturesPublicTokenRoute: typeof ApiPdfSignaturesPublicTokenRouteWithChildren
+  ApiShareCompanyFilesZipRoute: typeof ApiShareCompanyFilesZipRoute
+  ApiAdminCompaniesCompanyIdAuthorizationsDataRoute: typeof ApiAdminCompaniesCompanyIdAuthorizationsDataRoute
+  ApiExtensionProjectScriptsNameRoute: typeof ApiExtensionProjectScriptsNameRoute
+  ApiIngestProgramLogsProjectIdTokenRoute: typeof ApiIngestProgramLogsProjectIdTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -500,6 +2814,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -537,11 +2858,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/portal': {
-      id: '/portal'
-      path: '/portal'
-      fullPath: '/portal'
-      preLoaderRoute: typeof PortalRouteImport
+    '/overview': {
+      id: '/overview'
+      path: '/overview'
+      fullPath: '/overview'
+      preLoaderRoute: typeof OverviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/order-confirmation': {
@@ -642,11 +2963,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/': {
+      id: '/portal/'
+      path: '/portal'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof PortalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments/': {
+      id: '/payments/'
+      path: '/payments'
+      fullPath: '/payments/'
+      preLoaderRoute: typeof PaymentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign/$token': {
+      id: '/sign/$token'
+      path: '/sign/$token'
+      fullPath: '/sign/$token'
+      preLoaderRoute: typeof SignTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/product/$slug': {
       id: '/product/$slug'
       path: '/product/$slug'
       fullPath: '/product/$slug'
       preLoaderRoute: typeof ProductSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/time-tracking': {
+      id: '/portal/time-tracking'
+      path: '/portal/time-tracking'
+      fullPath: '/portal/time-tracking'
+      preLoaderRoute: typeof PortalTimeTrackingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/support': {
+      id: '/portal/support'
+      path: '/portal/support'
+      fullPath: '/portal/support'
+      preLoaderRoute: typeof PortalSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/sign-in': {
+      id: '/portal/sign-in'
+      path: '/portal/sign-in'
+      fullPath: '/portal/sign-in'
+      preLoaderRoute: typeof PortalSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pay/$token': {
+      id: '/pay/$token'
+      path: '/pay/$token'
+      fullPath: '/pay/$token'
+      preLoaderRoute: typeof PayTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/terms': {
@@ -677,6 +3054,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiQuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/projects': {
+      id: '/api/projects'
+      path: '/api/projects'
+      fullPath: '/api/projects'
+      preLoaderRoute: typeof ApiProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/orders': {
       id: '/api/orders'
       path: '/api/orders'
@@ -698,6 +3082,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiMeetingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/meeting-requests': {
+      id: '/api/meeting-requests'
+      path: '/api/meeting-requests'
+      fullPath: '/api/meeting-requests'
+      preLoaderRoute: typeof ApiMeetingRequestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/meeting': {
       id: '/api/meeting'
       path: '/api/meeting'
@@ -705,15 +3096,1765 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiMeetingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/quotes': {
-      id: '/admin/quotes'
-      path: '/admin/quotes'
-      fullPath: '/admin/quotes'
-      preLoaderRoute: typeof AdminQuotesRouteImport
+    '/api/entitlement': {
+      id: '/api/entitlement'
+      path: '/api/entitlement'
+      fullPath: '/api/entitlement'
+      preLoaderRoute: typeof ApiEntitlementRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/api/companies': {
+      id: '/api/companies'
+      path: '/api/companies'
+      fullPath: '/api/companies'
+      preLoaderRoute: typeof ApiCompaniesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/blocked-slots': {
+      id: '/api/blocked-slots'
+      path: '/api/blocked-slots'
+      fullPath: '/api/blocked-slots'
+      preLoaderRoute: typeof ApiBlockedSlotsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/sign-in': {
+      id: '/admin/sign-in'
+      path: '/admin/sign-in'
+      fullPath: '/admin/sign-in'
+      preLoaderRoute: typeof AdminSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/calendar': {
+      id: '/admin/calendar'
+      path: '/admin/calendar'
+      fullPath: '/admin/calendar'
+      preLoaderRoute: typeof AdminCalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/meetings/$meetingId/join': {
+      id: '/meetings/$meetingId/join'
+      path: '/meetings/$meetingId/join'
+      fullPath: '/meetings/$meetingId/join'
+      preLoaderRoute: typeof MeetingsMeetingIdJoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/webhooks/stripe': {
+      id: '/api/webhooks/stripe'
+      path: '/api/webhooks/stripe'
+      fullPath: '/api/webhooks/stripe'
+      preLoaderRoute: typeof ApiWebhooksStripeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/webhooks/clerk': {
+      id: '/api/webhooks/clerk'
+      path: '/api/webhooks/clerk'
+      fullPath: '/api/webhooks/clerk'
+      preLoaderRoute: typeof ApiWebhooksClerkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/users/me': {
+      id: '/api/users/me'
+      path: '/api/users/me'
+      fullPath: '/api/users/me'
+      preLoaderRoute: typeof ApiUsersMeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/users/$id': {
+      id: '/api/users/$id'
+      path: '/api/users/$id'
+      fullPath: '/api/users/$id'
+      preLoaderRoute: typeof ApiUsersIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/time-tracking/timer': {
+      id: '/api/time-tracking/timer'
+      path: '/api/time-tracking/timer'
+      fullPath: '/api/time-tracking/timer'
+      preLoaderRoute: typeof ApiTimeTrackingTimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/time-tracking/tasks': {
+      id: '/api/time-tracking/tasks'
+      path: '/api/time-tracking/tasks'
+      fullPath: '/api/time-tracking/tasks'
+      preLoaderRoute: typeof ApiTimeTrackingTasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/time-tracking/running-sync': {
+      id: '/api/time-tracking/running-sync'
+      path: '/api/time-tracking/running-sync'
+      fullPath: '/api/time-tracking/running-sync'
+      preLoaderRoute: typeof ApiTimeTrackingRunningSyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/time-tracking/report': {
+      id: '/api/time-tracking/report'
+      path: '/api/time-tracking/report'
+      fullPath: '/api/time-tracking/report'
+      preLoaderRoute: typeof ApiTimeTrackingReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/time-tracking/overview': {
+      id: '/api/time-tracking/overview'
+      path: '/api/time-tracking/overview'
+      fullPath: '/api/time-tracking/overview'
+      preLoaderRoute: typeof ApiTimeTrackingOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/time-tracking/export': {
+      id: '/api/time-tracking/export'
+      path: '/api/time-tracking/export'
+      fullPath: '/api/time-tracking/export'
+      preLoaderRoute: typeof ApiTimeTrackingExportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/time-tracking/entries': {
+      id: '/api/time-tracking/entries'
+      path: '/api/time-tracking/entries'
+      fullPath: '/api/time-tracking/entries'
+      preLoaderRoute: typeof ApiTimeTrackingEntriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/time-tracking/clients': {
+      id: '/api/time-tracking/clients'
+      path: '/api/time-tracking/clients'
+      fullPath: '/api/time-tracking/clients'
+      preLoaderRoute: typeof ApiTimeTrackingClientsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/support/threads': {
+      id: '/api/support/threads'
+      path: '/api/support/threads'
+      fullPath: '/api/support/threads'
+      preLoaderRoute: typeof ApiSupportThreadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/support/attachment-preview': {
+      id: '/api/support/attachment-preview'
+      path: '/api/support/attachment-preview'
+      fullPath: '/api/support/attachment-preview'
+      preLoaderRoute: typeof ApiSupportAttachmentPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/subscriptions/process-due': {
+      id: '/api/subscriptions/process-due'
+      path: '/api/subscriptions/process-due'
+      fullPath: '/api/subscriptions/process-due'
+      preLoaderRoute: typeof ApiSubscriptionsProcessDueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public-upload/$token': {
+      id: '/api/public-upload/$token'
+      path: '/api/public-upload/$token'
+      fullPath: '/api/public-upload/$token'
+      preLoaderRoute: typeof ApiPublicUploadTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/projects/$id': {
+      id: '/api/projects/$id'
+      path: '/$id'
+      fullPath: '/api/projects/$id'
+      preLoaderRoute: typeof ApiProjectsIdRouteImport
+      parentRoute: typeof ApiProjectsRoute
+    }
+    '/api/pdf-signatures/requests': {
+      id: '/api/pdf-signatures/requests'
+      path: '/api/pdf-signatures/requests'
+      fullPath: '/api/pdf-signatures/requests'
+      preLoaderRoute: typeof ApiPdfSignaturesRequestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/update-status': {
+      id: '/api/payments/update-status'
+      path: '/api/payments/update-status'
+      fullPath: '/api/payments/update-status'
+      preLoaderRoute: typeof ApiPaymentsUpdateStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/send-receipt': {
+      id: '/api/payments/send-receipt'
+      path: '/api/payments/send-receipt'
+      fullPath: '/api/payments/send-receipt'
+      preLoaderRoute: typeof ApiPaymentsSendReceiptRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/send-invoice': {
+      id: '/api/payments/send-invoice'
+      path: '/api/payments/send-invoice'
+      fullPath: '/api/payments/send-invoice'
+      preLoaderRoute: typeof ApiPaymentsSendInvoiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/saved-methods': {
+      id: '/api/payments/saved-methods'
+      path: '/api/payments/saved-methods'
+      fullPath: '/api/payments/saved-methods'
+      preLoaderRoute: typeof ApiPaymentsSavedMethodsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/save-payment-method-to-account': {
+      id: '/api/payments/save-payment-method-to-account'
+      path: '/api/payments/save-payment-method-to-account'
+      fullPath: '/api/payments/save-payment-method-to-account'
+      preLoaderRoute: typeof ApiPaymentsSavePaymentMethodToAccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/save-payment-method': {
+      id: '/api/payments/save-payment-method'
+      path: '/api/payments/save-payment-method'
+      fullPath: '/api/payments/save-payment-method'
+      preLoaderRoute: typeof ApiPaymentsSavePaymentMethodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/request': {
+      id: '/api/payments/request'
+      path: '/api/payments/request'
+      fullPath: '/api/payments/request'
+      preLoaderRoute: typeof ApiPaymentsRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/record-success': {
+      id: '/api/payments/record-success'
+      path: '/api/payments/record-success'
+      fullPath: '/api/payments/record-success'
+      preLoaderRoute: typeof ApiPaymentsRecordSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/payment-intent-method': {
+      id: '/api/payments/payment-intent-method'
+      path: '/api/payments/payment-intent-method'
+      fullPath: '/api/payments/payment-intent-method'
+      preLoaderRoute: typeof ApiPaymentsPaymentIntentMethodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/notify-payment': {
+      id: '/api/payments/notify-payment'
+      path: '/api/payments/notify-payment'
+      fullPath: '/api/payments/notify-payment'
+      preLoaderRoute: typeof ApiPaymentsNotifyPaymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/document': {
+      id: '/api/payments/document'
+      path: '/api/payments/document'
+      fullPath: '/api/payments/document'
+      preLoaderRoute: typeof ApiPaymentsDocumentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/create-setup-intent-account': {
+      id: '/api/payments/create-setup-intent-account'
+      path: '/api/payments/create-setup-intent-account'
+      fullPath: '/api/payments/create-setup-intent-account'
+      preLoaderRoute: typeof ApiPaymentsCreateSetupIntentAccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/create-setup-intent': {
+      id: '/api/payments/create-setup-intent'
+      path: '/api/payments/create-setup-intent'
+      fullPath: '/api/payments/create-setup-intent'
+      preLoaderRoute: typeof ApiPaymentsCreateSetupIntentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/create-intent': {
+      id: '/api/payments/create-intent'
+      path: '/api/payments/create-intent'
+      fullPath: '/api/payments/create-intent'
+      preLoaderRoute: typeof ApiPaymentsCreateIntentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/meetings/upcoming': {
+      id: '/api/meetings/upcoming'
+      path: '/upcoming'
+      fullPath: '/api/meetings/upcoming'
+      preLoaderRoute: typeof ApiMeetingsUpcomingRouteImport
+      parentRoute: typeof ApiMeetingsRoute
+    }
+    '/api/meetings/$meetingId': {
+      id: '/api/meetings/$meetingId'
+      path: '/$meetingId'
+      fullPath: '/api/meetings/$meetingId'
+      preLoaderRoute: typeof ApiMeetingsMeetingIdRouteImport
+      parentRoute: typeof ApiMeetingsRoute
+    }
+    '/api/meeting-requests/available-slots': {
+      id: '/api/meeting-requests/available-slots'
+      path: '/available-slots'
+      fullPath: '/api/meeting-requests/available-slots'
+      preLoaderRoute: typeof ApiMeetingRequestsAvailableSlotsRouteImport
+      parentRoute: typeof ApiMeetingRequestsRoute
+    }
+    '/api/meeting-requests/$id': {
+      id: '/api/meeting-requests/$id'
+      path: '/$id'
+      fullPath: '/api/meeting-requests/$id'
+      preLoaderRoute: typeof ApiMeetingRequestsIdRouteImport
+      parentRoute: typeof ApiMeetingRequestsRoute
+    }
+    '/api/extension/repo-list': {
+      id: '/api/extension/repo-list'
+      path: '/api/extension/repo-list'
+      fullPath: '/api/extension/repo-list'
+      preLoaderRoute: typeof ApiExtensionRepoListRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/extension/github-check': {
+      id: '/api/extension/github-check'
+      path: '/api/extension/github-check'
+      fullPath: '/api/extension/github-check'
+      preLoaderRoute: typeof ApiExtensionGithubCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/extension/config': {
+      id: '/api/extension/config'
+      path: '/api/extension/config'
+      fullPath: '/api/extension/config'
+      preLoaderRoute: typeof ApiExtensionConfigRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/entitlement/request-device': {
+      id: '/api/entitlement/request-device'
+      path: '/request-device'
+      fullPath: '/api/entitlement/request-device'
+      preLoaderRoute: typeof ApiEntitlementRequestDeviceRouteImport
+      parentRoute: typeof ApiEntitlementRoute
+    }
+    '/api/entitlement/devices': {
+      id: '/api/entitlement/devices'
+      path: '/devices'
+      fullPath: '/api/entitlement/devices'
+      preLoaderRoute: typeof ApiEntitlementDevicesRouteImport
+      parentRoute: typeof ApiEntitlementRoute
+    }
+    '/api/debug/log': {
+      id: '/api/debug/log'
+      path: '/api/debug/log'
+      fullPath: '/api/debug/log'
+      preLoaderRoute: typeof ApiDebugLogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/cron/billing': {
+      id: '/api/cron/billing'
+      path: '/api/cron/billing'
+      fullPath: '/api/cron/billing'
+      preLoaderRoute: typeof ApiCronBillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/companies/$id': {
+      id: '/api/companies/$id'
+      path: '/$id'
+      fullPath: '/api/companies/$id'
+      preLoaderRoute: typeof ApiCompaniesIdRouteImport
+      parentRoute: typeof ApiCompaniesRoute
+    }
+    '/api/clerk/users': {
+      id: '/api/clerk/users'
+      path: '/api/clerk/users'
+      fullPath: '/api/clerk/users'
+      preLoaderRoute: typeof ApiClerkUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/chat/$projectId': {
+      id: '/api/chat/$projectId'
+      path: '/api/chat/$projectId'
+      fullPath: '/api/chat/$projectId'
+      preLoaderRoute: typeof ApiChatProjectIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/blocked-slots/$id': {
+      id: '/api/blocked-slots/$id'
+      path: '/$id'
+      fullPath: '/api/blocked-slots/$id'
+      preLoaderRoute: typeof ApiBlockedSlotsIdRouteImport
+      parentRoute: typeof ApiBlockedSlotsRoute
+    }
+    '/api/availability/check': {
+      id: '/api/availability/check'
+      path: '/api/availability/check'
+      fullPath: '/api/availability/check'
+      preLoaderRoute: typeof ApiAvailabilityCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/sign-out': {
+      id: '/api/auth/sign-out'
+      path: '/api/auth/sign-out'
+      fullPath: '/api/auth/sign-out'
+      preLoaderRoute: typeof ApiAuthSignOutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/users': {
+      id: '/api/admin/users'
+      path: '/api/admin/users'
+      fullPath: '/api/admin/users'
+      preLoaderRoute: typeof ApiAdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/support-agents': {
+      id: '/api/admin/support-agents'
+      path: '/api/admin/support-agents'
+      fullPath: '/api/admin/support-agents'
+      preLoaderRoute: typeof ApiAdminSupportAgentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/projects': {
+      id: '/api/admin/projects'
+      path: '/api/admin/projects'
+      fullPath: '/api/admin/projects'
+      preLoaderRoute: typeof ApiAdminProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/payments': {
+      id: '/api/admin/payments'
+      path: '/api/admin/payments'
+      fullPath: '/api/admin/payments'
+      preLoaderRoute: typeof ApiAdminPaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/lead-meetings': {
+      id: '/api/admin/lead-meetings'
+      path: '/api/admin/lead-meetings'
+      fullPath: '/api/admin/lead-meetings'
+      preLoaderRoute: typeof ApiAdminLeadMeetingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/company-files': {
+      id: '/api/admin/company-files'
+      path: '/api/admin/company-files'
+      fullPath: '/api/admin/company-files'
+      preLoaderRoute: typeof ApiAdminCompanyFilesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/bills': {
+      id: '/api/admin/bills'
+      path: '/api/admin/bills'
+      fullPath: '/api/admin/bills'
+      preLoaderRoute: typeof ApiAdminBillsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/signatures/$id': {
+      id: '/admin/signatures/$id'
+      path: '/admin/signatures/$id'
+      fullPath: '/admin/signatures/$id'
+      preLoaderRoute: typeof AdminSignaturesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/webhooks/clerk/sync-user': {
+      id: '/api/webhooks/clerk/sync-user'
+      path: '/sync-user'
+      fullPath: '/api/webhooks/clerk/sync-user'
+      preLoaderRoute: typeof ApiWebhooksClerkSyncUserRouteImport
+      parentRoute: typeof ApiWebhooksClerkRoute
+    }
+    '/api/users/$id/projects': {
+      id: '/api/users/$id/projects'
+      path: '/projects'
+      fullPath: '/api/users/$id/projects'
+      preLoaderRoute: typeof ApiUsersIdProjectsRouteImport
+      parentRoute: typeof ApiUsersIdRoute
+    }
+    '/api/users/$id/invite': {
+      id: '/api/users/$id/invite'
+      path: '/invite'
+      fullPath: '/api/users/$id/invite'
+      preLoaderRoute: typeof ApiUsersIdInviteRouteImport
+      parentRoute: typeof ApiUsersIdRoute
+    }
+    '/api/time-tracking/tasks/$id': {
+      id: '/api/time-tracking/tasks/$id'
+      path: '/$id'
+      fullPath: '/api/time-tracking/tasks/$id'
+      preLoaderRoute: typeof ApiTimeTrackingTasksIdRouteImport
+      parentRoute: typeof ApiTimeTrackingTasksRoute
+    }
+    '/api/time-tracking/entries/$id': {
+      id: '/api/time-tracking/entries/$id'
+      path: '/$id'
+      fullPath: '/api/time-tracking/entries/$id'
+      preLoaderRoute: typeof ApiTimeTrackingEntriesIdRouteImport
+      parentRoute: typeof ApiTimeTrackingEntriesRoute
+    }
+    '/api/time-tracking/clients/$id': {
+      id: '/api/time-tracking/clients/$id'
+      path: '/$id'
+      fullPath: '/api/time-tracking/clients/$id'
+      preLoaderRoute: typeof ApiTimeTrackingClientsIdRouteImport
+      parentRoute: typeof ApiTimeTrackingClientsRoute
+    }
+    '/api/share/company-files/zip': {
+      id: '/api/share/company-files/zip'
+      path: '/api/share/company-files/zip'
+      fullPath: '/api/share/company-files/zip'
+      preLoaderRoute: typeof ApiShareCompanyFilesZipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public-upload/$token/presign': {
+      id: '/api/public-upload/$token/presign'
+      path: '/presign'
+      fullPath: '/api/public-upload/$token/presign'
+      preLoaderRoute: typeof ApiPublicUploadTokenPresignRouteImport
+      parentRoute: typeof ApiPublicUploadTokenRoute
+    }
+    '/api/public-upload/$token/complete': {
+      id: '/api/public-upload/$token/complete'
+      path: '/complete'
+      fullPath: '/api/public-upload/$token/complete'
+      preLoaderRoute: typeof ApiPublicUploadTokenCompleteRouteImport
+      parentRoute: typeof ApiPublicUploadTokenRoute
+    }
+    '/api/projects/proxy/$id': {
+      id: '/api/projects/proxy/$id'
+      path: '/proxy/$id'
+      fullPath: '/api/projects/proxy/$id'
+      preLoaderRoute: typeof ApiProjectsProxyIdRouteImport
+      parentRoute: typeof ApiProjectsRoute
+    }
+    '/api/projects/$id/subscriptions': {
+      id: '/api/projects/$id/subscriptions'
+      path: '/subscriptions'
+      fullPath: '/api/projects/$id/subscriptions'
+      preLoaderRoute: typeof ApiProjectsIdSubscriptionsRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/program-logs': {
+      id: '/api/projects/$id/program-logs'
+      path: '/program-logs'
+      fullPath: '/api/projects/$id/program-logs'
+      preLoaderRoute: typeof ApiProjectsIdProgramLogsRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/program-log-ingest-url': {
+      id: '/api/projects/$id/program-log-ingest-url'
+      path: '/program-log-ingest-url'
+      fullPath: '/api/projects/$id/program-log-ingest-url'
+      preLoaderRoute: typeof ApiProjectsIdProgramLogIngestUrlRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/github-status': {
+      id: '/api/projects/$id/github-status'
+      path: '/github-status'
+      fullPath: '/api/projects/$id/github-status'
+      preLoaderRoute: typeof ApiProjectsIdGithubStatusRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/github-ref': {
+      id: '/api/projects/$id/github-ref'
+      path: '/github-ref'
+      fullPath: '/api/projects/$id/github-ref'
+      preLoaderRoute: typeof ApiProjectsIdGithubRefRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/github-commits': {
+      id: '/api/projects/$id/github-commits'
+      path: '/github-commits'
+      fullPath: '/api/projects/$id/github-commits'
+      preLoaderRoute: typeof ApiProjectsIdGithubCommitsRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/fees': {
+      id: '/api/projects/$id/fees'
+      path: '/fees'
+      fullPath: '/api/projects/$id/fees'
+      preLoaderRoute: typeof ApiProjectsIdFeesRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/features': {
+      id: '/api/projects/$id/features'
+      path: '/features'
+      fullPath: '/api/projects/$id/features'
+      preLoaderRoute: typeof ApiProjectsIdFeaturesRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/device-limit': {
+      id: '/api/projects/$id/device-limit'
+      path: '/device-limit'
+      fullPath: '/api/projects/$id/device-limit'
+      preLoaderRoute: typeof ApiProjectsIdDeviceLimitRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/auth-devices': {
+      id: '/api/projects/$id/auth-devices'
+      path: '/auth-devices'
+      fullPath: '/api/projects/$id/auth-devices'
+      preLoaderRoute: typeof ApiProjectsIdAuthDevicesRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/api-key': {
+      id: '/api/projects/$id/api-key'
+      path: '/api-key'
+      fullPath: '/api/projects/$id/api-key'
+      preLoaderRoute: typeof ApiProjectsIdApiKeyRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/projects/$id/access-override': {
+      id: '/api/projects/$id/access-override'
+      path: '/access-override'
+      fullPath: '/api/projects/$id/access-override'
+      preLoaderRoute: typeof ApiProjectsIdAccessOverrideRouteImport
+      parentRoute: typeof ApiProjectsIdRoute
+    }
+    '/api/pdf-signatures/requests/$id': {
+      id: '/api/pdf-signatures/requests/$id'
+      path: '/$id'
+      fullPath: '/api/pdf-signatures/requests/$id'
+      preLoaderRoute: typeof ApiPdfSignaturesRequestsIdRouteImport
+      parentRoute: typeof ApiPdfSignaturesRequestsRoute
+    }
+    '/api/pdf-signatures/public/$token': {
+      id: '/api/pdf-signatures/public/$token'
+      path: '/api/pdf-signatures/public/$token'
+      fullPath: '/api/pdf-signatures/public/$token'
+      preLoaderRoute: typeof ApiPdfSignaturesPublicTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/meetings/$meetingId/token': {
+      id: '/api/meetings/$meetingId/token'
+      path: '/token'
+      fullPath: '/api/meetings/$meetingId/token'
+      preLoaderRoute: typeof ApiMeetingsMeetingIdTokenRouteImport
+      parentRoute: typeof ApiMeetingsMeetingIdRoute
+    }
+    '/api/meetings/$meetingId/documents': {
+      id: '/api/meetings/$meetingId/documents'
+      path: '/documents'
+      fullPath: '/api/meetings/$meetingId/documents'
+      preLoaderRoute: typeof ApiMeetingsMeetingIdDocumentsRouteImport
+      parentRoute: typeof ApiMeetingsMeetingIdRoute
+    }
+    '/api/mail/v1/send': {
+      id: '/api/mail/v1/send'
+      path: '/api/mail/v1/send'
+      fullPath: '/api/mail/v1/send'
+      preLoaderRoute: typeof ApiMailV1SendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/extension/scripts/$name': {
+      id: '/api/extension/scripts/$name'
+      path: '/api/extension/scripts/$name'
+      fullPath: '/api/extension/scripts/$name'
+      preLoaderRoute: typeof ApiExtensionScriptsNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/extension/project/config': {
+      id: '/api/extension/project/config'
+      path: '/api/extension/project/config'
+      fullPath: '/api/extension/project/config'
+      preLoaderRoute: typeof ApiExtensionProjectConfigRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/companies/$id/users': {
+      id: '/api/companies/$id/users'
+      path: '/users'
+      fullPath: '/api/companies/$id/users'
+      preLoaderRoute: typeof ApiCompaniesIdUsersRouteImport
+      parentRoute: typeof ApiCompaniesIdRoute
+    }
+    '/api/companies/$id/projects': {
+      id: '/api/companies/$id/projects'
+      path: '/projects'
+      fullPath: '/api/companies/$id/projects'
+      preLoaderRoute: typeof ApiCompaniesIdProjectsRouteImport
+      parentRoute: typeof ApiCompaniesIdRoute
+    }
+    '/api/companies/$id/payment-status': {
+      id: '/api/companies/$id/payment-status'
+      path: '/payment-status'
+      fullPath: '/api/companies/$id/payment-status'
+      preLoaderRoute: typeof ApiCompaniesIdPaymentStatusRouteImport
+      parentRoute: typeof ApiCompaniesIdRoute
+    }
+    '/api/companies/$id/fees-and-subscriptions': {
+      id: '/api/companies/$id/fees-and-subscriptions'
+      path: '/fees-and-subscriptions'
+      fullPath: '/api/companies/$id/fees-and-subscriptions'
+      preLoaderRoute: typeof ApiCompaniesIdFeesAndSubscriptionsRouteImport
+      parentRoute: typeof ApiCompaniesIdRoute
+    }
+    '/api/chat/$projectId/upload': {
+      id: '/api/chat/$projectId/upload'
+      path: '/upload'
+      fullPath: '/api/chat/$projectId/upload'
+      preLoaderRoute: typeof ApiChatProjectIdUploadRouteImport
+      parentRoute: typeof ApiChatProjectIdRoute
+    }
+    '/api/chat/$projectId/delete-attachment': {
+      id: '/api/chat/$projectId/delete-attachment'
+      path: '/delete-attachment'
+      fullPath: '/api/chat/$projectId/delete-attachment'
+      preLoaderRoute: typeof ApiChatProjectIdDeleteAttachmentRouteImport
+      parentRoute: typeof ApiChatProjectIdRoute
+    }
+    '/api/chat/$projectId/delete': {
+      id: '/api/chat/$projectId/delete'
+      path: '/delete'
+      fullPath: '/api/chat/$projectId/delete'
+      preLoaderRoute: typeof ApiChatProjectIdDeleteRouteImport
+      parentRoute: typeof ApiChatProjectIdRoute
+    }
+    '/api/availability/status/$id': {
+      id: '/api/availability/status/$id'
+      path: '/api/availability/status/$id'
+      fullPath: '/api/availability/status/$id'
+      preLoaderRoute: typeof ApiAvailabilityStatusIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/availability/respond/$id': {
+      id: '/api/availability/respond/$id'
+      path: '/api/availability/respond/$id'
+      fullPath: '/api/availability/respond/$id'
+      preLoaderRoute: typeof ApiAvailabilityRespondIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/support-agents/$userId': {
+      id: '/api/admin/support-agents/$userId'
+      path: '/$userId'
+      fullPath: '/api/admin/support-agents/$userId'
+      preLoaderRoute: typeof ApiAdminSupportAgentsUserIdRouteImport
+      parentRoute: typeof ApiAdminSupportAgentsRoute
+    }
+    '/api/admin/payments/with-projects': {
+      id: '/api/admin/payments/with-projects'
+      path: '/with-projects'
+      fullPath: '/api/admin/payments/with-projects'
+      preLoaderRoute: typeof ApiAdminPaymentsWithProjectsRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/test-stripe-keys': {
+      id: '/api/admin/payments/test-stripe-keys'
+      path: '/test-stripe-keys'
+      fullPath: '/api/admin/payments/test-stripe-keys'
+      preLoaderRoute: typeof ApiAdminPaymentsTestStripeKeysRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/send-invoice': {
+      id: '/api/admin/payments/send-invoice'
+      path: '/send-invoice'
+      fullPath: '/api/admin/payments/send-invoice'
+      preLoaderRoute: typeof ApiAdminPaymentsSendInvoiceRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/run-company-billing': {
+      id: '/api/admin/payments/run-company-billing'
+      path: '/run-company-billing'
+      fullPath: '/api/admin/payments/run-company-billing'
+      preLoaderRoute: typeof ApiAdminPaymentsRunCompanyBillingRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/resolve-request': {
+      id: '/api/admin/payments/resolve-request'
+      path: '/resolve-request'
+      fullPath: '/api/admin/payments/resolve-request'
+      preLoaderRoute: typeof ApiAdminPaymentsResolveRequestRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/project-transactions': {
+      id: '/api/admin/payments/project-transactions'
+      path: '/project-transactions'
+      fullPath: '/api/admin/payments/project-transactions'
+      preLoaderRoute: typeof ApiAdminPaymentsProjectTransactionsRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/pay-now': {
+      id: '/api/admin/payments/pay-now'
+      path: '/pay-now'
+      fullPath: '/api/admin/payments/pay-now'
+      preLoaderRoute: typeof ApiAdminPaymentsPayNowRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/failure-reasons': {
+      id: '/api/admin/payments/failure-reasons'
+      path: '/failure-reasons'
+      fullPath: '/api/admin/payments/failure-reasons'
+      preLoaderRoute: typeof ApiAdminPaymentsFailureReasonsRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/billing-history': {
+      id: '/api/admin/payments/billing-history'
+      path: '/billing-history'
+      fullPath: '/api/admin/payments/billing-history'
+      preLoaderRoute: typeof ApiAdminPaymentsBillingHistoryRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/billing-dry-run': {
+      id: '/api/admin/payments/billing-dry-run'
+      path: '/billing-dry-run'
+      fullPath: '/api/admin/payments/billing-dry-run'
+      preLoaderRoute: typeof ApiAdminPaymentsBillingDryRunRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/bill': {
+      id: '/api/admin/payments/bill'
+      path: '/bill'
+      fullPath: '/api/admin/payments/bill'
+      preLoaderRoute: typeof ApiAdminPaymentsBillRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/attach-method': {
+      id: '/api/admin/payments/attach-method'
+      path: '/attach-method'
+      fullPath: '/api/admin/payments/attach-method'
+      preLoaderRoute: typeof ApiAdminPaymentsAttachMethodRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/attach-default-to-company': {
+      id: '/api/admin/payments/attach-default-to-company'
+      path: '/attach-default-to-company'
+      fullPath: '/api/admin/payments/attach-default-to-company'
+      preLoaderRoute: typeof ApiAdminPaymentsAttachDefaultToCompanyRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/payments/$id': {
+      id: '/api/admin/payments/$id'
+      path: '/$id'
+      fullPath: '/api/admin/payments/$id'
+      preLoaderRoute: typeof ApiAdminPaymentsIdRouteImport
+      parentRoute: typeof ApiAdminPaymentsRoute
+    }
+    '/api/admin/company-files/zip': {
+      id: '/api/admin/company-files/zip'
+      path: '/zip'
+      fullPath: '/api/admin/company-files/zip'
+      preLoaderRoute: typeof ApiAdminCompanyFilesZipRouteImport
+      parentRoute: typeof ApiAdminCompanyFilesRoute
+    }
+    '/api/admin/company-files/upload-link': {
+      id: '/api/admin/company-files/upload-link'
+      path: '/upload-link'
+      fullPath: '/api/admin/company-files/upload-link'
+      preLoaderRoute: typeof ApiAdminCompanyFilesUploadLinkRouteImport
+      parentRoute: typeof ApiAdminCompanyFilesRoute
+    }
+    '/api/admin/company-files/share-link': {
+      id: '/api/admin/company-files/share-link'
+      path: '/share-link'
+      fullPath: '/api/admin/company-files/share-link'
+      preLoaderRoute: typeof ApiAdminCompanyFilesShareLinkRouteImport
+      parentRoute: typeof ApiAdminCompanyFilesRoute
+    }
+    '/api/admin/company-files/presign-batch': {
+      id: '/api/admin/company-files/presign-batch'
+      path: '/presign-batch'
+      fullPath: '/api/admin/company-files/presign-batch'
+      preLoaderRoute: typeof ApiAdminCompanyFilesPresignBatchRouteImport
+      parentRoute: typeof ApiAdminCompanyFilesRoute
+    }
+    '/api/admin/company-files/presign': {
+      id: '/api/admin/company-files/presign'
+      path: '/presign'
+      fullPath: '/api/admin/company-files/presign'
+      preLoaderRoute: typeof ApiAdminCompanyFilesPresignRouteImport
+      parentRoute: typeof ApiAdminCompanyFilesRoute
+    }
+    '/api/admin/company-files/move': {
+      id: '/api/admin/company-files/move'
+      path: '/move'
+      fullPath: '/api/admin/company-files/move'
+      preLoaderRoute: typeof ApiAdminCompanyFilesMoveRouteImport
+      parentRoute: typeof ApiAdminCompanyFilesRoute
+    }
+    '/api/admin/company-files/folder': {
+      id: '/api/admin/company-files/folder'
+      path: '/folder'
+      fullPath: '/api/admin/company-files/folder'
+      preLoaderRoute: typeof ApiAdminCompanyFilesFolderRouteImport
+      parentRoute: typeof ApiAdminCompanyFilesRoute
+    }
+    '/api/admin/company-files/download': {
+      id: '/api/admin/company-files/download'
+      path: '/download'
+      fullPath: '/api/admin/company-files/download'
+      preLoaderRoute: typeof ApiAdminCompanyFilesDownloadRouteImport
+      parentRoute: typeof ApiAdminCompanyFilesRoute
+    }
+    '/api/admin/bills/$id': {
+      id: '/api/admin/bills/$id'
+      path: '/$id'
+      fullPath: '/api/admin/bills/$id'
+      preLoaderRoute: typeof ApiAdminBillsIdRouteImport
+      parentRoute: typeof ApiAdminBillsRoute
+    }
+    '/api/admin/billing/subscriptions-batch': {
+      id: '/api/admin/billing/subscriptions-batch'
+      path: '/api/admin/billing/subscriptions-batch'
+      fullPath: '/api/admin/billing/subscriptions-batch'
+      preLoaderRoute: typeof ApiAdminBillingSubscriptionsBatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/billing/run-today': {
+      id: '/api/admin/billing/run-today'
+      path: '/api/admin/billing/run-today'
+      fullPath: '/api/admin/billing/run-today'
+      preLoaderRoute: typeof ApiAdminBillingRunTodayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/billing/history': {
+      id: '/api/admin/billing/history'
+      path: '/api/admin/billing/history'
+      fullPath: '/api/admin/billing/history'
+      preLoaderRoute: typeof ApiAdminBillingHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/support/threads/$id/upload': {
+      id: '/api/support/threads/$id/upload'
+      path: '/$id/upload'
+      fullPath: '/api/support/threads/$id/upload'
+      preLoaderRoute: typeof ApiSupportThreadsIdUploadRouteImport
+      parentRoute: typeof ApiSupportThreadsRoute
+    }
+    '/api/support/threads/$id/participants': {
+      id: '/api/support/threads/$id/participants'
+      path: '/$id/participants'
+      fullPath: '/api/support/threads/$id/participants'
+      preLoaderRoute: typeof ApiSupportThreadsIdParticipantsRouteImport
+      parentRoute: typeof ApiSupportThreadsRoute
+    }
+    '/api/support/threads/$id/messages': {
+      id: '/api/support/threads/$id/messages'
+      path: '/$id/messages'
+      fullPath: '/api/support/threads/$id/messages'
+      preLoaderRoute: typeof ApiSupportThreadsIdMessagesRouteImport
+      parentRoute: typeof ApiSupportThreadsRoute
+    }
+    '/api/projects/$id/subscriptions/$subscriptionId': {
+      id: '/api/projects/$id/subscriptions/$subscriptionId'
+      path: '/$subscriptionId'
+      fullPath: '/api/projects/$id/subscriptions/$subscriptionId'
+      preLoaderRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdRouteImport
+      parentRoute: typeof ApiProjectsIdSubscriptionsRoute
+    }
+    '/api/projects/$id/program-logs/$logId': {
+      id: '/api/projects/$id/program-logs/$logId'
+      path: '/$logId'
+      fullPath: '/api/projects/$id/program-logs/$logId'
+      preLoaderRoute: typeof ApiProjectsIdProgramLogsLogIdRouteImport
+      parentRoute: typeof ApiProjectsIdProgramLogsRoute
+    }
+    '/api/projects/$id/auth-devices/$deviceId': {
+      id: '/api/projects/$id/auth-devices/$deviceId'
+      path: '/$deviceId'
+      fullPath: '/api/projects/$id/auth-devices/$deviceId'
+      preLoaderRoute: typeof ApiProjectsIdAuthDevicesDeviceIdRouteImport
+      parentRoute: typeof ApiProjectsIdAuthDevicesRoute
+    }
+    '/api/pdf-signatures/requests/$id/signatures': {
+      id: '/api/pdf-signatures/requests/$id/signatures'
+      path: '/signatures'
+      fullPath: '/api/pdf-signatures/requests/$id/signatures'
+      preLoaderRoute: typeof ApiPdfSignaturesRequestsIdSignaturesRouteImport
+      parentRoute: typeof ApiPdfSignaturesRequestsIdRoute
+    }
+    '/api/pdf-signatures/requests/$id/pdf': {
+      id: '/api/pdf-signatures/requests/$id/pdf'
+      path: '/pdf'
+      fullPath: '/api/pdf-signatures/requests/$id/pdf'
+      preLoaderRoute: typeof ApiPdfSignaturesRequestsIdPdfRouteImport
+      parentRoute: typeof ApiPdfSignaturesRequestsIdRoute
+    }
+    '/api/pdf-signatures/requests/$id/fields': {
+      id: '/api/pdf-signatures/requests/$id/fields'
+      path: '/fields'
+      fullPath: '/api/pdf-signatures/requests/$id/fields'
+      preLoaderRoute: typeof ApiPdfSignaturesRequestsIdFieldsRouteImport
+      parentRoute: typeof ApiPdfSignaturesRequestsIdRoute
+    }
+    '/api/pdf-signatures/public/$token/submit': {
+      id: '/api/pdf-signatures/public/$token/submit'
+      path: '/submit'
+      fullPath: '/api/pdf-signatures/public/$token/submit'
+      preLoaderRoute: typeof ApiPdfSignaturesPublicTokenSubmitRouteImport
+      parentRoute: typeof ApiPdfSignaturesPublicTokenRoute
+    }
+    '/api/pdf-signatures/public/$token/signed-pdf': {
+      id: '/api/pdf-signatures/public/$token/signed-pdf'
+      path: '/signed-pdf'
+      fullPath: '/api/pdf-signatures/public/$token/signed-pdf'
+      preLoaderRoute: typeof ApiPdfSignaturesPublicTokenSignedPdfRouteImport
+      parentRoute: typeof ApiPdfSignaturesPublicTokenRoute
+    }
+    '/api/pdf-signatures/public/$token/sign': {
+      id: '/api/pdf-signatures/public/$token/sign'
+      path: '/sign'
+      fullPath: '/api/pdf-signatures/public/$token/sign'
+      preLoaderRoute: typeof ApiPdfSignaturesPublicTokenSignRouteImport
+      parentRoute: typeof ApiPdfSignaturesPublicTokenRoute
+    }
+    '/api/pdf-signatures/public/$token/pdf': {
+      id: '/api/pdf-signatures/public/$token/pdf'
+      path: '/pdf'
+      fullPath: '/api/pdf-signatures/public/$token/pdf'
+      preLoaderRoute: typeof ApiPdfSignaturesPublicTokenPdfRouteImport
+      parentRoute: typeof ApiPdfSignaturesPublicTokenRoute
+    }
+    '/api/pdf-signatures/public/$token/email': {
+      id: '/api/pdf-signatures/public/$token/email'
+      path: '/email'
+      fullPath: '/api/pdf-signatures/public/$token/email'
+      preLoaderRoute: typeof ApiPdfSignaturesPublicTokenEmailRouteImport
+      parentRoute: typeof ApiPdfSignaturesPublicTokenRoute
+    }
+    '/api/mail/v1/send/batch': {
+      id: '/api/mail/v1/send/batch'
+      path: '/batch'
+      fullPath: '/api/mail/v1/send/batch'
+      preLoaderRoute: typeof ApiMailV1SendBatchRouteImport
+      parentRoute: typeof ApiMailV1SendRoute
+    }
+    '/api/ingest/program-logs/$projectId/$token': {
+      id: '/api/ingest/program-logs/$projectId/$token'
+      path: '/api/ingest/program-logs/$projectId/$token'
+      fullPath: '/api/ingest/program-logs/$projectId/$token'
+      preLoaderRoute: typeof ApiIngestProgramLogsProjectIdTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/extension/project/scripts/$name': {
+      id: '/api/extension/project/scripts/$name'
+      path: '/api/extension/project/scripts/$name'
+      fullPath: '/api/extension/project/scripts/$name'
+      preLoaderRoute: typeof ApiExtensionProjectScriptsNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/projects/$id/extension-source': {
+      id: '/api/admin/projects/$id/extension-source'
+      path: '/$id/extension-source'
+      fullPath: '/api/admin/projects/$id/extension-source'
+      preLoaderRoute: typeof ApiAdminProjectsIdExtensionSourceRouteImport
+      parentRoute: typeof ApiAdminProjectsRoute
+    }
+    '/api/admin/payments/$id/transactions': {
+      id: '/api/admin/payments/$id/transactions'
+      path: '/transactions'
+      fullPath: '/api/admin/payments/$id/transactions'
+      preLoaderRoute: typeof ApiAdminPaymentsIdTransactionsRouteImport
+      parentRoute: typeof ApiAdminPaymentsIdRoute
+    }
+    '/api/admin/payments/$id/receipt': {
+      id: '/api/admin/payments/$id/receipt'
+      path: '/receipt'
+      fullPath: '/api/admin/payments/$id/receipt'
+      preLoaderRoute: typeof ApiAdminPaymentsIdReceiptRouteImport
+      parentRoute: typeof ApiAdminPaymentsIdRoute
+    }
+    '/api/admin/payments/$id/mark-paid': {
+      id: '/api/admin/payments/$id/mark-paid'
+      path: '/mark-paid'
+      fullPath: '/api/admin/payments/$id/mark-paid'
+      preLoaderRoute: typeof ApiAdminPaymentsIdMarkPaidRouteImport
+      parentRoute: typeof ApiAdminPaymentsIdRoute
+    }
+    '/api/admin/payments/$id/invoice': {
+      id: '/api/admin/payments/$id/invoice'
+      path: '/invoice'
+      fullPath: '/api/admin/payments/$id/invoice'
+      preLoaderRoute: typeof ApiAdminPaymentsIdInvoiceRouteImport
+      parentRoute: typeof ApiAdminPaymentsIdRoute
+    }
+    '/api/admin/payments/$id/failure-reason': {
+      id: '/api/admin/payments/$id/failure-reason'
+      path: '/failure-reason'
+      fullPath: '/api/admin/payments/$id/failure-reason'
+      preLoaderRoute: typeof ApiAdminPaymentsIdFailureReasonRouteImport
+      parentRoute: typeof ApiAdminPaymentsIdRoute
+    }
+    '/api/admin/payments/$id/billings': {
+      id: '/api/admin/payments/$id/billings'
+      path: '/billings'
+      fullPath: '/api/admin/payments/$id/billings'
+      preLoaderRoute: typeof ApiAdminPaymentsIdBillingsRouteImport
+      parentRoute: typeof ApiAdminPaymentsIdRoute
+    }
+    '/api/admin/companies/$companyId/authorizations-data': {
+      id: '/api/admin/companies/$companyId/authorizations-data'
+      path: '/api/admin/companies/$companyId/authorizations-data'
+      fullPath: '/api/admin/companies/$companyId/authorizations-data'
+      preLoaderRoute: typeof ApiAdminCompaniesCompanyIdAuthorizationsDataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/bills/$id/send-invoice': {
+      id: '/api/admin/bills/$id/send-invoice'
+      path: '/send-invoice'
+      fullPath: '/api/admin/bills/$id/send-invoice'
+      preLoaderRoute: typeof ApiAdminBillsIdSendInvoiceRouteImport
+      parentRoute: typeof ApiAdminBillsIdRoute
+    }
+    '/api/admin/bills/$id/resume': {
+      id: '/api/admin/bills/$id/resume'
+      path: '/resume'
+      fullPath: '/api/admin/bills/$id/resume'
+      preLoaderRoute: typeof ApiAdminBillsIdResumeRouteImport
+      parentRoute: typeof ApiAdminBillsIdRoute
+    }
+    '/api/admin/bills/$id/receipt': {
+      id: '/api/admin/bills/$id/receipt'
+      path: '/receipt'
+      fullPath: '/api/admin/bills/$id/receipt'
+      preLoaderRoute: typeof ApiAdminBillsIdReceiptRouteImport
+      parentRoute: typeof ApiAdminBillsIdRoute
+    }
+    '/api/admin/bills/$id/pause': {
+      id: '/api/admin/bills/$id/pause'
+      path: '/pause'
+      fullPath: '/api/admin/bills/$id/pause'
+      preLoaderRoute: typeof ApiAdminBillsIdPauseRouteImport
+      parentRoute: typeof ApiAdminBillsIdRoute
+    }
+    '/api/admin/bills/$id/mark-paid': {
+      id: '/api/admin/bills/$id/mark-paid'
+      path: '/mark-paid'
+      fullPath: '/api/admin/bills/$id/mark-paid'
+      preLoaderRoute: typeof ApiAdminBillsIdMarkPaidRouteImport
+      parentRoute: typeof ApiAdminBillsIdRoute
+    }
+    '/api/admin/bills/$id/duplicate': {
+      id: '/api/admin/bills/$id/duplicate'
+      path: '/duplicate'
+      fullPath: '/api/admin/bills/$id/duplicate'
+      preLoaderRoute: typeof ApiAdminBillsIdDuplicateRouteImport
+      parentRoute: typeof ApiAdminBillsIdRoute
+    }
+    '/api/admin/bills/$id/charges': {
+      id: '/api/admin/bills/$id/charges'
+      path: '/charges'
+      fullPath: '/api/admin/bills/$id/charges'
+      preLoaderRoute: typeof ApiAdminBillsIdChargesRouteImport
+      parentRoute: typeof ApiAdminBillsIdRoute
+    }
+    '/api/admin/bills/$id/charge-now': {
+      id: '/api/admin/bills/$id/charge-now'
+      path: '/charge-now'
+      fullPath: '/api/admin/bills/$id/charge-now'
+      preLoaderRoute: typeof ApiAdminBillsIdChargeNowRouteImport
+      parentRoute: typeof ApiAdminBillsIdRoute
+    }
+    '/api/admin/bills/$id/activate': {
+      id: '/api/admin/bills/$id/activate'
+      path: '/activate'
+      fullPath: '/api/admin/bills/$id/activate'
+      preLoaderRoute: typeof ApiAdminBillsIdActivateRouteImport
+      parentRoute: typeof ApiAdminBillsIdRoute
+    }
+    '/api/support/threads/$id/messages/$messageId': {
+      id: '/api/support/threads/$id/messages/$messageId'
+      path: '/$messageId'
+      fullPath: '/api/support/threads/$id/messages/$messageId'
+      preLoaderRoute: typeof ApiSupportThreadsIdMessagesMessageIdRouteImport
+      parentRoute: typeof ApiSupportThreadsIdMessagesRoute
+    }
+    '/api/projects/$id/subscriptions/$subscriptionId/transactions': {
+      id: '/api/projects/$id/subscriptions/$subscriptionId/transactions'
+      path: '/transactions'
+      fullPath: '/api/projects/$id/subscriptions/$subscriptionId/transactions'
+      preLoaderRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRouteImport
+      parentRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdRoute
+    }
+    '/api/projects/$id/subscriptions/$subscriptionId/mark-completed': {
+      id: '/api/projects/$id/subscriptions/$subscriptionId/mark-completed'
+      path: '/mark-completed'
+      fullPath: '/api/projects/$id/subscriptions/$subscriptionId/mark-completed'
+      preLoaderRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRouteImport
+      parentRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdRoute
+    }
+    '/api/projects/$id/subscriptions/$subscriptionId/create-payment': {
+      id: '/api/projects/$id/subscriptions/$subscriptionId/create-payment'
+      path: '/create-payment'
+      fullPath: '/api/projects/$id/subscriptions/$subscriptionId/create-payment'
+      preLoaderRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRouteImport
+      parentRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdRoute
+    }
+    '/api/projects/$id/fees/$feeId/transactions': {
+      id: '/api/projects/$id/fees/$feeId/transactions'
+      path: '/$feeId/transactions'
+      fullPath: '/api/projects/$id/fees/$feeId/transactions'
+      preLoaderRoute: typeof ApiProjectsIdFeesFeeIdTransactionsRouteImport
+      parentRoute: typeof ApiProjectsIdFeesRoute
+    }
+    '/api/projects/$id/fees/$feeId/mark-completed': {
+      id: '/api/projects/$id/fees/$feeId/mark-completed'
+      path: '/$feeId/mark-completed'
+      fullPath: '/api/projects/$id/fees/$feeId/mark-completed'
+      preLoaderRoute: typeof ApiProjectsIdFeesFeeIdMarkCompletedRouteImport
+      parentRoute: typeof ApiProjectsIdFeesRoute
+    }
+    '/api/projects/$id/fees/$feeId/create-payment': {
+      id: '/api/projects/$id/fees/$feeId/create-payment'
+      path: '/$feeId/create-payment'
+      fullPath: '/api/projects/$id/fees/$feeId/create-payment'
+      preLoaderRoute: typeof ApiProjectsIdFeesFeeIdCreatePaymentRouteImport
+      parentRoute: typeof ApiProjectsIdFeesRoute
     }
   }
 }
+
+interface ApiBlockedSlotsRouteChildren {
+  ApiBlockedSlotsIdRoute: typeof ApiBlockedSlotsIdRoute
+}
+
+const ApiBlockedSlotsRouteChildren: ApiBlockedSlotsRouteChildren = {
+  ApiBlockedSlotsIdRoute: ApiBlockedSlotsIdRoute,
+}
+
+const ApiBlockedSlotsRouteWithChildren = ApiBlockedSlotsRoute._addFileChildren(
+  ApiBlockedSlotsRouteChildren,
+)
+
+interface ApiCompaniesIdRouteChildren {
+  ApiCompaniesIdFeesAndSubscriptionsRoute: typeof ApiCompaniesIdFeesAndSubscriptionsRoute
+  ApiCompaniesIdPaymentStatusRoute: typeof ApiCompaniesIdPaymentStatusRoute
+  ApiCompaniesIdProjectsRoute: typeof ApiCompaniesIdProjectsRoute
+  ApiCompaniesIdUsersRoute: typeof ApiCompaniesIdUsersRoute
+}
+
+const ApiCompaniesIdRouteChildren: ApiCompaniesIdRouteChildren = {
+  ApiCompaniesIdFeesAndSubscriptionsRoute:
+    ApiCompaniesIdFeesAndSubscriptionsRoute,
+  ApiCompaniesIdPaymentStatusRoute: ApiCompaniesIdPaymentStatusRoute,
+  ApiCompaniesIdProjectsRoute: ApiCompaniesIdProjectsRoute,
+  ApiCompaniesIdUsersRoute: ApiCompaniesIdUsersRoute,
+}
+
+const ApiCompaniesIdRouteWithChildren = ApiCompaniesIdRoute._addFileChildren(
+  ApiCompaniesIdRouteChildren,
+)
+
+interface ApiCompaniesRouteChildren {
+  ApiCompaniesIdRoute: typeof ApiCompaniesIdRouteWithChildren
+}
+
+const ApiCompaniesRouteChildren: ApiCompaniesRouteChildren = {
+  ApiCompaniesIdRoute: ApiCompaniesIdRouteWithChildren,
+}
+
+const ApiCompaniesRouteWithChildren = ApiCompaniesRoute._addFileChildren(
+  ApiCompaniesRouteChildren,
+)
+
+interface ApiEntitlementRouteChildren {
+  ApiEntitlementDevicesRoute: typeof ApiEntitlementDevicesRoute
+  ApiEntitlementRequestDeviceRoute: typeof ApiEntitlementRequestDeviceRoute
+}
+
+const ApiEntitlementRouteChildren: ApiEntitlementRouteChildren = {
+  ApiEntitlementDevicesRoute: ApiEntitlementDevicesRoute,
+  ApiEntitlementRequestDeviceRoute: ApiEntitlementRequestDeviceRoute,
+}
+
+const ApiEntitlementRouteWithChildren = ApiEntitlementRoute._addFileChildren(
+  ApiEntitlementRouteChildren,
+)
+
+interface ApiMeetingRequestsRouteChildren {
+  ApiMeetingRequestsIdRoute: typeof ApiMeetingRequestsIdRoute
+  ApiMeetingRequestsAvailableSlotsRoute: typeof ApiMeetingRequestsAvailableSlotsRoute
+}
+
+const ApiMeetingRequestsRouteChildren: ApiMeetingRequestsRouteChildren = {
+  ApiMeetingRequestsIdRoute: ApiMeetingRequestsIdRoute,
+  ApiMeetingRequestsAvailableSlotsRoute: ApiMeetingRequestsAvailableSlotsRoute,
+}
+
+const ApiMeetingRequestsRouteWithChildren =
+  ApiMeetingRequestsRoute._addFileChildren(ApiMeetingRequestsRouteChildren)
+
+interface ApiMeetingsMeetingIdRouteChildren {
+  ApiMeetingsMeetingIdDocumentsRoute: typeof ApiMeetingsMeetingIdDocumentsRoute
+  ApiMeetingsMeetingIdTokenRoute: typeof ApiMeetingsMeetingIdTokenRoute
+}
+
+const ApiMeetingsMeetingIdRouteChildren: ApiMeetingsMeetingIdRouteChildren = {
+  ApiMeetingsMeetingIdDocumentsRoute: ApiMeetingsMeetingIdDocumentsRoute,
+  ApiMeetingsMeetingIdTokenRoute: ApiMeetingsMeetingIdTokenRoute,
+}
+
+const ApiMeetingsMeetingIdRouteWithChildren =
+  ApiMeetingsMeetingIdRoute._addFileChildren(ApiMeetingsMeetingIdRouteChildren)
+
+interface ApiMeetingsRouteChildren {
+  ApiMeetingsMeetingIdRoute: typeof ApiMeetingsMeetingIdRouteWithChildren
+  ApiMeetingsUpcomingRoute: typeof ApiMeetingsUpcomingRoute
+}
+
+const ApiMeetingsRouteChildren: ApiMeetingsRouteChildren = {
+  ApiMeetingsMeetingIdRoute: ApiMeetingsMeetingIdRouteWithChildren,
+  ApiMeetingsUpcomingRoute: ApiMeetingsUpcomingRoute,
+}
+
+const ApiMeetingsRouteWithChildren = ApiMeetingsRoute._addFileChildren(
+  ApiMeetingsRouteChildren,
+)
+
+interface ApiProjectsIdAuthDevicesRouteChildren {
+  ApiProjectsIdAuthDevicesDeviceIdRoute: typeof ApiProjectsIdAuthDevicesDeviceIdRoute
+}
+
+const ApiProjectsIdAuthDevicesRouteChildren: ApiProjectsIdAuthDevicesRouteChildren =
+  {
+    ApiProjectsIdAuthDevicesDeviceIdRoute:
+      ApiProjectsIdAuthDevicesDeviceIdRoute,
+  }
+
+const ApiProjectsIdAuthDevicesRouteWithChildren =
+  ApiProjectsIdAuthDevicesRoute._addFileChildren(
+    ApiProjectsIdAuthDevicesRouteChildren,
+  )
+
+interface ApiProjectsIdFeesRouteChildren {
+  ApiProjectsIdFeesFeeIdCreatePaymentRoute: typeof ApiProjectsIdFeesFeeIdCreatePaymentRoute
+  ApiProjectsIdFeesFeeIdMarkCompletedRoute: typeof ApiProjectsIdFeesFeeIdMarkCompletedRoute
+  ApiProjectsIdFeesFeeIdTransactionsRoute: typeof ApiProjectsIdFeesFeeIdTransactionsRoute
+}
+
+const ApiProjectsIdFeesRouteChildren: ApiProjectsIdFeesRouteChildren = {
+  ApiProjectsIdFeesFeeIdCreatePaymentRoute:
+    ApiProjectsIdFeesFeeIdCreatePaymentRoute,
+  ApiProjectsIdFeesFeeIdMarkCompletedRoute:
+    ApiProjectsIdFeesFeeIdMarkCompletedRoute,
+  ApiProjectsIdFeesFeeIdTransactionsRoute:
+    ApiProjectsIdFeesFeeIdTransactionsRoute,
+}
+
+const ApiProjectsIdFeesRouteWithChildren =
+  ApiProjectsIdFeesRoute._addFileChildren(ApiProjectsIdFeesRouteChildren)
+
+interface ApiProjectsIdProgramLogsRouteChildren {
+  ApiProjectsIdProgramLogsLogIdRoute: typeof ApiProjectsIdProgramLogsLogIdRoute
+}
+
+const ApiProjectsIdProgramLogsRouteChildren: ApiProjectsIdProgramLogsRouteChildren =
+  {
+    ApiProjectsIdProgramLogsLogIdRoute: ApiProjectsIdProgramLogsLogIdRoute,
+  }
+
+const ApiProjectsIdProgramLogsRouteWithChildren =
+  ApiProjectsIdProgramLogsRoute._addFileChildren(
+    ApiProjectsIdProgramLogsRouteChildren,
+  )
+
+interface ApiProjectsIdSubscriptionsSubscriptionIdRouteChildren {
+  ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRoute
+  ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRoute
+  ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRoute
+}
+
+const ApiProjectsIdSubscriptionsSubscriptionIdRouteChildren: ApiProjectsIdSubscriptionsSubscriptionIdRouteChildren =
+  {
+    ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRoute:
+      ApiProjectsIdSubscriptionsSubscriptionIdCreatePaymentRoute,
+    ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRoute:
+      ApiProjectsIdSubscriptionsSubscriptionIdMarkCompletedRoute,
+    ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRoute:
+      ApiProjectsIdSubscriptionsSubscriptionIdTransactionsRoute,
+  }
+
+const ApiProjectsIdSubscriptionsSubscriptionIdRouteWithChildren =
+  ApiProjectsIdSubscriptionsSubscriptionIdRoute._addFileChildren(
+    ApiProjectsIdSubscriptionsSubscriptionIdRouteChildren,
+  )
+
+interface ApiProjectsIdSubscriptionsRouteChildren {
+  ApiProjectsIdSubscriptionsSubscriptionIdRoute: typeof ApiProjectsIdSubscriptionsSubscriptionIdRouteWithChildren
+}
+
+const ApiProjectsIdSubscriptionsRouteChildren: ApiProjectsIdSubscriptionsRouteChildren =
+  {
+    ApiProjectsIdSubscriptionsSubscriptionIdRoute:
+      ApiProjectsIdSubscriptionsSubscriptionIdRouteWithChildren,
+  }
+
+const ApiProjectsIdSubscriptionsRouteWithChildren =
+  ApiProjectsIdSubscriptionsRoute._addFileChildren(
+    ApiProjectsIdSubscriptionsRouteChildren,
+  )
+
+interface ApiProjectsIdRouteChildren {
+  ApiProjectsIdAccessOverrideRoute: typeof ApiProjectsIdAccessOverrideRoute
+  ApiProjectsIdApiKeyRoute: typeof ApiProjectsIdApiKeyRoute
+  ApiProjectsIdAuthDevicesRoute: typeof ApiProjectsIdAuthDevicesRouteWithChildren
+  ApiProjectsIdDeviceLimitRoute: typeof ApiProjectsIdDeviceLimitRoute
+  ApiProjectsIdFeaturesRoute: typeof ApiProjectsIdFeaturesRoute
+  ApiProjectsIdFeesRoute: typeof ApiProjectsIdFeesRouteWithChildren
+  ApiProjectsIdGithubCommitsRoute: typeof ApiProjectsIdGithubCommitsRoute
+  ApiProjectsIdGithubRefRoute: typeof ApiProjectsIdGithubRefRoute
+  ApiProjectsIdGithubStatusRoute: typeof ApiProjectsIdGithubStatusRoute
+  ApiProjectsIdProgramLogIngestUrlRoute: typeof ApiProjectsIdProgramLogIngestUrlRoute
+  ApiProjectsIdProgramLogsRoute: typeof ApiProjectsIdProgramLogsRouteWithChildren
+  ApiProjectsIdSubscriptionsRoute: typeof ApiProjectsIdSubscriptionsRouteWithChildren
+}
+
+const ApiProjectsIdRouteChildren: ApiProjectsIdRouteChildren = {
+  ApiProjectsIdAccessOverrideRoute: ApiProjectsIdAccessOverrideRoute,
+  ApiProjectsIdApiKeyRoute: ApiProjectsIdApiKeyRoute,
+  ApiProjectsIdAuthDevicesRoute: ApiProjectsIdAuthDevicesRouteWithChildren,
+  ApiProjectsIdDeviceLimitRoute: ApiProjectsIdDeviceLimitRoute,
+  ApiProjectsIdFeaturesRoute: ApiProjectsIdFeaturesRoute,
+  ApiProjectsIdFeesRoute: ApiProjectsIdFeesRouteWithChildren,
+  ApiProjectsIdGithubCommitsRoute: ApiProjectsIdGithubCommitsRoute,
+  ApiProjectsIdGithubRefRoute: ApiProjectsIdGithubRefRoute,
+  ApiProjectsIdGithubStatusRoute: ApiProjectsIdGithubStatusRoute,
+  ApiProjectsIdProgramLogIngestUrlRoute: ApiProjectsIdProgramLogIngestUrlRoute,
+  ApiProjectsIdProgramLogsRoute: ApiProjectsIdProgramLogsRouteWithChildren,
+  ApiProjectsIdSubscriptionsRoute: ApiProjectsIdSubscriptionsRouteWithChildren,
+}
+
+const ApiProjectsIdRouteWithChildren = ApiProjectsIdRoute._addFileChildren(
+  ApiProjectsIdRouteChildren,
+)
+
+interface ApiProjectsRouteChildren {
+  ApiProjectsIdRoute: typeof ApiProjectsIdRouteWithChildren
+  ApiProjectsProxyIdRoute: typeof ApiProjectsProxyIdRoute
+}
+
+const ApiProjectsRouteChildren: ApiProjectsRouteChildren = {
+  ApiProjectsIdRoute: ApiProjectsIdRouteWithChildren,
+  ApiProjectsProxyIdRoute: ApiProjectsProxyIdRoute,
+}
+
+const ApiProjectsRouteWithChildren = ApiProjectsRoute._addFileChildren(
+  ApiProjectsRouteChildren,
+)
+
+interface ApiAdminBillsIdRouteChildren {
+  ApiAdminBillsIdActivateRoute: typeof ApiAdminBillsIdActivateRoute
+  ApiAdminBillsIdChargeNowRoute: typeof ApiAdminBillsIdChargeNowRoute
+  ApiAdminBillsIdChargesRoute: typeof ApiAdminBillsIdChargesRoute
+  ApiAdminBillsIdDuplicateRoute: typeof ApiAdminBillsIdDuplicateRoute
+  ApiAdminBillsIdMarkPaidRoute: typeof ApiAdminBillsIdMarkPaidRoute
+  ApiAdminBillsIdPauseRoute: typeof ApiAdminBillsIdPauseRoute
+  ApiAdminBillsIdReceiptRoute: typeof ApiAdminBillsIdReceiptRoute
+  ApiAdminBillsIdResumeRoute: typeof ApiAdminBillsIdResumeRoute
+  ApiAdminBillsIdSendInvoiceRoute: typeof ApiAdminBillsIdSendInvoiceRoute
+}
+
+const ApiAdminBillsIdRouteChildren: ApiAdminBillsIdRouteChildren = {
+  ApiAdminBillsIdActivateRoute: ApiAdminBillsIdActivateRoute,
+  ApiAdminBillsIdChargeNowRoute: ApiAdminBillsIdChargeNowRoute,
+  ApiAdminBillsIdChargesRoute: ApiAdminBillsIdChargesRoute,
+  ApiAdminBillsIdDuplicateRoute: ApiAdminBillsIdDuplicateRoute,
+  ApiAdminBillsIdMarkPaidRoute: ApiAdminBillsIdMarkPaidRoute,
+  ApiAdminBillsIdPauseRoute: ApiAdminBillsIdPauseRoute,
+  ApiAdminBillsIdReceiptRoute: ApiAdminBillsIdReceiptRoute,
+  ApiAdminBillsIdResumeRoute: ApiAdminBillsIdResumeRoute,
+  ApiAdminBillsIdSendInvoiceRoute: ApiAdminBillsIdSendInvoiceRoute,
+}
+
+const ApiAdminBillsIdRouteWithChildren = ApiAdminBillsIdRoute._addFileChildren(
+  ApiAdminBillsIdRouteChildren,
+)
+
+interface ApiAdminBillsRouteChildren {
+  ApiAdminBillsIdRoute: typeof ApiAdminBillsIdRouteWithChildren
+}
+
+const ApiAdminBillsRouteChildren: ApiAdminBillsRouteChildren = {
+  ApiAdminBillsIdRoute: ApiAdminBillsIdRouteWithChildren,
+}
+
+const ApiAdminBillsRouteWithChildren = ApiAdminBillsRoute._addFileChildren(
+  ApiAdminBillsRouteChildren,
+)
+
+interface ApiAdminCompanyFilesRouteChildren {
+  ApiAdminCompanyFilesDownloadRoute: typeof ApiAdminCompanyFilesDownloadRoute
+  ApiAdminCompanyFilesFolderRoute: typeof ApiAdminCompanyFilesFolderRoute
+  ApiAdminCompanyFilesMoveRoute: typeof ApiAdminCompanyFilesMoveRoute
+  ApiAdminCompanyFilesPresignRoute: typeof ApiAdminCompanyFilesPresignRoute
+  ApiAdminCompanyFilesPresignBatchRoute: typeof ApiAdminCompanyFilesPresignBatchRoute
+  ApiAdminCompanyFilesShareLinkRoute: typeof ApiAdminCompanyFilesShareLinkRoute
+  ApiAdminCompanyFilesUploadLinkRoute: typeof ApiAdminCompanyFilesUploadLinkRoute
+  ApiAdminCompanyFilesZipRoute: typeof ApiAdminCompanyFilesZipRoute
+}
+
+const ApiAdminCompanyFilesRouteChildren: ApiAdminCompanyFilesRouteChildren = {
+  ApiAdminCompanyFilesDownloadRoute: ApiAdminCompanyFilesDownloadRoute,
+  ApiAdminCompanyFilesFolderRoute: ApiAdminCompanyFilesFolderRoute,
+  ApiAdminCompanyFilesMoveRoute: ApiAdminCompanyFilesMoveRoute,
+  ApiAdminCompanyFilesPresignRoute: ApiAdminCompanyFilesPresignRoute,
+  ApiAdminCompanyFilesPresignBatchRoute: ApiAdminCompanyFilesPresignBatchRoute,
+  ApiAdminCompanyFilesShareLinkRoute: ApiAdminCompanyFilesShareLinkRoute,
+  ApiAdminCompanyFilesUploadLinkRoute: ApiAdminCompanyFilesUploadLinkRoute,
+  ApiAdminCompanyFilesZipRoute: ApiAdminCompanyFilesZipRoute,
+}
+
+const ApiAdminCompanyFilesRouteWithChildren =
+  ApiAdminCompanyFilesRoute._addFileChildren(ApiAdminCompanyFilesRouteChildren)
+
+interface ApiAdminPaymentsIdRouteChildren {
+  ApiAdminPaymentsIdBillingsRoute: typeof ApiAdminPaymentsIdBillingsRoute
+  ApiAdminPaymentsIdFailureReasonRoute: typeof ApiAdminPaymentsIdFailureReasonRoute
+  ApiAdminPaymentsIdInvoiceRoute: typeof ApiAdminPaymentsIdInvoiceRoute
+  ApiAdminPaymentsIdMarkPaidRoute: typeof ApiAdminPaymentsIdMarkPaidRoute
+  ApiAdminPaymentsIdReceiptRoute: typeof ApiAdminPaymentsIdReceiptRoute
+  ApiAdminPaymentsIdTransactionsRoute: typeof ApiAdminPaymentsIdTransactionsRoute
+}
+
+const ApiAdminPaymentsIdRouteChildren: ApiAdminPaymentsIdRouteChildren = {
+  ApiAdminPaymentsIdBillingsRoute: ApiAdminPaymentsIdBillingsRoute,
+  ApiAdminPaymentsIdFailureReasonRoute: ApiAdminPaymentsIdFailureReasonRoute,
+  ApiAdminPaymentsIdInvoiceRoute: ApiAdminPaymentsIdInvoiceRoute,
+  ApiAdminPaymentsIdMarkPaidRoute: ApiAdminPaymentsIdMarkPaidRoute,
+  ApiAdminPaymentsIdReceiptRoute: ApiAdminPaymentsIdReceiptRoute,
+  ApiAdminPaymentsIdTransactionsRoute: ApiAdminPaymentsIdTransactionsRoute,
+}
+
+const ApiAdminPaymentsIdRouteWithChildren =
+  ApiAdminPaymentsIdRoute._addFileChildren(ApiAdminPaymentsIdRouteChildren)
+
+interface ApiAdminPaymentsRouteChildren {
+  ApiAdminPaymentsIdRoute: typeof ApiAdminPaymentsIdRouteWithChildren
+  ApiAdminPaymentsAttachDefaultToCompanyRoute: typeof ApiAdminPaymentsAttachDefaultToCompanyRoute
+  ApiAdminPaymentsAttachMethodRoute: typeof ApiAdminPaymentsAttachMethodRoute
+  ApiAdminPaymentsBillRoute: typeof ApiAdminPaymentsBillRoute
+  ApiAdminPaymentsBillingDryRunRoute: typeof ApiAdminPaymentsBillingDryRunRoute
+  ApiAdminPaymentsBillingHistoryRoute: typeof ApiAdminPaymentsBillingHistoryRoute
+  ApiAdminPaymentsFailureReasonsRoute: typeof ApiAdminPaymentsFailureReasonsRoute
+  ApiAdminPaymentsPayNowRoute: typeof ApiAdminPaymentsPayNowRoute
+  ApiAdminPaymentsProjectTransactionsRoute: typeof ApiAdminPaymentsProjectTransactionsRoute
+  ApiAdminPaymentsResolveRequestRoute: typeof ApiAdminPaymentsResolveRequestRoute
+  ApiAdminPaymentsRunCompanyBillingRoute: typeof ApiAdminPaymentsRunCompanyBillingRoute
+  ApiAdminPaymentsSendInvoiceRoute: typeof ApiAdminPaymentsSendInvoiceRoute
+  ApiAdminPaymentsTestStripeKeysRoute: typeof ApiAdminPaymentsTestStripeKeysRoute
+  ApiAdminPaymentsWithProjectsRoute: typeof ApiAdminPaymentsWithProjectsRoute
+}
+
+const ApiAdminPaymentsRouteChildren: ApiAdminPaymentsRouteChildren = {
+  ApiAdminPaymentsIdRoute: ApiAdminPaymentsIdRouteWithChildren,
+  ApiAdminPaymentsAttachDefaultToCompanyRoute:
+    ApiAdminPaymentsAttachDefaultToCompanyRoute,
+  ApiAdminPaymentsAttachMethodRoute: ApiAdminPaymentsAttachMethodRoute,
+  ApiAdminPaymentsBillRoute: ApiAdminPaymentsBillRoute,
+  ApiAdminPaymentsBillingDryRunRoute: ApiAdminPaymentsBillingDryRunRoute,
+  ApiAdminPaymentsBillingHistoryRoute: ApiAdminPaymentsBillingHistoryRoute,
+  ApiAdminPaymentsFailureReasonsRoute: ApiAdminPaymentsFailureReasonsRoute,
+  ApiAdminPaymentsPayNowRoute: ApiAdminPaymentsPayNowRoute,
+  ApiAdminPaymentsProjectTransactionsRoute:
+    ApiAdminPaymentsProjectTransactionsRoute,
+  ApiAdminPaymentsResolveRequestRoute: ApiAdminPaymentsResolveRequestRoute,
+  ApiAdminPaymentsRunCompanyBillingRoute:
+    ApiAdminPaymentsRunCompanyBillingRoute,
+  ApiAdminPaymentsSendInvoiceRoute: ApiAdminPaymentsSendInvoiceRoute,
+  ApiAdminPaymentsTestStripeKeysRoute: ApiAdminPaymentsTestStripeKeysRoute,
+  ApiAdminPaymentsWithProjectsRoute: ApiAdminPaymentsWithProjectsRoute,
+}
+
+const ApiAdminPaymentsRouteWithChildren =
+  ApiAdminPaymentsRoute._addFileChildren(ApiAdminPaymentsRouteChildren)
+
+interface ApiAdminProjectsRouteChildren {
+  ApiAdminProjectsIdExtensionSourceRoute: typeof ApiAdminProjectsIdExtensionSourceRoute
+}
+
+const ApiAdminProjectsRouteChildren: ApiAdminProjectsRouteChildren = {
+  ApiAdminProjectsIdExtensionSourceRoute:
+    ApiAdminProjectsIdExtensionSourceRoute,
+}
+
+const ApiAdminProjectsRouteWithChildren =
+  ApiAdminProjectsRoute._addFileChildren(ApiAdminProjectsRouteChildren)
+
+interface ApiAdminSupportAgentsRouteChildren {
+  ApiAdminSupportAgentsUserIdRoute: typeof ApiAdminSupportAgentsUserIdRoute
+}
+
+const ApiAdminSupportAgentsRouteChildren: ApiAdminSupportAgentsRouteChildren = {
+  ApiAdminSupportAgentsUserIdRoute: ApiAdminSupportAgentsUserIdRoute,
+}
+
+const ApiAdminSupportAgentsRouteWithChildren =
+  ApiAdminSupportAgentsRoute._addFileChildren(
+    ApiAdminSupportAgentsRouteChildren,
+  )
+
+interface ApiChatProjectIdRouteChildren {
+  ApiChatProjectIdDeleteRoute: typeof ApiChatProjectIdDeleteRoute
+  ApiChatProjectIdDeleteAttachmentRoute: typeof ApiChatProjectIdDeleteAttachmentRoute
+  ApiChatProjectIdUploadRoute: typeof ApiChatProjectIdUploadRoute
+}
+
+const ApiChatProjectIdRouteChildren: ApiChatProjectIdRouteChildren = {
+  ApiChatProjectIdDeleteRoute: ApiChatProjectIdDeleteRoute,
+  ApiChatProjectIdDeleteAttachmentRoute: ApiChatProjectIdDeleteAttachmentRoute,
+  ApiChatProjectIdUploadRoute: ApiChatProjectIdUploadRoute,
+}
+
+const ApiChatProjectIdRouteWithChildren =
+  ApiChatProjectIdRoute._addFileChildren(ApiChatProjectIdRouteChildren)
+
+interface ApiPdfSignaturesRequestsIdRouteChildren {
+  ApiPdfSignaturesRequestsIdFieldsRoute: typeof ApiPdfSignaturesRequestsIdFieldsRoute
+  ApiPdfSignaturesRequestsIdPdfRoute: typeof ApiPdfSignaturesRequestsIdPdfRoute
+  ApiPdfSignaturesRequestsIdSignaturesRoute: typeof ApiPdfSignaturesRequestsIdSignaturesRoute
+}
+
+const ApiPdfSignaturesRequestsIdRouteChildren: ApiPdfSignaturesRequestsIdRouteChildren =
+  {
+    ApiPdfSignaturesRequestsIdFieldsRoute:
+      ApiPdfSignaturesRequestsIdFieldsRoute,
+    ApiPdfSignaturesRequestsIdPdfRoute: ApiPdfSignaturesRequestsIdPdfRoute,
+    ApiPdfSignaturesRequestsIdSignaturesRoute:
+      ApiPdfSignaturesRequestsIdSignaturesRoute,
+  }
+
+const ApiPdfSignaturesRequestsIdRouteWithChildren =
+  ApiPdfSignaturesRequestsIdRoute._addFileChildren(
+    ApiPdfSignaturesRequestsIdRouteChildren,
+  )
+
+interface ApiPdfSignaturesRequestsRouteChildren {
+  ApiPdfSignaturesRequestsIdRoute: typeof ApiPdfSignaturesRequestsIdRouteWithChildren
+}
+
+const ApiPdfSignaturesRequestsRouteChildren: ApiPdfSignaturesRequestsRouteChildren =
+  {
+    ApiPdfSignaturesRequestsIdRoute:
+      ApiPdfSignaturesRequestsIdRouteWithChildren,
+  }
+
+const ApiPdfSignaturesRequestsRouteWithChildren =
+  ApiPdfSignaturesRequestsRoute._addFileChildren(
+    ApiPdfSignaturesRequestsRouteChildren,
+  )
+
+interface ApiPublicUploadTokenRouteChildren {
+  ApiPublicUploadTokenCompleteRoute: typeof ApiPublicUploadTokenCompleteRoute
+  ApiPublicUploadTokenPresignRoute: typeof ApiPublicUploadTokenPresignRoute
+}
+
+const ApiPublicUploadTokenRouteChildren: ApiPublicUploadTokenRouteChildren = {
+  ApiPublicUploadTokenCompleteRoute: ApiPublicUploadTokenCompleteRoute,
+  ApiPublicUploadTokenPresignRoute: ApiPublicUploadTokenPresignRoute,
+}
+
+const ApiPublicUploadTokenRouteWithChildren =
+  ApiPublicUploadTokenRoute._addFileChildren(ApiPublicUploadTokenRouteChildren)
+
+interface ApiSupportThreadsIdMessagesRouteChildren {
+  ApiSupportThreadsIdMessagesMessageIdRoute: typeof ApiSupportThreadsIdMessagesMessageIdRoute
+}
+
+const ApiSupportThreadsIdMessagesRouteChildren: ApiSupportThreadsIdMessagesRouteChildren =
+  {
+    ApiSupportThreadsIdMessagesMessageIdRoute:
+      ApiSupportThreadsIdMessagesMessageIdRoute,
+  }
+
+const ApiSupportThreadsIdMessagesRouteWithChildren =
+  ApiSupportThreadsIdMessagesRoute._addFileChildren(
+    ApiSupportThreadsIdMessagesRouteChildren,
+  )
+
+interface ApiSupportThreadsRouteChildren {
+  ApiSupportThreadsIdMessagesRoute: typeof ApiSupportThreadsIdMessagesRouteWithChildren
+  ApiSupportThreadsIdParticipantsRoute: typeof ApiSupportThreadsIdParticipantsRoute
+  ApiSupportThreadsIdUploadRoute: typeof ApiSupportThreadsIdUploadRoute
+}
+
+const ApiSupportThreadsRouteChildren: ApiSupportThreadsRouteChildren = {
+  ApiSupportThreadsIdMessagesRoute:
+    ApiSupportThreadsIdMessagesRouteWithChildren,
+  ApiSupportThreadsIdParticipantsRoute: ApiSupportThreadsIdParticipantsRoute,
+  ApiSupportThreadsIdUploadRoute: ApiSupportThreadsIdUploadRoute,
+}
+
+const ApiSupportThreadsRouteWithChildren =
+  ApiSupportThreadsRoute._addFileChildren(ApiSupportThreadsRouteChildren)
+
+interface ApiTimeTrackingClientsRouteChildren {
+  ApiTimeTrackingClientsIdRoute: typeof ApiTimeTrackingClientsIdRoute
+}
+
+const ApiTimeTrackingClientsRouteChildren: ApiTimeTrackingClientsRouteChildren =
+  {
+    ApiTimeTrackingClientsIdRoute: ApiTimeTrackingClientsIdRoute,
+  }
+
+const ApiTimeTrackingClientsRouteWithChildren =
+  ApiTimeTrackingClientsRoute._addFileChildren(
+    ApiTimeTrackingClientsRouteChildren,
+  )
+
+interface ApiTimeTrackingEntriesRouteChildren {
+  ApiTimeTrackingEntriesIdRoute: typeof ApiTimeTrackingEntriesIdRoute
+}
+
+const ApiTimeTrackingEntriesRouteChildren: ApiTimeTrackingEntriesRouteChildren =
+  {
+    ApiTimeTrackingEntriesIdRoute: ApiTimeTrackingEntriesIdRoute,
+  }
+
+const ApiTimeTrackingEntriesRouteWithChildren =
+  ApiTimeTrackingEntriesRoute._addFileChildren(
+    ApiTimeTrackingEntriesRouteChildren,
+  )
+
+interface ApiTimeTrackingTasksRouteChildren {
+  ApiTimeTrackingTasksIdRoute: typeof ApiTimeTrackingTasksIdRoute
+}
+
+const ApiTimeTrackingTasksRouteChildren: ApiTimeTrackingTasksRouteChildren = {
+  ApiTimeTrackingTasksIdRoute: ApiTimeTrackingTasksIdRoute,
+}
+
+const ApiTimeTrackingTasksRouteWithChildren =
+  ApiTimeTrackingTasksRoute._addFileChildren(ApiTimeTrackingTasksRouteChildren)
+
+interface ApiUsersIdRouteChildren {
+  ApiUsersIdInviteRoute: typeof ApiUsersIdInviteRoute
+  ApiUsersIdProjectsRoute: typeof ApiUsersIdProjectsRoute
+}
+
+const ApiUsersIdRouteChildren: ApiUsersIdRouteChildren = {
+  ApiUsersIdInviteRoute: ApiUsersIdInviteRoute,
+  ApiUsersIdProjectsRoute: ApiUsersIdProjectsRoute,
+}
+
+const ApiUsersIdRouteWithChildren = ApiUsersIdRoute._addFileChildren(
+  ApiUsersIdRouteChildren,
+)
+
+interface ApiWebhooksClerkRouteChildren {
+  ApiWebhooksClerkSyncUserRoute: typeof ApiWebhooksClerkSyncUserRoute
+}
+
+const ApiWebhooksClerkRouteChildren: ApiWebhooksClerkRouteChildren = {
+  ApiWebhooksClerkSyncUserRoute: ApiWebhooksClerkSyncUserRoute,
+}
+
+const ApiWebhooksClerkRouteWithChildren =
+  ApiWebhooksClerkRoute._addFileChildren(ApiWebhooksClerkRouteChildren)
+
+interface ApiMailV1SendRouteChildren {
+  ApiMailV1SendBatchRoute: typeof ApiMailV1SendBatchRoute
+}
+
+const ApiMailV1SendRouteChildren: ApiMailV1SendRouteChildren = {
+  ApiMailV1SendBatchRoute: ApiMailV1SendBatchRoute,
+}
+
+const ApiMailV1SendRouteWithChildren = ApiMailV1SendRoute._addFileChildren(
+  ApiMailV1SendRouteChildren,
+)
+
+interface ApiPdfSignaturesPublicTokenRouteChildren {
+  ApiPdfSignaturesPublicTokenEmailRoute: typeof ApiPdfSignaturesPublicTokenEmailRoute
+  ApiPdfSignaturesPublicTokenPdfRoute: typeof ApiPdfSignaturesPublicTokenPdfRoute
+  ApiPdfSignaturesPublicTokenSignRoute: typeof ApiPdfSignaturesPublicTokenSignRoute
+  ApiPdfSignaturesPublicTokenSignedPdfRoute: typeof ApiPdfSignaturesPublicTokenSignedPdfRoute
+  ApiPdfSignaturesPublicTokenSubmitRoute: typeof ApiPdfSignaturesPublicTokenSubmitRoute
+}
+
+const ApiPdfSignaturesPublicTokenRouteChildren: ApiPdfSignaturesPublicTokenRouteChildren =
+  {
+    ApiPdfSignaturesPublicTokenEmailRoute:
+      ApiPdfSignaturesPublicTokenEmailRoute,
+    ApiPdfSignaturesPublicTokenPdfRoute: ApiPdfSignaturesPublicTokenPdfRoute,
+    ApiPdfSignaturesPublicTokenSignRoute: ApiPdfSignaturesPublicTokenSignRoute,
+    ApiPdfSignaturesPublicTokenSignedPdfRoute:
+      ApiPdfSignaturesPublicTokenSignedPdfRoute,
+    ApiPdfSignaturesPublicTokenSubmitRoute:
+      ApiPdfSignaturesPublicTokenSubmitRoute,
+  }
+
+const ApiPdfSignaturesPublicTokenRouteWithChildren =
+  ApiPdfSignaturesPublicTokenRoute._addFileChildren(
+    ApiPdfSignaturesPublicTokenRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -730,26 +4871,109 @@ const rootRouteChildren: RootRouteChildren = {
   IntakeRoute: IntakeRoute,
   LocationsRoute: LocationsRoute,
   OrderConfirmationRoute: OrderConfirmationRoute,
-  PortalRoute: PortalRoute,
+  OverviewRoute: OverviewRoute,
   PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SearchRoute: SearchRoute,
   ServicesRoute: ServicesRoute,
+  SignUpRoute: SignUpRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StoreRoute: StoreRoute,
   TeamRoute: TeamRoute,
   TermsRoute: TermsRoute,
-  AdminQuotesRoute: AdminQuotesRoute,
+  AdminCalendarRoute: AdminCalendarRoute,
+  AdminSignInRoute: AdminSignInRoute,
+  ApiBlockedSlotsRoute: ApiBlockedSlotsRouteWithChildren,
+  ApiCompaniesRoute: ApiCompaniesRouteWithChildren,
+  ApiEntitlementRoute: ApiEntitlementRouteWithChildren,
   ApiMeetingRoute: ApiMeetingRoute,
-  ApiMeetingsRoute: ApiMeetingsRoute,
+  ApiMeetingRequestsRoute: ApiMeetingRequestsRouteWithChildren,
+  ApiMeetingsRoute: ApiMeetingsRouteWithChildren,
   ApiOrderRoute: ApiOrderRoute,
   ApiOrdersRoute: ApiOrdersRoute,
+  ApiProjectsRoute: ApiProjectsRouteWithChildren,
   ApiQuoteRoute: ApiQuoteRoute,
   ApiQuotesRoute: ApiQuotesRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
+  PayTokenRoute: PayTokenRoute,
+  PortalSignInRoute: PortalSignInRoute,
+  PortalSupportRoute: PortalSupportRoute,
+  PortalTimeTrackingRoute: PortalTimeTrackingRoute,
   ProductSlugRoute: ProductSlugRoute,
+  SignTokenRoute: SignTokenRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  PaymentsIndexRoute: PaymentsIndexRoute,
+  PortalIndexRoute: PortalIndexRoute,
+  AdminSignaturesIdRoute: AdminSignaturesIdRoute,
+  ApiAdminBillsRoute: ApiAdminBillsRouteWithChildren,
+  ApiAdminCompanyFilesRoute: ApiAdminCompanyFilesRouteWithChildren,
+  ApiAdminLeadMeetingsRoute: ApiAdminLeadMeetingsRoute,
+  ApiAdminPaymentsRoute: ApiAdminPaymentsRouteWithChildren,
+  ApiAdminProjectsRoute: ApiAdminProjectsRouteWithChildren,
+  ApiAdminSupportAgentsRoute: ApiAdminSupportAgentsRouteWithChildren,
+  ApiAdminUsersRoute: ApiAdminUsersRoute,
+  ApiAuthSignOutRoute: ApiAuthSignOutRoute,
+  ApiAvailabilityCheckRoute: ApiAvailabilityCheckRoute,
+  ApiChatProjectIdRoute: ApiChatProjectIdRouteWithChildren,
+  ApiClerkUsersRoute: ApiClerkUsersRoute,
+  ApiCronBillingRoute: ApiCronBillingRoute,
+  ApiDebugLogRoute: ApiDebugLogRoute,
+  ApiExtensionConfigRoute: ApiExtensionConfigRoute,
+  ApiExtensionGithubCheckRoute: ApiExtensionGithubCheckRoute,
+  ApiExtensionRepoListRoute: ApiExtensionRepoListRoute,
+  ApiPaymentsCreateIntentRoute: ApiPaymentsCreateIntentRoute,
+  ApiPaymentsCreateSetupIntentRoute: ApiPaymentsCreateSetupIntentRoute,
+  ApiPaymentsCreateSetupIntentAccountRoute:
+    ApiPaymentsCreateSetupIntentAccountRoute,
+  ApiPaymentsDocumentRoute: ApiPaymentsDocumentRoute,
+  ApiPaymentsNotifyPaymentRoute: ApiPaymentsNotifyPaymentRoute,
+  ApiPaymentsPaymentIntentMethodRoute: ApiPaymentsPaymentIntentMethodRoute,
+  ApiPaymentsRecordSuccessRoute: ApiPaymentsRecordSuccessRoute,
+  ApiPaymentsRequestRoute: ApiPaymentsRequestRoute,
+  ApiPaymentsSavePaymentMethodRoute: ApiPaymentsSavePaymentMethodRoute,
+  ApiPaymentsSavePaymentMethodToAccountRoute:
+    ApiPaymentsSavePaymentMethodToAccountRoute,
+  ApiPaymentsSavedMethodsRoute: ApiPaymentsSavedMethodsRoute,
+  ApiPaymentsSendInvoiceRoute: ApiPaymentsSendInvoiceRoute,
+  ApiPaymentsSendReceiptRoute: ApiPaymentsSendReceiptRoute,
+  ApiPaymentsUpdateStatusRoute: ApiPaymentsUpdateStatusRoute,
+  ApiPdfSignaturesRequestsRoute: ApiPdfSignaturesRequestsRouteWithChildren,
+  ApiPublicUploadTokenRoute: ApiPublicUploadTokenRouteWithChildren,
+  ApiSubscriptionsProcessDueRoute: ApiSubscriptionsProcessDueRoute,
+  ApiSupportAttachmentPreviewRoute: ApiSupportAttachmentPreviewRoute,
+  ApiSupportThreadsRoute: ApiSupportThreadsRouteWithChildren,
+  ApiTimeTrackingClientsRoute: ApiTimeTrackingClientsRouteWithChildren,
+  ApiTimeTrackingEntriesRoute: ApiTimeTrackingEntriesRouteWithChildren,
+  ApiTimeTrackingExportRoute: ApiTimeTrackingExportRoute,
+  ApiTimeTrackingOverviewRoute: ApiTimeTrackingOverviewRoute,
+  ApiTimeTrackingReportRoute: ApiTimeTrackingReportRoute,
+  ApiTimeTrackingRunningSyncRoute: ApiTimeTrackingRunningSyncRoute,
+  ApiTimeTrackingTasksRoute: ApiTimeTrackingTasksRouteWithChildren,
+  ApiTimeTrackingTimerRoute: ApiTimeTrackingTimerRoute,
+  ApiUsersIdRoute: ApiUsersIdRouteWithChildren,
+  ApiUsersMeRoute: ApiUsersMeRoute,
+  ApiWebhooksClerkRoute: ApiWebhooksClerkRouteWithChildren,
+  ApiWebhooksStripeRoute: ApiWebhooksStripeRoute,
+  MeetingsMeetingIdJoinRoute: MeetingsMeetingIdJoinRoute,
+  ApiAdminBillingHistoryRoute: ApiAdminBillingHistoryRoute,
+  ApiAdminBillingRunTodayRoute: ApiAdminBillingRunTodayRoute,
+  ApiAdminBillingSubscriptionsBatchRoute:
+    ApiAdminBillingSubscriptionsBatchRoute,
+  ApiAvailabilityRespondIdRoute: ApiAvailabilityRespondIdRoute,
+  ApiAvailabilityStatusIdRoute: ApiAvailabilityStatusIdRoute,
+  ApiExtensionProjectConfigRoute: ApiExtensionProjectConfigRoute,
+  ApiExtensionScriptsNameRoute: ApiExtensionScriptsNameRoute,
+  ApiMailV1SendRoute: ApiMailV1SendRouteWithChildren,
+  ApiPdfSignaturesPublicTokenRoute:
+    ApiPdfSignaturesPublicTokenRouteWithChildren,
+  ApiShareCompanyFilesZipRoute: ApiShareCompanyFilesZipRoute,
+  ApiAdminCompaniesCompanyIdAuthorizationsDataRoute:
+    ApiAdminCompaniesCompanyIdAuthorizationsDataRoute,
+  ApiExtensionProjectScriptsNameRoute: ApiExtensionProjectScriptsNameRoute,
+  ApiIngestProgramLogsProjectIdTokenRoute:
+    ApiIngestProgramLogsProjectIdTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
