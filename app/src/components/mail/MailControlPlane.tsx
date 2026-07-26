@@ -156,25 +156,19 @@ export function MailControlPlane() {
 
         {status && !status.masterConfigured && (
           <div className="rounded-lg border border-amber-300/80 bg-amber-50 px-4 py-3 text-[13px] text-amber-950">
-            Set{" "}
-            <code className="rounded bg-black/[0.05] px-1">ELSSIA_MAIL_API_KEY</code>{" "}
-            (and optional{" "}
-            <code className="rounded bg-black/[0.05] px-1">ELSSIA_MAIL_API_BASE</code>
-            ) to connect the Mail API.
+            Mail is not connected yet. Ask the platform owner to finish mail setup.
           </div>
         )}
         {status && status.masterConfigured && !status.databaseReady && (
           <div className="rounded-lg border border-amber-300/80 bg-amber-50 px-4 py-3 text-[13px] text-amber-950">
-            Mailboxes work with the master key. Configure Supabase (
-            <code className="rounded bg-black/[0.05] px-1">SUPABASE_URL</code> +{" "}
-            <code className="rounded bg-black/[0.05] px-1">SUPABASE_PUBLISHABLE_KEY</code>
-            ) and run the RLS bootstrap SQL for scoped API keys and the send log.
+            Mailboxes work now. Scoped keys and the send log need the database
+            connection finished.
           </div>
         )}
         {status && (
           <div className="flex flex-wrap gap-3 text-[12px]" style={mono}>
             <span className="rounded-full bg-black/[0.04] px-3 py-1">
-              Master key: {status.masterConfigured ? "set" : "missing"}
+              Mail: {status.masterConfigured ? "connected" : "not connected"}
             </span>
             <span className="rounded-full bg-black/[0.04] px-3 py-1">
               Health:{" "}
@@ -185,7 +179,7 @@ export function MailControlPlane() {
                   : `down (${status.healthDetail ?? ""})`}
             </span>
             <span className="rounded-full bg-black/[0.04] px-3 py-1">
-              Supabase: {status.databaseReady ? "ready" : "not set"}
+              Database: {status.databaseReady ? "ready" : "not set"}
             </span>
             <button
               type="button"
@@ -564,7 +558,7 @@ export function MailControlPlane() {
           Restricted From by default — free-for-all only if you enable it (still @elsiaa.com).
         </p>
         {!status?.databaseReady ? (
-          <p className="text-[13px] text-[#111]/45]">Requires Supabase (RLS bootstrap).</p>
+          <p className="text-[13px] text-[#111]/45]">Database connection required.</p>
         ) : (
           <>
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
@@ -780,7 +774,7 @@ export function MailControlPlane() {
           </select>
         </div>
         {!status?.databaseReady ? (
-          <p className="text-[13px] text-[#111]/45]">Requires Supabase (RLS bootstrap).</p>
+          <p className="text-[13px] text-[#111]/45]">Database connection required.</p>
         ) : (
           <div className="overflow-x-auto rounded-lg border border-black/[0.06]">
             <table className="w-full min-w-[640px] text-left text-[12px]">

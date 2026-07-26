@@ -46,7 +46,7 @@ export function AdminSignInForm({ initial }: Props) {
           </span>
         </Link>
         <p className="mt-10 text-[13px] text-[#1e6b3c]" style={mono}>
-          Super admin
+          Admin
         </p>
         <h1
           className="mt-3 text-3xl font-semibold tracking-[-0.035em] md:text-4xl"
@@ -55,38 +55,23 @@ export function AdminSignInForm({ initial }: Props) {
           Admin console.
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-[#111]/55" style={sans}>
-          Sign in with your Supabase Auth password. Access requires{" "}
-          <code className="rounded bg-black/[0.06] px-1.5 py-0.5 text-[12px]">SUPER_ADMIN_EMAILS</code>{" "}
-          and{" "}
-          <code className="rounded bg-black/[0.06] px-1.5 py-0.5 text-[12px]">
-            app_metadata.role = super_admin
-          </code>
-          . Data access uses RLS (not the service role).
+          Sign in with your ELSIAA admin email and password.
         </p>
 
-        {!initial.superAdminConfigured && (
+        {!ready && (
           <p
             className="mt-6 rounded-xl border border-amber-500/30 bg-amber-50 px-4 py-3 text-[13px] leading-relaxed text-amber-900"
             style={sans}
           >
-            Set <code className="text-[12px]">SUPER_ADMIN_EMAILS</code> in your environment before
-            signing in.
-          </p>
-        )}
-        {!initial.supabaseReady && (
-          <p
-            className="mt-4 rounded-xl border border-amber-500/30 bg-amber-50 px-4 py-3 text-[13px] leading-relaxed text-amber-900"
-            style={sans}
-          >
-            Set <code className="text-[12px]">SUPABASE_URL</code> and{" "}
-            <code className="text-[12px]">SUPABASE_PUBLISHABLE_KEY</code>.
+            Admin sign-in is not available right now. Contact the platform owner
+            if this persists.
           </p>
         )}
 
         <form onSubmit={(e) => void onSubmit(e)} className="mt-8 space-y-4">
           <label className="block">
             <span className="text-[12px] text-[#111]/45" style={mono}>
-              Super admin email
+              Email
             </span>
             <input
               type="email"
@@ -110,7 +95,7 @@ export function AdminSignInForm({ initial }: Props) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1.5 w-full rounded-xl border border-black/10 bg-white px-4 py-3.5 text-[15px] text-[#111] outline-none transition-colors placeholder:text-[#111]/30 focus:border-[#1e6b3c]"
-              placeholder="Supabase Auth password"
+              placeholder="••••••••"
               style={sans}
             />
           </label>
@@ -132,12 +117,6 @@ export function AdminSignInForm({ initial }: Props) {
             {error}
           </p>
         )}
-
-        <p className="mt-8 text-[12px] text-[#111]/40" style={mono}>
-          Allowlist: {initial.allowlistCount} · Cookie seal:{" "}
-          {initial.sessionReady ? "ready" : "missing"} · Supabase:{" "}
-          {initial.supabaseReady ? "ready" : "missing"}
-        </p>
       </div>
     </main>
   );

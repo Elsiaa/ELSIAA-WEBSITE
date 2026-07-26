@@ -58,9 +58,8 @@ function AdminHome() {
         <h1 className="text-2xl font-semibold">Admin failed to load</h1>
         <p className="mt-3 text-sm text-red-700">{error}</p>
         <p className="mt-4 text-sm text-[#111]/55">
-          Ensure Supabase migrations are applied (including{" "}
-          <code>0005_poel_full_tables.sql</code>) and{" "}
-          <code>SUPABASE_SECRET_KEY</code> is set.
+          Something went wrong loading admin. Try refreshing, or contact support
+          if it keeps happening.
         </p>
       </div>
     );

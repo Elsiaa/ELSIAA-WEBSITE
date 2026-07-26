@@ -275,7 +275,7 @@ export function CompaniesControlPlane() {
                 {members.length === 0 ? (
                   <tr>
                     <td colSpan={8} className="px-3 py-4 text-[#111]/45">
-                      No members. Add a user that already exists in Supabase Auth.
+                      No members yet. Invite someone from Users, then add them here.
                     </td>
                   </tr>
                 ) : (

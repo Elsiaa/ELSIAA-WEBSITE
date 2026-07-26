@@ -67,8 +67,7 @@ export function ProjectsControlPlane() {
         </h1>
         <p className="max-w-2xl text-[14px] leading-relaxed text-[#111111]/55">
           Create projects for a company. Portal users see them under Projects;
-          Authorizations use device limits and access overrides (after migration
-          0004).
+          Authorizations control device limits and access.
         </p>
 
         {error && (

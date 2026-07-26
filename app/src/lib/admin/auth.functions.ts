@@ -43,28 +43,28 @@ export const adminSignIn = createServerFn({ method: "POST" })
     if (!superAdminConfigured()) {
       return {
         ok: false as const,
-        error: "SUPER_ADMIN_EMAILS is not set on the server.",
+        error: "Admin sign-in is not available.",
       };
     }
     if (!adminSessionConfig()) {
       return {
         ok: false as const,
-        error: "Set AUTH_SECRET (32+ chars preferred) to seal the session.",
+        error: "Admin sign-in is not available.",
       };
     }
     if (!supabasePublishableConfigured()) {
       return {
         ok: false as const,
-        error: "Set SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY.",
+        error: "Sign-in is temporarily unavailable. Try again later.",
       };
     }
     if (!isSuperAdminEmail(data.email)) {
-      return { ok: false as const, error: "This email is not on SUPER_ADMIN_EMAILS." };
+      return { ok: false as const, error: "This email is not authorized for admin access." };
     }
 
     const auth = getSupabaseAuthClient();
     if (!auth) {
-      return { ok: false as const, error: "Supabase auth client unavailable." };
+      return { ok: false as const, error: "Sign-in is temporarily unavailable. Try again later." };
     }
 
     const { data: signed, error } = await auth.auth.signInWithPassword({
@@ -83,14 +83,13 @@ export const adminSignIn = createServerFn({ method: "POST" })
     if (!userHasSuperAdminClaim(meta)) {
       return {
         ok: false as const,
-        error:
-          "Supabase user is missing app_metadata.role = super_admin. Run the promote SQL.",
+        error: "This account is not authorized for admin access.",
       };
     }
 
     const email = (signed.user.email ?? data.email).trim().toLowerCase();
     if (!computeIsSuperAdmin(email, meta)) {
-      return { ok: false as const, error: "Not authorized as super admin." };
+      return { ok: false as const, error: "This account is not authorized for admin access." };
     }
 
     const displayName =

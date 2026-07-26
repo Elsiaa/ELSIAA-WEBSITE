@@ -58,7 +58,7 @@ export function PortalSignInForm({ initial, initialEmail }: Props) {
           Sign in to your workspace.
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-[#111]/55" style={sans}>
-          Use the email and password from your ELSIAA invite (Supabase Auth).
+          Enter the email and password from your invitation.
         </p>
 
         {!initial.supabaseReady && (
@@ -66,7 +66,8 @@ export function PortalSignInForm({ initial, initialEmail }: Props) {
             className="mt-6 rounded-xl border border-amber-500/30 bg-amber-50 px-4 py-3 text-[13px] leading-relaxed text-amber-900"
             style={sans}
           >
-            Supabase is not configured on the server yet.
+            Sign-in is temporarily unavailable. Please try again later or contact
+            support.
           </p>
         )}
 

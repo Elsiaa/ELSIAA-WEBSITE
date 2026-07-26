@@ -90,9 +90,8 @@ export function UsersControlPlane() {
         </p>
         <h1 className="text-2xl font-semibold tracking-[-0.03em]">Portal users</h1>
         <p className="max-w-2xl text-[14px] leading-relaxed text-[#111111]/55">
-          Create Auth users here (no Supabase dashboard needed). Optionally attach them
-          to a company so they can sign in at{" "}
-          <code className="rounded bg-black/[0.04] px-1">/portal</code>.
+          Add people to the portal and optionally attach them to a company so they
+          can sign in.
         </p>
 
         {error && (

@@ -44,13 +44,13 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
       return {
         ok: false as const,
         error:
-          "Supabase is not configured. Set SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, and SUPABASE_SECRET_KEY.",
+          "Sign-up is temporarily unavailable. Try again later or contact support.",
       };
     }
     if (!portalSessionConfig()) {
       return {
         ok: false as const,
-        error: "Set AUTH_SECRET (32+ chars) to seal the portal session.",
+        error: "Sign-up is temporarily unavailable. Try again later.",
       };
     }
 
@@ -105,7 +105,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
 
     const admin = getSupabaseServiceClient();
     if (!admin) {
-      return { ok: false as const, error: "Supabase service client unavailable." };
+      return { ok: false as const, error: "Sign-up is temporarily unavailable." };
     }
 
     const displayName =

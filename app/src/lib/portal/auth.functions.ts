@@ -44,19 +44,19 @@ export const portalSignIn = createServerFn({ method: "POST" })
     if (!portalSessionConfig()) {
       return {
         ok: false as const,
-        error: "Set AUTH_SECRET (32+ chars preferred) to seal the session.",
+        error: "Sign-in is temporarily unavailable. Try again later.",
       };
     }
     if (!supabasePublishableConfigured()) {
       return {
         ok: false as const,
-        error: "Set SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY.",
+        error: "Sign-in is temporarily unavailable. Try again later.",
       };
     }
 
     const auth = getSupabaseAuthClient();
     if (!auth) {
-      return { ok: false as const, error: "Supabase auth client unavailable." };
+      return { ok: false as const, error: "Sign-in is temporarily unavailable. Try again later." };
     }
 
     const { data: signed, error } = await auth.auth.signInWithPassword({
