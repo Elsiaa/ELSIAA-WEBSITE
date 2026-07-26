@@ -540,17 +540,21 @@ function AutomationSection() {
         muted
         playsInline
         preload="auto"
+        // guarantee playback on every load, regardless of browser autoplay quirks
+        onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
+        onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
         aria-label="The ELSIAA AI worker — many arms, every one on a different task"
         className="w-auto mix-blend-multiply will-change-transform"
         style={{
-          height: "min(46vh, min(86vw, 400px))",
+          height: "min(48vh, min(90vw, 440px))",
           // this clip already has a white backdrop, so mix-blend-multiply drops it
           // straight into the page; contrast (not brightness) keeps the silver/dark
           // robot readable without washing it into the white.
           filter: live ? "brightness(1.0) contrast(1.22) saturate(0.95)" : "grayscale(1) brightness(1.0) contrast(1.22) saturate(0.2)",
-          // wide, heavily feathered oval so the (landscape) frame edges dissolve — no box.
-          WebkitMaskImage: "radial-gradient(82% 82% at 50% 48%, #000 46%, rgba(0,0,0,0.5) 68%, rgba(0,0,0,0) 88%)",
-          maskImage: "radial-gradient(82% 82% at 50% 48%, #000 46%, rgba(0,0,0,0.5) 68%, rgba(0,0,0,0) 88%)",
+          // gentle edge-only feather: solid across the whole robot (incl. the
+          // wide arms), softening ONLY the extreme frame edge so nothing clips.
+          WebkitMaskImage: "radial-gradient(118% 122% at 50% 50%, #000 82%, rgba(0,0,0,0) 100%)",
+          maskImage: "radial-gradient(118% 122% at 50% 50%, #000 82%, rgba(0,0,0,0) 100%)",
         }}
       />
     </div>
