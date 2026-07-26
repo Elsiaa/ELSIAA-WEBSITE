@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
-import { PhoneFeed, PlatformBadges } from "../components/SocialMedia";
+import { SocialPhoneRow, PlatformBadges } from "../components/SocialMedia";
 import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/social")({
@@ -27,12 +27,6 @@ export const Route = createFileRoute("/social")({
 
 const SANS =
   "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
-
-const COLUMNS: Array<{ kind: "fyp" | "ads" | "reviews"; label: string; title: string; blurb: string; speed: number }> = [
-  { kind: "fyp", label: "For You", title: "The For-You Page", blurb: "Native, thumb-stopping video built for the algorithm that already owns your customer's attention.", speed: 12 },
-  { kind: "ads", label: "Meta Ads", title: "Meta Ads", blurb: "Paid engine that turns the scroll into pipeline — tested creative, tight targeting, measured spend.", speed: 15 },
-  { kind: "reviews", label: "Reviews", title: "Google Reviews", blurb: "Reputation on autopilot — the five-star proof that closes the customer before they ever call.", speed: 17 },
-];
 
 const OFFERS: Array<{ num: string; title: string; blurb: string }> = [
   { num: "01", title: "Content Strategy", blurb: "A calendar with a point of view — hooks, formats, and cadence engineered for reach, not vanity." },
@@ -85,20 +79,8 @@ function SocialPage() {
               The surfaces your customer already scrolls — we own all three.
             </p>
           </Reveal>
-          <div className="mt-14 grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
-            {COLUMNS.map((c, i) => (
-              <Reveal key={c.kind} delay={i * 0.08}>
-                <div className="flex flex-col items-center text-center">
-                  <PhoneFeed kind={c.kind} label={c.label} speed={c.speed} sway swaySpeed={5 + i} />
-                  <h3 className="mt-8 text-xl font-semibold tracking-[-0.03em] text-[#111111]" style={{ fontFamily: SANS }}>
-                    {c.title}
-                  </h3>
-                  <p className="mt-2 max-w-[240px] text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
-                    {c.blurb}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-14">
+            <SocialPhoneRow />
           </div>
         </div>
       </section>
