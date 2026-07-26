@@ -30,13 +30,11 @@ export function ElsiaaExperience() {
   const trackRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const videoWrapRef = useRef<HTMLDivElement>(null);
-  const premiumRef = useRef<HTMLDivElement>(null);
   const shockRef = useRef<HTMLDivElement>(null);
   const capRefs = useRef<(HTMLParagraphElement | null)[]>([]);
   const timeRef = useRef<HTMLDivElement>(null);
   const timeBarRef = useRef<HTMLDivElement>(null);
   const timeLabelRef = useRef<HTMLSpanElement>(null);
-  const tagRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -73,11 +71,12 @@ export function ElsiaaExperience() {
       const total = rect.height - window.innerHeight;
       const p = clamp01(-rect.top / total);
 
-      // welcome title steps aside as the story takes over
+      // the headline and the cartoon live together the whole way through — the
+      // title stays put so the frozen final frame is exactly the screenshot:
+      // headline above, settled illustration below, on pure white.
       if (titleRef.current) {
-        const out = seg(p, 0.34, 0.48);
-        titleRef.current.style.opacity = `${1 - out}`;
-        titleRef.current.style.transform = `translateY(${out * -26}px)`;
+        titleRef.current.style.opacity = "1";
+        titleRef.current.style.transform = "none";
       }
 
       // the film, scrubbed
@@ -127,28 +126,18 @@ export function ElsiaaExperience() {
         timeRef.current.style.opacity = `${seg(p, 0.04, 0.1) * (1 - seg(p, 0.76, 0.82))}`;
       }
 
-      // living 3D depth + the PRIME transformation: the sketch rebuilds
-      // itself as a premium render — the page performing its own thesis
+      // living 3D depth — the scene settles into a LOCKED final frame and holds
+      // there. No fade-out, no blur, no cross-fade to a "premium render": the
+      // ending stays exactly on the settled shot. The pointer tilt eases to zero
+      // over the last stretch so the final state is a still, framed picture.
       curX += (tiltX - curX) * 0.06;
       curY += (tiltY - curY) * 0.06;
-      const up = seg(p, 0.8, 0.94);
-      const upE = up * up * (3 - 2 * up);
+      const settle = 1 - seg(p, 0.9, 1);
       if (videoWrapRef.current) {
         const el = videoWrapRef.current;
-        el.style.transform = `translateX(${shake}px) rotateX(${curX}deg) rotateY(${curY}deg) scale(${dolly})`;
-        el.style.opacity = `${1 - upE}`;
-        el.style.filter = `blur(${upE * 10}px)`;
-      }
-      if (premiumRef.current) {
-        const el = premiumRef.current;
-        el.style.opacity = `${upE}`;
-        el.style.transform = `rotateX(${curX}deg) rotateY(${curY}deg) scale(${0.96 + upE * 0.04})`;
-        el.style.filter = `blur(${(1 - upE) * 10}px)`;
-      }
-      if (tagRef.current) {
-        const t = seg(p, 0.92, 1);
-        tagRef.current.style.opacity = `${t}`;
-        tagRef.current.style.transform = `translateY(${(1 - t) * 14}px)`;
+        el.style.transform = `translateX(${shake}px) rotateX(${curX * settle}deg) rotateY(${curY * settle}deg) scale(${dolly})`;
+        el.style.opacity = "1";
+        el.style.filter = "none";
       }
 
       raf = requestAnimationFrame(update);
@@ -200,19 +189,6 @@ export function ElsiaaExperience() {
         className="sticky top-0 flex h-dvh w-full flex-col items-center overflow-hidden bg-white"
         style={{ perspective: "1200px" }}
       >
-        {/* 2030 stage floor — receding dot grid */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-[-20%] bottom-[-6%] h-[46%]"
-          style={{
-            backgroundImage: "radial-gradient(circle, rgba(30,107,60,0.22) 1px, transparent 1.5px)",
-            backgroundSize: "26px 26px",
-            transform: "rotateX(64deg)",
-            transformOrigin: "bottom center",
-            maskImage: "linear-gradient(to top, rgba(0,0,0,0.55), transparent 85%)",
-            WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0.55), transparent 85%)",
-          }}
-        />
         {/* welcome — discover designs */}
         <div
           ref={titleRef}
