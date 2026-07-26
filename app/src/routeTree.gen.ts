@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as StoreRouteImport } from './routes/store'
+import { Route as SocialRouteImport } from './routes/social'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as ServicesRouteImport } from './routes/services'
@@ -236,6 +237,11 @@ const TeamRoute = TeamRouteImport.update({
 const StoreRoute = StoreRouteImport.update({
   id: '/store',
   path: '/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SocialRoute = SocialRouteImport.update({
+  id: '/social',
+  path: '/social',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -1401,6 +1407,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/social': typeof SocialRoute
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
@@ -1616,6 +1623,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/social': typeof SocialRoute
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
@@ -1832,6 +1840,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/sign-up': typeof SignUpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/social': typeof SocialRoute
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
@@ -2049,6 +2058,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sign-up'
     | '/sitemap.xml'
+    | '/social'
     | '/store'
     | '/team'
     | '/terms'
@@ -2264,6 +2274,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sign-up'
     | '/sitemap.xml'
+    | '/social'
     | '/store'
     | '/team'
     | '/terms'
@@ -2479,6 +2490,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sign-up'
     | '/sitemap.xml'
+    | '/social'
     | '/store'
     | '/team'
     | '/terms'
@@ -2695,6 +2707,7 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   SignUpRoute: typeof SignUpRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SocialRoute: typeof SocialRoute
   StoreRoute: typeof StoreRoute
   TeamRoute: typeof TeamRoute
   TermsRoute: typeof TermsRoute
@@ -2807,6 +2820,13 @@ declare module '@tanstack/react-router' {
       path: '/store'
       fullPath: '/store'
       preLoaderRoute: typeof StoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/social': {
+      id: '/social'
+      path: '/social'
+      fullPath: '/social'
+      preLoaderRoute: typeof SocialRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -4879,6 +4899,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   SignUpRoute: SignUpRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SocialRoute: SocialRoute,
   StoreRoute: StoreRoute,
   TeamRoute: TeamRoute,
   TermsRoute: TermsRoute,
