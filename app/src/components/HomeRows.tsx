@@ -7,6 +7,7 @@ import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 import { Reveal } from "./Reveal";
 import { WhyBrandsChose } from "./BrandLogos";
 import { SoftwareDemos } from "./SoftwareDemos";
+import { SocialHomeSection } from "./SocialMedia";
 
 /* ============================================================
    ELSIAA homepage — built from Isya's notebook sketch 06/20/26
@@ -1501,6 +1502,7 @@ export function HomeRows() {
       <AutomationSection />
       <AutomationCatalog />
       <DesignDivision />
+      <SocialHomeSection />
       <DivisionRow
         n="3"
         title="Consultation"

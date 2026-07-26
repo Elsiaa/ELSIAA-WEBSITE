@@ -30,6 +30,8 @@ type Person = {
   role: string;
   line: string;
   loc: string;
+  href?: string;
+  hrefLabel?: string;
 };
 
 const LEADERSHIP: Person[] = [
@@ -77,6 +79,15 @@ const DIRECTORS: Person[] = [
     role: "AI & Technology Expert",
     line: "At the edge of applied AI — the deep-tech eye on every architecture ELSIAA ships.",
     loc: "Jerusalem / Tel Aviv",
+  },
+  {
+    name: "Dovid Spivak",
+    init: "DS",
+    role: "Director of Social Media & Marketing",
+    line: "Owns ELSIAA's presence across every feed — content strategy, personal brand, and the paid engine behind the growth.",
+    loc: "New York",
+    href: "https://linktr.ee/spivak_photography",
+    hrefLabel: "Linktree",
   },
 ];
 
@@ -157,6 +168,17 @@ function Card({ p, i }: { p: Person; i: number }) {
           >
             {p.loc}
           </span>
+          {p.href && (
+            <a
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-auto text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+              style={{ fontFamily: MONO }}
+            >
+              {p.hrefLabel ?? "Link"} ↗
+            </a>
+          )}
         </div>
       </div>
     </Reveal>
@@ -219,7 +241,7 @@ function TeamPage() {
           </p>
           <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-black/[0.06] pt-6">
             {[
-              ["10", "Leaders & advisors"],
+              ["11", "Leaders & advisors"],
               ["6", "Cities on the ground"],
               ["3", "Continents"],
               ["100%", "Insured builds"],
