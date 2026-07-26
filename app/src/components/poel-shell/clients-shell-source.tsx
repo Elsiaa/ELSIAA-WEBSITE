@@ -1713,7 +1713,7 @@ export default function ClientPortal({ projects, userName, companyName, user, is
                   <DropdownMenuItem
                     className="text-destructive hover:!text-destructive hover:!bg-destructive/15 cursor-pointer"
                     onSelect={() => {
-                      void signOutAndHardRedirect('/portal/sign-in');
+                      void signOutAndHardRedirect('/');
                     }}
                   >
                     <LogOut className="w-4 h-4 mr-2" />

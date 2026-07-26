@@ -290,7 +290,7 @@ export default function AdminClientNew({
             <button
               type="button"
               className="flex items-center gap-2 px-4 py-2 bg-secondary/80 hover:bg-secondary rounded-lg transition-colors"
-              onClick={() => void signOutAndHardRedirect("/admin/sign-in")}
+              onClick={() => void signOutAndHardRedirect("/")}
             >
               <LogOut className="w-4 h-4" />
               Sign Out

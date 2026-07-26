@@ -169,7 +169,7 @@ function ClientsPage() {
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <a href="/contact" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]" style={mono}>Book a free call →</a>
-              <a href="/portal/sign-in" className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>Client sign in</a>
+              <a href="/portal/sign-in" className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>Sign in</a>
             </div>
           </Reveal>
         </div>

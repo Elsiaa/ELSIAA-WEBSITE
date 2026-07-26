@@ -65,7 +65,7 @@ export function AdminShell({
   async function signOut() {
     if (signingOut) return;
     setSigningOut(true);
-    await signOutAndHardRedirect("/admin/sign-in");
+    await signOutAndHardRedirect("/");
   }
 
   function selectTab(id: AdminTabId) {

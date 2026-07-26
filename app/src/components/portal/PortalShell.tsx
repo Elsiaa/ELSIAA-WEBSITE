@@ -41,7 +41,7 @@ export function PortalShell({
   async function onSignOut() {
     if (signingOut) return;
     setSigningOut(true);
-    await signOutAndHardRedirect("/portal/sign-in");
+    await signOutAndHardRedirect("/");
   }
 
   return (

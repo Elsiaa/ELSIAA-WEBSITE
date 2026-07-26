@@ -48,11 +48,11 @@ export function useSession() {
 }
 
 export async function signIn() {
-  return { error: "Use /portal/sign-in or /admin/sign-in" };
+  return { error: "Use /portal/sign-in" };
 }
 
 export async function signOut(options?: { callbackUrl?: string }) {
-  const path = options?.callbackUrl || "/portal/sign-in";
+  const path = options?.callbackUrl || "/";
   if (typeof window !== "undefined") {
     const { signOutAndHardRedirect } = await import("../lib/auth-sign-out-client");
     await signOutAndHardRedirect(path);

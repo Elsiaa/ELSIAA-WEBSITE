@@ -42,6 +42,7 @@ const DICT: Record<string, Row> = {
   "Team": { es: "Equipo", fr: "Équipe", de: "Team", ru: "Команда", nl: "Team", he: "צוות", yi: "מאַנשאַפֿט" },
   "Insights": { es: "Análisis", fr: "Analyses", de: "Einblicke", ru: "Аналитика", nl: "Inzichten", he: "תובנות", yi: "אײַנזיכטן" },
   "Search": { es: "Buscar", fr: "Recherche", de: "Suche", ru: "Поиск", nl: "Zoeken", he: "חיפוש", yi: "זוכן" },
+  "Sign in": { es: "Iniciar sesión", fr: "Connexion", de: "Anmelden", ru: "Войти", nl: "Inloggen", he: "התחברות", yi: "אַרײַנלאָגירן" },
   "Client Login": { es: "Acceso clientes", fr: "Espace client", de: "Kundenlogin", ru: "Вход для клиентов", nl: "Klant-login", he: "כניסת לקוחות", yi: "קליענט־לאָגין" },
   "Menu": { es: "Menú", fr: "Menu", de: "Menü", ru: "Меню", nl: "Menu", he: "תפריט", yi: "מעניו" },
   "AI Done Better": { es: "IA hecha mejor", fr: "L'IA, en mieux", de: "KI besser gemacht", ru: "ИИ, сделанный лучше", nl: "AI, beter gedaan", he: "‏AI ברמה גבוהה יותר", yi: "‏AI בעסער געטאָן" },

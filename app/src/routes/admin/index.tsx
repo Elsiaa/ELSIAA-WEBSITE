@@ -13,7 +13,10 @@ export const Route = createFileRoute("/admin/")({
     // (that pulls server-only cookie APIs into the client and hangs navigations).
     const session = await getAppSessionState();
     if (!session.authenticated || !session.email) {
-      throw redirect({ to: "/portal/sign-in" });
+      throw redirect({
+        to: "/portal/sign-in",
+        search: { next: "/admin" },
+      });
     }
     return { adminEmail: session.email };
   },

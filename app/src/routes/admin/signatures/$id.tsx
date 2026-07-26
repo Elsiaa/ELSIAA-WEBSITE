@@ -6,7 +6,12 @@ import { OpsLightTheme } from "../../../components/ops/OpsLightTheme";
 export const Route = createFileRoute("/admin/signatures/$id")({
   beforeLoad: async () => {
     const session = await getAppSessionState();
-    if (!session.authenticated) throw redirect({ to: "/portal/sign-in" });
+    if (!session.authenticated) {
+      throw redirect({
+        to: "/portal/sign-in",
+        search: { next: "/admin" },
+      });
+    }
   },
   component: AdminSignaturePage,
 });

@@ -9,9 +9,10 @@ import { portalFonts } from "./tokens";
 type Props = {
   initial: Awaited<ReturnType<typeof getPortalAuthState>>;
   initialEmail?: string;
+  next?: "/portal" | "/admin";
 };
 
-export function PortalSignInForm({ initial, initialEmail }: Props) {
+export function PortalSignInForm({ initial, initialEmail, next }: Props) {
   const { mono, sans } = portalFonts;
   const navigate = useNavigate();
   const [email, setEmail] = useState(initialEmail ?? "");
@@ -29,7 +30,15 @@ export function PortalSignInForm({ initial, initialEmail }: Props) {
         setError(res.error);
         return;
       }
-      void navigate({ to: res.redirectTo === "/admin" ? "/admin" : "/portal" });
+      const to =
+        next === "/admin"
+          ? "/admin"
+          : next === "/portal"
+            ? "/portal"
+            : res.isSuperAdmin
+              ? "/admin"
+              : "/portal";
+      void navigate({ to });
     } catch {
       setError("Sign-in failed. Try again.");
     } finally {
@@ -48,17 +57,14 @@ export function PortalSignInForm({ initial, initialEmail }: Props) {
             ELSIAA
           </span>
         </Link>
-        <p className="mt-10 text-[13px] text-[#1e6b3c]" style={mono}>
-          Client portal
-        </p>
         <h1
-          className="mt-3 text-3xl font-semibold tracking-[-0.035em] md:text-4xl"
+          className="mt-10 text-3xl font-semibold tracking-[-0.035em] md:text-4xl"
           style={sans}
         >
-          Sign in to your workspace.
+          Sign in.
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-[#111]/55" style={sans}>
-          Enter the email and password from your invitation.
+          Sign in with your ELSIAA email and password.
         </p>
 
         {!initial.supabaseReady && (

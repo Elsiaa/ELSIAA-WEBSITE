@@ -1,9 +1,9 @@
 "use client";
 
-const DEFAULT_PATH = "/portal/sign-in";
+const DEFAULT_PATH = "/";
 
 /**
- * Ends the single app session (Supabase JWT cookie) then hard-navigates.
+ * Ends the single app session then hard-navigates (default: home).
  */
 export async function signOutAndHardRedirect(
   callbackPath: string = DEFAULT_PATH,

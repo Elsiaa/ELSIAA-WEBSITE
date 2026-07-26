@@ -108,11 +108,8 @@ export function PortalSignUpForm() {
             ELSIAA
           </span>
         </Link>
-        <p className="mt-10 text-[13px] text-[#1e6b3c]" style={mono}>
-          Client portal
-        </p>
         <h1
-          className="mt-3 text-3xl font-semibold tracking-[-0.035em] md:text-4xl"
+          className="mt-10 text-3xl font-semibold tracking-[-0.035em] md:text-4xl"
           style={sans}
         >
           Create your account.

@@ -1,31 +1,21 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { AdminSignInForm } from "../../components/admin/AdminSignInForm";
-import { getAdminAuthState } from "../../lib/admin/auth.functions";
-import { getAppSessionState } from "../../lib/app-session.functions";
+import { z } from "zod";
 
+/**
+ * Single sign-in for portal + admin. Legacy /admin/sign-in redirects here.
+ */
 export const Route = createFileRoute("/admin/sign-in")({
-  beforeLoad: async () => {
-    const admin = await getAdminAuthState();
-    if (admin.authenticated) {
-      throw redirect({ to: "/admin" });
-    }
-    // Portal cookie also counts — company admins land in the admin shell.
-    const session = await getAppSessionState();
-    if (session.authenticated) {
-      throw redirect({ to: "/admin" });
-    }
-    return { auth: admin };
-  },
-  head: () => ({
-    meta: [
-      { title: "Admin sign in — ELSIAA" },
-      { name: "robots", content: "noindex, nofollow" },
-    ],
+  validateSearch: z.object({
+    email: z.string().optional(),
   }),
-  component: AdminSignInPage,
+  beforeLoad: ({ search }) => {
+    throw redirect({
+      to: "/portal/sign-in",
+      search: {
+        next: "/admin",
+        ...(search.email ? { email: search.email } : {}),
+      },
+    });
+  },
+  component: () => null,
 });
-
-function AdminSignInPage() {
-  const { auth } = Route.useRouteContext();
-  return <AdminSignInForm initial={auth} />;
-}

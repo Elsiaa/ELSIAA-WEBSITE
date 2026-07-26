@@ -17,7 +17,7 @@ const PRIMARY = [
   { label: "Design", href: "/designs" },
   { label: "Automate", href: "/automate" },
   { label: "Contact", href: "/contact" },
-  { label: "Client Login", href: "/portal/sign-in" },
+  { label: "Sign in", href: "/portal/sign-in" },
 ];
 const MORE = [
   { label: "Services", href: "/services" },
@@ -239,7 +239,7 @@ export function SiteNav() {
                   className="group flex items-baseline justify-between py-2"
                 >
                   <span className="text-[15px] font-medium text-[#111111]/85 transition-colors group-hover:text-[#111111]">
-                    Existing client — Client Portal
+                    Existing client — Sign in
                   </span>
                   <span className="text-[13px] font-medium" style={{ color: GOLD }}>Sign in →</span>
                 </a>
