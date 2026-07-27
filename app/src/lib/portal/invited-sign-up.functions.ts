@@ -4,6 +4,7 @@
 
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { isSuperAdminEmail } from "@/lib/admin/super-admin";
 import { normalizeEmailForAuth } from "@/lib/email-normalize";
 import { verifyInvitationToken } from "@/lib/invitations";
 import { isPlatformSupportAgent } from "@/lib/platform-role";
@@ -80,6 +81,10 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
         payload.companyId,
       );
     }
+    // Super-admin invites may use a company only as invite context (row can be company-less).
+    if (!invitationMatchesCompany && isSuperAdminEmail(email) && !appUser.company_id) {
+      invitationMatchesCompany = true;
+    }
     if (!invitationMatchesCompany) {
       return {
         ok: false as const,
@@ -113,10 +118,13 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
       email.split("@")[0] ||
       "User";
 
+    const promoteSuperAdmin =
+      isSuperAdminEmail(email) || Boolean(payload.superAdmin);
     const { data: created, error: createErr } = await admin.auth.admin.createUser({
       email,
       password: data.password,
       email_confirm: true,
+      ...(promoteSuperAdmin ? { app_metadata: { role: "super_admin" } } : {}),
       user_metadata: {
         first_name: appUser.first_name,
         last_name: appUser.last_name,
@@ -154,6 +162,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
       const { error: pwErr } = await admin.auth.admin.updateUserById(existingId, {
         password: data.password,
         email_confirm: true,
+        ...(promoteSuperAdmin ? { app_metadata: { role: "super_admin" } } : {}),
       });
       if (pwErr) {
         return {
@@ -162,6 +171,10 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
         };
       }
       authUserId = existingId;
+    } else if (promoteSuperAdmin && authUserId) {
+      await admin.auth.admin.updateUserById(authUserId, {
+        app_metadata: { role: "super_admin" },
+      });
     }
 
     const updates: UpdateUserInput = {
@@ -234,12 +247,14 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
           accessToken: signed.session.access_token,
           refreshToken: signed.session.refresh_token,
           displayName,
-          isSuperAdmin: false,
+          isSuperAdmin: promoteSuperAdmin,
         });
         return {
           ok: true as const,
           email,
-          redirectTo: "/portal" as const,
+          redirectTo: (promoteSuperAdmin ? "/admin" : "/portal") as
+            | "/admin"
+            | "/portal",
         };
       }
     }

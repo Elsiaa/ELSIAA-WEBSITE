@@ -81,7 +81,9 @@ export function PortalSignUpForm() {
         setError(res.error);
         return;
       }
-      if (res.redirectTo === "/portal") {
+      if (res.redirectTo === "/admin") {
+        void navigate({ to: "/admin" });
+      } else if (res.redirectTo === "/portal") {
         void navigate({ to: "/portal" });
       } else {
         void navigate({
