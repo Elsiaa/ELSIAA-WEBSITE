@@ -38,7 +38,7 @@ function NewAutomate() {
       <div style={{ paddingTop: 72, height: "100dvh", background: "#fff", overflow: "hidden" }}>
         <iframe
           src="/elsiaa-secretary.html"
-          title="ELSIAA Secretary — live voice & chat demo"
+          aria-label="ELSIAA Secretary — live voice & chat demo"
           allow="microphone; autoplay"
           style={{ border: 0, width: "100%", height: "calc(100dvh - 72px)", display: "block" }}
         />
