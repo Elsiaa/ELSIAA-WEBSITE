@@ -16,6 +16,7 @@ const GOLD = "#b0812a";
 const PRIMARY = [
   { label: "Design", href: "/designs" },
   { label: "Automate", href: "/automate" },
+  { label: "Secretary", href: "/new-automate" },
   { label: "Contact", href: "/contact" },
   { label: "Sign in", href: "/portal/sign-in" },
 ];

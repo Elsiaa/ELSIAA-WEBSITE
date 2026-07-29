@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SiteNav } from "../components/SiteNav";
 import { absoluteUrl } from "../lib/site-url";
 
 /*
@@ -29,13 +30,19 @@ export const Route = createFileRoute("/new-automate")({
 
 function NewAutomate() {
   return (
-    <main style={{ height: "100dvh", width: "100%", background: "#000", overflow: "hidden" }}>
-      <iframe
-        src="/elsiaa-secretary.html"
-        title="ELSIAA Secretary — live voice & chat demo"
-        allow="microphone; autoplay"
-        style={{ border: 0, width: "100%", height: "100%", display: "block" }}
-      />
+    <main style={{ minHeight: "100dvh", width: "100%", background: "#fff" }}>
+      {/* the site's own nav, so the demo lives inside the site, not on its own.
+          white strip behind the fixed nav so its ink logo/links stay readable
+          on a page that never scrolls. */}
+      <SiteNav />
+      <div style={{ paddingTop: 72, height: "100dvh", background: "#fff", overflow: "hidden" }}>
+        <iframe
+          src="/elsiaa-secretary.html"
+          title="ELSIAA Secretary — live voice & chat demo"
+          allow="microphone; autoplay"
+          style={{ border: 0, width: "100%", height: "calc(100dvh - 72px)", display: "block" }}
+        />
+      </div>
     </main>
   );
 }
