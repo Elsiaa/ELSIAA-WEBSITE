@@ -22,6 +22,7 @@ import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as OverviewRouteImport } from './routes/overview'
 import { Route as OrderConfirmationRouteImport } from './routes/order-confirmation'
+import { Route as NewAutomateRouteImport } from './routes/new-automate'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IntakeRouteImport } from './routes/intake'
 import { Route as InsightsRouteImport } from './routes/insights'
@@ -287,6 +288,11 @@ const OverviewRoute = OverviewRouteImport.update({
 const OrderConfirmationRoute = OrderConfirmationRouteImport.update({
   id: '/order-confirmation',
   path: '/order-confirmation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewAutomateRoute = NewAutomateRouteImport.update({
+  id: '/new-automate',
+  path: '/new-automate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocationsRoute = LocationsRouteImport.update({
@@ -1398,6 +1404,7 @@ export interface FileRoutesByFullPath {
   '/insights': typeof InsightsRoute
   '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
+  '/new-automate': typeof NewAutomateRoute
   '/order-confirmation': typeof OrderConfirmationRoute
   '/overview': typeof OverviewRoute
   '/privacy': typeof PrivacyRoute
@@ -1614,6 +1621,7 @@ export interface FileRoutesByTo {
   '/insights': typeof InsightsRoute
   '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
+  '/new-automate': typeof NewAutomateRoute
   '/order-confirmation': typeof OrderConfirmationRoute
   '/overview': typeof OverviewRoute
   '/privacy': typeof PrivacyRoute
@@ -1831,6 +1839,7 @@ export interface FileRoutesById {
   '/insights': typeof InsightsRoute
   '/intake': typeof IntakeRoute
   '/locations': typeof LocationsRoute
+  '/new-automate': typeof NewAutomateRoute
   '/order-confirmation': typeof OrderConfirmationRoute
   '/overview': typeof OverviewRoute
   '/privacy': typeof PrivacyRoute
@@ -2049,6 +2058,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/intake'
     | '/locations'
+    | '/new-automate'
     | '/order-confirmation'
     | '/overview'
     | '/privacy'
@@ -2265,6 +2275,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/intake'
     | '/locations'
+    | '/new-automate'
     | '/order-confirmation'
     | '/overview'
     | '/privacy'
@@ -2481,6 +2492,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/intake'
     | '/locations'
+    | '/new-automate'
     | '/order-confirmation'
     | '/overview'
     | '/privacy'
@@ -2698,6 +2710,7 @@ export interface RootRouteChildren {
   InsightsRoute: typeof InsightsRoute
   IntakeRoute: typeof IntakeRoute
   LocationsRoute: typeof LocationsRoute
+  NewAutomateRoute: typeof NewAutomateRoute
   OrderConfirmationRoute: typeof OrderConfirmationRoute
   OverviewRoute: typeof OverviewRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -2890,6 +2903,13 @@ declare module '@tanstack/react-router' {
       path: '/order-confirmation'
       fullPath: '/order-confirmation'
       preLoaderRoute: typeof OrderConfirmationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/new-automate': {
+      id: '/new-automate'
+      path: '/new-automate'
+      fullPath: '/new-automate'
+      preLoaderRoute: typeof NewAutomateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/locations': {
@@ -4890,6 +4910,7 @@ const rootRouteChildren: RootRouteChildren = {
   InsightsRoute: InsightsRoute,
   IntakeRoute: IntakeRoute,
   LocationsRoute: LocationsRoute,
+  NewAutomateRoute: NewAutomateRoute,
   OrderConfirmationRoute: OrderConfirmationRoute,
   OverviewRoute: OverviewRoute,
   PrivacyRoute: PrivacyRoute,
