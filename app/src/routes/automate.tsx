@@ -123,6 +123,7 @@ function AutomatePage() {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a href="/contact" className="rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[13px] font-bold text-white transition-all hover:bg-[#111111]" style={mono}>Show us one process → We'll build the system</a>
+              <a href="/new-automate" className="rounded-full border border-[#111111]/20 px-7 py-3.5 text-[13px] font-bold text-[#111111] transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]" style={mono}>Talk to the AI secretary — live →</a>
             </div>
             <p className="mt-5 text-[13px] tracking-[0.02em] text-[#111111]/50" style={mono}>
               Fully insured · Fixed scope · Live results before you commit
