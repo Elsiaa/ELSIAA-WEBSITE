@@ -129,14 +129,14 @@ function ContactPage() {
       <section id="book" className="scroll-mt-24 border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 md:py-20">
         <div className="mx-auto max-w-5xl">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
-            <Reveal className="lg:sticky lg:top-32 lg:self-start">
+            <Reveal className="min-w-0 lg:sticky lg:top-32 lg:self-start">
               <p className={eyebrow} style={mono}>Book a call</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] md:text-4xl" style={inter}>Pick a time that works.</h2>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#111111]/55" style={inter}>
                 Pick a time that works for you. We'll confirm by email within a few hours — twenty minutes, no charge, no obligation.
               </p>
             </Reveal>
-            <Reveal delay={0.08}>
+            <Reveal delay={0.08} className="min-w-0">
               <BookingCalendar />
             </Reveal>
           </div>
@@ -425,9 +425,9 @@ function BookingCalendar() {
               </p>
             </div>
 
-            <fieldset className="mt-3">
+            <fieldset className="mt-3 min-w-0">
               <legend className="sr-only">Available times on {day.dow} {day.label}</legend>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-4">
                 {HOURS.map((h) => {
                   const booked = isBooked(day.iso, h);
                   const active = picked?.date === day.iso && picked?.time === h;
