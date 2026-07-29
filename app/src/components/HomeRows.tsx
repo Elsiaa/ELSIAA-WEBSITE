@@ -214,7 +214,7 @@ function DivisionRow({
         {/* the catalog — every group once, no repeats */}
         <Reveal delay={0.1}>
         <div className="mt-10">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-4">
             {subs.map((s, i) => (
               <a
                 key={`${s.name}-${i}`}
@@ -552,10 +552,12 @@ function AutomationSection() {
           // straight into the page; contrast (not brightness) keeps the silver/dark
           // robot readable without washing it into the white.
           filter: live ? "brightness(1.0) contrast(1.22) saturate(0.95)" : "grayscale(1) brightness(1.0) contrast(1.22) saturate(0.2)",
-          // gentle edge-only feather: solid across the whole robot (incl. the
-          // wide arms), softening ONLY the extreme frame edge so nothing clips.
-          WebkitMaskImage: "radial-gradient(118% 122% at 50% 50%, #000 82%, rgba(0,0,0,0) 100%)",
-          maskImage: "radial-gradient(118% 122% at 50% 50%, #000 82%, rgba(0,0,0,0) 100%)",
+          // VERTICAL-only feather: the arms swing out to the left/right frame
+          // edges, so those must stay 100% solid or the hands get clipped. We
+          // only soften the top/bottom edges; the white backdrop is removed by
+          // mix-blend-multiply, not the mask.
+          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 7%, #000 92%, rgba(0,0,0,0) 100%)",
+          maskImage: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 7%, #000 92%, rgba(0,0,0,0) 100%)",
         }}
       />
     </div>
@@ -1275,7 +1277,7 @@ function AutomationCatalog() {
           </div>
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="mt-9 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-9 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-4">
             {AUTOSOFT.map((s, i) => (
               <a
                 key={`${s.name}-${i}`}
@@ -1446,7 +1448,7 @@ function DesignCatalog() {
   return (
     <div className="mx-auto w-full max-w-6xl px-6">
       <Reveal delay={0.05}>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+        <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-5">
           {DESIGN.map((s, i) => (
             <a key={`${s.name}-${i}`} href="/designs" className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]">
               <div className="flex items-center justify-between">
