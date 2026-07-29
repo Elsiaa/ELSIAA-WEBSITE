@@ -277,7 +277,9 @@ export function SocialHomeSection() {
           </p>
         </div>
 
-        <div className="flex items-center justify-center">
+        {/* the trio is ~500px wide at full size; scale it down on phones so all
+            three fit on screen (like desktop), stepping back up as width allows */}
+        <div className="flex items-center justify-center scale-[0.62] min-[430px]:scale-[0.72] min-[540px]:scale-90 sm:scale-100">
           {CROWD.map((item, i) => (
             <div
               key={i}
