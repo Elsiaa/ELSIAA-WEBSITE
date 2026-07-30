@@ -67,7 +67,9 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
     const resize = () => {
       const parent = canvas.parentElement;
       const w = parent ? parent.getBoundingClientRect().width : size;
-      px = Math.min(w, size);
+      // clamp: never collapse to a sliver if the parent hasn't laid out yet,
+      // never exceed the requested size. (Fixes the globe rendering tiny.)
+      px = Math.round(Math.max(220, Math.min(w > 0 ? w : size, size)));
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = px * dpr;
       canvas.height = px * dpr;
@@ -76,7 +78,14 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
+    // re-measure on the next frame in case the parent hadn't been laid out yet
+    requestAnimationFrame(resize);
     window.addEventListener("resize", resize);
+    // track the parent column width directly so a resized/reflowed layout
+    // always re-fits the globe (more reliable than window resize alone)
+    const ro =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => resize()) : null;
+    if (ro && canvas.parentElement) ro.observe(canvas.parentElement);
 
     const onDown = (e: PointerEvent) => {
       dragging = true;
@@ -107,14 +116,11 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
         dragYaw += vel;
         vel *= 0.94;
       }
-      const auto = reduced ? 0 : t * 0.00006;
-      // scroll-driven spin: complete ~2.6 full revolutions across the hero's
-      // visible scroll range, so you clearly see it turn at least twice, then
-      // hold once it scrolls out of view.
-      const range = Math.max(1, window.innerHeight * 1.3);
-      const prog = Math.min(1, Math.max(0, window.scrollY) / range);
-      const scrollSpin = reduced ? 0 : prog * 2.6 * Math.PI * 2;
-      const yaw = 1.9 + auto + scrollSpin + dragYaw;
+      // gentle ambient spin + drag only. (The old scroll-driven spin whipped
+      // the globe around as you scrolled the page — dizzying and awkward with a
+      // mouse; drag + a calm auto-rotate reads as intentional on desktop.)
+      const auto = reduced ? 0 : t * 0.00008;
+      const yaw = 1.9 + auto + dragYaw;
 
       const cx = px / 2;
       const cy = px / 2;
@@ -245,6 +251,7 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
+      ro?.disconnect();
       canvas.removeEventListener("pointerdown", onDown);
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerup", onUp);
@@ -255,7 +262,7 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
   return (
     <canvas
       ref={canvasRef}
-      aria-label="ELSIAA offices on a rotating globe — scroll or drag to spin"
+      aria-label="ELSIAA offices on a rotating globe — drag to spin"
       className="mx-auto block cursor-grab touch-pan-y select-none active:cursor-grabbing"
     />
   );
