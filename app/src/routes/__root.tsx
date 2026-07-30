@@ -232,7 +232,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       {/* the dark Automate page ends tight on its own closing — no light footer */}
-      {pathname !== "/new-automate" && <SiteFooter />}
+      {pathname !== "/automate" && <SiteFooter />}
       <FloatingBook />
       </LanguageProvider>
     </QueryClientProvider>

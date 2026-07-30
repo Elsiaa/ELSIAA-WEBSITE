@@ -573,7 +573,7 @@ function AutomationSection() {
           <p className="max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={sans}>
             Work without automation stands still. Automation sets it in motion — one worker, every task at once.
           </p>
-          <a href="/new-automate" className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-7 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={sans}>See it work — live walkthrough →</a>
+          <a href="/automate" className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-7 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={sans}>See it work — live walkthrough →</a>
         </div>
       </section>
     );
@@ -598,7 +598,7 @@ function AutomationSection() {
           </p>
         </div>
         <div ref={ctaRef} className="opacity-0" style={{ pointerEvents: "none" }}>
-          <a href="/new-automate" className="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={sans}>
+          <a href="/automate" className="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={sans}>
             See it work — live walkthrough →
           </a>
         </div>
