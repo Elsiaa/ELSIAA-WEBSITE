@@ -171,7 +171,7 @@ function DivisionRow({
   extra?: React.ReactNode;
 }) {
   return (
-    <section className="border-t border-black/[0.06] bg-white py-10 md:py-14">
+    <section className="border-t border-black/[0.06] bg-white py-8 md:py-12">
       <div className="mx-auto w-full max-w-6xl px-6">
         {/* header + graphic — one clean composed row */}
         <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-[minmax(0,1fr)_640px] md:gap-6">
@@ -387,7 +387,7 @@ function HomeHero() {
 
   return (
     <section ref={wrapRef} className="relative bg-white lg:h-[220vh]">
-      <div className="flex min-h-[78svh] flex-col justify-center pt-24 pb-6 lg:sticky lg:top-0 lg:h-screen lg:min-h-0 lg:justify-center lg:pt-0 lg:pb-0">
+      <div className="flex min-h-[70svh] flex-col justify-center pt-20 pb-4 lg:sticky lg:top-0 lg:h-screen lg:min-h-0 lg:justify-center lg:pt-0 lg:pb-0">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6">
           {/* copy */}
           <div>
@@ -565,7 +565,7 @@ function AutomationSection() {
 
   if (reduced) {
     return (
-      <section className="border-t border-black/[0.06] bg-white py-10 md:py-14" id="automation">
+      <section className="border-t border-black/[0.06] bg-white py-8 md:py-12" id="automation">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 px-6 text-center">
           <p className="text-[14px] font-bold text-[#1e6b3c]" style={sans}>1 · Automation</p>
           <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>Automation</h2>
@@ -580,7 +580,7 @@ function AutomationSection() {
   }
 
   return (
-    <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "200vh" }} id="automation">
+    <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "170vh" }} id="automation">
       <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-4 overflow-hidden px-6 text-center">
         <div>
           <p className="text-[14px] font-bold text-[#1e6b3c]" style={sans}>1 · Automation</p>
@@ -1056,7 +1056,7 @@ const TEAM = [
 
 function Team() {
   return (
-    <section className="bg-white py-10 md:py-14">
+    <section className="bg-white py-8 md:py-12">
       <div className="mx-auto max-w-5xl px-6">
         <Reveal>
           <p
@@ -1137,7 +1137,7 @@ const MERCH = [
 
 function MerchStrip() {
   return (
-    <section className="border-t border-black/[0.06] bg-white py-10 md:py-14">
+    <section className="border-t border-black/[0.06] bg-white py-8 md:py-12">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
           <p
@@ -1200,7 +1200,7 @@ function MerchStrip() {
 /* ---------- closing CTA — the next step, unmissable ---------- */
 function FinalCTA() {
   return (
-    <section className="border-t border-black/[0.06] bg-[#0c0c0c] py-12 text-white md:py-16">
+    <section className="border-t border-black/[0.06] bg-[#0c0c0c] py-10 text-white md:py-14">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <Reveal>
           <p
@@ -1396,7 +1396,7 @@ function DesignDivision() {
 
   if (reduced) {
     return (
-      <section className="border-t border-black/[0.06] bg-white py-10 md:py-14">
+      <section className="border-t border-black/[0.06] bg-white py-8 md:py-12">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 px-6 text-center">
           <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={inter}>Design</h2>
           <Sphere live />
@@ -1412,7 +1412,7 @@ function DesignDivision() {
 
   return (
     <>
-      <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "200vh" }}>
+      <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "170vh" }}>
         <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-4 overflow-hidden px-6 text-center">
           <div>
             <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
@@ -1435,7 +1435,7 @@ function DesignDivision() {
           </div>
         </div>
       </section>
-      <section className="bg-white pb-8 md:pb-12">
+      <section className="bg-white pb-6 md:pb-10">
         <DesignCatalog />
       </section>
     </>
