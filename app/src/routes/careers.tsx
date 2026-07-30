@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
 import { absoluteUrl } from "../lib/site-url";
+
+const SANS =
+  "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -11,10 +14,10 @@ export const Route = createFileRoute("/careers")({
       {
         name: "description",
         content:
-          "We are hiring. Designers, engineers, and sales — pick your door and apply in under a minute.",
+          "Build production-grade AI systems that set the standard. ELSIAA hires people who take ownership, think clearly, and deliver work that lasts.",
       },
       { property: "og:title", content: "Careers — ELSIAA" },
-      { property: "og:description", content: "We are hiring. Press one." },
+      { property: "og:description", content: "Build production-grade AI systems that set the standard." },
       { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
     links: [{ rel: "canonical", href: absoluteUrl("/careers") }],
@@ -22,175 +25,185 @@ export const Route = createFileRoute("/careers")({
   component: Careers,
 });
 
-/* ---------- reveal on scroll ---------- */
+const WHY: Array<[string, string]> = [
+  ["One standard.", "Everything we ship is hardened, tested, and fully insured. No pilots. No excuses."],
+  ["Direct impact.", "You work on live client systems, not internal experiments. Your work reaches production."],
+  ["Global footprint.", "Offices in New York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv. Collaborate across three continents."],
+  ["Leadership of consequence.", "Founders, operators, and academic advisors — including faculty from Johns Hopkins and the University of Toronto — sit at the same table and hold the same bar."],
+];
 
-const ROLES = [
-  {
-    id: "Designers",
-    img: "/assets/role_designer.jpg",
-    line: "Interfaces, identities, films — the empire's face.",
-  },
-  {
-    id: "Engineers",
-    img: "/assets/role_engineer.jpg",
-    line: "Software, automation, AI — the machinery beneath.",
-  },
-  {
-    id: "Sales",
-    img: "/assets/role_sales.jpg",
-    line: "Rooms, relationships, revenue — the front line.",
-  },
-] as const;
-type RoleId = (typeof ROLES)[number]["id"];
+const ROLES: Array<[string, string]> = [
+  ["Design", "Product design, interface systems, brand identity, and visual systems for high-stakes digital products."],
+  ["Engineering", "Software engineering, AI systems, automation infrastructure, and internal tools that run in production."],
+  ["Client Engagement & Sales", "Relationship ownership, scoping, and commercial development with enterprise and growth-stage clients."],
+  ["Legal & Business Operations", "Commercial counsel, contracts, process design, and operational excellence that protect both clients and the firm."],
+];
+
+const OFFER = [
+  "Competitive compensation aligned with the quality of work we demand",
+  "Direct access to leadership and decision-makers",
+  "Work on fully insured, production systems with real accountability",
+  "The opportunity to operate across multiple markets and time zones",
+  "A culture that values clarity, ownership, and results over process theater",
+];
+
+const STEPS = [
+  "Select the relevant area(s) below.",
+  "Indicate your preferred work arrangement and commitment.",
+  "Submit a brief statement (250–400 words) on why you're a fit and how you'd contribute.",
+  "Attach your résumé.",
+];
 
 function Careers() {
-  const [role, setRole] = useState<RoleId | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
-
-  const pick = (r: RoleId) => {
-    setRole(r);
-    requestAnimationFrame(() =>
-      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-    );
-  };
+  const toForm = () => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
-    <main className="min-h-screen bg-[#FBFBFA] text-[#111111]">
+    <main className="min-h-screen bg-[#FBFBFA] text-[#111111]" style={{ fontFamily: SANS }}>
       <SiteNav />
-      <Hero />
-      {/* three doors */}
-      <section className="mx-auto max-w-5xl px-6 py-16 md:py-24">
+      <Hero onApply={toForm} />
+
+      {/* Why ELSIAA */}
+      <section className="mx-auto max-w-5xl px-6 py-12 md:py-16">
         <Reveal>
-          <p
-            className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            Press one
-          </p>
-          <h2
-            className="mt-2 text-2xl font-semibold tracking-[-0.035em] md:text-4xl"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            Three doors in.
-          </h2>
+          <p className="text-[13px] font-bold text-[#1e6b3c]">Why ELSIAA</p>
         </Reveal>
-        <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
-          {ROLES.map((r, i) => (
-            <Reveal key={r.id} delay={i * 0.08}>
-              <button
-                onClick={() => pick(r.id)}
-                className={`group block w-full overflow-hidden rounded-2xl border text-left transition-all duration-300 ${
-                  role === r.id
-                    ? "border-[#1e6b3c] shadow-[0_16px_40px_rgba(30,107,60,0.18)]"
-                    : "border-black/[0.07] hover:border-black/20 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)]"
-                }`}
-              >
-                <div className="h-[150px] w-full overflow-hidden">
-                  <img
-                    src={r.img}
-                    alt={r.id}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                  />
-                </div>
-                <div className="flex items-center justify-between bg-white p-4">
-                  <div>
-                    <h3
-                      className="text-[15px] font-semibold"
-                      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                    >
-                      {r.id}
-                    </h3>
-                    <p className="mt-1 text-[13px] leading-snug text-[#111111]/60">
-                      {r.line}
-                    </p>
-                  </div>
-                  <span
-                    className={`flex h-8 w-8 flex-none items-center justify-center rounded-full border transition-all duration-300 ${
-                      role === r.id
-                        ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
-                        : "border-black/15 text-[#111111]/60 group-hover:border-black/40"
-                    }`}
-                  >
-                    →
-                  </span>
-                </div>
-              </button>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {WHY.map(([t, d], i) => (
+            <Reveal key={t} delay={i * 0.05}>
+              <div className="h-full rounded-2xl border border-black/[0.08] bg-white p-6">
+                <h3 className="text-[16px] font-semibold tracking-[-0.015em]">{t}</h3>
+                <p className="mt-2 text-[14px] leading-relaxed text-[#111111]/60">{d}</p>
+              </div>
             </Reveal>
           ))}
         </div>
       </section>
-      {/* apply */}
-      <div ref={formRef}>
-        <ApplyForm role={role} />
-      </div>
-      <footer className="border-t border-black/[0.06] py-10 text-center">
-        <p
-          className="text-[13px] text-[#111111]/50 "
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-        >
-          בעזרת ה׳ נעשה ונצליח
+
+      {/* Open roles */}
+      <section className="mx-auto max-w-5xl border-t border-black/[0.06] px-6 py-12 md:py-16">
+        <Reveal>
+          <p className="text-[13px] font-bold text-[#1e6b3c]">Open roles</p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-[-0.035em] md:text-3xl">
+            We're accepting applications in four areas.
+          </h2>
+        </Reveal>
+        <div className="mt-8 divide-y divide-black/[0.07] border-y border-black/[0.07]">
+          {ROLES.map(([t, d], i) => (
+            <Reveal key={t} delay={i * 0.04}>
+              <div className="grid gap-1.5 py-5 md:grid-cols-[240px_1fr] md:gap-8">
+                <h3 className="text-[16px] font-semibold tracking-[-0.015em]">{t}</h3>
+                <p className="text-[14.5px] leading-relaxed text-[#111111]/60">{d}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <p className="mt-5 text-[13.5px] text-[#111111]/55">
+          Full-time and select part-time roles. Remote, hybrid, and on-site arrangements are considered by role and location.
         </p>
+      </section>
+
+      {/* What we offer */}
+      <section className="mx-auto max-w-5xl border-t border-black/[0.06] px-6 py-12 md:py-16">
+        <Reveal>
+          <p className="text-[13px] font-bold text-[#1e6b3c]">What we offer</p>
+        </Reveal>
+        <ul className="mt-6 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+          {OFFER.map((o) => (
+            <li key={o} className="flex gap-3 text-[14.5px] leading-relaxed text-[#111111]/70">
+              <span className="mt-[7px] h-1.5 w-1.5 flex-none rotate-45 bg-[#1e6b3c]/60" />
+              {o}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* How to apply */}
+      <section className="mx-auto max-w-5xl border-t border-black/[0.06] px-6 py-12 md:py-16">
+        <Reveal>
+          <p className="text-[13px] font-bold text-[#1e6b3c]">How to apply</p>
+        </Reveal>
+        <ol className="mt-6 grid gap-4 sm:grid-cols-2">
+          {STEPS.map((s, i) => (
+            <li key={s} className="flex gap-4">
+              <span className="flex h-7 w-7 flex-none items-center justify-center rounded-full border border-[#1e6b3c]/30 text-[13px] font-semibold text-[#1e6b3c]">
+                {i + 1}
+              </span>
+              <span className="pt-0.5 text-[14.5px] leading-relaxed text-[#111111]/70">{s}</span>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-6 text-[13.5px] text-[#111111]/55">
+          Every application is reviewed by the team. We respond to all candidates.
+        </p>
+      </section>
+
+      {/* Application */}
+      <div ref={formRef}>
+        <ApplyForm />
+      </div>
+
+      {/* legal + offices */}
+      <footer className="border-t border-black/[0.06] px-6 py-10 text-center">
+        <p className="mx-auto max-w-2xl text-[13px] leading-relaxed text-[#111111]/55">
+          ELSIAA is an equal opportunity employer. We evaluate candidates on merit, capability, and alignment with our standards.
+        </p>
+        <p className="mt-3 text-[12.5px] text-[#111111]/45">
+          New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv
+        </p>
+        <p className="mt-2 text-[12.5px] text-[#111111]/40">בעזרת ה׳ נעשה ונצליח</p>
       </footer>
     </main>
   );
 }
 
-function Hero() {
+function Hero({ onApply }: { onApply: () => void }) {
   return (
-    <section className="relative flex min-h-[62vh] items-end overflow-hidden bg-[#0c0c0c] text-white">
+    <section className="relative flex min-h-[58vh] items-end overflow-hidden bg-[#0c0c0c] text-white">
       <img
         src="/assets/office_premium_v1.jpg"
         alt=""
-        className="absolute inset-0 h-full w-full object-cover opacity-45"
+        className="absolute inset-0 h-full w-full object-cover opacity-40"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-[#0c0c0c]/30 to-[#0c0c0c]/60" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-[#0c0c0c]/40 to-[#0c0c0c]/60" />
       <div className="relative mx-auto w-full max-w-5xl px-6 pt-40 pb-14 md:pb-20">
-        <p
-          className="text-[13px] text-[#2e9e58] "
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-        >
-          Careers
-        </p>
-        <h1
-          className="mt-3 max-w-2xl text-[11vw] leading-[1.0] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl"
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-        >
-          We are hiring.
+        <p className="text-[13px] font-bold text-[#2e9e58]">Careers</p>
+        <h1 className="mt-3 max-w-3xl text-4xl leading-[1.03] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl">
+          Build production-grade AI systems that set the standard.
         </h1>
-        <p className="mt-4 max-w-md text-[15px] leading-relaxed text-white/60">
-          Designers, engineers, sales. Pick your door — the application takes
-          under a minute.
+        <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-white/65">
+          ELSIAA designs, builds, and deploys the AI, automation, and software companies rely on every
+          day. We ship only what we'd put our name on — fully insured, production-ready, held to one
+          standard. We're selective: we hire people who take ownership, think clearly, and deliver
+          work that lasts.
         </p>
+        <button
+          onClick={onApply}
+          className="mt-8 inline-flex items-center rounded-full bg-[#2e9e58] px-8 py-3.5 text-[14px] font-semibold text-white transition-all hover:bg-[#1e6b3c]"
+        >
+          Apply →
+        </button>
       </div>
     </section>
   );
 }
 
-/* ---------- the application — dead simple, perfect ---------- */
-function ApplyForm({ role }: { role: RoleId | null }) {
+/* ---------- the application — functional, human-written only ---------- */
+function ApplyForm() {
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [drag, setDrag] = useState(false);
-  const [positions, setPositions] = useState<string[]>(role ? [role === "Designers" ? "Design" : role === "Engineers" ? "Engineers" : "Sales"] : []);
+  const [positions, setPositions] = useState<string[]>([]);
   const [country, setCountry] = useState("");
   const [arrangement, setArrangement] = useState("");
   const [commitment, setCommitment] = useState("");
   const [essay, setEssay] = useState("");
   const [aiFlag, setAiFlag] = useState(false);
-  const [state, setState] = useState<"idle" | "sending" | "done" | "error">(
-    "idle"
-  );
+  const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const fileInput = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (!role) return;
-    const mapped = role === "Designers" ? "Design" : role === "Engineers" ? "Engineers" : "Sales";
-    setPositions((p) => (p.includes(mapped) ? p : [...p, mapped]));
-  }, [role]);
 
   const words = essay.trim() ? essay.trim().split(/\s+/).length : 0;
 
@@ -238,17 +251,16 @@ function ApplyForm({ role }: { role: RoleId | null }) {
     setState("sending");
     try {
       const fd = new FormData();
-      fd.append("_subject", `ELSIAA Application — ${role ?? "General"} — ${first} ${last}`);
-      fd.append("Role", role ?? "General");
+      fd.append("_subject", `ELSIAA Application — ${positions.join(", ")} — ${first} ${last}`);
       fd.append("First name", first);
       fd.append("Last name", last);
       fd.append("Phone", number);
       fd.append("Email", email);
-      fd.append("Positions", positions.join(", "));
-      fd.append("Country", country);
+      fd.append("Areas of interest", positions.join(", "));
+      fd.append("Location", country);
       fd.append("Arrangement", arrangement);
       fd.append("Commitment", commitment);
-      fd.append("Why hire (essay)", essay);
+      fd.append("Statement", essay);
       fd.append("_template", "table");
       fd.append("_captcha", "false");
       if (file) fd.append("attachment", file, file.name);
@@ -268,17 +280,10 @@ function ApplyForm({ role }: { role: RoleId | null }) {
     return (
       <section className="mx-auto max-w-5xl px-6 pb-24">
         <div className="rounded-2xl border border-[#1e6b3c]/30 bg-[#1e6b3c]/[0.06] p-10 text-center">
-          <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#1e6b3c] text-white">
-            ✓
-          </span>
-          <h3
-            className="mt-5 text-xl font-semibold tracking-[-0.02em]"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            Application submitted
-          </h3>
+          <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#1e6b3c] text-white">✓</span>
+          <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em]">Application submitted</h3>
           <p className="mt-2 text-[14px] text-[#111111]/55">
-            We have it{role ? ` — ${role}` : ""}. You'll hear from us at{" "}
+            Received. Every application is reviewed by the team — you'll hear from us at{" "}
             <span className="font-medium text-[#111111]">{email}</span>.
           </p>
         </div>
@@ -287,173 +292,130 @@ function ApplyForm({ role }: { role: RoleId | null }) {
   }
 
   return (
-    <section className="mx-auto max-w-5xl px-6 pb-24">
+    <section className="mx-auto max-w-5xl border-t border-black/[0.06] px-6 pb-24 pt-12 md:pt-16">
       <div className="rounded-2xl border border-black/[0.07] bg-white p-6 md:p-12 lg:flex lg:gap-14">
-        {/* identity rail — desktop left column */}
+        {/* identity rail */}
         <div className="lg:w-[240px] lg:flex-none">
-          <span
-            className="text-[13px] text-[#111111]/55 "
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            The application
-          </span>
-          <h3
-            className="mt-2 text-xl font-semibold tracking-[-0.02em] md:text-3xl"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            Apply{role ? ` — ${role}` : ""}
-          </h3>
+          <span className="text-[13px] text-[#111111]/55">Application</span>
+          <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] md:text-3xl">Apply to ELSIAA</h3>
           <p className="mt-3 hidden text-[13px] leading-relaxed text-[#111111]/60 lg:block">
-            Five fields, one honest essay, your resume. We read every
-            application ourselves and reply to all of them.
-          </p>
-          <p
-            className="mt-4 hidden text-[13px] text-[#1e6b3c]  lg:block"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            Under a minute
+            Areas of interest, a short statement in your own words, and your résumé. Every application is reviewed by the team.
           </p>
         </div>
 
         <div className="mt-6 lg:mt-0 lg:min-w-0 lg:flex-1">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field label="First name" value={first} onChange={setFirst} autoComplete="given-name" />
-          <Field label="Last name" value={last} onChange={setLast} autoComplete="family-name" />
-          <Field label="Number" value={number} onChange={setNumber} type="tel" autoComplete="tel" />
-          <Field label="Email" value={email} onChange={setEmail} type="email" autoComplete="email" />
-        </div>
-
-        {/* positions */}
-        <div className="mt-6">
-          <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-            Positions — select all that apply
-          </span>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {["Design", "Sales", "Engineers", "Legal", "Business"].map((p) => {
-              const on = positions.includes(p);
-              return (
-                <button
-                  key={p}
-                  type="button"
-                  onClick={() =>
-                    setPositions((cur) => (on ? cur.filter((x) => x !== p) : [...cur, p]))
-                  }
-                  className={`rounded-full border px-4 py-2 text-[12.5px] font-medium transition-all duration-200 ${
-                    on
-                      ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
-                      : "border-black/15 bg-white text-[#111111]/70 hover:border-black/35"
-                  }`}
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                >
-                  {p}
-                </button>
-              );
-            })}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="First name" value={first} onChange={setFirst} autoComplete="given-name" />
+            <Field label="Last name" value={last} onChange={setLast} autoComplete="family-name" />
+            <Field label="Phone" value={number} onChange={setNumber} type="tel" autoComplete="tel" />
+            <Field label="Email" value={email} onChange={setEmail} type="email" autoComplete="email" />
           </div>
-        </div>
 
-        {/* country + working style */}
-        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <Field label="Country you want to work in" value={country} onChange={setCountry} autoComplete="country-name" />
-          <Choice label="Work setup" value={arrangement} onChange={setArrangement} options={["Remote", "On site", "Hybrid"]} />
-          <Choice label="Commitment" value={commitment} onChange={setCommitment} options={["Full time", "Part time"]} />
-        </div>
-
-        {/* the essay */}
-        <div className="mt-6">
-          <div className="flex items-baseline justify-between gap-3">
-            <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-              In 250 words or more, tell me why I should hire you and how you plan on contributing to ELSIAA.
-            </span>
-            <span
-              className={`flex-none text-[13px] tabular-nums ${words >= 250 ? "text-[#1e6b3c]" : "text-[#111111]/55"}`}
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              {words} / 250
-            </span>
+          {/* areas of interest */}
+          <div className="mt-6">
+            <span className="text-[13px] text-[#111111]/55">Areas of interest — select all that apply</span>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {["Design", "Engineering", "Client Engagement & Sales", "Legal", "Business Operations"].map((p) => {
+                const on = positions.includes(p);
+                return (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => setPositions((cur) => (on ? cur.filter((x) => x !== p) : [...cur, p]))}
+                    className={`rounded-full border px-4 py-2 text-[12.5px] font-medium transition-all duration-200 ${
+                      on ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/15 bg-white text-[#111111]/70 hover:border-black/35"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <textarea
-            value={essay}
-            onChange={(e) => {
-              setEssay(e.target.value);
-              if (aiFlag) setAiFlag(false);
+
+          {/* location + arrangement + commitment */}
+          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <Field label="Location" value={country} onChange={setCountry} autoComplete="country-name" />
+            <Choice label="Work arrangement" value={arrangement} onChange={setArrangement} options={["Remote", "Hybrid", "On-site"]} />
+            <Choice label="Commitment" value={commitment} onChange={setCommitment} options={["Full-time", "Part-time"]} />
+          </div>
+
+          {/* statement */}
+          <div className="mt-6">
+            <div className="flex items-baseline justify-between gap-3">
+              <span className="text-[13px] text-[#111111]/55">
+                In 250–400 words, why you want to join ELSIAA and the specific contribution you'd make.
+              </span>
+              <span className={`flex-none text-[13px] tabular-nums ${words >= 250 ? "text-[#1e6b3c]" : "text-[#111111]/55"}`}>
+                {words} / 250
+              </span>
+            </div>
+            <textarea
+              value={essay}
+              onChange={(e) => {
+                setEssay(e.target.value);
+                if (aiFlag) setAiFlag(false);
+              }}
+              rows={8}
+              className="mt-2 w-full rounded-xl border border-black/10 bg-[#FBFBFA] px-4 py-3.5 text-[15px] leading-relaxed outline-none transition-colors focus:border-[#1e6b3c]"
+              placeholder="Please write in your own words."
+            />
+            <p className="mt-1.5 text-[11.5px] text-[#111111]/55">
+              Written by you, not by AI — machine-written answers are detected and disqualified.
+            </p>
+            {aiFlag && (
+              <p className="mt-2 rounded-lg border border-[#E53E3E]/30 bg-[#E53E3E]/[0.05] px-4 py-3 text-[13px] text-[#E53E3E]">
+                This reads machine-written. Rewrite it in your own voice — tell us something only you could say.
+              </p>
+            )}
+          </div>
+
+          {/* résumé */}
+          <div
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDrag(true);
             }}
-            rows={8}
-            className="mt-2 w-full rounded-xl border border-black/10 bg-[#FBFBFA] px-4 py-3.5 text-[15px] leading-relaxed outline-none transition-colors focus:border-[#1e6b3c]"
-            placeholder="In your own words. We read every one."
-          />
-          <p className="mt-1.5 text-[11.5px] text-[#111111]/55">
-            Written by you, not by AI — machine-written answers are detected and disqualified.
-          </p>
-          {aiFlag && (
-            <p className="mt-2 rounded-lg border border-[#E53E3E]/30 bg-[#E53E3E]/[0.05] px-4 py-3 text-[13px] text-[#E53E3E]">
-              This reads machine-written. Rewrite it in your own voice — tell us something only you could say.
+            onDragLeave={() => setDrag(false)}
+            onDrop={onDrop}
+            onClick={() => fileInput.current?.click()}
+            className={`mt-4 flex cursor-pointer items-center justify-center gap-3 rounded-xl border border-dashed p-6 transition-all duration-200 ${
+              drag ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.05]" : file ? "border-[#1e6b3c]/50 bg-[#1e6b3c]/[0.04]" : "border-black/15 hover:border-black/30"
+            }`}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={file ? "#1e6b3c" : "#666"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <p className="text-[13px] text-[#111111]/60">
+              {file ? (
+                <span className="font-medium text-[#1e6b3c]">{file.name}</span>
+              ) : (
+                <>
+                  <span className="font-medium text-[#111111]">Drag your résumé here</span>
+                  <span className="text-[#111111]/55"> — or click to upload</span>
+                </>
+              )}
+            </p>
+            <input ref={fileInput} type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+          </div>
+
+          <button
+            onClick={submit}
+            disabled={!valid || state === "sending"}
+            className={`mt-6 w-full rounded-full px-6 py-4 text-[13px] font-semibold transition-all duration-300 md:w-auto md:min-w-[220px] ${
+              valid ? "bg-[#111111] text-white hover:bg-[#1e6b3c]" : "cursor-not-allowed bg-black/[0.06] text-[#111111]/50"
+            }`}
+          >
+            {state === "sending" ? "Sending…" : "Submit application →"}
+          </button>
+          {state === "error" && (
+            <p className="mt-3 text-[13px] text-[#E53E3E]">
+              Something broke on the way — try once more, or email{" "}
+              <a className="underline" href="mailto:info@elsiaa.com">info@elsiaa.com</a>.
             </p>
           )}
-        </div>
-
-        {/* resume — drag or add */}
-        <div
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDrag(true);
-          }}
-          onDragLeave={() => setDrag(false)}
-          onDrop={onDrop}
-          onClick={() => fileInput.current?.click()}
-          className={`mt-4 flex cursor-pointer items-center justify-center gap-3 rounded-xl border border-dashed p-6 transition-all duration-200 ${
-            drag
-              ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.05]"
-              : file
-                ? "border-[#1e6b3c]/50 bg-[#1e6b3c]/[0.04]"
-                : "border-black/15 hover:border-black/30"
-          }`}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={file ? "#1e6b3c" : "#666"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="17 8 12 3 7 8" />
-            <line x1="12" y1="3" x2="12" y2="15" />
-          </svg>
-          <p className="text-[13px] text-[#111111]/60">
-            {file ? (
-              <span className="font-medium text-[#1e6b3c]">{file.name}</span>
-            ) : (
-              <>
-                <span className="font-medium text-[#111111]">Drag your resume here</span>
-                <span className="text-[#111111]/55"> — or tap to add</span>
-              </>
-            )}
-          </p>
-          <input
-            ref={fileInput}
-            type="file"
-            accept=".pdf,.doc,.docx"
-            className="hidden"
-            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          />
-        </div>
-
-        <button
-          onClick={submit}
-          disabled={!valid || state === "sending"}
-          className={`mt-6 w-full rounded-full px-6 py-4 text-[13px] font-semibold  transition-all duration-300 md:w-auto md:min-w-[220px] ${
-            valid
-              ? "bg-[#111111] text-white hover:bg-[#1e6b3c]"
-              : "cursor-not-allowed bg-black/[0.06] text-[#111111]/50"
-          }`}
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-        >
-          {state === "sending" ? "Sending…" : "Apply →"}
-        </button>
-        {state === "error" && (
-          <p className="mt-3 text-[13px] text-[#E53E3E]">
-            Something broke on the way — try once more, or email{" "}
-            <a className="underline" href="mailto:info@elsiaa.com">
-              info@elsiaa.com
-            </a>
-            .
-          </p>
-        )}
         </div>
       </div>
     </section>
@@ -473,21 +435,16 @@ function Choice({
 }) {
   return (
     <div>
-      <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-        {label}
-      </span>
+      <span className="text-[13px] text-[#111111]/55">{label}</span>
       <div className="mt-1.5 flex gap-1.5">
         {options.map((o) => (
           <button
             key={o}
             type="button"
             onClick={() => onChange(o)}
-            className={`flex-1 rounded-xl border px-2 py-3 text-[13px] font-medium transition-all duration-200 ${
-              value === o
-                ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
-                : "border-black/10 bg-[#FBFBFA] text-[#111111]/65 hover:border-black/30"
+            className={`flex-1 rounded-xl border px-2 py-3 text-[12.5px] font-medium transition-all duration-200 ${
+              value === o ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/10 bg-[#FBFBFA] text-[#111111]/65 hover:border-black/30"
             }`}
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             {o}
           </button>
@@ -512,12 +469,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span
-        className="text-[13px] text-[#111111]/55 "
-        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-      >
-        {label}
-      </span>
+      <span className="text-[13px] text-[#111111]/55">{label}</span>
       <input
         type={type}
         value={value}
