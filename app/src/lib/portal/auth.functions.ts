@@ -1,6 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { computeIsSuperAdmin } from "../app-session.server";
+import {
+  computeIsSuperAdmin,
+  writeAppSession,
+} from "../app-session.server";
+import { isSuperAdminEmail } from "../admin/super-admin";
 import { portalConfigured, portalEnv } from "./env";
 import {
   destroyPortalSession,
@@ -14,16 +18,53 @@ import {
   supabasePublishableConfigured,
 } from "./supabase";
 
+function appMetadataFromAccessToken(
+  accessToken: string,
+): Record<string, unknown> | null {
+  try {
+    const part = accessToken.split(".")[1];
+    if (!part) return null;
+    const json = JSON.parse(
+      Buffer.from(part.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString(
+        "utf8",
+      ),
+    ) as { app_metadata?: Record<string, unknown> };
+    return json.app_metadata ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export const getPortalAuthState = createServerFn({ method: "GET" }).handler(
   async () => {
     const session = await readPortalSession();
     const configured = portalConfigured();
+
+    let isSuperAdmin = Boolean(session?.isSuperAdmin);
+    if (session?.email && session.accessToken) {
+      const meta = appMetadataFromAccessToken(session.accessToken);
+      const next = computeIsSuperAdmin(session.email, meta);
+      if (next !== isSuperAdmin) {
+        isSuperAdmin = next;
+        try {
+          await writeAppSession({ ...session, isSuperAdmin: next });
+        } catch {
+          /* cookie write best-effort */
+        }
+      } else if (!isSuperAdmin && isSuperAdminEmail(session.email)) {
+        // Allowlist alone is enough for UI routing; JWT claim may lag a stale cookie.
+        isSuperAdmin = true;
+      }
+    } else if (session?.email && isSuperAdminEmail(session.email)) {
+      isSuperAdmin = true;
+    }
+
     return {
       authenticated: Boolean(session),
       email: session?.email ?? null,
       displayName: session?.displayName ?? null,
       userId: session?.userId ?? null,
-      isSuperAdmin: Boolean(session?.isSuperAdmin),
+      isSuperAdmin,
       authReady: portalAuthReady(),
       sessionReady: Boolean(portalSessionConfig()),
       supabaseReady: supabasePublishableConfigured(),

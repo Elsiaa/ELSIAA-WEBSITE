@@ -15,7 +15,9 @@ export const Route = createFileRoute("/portal/sign-in")({
   beforeLoad: async ({ search }) => {
     const auth = await getPortalAuthState();
     if (auth.authenticated) {
-      throw redirect({ to: search.next === "/admin" ? "/admin" : "/portal" });
+      throw redirect({
+        to: search.next === "/admin" || auth.isSuperAdmin ? "/admin" : "/portal",
+      });
     }
     return { auth };
   },

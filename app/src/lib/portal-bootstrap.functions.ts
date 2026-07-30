@@ -1,12 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "../auth";
 import { getCurrentUser, isSuperAdmin } from "./permissions";
-import { getAllCompanies } from "./companies";
-import {
-  filterOutSuperAdminUsers,
-  getAllUsers,
-  getUserWithCompany,
-} from "./users";
+import { getUserWithCompany } from "./users";
 import { getUserAccessibleProjects } from "./user-project-permissions";
 import { getCompanyProjects } from "./projects";
 import { isPlatformSupportAgent } from "./platform-role";
@@ -30,6 +25,8 @@ export type PortalBootstrap = {
   users: UserWithCompany[];
   hasNoProjects: boolean;
   redirectSupportAgent: boolean;
+  /** Super admins should leave the client portal for /admin. */
+  redirectSuperAdmin: boolean;
   /** Supabase auth.users id for chat / session identity. */
   authUserId: string | null;
 };
@@ -55,6 +52,7 @@ export const bootstrapPortal = createServerFn({ method: "GET" }).handler(
         users: [],
         hasNoProjects: true,
         redirectSupportAgent: true,
+        redirectSuperAdmin: false,
         authUserId: session.user.id,
       };
     }
@@ -65,18 +63,17 @@ export const bootstrapPortal = createServerFn({ method: "GET" }).handler(
     if (superAdmin) {
       const userName =
         sessionName || sessionEmail.split("@")[0] || "Super Admin";
-      const allCompanies = await getAllCompanies();
-      const allUsers = filterOutSuperAdminUsers(await getAllUsers());
       return {
         userName,
         companyName: "All companies",
         projects: [],
         user: null,
         isSuperAdmin: true,
-        companies: allCompanies,
-        users: allUsers,
+        companies: [],
+        users: [],
         hasNoProjects: false,
         redirectSupportAgent: false,
+        redirectSuperAdmin: true,
         authUserId: session.user.id,
       };
     }
@@ -133,6 +130,7 @@ export const bootstrapPortal = createServerFn({ method: "GET" }).handler(
       users: [],
       hasNoProjects: projects.length === 0,
       redirectSupportAgent: false,
+      redirectSuperAdmin: false,
       authUserId: session.user.id,
     };
   },

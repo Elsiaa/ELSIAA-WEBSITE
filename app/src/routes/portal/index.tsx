@@ -17,7 +17,10 @@ export const Route = createFileRoute("/portal/")({
     if (!auth.authenticated) {
       throw redirect({ to: "/portal/sign-in" });
     }
-    // Super admins can use the client shell (Poel behavior) — also have Admin entry.
+    // Super admins land in the admin dashboard, not the empty client portal.
+    if (auth.isSuperAdmin) {
+      throw redirect({ to: "/admin" });
+    }
     return { auth };
   },
   head: () => ({
@@ -43,6 +46,10 @@ function PortalHome() {
       .then((d) => {
         if (cancelled) return;
         if (d.redirectSupportAgent) {
+          void navigate({ to: "/admin" });
+          return;
+        }
+        if (d.redirectSuperAdmin) {
           void navigate({ to: "/admin" });
           return;
         }
