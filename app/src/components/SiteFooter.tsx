@@ -14,7 +14,6 @@ const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string
     links: [
       { label: "Services", href: "/services" },
       { label: "Automate", href: "/automate" },
-      { label: "AI Secretary", href: "/new-automate" },
       { label: "Work", href: "/designs" },
       { label: "Consultation", href: "/consultation" },
       { label: "The Store", href: "/store" },
