@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WhyElsiaaRouteImport } from './routes/why-elsiaa'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as StoreRouteImport } from './routes/store'
@@ -225,6 +226,11 @@ import { Route as ApiProjectsIdFeesFeeIdTransactionsRouteImport } from './routes
 import { Route as ApiProjectsIdFeesFeeIdMarkCompletedRouteImport } from './routes/api/projects/$id/fees/$feeId/mark-completed'
 import { Route as ApiProjectsIdFeesFeeIdCreatePaymentRouteImport } from './routes/api/projects/$id/fees/$feeId/create-payment'
 
+const WhyElsiaaRoute = WhyElsiaaRouteImport.update({
+  id: '/why-elsiaa',
+  path: '/why-elsiaa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -1418,6 +1424,7 @@ export interface FileRoutesByFullPath {
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
+  '/why-elsiaa': typeof WhyElsiaaRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/sign-in': typeof AdminSignInRoute
   '/api/blocked-slots': typeof ApiBlockedSlotsRouteWithChildren
@@ -1635,6 +1642,7 @@ export interface FileRoutesByTo {
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
+  '/why-elsiaa': typeof WhyElsiaaRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/sign-in': typeof AdminSignInRoute
   '/api/blocked-slots': typeof ApiBlockedSlotsRouteWithChildren
@@ -1853,6 +1861,7 @@ export interface FileRoutesById {
   '/store': typeof StoreRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
+  '/why-elsiaa': typeof WhyElsiaaRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/sign-in': typeof AdminSignInRoute
   '/api/blocked-slots': typeof ApiBlockedSlotsRouteWithChildren
@@ -2072,6 +2081,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/team'
     | '/terms'
+    | '/why-elsiaa'
     | '/admin/calendar'
     | '/admin/sign-in'
     | '/api/blocked-slots'
@@ -2289,6 +2299,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/team'
     | '/terms'
+    | '/why-elsiaa'
     | '/admin/calendar'
     | '/admin/sign-in'
     | '/api/blocked-slots'
@@ -2506,6 +2517,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/team'
     | '/terms'
+    | '/why-elsiaa'
     | '/admin/calendar'
     | '/admin/sign-in'
     | '/api/blocked-slots'
@@ -2724,6 +2736,7 @@ export interface RootRouteChildren {
   StoreRoute: typeof StoreRoute
   TeamRoute: typeof TeamRoute
   TermsRoute: typeof TermsRoute
+  WhyElsiaaRoute: typeof WhyElsiaaRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
   AdminSignInRoute: typeof AdminSignInRoute
   ApiBlockedSlotsRoute: typeof ApiBlockedSlotsRouteWithChildren
@@ -2814,6 +2827,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/why-elsiaa': {
+      id: '/why-elsiaa'
+      path: '/why-elsiaa'
+      fullPath: '/why-elsiaa'
+      preLoaderRoute: typeof WhyElsiaaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -4924,6 +4944,7 @@ const rootRouteChildren: RootRouteChildren = {
   StoreRoute: StoreRoute,
   TeamRoute: TeamRoute,
   TermsRoute: TermsRoute,
+  WhyElsiaaRoute: WhyElsiaaRoute,
   AdminCalendarRoute: AdminCalendarRoute,
   AdminSignInRoute: AdminSignInRoute,
   ApiBlockedSlotsRoute: ApiBlockedSlotsRouteWithChildren,

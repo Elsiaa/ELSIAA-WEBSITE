@@ -23,6 +23,7 @@ const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string
   {
     title: "Company",
     links: [
+      { label: "Why ELSIAA", href: "/why-elsiaa" },
       { label: "Team", href: "/team" },
       { label: "Careers", href: "/careers" },
       { label: "Locations", href: "/locations" },

@@ -21,6 +21,7 @@ const PRIMARY = [
   { label: "Sign in", href: "/portal/sign-in" },
 ];
 const MORE = [
+  { label: "Why ELSIAA", href: "/why-elsiaa" },
   { label: "Services", href: "/services" },
   { label: "Clients", href: "/clients" },
   { label: "Insights", href: "/insights" },
