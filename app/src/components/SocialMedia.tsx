@@ -262,7 +262,7 @@ export function SocialHomeSection() {
   }, []);
 
   return (
-    <section ref={trackRef} id="social" className="relative border-t border-black/[0.06] bg-white" style={{ height: "300vh" }}>
+    <section ref={trackRef} id="social" className="relative border-t border-black/[0.06] bg-white" style={{ height: "210vh" }}>
       <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-7 overflow-hidden px-6 text-center">
         <div>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
