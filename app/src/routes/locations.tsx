@@ -12,7 +12,7 @@ export const Route = createFileRoute("/locations")({
       {
         name: "description",
         content:
-          "ELSIAA has people on the ground in New York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv — fully insured, by appointment, and able to deploy anywhere in the world. 24/7 virtual support.",
+          "ELSIAA has clients and its own people on the ground in New York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv — fully insured, by appointment, and able to deploy anywhere in the world. 24/7 virtual support.",
       },
       { property: "og:title", content: "Locations — ELSIAA" },
       { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
@@ -22,11 +22,14 @@ export const Route = createFileRoute("/locations")({
   component: LocationsPage,
 });
 
-const mono = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-const inter = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+const sans = {
+  fontFamily:
+    "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
+} as const;
 
 type Office = {
   name: string;
+  short: string;
   country: string;
   flag: string;
   tz: string;
@@ -34,7 +37,6 @@ type Office = {
   art: string;
   role: string;
   hq?: boolean;
-  lead: string;
   line: string;
   focus: string[];
   // approximate longitude for the follow-the-sun strip (−180…180)
@@ -44,6 +46,7 @@ type Office = {
 const OFFICES: Office[] = [
   {
     name: "New York City",
+    short: "New York",
     country: "United States",
     flag: "us",
     tz: "America/New_York",
@@ -51,72 +54,71 @@ const OFFICES: Office[] = [
     art: "/assets/cityart/nyc.jpg",
     role: "Headquarters & delivery",
     hq: true,
-    lead: "Global Managing Partner",
     line: "Where the standard is set. Program delivery and client strategy for the Americas.",
     focus: ["Program delivery", "Client strategy"],
     lon: -74,
   },
   {
     name: "London",
+    short: "London",
     country: "United Kingdom",
     flag: "gb",
     tz: "Europe/London",
     tzLabel: "Greenwich",
     art: "/assets/cityart/london.jpg",
     role: "Client & partnerships",
-    lead: "Head of EMEA Partnerships",
     line: "The European front door — where new relationships and account leadership begin.",
     focus: ["Partnerships", "Account leadership"],
     lon: 0,
   },
   {
     name: "Geneva",
+    short: "Geneva",
     country: "Switzerland",
     flag: "ch",
     tz: "Europe/Zurich",
     tzLabel: "Central European",
     art: "/assets/cityart/geneva.jpg",
     role: "Continental European desk",
-    lead: "Principal, Continental Europe",
     line: "Precision work for precision clients. Governance and discretion by default.",
     focus: ["Governance", "Private clients"],
     lon: 6,
   },
   {
     name: "Antwerp",
+    short: "Antwerp",
     country: "Belgium",
     flag: "be",
     tz: "Europe/Brussels",
     tzLabel: "Central European",
     art: "/assets/cityart/antwerp.jpg",
     role: "Benelux delivery desk",
-    lead: "Delivery Lead, Benelux",
     line: "The Benelux desk — hands-on delivery operations and localisation across the region.",
     focus: ["Delivery ops", "Localisation"],
     lon: 4,
   },
   {
     name: "Tel Aviv",
+    short: "Tel Aviv",
     country: "Israel",
     flag: "il",
     tz: "Asia/Jerusalem",
     tzLabel: "Israel",
     art: "/assets/cityart/telaviv.jpg",
     role: "AI & engineering",
-    lead: "Head of Engineering",
     line: "The engine room. Applied research, model work and platform engineering.",
     focus: ["Applied research", "Platform engineering"],
     lon: 35,
   },
   {
     name: "Los Angeles",
+    short: "Los Angeles",
     country: "United States",
     flag: "us",
     tz: "America/Los_Angeles",
     tzLabel: "Pacific",
     art: "/assets/cityart/la.jpg",
     role: "West Coast desk",
-    lead: "Principal, West Coast",
     line: "The West Coast chapter — design, media and entertainment work close to its clients.",
     focus: ["Design", "Media & entertainment"],
     lon: -118,
@@ -129,8 +131,13 @@ const REGIONS = [
   { region: "Middle East", cities: [OFFICES[4]] },
 ];
 
+/* Seed the clock on the client so the first client paint already shows real
+   times — no "--:--" flash. SSR renders null (a clean em-dash, not a broken
+   digital placeholder); suppressHydrationWarning keeps the console quiet. */
 function useNow() {
-  const [now, setNow] = useState<Date | null>(null);
+  const [now, setNow] = useState<Date | null>(() =>
+    typeof window === "undefined" ? null : new Date(),
+  );
   useEffect(() => {
     setNow(new Date());
     const t = setInterval(() => setNow(new Date()), 1000);
@@ -140,7 +147,7 @@ function useNow() {
 }
 
 function fmtTime(now: Date | null, tz: string) {
-  if (!now) return "--:--";
+  if (!now) return "—";
   return new Intl.DateTimeFormat("en-GB", {
     hour: "2-digit",
     minute: "2-digit",
@@ -163,41 +170,69 @@ function fmtOffset(now: Date | null, tz: string, fallback: string) {
   }
 }
 
+/* live local time — suppressHydrationWarning so the seeded client time can
+   differ from the SSR em-dash without a console warning. */
+function LiveTime({ now, tz, className }: { now: Date | null; tz: string; className?: string }) {
+  return (
+    <span suppressHydrationWarning className={className} style={sans}>
+      {fmtTime(now, tz)}
+    </span>
+  );
+}
+
 function LocationsPage() {
   const now = useNow();
-  const [band, setBand] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setBand((b) => (b + 1) % OFFICES.length), 5000);
-    return () => clearInterval(t);
-  }, []);
 
   return (
-    <main className="min-h-screen bg-white text-[#111111]" style={inter}>
+    <main className="min-h-screen bg-white text-[#111111]" style={sans}>
       <SiteNav />
 
-      {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-40 pb-8 md:pt-44">
-        <Reveal>
-          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
-            ELSIAA on the ground
-          </p>
-          <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl" style={inter}>
-            We're where our clients are —
-            <br className="hidden md:block" /> and we go anywhere.
-          </h1>
-          <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
-            We have people on the ground in six cities across three continents — New
-            York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv. All work is fully
-            insured. When the job is somewhere else, we travel to it and work anywhere in
-            the world. Visits are by appointment; virtual support runs 24/7.
-          </p>
-        </Reveal>
+      {/* ── hero — dual-presence message left, live globe anchor right ── */}
+      <section className="mx-auto max-w-6xl px-6 pt-36 pb-14 md:pt-44 md:pb-20">
+        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[minmax(0,1fr)_440px] md:gap-16">
+          <Reveal>
+            <p className="text-[13px] font-semibold text-[#1e6b3c]">ELSIAA on the ground</p>
+            <h1 className="mt-4 text-[2.6rem] font-semibold leading-[1.03] tracking-[-0.045em] md:text-[4.1rem]">
+              Clients in six cities.
+              <br />
+              Our own people in all of them.
+            </h1>
+            <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-[#111111]/60 md:text-[17px]">
+              New York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv — every one
+              has active ELSIAA clients and an ELSIAA team on the ground. Meet them in
+              person by appointment. Everywhere else, we travel to you and run fully
+              remote, in your timezone, around the clock. Every engagement is fully
+              insured.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href="/contact"
+                className="inline-flex min-h-[52px] items-center rounded-full bg-[#111111] px-8 text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#1e6b3c]"
+              >
+                Book a call →
+              </a>
+              <a
+                href="/contact"
+                className="inline-flex min-h-[52px] items-center rounded-full border border-[#111111]/20 px-8 text-[15px] font-semibold text-[#111111] transition-colors duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+              >
+                Request on-site support
+              </a>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="flex flex-col items-center">
+              <ScrollGlobe size={440} />
+              <p className="mt-1 text-[13px] font-medium text-[#111111]/45">Drag to spin</p>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
-      {/* the numbers */}
-      <section className="mx-auto max-w-6xl px-6 pb-2">
-        <Reveal>
-          <div className="grid grid-cols-2 gap-y-8 border-y border-black/[0.06] py-8 md:grid-cols-4">
+      {/* ── proof bar ── */}
+      <section className="border-y border-black/[0.06]">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid grid-cols-2 gap-y-8 py-10 md:grid-cols-4 md:py-12">
             {[
               { n: 6, s: "", label: "Cities on the ground" },
               { n: 3, s: "", label: "Continents active" },
@@ -205,167 +240,52 @@ function LocationsPage() {
               { n: 100, s: "%", label: "Fully insured work" },
             ].map((st) => (
               <div key={st.label} className="text-center">
-                <p className="text-4xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>
+                <p className="text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
                   <CountTo target={st.n} suffix={st.s} />
                 </p>
-                <p className="mt-2 text-[13px] text-[#111111]/55 " style={mono}>
-                  {st.label}
-                </p>
+                <p className="mt-2 text-[13px] text-[#111111]/55">{st.label}</p>
               </div>
             ))}
           </div>
-        </Reveal>
-      </section>
-
-      {/* the network — globe + regional ledger */}
-      <section className="mx-auto max-w-6xl px-6 py-14 md:py-20">
-        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[460px_minmax(0,1fr)]">
-          <Reveal>
-            <ScrollGlobe size={460} />
-            <p className="mt-2 text-center text-[13px] text-[#111111]/50 " style={mono}>
-              Scroll or drag to spin
-            </p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            {REGIONS.map((r) => (
-              <div key={r.region} className="border-b border-black/[0.06] py-5 first:pt-0 last:border-0">
-                <p className="text-[13px] text-[#1e6b3c] " style={mono}>
-                  {r.region}
-                </p>
-                <div className="mt-3 space-y-2.5">
-                  {r.cities.map((c) => (
-                    <div key={c.name} className="flex items-baseline justify-between gap-6">
-                      <p className="flex items-center gap-2.5 text-[16px] font-semibold tracking-[-0.01em]" style={inter}>
-                        <img
-                          src={`/assets/flags/${c.flag}.png`}
-                          srcSet={`/assets/flags/${c.flag}@2x.png 2x`}
-                          alt=""
-                          className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-black/10"
-                        />
-                        {c.name}
-                        {c.hq && (
-                          <span className="rounded-full bg-[#1e6b3c]/10 px-2.5 py-0.5 text-[13px] text-[#1e6b3c] " style={mono}>
-                            HQ
-                          </span>
-                        )}
-                      </p>
-                      <p className="text-[14px] tabular-nums text-[#111111]/55" style={mono}>
-                        {fmtTime(now, c.tz)}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </Reveal>
         </div>
       </section>
 
-      {/* follow-the-sun coverage strip */}
-      <section className="border-y border-black/[0.06] bg-[#F5F5F3]">
-        <div className="mx-auto max-w-6xl px-6 py-14 md:py-16">
-          <Reveal>
-            <p className="text-[13px] text-[#1e6b3c] " style={mono}>
-              Follow the sun
-            </p>
-            <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
-              A desk is always awake.
-            </h2>
-            <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-[#111111]/55" style={inter}>
-              From Tel Aviv opening the day to Los Angeles closing it, our cities cover
-              the clock end to end — questions get answered while the rest of the firm sleeps.
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.08}>
-            <CoverageArc now={now} />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* rotating city band */}
-      <section className="relative h-[280px] overflow-hidden border-b border-black/[0.06] bg-white md:h-[340px]">
-        {OFFICES.map((o, i) => (
-          <img
-            key={o.name}
-            src={o.art}
-            alt=""
-            loading={i === 0 ? "eager" : "lazy"}
-            className={`absolute inset-0 h-full w-full object-cover object-bottom transition-opacity duration-[1400ms] ${
-              i === band ? "opacity-100" : "opacity-0"
-            }`}
-          />
-        ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-transparent to-white/40" />
-        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3">
-          <p className="flex items-center gap-3 text-xl font-semibold tracking-[-0.02em]" style={inter}>
-            <img
-              src={`/assets/flags/${OFFICES[band].flag}.png`}
-              srcSet={`/assets/flags/${OFFICES[band].flag}@2x.png 2x`}
-              alt=""
-              className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-black/10"
-            />
-            {OFFICES[band].name}
-            <span className="text-[14px] font-medium tabular-nums text-[#111111]/55" style={mono}>
-              {fmtTime(now, OFFICES[band].tz)}
-            </span>
-          </p>
-          <div className="flex gap-2">
-            {OFFICES.map((o, i) => (
-              <button
-                key={o.name}
-                aria-label={o.name}
-                onClick={() => setBand(i)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === band ? "w-6 bg-[#1e6b3c]" : "w-2 bg-black/15 hover:bg-black/30"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* office cards */}
-      <section className="mx-auto max-w-6xl px-6 py-14 md:py-20">
+      {/* ── the directory — the clearest statement of the dual presence ── */}
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <Reveal>
-          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
-            The Directory
-          </p>
-          <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
-            People on the ground in six cities.
+          <p className="text-[13px] font-semibold text-[#1e6b3c]">The directory</p>
+          <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
+            Clients and staff, city by city.
           </h2>
-          <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-[#111111]/55" style={inter}>
-            Real presence, not a mailbox. Each city has a working team you can meet
-            in person by appointment — the same people, the same standard, wherever
-            you engage us. Exact addresses are shared when we book.
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
+            Not a mailbox, and not a rented desk. In each city we have active clients and
+            an ELSIAA team you can meet in person, by appointment — the same people, the
+            same standard, wherever you engage us. Exact addresses are shared when we book.
           </p>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {OFFICES.map((o, i) => (
-            <Reveal key={o.name} delay={(i % 2) * 0.06}>
+            <Reveal key={o.name} delay={(i % 3) * 0.05}>
               <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.07] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
                 {/* city art header */}
-                <div className="relative h-[180px] overflow-hidden bg-white">
+                <div className="relative h-[168px] overflow-hidden bg-white">
                   <img
                     src={o.art}
                     alt={`${o.name} skyline`}
                     loading="lazy"
                     className="h-full w-full object-cover object-bottom transition-transform duration-700 group-hover:scale-[1.03]"
                   />
-                  <span
-                    className="absolute top-4 right-4 flex items-center gap-2 rounded-full border border-black/[0.08] bg-white/85 px-3.5 py-1.5 text-[13px] font-medium tabular-nums backdrop-blur"
-                    style={mono}
-                  >
+                  <span className="absolute top-4 right-4 flex items-center gap-2 rounded-full border border-black/[0.08] bg-white/85 px-3.5 py-1.5 text-[13px] font-medium tabular-nums backdrop-blur">
                     <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
-                    {fmtTime(now, o.tz)}
+                    <LiveTime now={now} tz={o.tz} />
                   </span>
                 </div>
 
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <h3 className="flex items-center gap-2.5 text-[19px] font-semibold tracking-[-0.02em]" style={inter}>
+                      <h3 className="flex items-center gap-2.5 text-[19px] font-semibold tracking-[-0.02em]">
                         <img
                           src={`/assets/flags/${o.flag}.png`}
                           srcSet={`/assets/flags/${o.flag}@2x.png 2x`}
@@ -374,48 +294,44 @@ function LocationsPage() {
                         />
                         {o.name}
                         {o.hq && (
-                          <span className="rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 text-[13px] text-[#1e6b3c] " style={mono}>
+                          <span className="rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 text-[12px] font-semibold text-[#1e6b3c]">
                             HQ
                           </span>
                         )}
                       </h3>
-                      <p className="mt-1.5 text-[13px] text-[#111111]/45 " style={mono}>
+                      <p className="mt-1.5 text-[13px] text-[#111111]/45">
                         {o.country} · {fmtOffset(now, o.tz, o.tzLabel)}
                       </p>
                     </div>
-                    <span className="shrink-0 text-[13px] text-[#1e6b3c] " style={mono}>
-                      {o.role}
-                    </span>
+                    <span className="shrink-0 text-right text-[13px] text-[#1e6b3c]">{o.role}</span>
                   </div>
 
-                  <p className="mt-4 text-[14px] leading-relaxed text-[#111111]/70" style={inter}>
-                    {o.line}
-                  </p>
+                  <p className="mt-4 text-[14px] leading-relaxed text-[#111111]/70">{o.line}</p>
 
                   <div className="mt-5 flex flex-wrap gap-2">
                     {o.focus.map((f) => (
                       <span
                         key={f}
                         className="rounded-full border border-black/[0.08] bg-[#F5F5F3] px-3 py-1 text-[13px] text-[#111111]/65"
-                        style={inter}
                       >
                         {f}
                       </span>
                     ))}
                   </div>
 
-                  <div className="mt-6 border-t border-black/[0.06] pt-5">
-                    <p className="flex items-center gap-2 text-[13px] font-medium text-[#111111]/80" style={inter}>
+                  {/* the dual presence, stated plainly on every card */}
+                  <div className="mt-6 space-y-2 border-t border-black/[0.06] pt-5">
+                    <p className="flex items-center gap-2 text-[13px] font-medium text-[#111111]/80">
                       <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
-                      On-site team available by appointment
+                      Active clients in the city
                     </p>
-                    <p className="mt-1.5 text-[13px] text-[#111111]/45" style={mono}>
-                      Exact address provided upon booking
+                    <p className="flex items-center gap-2 text-[13px] font-medium text-[#111111]/80">
+                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
+                      On-site team — meet by appointment
                     </p>
                     <a
                       href="/contact"
-                      className="mt-4 inline-block text-[13px] text-[#1e6b3c] transition-colors hover:text-[#111111]"
-                      style={mono}
+                      className="mt-3 inline-block text-[13px] font-medium text-[#1e6b3c] transition-colors hover:text-[#111111]"
                     >
                       Reach this desk →
                     </a>
@@ -425,65 +341,102 @@ function LocationsPage() {
             </Reveal>
           ))}
         </div>
+      </section>
 
+      {/* ── follow the sun — one clean coverage strip, full city names ── */}
+      <section className="border-y border-black/[0.06] bg-[#F5F5F3]">
+        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] md:items-center md:gap-16">
+            <Reveal>
+              <p className="text-[13px] font-semibold text-[#1e6b3c]">Follow the sun</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
+                A desk is always awake.
+              </h2>
+              <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#111111]/60">
+                From Tel Aviv opening the day to Los Angeles closing it, our six cities
+                cover the clock end to end. Something urgent at 3 a.m. your time is
+                business hours for one of our desks — so it gets answered.
+              </p>
+              {/* the regional ledger, compact */}
+              <div className="mt-8 space-y-4">
+                {REGIONS.map((r) => (
+                  <div key={r.region} className="border-t border-black/[0.08] pt-3 first:border-0 first:pt-0">
+                    <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#111111]/40">
+                      {r.region}
+                    </p>
+                    <div className="mt-2 space-y-1.5">
+                      {r.cities.map((c) => (
+                        <div key={c.name} className="flex items-baseline justify-between gap-6">
+                          <span className="flex items-center gap-2.5 text-[15px] font-medium tracking-[-0.01em]">
+                            <img
+                              src={`/assets/flags/${c.flag}.png`}
+                              srcSet={`/assets/flags/${c.flag}@2x.png 2x`}
+                              alt=""
+                              className="h-[12px] w-[18px] rounded-[2px] object-cover ring-1 ring-black/10"
+                            />
+                            {c.name}
+                          </span>
+                          <LiveTime now={now} tz={c.tz} className="text-[14px] tabular-nums text-[#111111]/55" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <CoverageArc now={now} />
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── anywhere in the world ── */}
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <Reveal>
-          <p className="mt-8 text-[13px] text-[#111111]/55" style={inter}>
-            On-site meetings are by appointment. Everything else runs remotely, in
-            your timezone, around the clock.
+          <p className="text-[13px] font-semibold text-[#1e6b3c]">Anywhere in the world</p>
+          <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
+            Six cities is where we live. Not where we stop.
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
+            Our people deploy and work anywhere on earth. If your business is outside these
+            six cities, we come to you — on-site when it matters, and fully remote the rest
+            of the time, in your timezone, around the clock.
           </p>
         </Reveal>
       </section>
 
-      {/* global flexibility */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3]">
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
-          <Reveal>
-            <p className="text-[13px] text-[#1e6b3c] " style={mono}>
-              Anywhere in the world
-            </p>
-            <h2 className="mt-3 max-w-3xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
-              Six cities is where we live. Not where we stop.
-            </h2>
-            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
-              Our people can deploy and work anywhere on earth. If your business is
-              outside these six cities, we come to you — on-site when it matters, and
-              fully remote the rest of the time, in your timezone, around the clock.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* insurance & trust */}
+      {/* ── insured strip ── */}
       <section className="border-t border-black/[0.06] bg-white">
         <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 px-6 py-10 md:flex-row md:items-center md:justify-between">
-          <p className="flex items-center gap-3 text-[15px] font-medium text-[#111111]/80" style={inter}>
+          <p className="flex items-center gap-3 text-[15px] font-medium text-[#111111]/80">
             <span className="inline-block h-2 w-2 rounded-full bg-[#1e6b3c]" />
-            Every engagement is fully insured — the same standard in all six cities and anywhere we travel.
+            Every engagement is fully insured — the same standard in all six cities and
+            anywhere we travel.
           </p>
-          <a href="/clients" className="text-[13px] text-[#1e6b3c] hover:underline" style={mono}>
+          <a href="/clients" className="text-[13px] font-medium text-[#1e6b3c] hover:underline">
             How we work ↗
           </a>
         </div>
       </section>
 
-      {/* closing */}
-      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 text-center md:py-24">
+      {/* ── closing ── */}
+      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-20 text-center md:py-28">
         <Reveal>
-          <h2 className="mx-auto max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl" style={inter}>
+          <h2 className="mx-auto max-w-3xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
             Tell us where you are. We'll be there — or already awake for you.
           </h2>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a
               href="/contact"
-              className="inline-flex items-center gap-3 rounded-full bg-[#111111] px-8 py-4 text-[13px] font-bold text-white transition-all duration-300 hover:bg-[#1e6b3c]"
-              style={mono}
+              className="inline-flex min-h-[52px] items-center rounded-full bg-[#111111] px-8 text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#1e6b3c]"
             >
               Book a call →
             </a>
             <a
               href="/contact"
-              className="inline-flex items-center gap-3 rounded-full border border-[#111111]/20 px-8 py-4 text-[13px] font-bold text-[#111111] transition-all duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
-              style={mono}
+              className="inline-flex min-h-[52px] items-center rounded-full border border-[#111111]/20 px-8 text-[15px] font-semibold text-[#111111] transition-colors duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
             >
               Request on-site support
             </a>
@@ -495,31 +448,29 @@ function LocationsPage() {
 }
 
 /*
-  Follow-the-sun strip — a restrained emerald hairline arc spanning the six
-  cities by longitude, with the sun's approximate position marked from the
-  current UTC hour. Pure inline SVG; guards for SSR (now === null → static).
+  Follow-the-sun strip — a restrained emerald hairline arc with the six cities
+  evenly spaced west→east, live local time under each, and the sun's approximate
+  position marked from the current UTC hour. Pure inline SVG; SSR-safe.
 */
 function CoverageArc({ now }: { now: Date | null }) {
   const W = 1000;
-  const H = 200;
-  const padX = 40;
+  const H = 210;
+  const padX = 60;
   const baseY = 150;
+  const arcTop = 46;
   const xFor = (lon: number) => padX + ((lon + 180) / 360) * (W - padX * 2);
 
-  // arc apex (purely aesthetic)
-  const arcTop = 46;
-
-  // cities evenly spaced west→east so clustered European offices never collide
+  // evenly spaced west→east so clustered European offices never collide
   const sorted = [...OFFICES].sort((a, b) => a.lon - b.lon);
   const cityX = (i: number) => padX + (i / (sorted.length - 1)) * (W - padX * 2);
 
-  // sun x from current UTC time (subsolar longitude ≈ 180 − 15 * UTCHours)
+  // sun x from current UTC time (subsolar longitude ≈ 180 − 15 · UTCHours)
   const sunLon = now
     ? ((180 - 15 * (now.getUTCHours() + now.getUTCMinutes() / 60) + 540) % 360) - 180
     : null;
 
   return (
-    <div className="mt-8 overflow-hidden rounded-2xl border border-black/[0.07] bg-white p-4 md:p-6">
+    <div className="overflow-hidden rounded-2xl border border-black/[0.07] bg-white p-4 md:p-8">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Timezone coverage across six cities">
         {/* baseline */}
         <line x1={padX} y1={baseY} x2={W - padX} y2={baseY} stroke="#1e6b3c" strokeOpacity="0.25" strokeWidth="1" />
@@ -555,28 +506,11 @@ function CoverageArc({ now }: { now: Date | null }) {
             <g key={o.name}>
               <line x1={x} y1={baseY - 5} x2={x} y2={baseY + 5} stroke="#1e6b3c" strokeWidth="1.5" />
               <circle cx={x} cy={baseY} r="3.5" fill="#fff" stroke="#1e6b3c" strokeWidth="1.5" />
-              <text
-                x={x}
-                y={baseY + 26}
-                textAnchor="middle"
-                fontSize="12"
-                fill="#111111"
-                fillOpacity="0.6"
-                style={mono}
-              >
+              <text x={x} y={baseY + 28} textAnchor="middle" fontSize="14" fontWeight="600" fill="#111111" fillOpacity="0.7" style={sans} suppressHydrationWarning>
                 {fmtTime(now, o.tz)}
               </text>
-              <text
-                x={x}
-                y={baseY + 44}
-                textAnchor="middle"
-                fontSize="11"
-                letterSpacing="1.5"
-                fill="#111111"
-                fillOpacity="0.42"
-                style={{ ...mono, textTransform: "" }}
-              >
-                {o.name.split(" ")[0]}
+              <text x={x} y={baseY + 47} textAnchor="middle" fontSize="12" fill="#111111" fillOpacity="0.45" style={sans}>
+                {o.short}
               </text>
             </g>
           );
