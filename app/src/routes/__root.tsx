@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -204,6 +205,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
     if (!__HF_DESIGN_INSPECTOR__) {
@@ -229,7 +231,8 @@ function RootComponent() {
       <LanguageProvider>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
-      <SiteFooter />
+      {/* the dark Automate page ends tight on its own closing — no light footer */}
+      {pathname !== "/new-automate" && <SiteFooter />}
       <FloatingBook />
       </LanguageProvider>
     </QueryClientProvider>
