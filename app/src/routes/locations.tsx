@@ -189,7 +189,7 @@ function LocationsPage() {
 
       {/* ── hero — dual-presence message left, live globe anchor right ── */}
       <section className="mx-auto max-w-6xl px-6 pt-36 pb-14 md:pt-44 md:pb-20">
-        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[minmax(0,1fr)_440px] md:gap-16">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:gap-16">
           <Reveal>
             <p className="text-[13px] font-semibold text-[#1e6b3c]">ELSIAA on the ground</p>
             <h1 className="mt-4 text-[2.6rem] font-semibold leading-[1.03] tracking-[-0.045em] md:text-[4.1rem]">
@@ -221,7 +221,7 @@ function LocationsPage() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="mx-auto flex w-[168px] flex-col items-center sm:w-[220px] md:w-full">
+            <div className="mx-auto flex w-[200px] flex-col items-center sm:w-[260px] lg:w-full">
               <ScrollGlobe size={440} />
               <p className="mt-3 text-[12px] font-medium text-[#111111]/45 md:text-[13px]">
                 Scroll to spin · drag to explore
