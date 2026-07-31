@@ -480,54 +480,41 @@ function HomeHero() {
 /* ---------- Automation: robot + walkthrough, per sketch ---------- */
 function AutomationSection() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-  // vertical-only feather; mix-blend-multiply removes the clip's white backdrop
-  const feather = "linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 7%, #000 92%, rgba(0,0,0,0) 100%)";
+  // top-only fade so the lower arms/hands are never clipped; mix-blend-multiply
+  // dissolves the clip's white backdrop into the page.
+  const feather = "linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 8%, #000 100%)";
   return (
-    <section className="border-t border-black/[0.06] bg-white py-10 md:py-16" id="automation">
-      <div className="mx-auto grid max-w-6xl items-center gap-6 px-6 md:grid-cols-[1.02fr_0.98fr] md:gap-12">
-        {/* message — stated immediately, clear top-to-bottom read */}
-        <Reveal className="order-2 md:order-1">
-          <p className="text-[13px] font-bold text-[#1e6b3c]" style={sans}>01 · Automation</p>
-          <h2 className="mt-2 text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-6xl" style={sans}>
-            One worker.<br />Every task at once.
-          </h2>
-          <p className="mt-4 max-w-md text-[16px] leading-relaxed text-[#111111]/60 md:text-[17px]" style={sans}>
-            Work that used to need people — sales, operations, finance, support — runs end to end, and proven before you commit a dollar.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {["Runs 24/7", "83% of calls handled", "41s to booked"].map((s) => (
-              <span key={s} className="rounded-full border border-black/[0.1] bg-white px-3.5 py-1.5 text-[13px] font-semibold text-[#111111]/70" style={sans}>{s}</span>
-            ))}
-          </div>
-          <a href="/automate" className="mt-7 inline-flex min-h-[50px] items-center rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={sans}>
-            See it work — live walkthrough →
-          </a>
-        </Reveal>
-
-        {/* the worker — alive, full colour, blended into the white */}
-        <div className="pointer-events-none order-1 flex justify-center md:order-2">
-          <div className="robot-breath">
-            <video
-              src="/assets/robot_work_v1.mp4"
-              poster="/assets/robot_work_poster.jpg"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
-              onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
-              aria-label="The ELSIAA AI worker — many arms, every one on a different task"
-              className="w-auto mix-blend-multiply will-change-transform"
-              style={{
-                height: "min(52vh, min(88vw, 480px))",
-                filter: "brightness(1.0) contrast(1.22) saturate(0.95)",
-                WebkitMaskImage: feather,
-                maskImage: feather,
-              }}
-            />
-          </div>
+    <section className="border-t border-black/[0.06] bg-white py-10 md:py-14" id="automation">
+      <div className="mx-auto flex max-w-6xl flex-col items-center px-6">
+        {/* the worker — alive, full colour, blended into the white. No copy. */}
+        <div className="robot-breath pointer-events-none">
+          <video
+            src="/assets/robot_work_v1.mp4"
+            poster="/assets/robot_work_poster.jpg"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
+            onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
+            aria-label="The ELSIAA AI worker — many arms, every one on a different task"
+            className="block w-auto mix-blend-multiply will-change-transform"
+            style={{
+              height: "min(50vh, min(86vw, 460px))",
+              filter: "brightness(1.0) contrast(1.22) saturate(0.95)",
+              WebkitMaskImage: feather,
+              maskImage: feather,
+            }}
+          />
         </div>
+        <a
+          href="/automate"
+          className="mt-4 inline-flex min-h-[54px] items-center rounded-full bg-[#1e6b3c] px-10 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]"
+          style={sans}
+        >
+          Discover automations →
+        </a>
       </div>
     </section>
   );
