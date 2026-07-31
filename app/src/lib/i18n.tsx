@@ -148,6 +148,7 @@ const DICT: Record<string, Row> = {
   "Runs 24/7": { es: "Funciona 24/7", fr: "Fonctionne 24/7", de: "Läuft rund um die Uhr", ru: "Работает 24/7", nl: "Draait 24/7", he: "פועל 24/7", yi: "לויפֿט 24/7" },
   "83% of calls handled": { es: "83% de llamadas atendidas", fr: "83% des appels traités", de: "83% der Anrufe bearbeitet", ru: "83% звонков обработано", nl: "83% van de oproepen afgehandeld", he: "‏83% מהשיחות טופלו", yi: "‏83% פֿון רופֿן באַהאַנדלט" },
   "41s to booked": { es: "41s hasta la reserva", fr: "41s jusqu'à la réservation", de: "41 Sek. bis zur Buchung", ru: "41с до брони", nl: "41s tot geboekt", he: "41 שנ׳ עד להזמנה", yi: "41 סעק ביז פֿאַרשריבן" },
+  "Discover automations →": { es: "Descubre las automatizaciones →", fr: "Découvrir les automatisations →", de: "Automatisierungen entdecken →", ru: "Открыть автоматизации →", nl: "Ontdek automatiseringen →", he: "לגלות אוטומציות →", yi: "אַנטדעקט אויטאָמאַטיזאַציעס →" },
   "See it work — live walkthrough →": { es: "Míralo funcionar — recorrido en vivo →", fr: "Voyez-le à l'œuvre — démonstration en direct →", de: "Sehen Sie es in Aktion — Live-Rundgang →", ru: "Посмотрите в действии — живой обзор →", nl: "Zie het werken — live rondleiding →", he: "לראות את זה עובד — סיור חי →", yi: "זעט עס אַרבעטן — לעבעדיקער דורכגאַנג →" },
 
   // ---- shared chrome: nav + footer + CTAs (visible on every page) ----
