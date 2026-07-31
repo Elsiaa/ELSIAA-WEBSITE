@@ -41,6 +41,8 @@ type Office = {
   focus: string[];
   // approximate longitude for the follow-the-sun strip (−180…180)
   lon: number;
+  // optional living-city animation overlay on the card art
+  fx?: "nyc" | "london";
 };
 
 const OFFICES: Office[] = [
@@ -57,6 +59,7 @@ const OFFICES: Office[] = [
     line: "Where the standard is set. Program delivery and client strategy for the Americas.",
     focus: ["Program delivery", "Client strategy"],
     lon: -74,
+    fx: "nyc",
   },
   {
     name: "London",
@@ -70,6 +73,7 @@ const OFFICES: Office[] = [
     line: "The European front door — where new relationships and account leadership begin.",
     focus: ["Partnerships", "Account leadership"],
     lon: 0,
+    fx: "london",
   },
   {
     name: "Geneva",
@@ -278,6 +282,7 @@ function LocationsPage() {
                     loading="lazy"
                     className="h-full w-full object-cover object-bottom transition-transform duration-700 group-hover:scale-[1.03]"
                   />
+                  {o.fx && <CityFX kind={o.fx} />}
                   <span className="absolute top-4 right-4 flex items-center gap-2 rounded-full border border-black/[0.08] bg-white/85 px-3.5 py-1.5 text-[13px] font-medium tabular-nums backdrop-blur">
                     <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
                     <LiveTime now={now} tz={o.tz} />
@@ -517,6 +522,74 @@ function CoverageArc({ now }: { now: Date | null }) {
             </g>
           );
         })}
+      </svg>
+    </div>
+  );
+}
+
+/* Living-city overlay — subtle animated life over the card's line-art skyline.
+   Positioned to the card (not the image) so it survives the object-cover crop. */
+function Cloud({ scale = 1 }: { scale?: number }) {
+  return (
+    <svg width={46 * scale} height={17 * scale} viewBox="0 0 46 17" fill="#2e9e58" fillOpacity="0.2">
+      <ellipse cx="14" cy="11" rx="12" ry="6" />
+      <ellipse cx="26" cy="8" rx="11" ry="7" />
+      <ellipse cx="35" cy="11" rx="9" ry="5.5" />
+    </svg>
+  );
+}
+
+function CityFX({ kind }: { kind: "nyc" | "london" }) {
+  if (kind === "nyc") {
+    return (
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="city-cloud absolute top-2 left-0" style={{ animationDuration: "26s" }}>
+          <Cloud />
+        </div>
+        <div className="city-cloud absolute top-7 left-0" style={{ animationDuration: "36s", animationDelay: "-14s" }}>
+          <Cloud scale={0.7} />
+        </div>
+        {/* plane crossing the skyline */}
+        <div className="city-plane absolute top-3 left-0">
+          <svg width="26" height="11" viewBox="0 0 26 11" fill="none" stroke="#1e6b3c" strokeOpacity="0.6" strokeWidth="1" strokeLinecap="round">
+            <path d="M1 6h17l5-3M6 6l3-4M6 6l3 4" />
+          </svg>
+        </div>
+        {/* helicopter with a spinning rotor, crossing the other way */}
+        <div className="city-heli absolute top-6 right-0">
+          <svg width="32" height="16" viewBox="0 0 32 16" fill="none" stroke="#1e6b3c" strokeOpacity="0.72" strokeWidth="1" strokeLinecap="round">
+            <line className="city-heli-rotor" x1="2" y1="4" x2="20" y2="4" style={{ transformOrigin: "11px 4px" }} />
+            <line x1="11" y1="4" x2="11" y2="7" />
+            <rect x="6" y="7" width="10" height="5" rx="2.5" />
+            <line x1="16" y1="9.5" x2="28" y2="9.5" />
+            <line x1="25" y1="7.5" x2="28" y2="11.5" />
+            <line x1="8" y1="12" x2="14" y2="12" />
+          </svg>
+        </div>
+      </div>
+    );
+  }
+  // london — a spinning ferris wheel (the Eye)
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <svg className="absolute" style={{ left: "33%", top: "12%", width: 74, height: 74 }} viewBox="0 0 100 100" fill="none" stroke="#1e6b3c">
+        <line x1="50" y1="50" x2="33" y2="98" strokeOpacity="0.45" strokeWidth="1.4" />
+        <line x1="50" y1="50" x2="67" y2="98" strokeOpacity="0.45" strokeWidth="1.4" />
+        <circle cx="50" cy="50" r="46" strokeOpacity="0.5" strokeWidth="1.5" />
+        <g className="city-wheel-spin" strokeOpacity="0.5" strokeWidth="1.1">
+          {Array.from({ length: 12 }).map((_, i) => {
+            const a = (i / 12) * Math.PI * 2;
+            const x = 50 + 46 * Math.cos(a);
+            const y = 50 + 46 * Math.sin(a);
+            return (
+              <g key={i}>
+                <line x1="50" y1="50" x2={x} y2={y} />
+                <circle cx={x} cy={y} r="3" fill="#ffffff" />
+              </g>
+            );
+          })}
+        </g>
+        <circle cx="50" cy="50" r="3.4" fill="#1e6b3c" stroke="none" />
       </svg>
     </div>
   );
