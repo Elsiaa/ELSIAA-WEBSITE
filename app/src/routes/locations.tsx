@@ -131,6 +131,13 @@ const REGIONS = [
   { region: "Middle East", cities: [OFFICES[4]] },
 ];
 
+// Regional U.S. offices with public street addresses (all Eastern time).
+const US_OFFICES: Array<{ city: string; state: string; address: string; tz: string }> = [
+  { city: "Baltimore", state: "Maryland", address: "2901 Fallstaff Rd, Suite 304", tz: "America/New_York" },
+  { city: "Montvale", state: "New Jersey", address: "50 Chestnut Ridge Rd, Suite 130", tz: "America/New_York" },
+  { city: "Kingston", state: "Pennsylvania", address: "150 James St", tz: "America/New_York" },
+];
+
 /* Seed the clock on the client so the first client paint already shows real
    times — no "--:--" flash. SSR renders null (a clean em-dash, not a broken
    digital placeholder); suppressHydrationWarning keeps the console quiet. */
@@ -342,6 +349,68 @@ function LocationsPage() {
               </div>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* ── U.S. offices — the regional footprint, with public addresses ── */}
+      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <p className="text-[13px] font-semibold text-[#1e6b3c]">U.S. offices</p>
+            <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
+              And a regional footprint across the U.S.
+            </h2>
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
+              Beyond the flagship cities, working offices you can visit by appointment —
+              real addresses, an ELSIAA team at each.
+            </p>
+          </Reveal>
+
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {US_OFFICES.map((o, i) => (
+              <Reveal key={o.address} delay={(i % 3) * 0.05}>
+                <div className="group flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="flex items-center gap-2.5 whitespace-nowrap text-[19px] font-semibold tracking-[-0.02em]">
+                        <img
+                          src="/assets/flags/us.png"
+                          srcSet="/assets/flags/us@2x.png 2x"
+                          alt=""
+                          className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-black/10"
+                        />
+                        {o.city}
+                      </h3>
+                      <p className="mt-1.5 text-[13px] text-[#111111]/45">
+                        {o.state} · <LiveTime now={now} tz={o.tz} /> local
+                      </p>
+                    </div>
+                    <span className="mt-1 text-[#1e6b3c]" aria-hidden>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                        <path d="M12 21s7-6.5 7-11a7 7 0 10-14 0c0 4.5 7 11 7 11z" />
+                        <circle cx="12" cy="10" r="2.5" />
+                      </svg>
+                    </span>
+                  </div>
+
+                  <p className="mt-4 text-[14px] leading-relaxed text-[#111111]/70">{o.address}</p>
+
+                  <div className="mt-auto space-y-2 border-t border-black/[0.06] pt-5">
+                    <p className="flex items-center gap-2 text-[13px] font-medium text-[#111111]/80">
+                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
+                      On-site team — visit by appointment
+                    </p>
+                    <a
+                      href="/contact"
+                      className="inline-block pt-1 text-[13px] font-medium text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                    >
+                      Book a visit →
+                    </a>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
