@@ -206,3 +206,18 @@ img, video, canvas, iframe { max-width: 100%; }
 @keyframes phoneSway { 0%,100% { transform: translateY(0) rotate(var(--tilt,0deg)); } 50% { transform: translateY(-7px) rotate(calc(var(--tilt,0deg) + 0.6deg)); } }
 .phone-sway { animation: phoneSway ease-in-out infinite; will-change: transform; }
 @media (prefers-reduced-motion: reduce) { .phone-sway { animation: none; } }
+
+/* ── living-city card effects (locations directory) ── */
+@keyframes cityPlane { 0% { transform: translate(-30%, 6px); } 100% { transform: translate(560%, -14px); } }
+@keyframes cityHeli  { 0% { transform: translateX(420%); } 100% { transform: translateX(-60%); } }
+@keyframes heliRotor { to { transform: rotate(360deg); } }
+@keyframes cityCloud { 0% { transform: translateX(-10%); opacity: 0; } 12% { opacity: .8; } 88% { opacity: .8; } 100% { transform: translateX(300%); opacity: 0; } }
+@keyframes wheelSpin { to { transform: rotate(-360deg); } }
+.city-plane { animation: cityPlane 9s linear infinite; will-change: transform; }
+.city-heli  { animation: cityHeli 15s linear infinite; will-change: transform; }
+.city-heli-rotor { animation: heliRotor .12s linear infinite; transform-origin: 50% 50%; }
+.city-cloud { animation: cityCloud linear infinite; will-change: transform, opacity; }
+.city-wheel-spin { animation: wheelSpin 9s linear infinite; transform-origin: 50% 50%; transform-box: fill-box; }
+@media (prefers-reduced-motion: reduce) {
+  .city-plane, .city-heli, .city-heli-rotor, .city-cloud, .city-wheel-spin { animation: none; }
+}
