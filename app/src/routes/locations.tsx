@@ -221,9 +221,11 @@ function LocationsPage() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="flex flex-col items-center">
+            <div className="mx-auto flex w-[168px] flex-col items-center sm:w-[220px] md:w-full">
               <ScrollGlobe size={440} />
-              <p className="mt-1 text-[13px] font-medium text-[#111111]/45">Drag to spin</p>
+              <p className="mt-3 text-[12px] font-medium text-[#111111]/45 md:text-[13px]">
+                Scroll to spin · drag to explore
+              </p>
             </div>
           </Reveal>
         </div>
