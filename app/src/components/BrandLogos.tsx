@@ -119,13 +119,22 @@ export function WhyBrandsChose() {
       </Reveal>
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
-          <a
-            href="/designs"
-            className="mt-8 inline-block text-[13px] text-[#1e6b3c]  hover:underline"
-            style={mono}
-          >
-            See the work behind the logos ↗
-          </a>
+          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3">
+            <a
+              href="/why-elsiaa"
+              className="inline-flex min-h-[50px] items-center rounded-full bg-[#1e6b3c] px-7 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]"
+              style={mono}
+            >
+              Why ELSIAA →
+            </a>
+            <a
+              href="/designs"
+              className="text-[13px] text-[#1e6b3c] hover:underline"
+              style={mono}
+            >
+              See the work behind the logos ↗
+            </a>
+          </div>
         </Reveal>
       </div>
     </section>
