@@ -349,46 +349,10 @@ function HomeHero() {
           {/* copy */}
           <div>
             <Reveal>
-              <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
-                The world changed.
-                <span className="text-[#1e6b3c]"> AI is here.</span>
+              <h1 className="max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-6xl" style={sans}>
+                Unlock the potential of your business with{" "}
+                <span className="text-[#1e6b3c]">AI</span>.
               </h1>
-            </Reveal>
-            <Reveal delay={0.08}>
-              <div className="mt-8 max-w-2xl rounded-3xl border border-black/[0.08] bg-[#fafaf8] p-6 md:p-8">
-                <p className="text-[20px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[24px]" style={sans}>
-                  ELSIAA + AI, together.
-                </p>
-                <p className="mt-2 text-[15px] leading-relaxed text-[#111111]/60" style={sans}>
-                  We put AI to work where it earns its place — and prove the result
-                  before you commit a dollar.
-                </p>
-                <div className="mt-5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                  <a
-                    href="/quote"
-                    className="flex min-h-[52px] items-center justify-between rounded-2xl border border-black/[0.1] bg-white px-5 text-[15px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c]/50"
-                    style={sans}
-                  >
-                    New client — start here <span className="text-[#1e6b3c]">→</span>
-                  </a>
-                  <a
-                    href="/portal"
-                    className="flex min-h-[52px] items-center justify-between rounded-2xl border border-black/[0.1] bg-white px-5 text-[15px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c]/50"
-                    style={sans}
-                  >
-                    Client login <span className="text-[#1e6b3c]">→</span>
-                  </a>
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={0.16}>
-              <a
-                href="/contact"
-                className="mt-6 inline-flex min-h-[52px] items-center rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:bg-[#111111]"
-                style={sans}
-              >
-                Speak to ELSIAA today →
-              </a>
             </Reveal>
           </div>
 

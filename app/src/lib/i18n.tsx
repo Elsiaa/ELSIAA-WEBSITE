@@ -48,6 +48,16 @@ const DICT: Record<string, Row> = {
   "AI Done Better": { es: "IA hecha mejor", fr: "L'IA, en mieux", de: "KI besser gemacht", ru: "ИИ, сделанный лучше", nl: "AI, beter gedaan", he: "‏AI ברמה גבוהה יותר", yi: "‏AI בעסער געטאָן" },
 
   // ---- hero ----
+  "Unlock the potential of your business with": {
+    es: "Desbloquea el potencial de tu negocio con",
+    fr: "Libérez le potentiel de votre entreprise avec",
+    de: "Entfesseln Sie das Potenzial Ihres Unternehmens mit",
+    ru: "Раскройте потенциал вашего бизнеса с помощью",
+    nl: "Ontketen het potentieel van uw bedrijf met",
+    he: "שחררו את הפוטנציאל של העסק שלכם עם",
+    yi: "אַנטשליסט דעם פּאָטענציאַל פֿון אײַער געשעפֿט מיט",
+  },
+  "Why ELSIAA →": { es: "Por qué ELSIAA →", fr: "Pourquoi ELSIAA →", de: "Warum ELSIAA →", ru: "Почему ELSIAA →", nl: "Waarom ELSIAA →", he: "למה ELSIAA →", yi: "פֿאַרוואָס ELSIAA →" },
   "The world changed.": { es: "El mundo cambió.", fr: "Le monde a changé.", de: "Die Welt hat sich verändert.", ru: "Мир изменился.", nl: "De wereld is veranderd.", he: "העולם השתנה.", yi: "די וועלט האָט זיך געביטן." },
   "AI is here.": { es: "La IA ya está aquí.", fr: "L'IA est là.", de: "KI ist da.", ru: "ИИ уже здесь.", nl: "AI is er.", he: "‏AI כבר כאן.", yi: "‏AI איז שוין דאָ." },
   "Good artists don't use AI — they leverage it. World-class design for every surface of your business.": {
