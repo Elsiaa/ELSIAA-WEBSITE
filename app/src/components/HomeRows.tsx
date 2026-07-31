@@ -337,57 +337,14 @@ function CountUp({ target }: { target: number }) {
    on. On mobile / reduced-motion it degrades to a normal hero with a live lion. */
 function HomeHero() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
-  const wrapRef = useRef<HTMLElement | null>(null);
-  const imgRef = useRef<HTMLImageElement | null>(null);
-  const glowRef = useRef<HTMLDivElement | null>(null);
-  const hintRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const img = imgRef.current;
-    const glow = glowRef.current;
-    const hint = hintRef.current;
-    const setColour = (p: number) => {
-      if (img) {
-        img.style.filter = `grayscale(${(1 - p).toFixed(3)}) saturate(${(0.2 + p * 0.95).toFixed(3)}) contrast(1.02)`;
-        img.style.transform = `scale(${(0.97 + p * 0.05).toFixed(3)})`;
-      }
-      if (glow) glow.style.opacity = String((0.12 + p * 0.88).toFixed(3));
-      if (hint) hint.style.opacity = String(Math.max(0, 1 - p * 1.8).toFixed(3));
-    };
-
-    const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isDesktop = typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches;
-    if (reduced || !isDesktop) {
-      setColour(1);
-      return;
-    }
-
-    let raf = 0;
-    const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const el = wrapRef.current;
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const runway = el.offsetHeight - window.innerHeight;
-        const p = clamp01(runway > 0 ? -rect.top / runway : 1);
-        setColour(p);
-      });
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); cancelAnimationFrame(raf); };
-  }, []);
-
-  // feather every edge into the page — with multiply-blend the photo's white
-  // background disappears and only the lion melts onto the page.
-  const feather = "radial-gradient(100% 112% at 50% 34%, #000 40%, rgba(0,0,0,0.4) 62%, rgba(0,0,0,0) 80%)";
+  // radial feather → soft edges; mix-blend-multiply dissolves the clip's white
+  // backdrop so only the living lion melts onto the page.
+  const feather = "radial-gradient(118% 122% at 50% 46%, #000 58%, rgba(0,0,0,0) 84%)";
 
   return (
-    <section ref={wrapRef} className="relative bg-white lg:h-[220vh]">
-      <div className="flex min-h-[70svh] flex-col justify-center pt-20 pb-4 lg:sticky lg:top-0 lg:h-screen lg:min-h-0 lg:justify-center lg:pt-0 lg:pb-0">
+    <section className="relative bg-white">
+      <div className="flex min-h-[74svh] flex-col justify-center pt-20 pb-8 lg:py-24">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6">
           {/* copy */}
           <div>
@@ -435,30 +392,33 @@ function HomeHero() {
             </Reveal>
           </div>
 
-          {/* the lion — comes to life as you scroll */}
-          <div className="pointer-events-none relative mx-auto hidden w-full max-w-[440px] lg:block">
-            <div className="relative mx-auto h-[440px] w-[380px] xl:h-[500px] xl:w-[430px]">
+          {/* the lion — alive and roaring, full colour, blended into the white */}
+          <div className="pointer-events-none relative mx-auto hidden w-full max-w-[480px] lg:block">
+            <div className="relative mx-auto">
               <div
-                ref={glowRef}
-                className="absolute inset-[8%] -z-10 rounded-full blur-3xl"
-                style={{ background: "radial-gradient(circle at 50% 44%, rgba(30,107,60,0.5), transparent 64%)", opacity: 0.12 }}
+                className="absolute inset-[10%] -z-10 rounded-full blur-3xl"
+                style={{ background: "radial-gradient(circle at 50% 46%, rgba(30,107,60,0.22), transparent 66%)" }}
               />
-              <img
-                ref={imgRef}
-                src="/assets/hero_lion.png"
-                alt="The ELSIAA lion — brought to life"
-                className="h-full w-full object-cover"
+              <video
+                src="/assets/lion_roar_v1.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
+                onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
+                aria-label="The ELSIAA lion, alive and roaring"
+                className="block w-full will-change-transform"
                 style={{
-                  objectPosition: "50% 12%",
                   mixBlendMode: "multiply",
                   WebkitMaskImage: feather,
                   maskImage: feather,
-                  filter: "grayscale(1) saturate(0.2) contrast(1.02)",
-                  willChange: "filter, transform",
+                  filter: "contrast(1.05) saturate(1.06)",
                 }}
               />
             </div>
-            <p className="mt-1 text-center text-[10px] leading-relaxed tracking-[0.16em] text-[#111111]/55 uppercase" style={sans}>
+            <p className="mt-2 text-center text-[10px] leading-relaxed tracking-[0.16em] text-[#111111]/55 uppercase" style={sans}>
               <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
               <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
               <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
@@ -466,10 +426,6 @@ function HomeHero() {
               <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
               <b className="font-semibold text-[#1e6b3c]">A</b>lliance
             </p>
-            <div ref={hintRef} className="mt-3 flex flex-col items-center gap-1 text-center transition-opacity duration-300">
-              <span className="text-[11px] tracking-[0.22em] text-[#1e6b3c] uppercase" style={sans}>Scroll — bring him to life</span>
-              <span className="text-[#1e6b3c]" style={{ animation: "elsiaaDot 1.6s ease-in-out infinite" }}>↓</span>
-            </div>
           </div>
         </div>
       </div>
