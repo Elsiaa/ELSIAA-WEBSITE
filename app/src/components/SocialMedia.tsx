@@ -35,10 +35,11 @@ export function PlatformBadges({ className = "" }: { className?: string }) {
   );
 }
 
-type FeedKind = "video" | "linkedin" | "facebook" | "reviews";
+type FeedKind = "video" | "instagram" | "linkedin" | "facebook" | "reviews";
 
 const HEADER: Record<FeedKind, string> = {
-  video: "For You",
+  video: "TikTok",
+  instagram: "Instagram",
   linkedin: "LinkedIn",
   facebook: "Facebook",
   reviews: "Reviews",
@@ -84,6 +85,46 @@ function FeedCards({ kind }: { kind: FeedKind }) {
           </div>
         ))}
       </>
+    );
+  }
+  if (kind === "instagram") {
+    // stories row + square photo posts with the action row
+    return (
+      <div>
+        <div className="flex gap-2.5 border-b border-black/[0.06] px-2.5 py-2">
+          {[0, 1, 2, 3, 4].map((s) => (
+            <span
+              key={s}
+              className="h-8 w-8 shrink-0 rounded-full p-[2px]"
+              style={{ background: "conic-gradient(from 210deg, #1e6b3c, #4bbf7b, #1e6b3c)" }}
+            >
+              <span className="block h-full w-full rounded-full border-2 border-white bg-[#e9ebed]" />
+            </span>
+          ))}
+        </div>
+        <div className="space-y-3 p-2">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i}>
+              <div className="flex items-center gap-1.5 pb-1.5">
+                <span className="h-5 w-5 rounded-full bg-[#1e6b3c]/15" />
+                <Bar w="34%" />
+                <span className="ml-auto text-[12px] leading-none text-[#111111]/30">···</span>
+              </div>
+              <div className="h-32 rounded-lg bg-[#eceef0]" />
+              <div className="flex items-center gap-3 pt-1.5 text-[13px] text-[#111111]/70">
+                <span>♥</span>
+                <span>💬</span>
+                <span>↗</span>
+                <span className="ml-auto">🔖</span>
+              </div>
+              <div className="mt-1 space-y-1">
+                <Bar w="30%" o={0.16} />
+                <Bar w="80%" o={0.1} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     );
   }
   if (kind === "linkedin") {
@@ -230,7 +271,7 @@ function driveFeeds(
 }
 
 const CROWD = [
-  { kind: "linkedin" as FeedKind, tilt: -8 },
+  { kind: "instagram" as FeedKind, tilt: -8 },
   { kind: "video" as FeedKind, tilt: 3 },
   { kind: "facebook" as FeedKind, tilt: 9 },
 ];
