@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 
 /*
-  ELSIAA globe — a wireframe 3D globe drawn on canvas, no libraries.
-  Emerald graticule on white, office markers with pulses, great-circle
-  arcs from New York to every office. Rotation = slow ambient spin
-  + scroll-driven spin + drag (with inertia). Reduced-motion: static.
+  ELSIAA globe — a photoreal Earth rendered on a 2D canvas, no libraries.
+  A real Blue-Marble equirectangular texture is projected onto a sphere
+  (orthographic), lit by a fixed side-light so the planet reads half in
+  daylight and half in night, sitting on a perfect white background.
+  Rotation = scroll-driven spin + gentle ambient + drag (with inertia).
+  Office cities glow emerald — softly on the day side, brighter on the night
+  side, like city lights. Reduced-motion: static, scroll/drag still allowed.
 */
 
 const OFFICES = [
-  { name: "New York", lat: 40.75, lon: -73.98, hub: true },
+  { name: "New York", lat: 40.75, lon: -73.98 },
   { name: "Los Angeles", lat: 34.05, lon: -118.24 },
   { name: "London", lat: 51.51, lon: -0.13 },
   { name: "Geneva", lat: 46.2, lon: 6.14 },
@@ -21,13 +24,13 @@ type V3 = { x: number; y: number; z: number };
 function toVec(lat: number, lon: number): V3 {
   const la = (lat * Math.PI) / 180;
   const lo = (lon * Math.PI) / 180;
+  // x → prime meridian, y → north pole, z → 90°E
   return {
     x: Math.cos(la) * Math.cos(lo),
     y: Math.sin(la),
     z: Math.cos(la) * Math.sin(lo),
   };
 }
-
 function rotY(v: V3, a: number): V3 {
   const c = Math.cos(a), s = Math.sin(a);
   return { x: v.x * c + v.z * s, y: v.y, z: -v.x * s + v.z * c };
@@ -37,18 +40,9 @@ function rotX(v: V3, a: number): V3 {
   return { x: v.x, y: v.y * c - v.z * s, z: v.y * s + v.z * c };
 }
 
-function slerp(a: V3, b: V3, t: number): V3 {
-  const dot = Math.max(-1, Math.min(1, a.x * b.x + a.y * b.y + a.z * b.z));
-  const th = Math.acos(dot);
-  if (th < 1e-4) return a;
-  const s = Math.sin(th);
-  const w1 = Math.sin((1 - t) * th) / s;
-  const w2 = Math.sin(t * th) / s;
-  return { x: a.x * w1 + b.x * w2, y: a.y * w1 + b.y * w2, z: a.z * w1 + b.z * w2 };
-}
-
-export function ScrollGlobe({ size = 420 }: { size?: number }) {
+export function ScrollGlobe({ size = 440 }: { size?: number }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -56,37 +50,67 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
     if (!ctx) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let raf = 0;
-    let dragYaw = 0;
-    let vel = 0;
-    let dragging = false;
-    let lastX = 0;
-    const tilt = -0.42;
+    const tilt = -0.34; // fixed viewing tilt so the northern hemisphere leads
 
-    let px = size;
+    // fixed side light (view space) → a stable day/night terminator: the right
+    // hemisphere (Atlantic / Europe / Africa) sits in bright daylight, the left
+    // limb falls into night. normalised.
+    let Lx = 0.47, Ly = -0.14, Lz = 0.73;
+    {
+      const m = Math.hypot(Lx, Ly, Lz);
+      Lx /= m; Ly /= m; Lz /= m;
+    }
+
+    // ── texture (sampled via an offscreen buffer) ──
+    let ready = false;
+    let TW = 0, TH = 0;
+    let tdata: Uint8ClampedArray | null = null;
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = () => {
+      TW = img.naturalWidth;
+      TH = img.naturalHeight;
+      const off = document.createElement("canvas");
+      off.width = TW;
+      off.height = TH;
+      const octx = off.getContext("2d");
+      if (!octx) return;
+      octx.drawImage(img, 0, 0);
+      try {
+        tdata = octx.getImageData(0, 0, TW, TH).data;
+        ready = true;
+      } catch {
+        ready = false;
+      }
+    };
+    img.src = "/assets/earth_equirect.png";
+
+    // ── sizing (display vs. internal render resolution) ──
+    const INT_CAP = 260; // cap the raytraced buffer for smooth scroll spin
+    let dispPx = size;
+    let intPx = size;
+    let buf: ImageData | null = null;
     const resize = () => {
       const parent = canvas.parentElement;
       const w = parent ? parent.getBoundingClientRect().width : size;
-      // clamp: never collapse to a sliver if the parent hasn't laid out yet,
-      // never exceed the requested size. (Fixes the globe rendering tiny.)
-      px = Math.round(Math.max(220, Math.min(w > 0 ? w : size, size)));
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = px * dpr;
-      canvas.height = px * dpr;
-      canvas.style.width = `${px}px`;
-      canvas.style.height = `${px}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // floor low enough that a small mobile column still shrinks the globe
+      dispPx = Math.round(Math.max(150, Math.min(w > 0 ? w : size, size)));
+      intPx = Math.min(dispPx, INT_CAP);
+      canvas.width = intPx;
+      canvas.height = intPx;
+      canvas.style.width = `${dispPx}px`;
+      canvas.style.height = `${dispPx}px`;
+      buf = ctx.createImageData(intPx, intPx);
     };
     resize();
-    // re-measure on the next frame in case the parent hadn't been laid out yet
     requestAnimationFrame(resize);
     window.addEventListener("resize", resize);
-    // track the parent column width directly so a resized/reflowed layout
-    // always re-fits the globe (more reliable than window resize alone)
     const ro =
       typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => resize()) : null;
     if (ro && canvas.parentElement) ro.observe(canvas.parentElement);
 
+    // ── interaction ──
+    let dragYaw = 0, vel = 0, dragging = false, lastX = 0;
     const onDown = (e: PointerEvent) => {
       dragging = true;
       lastX = e.clientX;
@@ -109,139 +133,149 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
     canvas.addEventListener("pointercancel", onUp);
 
     const officeVecs = OFFICES.map((o) => ({ ...o, v: toVec(o.lat, o.lon) }));
-    const hub = officeVecs.find((o) => o.hub)!;
+
+    let raf = 0;
+    let lastYaw = Number.NaN;
+    let t0 = 0; // anchor ambient spin to mount, not the raw clock, so every
+    // fresh load starts at the same Atlantic framing (and never drifts far)
 
     const draw = (t: number) => {
+      if (!t0) t0 = t;
       if (!dragging) {
         dragYaw += vel;
         vel *= 0.94;
       }
-      // gentle ambient spin + drag only. (The old scroll-driven spin whipped
-      // the globe around as you scrolled the page — dizzying and awkward with a
-      // mouse; drag + a calm auto-rotate reads as intentional on desktop.)
-      const auto = reduced ? 0 : t * 0.00008;
-      const yaw = 1.9 + auto + dragYaw;
+      const auto = reduced ? 0 : (t - t0) * 0.00003;
+      // fast scroll spin: ≈2 full revolutions within the ~420px of scroll that
+      // the hero globe is on screen, so it visibly whips around twice.
+      const scrollSpin = reduced ? 0 : (window.scrollY || 0) * 0.03;
+      // base yaw ≈ centres the Atlantic at first paint: Americas on the left,
+      // Europe & Africa on the right — the iconic Blue-Marble framing, lit.
+      const yaw = 4.2 + auto + scrollSpin + dragYaw;
 
-      const cx = px / 2;
-      const cy = px / 2;
-      // keep generous margin so the rim, the lifted arcs (up to ~1.08·R) and
-      // the city labels never clip against the canvas edge as the globe turns
-      const R = px * 0.35;
+      const cx = intPx / 2;
+      const cy = intPx / 2;
+      const R = (intPx / 2) * 0.95;
 
-      const proj = (v: V3) => {
-        const r = rotX(rotY(v, yaw), tilt);
-        return { x: cx + r.x * R, y: cy - r.y * R, z: r.z };
-      };
-
-      ctx.clearRect(0, 0, px, px);
-
-      // sphere rim
-      ctx.beginPath();
-      ctx.arc(cx, cy, R, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(17,17,17,0.14)";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      // graticule
-      const seg = 90;
-      const strokeFront = "rgba(17,17,17,0.10)";
-      const strokeBack = "rgba(30,107,60,0.05)";
-      const drawCircle = (pointAt: (i: number) => V3) => {
-        for (let pass = 0; pass < 2; pass++) {
-          ctx.beginPath();
-          let pen = false;
-          for (let i = 0; i <= seg; i++) {
-            const p = proj(pointAt(i));
-            const front = p.z <= 0;
-            const want = pass === 1 ? front : !front;
-            if (want) {
-              if (!pen) {
-                ctx.moveTo(p.x, p.y);
-                pen = true;
-              } else ctx.lineTo(p.x, p.y);
-            } else pen = false;
-          }
-          ctx.strokeStyle = pass === 1 ? strokeFront : strokeBack;
-          ctx.lineWidth = pass === 1 ? 1 : 0.8;
-          ctx.stroke();
-        }
-      };
-      for (let lat = -60; lat <= 60; lat += 30) {
-        drawCircle((i) => toVec(lat, (i / seg) * 360 - 180));
-      }
-      for (let lon = -180; lon < 180; lon += 30) {
-        drawCircle((i) => toVec((i / seg) * 180 - 90, lon));
-      }
-
-      // arcs from the hub
-      for (const o of officeVecs) {
-        if (o.hub) continue;
+      if (!ready || !tdata || !buf) {
+        // faint placeholder disc until the texture decodes
+        ctx.clearRect(0, 0, intPx, intPx);
         ctx.beginPath();
-        let pen = false;
-        for (let i = 0; i <= 60; i++) {
-          const m = slerp(hub.v, o.v, i / 60);
-          // lift the arc off the surface
-          const lift = 1 + 0.08 * Math.sin((i / 60) * Math.PI);
-          const p = proj({ x: m.x * lift, y: m.y * lift, z: m.z * lift });
-          if (p.z <= 0.12) {
-            if (!pen) {
-              ctx.moveTo(p.x, p.y);
-              pen = true;
-            } else ctx.lineTo(p.x, p.y);
-          } else pen = false;
-        }
-        ctx.strokeStyle = "rgba(30,107,60,0.45)";
-        ctx.lineWidth = 1.1;
+        ctx.arc(cx, cy, R, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(17,17,17,0.10)";
+        ctx.lineWidth = 1;
         ctx.stroke();
+        raf = requestAnimationFrame(draw);
+        return;
       }
 
-      // office markers
-      ctx.font = "600 10px -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
-      const visible: Array<{ o: (typeof officeVecs)[number]; p: { x: number; y: number; z: number } }> = [];
-      for (const o of officeVecs) {
-        const p = proj(o.v);
-        if (p.z > 0.05) continue; // back side
-        visible.push({ o, p });
-        const pulse = 2.6 + Math.sin(t * 0.004 + o.lon) * 0.9;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, pulse + 3.4, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(30,107,60,0.12)";
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 3.1, 0, Math.PI * 2);
-        ctx.fillStyle = "#1e6b3c";
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 3.1, 0, Math.PI * 2);
-        ctx.strokeStyle = "#ffffff";
-        ctx.lineWidth = 1.2;
-        ctx.stroke();
-      }
-      // labels — placed after all markers, nudged apart so neighbouring
-      // cities (London/Antwerp/Geneva) never overlap into unreadable text
-      const placedLabels: Array<{ x: number; y: number; w: number }> = [];
-      visible.sort((a, b) => a.p.y - b.p.y);
-      ctx.fillStyle = "rgba(17,17,17,0.62)";
-      for (const { o, p } of visible) {
-        const text = o.name.toUpperCase();
-        const w = ctx.measureText(text).width;
-        let lx = p.x + 8;
-        if (lx + w > px - 2) lx = p.x - 8 - w; // flip left near the edge
-        let ly = p.y + 3;
-        let moved = true;
-        let guard = 0;
-        while (moved && guard++ < 24) {
-          moved = false;
-          for (const r of placedLabels) {
-            const xOverlap = lx < r.x + r.w + 8 && r.x < lx + w + 8;
-            if (xOverlap && Math.abs(ly - r.y) < 11) {
-              ly = r.y + 11;
-              moved = true;
+      // skip the expensive raster when nothing moved (idle w/ reduced motion)
+      const moved = Number.isNaN(lastYaw) || Math.abs(yaw - lastYaw) > 0.0002;
+      if (moved) {
+        lastYaw = yaw;
+        const d = buf.data;
+        const cyaw = Math.cos(-yaw), syaw = Math.sin(-yaw);
+        const ctl = Math.cos(-tilt), stl = Math.sin(-tilt);
+        const invR = 1 / R;
+
+        for (let py = 0; py < intPx; py++) {
+          const nyRow = (py - cy) * invR;
+          let o = py * intPx * 4;
+          for (let px = 0; px < intPx; px++, o += 4) {
+            const nx = (px - cx) * invR;
+            const d2 = nx * nx + nyRow * nyRow;
+            if (d2 > 1) {
+              d[o + 3] = 0;
+              continue;
             }
+            const nz = Math.sqrt(1 - d2);
+            // view-space surface normal (screen-y down → world-y up)
+            const vx = nx, vy = -nyRow, vz = nz;
+            // undo tilt (rotX by −tilt), then yaw (rotY by −yaw) → world point
+            const y1 = vy * ctl - vz * stl;
+            const z1 = vy * stl + vz * ctl;
+            const wx = vx * cyaw + z1 * syaw;
+            const wy = y1;
+            const wz = -vx * syaw + z1 * cyaw;
+            // world unit vector → lat/lon → equirectangular uv
+            const u = (Math.atan2(wz, wx) + Math.PI) * (0.5 / Math.PI);
+            const v = (Math.PI / 2 - Math.asin(wy < -1 ? -1 : wy > 1 ? 1 : wy)) * (1 / Math.PI);
+            let tx = (u * TW) | 0;
+            let ty = (v * TH) | 0;
+            if (tx >= TW) tx = TW - 1; else if (tx < 0) tx = 0;
+            if (ty >= TH) ty = TH - 1; else if (ty < 0) ty = 0;
+            const ti = (ty * TW + tx) * 4;
+            let r = tdata[ti], g = tdata[ti + 1], b = tdata[ti + 2];
+
+            // day/night: fixed side light → half lit, half dark
+            const shade = vx * Lx + vy * Ly + vz * Lz;
+            const lit = smooth(-0.18, 0.12, shade); // 0 night · 1 day
+            const dayB = 1.16 + 0.36 * (shade > 0 ? shade : 0); // brighter day so land pops
+            const bf = 0.07 + (dayB - 0.07) * lit;
+            r *= bf; g *= bf; b *= bf;
+            // cool the night side toward deep blue-black
+            if (lit < 1) {
+              const nightAmt = (1 - lit);
+              b += (30 - b) * nightAmt * 0.45;
+              r *= 1 - nightAmt * 0.25;
+              g *= 1 - nightAmt * 0.12;
+            }
+            const rr = Math.sqrt(d2);
+            // spherical volume: darken toward the limb
+            const rim = 1 - 0.42 * d2 * d2;
+            r *= rim; g *= rim; b *= rim;
+            // atmospheric limb — a bright blue halo on the sunlit edge (the
+            // single biggest "this is a real planet" cue)
+            const limb = smooth(0.86, 1.0, rr);
+            if (limb > 0 && lit > 0.05) {
+              const glow = limb * lit;
+              r += 120 * glow * 0.35;
+              g += 165 * glow * 0.55;
+              b += 255 * glow * 0.8;
+            }
+
+            // antialiased rim → melt into the white page
+            let a = 255;
+            if (rr > 0.985) a = 255 * clamp01((1 - rr) / 0.015);
+
+            d[o] = r > 255 ? 255 : r;
+            d[o + 1] = g > 255 ? 255 : g;
+            d[o + 2] = b > 255 ? 255 : b;
+            d[o + 3] = a;
           }
         }
-        placedLabels.push({ x: lx, y: ly, w });
-        ctx.fillText(text, lx, ly);
+        ctx.putImageData(buf, 0, 0);
+
+        // ── outer atmosphere halo — a faint blue bloom just beyond the rim,
+        // lifting the planet off the white and reading as air around it ──
+        const halo = ctx.createRadialGradient(cx, cy, R * 0.92, cx, cy, R * 1.07);
+        halo.addColorStop(0, "rgba(120,170,255,0)");
+        halo.addColorStop(0.88, "rgba(120,170,255,0)");
+        halo.addColorStop(0.965, "rgba(140,185,255,0.30)");
+        halo.addColorStop(1, "rgba(150,190,255,0)");
+        ctx.fillStyle = halo;
+        ctx.fillRect(0, 0, intPx, intPx);
+
+        // ── office markers (drawn over the raster each rendered frame) ──
+        for (const oc of officeVecs) {
+          const rv = rotX(rotY(oc.v, yaw), tilt); // world → view
+          if (rv.z <= 0.02) continue; // back hemisphere
+          const sx = cx + rv.x * R;
+          const sy = cy - rv.y * R;
+          const shadeM = rv.x * Lx + rv.y * Ly + rv.z * Lz;
+          const night = shadeM < 0.02;
+          const pulse = 1 + Math.sin(t * 0.004 + oc.lon) * 0.28;
+          // glow
+          ctx.beginPath();
+          ctx.arc(sx, sy, (night ? 4.2 : 3.4) * pulse, 0, Math.PI * 2);
+          ctx.fillStyle = night ? "rgba(120,240,170,0.45)" : "rgba(30,107,60,0.28)";
+          ctx.fill();
+          // core
+          ctx.beginPath();
+          ctx.arc(sx, sy, 1.7, 0, Math.PI * 2);
+          ctx.fillStyle = night ? "#d8ffe8" : "#1e6b3c";
+          ctx.fill();
+        }
       }
 
       raf = requestAnimationFrame(draw);
@@ -262,10 +296,19 @@ export function ScrollGlobe({ size = 420 }: { size?: number }) {
   return (
     <canvas
       ref={canvasRef}
-      aria-label="ELSIAA offices on a rotating globe — drag to spin"
+      aria-label="ELSIAA offices on a photoreal rotating globe — scroll or drag to spin"
       className="mx-auto block cursor-grab touch-pan-y select-none active:cursor-grabbing"
+      style={{ filter: "drop-shadow(0 26px 40px rgba(18,28,60,0.24))" }}
     />
   );
+}
+
+function clamp01(x: number) {
+  return x < 0 ? 0 : x > 1 ? 1 : x;
+}
+function smooth(a: number, b: number, x: number) {
+  const t = clamp01((x - a) / (b - a));
+  return t * t * (3 - 2 * t);
 }
 
 /* count-up for the numbers around the globe.
