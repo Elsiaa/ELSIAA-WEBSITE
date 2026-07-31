@@ -45,7 +45,7 @@ type Office = {
 
 const OFFICES: Office[] = [
   {
-    name: "New York City",
+    name: "New York",
     short: "New York",
     country: "United States",
     flag: "us",
@@ -287,7 +287,7 @@ function LocationsPage() {
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <h3 className="flex items-center gap-2.5 text-[19px] font-semibold tracking-[-0.02em]">
+                      <h3 className="flex items-center gap-2.5 whitespace-nowrap text-[19px] font-semibold tracking-[-0.02em]">
                         <img
                           src={`/assets/flags/${o.flag}.png`}
                           srcSet={`/assets/flags/${o.flag}@2x.png 2x`}
@@ -369,7 +369,7 @@ function LocationsPage() {
                     <div className="mt-2 space-y-1.5">
                       {r.cities.map((c) => (
                         <div key={c.name} className="flex items-baseline justify-between gap-6">
-                          <span className="flex items-center gap-2.5 text-[15px] font-medium tracking-[-0.01em]">
+                          <span className="flex items-center gap-2.5 whitespace-nowrap text-[15px] font-medium tracking-[-0.01em]">
                             <img
                               src={`/assets/flags/${c.flag}.png`}
                               srcSet={`/assets/flags/${c.flag}@2x.png 2x`}
