@@ -1163,56 +1163,82 @@ function FinalCTA() {
   );
 }
 
-/* ---------- automation capability catalog — the division's full range, tightened ---------- */
+/* ---------- automation capability catalog — one single-row carousel ---------- */
 function AutomationCatalog() {
+  const sans = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  const rowRef = useRef<HTMLDivElement | null>(null);
+  const nudge = (dir: number) => {
+    const el = rowRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.8, 520), behavior: "smooth" });
+  };
   return (
-    <section className="border-b border-black/[0.06] bg-white py-16 md:py-20">
+    <section className="border-b border-black/[0.06] bg-white py-10 md:py-12" id="automation-catalog">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-xl">
-              <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+              <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: sans }}>
                 Everything we can automate — and build to run it.
               </h3>
-              <p className="mt-3 text-[14.5px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+              <p className="mt-3 text-[14.5px] leading-relaxed text-[#111111]/60" style={{ fontFamily: sans }}>
                 Sales, operations, finance, support — from the first wireframe to the cloud it runs on.
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <a href="/services" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-6 py-3 text-[13px] font-bold text-white  transition-all hover:bg-[#111111]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                Explore Services →
-              </a>
-              <a href="https://plumbing.demo.elsiaa.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#111111]/15 px-6 py-3 text-[13px] font-bold text-[#111111]  transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                See it run live ↗
-              </a>
-            </div>
+            <a href="/automate" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3 text-[13px] font-bold text-white transition-all hover:bg-[#111111]" style={{ fontFamily: sans }}>
+              Discover automations →
+            </a>
           </div>
         </Reveal>
+
+        {/* single row — a carousel; grey arrows make the affordance obvious */}
         <Reveal delay={0.08}>
-          <div className="mt-9 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-4">
-            {AUTOSOFT.map((s, i) => (
-              <a
-                key={`${s.name}-${i}`}
-                href="/services"
-                className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]"
-              >
-                <div className="flex items-center justify-between">
-                  <h4 className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                    {s.name}
-                  </h4>
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[13px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">
-                    →
-                  </span>
-                </div>
-                <ul className="mt-2.5 space-y-1">
-                  {s.items.map((it) => (
-                    <li key={it} className="text-[13px] leading-snug text-[#111111]/55" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </a>
-            ))}
+          <div className="relative mt-7">
+            <button
+              type="button"
+              aria-label="Scroll left"
+              onClick={() => nudge(-1)}
+              className="absolute top-1/2 -left-3 z-10 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white/90 text-[18px] text-[#111111]/55 shadow-[0_10px_30px_-12px_rgba(17,17,17,0.35)] backdrop-blur transition-all hover:border-[#1e6b3c]/40 hover:text-[#1e6b3c] md:grid"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              aria-label="Scroll right"
+              onClick={() => nudge(1)}
+              className="absolute top-1/2 -right-3 z-10 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white/90 text-[18px] text-[#111111]/55 shadow-[0_10px_30px_-12px_rgba(17,17,17,0.35)] backdrop-blur transition-all hover:border-[#1e6b3c]/40 hover:text-[#1e6b3c] md:grid"
+            >
+              ›
+            </button>
+
+            <div
+              ref={rowRef}
+              className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {AUTOSOFT.map((s, i) => (
+                <a
+                  key={`${s.name}-${i}`}
+                  href="/services"
+                  className="group flex w-[248px] shrink-0 snap-start flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]"
+                >
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={{ fontFamily: sans }}>
+                      {s.name}
+                    </h4>
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[13px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">
+                      →
+                    </span>
+                  </div>
+                  <ul className="mt-2.5 space-y-1">
+                    {s.items.map((it) => (
+                      <li key={it} className="text-[13px] leading-snug text-[#111111]/55" style={{ fontFamily: sans }}>
+                        {it}
+                      </li>
+                    ))}
+                  </ul>
+                </a>
+              ))}
+            </div>
           </div>
         </Reveal>
       </div>
