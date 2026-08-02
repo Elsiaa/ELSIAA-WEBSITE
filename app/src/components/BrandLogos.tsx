@@ -63,7 +63,7 @@ function LogoRow() {
               src={src}
               alt={dup === 0 ? alt : ""}
               aria-hidden={dup === 1 || undefined}
-              className={`${h} w-auto flex-none opacity-50 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0`}
+              className={`${h} w-auto flex-none opacity-90 transition-all duration-300 hover:-translate-y-0.5 hover:opacity-100`}
               loading="lazy"
             />
           )),

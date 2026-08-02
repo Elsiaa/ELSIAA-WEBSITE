@@ -200,12 +200,6 @@ export function ElsiaaExperience() {
           >
             The ELSIAA signature
           </p>
-          <h1
-            className="mt-4 text-6xl leading-[0.95] font-semibold tracking-[-0.045em] text-[#111111] md:text-9xl"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            Partner with us in curing bad design.
-          </h1>
         </div>
 
         {/* the film — on screen from the very first frame */}
@@ -239,12 +233,6 @@ export function ElsiaaExperience() {
 function StaticJourney() {
   return (
     <section className="flex min-h-dvh flex-col items-center justify-center gap-10 bg-white px-6 py-24 text-center">
-      <h1
-        className="text-5xl font-semibold tracking-[-0.03em] text-[#111111] md:text-7xl"
-        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-      >
-        Partner with us in curing bad design.
-      </h1>
       <img
         src={STILL_SRC}
         alt="Bad design being torn right out of the screen"
