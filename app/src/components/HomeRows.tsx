@@ -429,43 +429,133 @@ function HomeHero() {
 /* ---------- Automation: robot + walkthrough, per sketch ---------- */
 function AutomationSection() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-  // top-only fade so the lower arms/hands are never clipped; mix-blend-multiply
-  // dissolves the clip's white backdrop into the page.
-  const feather = "linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 8%, #000 100%)";
   return (
-    <section className="border-t border-black/[0.06] bg-white py-10 md:py-14" id="automation">
-      <div className="mx-auto flex max-w-6xl flex-col items-center px-6">
-        {/* the worker — alive, full colour, blended into the white. No copy. */}
-        <div className="robot-breath pointer-events-none">
-          <video
-            src="/assets/robot_work_v1.mp4"
-            poster="/assets/robot_work_poster.jpg"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
-            onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
-            aria-label="The ELSIAA AI worker — many arms, every one on a different task"
-            className="block w-auto mix-blend-multiply will-change-transform"
-            style={{
-              height: "min(50vh, min(86vw, 460px))",
-              filter: "brightness(1.0) contrast(1.22) saturate(0.95)",
-              WebkitMaskImage: feather,
-              maskImage: feather,
-            }}
-          />
-        </div>
+    <section className="border-t border-black/[0.06] bg-white py-8 md:py-12" id="automation">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-6 text-center">
+        {/* titled like the design centrepiece */}
+        <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
+          Automations
+        </h2>
+        {/* the ELSIAA robot — recreated in brand colours, waves as you scroll */}
+        <ToyRobot />
         <a
           href="/automate"
-          className="mt-4 inline-flex min-h-[54px] items-center rounded-full bg-[#1e6b3c] px-10 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]"
+          className="inline-flex min-h-[54px] items-center rounded-full bg-[#1e6b3c] px-10 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]"
           style={sans}
         >
           Discover automations →
         </a>
       </div>
     </section>
+  );
+}
+
+/* A retro tin toy robot, recreated as clean vector art in the ELSIAA palette
+   (grey body, green accents, black outlines, white). Its right arm waves as
+   you scroll — the arm's rotation is driven by the section's scroll position. */
+function ToyRobot() {
+  const armRef = useRef<SVGGElement | null>(null);
+  useEffect(() => {
+    const arm = armRef.current;
+    if (!arm) return;
+    const section = arm.closest("section");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || !section) {
+      arm.setAttribute("transform", "rotate(-12 180 132)");
+      return;
+    }
+    const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+    let raf = 0;
+    const tick = () => {
+      const r = section.getBoundingClientRect();
+      const p = clamp01((window.innerHeight - r.top) / (window.innerHeight + r.height));
+      // raised, waving arm — oscillates as the section travels the viewport
+      const angle = -14 + Math.sin(p * Math.PI * 8) * 15;
+      arm.setAttribute("transform", `rotate(${angle.toFixed(2)} 180 132)`);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const OUT = "#111111";
+  const BODY = "#d0d5d2";
+  const BODY_D = "#aab0ac";
+  const GREEN = "#1e6b3c";
+  const GREEN_L = "#2e9e58";
+  const seg = (cx: number, cy: number, r: number) => (
+    <circle cx={cx} cy={cy} r={r} fill={BODY_D} stroke={OUT} strokeWidth={2} />
+  );
+
+  return (
+    <div className="robot-breath pointer-events-none w-full max-w-[300px]">
+      <svg viewBox="0 0 240 320" className="block w-full" role="img" aria-label="The ELSIAA robot, waving">
+        {/* antennae */}
+        <line x1="108" y1="46" x2="98" y2="18" stroke={OUT} strokeWidth={2} />
+        <line x1="132" y1="46" x2="146" y2="16" stroke={OUT} strokeWidth={2} />
+        <circle cx="98" cy="16" r="5" fill={GREEN_L} stroke={OUT} strokeWidth={2} />
+        <circle cx="146" cy="14" r="5" fill={GREEN_L} stroke={OUT} strokeWidth={2} />
+
+        {/* left arm (static, hanging) */}
+        <g>
+          {seg(52, 142, 9)}{seg(48, 156, 8)}{seg(46, 169, 7)}{seg(47, 181, 6)}
+          <circle cx="47" cy="192" r="9" fill={BODY} stroke={OUT} strokeWidth={2} />
+        </g>
+
+        {/* right arm (waves) — rotates around the shoulder (180,132) */}
+        <g ref={armRef} style={{ transformBox: "view-box" }}>
+          {seg(190, 124, 9)}{seg(199, 112, 8)}{seg(207, 100, 7)}{seg(213, 90, 6)}
+          <circle cx="216" cy="80" r="10" fill={BODY} stroke={OUT} strokeWidth={2} />
+          {/* little thumb so it reads as a waving hand */}
+          <circle cx="207" cy="74" r="4" fill={BODY} stroke={OUT} strokeWidth={2} />
+        </g>
+
+        {/* head */}
+        <rect x="72" y="46" width="96" height="66" rx="14" fill={BODY} stroke={OUT} strokeWidth={2} />
+        <rect x="80" y="54" width="80" height="42" rx="8" fill="#eef1ef" stroke={OUT} strokeWidth={1.5} />
+        {/* eyes */}
+        <circle cx="104" cy="74" r="9" fill="#fff" stroke={OUT} strokeWidth={1.6} />
+        <circle cx="104" cy="74" r="4" fill={GREEN} />
+        <circle cx="136" cy="74" r="9" fill="#fff" stroke={OUT} strokeWidth={1.6} />
+        <circle cx="136" cy="74" r="4" fill={GREEN} />
+        {/* mouth grille */}
+        <rect x="98" y="90" width="44" height="8" rx="2" fill={OUT} />
+        {/* side knobs (ears) */}
+        <circle cx="66" cy="76" r="6" fill={BODY_D} stroke={OUT} strokeWidth={2} />
+        <rect x="168" y="68" width="8" height="16" rx="3" fill={GREEN_L} stroke={OUT} strokeWidth={2} />
+        <circle cx="181" cy="76" r="6" fill={GREEN} stroke={OUT} strokeWidth={2} />
+
+        {/* neck */}
+        <rect x="108" y="110" width="24" height="10" fill={BODY_D} stroke={OUT} strokeWidth={2} />
+
+        {/* body */}
+        <rect x="60" y="118" width="120" height="114" rx="16" fill={BODY} stroke={OUT} strokeWidth={2} />
+        {/* chest control panel */}
+        <rect x="72" y="132" width="96" height="62" rx="8" fill="#23282a" stroke={OUT} strokeWidth={2} />
+        {/* two gauges */}
+        {[96, 144].map((cx) => (
+          <g key={cx}>
+            <rect x={cx - 18} y="140" width="36" height="30" rx="3" fill="#eef1ef" stroke={OUT} strokeWidth={1.4} />
+            <path d={`M ${cx - 12} 160 A 12 12 0 0 1 ${cx + 12} 160`} fill="none" stroke={GREEN} strokeWidth={1.6} />
+            <line x1={cx} y1="160" x2={cx + 7} y2="151" stroke={GREEN_L} strokeWidth={1.8} />
+            <circle cx={cx} cy="160" r="2" fill={OUT} />
+          </g>
+        ))}
+        {/* knob row */}
+        {[86, 106, 134, 154].map((cx) => (
+          <circle key={cx} cx={cx} cy="182" r="4.5" fill={BODY_D} stroke={OUT} strokeWidth={1.6} />
+        ))}
+        {/* power light */}
+        <circle cx="120" cy="212" r="5" fill={GREEN_L} stroke={OUT} strokeWidth={2} />
+
+        {/* legs */}
+        <rect x="84" y="232" width="28" height="52" rx="5" fill={BODY} stroke={OUT} strokeWidth={2} />
+        <rect x="128" y="232" width="28" height="52" rx="5" fill={BODY} stroke={OUT} strokeWidth={2} />
+        {/* green feet */}
+        <rect x="76" y="280" width="42" height="18" rx="6" fill={GREEN} stroke={OUT} strokeWidth={2} />
+        <rect x="122" y="280" width="42" height="18" rx="6" fill={GREEN} stroke={OUT} strokeWidth={2} />
+      </svg>
+    </div>
   );
 }
 
