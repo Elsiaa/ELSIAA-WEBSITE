@@ -59,7 +59,7 @@ function ClientsPage() {
       </section>
 
       {/* two paths */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 md:py-20">
+ <section className="bg-[#F5F5F3] px-6 py-16 md:py-20">
         <div className="mx-auto grid max-w-5xl gap-5 md:grid-cols-2">
           {/* new clients */}
           <Reveal>
@@ -94,7 +94,7 @@ function ClientsPage() {
       </section>
 
       {/* how we work */}
-      <section className="border-t border-black/[0.06] bg-white px-6 py-20 md:py-24">
+ <section className="bg-white px-6 py-20 md:py-24">
         <div className="mx-auto max-w-5xl">
           <Reveal>
             <p className={eyebrow} style={mono}>How we work</p>
@@ -115,7 +115,7 @@ function ClientsPage() {
       </section>
 
       {/* what to expect */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-20 md:py-24">
+ <section className="bg-[#F5F5F3] px-6 py-20 md:py-24">
         <div className="mx-auto max-w-5xl">
           <Reveal>
             <p className={eyebrow} style={mono}>What to expect</p>
@@ -135,7 +135,7 @@ function ClientsPage() {
       </section>
 
       {/* results */}
-      <section className="border-t border-black/[0.06] bg-white px-6 py-20 md:py-24">
+ <section className="bg-white px-6 py-20 md:py-24">
         <div className="mx-auto max-w-5xl">
           <Reveal>
             <p className={eyebrow} style={mono}>Results</p>

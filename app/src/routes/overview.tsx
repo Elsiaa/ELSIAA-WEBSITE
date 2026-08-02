@@ -97,7 +97,7 @@ function Overview() {
       </section>
 
       {/* the gap */}
-      <section className="border-t border-black/[0.06] bg-[#070907] px-6 py-24 text-center text-[#F5F5F3] md:py-32">
+ <section className="bg-[#070907] px-6 py-24 text-center text-[#F5F5F3] md:py-32">
         <Reveal>
           <h2
             className="mx-auto max-w-3xl text-3xl font-semibold leading-[1.15] tracking-[-0.035em] md:text-5xl"
@@ -116,7 +116,7 @@ function Overview() {
       </section>
 
       {/* what we actually ship */}
-      <section className="border-t border-black/[0.06] bg-white px-6 py-24 md:py-28">
+ <section className="bg-white px-6 py-24 md:py-28">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-bold text-[#1e6b3c]" style={sans}>
@@ -167,7 +167,7 @@ function Overview() {
       </section>
 
       {/* proof first */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-24 text-center md:py-32">
+ <section className="bg-[#F5F5F3] px-6 py-24 text-center md:py-32">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={sans}>
             Proof first.

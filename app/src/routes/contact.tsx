@@ -73,7 +73,7 @@ function ContactPage() {
       </section>
 
       {/* 2 · Message form */}
-      <section id="message" className="scroll-mt-24 border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 md:py-20">
+ <section id="message" className="scroll-mt-24 bg-[#F5F5F3] px-6 py-16 md:py-20">
         <div className="mx-auto max-w-5xl">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
             <Reveal>
@@ -91,7 +91,7 @@ function ContactPage() {
       </section>
 
       {/* 3 · Direct contact — corporate email + phone cards */}
-      <section className="border-t border-black/[0.06] px-6 py-16 md:py-20">
+ <section className="px-6 py-16 md:py-20">
         <div className="mx-auto max-w-5xl">
           <p className={eyebrow} style={mono}>Reach us directly</p>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -126,7 +126,7 @@ function ContactPage() {
       </section>
 
       {/* 4 · Book a call (calendar) */}
-      <section id="book" className="scroll-mt-24 border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 md:py-20">
+ <section id="book" className="scroll-mt-24 bg-[#F5F5F3] px-6 py-16 md:py-20">
         <div className="mx-auto max-w-5xl">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
             <Reveal className="min-w-0 lg:sticky lg:top-32 lg:self-start">
@@ -144,7 +144,7 @@ function ContactPage() {
       </section>
 
       {/* 5 · How it works */}
-      <section className="border-t border-black/[0.06] px-6 py-20 md:py-24">
+ <section className="px-6 py-20 md:py-24">
         <div className="mx-auto max-w-5xl">
           <Reveal>
             <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl" style={inter}>From first call to running system</h2>
@@ -164,7 +164,7 @@ function ContactPage() {
       </section>
 
       {/* 6 · Offices */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 md:py-20">
+ <section className="bg-[#F5F5F3] px-6 py-16 md:py-20">
         <div className="mx-auto max-w-5xl">
           <p className="text-[13px] text-[#111111]/45 " style={mono}>Offices</p>
           <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-lg font-medium tracking-[-0.01em] text-[#111111] md:text-xl" style={inter}>

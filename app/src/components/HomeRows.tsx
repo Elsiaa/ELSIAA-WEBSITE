@@ -171,7 +171,7 @@ function DivisionRow({
   extra?: React.ReactNode;
 }) {
   return (
-    <section className="border-t border-black/[0.06] bg-white py-8 md:py-12">
+ <section className="bg-white py-8 md:py-12">
       <div className="mx-auto w-full max-w-6xl px-6">
         {/* header + graphic — one clean composed row */}
         <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-[minmax(0,1fr)_640px] md:gap-6">
@@ -337,20 +337,35 @@ function CountUp({ target }: { target: number }) {
    on. On mobile / reduced-motion it degrades to a normal hero with a live lion. */
 function HomeHero() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
-  const lionRef = useRef<HTMLImageElement | null>(null);
+  const vidRef = useRef<HTMLVideoElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
 
-  // The lion is the ELSIAA logo mark itself — a front-facing geometric face.
-  // As you scroll it comes alive: a subtle scale-forward and a rising emerald
-  // glow behind it.
+  // The lion is the ELSIAA logo mark, animated: mouth closed at the top, and it
+  // opens into a full roar AS YOU SCROLL (the clip's currentTime is scrubbed
+  // from scroll position). A rising emerald glow + slight scale add life.
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const v = vidRef.current;
+    if (!v) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) { v.loop = true; v.play().catch(() => {}); return; }
+    v.pause();
+    v.play().then(() => v.pause()).catch(() => {}); // prime decoding for seeks
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
     let raf = 0;
     const tick = () => {
       const sc = window.scrollY || document.documentElement.scrollTop || 0;
-      const p = clamp01(sc / (window.innerHeight * 0.8));
-      if (lionRef.current) lionRef.current.style.transform = `scale(${(1 + p * 0.07).toFixed(3)})`;
+      // complete the full roar within half a screen of scroll, so the whole
+      // roar is seen while the lion is still on screen
+      const p = clamp01(sc / (window.innerHeight * 0.5));
+      const d = v.duration;
+      if (d && !Number.isNaN(d)) {
+        const target = Math.min(d - 0.04, p * d);
+        const cur = v.currentTime;
+        if (Math.abs(target - cur) > 0.02) {
+          try { v.currentTime = cur + (target - cur) * 0.5; } catch { /* seeking */ }
+        }
+      }
+      if (v) v.style.transform = `scale(${(1 + p * 0.06).toFixed(3)})`;
       if (glowRef.current) glowRef.current.style.opacity = (0.14 + p * 0.5).toFixed(3);
       raf = requestAnimationFrame(tick);
     };
@@ -369,19 +384,29 @@ function HomeHero() {
           </h1>
         </Reveal>
 
-        {/* the lion — the ELSIAA logo, front-facing, comes alive on scroll */}
+        {/* the lion — the ELSIAA logo, front-facing, roars as you scroll */}
         <div className="pointer-events-none relative mt-8 w-full max-w-[380px]">
           <div
             ref={glowRef}
             className="absolute inset-[14%] -z-10 rounded-full blur-3xl"
             style={{ background: "radial-gradient(circle at 50% 46%, rgba(30,107,60,0.45), transparent 66%)", opacity: 0.14 }}
           />
-          <img
-            ref={lionRef}
-            src="/assets/elsiaa-lion.png"
-            alt="The ELSIAA lion"
+          <video
+            ref={vidRef}
+            src="/assets/lion_logo_roar_v1.mp4"
+            muted
+            playsInline
+            preload="auto"
+            aria-label="The ELSIAA lion — roars as you scroll"
             className="mx-auto block w-full will-change-transform"
-            style={{ mixBlendMode: "multiply" }}
+            style={{
+              mixBlendMode: "multiply",
+              // push the near-white clip background to pure white and feather
+              // the edges so only the lion sits on the page
+              filter: "brightness(1.07) contrast(1.05)",
+              WebkitMaskImage: "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
+              maskImage: "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
+            }}
           />
         </div>
 
@@ -397,6 +422,28 @@ function HomeHero() {
           <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
           <b className="font-semibold text-[#1e6b3c]">A</b>lliance
         </p>
+
+        {/* thin locations ticker — a quiet marquee of where ELSIAA is */}
+        <a
+          href="/locations"
+          className="pointer-events-auto group mt-7 block w-full max-w-[620px] overflow-hidden border-t border-black/[0.07] py-2.5"
+          aria-label="Our locations"
+        >
+          <div className="loc-ticker flex w-max whitespace-nowrap">
+            {[0, 1].map((copy) => (
+              <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
+                {["New York", "Los Angeles", "London", "Geneva", "Antwerp", "Tel Aviv", "Baltimore", "Montvale", "Kingston"].map((c) => (
+                  <span key={c} className="flex items-center">
+                    <span className="px-5 text-[11px] font-medium tracking-[0.2em] text-[#111111]/45 uppercase transition-colors group-hover:text-[#111111]/70" style={sans}>
+                      {c}
+                    </span>
+                    <span className="text-[#1e6b3c]/60" aria-hidden>·</span>
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </a>
       </div>
     </section>
   );
@@ -406,7 +453,7 @@ function HomeHero() {
 function AutomationSection() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   return (
-    <section className="border-t border-black/[0.06] bg-white pt-8 pb-2 md:pt-12 md:pb-3" id="automation">
+ <section className="bg-white pt-8 pb-2 md:pt-12 md:pb-3" id="automation">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 text-center">
         {/* titled like the design centrepiece */}
         <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
@@ -595,7 +642,7 @@ function HeroCards() {
     },
   ];
   return (
-    <section className="border-t border-black/[0.06] bg-white py-14 md:py-20">
+ <section className="bg-white py-14 md:py-20">
       <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           {items.map((it, i) => (
@@ -1058,7 +1105,7 @@ const MERCH = [
 
 function MerchStrip() {
   return (
-    <section className="border-t border-black/[0.06] bg-white py-8 md:py-12">
+ <section className="bg-white py-8 md:py-12">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
           <p
@@ -1121,7 +1168,7 @@ function MerchStrip() {
 /* ---------- closing CTA — the next step, unmissable ---------- */
 function FinalCTA() {
   return (
-    <section className="border-t border-black/[0.06] bg-[#0c0c0c] py-10 text-white md:py-14">
+ <section className="bg-[#0c0c0c] py-10 text-white md:py-14">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <Reveal>
           <p
@@ -1182,7 +1229,7 @@ function AutomationCatalog() {
     el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.8, 520), behavior: "smooth" });
   };
   return (
-    <section className="border-b border-black/[0.06] bg-white pb-12 pt-2 md:pb-14 md:pt-3" id="automation-catalog">
+ <section className="bg-white pb-12 pt-2 md:pb-14 md:pt-3" id="automation-catalog">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -1343,7 +1390,7 @@ function DesignDivision() {
 
   if (reduced) {
     return (
-      <section className="border-t border-black/[0.06] bg-white py-8 md:py-12">
+ <section className="bg-white py-8 md:py-12">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 px-6 text-center">
           <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={inter}>Design</h2>
           <Sphere live />
@@ -1359,7 +1406,7 @@ function DesignDivision() {
 
   return (
     <>
-      <section ref={wrapRef} className="relative border-t border-black/[0.06] bg-white" style={{ height: "170vh" }}>
+ <section ref={wrapRef} className="relative bg-white" style={{ height: "170vh" }}>
         <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-4 overflow-hidden px-6 text-center">
           <div>
             <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
@@ -1419,7 +1466,7 @@ function ExpandSection({ title, blurb, children }: { title: string; blurb: strin
   const [open, setOpen] = useState(false);
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
   return (
-    <section className="border-t border-black/[0.06]">
+ <section className="">
       <button
         onClick={() => setOpen(!open)}
         className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-7 text-left transition-colors hover:bg-black/[0.015] md:py-9"

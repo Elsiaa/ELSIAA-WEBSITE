@@ -46,7 +46,7 @@ const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-black/[0.08] bg-white text-[#111111]">
+ <footer className="bg-white text-[#111111]">
       <div className="mx-auto max-w-6xl px-6 py-10 md:py-16">
         <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-[minmax(0,1fr)_auto_auto_auto] md:gap-16">
           {/* brand + direct */}

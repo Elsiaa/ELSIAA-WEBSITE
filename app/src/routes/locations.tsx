@@ -239,7 +239,7 @@ function LocationsPage() {
       </section>
 
       {/* ── proof bar ── */}
-      <section className="border-y border-black/[0.06]">
+ <section className="">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid grid-cols-2 gap-y-8 py-10 md:grid-cols-4 md:py-12">
             {[
@@ -353,7 +353,7 @@ function LocationsPage() {
       </section>
 
       {/* ── U.S. offices — the regional footprint, with public addresses ── */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 md:py-24">
+ <section className="bg-[#F5F5F3] px-6 py-16 md:py-24">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-semibold text-[#1e6b3c]">U.S. offices</p>
@@ -415,7 +415,7 @@ function LocationsPage() {
       </section>
 
       {/* ── follow the sun — one clean coverage strip, full city names ── */}
-      <section className="border-y border-black/[0.06] bg-[#F5F5F3]">
+ <section className="bg-[#F5F5F3]">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] md:items-center md:gap-16">
             <Reveal>
@@ -479,7 +479,7 @@ function LocationsPage() {
       </section>
 
       {/* ── insured strip ── */}
-      <section className="border-t border-black/[0.06] bg-white">
+ <section className="bg-white">
         <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 px-6 py-10 md:flex-row md:items-center md:justify-between">
           <p className="flex items-center gap-3 text-[15px] font-medium text-[#111111]/80">
             <span className="inline-block h-2 w-2 rounded-full bg-[#1e6b3c]" />
@@ -493,7 +493,7 @@ function LocationsPage() {
       </section>
 
       {/* ── closing ── */}
-      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-20 text-center md:py-28">
+ <section className="mx-auto max-w-6xl px-6 py-20 text-center md:py-28">
         <Reveal>
           <h2 className="mx-auto max-w-3xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
             Tell us where you are. We'll be there — or already awake for you.

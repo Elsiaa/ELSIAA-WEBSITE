@@ -130,7 +130,7 @@ export function HomeShowcase() {
   }, []);
 
   return (
-    <section className="border-t border-black/[0.06] bg-gradient-to-b from-white to-[#F5F5F3] py-24">
+ <section className="bg-gradient-to-b from-white to-[#F5F5F3] py-24">
       <style>{`
         @keyframes hmflow { 0% { width: 12% } 55% { width: 100% } 100% { width: 12% } }
         .hm-auto { animation: hmflow 3.2s ease-in-out infinite; }

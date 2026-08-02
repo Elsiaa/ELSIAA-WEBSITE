@@ -81,7 +81,7 @@ function Careers() {
       </section>
 
       {/* Open roles */}
-      <section className="mx-auto max-w-5xl border-t border-black/[0.06] px-6 py-8 md:py-12">
+ <section className="mx-auto max-w-5xl px-6 py-8 md:py-12">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]">Open roles</p>
           <h2 className="mt-2 text-2xl font-semibold tracking-[-0.035em] md:text-3xl">
@@ -104,7 +104,7 @@ function Careers() {
       </section>
 
       {/* What we offer */}
-      <section className="mx-auto max-w-5xl border-t border-black/[0.06] px-6 py-8 md:py-12">
+ <section className="mx-auto max-w-5xl px-6 py-8 md:py-12">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]">What we offer</p>
         </Reveal>
@@ -119,7 +119,7 @@ function Careers() {
       </section>
 
       {/* How to apply */}
-      <section className="mx-auto max-w-5xl border-t border-black/[0.06] px-6 py-8 md:py-12">
+ <section className="mx-auto max-w-5xl px-6 py-8 md:py-12">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]">How to apply</p>
         </Reveal>
@@ -144,7 +144,7 @@ function Careers() {
       </div>
 
       {/* legal + offices */}
-      <footer className="border-t border-black/[0.06] px-6 py-8 text-center">
+ <footer className="px-6 py-8 text-center">
         <p className="mx-auto max-w-2xl text-[13px] leading-relaxed text-[#111111]/55">
           ELSIAA is an equal opportunity employer. We evaluate candidates on merit, capability, and alignment with our standards.
         </p>
@@ -292,7 +292,7 @@ function ApplyForm() {
   }
 
   return (
-    <section className="mx-auto max-w-5xl border-t border-black/[0.06] px-6 pb-16 pt-8 md:pt-12">
+ <section className="mx-auto max-w-5xl px-6 pb-16 pt-8 md:pt-12">
       <div className="rounded-2xl border border-black/[0.07] bg-white p-6 md:p-12 lg:flex lg:gap-14">
         {/* identity rail */}
         <div className="lg:w-[240px] lg:flex-none">
