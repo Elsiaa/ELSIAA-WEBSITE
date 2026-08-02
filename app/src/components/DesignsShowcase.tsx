@@ -1857,7 +1857,7 @@ function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
 
 function Results() {
   return (
-    <section className="border-t border-black/[0.06] bg-white px-6 py-24">
+ <section className="bg-white px-6 py-24">
       <div className="mx-auto grid max-w-5xl grid-cols-3 gap-8 text-center">
         {[
           { n: 6, s: "", l: "Cities worldwide" },

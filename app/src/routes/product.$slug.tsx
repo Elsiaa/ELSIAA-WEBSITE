@@ -148,7 +148,7 @@ function ProductBody() {
 
       {/* related */}
       {related.length > 0 && (
-        <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-14 pb-28 md:pb-14" style={F}>
+ <section className="mx-auto max-w-6xl px-6 py-14 pb-28 md:pb-14" style={F}>
           <h2 className="text-[18px] font-semibold text-[#111111]">More from {meta.title}</h2>
           <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
             {related.map((r) => (

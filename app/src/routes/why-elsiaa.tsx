@@ -73,7 +73,7 @@ function WhyElsiaa() {
       </section>
 
       {/* reasons */}
-      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-12 md:py-14">
+ <section className="mx-auto max-w-6xl px-6 py-12 md:py-14">
         <div className="grid gap-4 sm:grid-cols-2">
           {REASONS.map((r, i) => (
             <Reveal key={r.k} delay={i * 0.05}>
@@ -88,7 +88,7 @@ function WhyElsiaa() {
       </section>
 
       {/* mission band */}
-      <section className="border-t border-black/[0.06] bg-[#0c0c0c] px-6 py-16 text-center text-[#F5F5F3] md:py-20">
+ <section className="bg-[#0c0c0c] px-6 py-16 text-center text-[#F5F5F3] md:py-20">
         <Reveal>
           <p className="text-[13px] font-bold text-[#2e9e58]">Our mission</p>
           <p className="mx-auto mt-4 max-w-3xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl">

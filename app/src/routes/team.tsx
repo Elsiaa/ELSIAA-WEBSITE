@@ -271,7 +271,7 @@ function TeamPage() {
       <Group label="04 · Academic" people={ACADEMIC} border />
 
       {/* credibility band */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3]">
+ <section className="bg-[#F5F5F3]">
         <div className="mx-auto max-w-6xl px-6 py-12 text-center md:py-14">
           <Reveal>
             <p
@@ -291,7 +291,7 @@ function TeamPage() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-6xl border-t border-black/[0.06] px-6 py-16 text-center">
+ <section className="mx-auto max-w-6xl px-6 py-16 text-center">
         <Reveal>
           <p
             className="text-lg font-semibold tracking-[-0.02em] md:text-2xl"

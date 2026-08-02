@@ -38,6 +38,9 @@ export default defineConfig(({ command, mode }) => {
   const needsWorkersStub = !deployCloudflare;
 
   return {
+    // dev-only: bind all interfaces and accept tunnel hosts so a shareable
+    // preview URL (LAN IP or cloudflared) can reach the dev server.
+    server: { host: true, allowedHosts: true },
     define: {
       "process.env.NEXT_PUBLIC_SUPABASE_URL": JSON.stringify(
         loaded.SUPABASE_URL || loaded.VITE_SUPABASE_URL || "",

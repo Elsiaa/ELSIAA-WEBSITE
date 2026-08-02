@@ -206,3 +206,9 @@ img, video, canvas, iframe { max-width: 100%; }
 @keyframes phoneSway { 0%,100% { transform: translateY(0) rotate(var(--tilt,0deg)); } 50% { transform: translateY(-7px) rotate(calc(var(--tilt,0deg) + 0.6deg)); } }
 .phone-sway { animation: phoneSway ease-in-out infinite; will-change: transform; }
 @media (prefers-reduced-motion: reduce) { .phone-sway { animation: none; } }
+
+/* thin locations ticker under the hero wordmark */
+@keyframes locTicker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.loc-ticker { animation: locTicker 34s linear infinite; will-change: transform; }
+.loc-ticker:hover { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .loc-ticker { animation: none; } }

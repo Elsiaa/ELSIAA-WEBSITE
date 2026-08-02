@@ -204,7 +204,7 @@ function Services() {
       </section>
 
       {/* solutions explorer */}
-      <section className="border-t border-black/[0.06] bg-white px-6 py-20">
+ <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] text-[#1e6b3c] " style={mono}>
@@ -271,7 +271,7 @@ function Services() {
       </section>
 
       {/* inquiry by service */}
-      <section ref={formRef} className="border-t border-black/[0.06] bg-[#F7F7F5] px-6 py-20">
+ <section ref={formRef} className="bg-[#F7F7F5] px-6 py-20">
         <div className="mx-auto max-w-3xl">
           <Reveal>
             <p className="text-[13px] text-[#1e6b3c] " style={mono}>

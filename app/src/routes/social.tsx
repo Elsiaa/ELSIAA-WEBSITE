@@ -142,7 +142,7 @@ function SocialPage() {
       </section>
 
       {/* full-service — everything we run */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-20 md:py-24">
+ <section className="bg-[#F5F5F3] px-6 py-20 md:py-24">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
@@ -178,7 +178,7 @@ function SocialPage() {
       </section>
 
       {/* the feeds — where attention already lives */}
-      <section className="border-t border-black/[0.06] bg-white px-6 py-20 md:py-24">
+ <section className="bg-white px-6 py-20 md:py-24">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <h2 className="max-w-2xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: SANS }}>
@@ -196,7 +196,7 @@ function SocialPage() {
       </section>
 
       {/* positioning — not just social */}
-      <section className="border-t border-black/[0.06] bg-[#0b0d0c] px-6 py-20 text-center text-white md:py-28">
+ <section className="bg-[#0b0d0c] px-6 py-20 text-center text-white md:py-28">
         <Reveal>
           <p className="text-[13px] font-bold text-[#2e9e58]" style={{ fontFamily: SANS }}>
             One team, one standard
@@ -230,7 +230,7 @@ function SocialPage() {
       </section>
 
       {/* speak to social media */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-20 text-center md:py-24">
+ <section className="bg-[#F5F5F3] px-6 py-20 text-center md:py-24">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
             Speak to social media
