@@ -77,6 +77,8 @@ import { Route as ApiTimeTrackingClientsRouteImport } from './routes/api/time-tr
 import { Route as ApiSupportThreadsRouteImport } from './routes/api/support/threads'
 import { Route as ApiSupportAttachmentPreviewRouteImport } from './routes/api/support/attachment-preview'
 import { Route as ApiSubscriptionsProcessDueRouteImport } from './routes/api/subscriptions/process-due'
+import { Route as ApiSecretaryTtsRouteImport } from './routes/api/secretary/tts'
+import { Route as ApiSecretaryRealtimeRouteImport } from './routes/api/secretary/realtime'
 import { Route as ApiPublicUploadTokenRouteImport } from './routes/api/public-upload/$token'
 import { Route as ApiProjectsIdRouteImport } from './routes/api/projects/$id'
 import { Route as ApiPdfSignaturesRequestsRouteImport } from './routes/api/pdf-signatures/requests'
@@ -569,6 +571,16 @@ const ApiSubscriptionsProcessDueRoute =
     path: '/api/subscriptions/process-due',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiSecretaryTtsRoute = ApiSecretaryTtsRouteImport.update({
+  id: '/api/secretary/tts',
+  path: '/api/secretary/tts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSecretaryRealtimeRoute = ApiSecretaryRealtimeRouteImport.update({
+  id: '/api/secretary/realtime',
+  path: '/api/secretary/realtime',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicUploadTokenRoute = ApiPublicUploadTokenRouteImport.update({
   id: '/api/public-upload/$token',
   path: '/api/public-upload/$token',
@@ -1491,6 +1503,8 @@ export interface FileRoutesByFullPath {
   '/api/pdf-signatures/requests': typeof ApiPdfSignaturesRequestsRouteWithChildren
   '/api/projects/$id': typeof ApiProjectsIdRouteWithChildren
   '/api/public-upload/$token': typeof ApiPublicUploadTokenRouteWithChildren
+  '/api/secretary/realtime': typeof ApiSecretaryRealtimeRoute
+  '/api/secretary/tts': typeof ApiSecretaryTtsRoute
   '/api/subscriptions/process-due': typeof ApiSubscriptionsProcessDueRoute
   '/api/support/attachment-preview': typeof ApiSupportAttachmentPreviewRoute
   '/api/support/threads': typeof ApiSupportThreadsRouteWithChildren
@@ -1709,6 +1723,8 @@ export interface FileRoutesByTo {
   '/api/pdf-signatures/requests': typeof ApiPdfSignaturesRequestsRouteWithChildren
   '/api/projects/$id': typeof ApiProjectsIdRouteWithChildren
   '/api/public-upload/$token': typeof ApiPublicUploadTokenRouteWithChildren
+  '/api/secretary/realtime': typeof ApiSecretaryRealtimeRoute
+  '/api/secretary/tts': typeof ApiSecretaryTtsRoute
   '/api/subscriptions/process-due': typeof ApiSubscriptionsProcessDueRoute
   '/api/support/attachment-preview': typeof ApiSupportAttachmentPreviewRoute
   '/api/support/threads': typeof ApiSupportThreadsRouteWithChildren
@@ -1928,6 +1944,8 @@ export interface FileRoutesById {
   '/api/pdf-signatures/requests': typeof ApiPdfSignaturesRequestsRouteWithChildren
   '/api/projects/$id': typeof ApiProjectsIdRouteWithChildren
   '/api/public-upload/$token': typeof ApiPublicUploadTokenRouteWithChildren
+  '/api/secretary/realtime': typeof ApiSecretaryRealtimeRoute
+  '/api/secretary/tts': typeof ApiSecretaryTtsRoute
   '/api/subscriptions/process-due': typeof ApiSubscriptionsProcessDueRoute
   '/api/support/attachment-preview': typeof ApiSupportAttachmentPreviewRoute
   '/api/support/threads': typeof ApiSupportThreadsRouteWithChildren
@@ -2148,6 +2166,8 @@ export interface FileRouteTypes {
     | '/api/pdf-signatures/requests'
     | '/api/projects/$id'
     | '/api/public-upload/$token'
+    | '/api/secretary/realtime'
+    | '/api/secretary/tts'
     | '/api/subscriptions/process-due'
     | '/api/support/attachment-preview'
     | '/api/support/threads'
@@ -2366,6 +2386,8 @@ export interface FileRouteTypes {
     | '/api/pdf-signatures/requests'
     | '/api/projects/$id'
     | '/api/public-upload/$token'
+    | '/api/secretary/realtime'
+    | '/api/secretary/tts'
     | '/api/subscriptions/process-due'
     | '/api/support/attachment-preview'
     | '/api/support/threads'
@@ -2584,6 +2606,8 @@ export interface FileRouteTypes {
     | '/api/pdf-signatures/requests'
     | '/api/projects/$id'
     | '/api/public-upload/$token'
+    | '/api/secretary/realtime'
+    | '/api/secretary/tts'
     | '/api/subscriptions/process-due'
     | '/api/support/attachment-preview'
     | '/api/support/threads'
@@ -2794,6 +2818,8 @@ export interface RootRouteChildren {
   ApiPaymentsUpdateStatusRoute: typeof ApiPaymentsUpdateStatusRoute
   ApiPdfSignaturesRequestsRoute: typeof ApiPdfSignaturesRequestsRouteWithChildren
   ApiPublicUploadTokenRoute: typeof ApiPublicUploadTokenRouteWithChildren
+  ApiSecretaryRealtimeRoute: typeof ApiSecretaryRealtimeRoute
+  ApiSecretaryTtsRoute: typeof ApiSecretaryTtsRoute
   ApiSubscriptionsProcessDueRoute: typeof ApiSubscriptionsProcessDueRoute
   ApiSupportAttachmentPreviewRoute: typeof ApiSupportAttachmentPreviewRoute
   ApiSupportThreadsRoute: typeof ApiSupportThreadsRouteWithChildren
@@ -3301,6 +3327,20 @@ declare module '@tanstack/react-router' {
       path: '/api/subscriptions/process-due'
       fullPath: '/api/subscriptions/process-due'
       preLoaderRoute: typeof ApiSubscriptionsProcessDueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/secretary/tts': {
+      id: '/api/secretary/tts'
+      path: '/api/secretary/tts'
+      fullPath: '/api/secretary/tts'
+      preLoaderRoute: typeof ApiSecretaryTtsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/secretary/realtime': {
+      id: '/api/secretary/realtime'
+      path: '/api/secretary/realtime'
+      fullPath: '/api/secretary/realtime'
+      preLoaderRoute: typeof ApiSecretaryRealtimeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public-upload/$token': {
@@ -5004,6 +5044,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPaymentsUpdateStatusRoute: ApiPaymentsUpdateStatusRoute,
   ApiPdfSignaturesRequestsRoute: ApiPdfSignaturesRequestsRouteWithChildren,
   ApiPublicUploadTokenRoute: ApiPublicUploadTokenRouteWithChildren,
+  ApiSecretaryRealtimeRoute: ApiSecretaryRealtimeRoute,
+  ApiSecretaryTtsRoute: ApiSecretaryTtsRoute,
   ApiSubscriptionsProcessDueRoute: ApiSubscriptionsProcessDueRoute,
   ApiSupportAttachmentPreviewRoute: ApiSupportAttachmentPreviewRoute,
   ApiSupportThreadsRoute: ApiSupportThreadsRouteWithChildren,
