@@ -39,6 +39,8 @@ type Office = {
   hq?: boolean;
   line: string;
   focus: string[];
+  // placeholder street address — TEMP, to be replaced with the real one
+  address: string;
   // approximate longitude for the follow-the-sun strip (−180…180)
   lon: number;
 };
@@ -56,6 +58,7 @@ const OFFICES: Office[] = [
     hq: true,
     line: "Where the standard is set. Program delivery and client strategy for the Americas.",
     focus: ["Program delivery", "Client strategy"],
+    address: "500 Seventh Avenue, Suite 1200, New York, NY 10018",
     lon: -74,
   },
   {
@@ -69,6 +72,7 @@ const OFFICES: Office[] = [
     role: "Client & partnerships",
     line: "The European front door — where new relationships and account leadership begin.",
     focus: ["Partnerships", "Account leadership"],
+    address: "60 Gracechurch Street, London EC3V 0HR",
     lon: 0,
   },
   {
@@ -82,6 +86,7 @@ const OFFICES: Office[] = [
     role: "Continental European desk",
     line: "Precision work for precision clients. Governance and discretion by default.",
     focus: ["Governance", "Private clients"],
+    address: "Rue du Rhône 65, 1204 Genève",
     lon: 6,
   },
   {
@@ -95,6 +100,7 @@ const OFFICES: Office[] = [
     role: "Benelux delivery desk",
     line: "The Benelux desk — hands-on delivery operations and localisation across the region.",
     focus: ["Delivery ops", "Localisation"],
+    address: "Frankrijklei 100, 2000 Antwerpen",
     lon: 4,
   },
   {
@@ -108,6 +114,7 @@ const OFFICES: Office[] = [
     role: "AI & engineering",
     line: "The engine room. Applied research, model work and platform engineering.",
     focus: ["Applied research", "Platform engineering"],
+    address: "Yigal Alon 98, Tel Aviv-Yafo 6789141",
     lon: 35,
   },
   {
@@ -121,6 +128,7 @@ const OFFICES: Office[] = [
     role: "West Coast desk",
     line: "The West Coast chapter — design, media and entertainment work close to its clients.",
     focus: ["Design", "Media & entertainment"],
+    address: "1055 West 7th Street, Suite 3300, Los Angeles, CA 90017",
     lon: -118,
   },
 ];
@@ -195,8 +203,8 @@ function LocationsPage() {
       <SiteNav />
 
       {/* ── hero — dual-presence message left, live globe anchor right ── */}
-      <section className="mx-auto max-w-6xl px-6 pt-36 pb-14 md:pt-44 md:pb-20">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:gap-16">
+      <section className="mx-auto max-w-6xl px-6 pt-28 pb-10 md:pt-40 md:pb-16">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:gap-16">
           <Reveal>
             <p className="text-[13px] font-semibold text-[#1e6b3c]">ELSIAA on the ground</p>
             <h1 className="mt-4 text-[2.6rem] font-semibold leading-[1.03] tracking-[-0.045em] md:text-[4.1rem]">
@@ -228,11 +236,8 @@ function LocationsPage() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="mx-auto flex w-[200px] flex-col items-center sm:w-[260px] lg:w-full">
-              <ScrollGlobe size={440} />
-              <p className="mt-3 text-[12px] font-medium text-[#111111]/45 md:text-[13px]">
-                Scroll to spin · drag to explore
-              </p>
+            <div className="mx-auto flex w-[220px] flex-col items-center sm:w-[300px] lg:w-full">
+              <ScrollGlobe size={460} />
             </div>
           </Reveal>
         </div>
@@ -269,7 +274,8 @@ function LocationsPage() {
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
             Not a mailbox, and not a rented desk. In each city we have active clients and
             an ELSIAA team you can meet in person, by appointment — the same people, the
-            same standard, wherever you engage us. Exact addresses are shared when we book.
+            same standard, wherever you engage us — the address, the local time, and a
+            team you can meet.
           </p>
         </Reveal>
 
@@ -328,15 +334,18 @@ function LocationsPage() {
                     ))}
                   </div>
 
-                  {/* the dual presence, stated plainly on every card */}
-                  <div className="mt-6 space-y-2 border-t border-black/[0.06] pt-5">
-                    <p className="flex items-center gap-2 text-[13px] font-medium text-[#111111]/80">
-                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
-                      Active clients in the city
+                  {/* the dual presence + placeholder address, on every card */}
+                  <div className="mt-6 space-y-2.5 border-t border-black/[0.06] pt-5">
+                    <p className="flex items-start gap-2 text-[13.5px] leading-snug text-[#111111]/75">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.7" className="mt-[1px] shrink-0" aria-hidden>
+                        <path d="M12 21s7-6.5 7-11a7 7 0 10-14 0c0 4.5 7 11 7 11z" />
+                        <circle cx="12" cy="10" r="2.5" />
+                      </svg>
+                      {o.address}
                     </p>
-                    <p className="flex items-center gap-2 text-[13px] font-medium text-[#111111]/80">
+                    <p className="flex items-center gap-2 text-[13px] font-medium text-[#111111]/70">
                       <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
-                      On-site team — meet by appointment
+                      Active clients &amp; on-site team — by appointment
                     </p>
                     <a
                       href="/contact"

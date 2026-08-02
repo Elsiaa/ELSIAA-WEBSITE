@@ -86,7 +86,8 @@ export function ScrollGlobe({ size = 440 }: { size?: number }) {
     img.src = "/assets/earth_equirect.png";
 
     // ── sizing (display vs. internal render resolution) ──
-    const INT_CAP = 260; // cap the raytraced buffer for smooth scroll spin
+    // Render at device-pixel density (capped) so the sphere is crisp, not soft.
+    const INT_CAP = 420;
     let dispPx = size;
     let intPx = size;
     let buf: ImageData | null = null;
@@ -95,7 +96,8 @@ export function ScrollGlobe({ size = 440 }: { size?: number }) {
       const w = parent ? parent.getBoundingClientRect().width : size;
       // floor low enough that a small mobile column still shrinks the globe
       dispPx = Math.round(Math.max(150, Math.min(w > 0 ? w : size, size)));
-      intPx = Math.min(dispPx, INT_CAP);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      intPx = Math.round(Math.min(dispPx * dpr, INT_CAP));
       canvas.width = intPx;
       canvas.height = intPx;
       canvas.style.width = `${dispPx}px`;
@@ -165,6 +167,13 @@ export function ScrollGlobe({ size = 440 }: { size?: number }) {
         ctx.strokeStyle = "rgba(17,17,17,0.10)";
         ctx.lineWidth = 1;
         ctx.stroke();
+        raf = requestAnimationFrame(draw);
+        return;
+      }
+
+      // skip the whole raster when the globe is scrolled off screen (saves CPU)
+      const vr = canvas.getBoundingClientRect();
+      if (vr.bottom < -60 || vr.top > window.innerHeight + 60) {
         raf = requestAnimationFrame(draw);
         return;
       }
@@ -245,16 +254,6 @@ export function ScrollGlobe({ size = 440 }: { size?: number }) {
           }
         }
         ctx.putImageData(buf, 0, 0);
-
-        // ── outer atmosphere halo — a faint blue bloom just beyond the rim,
-        // lifting the planet off the white and reading as air around it ──
-        const halo = ctx.createRadialGradient(cx, cy, R * 0.92, cx, cy, R * 1.07);
-        halo.addColorStop(0, "rgba(120,170,255,0)");
-        halo.addColorStop(0.88, "rgba(120,170,255,0)");
-        halo.addColorStop(0.965, "rgba(140,185,255,0.30)");
-        halo.addColorStop(1, "rgba(150,190,255,0)");
-        ctx.fillStyle = halo;
-        ctx.fillRect(0, 0, intPx, intPx);
 
         // ── office markers (drawn over the raster each rendered frame) ──
         for (const oc of officeVecs) {
