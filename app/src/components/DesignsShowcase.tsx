@@ -1157,7 +1157,7 @@ function LogoMarquee() {
             key={`${src}-${i}`}
             src={src}
             alt={alt}
-            className={`${h} w-auto flex-none opacity-50 grayscale transition-opacity duration-300 hover:opacity-100 hover:grayscale-0`}
+            className={`${h} w-auto flex-none opacity-90 transition-all duration-300 hover:-translate-y-0.5 hover:opacity-100`}
             loading="lazy"
           />
         ))}
@@ -1258,7 +1258,13 @@ function ProductAdFeature() {
   }, []);
   return (
     <section className="bg-white px-6 pt-28 pb-24 md:pt-32 text-[#111111]">
-      <div className="mx-auto max-w-6xl">
+      <div className="relative mx-auto max-w-6xl">
+        {/* the easel — our lion on the canvas, tucked in the top-right corner */}
+        <img
+          src="/assets/design_easel.png"
+          alt="An easel with the ELSIAA lion on the canvas, beside a painter's palette"
+          className="pointer-events-none absolute -top-16 right-0 hidden w-[240px] select-none md:block lg:w-[300px]"
+        />
         <Reveal>
           <h2
             className="max-w-3xl text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl"
