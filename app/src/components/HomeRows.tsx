@@ -337,42 +337,21 @@ function CountUp({ target }: { target: number }) {
    on. On mobile / reduced-motion it degrades to a normal hero with a live lion. */
 function HomeHero() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
-  const vidRef = useRef<HTMLVideoElement | null>(null);
+  const lionRef = useRef<HTMLImageElement | null>(null);
+  const glowRef = useRef<HTMLDivElement | null>(null);
 
-  // radial feather → soft edges; mix-blend-multiply dissolves the clip's white
-  // backdrop so only the lion melts onto the page.
-  const feather = "radial-gradient(120% 124% at 50% 46%, #000 60%, rgba(0,0,0,0) 86%)";
-
-  // The lion roars AS YOU SCROLL: scrub the clip's currentTime from the page
-  // scroll position (mouth closed at the top → full roar as you scroll down).
+  // The lion is the ELSIAA logo mark itself — a front-facing geometric face.
+  // As you scroll it comes alive: a subtle scale-forward and a rising emerald
+  // glow behind it.
   useEffect(() => {
-    const v = vidRef.current;
-    if (!v) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      v.loop = true;
-      v.play().catch(() => {});
-      return;
-    }
-    v.pause();
-    // prime decoding so seeked frames render (esp. iOS)
-    v.play().then(() => v.pause()).catch(() => {});
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
     let raf = 0;
-    let target = 0;
-    // continuous rAF loop (robust to any scroll container) — ease currentTime
-    // toward the scroll-mapped target so the roar tracks the scroll smoothly.
     const tick = () => {
-      const d = v.duration;
-      if (d && !Number.isNaN(d)) {
-        const sc = window.scrollY || document.documentElement.scrollTop || 0;
-        const p = clamp01(sc / (window.innerHeight * 0.85));
-        target = Math.min(d - 0.04, p * d);
-        const cur = v.currentTime;
-        if (Math.abs(target - cur) > 0.02) {
-          try { v.currentTime = cur + (target - cur) * 0.5; } catch { /* seeking */ }
-        }
-      }
+      const sc = window.scrollY || document.documentElement.scrollTop || 0;
+      const p = clamp01(sc / (window.innerHeight * 0.8));
+      if (lionRef.current) lionRef.current.style.transform = `scale(${(1 + p * 0.07).toFixed(3)})`;
+      if (glowRef.current) glowRef.current.style.opacity = (0.14 + p * 0.5).toFixed(3);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -390,22 +369,19 @@ function HomeHero() {
           </h1>
         </Reveal>
 
-        {/* the lion (the logo) — black & white, roars as you scroll */}
-        <div className="pointer-events-none relative mt-6 w-full max-w-[560px]">
-          <video
-            ref={vidRef}
-            src="/assets/lion_roar_v1.mp4"
-            muted
-            playsInline
-            preload="auto"
-            aria-label="The ELSIAA lion — roars as you scroll"
-            className="block w-full will-change-transform"
-            style={{
-              mixBlendMode: "multiply",
-              WebkitMaskImage: feather,
-              maskImage: feather,
-              filter: "grayscale(1) contrast(1.06) brightness(1.02)",
-            }}
+        {/* the lion — the ELSIAA logo, front-facing, comes alive on scroll */}
+        <div className="pointer-events-none relative mt-8 w-full max-w-[380px]">
+          <div
+            ref={glowRef}
+            className="absolute inset-[14%] -z-10 rounded-full blur-3xl"
+            style={{ background: "radial-gradient(circle at 50% 46%, rgba(30,107,60,0.45), transparent 66%)", opacity: 0.14 }}
+          />
+          <img
+            ref={lionRef}
+            src="/assets/elsiaa-lion.png"
+            alt="The ELSIAA lion"
+            className="mx-auto block w-full will-change-transform"
+            style={{ mixBlendMode: "multiply" }}
           />
         </div>
 
