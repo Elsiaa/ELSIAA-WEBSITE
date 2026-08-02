@@ -337,61 +337,90 @@ function CountUp({ target }: { target: number }) {
    on. On mobile / reduced-motion it degrades to a normal hero with a live lion. */
 function HomeHero() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
+  const vidRef = useRef<HTMLVideoElement | null>(null);
 
   // radial feather → soft edges; mix-blend-multiply dissolves the clip's white
-  // backdrop so only the living lion melts onto the page.
-  const feather = "radial-gradient(118% 122% at 50% 46%, #000 58%, rgba(0,0,0,0) 84%)";
+  // backdrop so only the lion melts onto the page.
+  const feather = "radial-gradient(120% 124% at 50% 46%, #000 60%, rgba(0,0,0,0) 86%)";
+
+  // The lion roars AS YOU SCROLL: scrub the clip's currentTime from the page
+  // scroll position (mouth closed at the top → full roar as you scroll down).
+  useEffect(() => {
+    const v = vidRef.current;
+    if (!v) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      v.loop = true;
+      v.play().catch(() => {});
+      return;
+    }
+    v.pause();
+    // prime decoding so seeked frames render (esp. iOS)
+    v.play().then(() => v.pause()).catch(() => {});
+    const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+    let raf = 0;
+    let target = 0;
+    // continuous rAF loop (robust to any scroll container) — ease currentTime
+    // toward the scroll-mapped target so the roar tracks the scroll smoothly.
+    const tick = () => {
+      const d = v.duration;
+      if (d && !Number.isNaN(d)) {
+        const sc = window.scrollY || document.documentElement.scrollTop || 0;
+        const p = clamp01(sc / (window.innerHeight * 0.85));
+        target = Math.min(d - 0.04, p * d);
+        const cur = v.currentTime;
+        if (Math.abs(target - cur) > 0.02) {
+          try { v.currentTime = cur + (target - cur) * 0.5; } catch { /* seeking */ }
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   return (
     <section className="relative bg-white">
-      <div className="flex min-h-[74svh] flex-col justify-center pt-20 pb-8 lg:py-24">
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6">
-          {/* copy */}
-          <div>
-            <Reveal>
-              <h1 className="max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-6xl" style={sans}>
-                Unlock the potential of your business with{" "}
-                <span className="text-[#1e6b3c]">AI</span>.
-              </h1>
-            </Reveal>
-          </div>
+      <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pt-28 pb-10 text-center md:pt-32">
+        {/* headline — centred */}
+        <Reveal>
+          <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl" style={sans}>
+            Unlock the potential of your business with{" "}
+            <span className="text-[#1e6b3c]">AI</span>.
+          </h1>
+        </Reveal>
 
-          {/* the lion — alive and roaring, full colour, blended into the white */}
-          <div className="pointer-events-none relative mx-auto hidden w-full max-w-[480px] lg:block">
-            <div className="relative mx-auto">
-              <div
-                className="absolute inset-[10%] -z-10 rounded-full blur-3xl"
-                style={{ background: "radial-gradient(circle at 50% 46%, rgba(30,107,60,0.22), transparent 66%)" }}
-              />
-              <video
-                src="/assets/lion_roar_v1.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
-                onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
-                aria-label="The ELSIAA lion, alive and roaring"
-                className="block w-full will-change-transform"
-                style={{
-                  mixBlendMode: "multiply",
-                  WebkitMaskImage: feather,
-                  maskImage: feather,
-                  filter: "contrast(1.05) saturate(1.06)",
-                }}
-              />
-            </div>
-            <p className="mt-2 text-center text-[10px] leading-relaxed tracking-[0.16em] text-[#111111]/55 uppercase" style={sans}>
-              <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
-              <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
-              <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
-              <b className="font-semibold text-[#1e6b3c]">I</b>nnovation ·{" "}
-              <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
-              <b className="font-semibold text-[#1e6b3c]">A</b>lliance
-            </p>
-          </div>
+        {/* the lion (the logo) — black & white, roars as you scroll */}
+        <div className="pointer-events-none relative mt-6 w-full max-w-[560px]">
+          <video
+            ref={vidRef}
+            src="/assets/lion_roar_v1.mp4"
+            muted
+            playsInline
+            preload="auto"
+            aria-label="The ELSIAA lion — roars as you scroll"
+            className="block w-full will-change-transform"
+            style={{
+              mixBlendMode: "multiply",
+              WebkitMaskImage: feather,
+              maskImage: feather,
+              filter: "grayscale(1) contrast(1.06) brightness(1.02)",
+            }}
+          />
         </div>
+
+        {/* ELSIAA wordmark, written out, centred */}
+        <p className="-mt-1 text-3xl font-semibold tracking-[0.36em] text-[#111111] md:text-4xl" style={sans}>
+          ELSIAA
+        </p>
+        <p className="mt-3 text-[10px] leading-relaxed tracking-[0.18em] text-[#111111]/55 uppercase" style={sans}>
+          <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
+          <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
+          <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
+          <b className="font-semibold text-[#1e6b3c]">I</b>nnovation ·{" "}
+          <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
+          <b className="font-semibold text-[#1e6b3c]">A</b>lliance
+        </p>
       </div>
     </section>
   );
