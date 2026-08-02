@@ -1257,10 +1257,10 @@ function AutomationCatalog() {
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-xl">
               <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: sans }}>
-                Everything we can automate — and build to run it.
+                What we automate for your business.
               </h3>
               <p className="mt-3 text-[14.5px] leading-relaxed text-[#111111]/60" style={{ fontFamily: sans }}>
-                Sales, operations, finance, support — from the first wireframe to the cloud it runs on.
+                Sales, operations, finance, support and more — built for you, and running around the clock.
               </p>
             </div>
             <a href="/services" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3 text-[13px] font-bold text-white transition-all hover:bg-[#111111]" style={{ fontFamily: sans }}>
