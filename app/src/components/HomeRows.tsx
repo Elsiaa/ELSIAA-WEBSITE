@@ -1257,7 +1257,7 @@ function AutomationCatalog() {
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-xl">
               <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: sans }}>
-                What we automate for your business.
+                We automate your business.
               </h3>
               <p className="mt-3 text-[14.5px] leading-relaxed text-[#111111]/60" style={{ fontFamily: sans }}>
                 Sales, operations, finance, support and more — built for you, and running around the clock.
