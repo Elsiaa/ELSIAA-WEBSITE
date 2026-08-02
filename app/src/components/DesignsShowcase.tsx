@@ -1263,9 +1263,10 @@ function ProductAdFeature() {
         <img
           src="/assets/design_easel.png"
           alt="An easel with the ELSIAA lion on the canvas, beside a painter's palette"
-          className="pointer-events-none absolute -top-16 right-0 hidden w-[240px] select-none md:block lg:w-[300px]"
+          className="pointer-events-none absolute right-0 hidden w-[170px] select-none sm:-top-8 sm:block md:-top-16 md:w-[240px] lg:w-[300px]"
         />
-        <Reveal>
+        {/* reserve the top-right corner so the easel never covers the copy */}
+        <Reveal className="sm:pr-[190px] md:pr-[270px] lg:pr-[330px]">
           <h2
             className="max-w-3xl text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl"
             style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
@@ -1762,6 +1763,85 @@ function BeyondWebsites() {
   );
 }
 
+/* Cute cartoon icons for the process steps — same friendly outline style as
+   the toy robot: black lines, brand greens, warm neutrals, white fills. */
+function StepArt({ step }: { step: number }) {
+  const OUT = "#111111";
+  const G = "#1e6b3c";
+  const GL = "#2e9e58";
+  const common = { width: 56, height: 56, viewBox: "0 0 56 56", fill: "none" } as const;
+  if (step === 1) {
+    // immersion — magnifying glass over a little chart
+    return (
+      <svg {...common} aria-hidden>
+        <rect x="8" y="14" width="26" height="20" rx="3" stroke={OUT} strokeWidth="2" fill="#fff" />
+        <path d="M13 28l5-5 4 3 6-7" stroke={GL} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="36" cy="34" r="9" stroke={OUT} strokeWidth="2.2" fill="rgba(46,158,88,0.08)" />
+        <line x1="43" y1="41" x2="49" y2="47" stroke={OUT} strokeWidth="3" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  if (step === 2) {
+    // sketch-first — pencil drawing a squiggle
+    return (
+      <svg {...common} aria-hidden>
+        <path d="M8 44c6-2 10-1 16-6" stroke={OUT} strokeWidth="2" strokeLinecap="round" strokeDasharray="3 4" />
+        <g transform="rotate(45 36 22)">
+          <rect x="32" y="8" width="8" height="22" rx="1.5" stroke={OUT} strokeWidth="2" fill="#f0d9a8" />
+          <rect x="32" y="8" width="8" height="5" rx="1.5" stroke={OUT} strokeWidth="2" fill={GL} />
+          <path d="M32 30l4 8 4-8z" stroke={OUT} strokeWidth="2" strokeLinejoin="round" fill="#fff" />
+        </g>
+      </svg>
+    );
+  }
+  if (step === 3) {
+    // directed generation — magic wand with sparkles
+    return (
+      <svg {...common} aria-hidden>
+        <rect x="10" y="34" width="26" height="6" rx="3" transform="rotate(-35 23 37)" stroke={OUT} strokeWidth="2" fill="#d0d5d2" />
+        <path d="M40 14l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6 1.6-4z" fill={GL} stroke={OUT} strokeWidth="1.6" strokeLinejoin="round" />
+        <circle cx="30" cy="12" r="1.8" fill={G} />
+        <circle cx="48" cy="30" r="1.8" fill={G} />
+      </svg>
+    );
+  }
+  if (step === 4) {
+    // live assembly — little browser window being stacked with blocks
+    return (
+      <svg {...common} aria-hidden>
+        <rect x="9" y="12" width="38" height="30" rx="4" stroke={OUT} strokeWidth="2" fill="#fff" />
+        <line x1="9" y1="20" x2="47" y2="20" stroke={OUT} strokeWidth="2" />
+        <circle cx="14" cy="16" r="1.4" fill={GL} />
+        <circle cx="19" cy="16" r="1.4" fill="#d0d5d2" />
+        <rect x="14" y="25" width="12" height="5" rx="1" fill={GL} stroke={OUT} strokeWidth="1.4" />
+        <rect x="14" y="32" width="12" height="5" rx="1" fill="#d0d5d2" stroke={OUT} strokeWidth="1.4" />
+        <rect x="30" y="25" width="12" height="12" rx="1" fill="rgba(46,158,88,0.15)" stroke={OUT} strokeWidth="1.4" />
+      </svg>
+    );
+  }
+  if (step === 5) {
+    // ruthless iteration — circular arrows around a gem
+    return (
+      <svg {...common} aria-hidden>
+        <path d="M28 10a18 18 0 0114.5 7.4" stroke={OUT} strokeWidth="2.2" strokeLinecap="round" />
+        <path d="M45 12v7h-7" stroke={OUT} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M28 46a18 18 0 01-14.5-7.4" stroke={OUT} strokeWidth="2.2" strokeLinecap="round" />
+        <path d="M11 44v-7h7" stroke={OUT} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M28 20l6 6-6 10-6-10 6-6z" fill={GL} stroke={OUT} strokeWidth="1.8" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  // launch & refinement — cute rocket
+  return (
+    <svg {...common} aria-hidden>
+      <path d="M28 8c6 4 8 12 8 18l-8 8-8-8c0-6 2-14 8-18z" fill="#fff" stroke={OUT} strokeWidth="2" strokeLinejoin="round" />
+      <circle cx="28" cy="20" r="3.4" fill="rgba(46,158,88,0.2)" stroke={OUT} strokeWidth="1.6" />
+      <path d="M20 30l-5 7 7-2M36 30l5 7-7-2" fill={GL} stroke={OUT} strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M28 36v8" stroke={GL} strokeWidth="2.4" strokeLinecap="round" strokeDasharray="2 3" />
+    </svg>
+  );
+}
+
 /* ---------------- the process — how every uplift actually happens ---------------- */
 function OurProcess() {
   const STEPS = [
@@ -1793,26 +1873,27 @@ function OurProcess() {
             product that keeps getting better.
           </p>
         </Reveal>
-        <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {STEPS.map(([n, t, d], i) => (
             <Reveal key={n} delay={(i % 3) * 0.07}>
-              <div className="border-t border-black/10 pt-5">
-                <div className="flex items-baseline justify-between">
-                  <h3
-                    className="text-lg font-semibold tracking-[-0.02em]"
-                    style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                  >
-                    {t}
-                  </h3>
+              <div className="flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
+                <div className="flex items-start justify-between">
+                  <StepArt step={Number(n)} />
                   <span
-                    className="text-[13px] text-[#1e6b3c] font-bold"
+                    className="text-[13px] font-bold text-[#1e6b3c]"
                     style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                   >
                     {n}
                   </span>
                 </div>
+                <h3
+                  className="mt-4 text-lg font-semibold tracking-[-0.02em]"
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                >
+                  {t}
+                </h3>
                 <p
-                  className="mt-2.5 text-[14px] leading-relaxed text-[#111111]/55"
+                  className="mt-2 text-[14px] leading-relaxed text-[#111111]/55"
                   style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {d}
