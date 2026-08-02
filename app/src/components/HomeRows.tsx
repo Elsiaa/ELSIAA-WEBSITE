@@ -375,13 +375,34 @@ function HomeHero() {
 
   return (
     <section className="relative bg-white">
-      <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pt-28 pb-10 text-center md:pt-32">
+      <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pt-36 pb-10 text-center md:pt-44">
         {/* headline — centred */}
         <Reveal>
           <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl" style={sans}>
             Unlock the potential of your business with{" "}
             <span className="text-[#1e6b3c]">AI</span>.
           </h1>
+        </Reveal>
+
+        {/* quick nav into the divisions */}
+        <Reveal delay={0.06}>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
+            {[
+              { label: "Why ELSIAA", href: "/why-elsiaa" },
+              { label: "Automations", href: "/automate" },
+              { label: "Design", href: "/designs" },
+              { label: "Social Media", href: "/social" },
+            ].map((b) => (
+              <a
+                key={b.href}
+                href={b.href}
+                className="inline-flex min-h-[46px] items-center rounded-full border border-black/[0.12] bg-white px-6 text-[14px] font-semibold text-[#111111] transition-all hover:-translate-y-0.5 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+                style={sans}
+              >
+                {b.label}
+              </a>
+            ))}
+          </div>
         </Reveal>
 
         {/* the lion — the ELSIAA logo, front-facing, roars as you scroll */}

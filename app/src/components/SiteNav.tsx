@@ -197,7 +197,7 @@ export function SiteNav() {
                 </a>
               ))}
               <div
-                className="mt-6 flex flex-wrap gap-x-6 gap-y-2.5"
+                className="mt-6 flex flex-wrap gap-x-7 gap-y-3"
                 style={{ opacity: open ? 1 : 0, transition: "opacity .5s ease .4s" }}
               >
                 {MORE.map((l) => (
@@ -205,7 +205,7 @@ export function SiteNav() {
                     key={l.href}
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="text-[14px] text-[#111111]/55 transition-colors hover:text-[#111111]"
+                    className="text-[22px] font-medium tracking-[-0.02em] text-[#111111]/70 transition-colors hover:text-[#1e6b3c] md:text-[24px]"
                   >
                     {l.label}
                   </a>
