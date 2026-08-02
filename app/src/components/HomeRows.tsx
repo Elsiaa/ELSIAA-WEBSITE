@@ -406,21 +406,14 @@ function HomeHero() {
 function AutomationSection() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   return (
-    <section className="border-t border-black/[0.06] bg-white py-8 md:py-12" id="automation">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-6 text-center">
+    <section className="border-t border-black/[0.06] bg-white pt-8 pb-2 md:pt-12 md:pb-3" id="automation">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 text-center">
         {/* titled like the design centrepiece */}
         <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
           Automations
         </h2>
         {/* the ELSIAA robot — recreated in brand colours, waves as you scroll */}
         <ToyRobot />
-        <a
-          href="/automate"
-          className="inline-flex min-h-[54px] items-center rounded-full bg-[#1e6b3c] px-10 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]"
-          style={sans}
-        >
-          Discover automations →
-        </a>
       </div>
     </section>
   );
@@ -1189,7 +1182,7 @@ function AutomationCatalog() {
     el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.8, 520), behavior: "smooth" });
   };
   return (
-    <section className="border-b border-black/[0.06] bg-white py-10 md:py-12" id="automation-catalog">
+    <section className="border-b border-black/[0.06] bg-white pb-12 pt-2 md:pb-14 md:pt-3" id="automation-catalog">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -1201,8 +1194,8 @@ function AutomationCatalog() {
                 Sales, operations, finance, support — from the first wireframe to the cloud it runs on.
               </p>
             </div>
-            <a href="/automate" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3 text-[13px] font-bold text-white transition-all hover:bg-[#111111]" style={{ fontFamily: sans }}>
-              Discover automations →
+            <a href="/services" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3 text-[13px] font-bold text-white transition-all hover:bg-[#111111]" style={{ fontFamily: sans }}>
+              Discover services →
             </a>
           </div>
         </Reveal>
