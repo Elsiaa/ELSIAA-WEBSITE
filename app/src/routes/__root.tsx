@@ -231,8 +231,8 @@ function RootComponent() {
       <LanguageProvider>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
-      {/* the dark Automate page ends tight on its own closing — no light footer */}
-      {pathname !== "/automate" && <SiteFooter />}
+      {/* dark pages (Automate, Why ELSIAA) end tight on their own closing — no light footer */}
+      {pathname !== "/automate" && pathname !== "/why-elsiaa" && <SiteFooter />}
       <FloatingBook />
       </LanguageProvider>
     </QueryClientProvider>
