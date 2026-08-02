@@ -567,28 +567,29 @@ function HeroCards() {
 }
 
 /* ---------- data: the full catalog ---------- */
+// Ordered most-in-demand → niche (both the categories and the items in each).
 export const DESIGN: Sub[] = [
-  { name: "Web", items: ["Website Design", "UI/UX Design", "Landing Pages", "SaaS Interfaces", "E-commerce Design", "Dashboard Design"] },
-  { name: "Apps", items: ["Mobile App Design", "iOS & Android UI", "App Store Assets"] },
   { name: "Branding", items: ["Branding & Logo Design", "Brand Identity", "Packaging Design", "Print Design"] },
-  { name: "Marketing", items: ["Marketing Graphics", "Social Media Graphics", "Motion Graphics", "Presentation Design"] },
-  { name: "Product", items: ["3D Product Renders", "Product Staging", "Commercial Imagery"] },
+  { name: "Web", items: ["Website Design", "Landing Pages", "UI/UX Design", "E-commerce Design", "SaaS Interfaces", "Dashboard Design"] },
+  { name: "Marketing", items: ["Social Media Graphics", "Marketing Graphics", "Motion Graphics", "Presentation Design"] },
+  { name: "Product", items: ["3D Product Renders", "Commercial Imagery", "Product Staging"] },
+  { name: "Apps", items: ["Mobile App Design", "iOS & Android UI", "App Store Assets"] },
 ];
 export const AUTOMATION: Sub[] = [
-  { name: "Sales", items: ["CRM Automation", "Lead Qualification", "Proposal Generation", "Appointment Booking", "Quote Follow-ups", "Pipeline Alerts"] },
-  { name: "Operations", items: ["Internal Business Automation", "Document Processing", "Data Entry Automation", "Web Scraping", "API Integrations", "Zapier / Make Automation", "Inventory Sync", "Meeting Notes → CRM"] },
-  { name: "Customer Support", items: ["Customer Follow-up", "Email Automation", "Slack & Discord Bots", "Ticket Triage & Routing", "Review Management"] },
-  { name: "Finance", items: ["Invoice Automation", "Reporting Dashboards", "Payroll Automation", "Expense Processing", "Payment Reminders"] },
+  { name: "AI", items: ["AI Agents & Assistants", "AI Workflow Automation"] },
+  { name: "Sales", items: ["Lead Qualification", "CRM Automation", "Appointment Booking", "Quote Follow-ups", "Proposal Generation", "Pipeline Alerts"] },
   { name: "Marketing", items: ["Social Posting Automation", "Ad Performance Reports", "Newsletter Automation"] },
+  { name: "Customer Support", items: ["Customer Follow-up", "Email Automation", "Ticket Triage & Routing", "Review Management", "Slack & Discord Bots"] },
+  { name: "Operations", items: ["Internal Business Automation", "Document Processing", "API Integrations", "Data Entry Automation", "Zapier / Make Automation", "Inventory Sync", "Meeting Notes → CRM", "Web Scraping"] },
+  { name: "Finance", items: ["Invoice Automation", "Reporting Dashboards", "Payment Reminders", "Expense Processing", "Payroll Automation"] },
   { name: "HR", items: ["Recruiting Screening", "Employee Onboarding"] },
-  { name: "AI", items: ["AI Workflow Automation", "AI Agents & Assistants"] },
 ];
 export const SOFTWARE: Sub[] = [
   { name: "Web", items: ["Custom Web Applications", "SaaS Development", "Client Portals"] },
-  { name: "Mobile", items: ["iOS Apps", "Android Apps"] },
-  { name: "Enterprise", items: ["Internal Company Software", "Employee Dashboards", "Inventory Systems", "CRM Development", "ERP Systems"] },
   { name: "AI", items: ["AI Applications", "AI Chatbots"] },
-  { name: "Infrastructure", items: ["API Development", "Database Architecture", "Cloud Infrastructure", "Maintenance & Support"] },
+  { name: "Mobile", items: ["iOS Apps", "Android Apps"] },
+  { name: "Enterprise", items: ["CRM Development", "Internal Company Software", "Employee Dashboards", "Inventory Systems", "ERP Systems"] },
+  { name: "Infrastructure", items: ["API Development", "Cloud Infrastructure", "Database Architecture", "Maintenance & Support"] },
 ];
 export const CONSULTATION: Sub[] = [
   { name: "Strategy", items: ["1-on-1 Strategy Calls", "AI Implementation Consulting", "Digital Transformation"] },
