@@ -361,8 +361,9 @@ function HomeHero() {
       if (d && !Number.isNaN(d)) {
         const target = Math.min(d - 0.04, p * d);
         const cur = v.currentTime;
-        if (Math.abs(target - cur) > 0.02) {
-          try { v.currentTime = cur + (target - cur) * 0.5; } catch { /* seeking */ }
+        // all-keyframe clip → seeks are instant; ease finely for buttery motion
+        if (Math.abs(target - cur) > 0.006) {
+          try { v.currentTime = cur + (target - cur) * 0.35; } catch { /* seeking */ }
         }
       }
       if (v) v.style.transform = `scale(${(1 + p * 0.06).toFixed(3)})`;
@@ -414,7 +415,7 @@ function HomeHero() {
           />
           <video
             ref={vidRef}
-            src="/assets/lion_logo_roar_v1.mp4"
+            src="/assets/lion_logo_roar_smooth.mp4"
             muted
             playsInline
             preload="auto"
