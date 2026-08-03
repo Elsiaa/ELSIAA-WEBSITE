@@ -57,16 +57,24 @@ function FeedCards({ kind }: { kind: FeedKind }) {
     return (
       <>
         {[0, 1, 2, 3].map((i) => (
-          <div key={i} className="relative overflow-hidden bg-[#e9ebed]" style={{ height: VIEW_H }}>
+          <div key={i} className="relative overflow-hidden bg-[#111111]" style={{ height: VIEW_H }}>
+            {/* the actual clip — muted, looping, decorative */}
+            <video
+              src="/assets/social/fyp.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload={i === 0 ? "auto" : "none"}
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ transform: `scale(1.02) translateY(${i * 2}px)` }}
+            />
+            <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/25" />
             <div className="absolute inset-x-0 top-0 flex gap-1 p-2">
               {[0, 1, 2, 3].map((s) => (
                 <span key={s} className={`h-[3px] flex-1 rounded-full ${s <= i ? "bg-white" : "bg-white/40"}`} />
               ))}
-            </div>
-            <div className="absolute inset-0 grid place-items-center">
-              <span className="grid h-12 w-12 place-items-center rounded-full bg-white/85 shadow">
-                <span className="ml-1 block h-0 w-0 border-y-[8px] border-l-[13px] border-y-transparent border-l-[#111111]" />
-              </span>
             </div>
             <div className="absolute right-2 bottom-4 flex flex-col items-center gap-2.5">
               {["♥", "💬", "↗"].map((g, k) => (
@@ -145,7 +153,14 @@ function FeedCards({ kind }: { kind: FeedKind }) {
             <div className="mt-2 space-y-1">
               <Bar w="100%" o={0.1} />
               <Bar w="90%" o={0.1} />
-              {i % 2 === 0 && <div className="mt-1.5 h-14 rounded-lg bg-[#eceef0]" />}
+              {i % 2 === 0 && (
+                <img
+                  src={i === 0 ? "/assets/social/feed1.png" : "/assets/social/feed2.png"}
+                  alt=""
+                  loading="lazy"
+                  className="mt-1.5 h-14 w-full rounded-lg object-cover"
+                />
+              )}
             </div>
             <div className="mt-2 flex items-center gap-1.5 border-t border-black/[0.05] pt-1.5">
               <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#1e6b3c] text-[7px] text-white">👍</span>
