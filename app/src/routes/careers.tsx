@@ -93,7 +93,7 @@ function Hero({ onApply }: { onApply: () => void }) {
   return (
     <section className="relative flex min-h-[50vh] items-end overflow-hidden bg-[#0c0c0c] text-white">
       <img
-        src="/assets/careers_hero.jpg"
+        src="/assets/careers_hero_v2.jpg"
         alt=""
         className="absolute inset-0 h-full w-full object-cover opacity-40"
       />
