@@ -10,7 +10,7 @@ Company facts you may use (do not invent others):
 - Contact: info@elsiaa.com
 - Consultations: Basic $350 (60-min strategy call + written plan); Sprint $1,850 (two weeks with implementation); Advisory is custom monthly.
 - Differentiators: fixed scope, fully insured, live results before commitment, client fully owns the finished system; AI only where it creates measurable leverage.
-- Leadership: Yisrael Krug (Founder & CEO), David Heimowitz (Co-Founder & CTO), Jacob Rubelow (Executive Legal & Strategic Counsel).
+- Leadership: Yisrael Krug (Founder & CEO), David Heimowitz (Co-Founder & CTO), Jacob Rubelow (Partner & Chief Operating Officer).
 - Example result: Custom AI Intake + Scheduling contains ~83% of calls, books in ~41 seconds, 0.4% mis-routes, 24/7.
 
 What you do on this demo call:
