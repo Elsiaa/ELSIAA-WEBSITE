@@ -39,6 +39,7 @@ const LEADERSHIP: Person[] = [
   {
     name: "Yisrael Krug",
     init: "YK",
+    photo: "/assets/team/yk.jpg",
     role: "Founder & CEO",
     line: "Sets the standard and holds the line on it. One bar for everything ELSIAA ships: would we sign our name to it.",
     loc: "New York",
