@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { LionWalker } from "./LionWalker";
-import { SiteSearch, SEARCH_INDEX } from "./SiteSearch";
+import { SiteSearch } from "./SiteSearch";
+import { search as runSearch } from "../lib/search-engine";
 import { LangSwitcher } from "./LangSwitcher";
 
 /*
@@ -342,12 +343,10 @@ export function SiteNav() {
 
 function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
   const [q, setQ] = useState("");
-  const results = (() => {
-    const t = q.trim().toLowerCase();
-    if (!t) return [];
-    return SEARCH_INDEX.filter((e) =>
-      `${e.label} ${e.group} ${e.keys ?? ""}`.toLowerCase().includes(t),
-    ).slice(0, 5);
+  const { results, didYouMean } = (() => {
+    if (!q.trim()) return { results: [], didYouMean: null as string | null };
+    const r = runSearch(q, 5);
+    return { results: r.hits.map((h) => h.entry), didYouMean: r.didYouMean };
   })();
   return (
     <div>
@@ -383,6 +382,14 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
             </a>
           ))}
         </div>
+      )}
+      {didYouMean && (
+        <button
+          onClick={() => setQ(didYouMean)}
+          className="mt-2 block text-[13px] text-[#111111]/60 hover:underline"
+        >
+          Did you mean <span className="font-semibold" style={{ color: GOLD }}>{didYouMean}</span>?
+        </button>
       )}
       {q.trim() && (
         <a

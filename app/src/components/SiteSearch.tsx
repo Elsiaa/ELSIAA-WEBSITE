@@ -1,63 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { SEARCH_INDEX, search, type Entry } from "../lib/search-engine";
 
 /*
-  Site-wide search — ⌘K / tap the magnifier. Client-side index of every
-  page, division, service, city, and role. Instant filtering, keyboard
-  navigation, jump on enter.
+  Site-wide search — ⌘K / tap the magnifier. The index and the ranking now
+  live in lib/search-engine (typo tolerance, entity aliases, did-you-mean);
+  this file is the overlay UI around it.
 */
-export type Entry = { label: string; group: string; href: string; keys?: string };
-
-export const SEARCH_INDEX: Entry[] = [
-  { label: "Home", group: "Pages", href: "/" },
-  { label: "Clients — new & existing", group: "Pages", href: "/clients", keys: "clients onboarding start portal login existing new" },
-  { label: "Services", group: "Pages", href: "/services" },
-  { label: "Work — our work", group: "Pages", href: "/designs", keys: "portfolio showcase work designs" },
-  { label: "Careers — we are hiring", group: "Pages", href: "/careers", keys: "jobs hiring apply application" },
-  { label: "Contact", group: "Pages", href: "mailto:info@elsiaa.com", keys: "email reach us" },
-
-  { label: "Design division", group: "Divisions", href: "/designs" },
-  { label: "Automation division", group: "Divisions", href: "/services" },
-  { label: "Software division", group: "Divisions", href: "/services" },
-  { label: "Consultation division", group: "Divisions", href: "/#consultation", keys: "advice strategy pricing" },
-
-  { label: "Website Design & Development", group: "Services", href: "/designs", keys: "web ui ux saas ecommerce dashboards" },
-  { label: "UI/UX Design", group: "Services", href: "/designs" },
-  { label: "Mobile App Design", group: "Services", href: "/designs", keys: "ios android ui" },
-  { label: "Branding & Logo Design", group: "Services", href: "/designs", keys: "brand identity packaging print" },
-  { label: "Marketing Graphics", group: "Services", href: "/designs", keys: "social media motion presentation" },
-  { label: "3D Product Renders", group: "Services", href: "/designs", keys: "product staging commercial imagery" },
-  { label: "Sales Automation", group: "Services", href: "/services", keys: "outreach crm pipelines" },
-  { label: "Operations Automation", group: "Services", href: "/services", keys: "workflows back office" },
-  { label: "Customer Support Automation", group: "Services", href: "/services", keys: "follow-up email slack discord bots" },
-  { label: "Finance Automation", group: "Services", href: "/services", keys: "invoice reporting dashboards" },
-  { label: "AI Workflow Automation", group: "Services", href: "/services", keys: "agents assistants" },
-  { label: "Custom Software", group: "Services", href: "/services", keys: "web mobile enterprise infrastructure" },
-  { label: "Strategy Consultation", group: "Services", href: "/#consultation", keys: "1-on-1 calls advisory" },
-  { label: "Consultation pricing", group: "Services", href: "/#consultation", keys: "basic sprint advisory 350 1850 book session" },
-
-  { label: "New York City office", group: "Locations", href: "/locations", keys: "nyc usa america" },
-  { label: "London office", group: "Locations", href: "/locations", keys: "uk england" },
-  { label: "Geneva office", group: "Locations", href: "/locations", keys: "switzerland" },
-  { label: "Antwerp office", group: "Locations", href: "/locations", keys: "belgium" },
-  { label: "Tel Aviv office", group: "Locations", href: "/locations", keys: "israel" },
-  { label: "Los Angeles office", group: "Locations", href: "/locations", keys: "la california usa" },
-
-  { label: "Apply — Designers", group: "Careers", href: "/careers", keys: "design job" },
-  { label: "Apply — Engineers", group: "Careers", href: "/careers", keys: "engineering developer job" },
-  { label: "Apply — Sales", group: "Careers", href: "/careers", keys: "sales job" },
-  { label: "The team", group: "Company", href: "/#team", keys: "yisrael krug david heimowitz jacob rubelow chaim lieberman izzy eisenberg founder ceo cto legal" },
-];
-
-function score(e: Entry, q: string): number {
-  const hay = `${e.label} ${e.group} ${e.keys ?? ""}`.toLowerCase();
-  const words = q.toLowerCase().split(/\s+/).filter(Boolean);
-  let sc = 0;
-  for (const w of words) {
-    if (!hay.includes(w)) return 0;
-    sc += e.label.toLowerCase().startsWith(w) ? 3 : e.label.toLowerCase().includes(w) ? 2 : 1;
-  }
-  return sc;
-}
+export { SEARCH_INDEX };
+export type { Entry };
 
 export function SiteSearch({
   open,
@@ -70,13 +20,10 @@ export function SiteSearch({
   const [sel, setSel] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const results = useMemo(() => {
-    if (!q.trim()) return SEARCH_INDEX.slice(0, 8);
-    return SEARCH_INDEX.map((e) => [score(e, q), e] as const)
-      .filter(([s]) => s > 0)
-      .sort((a, b) => b[0] - a[0])
-      .map(([, e]) => e)
-      .slice(0, 10);
+  const { results, didYouMean } = useMemo(() => {
+    if (!q.trim()) return { results: SEARCH_INDEX.slice(0, 8), didYouMean: null as string | null };
+    const r = search(q, 10);
+    return { results: r.hits.map((h) => h.entry), didYouMean: r.didYouMean };
   }, [q]);
 
   useEffect(() => {
@@ -139,9 +86,19 @@ export function SiteSearch({
         </div>
         <div className="max-h-[46vh] overflow-y-auto py-2">
           {results.length === 0 && (
-            <p className="px-5 py-6 text-[14px] text-[#111111]/55">
-              Nothing found — try "automation", "pricing", or "careers".
-            </p>
+            <div className="px-5 py-6">
+              <p className="text-[14px] text-[#111111]/60">
+                No matches for "{q.trim()}".
+              </p>
+              {didYouMean && (
+                <button
+                  onClick={() => setQ(didYouMean)}
+                  className="mt-2 text-[14px] font-medium text-[#1e6b3c] hover:underline"
+                >
+                  Did you mean "{didYouMean}"?
+                </button>
+              )}
+            </div>
           )}
           {results.map((r, i) => (
             <button

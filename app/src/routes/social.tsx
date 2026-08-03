@@ -181,10 +181,10 @@ function SocialPage() {
  <section className="bg-white px-6 py-20 md:py-24">
         <div className="mx-auto max-w-6xl">
           <Reveal>
-            <h2 className="max-w-2xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: SANS }}>
+            <h2 className="mx-auto max-w-2xl text-center text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: SANS }}>
               Where attention already lives.
             </h2>
-            <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
+            <p className="mx-auto mt-3 max-w-lg text-center text-[15px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
               The surfaces your customer already scrolls — Instagram, TikTok, and the rest.
               We put your brand in the scroll and make it stop.
             </p>
