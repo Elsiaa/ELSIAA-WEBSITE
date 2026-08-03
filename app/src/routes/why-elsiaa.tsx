@@ -30,7 +30,6 @@ export const Route = createFileRoute("/why-elsiaa")({
 const SANS =
   "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 const OFFICES = "New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv";
-const HEBREW = "בעזרת ה׳ נעשה ונצליח";
 
 /* Monochrome glyphs of the tools everyone knows — nominal, low-key, secondary. */
 function AiMark({ kind }: { kind: "openai" | "claude" | "gemini" | "meta" | "grok" }) {
@@ -88,102 +87,47 @@ const AI_TOOLS: Array<{ kind: "openai" | "claude" | "gemini" | "meta" | "grok"; 
 ];
 
 /* Corporate reason icons — restrained line art, emerald on dark. */
-function ReasonArt({ kind }: { kind: string }) {
-  const p = { width: 44, height: 44, viewBox: "0 0 44 44", fill: "none", stroke: "#1e6b3c", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
-  switch (kind) {
-    case "insured":
-      return (
-        <svg {...p} aria-hidden>
-          <path d="M22 5l13 5v9c0 8.5-5.5 14.5-13 18-7.5-3.5-13-9.5-13-18v-9l13-5z" />
-          <path d="M16 22l4.5 4.5L29 18" />
-        </svg>
-      );
-    case "leaks":
-      return (
-        <svg {...p} aria-hidden>
-          <rect x="8" y="17" width="28" height="19" rx="4" />
-          <path d="M14 17v-4a8 8 0 0116 0v4" />
-          <circle cx="22" cy="26" r="2.6" />
-          <line x1="22" y1="28.5" x2="22" y2="31.5" />
-        </svg>
-      );
-    case "bugs":
-      return (
-        <svg {...p} aria-hidden>
-          <ellipse cx="22" cy="25" rx="9" ry="11" />
-          <path d="M22 14v-4M13 25H6M38 25h-7M15 16l-4-4M29 16l4-4M15 33l-5 4M29 33l5 4" />
-          <line x1="22" y1="19" x2="22" y2="31" />
-        </svg>
-      );
-    case "hacks":
-      return (
-        <svg {...p} aria-hidden>
-          <rect x="7" y="9" width="30" height="22" rx="3" />
-          <path d="M14 16l5 4-5 4M22 26h8" />
-          <path d="M17 36h10M22 31v5" />
-        </svg>
-      );
-    case "hipaa":
-      return (
-        <svg {...p} aria-hidden>
-          <rect x="10" y="7" width="24" height="30" rx="3" />
-          <path d="M17 7.5V6a3 3 0 013-3h4a3 3 0 013 3v1.5" />
-          <path d="M22 15v10M17 20h10" />
-          <path d="M16 31h12" strokeOpacity="0.6" />
-        </svg>
-      );
-    default: // team
-      return (
-        <svg {...p} aria-hidden>
-          <circle cx="15" cy="15" r="5" />
-          <circle cx="30" cy="17" r="4" />
-          <path d="M6 34c0-5.5 4-9 9-9s9 3.5 9 9M24 34c.5-4.5 3-7.5 7-7.5 3.4 0 6 2.2 7 5.5" />
-        </svg>
-      );
-  }
-}
-
-const REASONS: Array<{ num: string; kind: string; title: string; body: string; solo: string }> = [
+const REASONS: Array<{ num: string; art: string; title: string; body: string; solo: string }> = [
   {
     num: "01",
-    kind: "leaks",
+    art: "/assets/why/data.png",
     title: "Your data stays yours",
-    body: "Client data is isolated, encrypted, and never used to train any model. We decide exactly what the AI can see — and what it never can.",
+    body: "Isolated, encrypted, never used to train a model. We decide exactly what the AI can see.",
     solo: "Going solo: an employee pastes your customer list into a public chatbot. It is now outside your control and possibly in the next training run.",
   },
   {
     num: "02",
-    kind: "bugs",
+    art: "/assets/why/bugs.png",
     title: "Protected against bugs",
-    body: "Every system is tested, monitored, and maintained by engineers. Failures are caught in staging — not by your customers.",
+    body: "Engineers test and monitor every system. Failures surface in staging, not in front of your customers.",
     solo: "Going solo: AI-generated code with a silent bug quietly corrupts three months of invoices before anyone notices.",
   },
   {
     num: "03",
-    kind: "hacks",
+    art: "/assets/why/hacks.png",
     title: "Hardened against hacks",
-    body: "Keys, permissions, and infrastructure locked to professional standards and kept patched as threats evolve.",
+    body: "Keys, permissions, and infrastructure locked to professional standards and kept patched.",
     solo: "Going solo: one exposed API key in a script and an attacker runs up your accounts — or walks through your systems.",
   },
   {
     num: "04",
-    kind: "hipaa",
+    art: "/assets/why/hipaa.png",
     title: "HIPAA & compliance ready",
-    body: "Healthcare groups run on ELSIAA systems because we build to regulatory standards: HIPAA-conscious architecture, audit trails, retention rules.",
+    body: "Built to regulatory standards — audit trails, retention rules, and a signed BAA where one is required.",
     solo: "Going solo: an untracked AI tool touches patient data. That is a reportable breach, federal fines, and a headline.",
   },
   {
     num: "05",
-    kind: "insured",
+    art: "/assets/why/insured.png",
     title: "Fully insured",
-    body: "Every engagement is insured for real business use. If it runs your operation, it carries coverage — not a disclaimer.",
+    body: "ELSIAA carries professional liability and cyber cover on every engagement.",
     solo: "Going solo: when a DIY automation makes a costly mistake, there is no coverage and no one accountable. The loss is yours alone.",
   },
   {
     num: "06",
-    kind: "team",
+    art: "/assets/why/team.png",
     title: "AI maximised by a professional team",
-    body: "Operators from every industry + frontier engineers extracting everything the tools can actually do — applied directly to your process.",
+    body: "Operators who know the work plus engineers who know the tools, applied to your process.",
     solo: "Going solo: the tools are capable of ten times what most people get out of them. Without the team, that value stays on the table.",
   },
 ];
@@ -193,16 +137,8 @@ function WhyElsiaaPage() {
     <main style={{ fontFamily: SANS }} className="min-h-screen bg-white text-[#111111]">
       <SiteNav />
 
-      {/* header meta — offices + the Hebrew line, tight under the nav */}
-      <div className="border-b border-black/[0.06] pt-[68px]">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-6 py-2.5">
-          <span className="text-[12px] tracking-[0.01em] text-[#111111]/45">{OFFICES}</span>
-          <span dir="rtl" className="text-[13px] text-[#111111]/55">{HEBREW}</span>
-        </div>
-      </div>
-
       {/* ── hero — the objection, then the answer ── */}
-      <section className="px-6 pt-16 pb-14 md:pt-24 md:pb-20">
+      <section className="px-6 pt-36 pb-14 md:pt-44 md:pb-20">
         <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* the objection, as a real pull quote */}
           <Reveal>
@@ -273,13 +209,18 @@ function WhyElsiaaPage() {
 
           <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
             {REASONS.map((d, i) => (
-              <Reveal key={d.num} delay={Math.min((i % 2) * 0.06, 0.12)}>
-                <article className="flex h-full flex-col rounded-3xl border border-black/[0.08] bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.3)] md:p-8">
+              <Reveal key={d.num} className="h-full" delay={Math.min((i % 2) * 0.06, 0.12)}>
+                <article className="group flex h-full flex-col rounded-3xl border border-black/[0.08] bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.3)] md:p-8">
                   <div className="flex items-start gap-4">
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#1e6b3c]/[0.07]">
-                      <ReasonArt kind={d.kind} />
-                    </span>
-                    <div className="min-w-0">
+                    <img
+                      src={d.art}
+                      alt=""
+                      loading="lazy"
+                      width={160}
+                      height={160}
+                      className="h-16 w-16 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105 md:h-20 md:w-20"
+                    />
+                    <div className="min-w-0 pt-1">
                       <p className="text-[11.5px] font-bold tracking-[0.16em] text-[#1e6b3c]">{d.num}</p>
                       <h3 className="mt-1 text-[18px] leading-tight font-semibold tracking-[-0.02em] text-[#111111] md:text-[20px]">
                         {d.title}
@@ -291,16 +232,14 @@ function WhyElsiaaPage() {
                     {d.body}
                   </p>
 
-                  <div className="mt-auto pt-6">
-                    <div className="rounded-2xl bg-[#b4543a]/[0.05] p-4">
-                      <p className="text-[11px] font-bold tracking-[0.14em] text-[#b4543a]/85 uppercase">
-                        Going solo
-                      </p>
-                      <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#111111]/55">
-                        {d.solo.replace(/^Going solo:\s*/, "")}
-                      </p>
-                    </div>
-                  </div>
+                  {/* the risk, as one line — a labelled box on all six read as boilerplate */}
+                  <p className="mt-auto flex gap-2.5 pt-6 text-[13.5px] leading-relaxed text-[#111111]/55">
+                    <span aria-hidden className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#b4543a]" />
+                    <span>
+                      <span className="font-semibold text-[#b4543a]">Alone:</span>{" "}
+                      {d.solo.replace(/^Going solo:\s*/, "")}
+                    </span>
+                  </p>
                 </article>
               </Reveal>
             ))}
@@ -316,29 +255,17 @@ function WhyElsiaaPage() {
               About ELSIAA
             </p>
             <h2 className="mt-5 text-2xl font-semibold leading-[1.15] tracking-[-0.035em] md:text-4xl">
-              Operators who have run businesses like yours.
+              Young and experienced professionals,
               <br className="hidden sm:block" />
-              Engineers who build at the frontier of AI.
+              at one table.
             </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
-              ELSIAA turns that combined expertise into working systems for your exact
-              process — one standard, full ownership, fully insured.
+            <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-[#111111]/65 md:text-[16px]">
+              ELSIAA brings you the cutting edge of what the AI industry actually has to
+              offer — at the best price. Operators who have run businesses like yours,
+              engineers who build at the frontier, working on your process together.
             </p>
 
-            <div className="mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-4 border-y border-black/[0.08] py-6">
-              {[
-                ["6", "Cities"],
-                ["3", "Continents"],
-                ["100%", "Insured"],
-              ].map(([n, l]) => (
-                <div key={l}>
-                  <p className="text-[26px] font-semibold tracking-[-0.03em] md:text-[32px]">{n}</p>
-                  <p className="mt-1 text-[12.5px] text-[#111111]/50">{l}</p>
-                </div>
-              ))}
-            </div>
-
-            <p className="mx-auto mt-6 max-w-2xl text-[13.5px] leading-relaxed text-[#111111]/45">
+            <p className="mx-auto mt-8 max-w-2xl border-t border-black/[0.08] pt-6 text-[13.5px] leading-relaxed text-[#111111]/50">
               On the ground in {OFFICES} — with regional U.S. offices in Baltimore,
               Montvale, and Kingston.
             </p>
@@ -358,7 +285,7 @@ function WhyElsiaaPage() {
       <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 text-center md:py-24">
         <Reveal>
           <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
-            We upgrade your business daily.
+            Bring us the process. We will build it.
           </h2>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <a

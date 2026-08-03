@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ElsiaaChat } from "./ElsiaaChat";
 
 /*
   Floating "Book a call" pill — appears after the reader is invested
@@ -8,6 +9,7 @@ import { useEffect, useState } from "react";
 export function FloatingBook() {
   const [show, setShow] = useState(false);
   const [dead, setDead] = useState(true);
+  const [chat, setChat] = useState(false);
 
   useEffect(() => {
     if (window.location.pathname.startsWith("/portal")) return;
@@ -23,6 +25,7 @@ export function FloatingBook() {
 
   if (dead) return null;
   return (
+    <>
     <div
       className="fixed right-4 z-40 hidden transition-all duration-500 md:block"
       style={{
@@ -32,6 +35,15 @@ export function FloatingBook() {
         pointerEvents: show ? "auto" : "none",
       }}
     >
+      <div className="flex items-center gap-2">
+      <button
+        onClick={() => setChat(true)}
+        className="flex min-h-[48px] items-center gap-2 rounded-full border border-black/10 bg-white pl-5 pr-6 text-[13px] font-bold text-[#111111] shadow-[0_18px_44px_-18px_rgba(0,0,0,0.35)] transition-colors hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+        style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+      >
+        <img src="/assets/quote/robot.png" alt="" width={56} height={56} className="h-7 w-7 object-contain" />
+        Chat with ELSIAA
+      </button>
       <div className="flex items-center gap-1.5 rounded-full bg-[#111111] pl-6 pr-2 shadow-[0_18px_44px_-18px_rgba(0,0,0,0.5)]">
         <a
           href="/contact"
@@ -51,6 +63,9 @@ export function FloatingBook() {
           ✕
         </button>
       </div>
+      </div>
     </div>
+    <ElsiaaChat open={chat} onClose={() => setChat(false)} />
+    </>
   );
 }
