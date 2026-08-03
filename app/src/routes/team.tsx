@@ -59,7 +59,7 @@ const LEADERSHIP: Person[] = [
     name: "Jacob Rubelow",
     init: "JR",
     photo: "/assets/team/jr.jpg",
-    role: "Executive Legal & Strategic Counsel",
+    role: "Partner & Chief Operating Officer",
     line: "Strategist and partner. Bachelor's in mathematics, magna cum laude, from Touro University; George Washington University Law School; background in intensive Talmudic study. Active EMT and firefighter.",
     loc: "New York",
     href: "mailto:jacob@elsiaa.com",
@@ -221,17 +221,17 @@ function TeamPage() {
             className="text-[13px] text-[#1e6b3c] "
             style={{ fontFamily: MONO }}
           >
-            Who we are
+            The team behind ELSIAA
           </p>
           <h1
             className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl"
             style={{ fontFamily: SANS }}
           >
-            Leadership of consequence.
+            The people who build it.
           </h1>
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
-            Founders, operators, and tenured professors of medicine — sitting at
-            one table, holding one standard.
+            Operators, engineers, counsel, and advisors — the people responsible
+            for everything ELSIAA ships.
           </p>
           <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-black/[0.06] pt-6">
             {[
