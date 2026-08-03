@@ -537,8 +537,8 @@ function AutomationSection() {
         <div className="pointer-events-none relative inline-block">
           <video
             ref={vidRef}
-            src="/assets/robot3d_wave_only.mp4"
-            poster="/assets/robot3d_wave.png"
+            src="/assets/robot3d_wave_v2.mp4"
+            poster="/assets/robot3d_wave_v2.jpg"
             autoPlay
             loop
             muted
