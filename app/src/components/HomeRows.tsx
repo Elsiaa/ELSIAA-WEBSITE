@@ -528,12 +528,12 @@ function AutomationSection() {
         </h2>
         <video
           ref={vidRef}
-          src="/assets/robot3d_scrub.mp4"
+          src="/assets/robot3d_wave_only.mp4"
           poster="/assets/robot3d_wave.png"
           muted
           playsInline
           preload="auto"
-          aria-label="The ELSIAA robot — waves, points at you, and waves again as you scroll"
+          aria-label="The ELSIAA robot, waving as you scroll"
           className="pointer-events-none block w-auto select-none"
           style={{
             height: "min(64vh, 560px)",
