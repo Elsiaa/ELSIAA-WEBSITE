@@ -156,7 +156,7 @@ function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-6xl px-6 py-16 text-center md:py-20">
+      <section className="mx-auto max-w-6xl px-6 py-16 text-center md:py-16">
         <Reveal>
           <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
             Tell us what you need built.

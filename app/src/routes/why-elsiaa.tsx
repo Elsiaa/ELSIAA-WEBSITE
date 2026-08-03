@@ -196,7 +196,7 @@ function WhyElsiaaPage() {
       </section>
 
       {/* ── the six reasons ── */}
-      <section className="border-t border-black/[0.06] bg-[#FBFBFA] px-6 py-14 md:py-20">
+      <section className="border-t border-black/[0.06] bg-[#FBFBFA] px-6 py-14 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <h2 className="max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl">
@@ -248,7 +248,7 @@ function WhyElsiaaPage() {
       </section>
 
       {/* ── about ELSIAA ── */}
-      <section className="border-t border-black/[0.06] px-6 py-16 md:py-24">
+      <section className="border-t border-black/[0.06] px-6 py-16 md:py-16">
         <div className="mx-auto max-w-4xl text-center">
           <Reveal>
             <p className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase">
@@ -282,7 +282,7 @@ function WhyElsiaaPage() {
       </section>
 
       {/* ── outcome + CTA ── */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 text-center md:py-24">
+      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 text-center md:py-16">
         <Reveal>
           <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
             Bring us the process. We will build it.

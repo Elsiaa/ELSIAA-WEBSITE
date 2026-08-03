@@ -59,7 +59,7 @@ function ClientsPage() {
       </section>
 
       {/* two paths */}
- <section className="bg-[#F5F5F3] px-6 py-16 md:py-20">
+ <section className="bg-[#F5F5F3] px-6 py-16 md:py-16">
         <div className="mx-auto grid max-w-5xl gap-5 md:grid-cols-2">
           {/* new clients */}
           <Reveal>
@@ -94,13 +94,13 @@ function ClientsPage() {
       </section>
 
       {/* how we work */}
- <section className="bg-white px-6 py-20 md:py-24">
+ <section className="bg-white px-6 py-14 md:py-16">
         <div className="mx-auto max-w-5xl">
           <Reveal>
             <p className={eyebrow} style={mono}>How we work</p>
             <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl" style={inter}>From first call to running system.</h2>
           </Reveal>
-          <ol className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <ol className="mt-9 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {STEPS.map(([n, t, d], i) => (
               <Reveal key={n} delay={i * 0.05}>
                 <li className="border-t border-black/10 pt-4">
@@ -115,7 +115,7 @@ function ClientsPage() {
       </section>
 
       {/* what to expect */}
- <section className="bg-[#F5F5F3] px-6 py-20 md:py-24">
+ <section className="bg-[#F5F5F3] px-6 py-14 md:py-16">
         <div className="mx-auto max-w-5xl">
           <Reveal>
             <p className={eyebrow} style={mono}>What to expect</p>
@@ -135,7 +135,7 @@ function ClientsPage() {
       </section>
 
       {/* results */}
- <section className="bg-white px-6 py-20 md:py-24">
+ <section className="bg-white px-6 py-14 md:py-16">
         <div className="mx-auto max-w-5xl">
           <Reveal>
             <p className={eyebrow} style={mono}>Results</p>
@@ -160,7 +160,7 @@ function ClientsPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#0c0c0c] px-6 py-20 text-white md:py-28">
+      <section className="bg-[#0c0c0c] px-6 py-14 text-white md:py-16">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <h2 className="text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>Let's find your first system.</h2>

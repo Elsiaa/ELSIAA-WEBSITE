@@ -111,28 +111,40 @@ function Rail({
   return (
     // full-bleed: the rail breaks out of the page container and runs to ~2mm
     // from each screen edge; cards fade in/out through the edge masks below
-    <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 px-2">
+    <div
+      className="relative left-1/2 -translate-x-1/2 px-2"
+      style={{ width: "calc(100vw - var(--sbw, 0px))" }}
+    >
       <button
         aria-label="Previous"
         onClick={() => nudge(-1)}
-        className="absolute top-1/2 left-1 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/95 text-[#111111] shadow-md backdrop-blur transition-all hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+        className="absolute top-1/2 left-1 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/95 text-[#111111] shadow-md backdrop-blur transition-all hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
       >
         ←
       </button>
       <button
         aria-label="Next"
         onClick={() => nudge(1)}
-        className="absolute top-1/2 right-1 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/95 text-[#111111] shadow-md backdrop-blur transition-all hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+        className="absolute top-1/2 right-1 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/95 text-[#111111] shadow-md backdrop-blur transition-all hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
       >
         →
       </button>
       <div
         ref={railRef}
+        tabIndex={0}
+        role="group"
+        aria-label="Scrollable list — use the left and right arrow keys"
         onPointerEnter={() => (paused.current = true)}
         onPointerLeave={() => (paused.current = false)}
         onTouchStart={() => (paused.current = true)}
         onTouchEnd={() => (paused.current = false)}
-        className="flex gap-3 overflow-x-auto px-2 pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        onFocus={() => (paused.current = true)}
+        onBlur={() => (paused.current = false)}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowRight") { e.preventDefault(); nudge(1); }
+          if (e.key === "ArrowLeft") { e.preventDefault(); nudge(-1); }
+        }}
+        className="flex gap-2.5 overflow-x-auto px-2 pb-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{
           WebkitMaskImage:
             "linear-gradient(to right, transparent 0, black 84px, black calc(100% - 84px), transparent 100%)",
@@ -215,7 +227,7 @@ function DivisionRow({
         {subs.length > 0 && (
         <Reveal delay={0.1}>
         <div className="mt-10">
-          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-4">
+          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
             {subs.map((s, i) => (
               <a
                 key={`${s.name}-${i}`}
@@ -634,7 +646,7 @@ function HeroCards() {
     },
   ];
   return (
- <section className="bg-white py-14 md:py-20">
+ <section className="bg-white py-14 md:py-16">
       <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           {items.map((it, i) => (
@@ -773,7 +785,7 @@ function Locations() {
   const inter = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   return (
     <section
-      className="relative overflow-hidden border-t border-black/[0.06] bg-white py-16 text-[#111111] md:py-24"
+      className="relative overflow-hidden border-t border-black/[0.06] bg-white py-16 text-[#111111] md:py-16"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -1037,7 +1049,16 @@ function MerchStrip() {
       </div>
       <Reveal delay={0.08}>
       <div className="mt-8">
-        <div className="flex gap-3 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div
+          tabIndex={0}
+          role="group"
+          aria-label="Scrollable list — use the left and right arrow keys"
+          onKeyDown={(e) => {
+            const el = e.currentTarget;
+            if (e.key === "ArrowRight") { e.preventDefault(); el.scrollBy({ left: Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
+            if (e.key === "ArrowLeft") { e.preventDefault(); el.scrollBy({ left: -Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
+          }}
+          className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
           {MERCH.slice(0, 8).map((m, i) => (
             <a
               key={`${m.name}-${i}`}
@@ -1169,7 +1190,15 @@ function AutomationCatalog() {
 
             <div
               ref={rowRef}
-              className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        tabIndex={0}
+        role="group"
+        aria-label="Scrollable list — use the left and right arrow keys"
+        onKeyDown={(e) => {
+          const el = e.currentTarget;
+          if (e.key === "ArrowRight") { e.preventDefault(); el.scrollBy({ left: Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
+          if (e.key === "ArrowLeft") { e.preventDefault(); el.scrollBy({ left: -Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
+        }}
+              className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]"
             >
               {AUTOSOFT.map((s, i) => (
                 <a
@@ -1342,7 +1371,7 @@ function DesignCatalog() {
   return (
     <div className="mx-auto w-full max-w-6xl px-6">
       <Reveal delay={0.05}>
-        <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-5">
+        <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
           {DESIGN.map((s, i) => (
             <a key={`${s.name}-${i}`} href="/designs" className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]">
               <div className="flex items-center justify-between">
@@ -1413,7 +1442,7 @@ function AdoptionSection() {
   }, []);
 
   return (
-    <section ref={ref} className="border-y border-black/[0.06] bg-[#FBFBFA] py-16 md:py-24" id="adoption">
+    <section ref={ref} className="border-y border-black/[0.06] bg-[#FBFBFA] py-16 md:py-16" id="adoption">
       <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,470px)] lg:gap-16">
           {/* the argument */}

@@ -164,7 +164,7 @@ function InsightsPage() {
       <SiteNav />
 
       {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-40 pb-14 md:pt-44 md:pb-20">
+      <section className="mx-auto max-w-6xl px-6 pt-32 pb-14 md:pt-44 md:pb-20">
         <Reveal>
           <div className="flex items-center gap-3">
             <p className="text-[13px] text-[#1e6b3c] " style={mono}>
@@ -190,7 +190,7 @@ function InsightsPage() {
 
         {/* featured lead article */}
         <Reveal delay={0.1}>
-          <article className="mt-12 overflow-hidden rounded-2xl border border-black/[0.07] bg-white md:grid md:grid-cols-[1.05fr_1fr]">
+          <article className="mt-9 overflow-hidden rounded-2xl border border-black/[0.07] bg-white md:grid md:grid-cols-[1.05fr_1fr]">
             {/* type + color block instead of a photo */}
             <div className="relative flex min-h-[240px] flex-col justify-between overflow-hidden bg-[#0f1a13] p-8 md:min-h-full md:p-10">
               <div
@@ -273,7 +273,7 @@ function InsightsPage() {
 
       {/* stat band — stone */}
       <section className="bg-[#F5F5F3]">
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <div className="mx-auto max-w-6xl px-6 py-16 md:py-16">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -342,7 +342,7 @@ function InsightsPage() {
       </section>
 
       {/* article grid */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-16">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -426,7 +426,7 @@ function InsightsPage() {
       </section>
 
       {/* get the research CTA */}
-      <section className="bg-[#070907] px-6 py-24 text-[#F5F5F3]">
+      <section className="bg-[#070907] px-6 py-16 text-[#F5F5F3]">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
             <p className="text-[13px] text-[#4fb37a] " style={mono}>

@@ -232,7 +232,7 @@ export function ElsiaaExperience() {
 
 function StaticJourney() {
   return (
-    <section className="flex min-h-dvh flex-col items-center justify-center gap-10 bg-white px-6 py-24 text-center">
+    <section className="flex min-h-dvh flex-col items-center justify-center gap-10 bg-white px-6 py-16 text-center">
       <img
         src={STILL_SRC}
         alt="Bad design being torn right out of the screen"

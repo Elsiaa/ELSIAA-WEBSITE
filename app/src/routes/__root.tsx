@@ -177,6 +177,21 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+/* 100vw includes the scrollbar. Full-bleed rails subtract this so they stay
+   inside the visible viewport instead of being clipped by overflow-x: clip. */
+function ScrollbarWidthVar() {
+  useEffect(() => {
+    const set = () => {
+      const w = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty("--sbw", `${Math.max(0, w)}px`);
+    };
+    set();
+    window.addEventListener("resize", set);
+    return () => window.removeEventListener("resize", set);
+  }, []);
+  return null;
+}
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   // Read the committed page metadata at build time (no runtime fetch).
   head: () => buildHead(appMeta),
@@ -234,6 +249,7 @@ function RootComponent() {
       {/* dark pages (Automate, Why ELSIAA) end tight on their own closing — no light footer */}
       {pathname !== "/automate" && <SiteFooter />}
       <FloatingBook />
+      <ScrollbarWidthVar />
       </LanguageProvider>
     </QueryClientProvider>
   );

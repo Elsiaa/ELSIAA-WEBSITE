@@ -34,7 +34,7 @@ function ProductBody() {
 
   if (!p) {
     return (
-      <section className="mx-auto max-w-6xl px-6 py-24 text-center" style={F}>
+      <section className="mx-auto max-w-6xl px-6 py-16 text-center" style={F}>
         <h1 className="text-2xl font-semibold">Not part of the catalog.</h1>
         <a href="/store" className="mt-4 inline-block text-[14px] font-medium text-[#1e6b3c] hover:underline">← Back to the store</a>
       </section>

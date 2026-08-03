@@ -62,7 +62,7 @@ function IntakePage() {
       </section>
 
       {/* the console */}
- <section id="console" className="scroll-mt-20 bg-[#F5F5F3] px-6 py-16 md:py-20">
+ <section id="console" className="scroll-mt-20 bg-[#F5F5F3] px-6 py-16 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl" style={inter}>Front end and back end, on one screen.</h2>
@@ -78,13 +78,13 @@ function IntakePage() {
       </section>
 
       {/* how it works */}
- <section className="bg-white px-6 py-24 md:py-28">
+ <section className="bg-white px-6 py-16 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] text-[#1e6b3c] " style={mono}>How it works</p>
             <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.04em] md:text-4xl" style={inter}>Four stages. One of them is knowing when to stop.</h2>
           </Reveal>
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-9 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {STACK.map(([t, d], i) => (
               <Reveal key={t} delay={i * 0.06}>
                 <div className="border-t border-black/10 pt-4">
@@ -99,7 +99,7 @@ function IntakePage() {
       </section>
 
       {/* worked example + spec */}
- <section className="bg-[#F5F5F3] px-6 py-24">
+ <section className="bg-[#F5F5F3] px-6 py-16">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr]">
           <Reveal>
             <p className="text-[13px] text-[#1e6b3c] " style={mono}>Why it holds up</p>
@@ -128,7 +128,7 @@ function IntakePage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#0c0c0c] px-6 py-24 text-white md:py-32">
+      <section className="bg-[#0c0c0c] px-6 py-16 text-white md:py-32">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <h2 className="text-4xl font-semibold tracking-[-0.045em] md:text-6xl" style={inter}>Put it on your line.</h2>
