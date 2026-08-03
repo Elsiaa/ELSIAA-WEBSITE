@@ -332,6 +332,23 @@ const DICT: Record<string, Row> = {
   "Work arrangement": { es: "Modalidad de trabajo", fr: "Mode de travail", de: "Arbeitsmodell", ru: "Формат работы", nl: "Werkregeling", he: "מתכונת עבודה", yi: "אַרבעט־אָרדענונג" },
   "Written by you, not by AI — machine-written answers are detected and disqualified.": { es: "Escrito por ti, no por IA — las respuestas generadas por máquina se detectan y quedan descalificadas.", fr: "Rédigé par vous, non par une IA — les réponses générées par une machine sont détectées et éliminées.", de: "Von Ihnen verfasst, nicht von einer KI — maschinell geschriebene Antworten werden erkannt und führen zum Ausschluss.", ru: "Написано вами, а не ИИ — машинно-сгенерированные ответы выявляются и отклоняются.", nl: "Door u geschreven, niet door AI — machinaal geschreven antwoorden worden gedetecteerd en gediskwalificeerd.", he: "בכתב ידכם, לא בעזרת AI — תשובות שנכתבו במכונה מזוהות ונפסלות.", yi: "אָנגעשריבן פֿון אײַך, נישט פֿון קינסטלעכער אינטעליגענץ — מאַשין־געשריבענע ענטפֿערס ווערן דערקענט און דיסקוואַליפֿיצירט." },
   "Your data stays yours": { es: "Tus datos siguen siendo tuyos", fr: "Vos données restent les vôtres", de: "Ihre Daten bleiben Ihre", ru: "Ваши данные остаются вашими", nl: "Uw data blijft van u", he: "המידע שלכם נשאר שלכם", yi: "אײַערע דאַטן בלײַבן אײַערע" },
+
+  // ---- stragglers ----
+  "Language": { es: "Idioma", fr: "Langue", de: "Sprache", ru: "Язык", nl: "Taal", he: "שפה", yi: "שפּראַך" },
+  "Three ways to start. Pick whichever fits — the first twenty minutes are always free.": { es: "Tres formas de empezar. Elige la que encaje — los primeros veinte minutos siempre son gratis.", fr: "Trois façons de commencer. Choisissez celle qui convient — les vingt premières minutes sont toujours gratuites.", de: "Drei Wege zu starten. Wählen Sie den passenden — die ersten zwanzig Minuten sind immer kostenlos.", ru: "Три способа начать. Выберите подходящий — первые двадцать минут всегда бесплатны.", nl: "Drie manieren om te beginnen. Kies wat past — de eerste twintig minuten zijn altijd gratis.", he: "שלוש דרכים להתחיל. בחרו את המתאימה — עשרים הדקות הראשונות תמיד חינם.", yi: "דרײַ וועגן אָנצוהייבן. קלײַבט אויס וואָס פּאַסט — די ערשטע צוואַנציק מינוט זײַנען שטענדיק פֿרײַ." },
+  "Free": { es: "Gratis", fr: "Gratuit", de: "Kostenlos", ru: "Бесплатно", nl: "Gratis", he: "חינם", yi: "פֿרײַ" },
+  "1-hour consult": { es: "Consulta de 1 hora", fr: "Consultation d'1 heure", de: "1-Stunden-Beratung", ru: "Консультация 1 час", nl: "Consult van 1 uur", he: "ייעוץ של שעה", yi: "קאָנסולטאַציע פֿון אַ שעה" },
+  "Scoped": { es: "Presupuestado", fr: "Cadré", de: "Definiert", ru: "С оценкой", nl: "Afgebakend", he: "מוגדר", yi: "באַגרענעצט" },
+  "We talk": { es: "Hablamos", fr: "Nous parlons", de: "Wir sprechen", ru: "Мы говорим", nl: "We praten", he: "מדברים", yi: "מיר רעדן" },
+  "We build": { es: "Construimos", fr: "Nous construisons", de: "Wir bauen", ru: "Мы строим", nl: "We bouwen", he: "בונים", yi: "מיר בויען" },
+  "It ships": { es: "Se lanza", fr: "Mise en ligne", de: "Es geht live", ru: "Запускаем", nl: "Het gaat live", he: "עולה לאוויר", yi: "עס גייט אַרויס" },
+  "Design, automation, software, and consultation — four divisions, one standard.": { es: "Diseño, automatización, software y consultoría — cuatro divisiones, un solo estándar.", fr: "Design, automatisation, logiciel et conseil — quatre divisions, un seul standard.", de: "Design, Automatisierung, Software und Beratung — vier Bereiche, ein Standard.", ru: "Дизайн, автоматизация, ПО и консалтинг — четыре направления, один стандарт.", nl: "Ontwerp, automatisering, software en advies — vier divisies, één standaard.", he: "עיצוב, אוטומציה, תוכנה וייעוץ — ארבעה תחומים, סטנדרט אחד.", yi: "דיזײַן, אויטאָמאַטיזאַציע, ווײַכווארג און קאָנסולטאַציע — פֿיר אָפּטיילן, איין סטאַנדאַרט." },
+  "Work": { es: "Trabajo", fr: "Travaux", de: "Arbeiten", ru: "Работы", nl: "Werk", he: "עבודה", yi: "אַרבעט" },
+  "The Store": { es: "La tienda", fr: "La boutique", de: "Der Shop", ru: "Магазин", nl: "De winkel", he: "החנות", yi: "דער קלייט" },
+  "Company": { es: "Empresa", fr: "Entreprise", de: "Unternehmen", ru: "Компания", nl: "Bedrijf", he: "החברה", yi: "פֿירמע" },
+  "Privacy": { es: "Privacidad", fr: "Confidentialité", de: "Datenschutz", ru: "Конфиденциальность", nl: "Privacy", he: "פרטיות", yi: "פּריוואַטקייט" },
+  "Terms": { es: "Términos", fr: "Conditions", de: "Bedingungen", ru: "Условия", nl: "Voorwaarden", he: "תנאים", yi: "תּנאָים" },
+  "24/7 Support": { es: "Soporte 24/7", fr: "Assistance 24/7", de: "24/7-Support", ru: "Поддержка 24/7", nl: "24/7 support", he: "תמיכה 24/7", yi: "שטיצע 24/7" },
 };
 
 type Ctx = { lang: Lang; setLang: (l: Lang) => void };
