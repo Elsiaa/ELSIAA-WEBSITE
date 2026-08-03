@@ -71,7 +71,10 @@ export function portalEnv() {
     siteUrl: read("VITE_SITE_URL"),
     databaseUrl: read("DATABASE_URL"),
     databaseSslNoVerify: read("DATABASE_SSL_NO_VERIFY") === "1",
-    authSecret: read("AUTH_SECRET"),
+    authSecret:
+      fromProcess(
+        typeof process !== "undefined" ? process.env.AUTH_SECRET : undefined,
+      ) || read("AUTH_SECRET"),
     authUrl: read("AUTH_URL"),
     superAdminEmails: (read("SUPER_ADMIN_EMAILS") ?? "")
       .split(",")
@@ -81,7 +84,12 @@ export function portalEnv() {
     /** Browser / user-scoped key (new name + legacy aliases). */
     supabaseAnonKey,
     /** Service role — bypasses RLS; narrow server paths only. */
-    supabaseServiceRoleKey: read("SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_ROLE_KEY"),
+    supabaseServiceRoleKey:
+      fromProcess(
+        typeof process !== "undefined"
+          ? process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
+          : undefined,
+      ) || read("SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_ROLE_KEY"),
     supabaseJwksUrl: read("SUPABASE_JWKS_URL"),
     stripeSecretKey: read("STRIPE_SECRET_KEY"),
     stripeWebhookSecret: read("STRIPE_WEBHOOK_SECRET"),

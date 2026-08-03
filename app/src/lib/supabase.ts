@@ -12,7 +12,21 @@ function urlAndAnon() {
 }
 
 export function getServerSupabaseClient(): SupabaseClient {
-  const { supabaseUrl, supabaseServiceRoleKey } = portalEnv();
+  // Prefer live runtime env (Vercel/Bun). Do not go through portalEnv()'s
+  // process.env shim — Vite replaces `process.env` with `{}` in client graphs,
+  // and the same helper is shared with browser code.
+  const supabaseUrl = (
+    process.env.SUPABASE_URL ||
+    process.env.VITE_SUPABASE_URL ||
+    portalEnv().supabaseUrl ||
+    ""
+  ).trim();
+  const supabaseServiceRoleKey = (
+    process.env.SUPABASE_SECRET_KEY ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    portalEnv().supabaseServiceRoleKey ||
+    ""
+  ).trim();
   if (!supabaseUrl || !supabaseServiceRoleKey) {
     throw new Error(
       "Missing SUPABASE_URL or SUPABASE_SECRET_KEY (service client)",

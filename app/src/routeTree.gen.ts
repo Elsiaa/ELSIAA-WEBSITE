@@ -101,6 +101,7 @@ import { Route as ApiMeetingsUpcomingRouteImport } from './routes/api/meetings/u
 import { Route as ApiMeetingsMeetingIdRouteImport } from './routes/api/meetings/$meetingId'
 import { Route as ApiMeetingRequestsAvailableSlotsRouteImport } from './routes/api/meeting-requests/available-slots'
 import { Route as ApiMeetingRequestsIdRouteImport } from './routes/api/meeting-requests/$id'
+import { Route as ApiHealthSupabaseRouteImport } from './routes/api/health/supabase'
 import { Route as ApiExtensionRepoListRouteImport } from './routes/api/extension/repo-list'
 import { Route as ApiExtensionGithubCheckRouteImport } from './routes/api/extension/github-check'
 import { Route as ApiExtensionConfigRouteImport } from './routes/api/extension/config'
@@ -700,6 +701,11 @@ const ApiMeetingRequestsIdRoute = ApiMeetingRequestsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => ApiMeetingRequestsRoute,
+} as any)
+const ApiHealthSupabaseRoute = ApiHealthSupabaseRouteImport.update({
+  id: '/api/health/supabase',
+  path: '/api/health/supabase',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiExtensionRepoListRoute = ApiExtensionRepoListRouteImport.update({
   id: '/api/extension/repo-list',
@@ -1489,6 +1495,7 @@ export interface FileRoutesByFullPath {
   '/api/extension/config': typeof ApiExtensionConfigRoute
   '/api/extension/github-check': typeof ApiExtensionGithubCheckRoute
   '/api/extension/repo-list': typeof ApiExtensionRepoListRoute
+  '/api/health/supabase': typeof ApiHealthSupabaseRoute
   '/api/meeting-requests/$id': typeof ApiMeetingRequestsIdRoute
   '/api/meeting-requests/available-slots': typeof ApiMeetingRequestsAvailableSlotsRoute
   '/api/meetings/$meetingId': typeof ApiMeetingsMeetingIdRouteWithChildren
@@ -1710,6 +1717,7 @@ export interface FileRoutesByTo {
   '/api/extension/config': typeof ApiExtensionConfigRoute
   '/api/extension/github-check': typeof ApiExtensionGithubCheckRoute
   '/api/extension/repo-list': typeof ApiExtensionRepoListRoute
+  '/api/health/supabase': typeof ApiHealthSupabaseRoute
   '/api/meeting-requests/$id': typeof ApiMeetingRequestsIdRoute
   '/api/meeting-requests/available-slots': typeof ApiMeetingRequestsAvailableSlotsRoute
   '/api/meetings/$meetingId': typeof ApiMeetingsMeetingIdRouteWithChildren
@@ -1932,6 +1940,7 @@ export interface FileRoutesById {
   '/api/extension/config': typeof ApiExtensionConfigRoute
   '/api/extension/github-check': typeof ApiExtensionGithubCheckRoute
   '/api/extension/repo-list': typeof ApiExtensionRepoListRoute
+  '/api/health/supabase': typeof ApiHealthSupabaseRoute
   '/api/meeting-requests/$id': typeof ApiMeetingRequestsIdRoute
   '/api/meeting-requests/available-slots': typeof ApiMeetingRequestsAvailableSlotsRoute
   '/api/meetings/$meetingId': typeof ApiMeetingsMeetingIdRouteWithChildren
@@ -2155,6 +2164,7 @@ export interface FileRouteTypes {
     | '/api/extension/config'
     | '/api/extension/github-check'
     | '/api/extension/repo-list'
+    | '/api/health/supabase'
     | '/api/meeting-requests/$id'
     | '/api/meeting-requests/available-slots'
     | '/api/meetings/$meetingId'
@@ -2376,6 +2386,7 @@ export interface FileRouteTypes {
     | '/api/extension/config'
     | '/api/extension/github-check'
     | '/api/extension/repo-list'
+    | '/api/health/supabase'
     | '/api/meeting-requests/$id'
     | '/api/meeting-requests/available-slots'
     | '/api/meetings/$meetingId'
@@ -2597,6 +2608,7 @@ export interface FileRouteTypes {
     | '/api/extension/config'
     | '/api/extension/github-check'
     | '/api/extension/repo-list'
+    | '/api/health/supabase'
     | '/api/meeting-requests/$id'
     | '/api/meeting-requests/available-slots'
     | '/api/meetings/$meetingId'
@@ -2815,6 +2827,7 @@ export interface RootRouteChildren {
   ApiExtensionConfigRoute: typeof ApiExtensionConfigRoute
   ApiExtensionGithubCheckRoute: typeof ApiExtensionGithubCheckRoute
   ApiExtensionRepoListRoute: typeof ApiExtensionRepoListRoute
+  ApiHealthSupabaseRoute: typeof ApiHealthSupabaseRoute
   ApiPaymentsCreateIntentRoute: typeof ApiPaymentsCreateIntentRoute
   ApiPaymentsCreateSetupIntentRoute: typeof ApiPaymentsCreateSetupIntentRoute
   ApiPaymentsCreateSetupIntentAccountRoute: typeof ApiPaymentsCreateSetupIntentAccountRoute
@@ -3509,6 +3522,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/meeting-requests/$id'
       preLoaderRoute: typeof ApiMeetingRequestsIdRouteImport
       parentRoute: typeof ApiMeetingRequestsRoute
+    }
+    '/api/health/supabase': {
+      id: '/api/health/supabase'
+      path: '/api/health/supabase'
+      fullPath: '/api/health/supabase'
+      preLoaderRoute: typeof ApiHealthSupabaseRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/extension/repo-list': {
       id: '/api/extension/repo-list'
@@ -5047,6 +5067,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiExtensionConfigRoute: ApiExtensionConfigRoute,
   ApiExtensionGithubCheckRoute: ApiExtensionGithubCheckRoute,
   ApiExtensionRepoListRoute: ApiExtensionRepoListRoute,
+  ApiHealthSupabaseRoute: ApiHealthSupabaseRoute,
   ApiPaymentsCreateIntentRoute: ApiPaymentsCreateIntentRoute,
   ApiPaymentsCreateSetupIntentRoute: ApiPaymentsCreateSetupIntentRoute,
   ApiPaymentsCreateSetupIntentAccountRoute:
