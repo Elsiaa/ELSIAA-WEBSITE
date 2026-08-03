@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
-import { OFFICE_PHONE } from "../components/ConsultOptions";
+import { OFFICE_PHONE, PHONE_IS_PLACEHOLDER } from "../components/ConsultOptions";
 import { absoluteUrl } from "../lib/site-url";
 
 /*
@@ -48,8 +48,8 @@ const PATHS: Path[] = [
     title: "Free 20-minute call",
     price: "Free",
     line: "Tell us what you're dealing with. No pitch, no charge.",
-    cta: `Call ${OFFICE_PHONE}`,
-    href: OFFICE_TEL,
+    cta: PHONE_IS_PLACEHOLDER ? "Book a free call" : `Call ${OFFICE_PHONE}`,
+    href: PHONE_IS_PLACEHOLDER ? "mailto:info@elsiaa.com?subject=Free%2020-minute%20call" : OFFICE_TEL,
     external: true,
   },
   {
@@ -102,9 +102,16 @@ function ContactPage() {
                     : "border-black/[0.08] shadow-[0_24px_60px_-50px_rgba(17,17,17,0.4)] hover:border-[#1e6b3c]/35"
                 }`}
               >
-                <p className="text-[12px] font-semibold tracking-[0.1em] text-[#1e6b3c] uppercase">
-                  {p.eyebrow}
-                </p>
+                <div className="flex items-center gap-2.5">
+                  {p.eyebrow === "Start here" && (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8.1 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z" />
+                    </svg>
+                  )}
+                  <p className="text-[12px] font-semibold tracking-[0.1em] text-[#1e6b3c] uppercase">
+                    {p.eyebrow}
+                  </p>
+                </div>
                 <h2 className="mt-3 text-[21px] font-semibold tracking-[-0.03em] md:text-[23px]">
                   {p.title}
                 </h2>

@@ -815,39 +815,16 @@ function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }
 
 function StoreBadges() {
   return (
-    <div className="mt-5 flex items-center justify-center gap-3">
-      <a
-        href="/quote"
-        className="flex items-center gap-2.5 rounded-lg bg-[#111111] px-4 py-2 text-white transition-transform duration-200 hover:scale-[1.04]"
-        aria-label="Download on the App Store"
-      >
-        <svg viewBox="0 0 24 24" className="h-6 w-6 fill-white" aria-hidden>
-          <path d="M17.05 12.54c-.03-2.89 2.36-4.27 2.47-4.34-1.35-1.97-3.44-2.24-4.18-2.27-1.78-.18-3.47 1.05-4.37 1.05-.9 0-2.29-1.02-3.77-1-1.94.03-3.72 1.13-4.72 2.86-2.01 3.49-.51 8.66 1.45 11.49.96 1.39 2.1 2.94 3.6 2.88 1.44-.06 1.99-.93 3.73-.93s2.23.93 3.76.9c1.55-.03 2.53-1.41 3.48-2.8 1.1-1.61 1.55-3.17 1.57-3.25-.03-.02-3.01-1.16-3.02-4.59zM14.17 4.06c.8-.96 1.33-2.3 1.18-3.64-1.14.05-2.53.76-3.35 1.72-.73.85-1.38 2.21-1.2 3.52 1.27.1 2.58-.65 3.37-1.6z" />
-        </svg>
-        <span className="text-left leading-none">
-          <span className="block text-[13px] opacity-70">Download on the</span>
-          <span className="block text-[13px] font-semibold">App Store</span>
-        </span>
-      </a>
-      <a
-        href="/quote"
-        className="flex items-center gap-2.5 rounded-lg bg-[#111111] px-4 py-2 text-white transition-transform duration-200 hover:scale-[1.04]"
-        aria-label="Get it on Google Play"
-      >
-        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden>
-          <path d="M3.6 1.8 13.7 12 3.6 22.2c-.37-.2-.6-.6-.6-1.1V2.9c0-.5.23-.9.6-1.1z" fill="#00D2FF" />
-          <path d="m17.3 8.4-13-7.3c.14-.06.3-.1.46-.1.23 0 .46.06.67.18L17.9 7.8l-.6.6z" fill="#00F076" />
-          <path d="M17.3 15.6 13.7 12l3.6-3.6 3.16 1.78c.98.55.98 1.09 0 1.64L17.3 15.6z" fill="#FFC900" />
-          <path d="m17.3 15.6-.6-.6L5.03 22.82c-.4.23-.83.24-1.13.08l13.4-7.3z" fill="#F63448" />
-        </svg>
-        <span className="text-left leading-none">
-          <span className="block text-[13px] opacity-70">Get it on</span>
-          <span className="block text-[13px] font-semibold">Google Play</span>
-        </span>
-      </a>
-    </div>
+    <a
+      href="/quote?service=App"
+      className="inline-flex items-center gap-2 rounded-full bg-[#111111] px-6 py-3 text-[14px] font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#1e6b3c]"
+      style={{ fontFamily: F }}
+    >
+      Get an app quoted →
+    </a>
   );
 }
+
 
 function DiscoverApps() {
   const [side, setSide] = useState<"after" | "before">("after");
@@ -1241,333 +1218,76 @@ function ScrollScrubVideo() {
 
 /* ---------------- product design — the right way ---------------- */
 function ProductAdFeature() {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    const io = new IntersectionObserver(
-      (es) =>
-        es.forEach((e) => {
-          if (e.isIntersecting) v.play().catch(() => {});
-          else v.pause();
-        }),
-      { threshold: 0.25 },
-    );
-    io.observe(v);
-    return () => io.disconnect();
-  }, []);
   return (
-    <section className="relative overflow-hidden px-6 pt-24 pb-16 md:pt-28 md:pb-24 text-[#111111]" style={{ background: "#eef5f0" }}>
-      {/* the emerald lion — the background this text lives on */}
-      <img
-        src="/assets/lion3d_still.png"
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute top-1/2 right-[-6%] h-[130%] w-auto max-w-none -translate-y-1/2 select-none md:right-[-2%]"
-      />
-      {/* scrim — keeps the copy crisp while the lion breathes behind it */}
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{ background: "linear-gradient(90deg, #eef5f0 0%, #eef5f0 44%, rgba(238,245,240,0.82) 62%, rgba(238,245,240,0.18) 100%)" }}
-      />
-      <div className="relative mx-auto max-w-6xl">
-        <Reveal className="md:pr-[300px] lg:pr-[380px]">
-          <h2
-            className="max-w-3xl text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            Design is art.
-            <span className="text-[#1e6b3c]"> And art has a job.</span>
-          </h2>
-          <p
-            className="mt-4 max-w-2xl text-base leading-relaxed text-[#111111]/60 md:text-lg"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            And no — AI did not replace artists. Artists use the same tools as
-            you. It&rsquo;s not the tools; it&rsquo;s how the tools are used.
-            That&rsquo;s our job.
-          </p>
-          <p
-            className="mt-3 max-w-2xl text-base leading-relaxed text-[#111111]/60 md:text-lg"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            The artist&rsquo;s job is to capture the core of what you want to
-            convey — and express it to the world in the best perceivable way
-            possible. Complex? We know. That&rsquo;s why you leave it up to us.
-          </p>
-          <p
-            className="mt-3 max-w-2xl text-base leading-relaxed text-[#111111]/60 md:text-lg"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            Everything that follows was designed meticulously for a client.
-            Some use AI to create the bare minimum — our world-class team of
-            artists leverages the strongest AI there is to build the best
-            possible design, for every client.
-          </p>
-          <p
-            className="mt-5 max-w-2xl border-l-2 border-[#1e6b3c] pl-4 text-base leading-relaxed font-medium text-[#111111]/75 md:text-lg"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            Because the point of your business is to close the sale. Pour
-            everything into backend code, and generic AI front-end design will
-            still quietly kill it — if the UI/UX is bad, visitors don&rsquo;t
-            become customers. And that&rsquo;s a real shame, because
-            it&rsquo;s entirely avoidable.
-          </p>
-
-          {/* websites start at $750 — direct purchase path */}
-          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
-            <a
-              href="/quote?service=Website"
-              className="inline-flex min-h-[52px] items-center rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#111111]"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              Purchase a website →
-            </a>
-            <p
-              className="text-[15px] font-medium text-[#111111]/60"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              Websites start at <span className="font-semibold text-[#111111]">$750</span>
+    <section className="relative overflow-hidden bg-white px-6 pt-28 pb-16 text-[#111111] md:pt-32 md:pb-20">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          {/* the argument */}
+          <Reveal>
+            <p className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase" style={{ fontFamily: F }}>
+              Design
             </p>
-          </div>
-
-          {/* the easel — our lion on the canvas, right at the top of the page */}
-          <img
-            src="/assets/design_easel.png"
-            alt="An easel with the ELSIAA lion on the canvas, beside a painter's palette"
-            className="pointer-events-none mt-6 w-[150px] select-none md:w-[180px]"
-          />
-        </Reveal>
-
-      </div>
-    </section>
-  );
-}
-
-/* ---------------- client trust wall ---------------- */
-function ClientLogos() {
-  return (
-    <section className="bg-[#F5F5F3] px-6 pb-24 text-[#111111]">
-      <div className="mx-auto max-w-6xl">
-        <Reveal delay={0.2}>
-          <div className="border-t border-black/[0.08] pt-14">
-            <div className="mx-auto mt-10 flex max-w-5xl flex-wrap items-center justify-center gap-x-14 gap-y-10">
-              {[
-                ["/assets/logos/mr_bins.png", "Mr. Bins", "h-7 md:h-8"],
-                ["/assets/logos/dialog_healthcare.png", "Dialog Healthcare", "h-5 md:h-6"],
-                ["/assets/logos/first_medcare.png", "First Medcare Inc", "h-8 md:h-9"],
-                ["/assets/logos/excelsior.png", "Excelsior Healthcare Solutions", "h-6 md:h-7"],
-                ["/assets/logos/hiddenlight.png", "HiddenLight ABA", "h-6 md:h-7"],
-                ["/assets/logos/beyond_autism.png", "Beyond Autism Services", "h-10 md:h-12"],
-                ["/assets/logos/kore_autism.png", "Kore Autism Services", "h-8 md:h-9"],
-                ["/assets/logos/hidden_talents.png", "Hidden Talents ABA", "h-8 md:h-9"],
-                ["/assets/logos/diet_fantasy.png", "The Diet Fantasy", "h-8 md:h-9"],
-                ["/assets/logos/aaa.png", "AAA", "h-8 md:h-9"],
-                ["/assets/logos/uoft_ophtho.png", "University of Toronto — Dept. of Ophthalmology & Visual Sciences", "h-5 md:h-6"],
-                ["/assets/logos/neuro_strabismus.png", "Neuro-Ophthalmology & Strabismus Fellowship — Division of Neurology", "h-6 md:h-7"],
-              ].map(([src, alt, h]) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt={alt}
-                  className={`${h} w-auto opacity-55 transition-opacity duration-300 hover:opacity-100`}
-                  loading="lazy"
-                />
-              ))}
+            <h1
+              className="mt-5 text-[2.3rem] leading-[1.05] font-semibold tracking-[-0.04em] text-balance md:text-[3.6rem]"
+              style={{ fontFamily: F }}
+            >
+              Design is art.
+              <br />
+              <span className="text-[#1e6b3c]">And art has a job.</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-[#111111]/65 md:text-[17px]" style={{ fontFamily: F }}>
+              AI did not replace artists — artists use the same tools you do. It is not the
+              tools, it is how they are used. That is our job.
+            </p>
+            <p className="mt-4 max-w-xl border-l-2 border-[#1e6b3c] pl-5 text-[16px] leading-relaxed font-medium text-[#111111]/75 md:text-[17px]" style={{ fontFamily: F }}>
+              Pour everything into the backend and generic front-end design will still
+              quietly kill it. If the UI is bad, visitors don't become customers.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <a
+                href="/quote?service=Website"
+                className="inline-flex min-h-[52px] items-center rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#111111]"
+                style={{ fontFamily: F }}
+              >
+                Start a project →
+              </a>
+              <a
+                href="#websites"
+                className="text-[15px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                style={{ fontFamily: F }}
+              >
+                See the work ↓
+              </a>
             </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
+          </Reveal>
 
-/* ---------------- 3 · website transformations — real clients ---------------- */
-type Mini = { name: string; before: React.JSX.Element; after: React.JSX.Element; desc: string; link?: string };
-
-const bar = (w: string, c: string, h = "h-2") => (
-  <div className={`${h} ${w} rounded-sm`} style={{ backgroundColor: c }} />
-);
-
-const CASES: Mini[] = [
-  {
-    name: "Dialog Healthcare",
-    desc: "A staffing site rebuilt around one promise — the right clinician, placed fast.",
-    link: "https://dialoghealthcare.com",
-    before: (
-      <div className="pointer-events-none h-full w-full overflow-hidden bg-white">
-        <LazyFrame
-          src="https://dialoghealthcare.com"
-          title="Dialog Healthcare — their current website"
-          interactive={false}
-          zoom={0.25}
-        />
-      </div>
-    ),
-    after: (
-      <div className="h-full w-full bg-white p-3" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-        <div className="flex items-center justify-between">
-          <span className="text-[13px] font-bold tracking-tight text-[#111111]">Dialog<span className="text-[#111111]/55"> Healthcare</span></span>
-          <span className="rounded-full bg-[#1e6b3c] px-2.5 py-0.5 text-[13px] font-semibold text-white ">Request staff</span>
-        </div>
-        <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.035em] text-[#111111]">The right clinician.<br />Placed in days, not months.</p>
-        <div className="mt-2 flex gap-1">{bar("w-16", "#111111", "h-4")}{bar("w-12", "#e8e8e6", "h-4")}</div>
-        <div className="mt-2.5 grid grid-cols-3 gap-1.5">
-          <div className="rounded-md bg-[#F5F5F3] p-1.5">{bar("w-3/4", "#1e6b3c", "h-1.5")}<div className="mt-1">{bar("w-full", "#d8d8d5", "h-1")}</div></div>
-          <div className="rounded-md bg-[#F5F5F3] p-1.5">{bar("w-3/4", "#1e6b3c", "h-1.5")}<div className="mt-1">{bar("w-full", "#d8d8d5", "h-1")}</div></div>
-          <div className="rounded-md bg-[#F5F5F3] p-1.5">{bar("w-3/4", "#1e6b3c", "h-1.5")}<div className="mt-1">{bar("w-full", "#d8d8d5", "h-1")}</div></div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    name: "PSI Construction",
-    desc: "A contractor's credibility, poured in concrete — portfolio first, paperwork last.",
-    link: "https://www.psiconstructionpa.com",
-    before: (
-      <div className="h-full w-full bg-white">
-        <div className="flex items-center justify-between px-3 py-1.5">
-          <img src="/assets/psi_logo_v1.png" alt="" className="h-6 w-auto object-contain" />
-          <div className="flex gap-2">
-            {["Home", "Services", "Contact"].map((m) => (
-              <span key={m} className="text-[13px] text-black/60">{m}</span>
-            ))}
-          </div>
-        </div>
-        <div className="relative h-[62%] w-full overflow-hidden">
-          <img src="/assets/psi_hero_v1.jpg" alt="PSI Construction original homepage" className="h-full w-full object-cover" />
-        </div>
-        <div className="px-3 pt-2 text-center">
-          <p className="text-[13px] font-bold tracking-wide text-[#2b2b2b]">Our Services</p>
-          <div className="mx-auto mt-1.5 flex justify-center gap-1.5">
-            <div className="h-6 w-1/4 rounded-sm bg-[#e8e4dc]" />
-            <div className="h-6 w-1/4 rounded-sm bg-[#e8e4dc]" />
-            <div className="h-6 w-1/4 rounded-sm bg-[#e8e4dc]" />
-          </div>
-        </div>
-      </div>
-    ),
-    after: (
-      <div className="h-full w-full bg-[#15140f] p-3 text-white" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-        <div className="flex items-center justify-between">
-          <span className="text-[13px] font-bold ">PSI<span className="text-[#d9a441]"> Construction</span></span>
-          <span className="rounded-full border border-white/25 px-2.5 py-0.5 text-[13px] font-semibold ">Get a bid</span>
-        </div>
-        <p className="mt-3 text-[13px] leading-tight font-semibold tracking-[-0.035em]">Built to outlast<br />the blueprint.</p>
-        <div className="mt-2.5 grid grid-cols-3 gap-1.5">
-          <div className="aspect-[4/3] rounded-md bg-gradient-to-br from-[#3a372e] to-[#23211b]" />
-          <div className="aspect-[4/3] rounded-md bg-gradient-to-br from-[#4a4638] to-[#2a2820]" />
-          <div className="aspect-[4/3] rounded-md bg-gradient-to-br from-[#5a5443] to-[#312e24]" />
-        </div>
-        <div className="mt-2 flex items-center gap-1.5">{bar("w-10", "#d9a441", "h-1.5")}{bar("w-16", "rgba(255,255,255,0.25)", "h-1.5")}</div>
-      </div>
-    ),
-  },
-  {
-    name: "Michael Elbaz Law",
-    desc: "Counsel that reads like counsel — an editorial presence that wins trust before the first call.",
-    before: (
-      <div className="h-full w-full space-y-1.5 bg-[#e9ecf2] p-3">
-        <div className="flex items-center justify-between">
-          {bar("w-20", "#1f3864", "h-3")}
-          <div className="flex gap-1">{bar("w-6", "#8d99b3")}{bar("w-6", "#8d99b3")}{bar("w-6", "#8d99b3")}{bar("w-6", "#8d99b3")}{bar("w-6", "#8d99b3")}</div>
-        </div>
-        <div className="h-12 w-full rounded-sm bg-[#1f3864]/85 p-2">{bar("w-3/5", "#c9a227", "h-2.5")}<div className="mt-1">{bar("w-2/5", "#5a6f96", "h-2")}</div></div>
-        {bar("w-full", "#b9c1d2")}
-        {bar("w-full", "#b9c1d2")}
-        {bar("w-3/4", "#b9c1d2")}
-        <div className="flex gap-1.5 pt-0.5"><div className="h-8 flex-1 rounded-sm bg-[#ccd3e0]" /><div className="h-8 flex-1 rounded-sm bg-[#ccd3e0]" /></div>
-      </div>
-    ),
-    after: (
-      <div className="h-full w-full bg-[#FBFAF7] p-3" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-        <div className="flex items-center justify-between">
-          <span className="text-[13px] font-semibold tracking-[0.12em] text-[#14140f]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "11px" }}>
-            Michael Elbaz Law
-          </span>
-          <span className="rounded-full bg-[#14140f] px-2.5 py-0.5 text-[13px] font-semibold text-white ">Consultation</span>
-        </div>
-        <p className="mt-3 text-[13px] leading-snug text-[#14140f]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "15px" }}>
-          Clarity, in your corner.
-        </p>
-        <div className="mt-1.5">{bar("w-3/4", "#dedbd2", "h-1.5")}</div>
-        <div className="mt-0.5">{bar("w-2/3", "#dedbd2", "h-1.5")}</div>
-        <div className="mt-2.5 flex gap-1.5">
-          <div className="flex-1 border-t border-[#14140f]/20 pt-1">{bar("w-3/4", "#14140f", "h-1.5")}<div className="mt-1">{bar("w-full", "#dedbd2", "h-1")}</div></div>
-          <div className="flex-1 border-t border-[#14140f]/20 pt-1">{bar("w-3/4", "#14140f", "h-1.5")}<div className="mt-1">{bar("w-full", "#dedbd2", "h-1")}</div></div>
-          <div className="flex-1 border-t border-[#14140f]/20 pt-1">{bar("w-3/4", "#14140f", "h-1.5")}<div className="mt-1">{bar("w-full", "#dedbd2", "h-1")}</div></div>
-        </div>
-      </div>
-    ),
-  },
-];
-
-function Transformations() {
-  return (
-    <section className="bg-[#F5F5F3] px-6 pt-6 pb-24 text-[#111111]">
-      <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <h2
-            className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-          >
-            Real websites, completely uplifted.
-          </h2>
-          <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-            Every card leads with the after — the before sits small in the corner, where it belongs. Hover it to look closer.
-          </p>
-        </Reveal>
-        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {CASES.map((c, i) => (
-            <Reveal key={c.name} delay={i * 0.08}>
-              <div className="group">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-black/[0.07] bg-white shadow-[0_18px_44px_-28px_rgba(17,17,17,0.3)]">
-                  {c.after}
-                  <span
-                    className="absolute top-2.5 right-2.5 rounded-sm bg-[#1e6b3c] px-2.5 py-1 text-[13px] font-bold text-white "
-                    style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                  >
-                    After — ELSIAA
-                  </span>
-                  {/* the before, pinned small in the corner — grows on hover */}
-                  <div className="absolute bottom-2.5 left-2.5 w-[38%] overflow-hidden rounded-md border-2 border-white shadow-[0_14px_34px_-10px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:scale-[1.9] group-hover:origin-bottom-left">
-                    <div className="aspect-[4/3]">{c.before}</div>
-                    <span
-                      className="absolute top-1 left-1 rounded-sm bg-black/65 px-1.5 py-0.5 text-[13px] font-bold text-white "
-                      style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                    >
-                      Before
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-4 flex items-baseline justify-between">
-                  <h3 className="text-[15px] font-semibold" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                    {c.name}
-                  </h3>
-                  <a
-                    href={c.link ?? "/contact"}
-                    target={c.link ? "_blank" : undefined}
-                    rel={c.link ? "noreferrer" : undefined}
-                    className="text-[13px] text-[#1e6b3c]  transition-colors hover:text-[#2e9e58]"
-                    style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                  >
-                    {c.link ? "View original ↗" : "View case study →"}
-                  </a>
-                </div>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-[#111111]/60" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                  {c.desc}
-                </p>
+          {/* the mark — contained, not a wash */}
+          <Reveal delay={0.1}>
+            <div className="relative mx-auto w-full max-w-[440px]">
+              <div
+                className="overflow-hidden rounded-[28px] p-8 md:p-10"
+                style={{ background: "linear-gradient(160deg,#eef5f0 0%,#f7faf8 100%)" }}
+              >
+                <img
+                  src="/assets/lion3d_still.png"
+                  alt="The ELSIAA lion in emerald glass"
+                  className="mx-auto block w-full max-w-[320px] select-none"
+                />
               </div>
-            </Reveal>
-          ))}
+              {/* the easel, tucked as a small corner accent */}
+              <img
+                src="/assets/design_easel.png"
+                alt=""
+                aria-hidden
+                className="pointer-events-none absolute -bottom-5 -left-4 hidden w-[120px] select-none drop-shadow-[0_10px_24px_rgba(17,17,17,0.12)] sm:block md:w-[140px]"
+              />
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
   );
 }
-
 
 /* ---------------- 2 · we design every aspect — Mr. Bins hero + live sites ---------------- */
 const F = "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
@@ -1627,7 +1347,7 @@ function DesignEverything() {
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2 className="max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: F }}>
-            We design every aspect of your business.
+            We design every aspect of your online presence.
           </h2>
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]" style={{ fontFamily: F }}>
             The same business, before and after an ELSIAA rebuild.
@@ -2243,7 +1963,7 @@ export function DesignsShowcase() {
       <BuyWebsite />
       <DiscoverApps />
       <BeyondWebsites />
-      <ClientLogos />
+      <LogoMarquee />
       <OurProcess />
       <Results />
       <FinalCTA />

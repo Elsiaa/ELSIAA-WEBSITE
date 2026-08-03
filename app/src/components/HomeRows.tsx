@@ -1479,7 +1479,7 @@ export function HomeRows() {
         lede="Strategy, technology, business, product, growth — book a seat at the table."
         graphic={<LiveGraphic src="/assets/consult_live_v2.mp4" poster="/assets/consult_live_poster_v2.jpg" />}
         subs={[]}
-        href="/contact"
+        href="/consultation"
         cta="Book Consultation"
         extra={<ConsultPricing />}
       />

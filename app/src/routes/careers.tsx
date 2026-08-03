@@ -48,17 +48,17 @@ function Careers() {
       <Hero onApply={toForm} />
 
       {/* Open roles */}
- <section className="mx-auto max-w-5xl px-6 py-8 md:py-12">
+ <section className="mx-auto max-w-5xl px-6 py-8 text-center md:py-12">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]">Open roles</p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-[-0.035em] md:text-3xl">
+          <h2 className="mx-auto mt-2 max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-3xl">
             Four areas. Apply to any.
           </h2>
         </Reveal>
         <div className="mt-8 divide-y divide-black/[0.07] border-y border-black/[0.07]">
           {ROLES.map(([t, d], i) => (
             <Reveal key={t} delay={i * 0.04}>
-              <div className="grid gap-1.5 py-5 md:grid-cols-[240px_1fr] md:gap-8">
+              <div className="py-5">
                 <h3 className="text-[16px] font-semibold tracking-[-0.015em]">{t}</h3>
                 <p className="text-[14.5px] leading-relaxed text-[#111111]/60">{d}</p>
               </div>
@@ -98,12 +98,12 @@ function Hero({ onApply }: { onApply: () => void }) {
         className="absolute inset-0 h-full w-full object-cover opacity-40"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-[#0c0c0c]/40 to-[#0c0c0c]/60" />
-      <div className="relative mx-auto w-full max-w-5xl px-6 pt-36 pb-10 md:pb-14">
+      <div className="relative mx-auto w-full max-w-5xl px-6 pt-36 pb-10 text-center md:pb-14">
         <p className="text-[13px] font-bold text-[#2e9e58]">Careers</p>
-        <h1 className="mt-3 max-w-2xl text-4xl leading-[1.03] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl">
+        <h1 className="mx-auto mt-3 max-w-2xl text-4xl leading-[1.03] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl">
           Come build the real thing.
         </h1>
-        <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-white/70">
+        <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-white/70">
           We only ship work we'd put our name on. If that's how you work, we want to meet you.
         </p>
         <button

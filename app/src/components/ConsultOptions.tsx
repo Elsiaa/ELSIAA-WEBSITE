@@ -57,6 +57,8 @@ function StripeMark({ className = "" }: { className?: string }) {
 
 /* TODO: swap in the real 1-888 office number — digits were not supplied yet. */
 export const OFFICE_PHONE = "1-888-000-0000";
+/** true while OFFICE_PHONE is still the placeholder — avoids shipping a dead tel: link */
+export const PHONE_IS_PLACEHOLDER = /0{3}-?0{4}$/.test(OFFICE_PHONE);
 const OFFICE_TEL = `tel:+1${OFFICE_PHONE.replace(/\D/g, "").replace(/^1/, "")}`;
 
 function BookBar() {
@@ -92,14 +94,14 @@ export function ConsultOptions({ className = "" }: { className?: string }) {
             Tell us what you're dealing with. No pitch, no charge.
           </p>
           <a
-            href={OFFICE_TEL}
+            href={PHONE_IS_PLACEHOLDER ? "/contact" : OFFICE_TEL}
             className="mt-auto flex w-full items-center justify-center gap-2.5 rounded-full border border-[#111111]/15 bg-white px-6 py-4 text-[15px] font-semibold text-[#111111] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
             style={{ fontFamily: SANS }}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8.1 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z" />
             </svg>
-            Call {OFFICE_PHONE}
+            {PHONE_IS_PLACEHOLDER ? "Book a free call" : `Call ${OFFICE_PHONE}`}
           </a>
         </div>
 

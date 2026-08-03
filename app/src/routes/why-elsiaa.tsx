@@ -368,7 +368,7 @@ function WhyElsiaaPage() {
               Get a quote →
             </a>
             <a
-              href="/contact"
+              href="/consultation"
               className="inline-flex min-h-[54px] items-center rounded-full border border-black/15 px-8 text-[15px] font-semibold text-[#111111] transition-colors duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
             >
               Free 20-minute call
