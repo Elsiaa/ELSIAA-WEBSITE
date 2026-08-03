@@ -672,10 +672,10 @@ export default function SignPageClient({ token }: SignPageClientProps) {
         <div className="w-full max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-              <Image src="/assets/elsiaa-lion.png" alt="ELSIAA" width={40} height={40} className="rounded-full" />
+              <Image src="/assets/elsiaa-lion-192.png" alt="ELSIAA" width={40} height={40} className="rounded-full" />
             </Link>
             <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-              <Image src="/assets/elsiaa-lion.png" alt="ELSIAA" width={220} height={56} className="h-16 w-auto" />
+              <Image src="/assets/elsiaa-lion-192.png" alt="ELSIAA" width={220} height={56} className="h-16 w-auto" />
             </Link>
             <div className="w-10" /> {/* Spacer for balance */}
           </div>

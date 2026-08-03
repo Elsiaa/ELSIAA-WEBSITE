@@ -138,7 +138,7 @@ export function SiteNav() {
           >
             <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-[10px] bg-white">
               <img
-                src="/assets/elsiaa-lion.png"
+                src="/assets/elsiaa-lion-192.png"
                 alt=""
                 width={40}
                 height={40}

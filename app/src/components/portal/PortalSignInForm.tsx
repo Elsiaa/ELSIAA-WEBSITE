@@ -52,7 +52,7 @@ export function PortalSignInForm({ initial, initialEmail, next }: Props) {
     <main className="flex min-h-screen items-center justify-center bg-[#F5F5F3] px-6 py-16 text-[#111]">
       <div className="w-full max-w-md">
         <Link to="/" className="inline-flex items-center gap-2">
-          <img src="/assets/elsiaa-lion.png" alt="" className="h-8 w-8 object-contain" />
+          <img src="/assets/elsiaa-lion-192.png" alt="" className="h-8 w-8 object-contain" />
           <span className="text-[13px] font-bold tracking-wide" style={mono}>
             ELSIAA
           </span>

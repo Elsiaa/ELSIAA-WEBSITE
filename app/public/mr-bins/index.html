@@ -736,7 +736,7 @@ iframe{max-width:100%;}
 <!-- WALKTHROUGH — the opening: video plays, captions swap on scroll -->
 <section id="walk">
  <div class="stage">
-  <video class="walkvid" id="walkvid" muted playsinline webkit-playsinline preload="auto" poster="mrbins-store.jpg">
+  <video class="walkvid" id="walkvid" muted playsinline webkit-playsinline preload="none" poster="mrbins-store.jpg">
    <source data-desk="mrbins-walk.mp4" data-mob="mrbins-walk-mobile.mp4" type="video/mp4"></video>
   <div class="tint"></div>
   <div class="wcaps" id="wcaps">
@@ -756,7 +756,7 @@ iframe{max-width:100%;}
   <div class="cartcap"><div class="k">This week in store</div><h2>The bins are just <span class="o">the beginning.</span></h2></div>
   <div class="trio">
    <div class="tside" id="clothesSide">
-    <video id="clothesvid" muted playsinline preload="auto" poster="mrbins-clothes-poster.jpg">
+    <video id="clothesvid" muted playsinline preload="none" poster="mrbins-clothes-poster.jpg">
      <source data-desk="mrbins-clothes.mp4" type="video/mp4"></video>
     <div class="tshadow"></div>
     <div class="tchip">We sell clothing</div>
@@ -768,7 +768,7 @@ iframe{max-width:100%;}
     <div class="tchip">One bin. One price.</div>
    </div>
    <div class="tside" id="shoesSide">
-    <video id="shoesvid" muted playsinline preload="auto" poster="mrbins-shoes-poster.jpg">
+    <video id="shoesvid" muted playsinline preload="none" poster="mrbins-shoes-poster.jpg">
      <source data-desk="mrbins-shoes.mp4" type="video/mp4"></video>
     <div class="tshadow"></div>
     <div class="tchip">We sell shoes</div>
@@ -776,7 +776,7 @@ iframe{max-width:100%;}
   </div>
   <!-- BRAND TICKER — bottom strip, shares the screen with the bin -->
   <section id="brands" aria-label="Brands you'll find in the bins">
-   <video class="bbg" id="bbg" autoplay muted loop playsinline preload="auto" poster="mrbins-store.jpg">
+   <video class="bbg" id="bbg" autoplay muted loop playsinline preload="none" poster="mrbins-store.jpg">
     <source data-desk="mrbins-brandbg.mp4" type="video/mp4"></video>
    <div class="boverlay"></div>
    <div class="binner">
@@ -845,7 +845,7 @@ iframe{max-width:100%;}
   </div>
   <div class="fcard c3">
    <div class="tagpill">From $25</div>
-   <div class="fimg"><video class="fvid" id="bikevid" muted loop playsinline autoplay preload="auto" poster="mrbins-feat-bike.jpg"><source data-desk="mrbins-feat-bike.mp4" type="video/mp4"></video></div>
+   <div class="fimg"><video class="fvid" id="bikevid" muted loop playsinline autoplay preload="none" poster="mrbins-feat-bike.jpg"><source data-desk="mrbins-feat-bike.mp4" type="video/mp4"></video></div>
    <h3>Bikes</h3>
    <p>Name-brand bikes, just <b>$25</b> for a limited time, with a wide range to choose from. Roll out for less than the cost of a tune-up.</p>
    <a class="flk" href="#footer">Find a store &rarr;</a>
@@ -975,7 +975,7 @@ iframe{max-width:100%;}
   <h2>Too good to keep <span class="o">local.</span></h2>
   <p class="up">We hand-pack brand-new finds from the bins into every box &mdash; always worth more than you paid, and never the same box twice. Here&rsquo;s one getting opened at home.</p>
   <div class="uvid">
-   <video class="couplevid" id="couplevid" autoplay muted loop playsinline preload="auto" poster="mrbins-couple.jpg"><source src="mrbins-couple.mp4" type="video/mp4"></video>
+   <video class="couplevid" id="couplevid" autoplay muted loop playsinline preload="none" poster="mrbins-couple.jpg"><source src="mrbins-couple.mp4" type="video/mp4"></video>
   </div>
  </div>
 </section>
@@ -990,15 +990,15 @@ iframe{max-width:100%;}
   </div>
   <div class="mboxes">
    <div class="mbox s">
-    <video class="bxm boxvid" muted playsinline preload="auto" poster="mrbins-box-small-poster.jpg"><source data-desk="mrbins-box-small.mp4" type="video/mp4"></video>
+    <video class="bxm boxvid" muted playsinline preload="none" poster="mrbins-box-small-poster.jpg"><source data-desk="mrbins-box-small.mp4" type="video/mp4"></video>
     <div class="mtag"><span class="tn">Taster</span><span class="tp">$25</span><span class="td">3&ndash;4 finds</span></div>
    </div>
    <div class="mbox m">
-    <video class="bxm boxvid" muted playsinline preload="auto" poster="mrbins-box-med-poster.jpg"><source data-desk="mrbins-box-med.mp4" type="video/mp4"></video>
+    <video class="bxm boxvid" muted playsinline preload="none" poster="mrbins-box-med-poster.jpg"><source data-desk="mrbins-box-med.mp4" type="video/mp4"></video>
     <div class="mtag"><span class="tn">Classic</span><span class="tp">$50</span><span class="td">6&ndash;8 finds</span></div>
    </div>
    <div class="mbox l">
-    <video class="bxm boxvid" muted playsinline preload="auto" poster="mrbins-box-large-poster.jpg"><source data-desk="mrbins-box-large.mp4" type="video/mp4"></video>
+    <video class="bxm boxvid" muted playsinline preload="none" poster="mrbins-box-large-poster.jpg"><source data-desk="mrbins-box-large.mp4" type="video/mp4"></video>
     <div class="mtag"><span class="tn">Loaded</span><span class="tp">$100</span><span class="td">12&ndash;15 finds</span></div>
    </div>
   </div>
@@ -1307,7 +1307,7 @@ function seekTo(v,t){if(v.fastSeek){try{v.fastSeek(t);return;}catch(e){}}try{v.c
  if(!RM)for(var ci=0;ci<n;ci++)caps[ci].style.transition='none';
  v.addEventListener('loadedmetadata',function(){dur=v.duration||10;paint();});
  /* MOBILE/iOS: swap to the lightweight 720p rendition — iPhone Safari ignores
-    preload="auto", blocks muted play() in Low Power Mode, and chokes scrubbing
+    preload="none", blocks muted play() in Low Power Mode, and chokes scrubbing
     a 19MB file over cellular. Smaller file + faststart = instant frames. */
  var mob=window.matchMedia('(max-width:940px)').matches||/iPhone|iPad|iPod/.test(navigator.userAgent);
  if(mob){var ws=v.querySelector('source');

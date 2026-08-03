@@ -46,7 +46,7 @@ export function CheckoutPanel({ bill, token }: Props) {
     >
       <div className="w-full max-w-lg">
         <div className="mb-6 flex items-center justify-center gap-2">
-          <img src="/assets/elsiaa-lion.png" alt="" className="h-8 w-8 object-contain" />
+          <img src="/assets/elsiaa-lion-192.png" alt="" className="h-8 w-8 object-contain" />
           <span className="text-sm font-bold tracking-wide" style={{ color: ops.navy }}>
             ELSIAA
           </span>

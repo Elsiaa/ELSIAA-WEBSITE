@@ -52,7 +52,7 @@ export function SiteFooter() {
           {/* brand + direct */}
           <div className="col-span-2 md:col-span-1">
             <a href="/" className="group flex items-center gap-3" aria-label="ELSIAA — home">
-              <img src="/assets/elsiaa-lion.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
+              <img src="/assets/elsiaa-lion-192.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
               <span
                 className="text-[15px] font-bold text-[#111111]"
                 style={inter}
