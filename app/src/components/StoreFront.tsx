@@ -20,7 +20,7 @@ function Card({ p }: { p: MerchProduct }) {
         />
       </a>
       <div className="mt-3.5 flex items-baseline justify-between gap-2">
-        <a href={`/product/${p.slug}`} className="text-[14px] font-medium text-[#111111] hover:underline">{p.name}</a>
+        <a href={`/product/${p.slug}`} className="-my-1.5 inline-flex min-h-[44px] items-center text-[14px] font-medium text-[#111111] hover:underline">{p.name}</a>
         <span className="text-[14px] text-[#111111]/60">${p.price}</span>
       </div>
       <div className="mt-1 flex items-center justify-between">
@@ -31,7 +31,7 @@ function Card({ p }: { p: MerchProduct }) {
             setAdded(true);
             setTimeout(() => setAdded(false), 1100);
           }}
-          className="rounded-full border border-black/[0.15] px-4 py-1.5 text-[12.5px] font-semibold text-[#111111] transition-all hover:border-[#111111] hover:bg-[#111111] hover:text-white"
+          className="inline-flex min-h-[44px] items-center rounded-full border border-black/[0.15] px-4 text-[12.5px] font-semibold text-[#111111] transition-all hover:border-[#111111] hover:bg-[#111111] hover:text-white"
         >
           {added ? "Added ✓" : "Add to Cart"}
         </button>
