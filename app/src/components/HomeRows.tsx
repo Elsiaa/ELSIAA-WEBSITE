@@ -1391,56 +1391,14 @@ function ExpandSection({ title, blurb, children }: { title: string; blurb: strin
   );
 }
 
-/* ---------- AI adoption — radial dials on a dark band ---------- */
+/* ---------- AI adoption — 100 businesses, 78 already running AI ---------- */
 const ADOPTION: Array<[string, number]> = [
-  ["All industries", 78],
   ["Finance", 91],
   ["Marketing", 71],
   ["Healthcare", 66],
   ["Retail", 63],
   ["Manufacturing", 55],
 ];
-
-/** one dial — the ring draws itself in once the band is on screen */
-function Dial({ label, pct, on, delay, lead }: { label: string; pct: number; on: boolean; delay: number; lead?: boolean }) {
-  const sans =
-    "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
-  const R = 52;
-  const C = 2 * Math.PI * R;
-  return (
-    <div className="flex flex-col items-center">
-      <div className="relative">
-        <svg width="128" height="128" viewBox="0 0 128 128" className="-rotate-90">
-          <circle cx="64" cy="64" r={R} fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="9" />
-          <circle
-            cx="64"
-            cy="64"
-            r={R}
-            fill="none"
-            stroke={lead ? "#5fd08a" : "#1e6b3c"}
-            strokeWidth="9"
-            strokeLinecap="round"
-            strokeDasharray={C}
-            strokeDashoffset={on ? C * (1 - pct / 100) : C}
-            style={{ transition: `stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1) ${delay}s` }}
-          />
-        </svg>
-        <span
-          className="absolute inset-0 grid place-items-center text-[26px] font-semibold tracking-[-0.03em] text-white tabular-nums"
-          style={{ fontFamily: sans }}
-        >
-          {pct}%
-        </span>
-      </div>
-      <p
-        className={`mt-3 text-center text-[13px] ${lead ? "font-semibold text-white" : "text-white/60"}`}
-        style={{ fontFamily: sans }}
-      >
-        {label}
-      </p>
-    </div>
-  );
-}
 
 function AdoptionSection() {
   const sans =
@@ -1450,52 +1408,116 @@ function AdoptionSection() {
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") { setOn(true); return; }
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setOn(true), io.disconnect()), { threshold: 0.25 });
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setOn(true), io.disconnect()), { threshold: 0.2 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
   return (
-    <section ref={ref} className="relative overflow-hidden bg-[#0c0e0d] py-16 md:py-24" id="adoption">
-      {/* a single soft green bloom behind the dials */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[130px]"
-        style={{ background: "radial-gradient(circle, rgba(30,107,60,0.30), transparent 68%)" }}
-      />
-      <div className="relative mx-auto w-full max-w-6xl px-6">
-        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-          <h2
-            className="max-w-2xl text-2xl font-semibold tracking-[-0.035em] text-white md:text-4xl"
-            style={{ fontFamily: sans }}
-          >
-            Adoption is no longer a question of if.
-          </h2>
-          <p className="text-[12.5px] text-white/45" style={{ fontFamily: sans }}>
-            Sources below · Updated July 2026
-          </p>
-        </div>
+    <section ref={ref} className="border-y border-black/[0.06] bg-[#FBFBFA] py-16 md:py-24" id="adoption">
+      <div className="mx-auto w-full max-w-6xl px-6">
+        <div className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,470px)] lg:gap-16">
+          {/* the argument */}
+          <div>
+            <p className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase" style={{ fontFamily: sans }}>
+              Adoption
+            </p>
+            <h2
+              className="mt-5 max-w-xl text-[2rem] font-semibold leading-[1.06] tracking-[-0.045em] text-[#111111] sm:text-[2.6rem] md:text-[3.2rem]"
+              style={{ fontFamily: sans }}
+            >
+              Out of any hundred businesses, seventy-eight already run AI.
+            </h2>
+            <p
+              className="mt-5 max-w-lg text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]"
+              style={{ fontFamily: sans }}
+            >
+              It is no longer a question of if. The twenty-two that haven't are not early
+              — they are the ones their customers now compare against everybody else.
+            </p>
 
-        <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
-          {ADOPTION.map(([label, pct], i) => (
-            <Dial
-              key={label}
-              label={label}
-              pct={pct}
-              on={on}
-              delay={i * 0.09}
-              lead={i === 0}
-            />
-          ))}
-        </div>
+            {/* the industry ledger */}
+            <div className="mt-9 max-w-lg">
+              {ADOPTION.map(([label, pct], i) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-4 border-b border-black/[0.07] py-3"
+                  style={{ opacity: on ? 1 : 0, transition: `opacity .5s ease ${0.55 + i * 0.07}s` }}
+                >
+                  <span className="w-[108px] shrink-0 text-[13.5px] font-medium text-[#111111]/70" style={{ fontFamily: sans }}>
+                    {label}
+                  </span>
+                  <span className="relative h-[6px] flex-1 overflow-hidden rounded-full bg-black/[0.06]">
+                    <span
+                      className="absolute inset-y-0 left-0 rounded-full bg-[#1e6b3c]"
+                      style={{
+                        width: on ? `${pct}%` : "0%",
+                        transition: `width 1s cubic-bezier(.2,.8,.2,1) ${0.6 + i * 0.07}s`,
+                      }}
+                    />
+                  </span>
+                  <span
+                    className="w-[46px] shrink-0 text-right text-[15px] font-semibold tabular-nums text-[#111111]"
+                    style={{ fontFamily: sans }}
+                  >
+                    {pct}%
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
 
-        <p
-          className="mt-12 max-w-3xl border-t border-white/10 pt-6 text-[14px] leading-relaxed text-white/60 md:text-[15px]"
-          style={{ fontFamily: sans }}
-        >
-          Read across: 78% of organizations already run AI in at least one business
-          function. The industry lines below it aren't outliers — they're the baseline
-          your customers now compare you against.
-        </p>
+          {/* the grid, on its own plate so it reads as the centrepiece */}
+          <div className="rounded-3xl border border-black/[0.08] bg-white p-7 shadow-[0_40px_90px_-60px_rgba(17,17,17,0.5)] md:p-9">
+            <div className="flex items-end justify-between gap-4">
+              <p
+                className="text-[64px] leading-[0.85] font-semibold tracking-[-0.05em] text-[#1e6b3c] tabular-nums md:text-[80px]"
+                style={{ fontFamily: sans }}
+              >
+                78<span className="text-[30px] align-top md:text-[38px]">%</span>
+              </p>
+              <p className="pb-1.5 text-right text-[12.5px] leading-snug text-[#111111]/50" style={{ fontFamily: sans }}>
+                already run AI in at
+                <br />
+                least one function
+              </p>
+            </div>
+
+            <div className="mt-7 grid w-full max-w-[330px] grid-cols-10 gap-[6px] md:gap-[7px]">
+              {Array.from({ length: 100 }).map((_, i) => {
+                const lit = i < 78;
+                return (
+                  <span
+                    key={i}
+                    className="aspect-square rounded-[4px]"
+                    style={{
+                      background: lit ? "#1e6b3c" : "transparent",
+                      border: lit ? "none" : "1.5px solid rgba(180,84,58,0.35)",
+                      boxShadow: lit ? "0 2px 6px -2px rgba(30,107,60,0.55)" : "none",
+                      opacity: on ? 1 : 0,
+                      transform: on ? "none" : "scale(0.3)",
+                      transition: `opacity .4s ease ${i * 0.007}s, transform .45s cubic-bezier(.2,.9,.3,1.4) ${i * 0.007}s`,
+                    }}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="mt-7 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-black/[0.07] pt-5" style={{ fontFamily: sans }}>
+              <span className="flex items-center gap-2.5 text-[13px] text-[#111111]/75">
+                <span aria-hidden className="h-3 w-3 rounded-[3px] bg-[#1e6b3c]" />
+                <b className="font-semibold text-[#111111]">78</b> running AI
+              </span>
+              <span className="flex items-center gap-2.5 text-[13px] text-[#111111]/60">
+                <span aria-hidden className="h-3 w-3 rounded-[3px] border-[1.5px] border-[#b4543a]/40" />
+                <b className="font-semibold text-[#b4543a]">22</b> falling behind
+              </span>
+            </div>
+            <p className="mt-4 text-[11.5px] text-[#111111]/40" style={{ fontFamily: sans }}>
+              Sources on the research page · Updated July 2026
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
