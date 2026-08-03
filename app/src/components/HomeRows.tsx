@@ -476,44 +476,75 @@ function HomeHero() {
 /* ---------- Automation: robot + walkthrough, per sketch ---------- */
 function AutomationSection() {
   const sans = { fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+  const trackRef = useRef<HTMLElement | null>(null);
+  const vidRef = useRef<HTMLVideoElement | null>(null);
+
+  // Scroll-controlled, beginning to end: the stage pins while the robot's
+  // animation (wave → point + stare → wave) is scrubbed by your scroll, then
+  // the page releases. Reduced motion: plain autoplay loop.
+  useEffect(() => {
+    const v = vidRef.current;
+    const track = trackRef.current;
+    if (!v || !track) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      v.loop = true;
+      v.play().catch(() => {});
+      return;
+    }
+    v.pause();
+    v.play().then(() => v.pause()).catch(() => {}); // prime decode for seeking
+    const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+    let raf = 0;
+    const tick = () => {
+      const r = track.getBoundingClientRect();
+      const span = r.height - window.innerHeight;
+      const p = clamp01(span > 0 ? -r.top / span : 0);
+      const d = v.duration;
+      if (d && !Number.isNaN(d)) {
+        const target = Math.min(d - 0.04, p * d);
+        const cur = v.currentTime;
+        // all-keyframe clip → instant seeks; fine-grained ease = butter
+        if (Math.abs(target - cur) > 0.006) {
+          try { v.currentTime = cur + (target - cur) * 0.4; } catch { /* seeking */ }
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // vertical feather + multiply + brightness lift → the clip's studio backdrop
+  // disappears into the pure-white page
+  const feather = "radial-gradient(120% 120% at 50% 46%, #000 62%, rgba(0,0,0,0) 90%)";
+
   return (
- <section className="bg-white pt-8 pb-2 md:pt-12 md:pb-3" id="automation">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 text-center">
+    <section ref={trackRef} className="relative bg-white" style={{ height: "260vh" }} id="automation">
+      <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-3 overflow-hidden bg-white px-6 text-center">
         {/* titled like the design centrepiece */}
         <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
           Automations
         </h2>
-        {/* the ELSIAA robot — recreated in brand colours, waves as you scroll */}
-        <ToyRobot />
+        <video
+          ref={vidRef}
+          src="/assets/robot3d_scrub.mp4"
+          poster="/assets/robot3d_wave.png"
+          muted
+          playsInline
+          preload="auto"
+          aria-label="The ELSIAA robot — waves, points at you, and waves again as you scroll"
+          className="pointer-events-none block w-auto select-none"
+          style={{
+            height: "min(64vh, 560px)",
+            mixBlendMode: "multiply",
+            filter: "brightness(1.07) contrast(1.04)",
+            WebkitMaskImage: feather,
+            maskImage: feather,
+          }}
+        />
       </div>
     </section>
-  );
-}
-
-/* A retro tin toy robot, recreated as clean vector art in the ELSIAA palette
-   (grey body, green accents, black outlines, white). Its right arm waves as
-   you scroll — the arm's rotation is driven by the section's scroll position. */
-function ToyRobot() {
-  // The ELSIAA mascot — glossy 3D animation: waves and smiles, points straight
-  // at the viewer with a serious stare, then waves again. Seamless loop,
-  // blended into the white page.
-  return (
-    <div className="pointer-events-none w-full max-w-[300px]">
-      <video
-        src="/assets/robot3d_anim.mp4"
-        poster="/assets/robot3d_wave.png"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
-        onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
-        aria-label="The ELSIAA robot — waves, points at you, and waves again"
-        className="block w-full select-none"
-        style={{ mixBlendMode: "multiply" }}
-      />
-    </div>
   );
 }
 
