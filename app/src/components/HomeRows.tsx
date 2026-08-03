@@ -494,24 +494,40 @@ function AutomationSection() {
    (grey body, green accents, black outlines, white). Its right arm waves as
    you scroll — the arm's rotation is driven by the section's scroll position. */
 function ToyRobot() {
-  const armRef = useRef<SVGGElement | null>(null);
+  const waveRef = useRef<SVGGElement | null>(null);
+  const pointRef = useRef<SVGGElement | null>(null);
+
+  // Cycle: wave (~2.8s) → point straight at the viewer (~1.6s) → wave again.
   useEffect(() => {
-    const arm = armRef.current;
-    if (!arm) return;
-    const section = arm.closest("section");
+    const wave = waveRef.current;
+    const point = pointRef.current;
+    if (!wave || !point) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced || !section) {
-      arm.setAttribute("transform", "rotate(-12 180 132)");
+    if (reduced) {
+      wave.setAttribute("transform", "rotate(-12 180 132)");
+      point.style.opacity = "0";
       return;
     }
-    const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
     let raf = 0;
-    const tick = () => {
-      const r = section.getBoundingClientRect();
-      const p = clamp01((window.innerHeight - r.top) / (window.innerHeight + r.height));
-      // raised, waving arm — oscillates as the section travels the viewport
-      const angle = -14 + Math.sin(p * Math.PI * 8) * 15;
-      arm.setAttribute("transform", `rotate(${angle.toFixed(2)} 180 132)`);
+    let t0 = 0;
+    const CYCLE = 4400; // ms — 2800 wave + 1600 point
+    const tick = (t: number) => {
+      if (!t0) t0 = t;
+      const m = (t - t0) % CYCLE;
+      if (m < 2800) {
+        // waving
+        wave.style.opacity = "1";
+        point.style.opacity = "0";
+        const angle = -14 + Math.sin((m / 2800) * Math.PI * 6) * 16;
+        wave.setAttribute("transform", `rotate(${angle.toFixed(2)} 180 132)`);
+      } else {
+        // pointing at you — tiny push toward the camera
+        wave.style.opacity = "0";
+        point.style.opacity = "1";
+        const k = (m - 2800) / 1600;
+        const push = 1 + Math.sin(k * Math.PI) * 0.06;
+        point.setAttribute("transform", `translate(${(216 * (1 - push)).toFixed(2)} ${(150 * (1 - push)).toFixed(2)}) scale(${push.toFixed(3)})`);
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -529,25 +545,50 @@ function ToyRobot() {
 
   return (
     <div className="robot-breath pointer-events-none w-full max-w-[300px]">
-      <svg viewBox="0 0 240 320" className="block w-full" role="img" aria-label="The ELSIAA robot, waving">
+      <svg viewBox="0 0 240 320" className="block w-full" role="img" aria-label="The ELSIAA robot — waves, then points at you">
         {/* antennae */}
         <line x1="108" y1="46" x2="98" y2="18" stroke={OUT} strokeWidth={2} />
         <line x1="132" y1="46" x2="146" y2="16" stroke={OUT} strokeWidth={2} />
         <circle cx="98" cy="16" r="5" fill={GREEN_L} stroke={OUT} strokeWidth={2} />
         <circle cx="146" cy="14" r="5" fill={GREEN_L} stroke={OUT} strokeWidth={2} />
 
-        {/* left arm (static, hanging) */}
+        {/* left arm (static, hanging) — with fingers */}
         <g>
           {seg(52, 142, 9)}{seg(48, 156, 8)}{seg(46, 169, 7)}{seg(47, 181, 6)}
           <circle cx="47" cy="192" r="9" fill={BODY} stroke={OUT} strokeWidth={2} />
+          {[38.5, 43.5, 49.5, 55].map((fx, i) => (
+            <line key={i} x1={fx} y1="197" x2={fx - 1 + i * 0.8} y2="205" stroke={OUT} strokeWidth={2.2} strokeLinecap="round" />
+          ))}
         </g>
 
-        {/* right arm (waves) — rotates around the shoulder (180,132) */}
-        <g ref={armRef} style={{ transformBox: "view-box" }}>
+        {/* right arm — WAVING pose (rotates at the shoulder), with fingers */}
+        <g ref={waveRef} style={{ transformBox: "view-box", transition: "opacity .25s ease" }}>
           {seg(190, 124, 9)}{seg(199, 112, 8)}{seg(207, 100, 7)}{seg(213, 90, 6)}
           <circle cx="216" cy="80" r="10" fill={BODY} stroke={OUT} strokeWidth={2} />
-          {/* little thumb so it reads as a waving hand */}
-          <circle cx="207" cy="74" r="4" fill={BODY} stroke={OUT} strokeWidth={2} />
+          {/* spread fingers + thumb */}
+          {[
+            [210, 71, 206, 63],
+            [215, 70, 213, 61],
+            [220, 71, 220, 62],
+            [224, 74, 227, 66],
+          ].map(([x1, y1, x2, y2], i) => (
+            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={OUT} strokeWidth={2.4} strokeLinecap="round" />
+          ))}
+          <circle cx="207" cy="86" r="4" fill={BODY} stroke={OUT} strokeWidth={2} />
+        </g>
+
+        {/* right arm — POINTING at the viewer (foreshortened toward camera) */}
+        <g ref={pointRef} style={{ transformBox: "view-box", opacity: 0, transition: "opacity .25s ease" }}>
+          {seg(188, 138, 9)}{seg(196, 146, 8)}
+          {/* fist facing you */}
+          <circle cx="206" cy="154" r="12" fill={BODY} stroke={OUT} strokeWidth={2} />
+          {/* index finger pointing straight out of the screen */}
+          <circle cx="206" cy="150" r="5.5" fill={BODY} stroke={OUT} strokeWidth={2} />
+          <circle cx="206" cy="150" r="2" fill={OUT} />
+          {/* curled fingers */}
+          {[199, 205, 211].map((fx, i) => (
+            <circle key={i} cx={fx} cy="160" r="2.6" fill={BODY_D} stroke={OUT} strokeWidth={1.6} />
+          ))}
         </g>
 
         {/* head */}
@@ -571,22 +612,25 @@ function ToyRobot() {
         {/* body */}
         <rect x="60" y="118" width="120" height="114" rx="16" fill={BODY} stroke={OUT} strokeWidth={2} />
         {/* chest control panel */}
-        <rect x="72" y="132" width="96" height="62" rx="8" fill="#23282a" stroke={OUT} strokeWidth={2} />
+        <rect x="72" y="130" width="96" height="56" rx="8" fill="#23282a" stroke={OUT} strokeWidth={2} />
         {/* two gauges */}
         {[96, 144].map((cx) => (
           <g key={cx}>
-            <rect x={cx - 18} y="140" width="36" height="30" rx="3" fill="#eef1ef" stroke={OUT} strokeWidth={1.4} />
-            <path d={`M ${cx - 12} 160 A 12 12 0 0 1 ${cx + 12} 160`} fill="none" stroke={GREEN} strokeWidth={1.6} />
-            <line x1={cx} y1="160" x2={cx + 7} y2="151" stroke={GREEN_L} strokeWidth={1.8} />
-            <circle cx={cx} cy="160" r="2" fill={OUT} />
+            <rect x={cx - 18} y="136" width="36" height="28" rx="3" fill="#eef1ef" stroke={OUT} strokeWidth={1.4} />
+            <path d={`M ${cx - 12} 155 A 12 12 0 0 1 ${cx + 12} 155`} fill="none" stroke={GREEN} strokeWidth={1.6} />
+            <line x1={cx} y1="155" x2={cx + 7} y2="146" stroke={GREEN_L} strokeWidth={1.8} />
+            <circle cx={cx} cy="155" r="2" fill={OUT} />
           </g>
         ))}
         {/* knob row */}
-        {[86, 106, 134, 154].map((cx) => (
-          <circle key={cx} cx={cx} cy="182" r="4.5" fill={BODY_D} stroke={OUT} strokeWidth={1.6} />
+        {[88, 108, 132, 152].map((cx) => (
+          <circle key={cx} cx={cx} cy="174" r="4" fill={BODY_D} stroke={OUT} strokeWidth={1.6} />
         ))}
-        {/* power light */}
-        <circle cx="120" cy="212" r="5" fill={GREEN_L} stroke={OUT} strokeWidth={2} />
+
+        {/* nameplate — the lion mark + ELSIAA, stamped on the chest */}
+        <rect x="78" y="196" width="84" height="24" rx="6" fill="#fff" stroke={OUT} strokeWidth={1.8} />
+        <image href="/assets/elsiaa-lion.png" x="83" y="199" width="18" height="18" />
+        <text x="106" y="212.5" fontSize="12.5" fontWeight="700" letterSpacing="1.6" fill={OUT} fontFamily="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif">ELSIAA</text>
 
         {/* legs */}
         <rect x="84" y="232" width="28" height="52" rx="5" fill={BODY} stroke={OUT} strokeWidth={2} />

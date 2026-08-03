@@ -1257,7 +1257,7 @@ function ProductAdFeature() {
     return () => io.disconnect();
   }, []);
   return (
-    <section className="bg-white px-6 pt-28 pb-24 md:pt-32 text-[#111111]">
+    <section className="bg-white px-6 pt-24 pb-14 md:pt-28 text-[#111111]">
       <div className="relative mx-auto max-w-6xl">
         {/* the easel — our lion on the canvas, tucked in the top-right corner */}
         <img
@@ -1303,58 +1303,6 @@ function ProductAdFeature() {
           </p>
         </Reveal>
 
-      </div>
-      <div className="mx-auto max-w-6xl">
-        {/* the layers — an ambient film, no tricks */}
-        <Reveal delay={0.08}>
-          <div className="mt-6 grid grid-cols-1 items-center gap-8 lg:grid-cols-5">
-            <div className="overflow-hidden rounded-2xl shadow-[0_50px_110px_-50px_rgba(0,0,0,0.5)] lg:col-span-3">
-              <video
-                ref={videoRef}
-                src="/assets/design_brand_white_v4.mp4"
-                muted
-                playsInline
-                loop
-                preload="metadata"
-                className="w-full"
-              />
-            </div>
-            <div className="lg:col-span-2">
-              <h3
-                className="text-2xl font-semibold tracking-[-0.035em] md:text-3xl"
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-              >
-                Layer by layer.
-                <br />
-                Nothing accidental.
-              </h3>
-              <div className="mt-6 space-y-5">
-                {[
-                  ["The core", "We find what actually sells the product — and strip away everything competing with it."],
-                  ["The optics", "Composition, lighting, and staging engineered so the eye lands exactly where it should."],
-                  ["The layers", "Every element placed on purpose: components, shadows, reflections — nothing accidental."],
-                ].map(([t, d]) => (
-                  <div key={t} className="border-l-2 border-[#1e6b3c] pl-4">
-                    <h4 className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                      {t}
-                    </h4>
-                    <p className="mt-1 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                      {d}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <a
-                href="/quote"
-                className="group mt-8 inline-flex items-center gap-3 rounded-full border border-[#111111]/20 px-7 py-3 text-[13px] text-[#111111]  transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-              >
-                Stage my product
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </a>
-            </div>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
@@ -1838,6 +1786,57 @@ function StepArt({ step }: { step: number }) {
   );
 }
 
+/* ---------------- the 3D lion — glass logo turntable, scroll-driven ----------------
+   Pinned: your scroll turns the emerald glass lion one full revolution; when
+   the turn completes the page releases to the next section. */
+function Lion3DSpin() {
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const vidRef = useRef<HTMLVideoElement | null>(null);
+  useEffect(() => {
+    const v = vidRef.current;
+    const wrap = wrapRef.current;
+    if (!v || !wrap) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return; // static first frame
+    v.pause();
+    v.play().then(() => v.pause()).catch(() => {}); // prime decode for seeking
+    const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+    let raf = 0;
+    const tick = () => {
+      const r = wrap.getBoundingClientRect();
+      const span = r.height - window.innerHeight;
+      const prog = clamp01(span > 0 ? -r.top / span : 0);
+      const d = v.duration;
+      if (d && !Number.isNaN(d)) {
+        const target = Math.min(d - 0.04, prog * d);
+        const cur = v.currentTime;
+        if (Math.abs(target - cur) > 0.006) {
+          try { v.currentTime = cur + (target - cur) * 0.4; } catch { /* seeking */ }
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  return (
+    <section ref={wrapRef} className="relative" style={{ height: "200vh", background: "#edf4ee" }}>
+      <div className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden">
+        <video
+          ref={vidRef}
+          src="/assets/lion3d_spin.mp4"
+          poster="/assets/lion3d_still.png"
+          muted
+          playsInline
+          preload="auto"
+          aria-label="The ELSIAA lion in emerald glass — turns as you scroll"
+          className="max-h-[74vh] w-auto max-w-[88vw] rounded-3xl"
+        />
+      </div>
+    </section>
+  );
+}
+
 /* ---------------- the process — how every uplift actually happens ---------------- */
 function OurProcess() {
   const STEPS = [
@@ -1849,7 +1848,7 @@ function OurProcess() {
     ["6", "Launch & refinement", "The work ships live, then keeps improving against real visitor behavior. Delivery is the beginning of the standard, not the end of it."],
   ];
   return (
-    <section className="bg-[#F5F5F3] px-6 py-24 text-[#111111]">
+    <section className="bg-[#F5F5F3] px-6 py-14 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
@@ -1948,7 +1947,7 @@ function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
 
 function Results() {
   return (
- <section className="bg-white px-6 py-24">
+ <section className="bg-white px-6 py-14">
       <div className="mx-auto grid max-w-5xl grid-cols-3 gap-8 text-center">
         {[
           { n: 6, s: "", l: "Cities worldwide" },
@@ -1978,7 +1977,7 @@ function Results() {
 /* ---------------- 6 · final CTA ---------------- */
 function FinalCTA() {
   return (
-    <section className="bg-[#070907] px-6 py-32 text-center text-[#F5F5F3]">
+    <section className="bg-[#070907] px-6 py-20 text-center text-[#F5F5F3]">
       <Reveal>
         <p
           className="text-[13px] text-[#2e9e58] "
@@ -2040,12 +2039,15 @@ export function DesignsShowcase() {
         ::selection { background: rgba(46,158,88,0.85); color: #fff; }
         html { scroll-behavior: smooth; }
       `}</style>
+      {/* narrative: thesis → proof of uplift → breadth → the work → apps →
+          trust wall → how we work → numbers → close */}
       <ProductAdFeature />
-      <ClientLogos />
+      <Lion3DSpin />
+      <Transformations />
       <BeyondWebsites />
       <DiscoverDesigns />
-      <Transformations />
       <DiscoverApps />
+      <ClientLogos />
       <OurProcess />
       <Results />
       <FinalCTA />
