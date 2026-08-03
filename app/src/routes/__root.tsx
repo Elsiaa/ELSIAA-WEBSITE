@@ -232,7 +232,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       {/* dark pages (Automate, Why ELSIAA) end tight on their own closing — no light footer */}
-      {pathname !== "/automate" && pathname !== "/why-elsiaa" && <SiteFooter />}
+      {pathname !== "/automate" && <SiteFooter />}
       <FloatingBook />
       </LanguageProvider>
     </QueryClientProvider>
