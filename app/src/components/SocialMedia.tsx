@@ -76,6 +76,77 @@ function Bar({ w = "100%", o = 0.14 }: { w?: string; o?: number }) {
   return <span className="block h-1.5 rounded-full" style={{ width: w, background: `rgba(17,17,17,${o})` }} />;
 }
 
+/* Illustrative content for the interface mockups. These are example client
+   businesses, not ELSIAA's own accounts, and no quote here is attributed to a
+   real reviewer — the surrounding caption says so on the page. */
+const CLIPS = [
+  { handle: "@northside.cafe", caption: "The 6am prep nobody sees ☕", audio: "original sound — northside.cafe", likes: "128.4k", comments: "1,204", shares: "3,981" },
+  { handle: "@meridian.studio", caption: "Behind every launch: three weeks of this", audio: "Lo-Fi Morning — Aster", likes: "42.1k", comments: "618", shares: "1,102" },
+  { handle: "@northside.cafe", caption: "POV: your regular walks in and you already started it", audio: "original sound — northside.cafe", likes: "301.7k", comments: "4,338", shares: "12.6k" },
+  { handle: "@hartley.home", caption: "Restock day. Everything has a place.", audio: "Slow Sunday — Vela", likes: "76.9k", comments: "902", shares: "2,410" },
+];
+
+const POSTS = [
+  { name: "Danielle Roth", role: "Founder, Northside Cafe", when: "2h", copy: "We stopped guessing what to post. Three months in, the morning rush is our slowest hour to staff and our busiest to serve.", reactions: "214", comments: "18" },
+  { name: "Marcus Bell", role: "Operations Director, Hartley Home", when: "6h", copy: "Took our whole catalogue from spreadsheets to a live storefront. The team hasn't touched a CSV since.", reactions: "88", comments: "4" },
+  { name: "Priya Nair", role: "Managing Partner, Meridian Studio", when: "1d", copy: "The thing nobody tells you about content: consistency beats production value. We post four times a week now, every week.", reactions: "512", comments: "63" },
+  { name: "Tom Aldridge", role: "GM, Fairline Services", when: "2d", copy: "Our intake line answers at 2am now. First month, eleven jobs booked overnight that used to go to voicemail.", reactions: "31", comments: "2" },
+  { name: "Elena Vasquez", role: "Director, Cedar Clinic", when: "4d", copy: "Patients get routed to the right specialist without a receptionist playing traffic cop. That was the whole ask.", reactions: "140", comments: "20" },
+];
+
+const REVIEWS_FEED = [
+  { name: "Sarah M.", initial: "S", when: "2 weeks ago", stars: 5, text: "Booked online in under a minute and they were early. Genuinely the smoothest experience I've had with a local business.", reply: "Thanks Sarah — glad the new booking flow worked for you." },
+  { name: "James O.", initial: "J", when: "1 month ago", stars: 5, text: "Called after hours expecting voicemail and got a straight answer. Sorted the same week.", reply: null },
+  { name: "Ana P.", initial: "A", when: "1 month ago", stars: 5, text: "Clear pricing up front, no surprises on the invoice. Rare.", reply: "Appreciate it, Ana. See you next service." },
+  { name: "Daniel K.", initial: "D", when: "2 months ago", stars: 4, text: "Great work overall. Only note is parking was tricky on the day.", reply: null },
+];
+
+const IG_POSTS = [
+  { user: "northside.cafe", when: "2h", caption: "New single-origin landed this morning. Limited bags.", likes: "2,481" },
+  { user: "hartley.home", when: "5h", caption: "Restock day — the shelf everyone asks about.", likes: "1,097" },
+  { user: "meridian.studio", when: "1d", caption: "Six weeks of work, one frame.", likes: "4,332" },
+  { user: "cedar.clinic", when: "2d", caption: "New wing opens Monday. Booking is live.", likes: "861" },
+];
+
+const IG_STORIES = ["Menu", "Team", "Hours", "New", "FAQ"];
+
+const FB_POSTS = [
+  { page: "Northside Cafe", when: "3h", copy: "We're open until 4 today — the patio is finally back.", likes: "312", comments: "24", shares: "8" },
+  { page: "Hartley Home", when: "8h", copy: "Autumn range is in store now. Same prices as last season.", likes: "148", comments: "11", shares: "3" },
+  { page: "Fairline Services", when: "1d", copy: "Emergency line now answers 24/7 — no more voicemail after six.", likes: "96", comments: "7", shares: "14" },
+  { page: "Cedar Clinic", when: "3d", copy: "Flu clinic starts next week. Walk-ins welcome Tuesday and Thursday.", likes: "204", comments: "31", shares: "22" },
+];
+
+/** Instagram's gradient camera glyph */
+function InstagramMark({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <defs>
+        <linearGradient id="igg" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0" stopColor="#FEDA75" />
+          <stop offset=".3" stopColor="#FA7E1E" />
+          <stop offset=".6" stopColor="#D62976" />
+          <stop offset="1" stopColor="#4F5BD5" />
+        </linearGradient>
+      </defs>
+      <rect width="24" height="24" rx="6" fill="url(#igg)" />
+      <rect x="5.5" y="5.5" width="13" height="13" rx="4" fill="none" stroke="#fff" strokeWidth="1.6" />
+      <circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" strokeWidth="1.6" />
+      <circle cx="16.4" cy="7.6" r="1" fill="#fff" />
+    </svg>
+  );
+}
+
+/** Facebook's f */
+function FacebookMark({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <rect width="24" height="24" rx="5" fill="#1877F2" />
+      <path fill="#fff" d="M15.4 12.6l.4-2.6h-2.5V8.3c0-.7.35-1.4 1.5-1.4h1.15V4.7s-1.05-.18-2-.18c-2.05 0-3.4 1.24-3.4 3.5V10H8.3v2.6h2.25V19h2.75v-6.4h2.1z" />
+    </svg>
+  );
+}
+
 function FeedCards({ kind }: { kind: FeedKind }) {
   if (kind === "video") {
     // full-screen clips — scrolling swipes up to the next one
@@ -101,19 +172,26 @@ function FeedCards({ kind }: { kind: FeedKind }) {
                 <span key={s} className={`h-[3px] flex-1 rounded-full ${s <= i ? "bg-white" : "bg-white/40"}`} />
               ))}
             </div>
-            <div className="absolute right-2 bottom-4 flex flex-col items-center gap-2.5">
-              {["♥", "💬", "↗"].map((g, k) => (
-                <span key={k} className="grid h-7 w-7 place-items-center rounded-full bg-white/25 text-[12px] text-white">
-                  {g}
+            {/* action rail */}
+            <div className="absolute right-1.5 bottom-3 flex flex-col items-center gap-2">
+              <span className="mb-0.5 grid h-7 w-7 place-items-center rounded-full border-[1.5px] border-white bg-[#1e6b3c] text-[9px] font-bold text-white" style={{ fontFamily: SANS }}>
+                {CLIPS[i].handle[1].toUpperCase()}
+              </span>
+              {([["♥", CLIPS[i].likes], ["💬", CLIPS[i].comments], ["↗", CLIPS[i].shares]] as const).map(([g, n], k) => (
+                <span key={k} className="flex flex-col items-center gap-0.5">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-white/25 text-[12px] text-white">{g}</span>
+                  <span className="text-[7.5px] font-bold text-white drop-shadow" style={{ fontFamily: SANS }}>{n}</span>
                 </span>
               ))}
-              <span className="text-[9px] font-bold text-white drop-shadow" style={{ fontFamily: SANS }}>
-                {[128, 42, 301, 76][i]}k
-              </span>
             </div>
-            <div className="absolute bottom-3 left-2 max-w-[72%] space-y-1">
-              <span className="block h-2 w-14 rounded-full bg-white/85" />
-              <span className="block h-2 w-24 rounded-full bg-white/60" />
+            {/* caption block */}
+            <div className="absolute bottom-2.5 left-2 max-w-[70%]" style={{ fontFamily: SANS }}>
+              <p className="text-[9.5px] font-bold text-white drop-shadow">{CLIPS[i].handle}</p>
+              <p className="mt-0.5 text-[8.5px] leading-snug text-white/90 drop-shadow">{CLIPS[i].caption}</p>
+              <p className="mt-1 flex items-center gap-1 text-[7.5px] text-white/75">
+                <span aria-hidden>♪</span>
+                <span className="truncate">{CLIPS[i].audio}</span>
+              </p>
             </div>
           </div>
         ))}
@@ -124,35 +202,50 @@ function FeedCards({ kind }: { kind: FeedKind }) {
     // stories row + square photo posts with the action row
     return (
       <div>
+        <div className="flex items-center gap-1.5 border-b border-black/[0.06] px-2.5 py-1.5" style={{ fontFamily: SANS }}>
+          <InstagramMark className="h-4 w-4 shrink-0" />
+          <span className="text-[9px] font-bold text-[#111111]">Instagram</span>
+          <span className="ml-auto text-[7.5px] text-[#111111]/45">8,204 followers</span>
+        </div>
         <div className="flex gap-2.5 border-b border-black/[0.06] px-2.5 py-2">
-          {[0, 1, 2, 3, 4].map((s) => (
-            <span
-              key={s}
-              className="h-8 w-8 shrink-0 rounded-full p-[2px]"
-              style={{ background: "conic-gradient(from 210deg, #1e6b3c, #4bbf7b, #1e6b3c)" }}
-            >
-              <span className="block h-full w-full rounded-full border-2 border-white bg-[#e9ebed]" />
+          {IG_STORIES.map((label) => (
+            <span key={label} className="flex w-8 shrink-0 flex-col items-center gap-0.5">
+              <span
+                className="h-8 w-8 rounded-full p-[2px]"
+                style={{ background: "conic-gradient(from 210deg, #FEDA75, #D62976, #4F5BD5, #FEDA75)" }}
+              >
+                <span className="block h-full w-full rounded-full border-2 border-white bg-[#e9ebed]" />
+              </span>
+              <span className="text-[6px] text-[#111111]/55" style={{ fontFamily: SANS }}>{label}</span>
             </span>
           ))}
         </div>
         <div className="space-y-3 p-2">
-          {[0, 1, 2, 3].map((i) => (
+          {IG_POSTS.map((post, i) => (
             <div key={i}>
-              <div className="flex items-center gap-1.5 pb-1.5">
-                <span className="h-5 w-5 rounded-full bg-[#1e6b3c]/15" />
-                <Bar w="34%" />
+              <div className="flex items-center gap-1.5 pb-1.5" style={{ fontFamily: SANS }}>
+                <span className="h-5 w-5 shrink-0 rounded-full bg-[#D62976]/15" />
+                <span className="text-[8px] font-bold text-[#111111]">{post.user}</span>
+                <span className="text-[7px] text-[#111111]/40">· {post.when}</span>
                 <span className="ml-auto text-[12px] leading-none text-[#111111]/30">···</span>
               </div>
-              <div className="h-32 rounded-lg bg-[#eceef0]" />
+              <img
+                src={i % 2 === 0 ? "/assets/social/feed1.png" : "/assets/social/feed2.png"}
+                alt=""
+                loading="lazy"
+                className="h-32 w-full rounded-lg object-cover"
+              />
               <div className="flex items-center gap-3 pt-1.5 text-[13px] text-[#111111]/70">
                 <span>♥</span>
                 <span>💬</span>
                 <span>↗</span>
                 <span className="ml-auto">🔖</span>
               </div>
-              <div className="mt-1 space-y-1">
-                <Bar w="30%" o={0.16} />
-                <Bar w="80%" o={0.1} />
+              <div className="mt-1" style={{ fontFamily: SANS }}>
+                <p className="text-[7.5px] font-bold text-[#111111]">{post.likes} likes</p>
+                <p className="mt-0.5 text-[7.5px] leading-snug text-[#111111]/70">
+                  <span className="font-bold text-[#111111]">{post.user}</span> {post.caption}
+                </p>
               </div>
             </div>
           ))}
@@ -175,32 +268,34 @@ function FeedCards({ kind }: { kind: FeedKind }) {
         </div>
         {[0, 1, 2, 3, 4].map((i) => (
           <div key={i} className="rounded-xl border border-black/[0.06] bg-white p-2.5">
-            <div className="flex items-center gap-1.5">
-              <span className="h-6 w-6 rounded-full bg-[#0A66C2]/15" />
-              <div className="flex-1 space-y-1">
-                <Bar w="60%" />
-                <Bar w="40%" o={0.09} />
+            <div className="flex items-start gap-1.5">
+              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#0A66C2]/12 text-[8px] font-bold text-[#0A66C2]" style={{ fontFamily: SANS }}>
+                {POSTS[i].name[0]}
+              </span>
+              <div className="min-w-0 flex-1" style={{ fontFamily: SANS }}>
+                <p className="truncate text-[8.5px] font-bold text-[#111111]">{POSTS[i].name}</p>
+                <p className="truncate text-[7px] text-[#111111]/50">{POSTS[i].role}</p>
+                <p className="text-[7px] text-[#111111]/40">{POSTS[i].when} · 🌐</p>
               </div>
-              <span className="rounded-full border border-[#0A66C2]/45 px-2 py-0.5 text-[8px] font-bold text-[#0A66C2]" style={{ fontFamily: SANS }}>
+              <span className="shrink-0 rounded-full border border-[#0A66C2]/45 px-2 py-0.5 text-[8px] font-bold text-[#0A66C2]" style={{ fontFamily: SANS }}>
                 + Follow
               </span>
             </div>
-            <div className="mt-2 space-y-1">
-              <Bar w="100%" o={0.1} />
-              <Bar w="90%" o={0.1} />
-              {i % 2 === 0 && (
-                <img
-                  src={i === 0 ? "/assets/social/feed1.png" : "/assets/social/feed2.png"}
-                  alt=""
-                  loading="lazy"
-                  className="mt-1.5 h-14 w-full rounded-lg object-cover"
-                />
-              )}
-            </div>
+            <p className="mt-1.5 text-[7.5px] leading-[1.45] text-[#111111]/75" style={{ fontFamily: SANS }}>
+              {POSTS[i].copy}
+            </p>
+            {i % 2 === 0 && (
+              <img
+                src={i === 0 ? "/assets/social/feed1.png" : "/assets/social/feed2.png"}
+                alt=""
+                loading="lazy"
+                className="mt-1.5 h-14 w-full rounded-lg object-cover"
+              />
+            )}
             <div className="mt-2 flex items-center gap-1.5 border-t border-black/[0.05] pt-1.5">
               <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#0A66C2] text-[7px] text-white">👍</span>
               <span className="text-[8px] text-[#111111]/45" style={{ fontFamily: SANS }}>
-                {[214, 88, 512, 31, 140][i]} · {[18, 4, 63, 2, 20][i]} comments
+                {POSTS[i].reactions} · {POSTS[i].comments} comments
               </span>
             </div>
           </div>
@@ -211,20 +306,39 @@ function FeedCards({ kind }: { kind: FeedKind }) {
   if (kind === "facebook") {
     return (
       <div className="space-y-2 p-2">
-        {[0, 1, 2, 3, 4].map((i) => (
+        <div className="flex items-center gap-1.5 rounded-xl border border-black/[0.07] bg-white px-2.5 py-2" style={{ fontFamily: SANS }}>
+          <FacebookMark className="h-4 w-4 shrink-0 rounded-[3px]" />
+          <span className="text-[9px] font-bold text-[#1877F2]">Facebook</span>
+          <span className="ml-auto text-[7.5px] text-[#111111]/45">5,612 page likes</span>
+        </div>
+        {FB_POSTS.map((post, i) => (
           <div key={i} className="rounded-xl border border-black/[0.06] bg-white p-2.5">
             <div className="flex items-center gap-1.5">
-              <span className="h-6 w-6 rounded-full bg-[#1e6b3c]/15" />
-              <div className="flex-1 space-y-1">
-                <Bar w="52%" />
-                <Bar w="28%" o={0.09} />
+              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#1877F2]/12 text-[8px] font-bold text-[#1877F2]" style={{ fontFamily: SANS }}>
+                {post.page[0]}
+              </span>
+              <div className="min-w-0 flex-1" style={{ fontFamily: SANS }}>
+                <p className="truncate text-[8.5px] font-bold text-[#111111]">{post.page}</p>
+                <p className="text-[7px] text-[#111111]/40">{post.when} · 🌐</p>
               </div>
             </div>
-            <div className="mt-2 space-y-1">
-              <Bar w="95%" o={0.1} />
-              <div className="mt-1.5 h-20 rounded-lg bg-[#eceef0]" />
+            <p className="mt-1.5 text-[7.5px] leading-[1.45] text-[#111111]/75" style={{ fontFamily: SANS }}>
+              {post.copy}
+            </p>
+            <img
+              src={i % 2 === 0 ? "/assets/social/feed2.png" : "/assets/social/feed1.png"}
+              alt=""
+              loading="lazy"
+              className="mt-1.5 h-20 w-full rounded-lg object-cover"
+            />
+            <div className="mt-1.5 flex items-center gap-1 border-b border-black/[0.05] pb-1.5" style={{ fontFamily: SANS }}>
+              <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#1877F2] text-[7px] text-white">👍</span>
+              <span className="text-[7.5px] text-[#111111]/45">{post.likes}</span>
+              <span className="ml-auto text-[7.5px] text-[#111111]/45">
+                {post.comments} comments · {post.shares} shares
+              </span>
             </div>
-            <div className="mt-2 grid grid-cols-3 border-t border-black/[0.05] pt-1.5 text-center text-[8px] font-semibold text-[#111111]/45" style={{ fontFamily: SANS }}>
+            <div className="mt-1.5 grid grid-cols-3 text-center text-[8px] font-semibold text-[#111111]/45" style={{ fontFamily: SANS }}>
               <span>👍 Like</span>
               <span>💬 Comment</span>
               <span>↗ Share</span>
@@ -295,24 +409,32 @@ function FeedCards({ kind }: { kind: FeedKind }) {
       </div>
 
       {/* the review stream itself — shapes only */}
-      {[0, 1, 2, 3].map((i) => (
+      {REVIEWS_FEED.map((r, i) => (
         <div key={i} className="rounded-xl border border-black/[0.06] bg-white p-2.5">
           <div className="flex items-center gap-1.5">
-            <span className="h-6 w-6 rounded-full bg-[#1e6b3c]/15" />
-            <div className="flex-1 space-y-1">
-              <Bar w="50%" />
+            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#1e6b3c]/12 text-[8px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+              {r.initial}
+            </span>
+            <div className="min-w-0 flex-1" style={{ fontFamily: SANS }}>
+              <p className="truncate text-[8.5px] font-bold text-[#111111]">{r.name}</p>
+              <p className="text-[7px] text-[#111111]/45">{r.when}</p>
             </div>
             <GoogleG className="h-3 w-3 shrink-0 opacity-70" />
           </div>
           <div className="mt-1.5 flex gap-0.5">
             {Array.from({ length: 5 }).map((_, s2) => (
-              <span key={s2} className="text-[11px] leading-none text-[#FBBC05]">★</span>
+              <span key={s2} className={`text-[11px] leading-none ${s2 < r.stars ? "text-[#FBBC05]" : "text-[#111111]/15"}`}>★</span>
             ))}
           </div>
-          <div className="mt-1.5 space-y-1">
-            <Bar w="100%" o={0.1} />
-            <Bar w="80%" o={0.1} />
-          </div>
+          <p className="mt-1.5 text-[7.5px] leading-[1.45] text-[#111111]/70" style={{ fontFamily: SANS }}>
+            {r.text}
+          </p>
+          {r.reply && (
+            <div className="mt-1.5 rounded-lg bg-black/[0.03] p-1.5" style={{ fontFamily: SANS }}>
+              <p className="text-[7px] font-bold text-[#111111]/60">Response from the owner</p>
+              <p className="mt-0.5 text-[7px] leading-[1.4] text-[#111111]/55">{r.reply}</p>
+            </div>
+          )}
         </div>
       ))}
     </div>
