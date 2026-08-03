@@ -1289,6 +1289,70 @@ function ProductAdFeature() {
 /* ---------------- 2 · we design every aspect — Mr. Bins hero + live sites ---------------- */
 const F = "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 
+/*
+  Client review under the Mr. Bins before/after.
+
+  Renders a clearly-marked PLACEHOLDER until the real words exist. It is styled
+  as an obvious empty slot (dashed border, "placeholder" label) so it can never
+  be mistaken for — or accidentally ship as — a real testimonial: a quote
+  attributed to a named, identifiable client they did not say is a fabricated
+  review, which is what we removed from the homepage earlier.
+
+  To go live: put the client's actual words in `quote` and their name in `name`.
+  The placeholder styling disappears automatically.
+*/
+const BINS_REVIEW = {
+  quote: "",
+  name: "",
+  role: "Mr. Bins",
+};
+
+function BinsReview() {
+  const live = BINS_REVIEW.quote.trim().length > 0;
+  return (
+    <Reveal delay={0.08}>
+      <figure
+        className={`mx-auto mt-6 max-w-2xl rounded-2xl p-5 md:mt-8 md:p-7 ${
+          live
+            ? "border border-black/[0.08] bg-[#FBFBFA]"
+            : "border-2 border-dashed border-[#111111]/15 bg-[#FBFBFA]/60"
+        }`}
+      >
+        {!live && (
+          <p
+            className="mb-3 text-[11px] font-bold tracking-[0.14em] text-[#b4543a] uppercase"
+            style={{ fontFamily: F }}
+          >
+            Placeholder — awaiting the client's own words
+          </p>
+        )}
+        <div className={`flex gap-0.5 ${live ? "" : "opacity-70"}`} aria-hidden>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span key={i} className="text-[17px] leading-none text-[#FBBC05]">★</span>
+          ))}
+        </div>
+        <blockquote
+          className={`mt-3 text-[15px] leading-relaxed md:text-[17px] ${
+            live ? "text-[#111111]/80" : "text-[#111111]/35 italic"
+          }`}
+          style={{ fontFamily: F }}
+        >
+          {live
+            ? `\u201C${BINS_REVIEW.quote}\u201D`
+            : "The review from Mr. Bins goes here, in their words. Two or three sentences on what changed after the rebuild."}
+        </blockquote>
+        <figcaption
+          className={`mt-3 text-[13px] ${live ? "text-[#111111]/55" : "text-[#111111]/35"}`}
+          style={{ fontFamily: F }}
+        >
+          {live && BINS_REVIEW.name ? `${BINS_REVIEW.name} — ` : ""}
+          {BINS_REVIEW.role}
+        </figcaption>
+      </figure>
+    </Reveal>
+  );
+}
+
 function BinsCompare() {
   const PANELS = [
     {
@@ -1359,6 +1423,8 @@ function DesignEverything() {
             </p>
           </div>
         </Reveal>
+
+        <BinsReview />
 
         {/* the point of it all */}
         <Reveal delay={0.05}>
