@@ -89,7 +89,7 @@ const AI_TOOLS: Array<{ kind: "openai" | "claude" | "gemini" | "meta" | "grok"; 
 
 /* Corporate reason icons — restrained line art, emerald on dark. */
 function ReasonArt({ kind }: { kind: string }) {
-  const p = { width: 44, height: 44, viewBox: "0 0 44 44", fill: "none", stroke: "#2e9e58", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const p = { width: 44, height: 44, viewBox: "0 0 44 44", fill: "none", stroke: "#1e6b3c", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   switch (kind) {
     case "insured":
       return (
@@ -190,14 +190,14 @@ const REASONS: Array<{ num: string; kind: string; title: string; body: string; s
 
 function WhyElsiaaPage() {
   return (
-    <main style={{ background: "#070907", color: "#f4f4f2", fontFamily: SANS }} className="min-h-screen">
+    <main style={{ fontFamily: SANS }} className="min-h-screen bg-white text-[#111111]">
       <SiteNav />
 
       {/* header meta — offices + the Hebrew line, tight under the nav */}
-      <div className="border-b border-white/[0.06] pt-[68px]">
+      <div className="border-b border-black/[0.06] pt-[68px]">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-6 py-2.5">
-          <span className="text-[12px] tracking-[0.01em] text-white/45">{OFFICES}</span>
-          <span dir="rtl" className="text-[13px] text-white/55">{HEBREW}</span>
+          <span className="text-[12px] tracking-[0.01em] text-[#111111]/45">{OFFICES}</span>
+          <span dir="rtl" className="text-[13px] text-[#111111]/55">{HEBREW}</span>
         </div>
       </div>
 
@@ -205,7 +205,7 @@ function WhyElsiaaPage() {
       <section className="relative overflow-hidden px-6 pt-14 pb-12 md:pt-28 md:pb-24">
         <div className="relative mx-auto max-w-4xl text-center">
           <Reveal>
-            <p className="text-[13px] font-semibold tracking-[0.02em] text-[#2e9e58]">Why ELSIAA</p>
+            <p className="text-[13px] font-semibold tracking-[0.02em] text-[#1e6b3c]">Why ELSIAA</p>
             <h1 className="mt-5 text-[1.9rem] font-semibold leading-[1.06] tracking-[-0.04em] sm:text-4xl md:text-6xl">
               "Why not just use Claude?
               <br />
@@ -213,19 +213,19 @@ function WhyElsiaaPage() {
             </h1>
 
             {/* the tools everyone already knows — present, quiet, secondary */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-white/30 sm:gap-x-9 sm:gap-y-4">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-[#111111]/35 sm:gap-x-9 sm:gap-y-4">
               {AI_TOOLS.map((t) => (
-                <span key={t.kind} className="flex items-center gap-2.5 transition-colors hover:text-white/55">
+                <span key={t.kind} className="flex items-center gap-2.5 transition-colors hover:text-[#111111]/55">
                   <AiMark kind={t.kind} />
                   <span className="text-[13px] font-medium tracking-[0.04em]">{t.name}</span>
                 </span>
               ))}
             </div>
 
-            <p className="mx-auto mt-9 max-w-2xl text-[17px] leading-relaxed text-white/70 md:text-[19px]">
+            <p className="mx-auto mt-9 max-w-2xl text-[17px] leading-relaxed text-[#111111]/70 md:text-[19px]">
               Exactly. That is why we partner with you.
             </p>
-            <p className="mx-auto mt-3 max-w-2xl text-[15px] leading-relaxed text-white/55 md:text-[16px]">
+            <p className="mx-auto mt-3 max-w-2xl text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]">
               You teach us your real process. We turn it into production-ready systems — built,
               secured, tested, and run to a standard no general-purpose tool
               delivers on its own.
@@ -235,7 +235,7 @@ function WhyElsiaaPage() {
       </section>
 
       {/* ── differentiators ── */}
-      <section className="border-t border-white/[0.06] px-6 py-12 md:py-24">
+      <section className="border-t border-black/[0.06] px-6 py-12 md:py-24">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <h2 className="max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl">
@@ -244,28 +244,28 @@ function WhyElsiaaPage() {
           </Reveal>
           {/* reason → reason workflow: a connected rail, one reason at a time */}
           <div className="relative mt-12">
-            <div aria-hidden className="absolute top-2 bottom-2 left-[21px] hidden w-px bg-white/[0.08] sm:block" />
+            <div aria-hidden className="absolute top-2 bottom-2 left-[21px] hidden w-px bg-black/[0.08] sm:block" />
             <div className="space-y-10 md:space-y-12">
               {REASONS.map((d, i) => (
                 <Reveal key={d.num} delay={Math.min(i * 0.04, 0.16)}>
                   <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-[44px_minmax(0,1fr)] sm:gap-7">
-                    <div className="relative z-10 hidden h-[44px] w-[44px] place-items-center rounded-xl border border-white/[0.1] bg-[#0b0e0c] sm:grid">
+                    <div className="relative z-10 hidden h-[44px] w-[44px] place-items-center rounded-xl border border-black/[0.1] bg-[#F5F5F3] sm:grid">
                       <ReasonArt kind={d.kind} />
                     </div>
                     <div>
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-white/[0.1] bg-[#0b0e0c] sm:hidden">
+                        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-black/[0.1] bg-[#F5F5F3] sm:hidden">
                           <ReasonArt kind={d.kind} />
                         </span>
-                        <p className="text-[12px] font-semibold tracking-[0.16em] text-[#2e9e58]">{d.num}</p>
-                        <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-white md:text-[22px]">
+                        <p className="text-[12px] font-semibold tracking-[0.16em] text-[#1e6b3c]">{d.num}</p>
+                        <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[22px]">
                           {d.title}
                         </h3>
                       </div>
-                      <p className="mt-2.5 max-w-2xl text-[14.5px] leading-relaxed text-white/60 md:text-[15.5px]">
+                      <p className="mt-2.5 max-w-2xl text-[14.5px] leading-relaxed text-[#111111]/60 md:text-[15.5px]">
                         {d.body}
                       </p>
-                      <p className="mt-3 max-w-2xl border-l-2 border-[#b4543a]/70 pl-3.5 text-[13.5px] leading-relaxed text-white/40">
+                      <p className="mt-3 max-w-2xl border-l-2 border-[#b4543a]/70 pl-3.5 text-[13.5px] leading-relaxed text-[#111111]/45">
                         {d.solo}
                       </p>
                     </div>
@@ -278,33 +278,33 @@ function WhyElsiaaPage() {
       </section>
 
       {/* ── about ELSIAA — who is behind the systems ── */}
-      <section className="border-t border-white/[0.06] px-6 py-12 md:py-24">
+      <section className="border-t border-black/[0.06] px-6 py-12 md:py-24">
         <div className="mx-auto max-w-4xl text-center">
           <Reveal>
-            <p className="text-[13px] font-semibold tracking-[0.02em] text-[#2e9e58]">About ELSIAA</p>
+            <p className="text-[13px] font-semibold tracking-[0.02em] text-[#1e6b3c]">About ELSIAA</p>
             <h2 className="mt-4 text-2xl font-semibold leading-[1.15] tracking-[-0.03em] md:text-4xl">
               Operators who have run businesses like yours.
               <br />
               Engineers who build at the frontier of AI.
             </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-white/55 md:text-[16px]">
+            <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]">
               ELSIAA turns that combined expertise into working systems for your exact
               process — one standard, full ownership, fully insured.
             </p>
-            <p className="mx-auto mt-4 max-w-2xl text-[13.5px] leading-relaxed text-white/40">
+            <p className="mx-auto mt-4 max-w-2xl text-[13.5px] leading-relaxed text-[#111111]/45">
               On the ground in {OFFICES} — with regional U.S. offices in Baltimore,
               Montvale, and Kingston.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
             <a
               href="/team"
-              className="mt-7 inline-flex items-center text-[14px] font-medium text-[#2e9e58] transition-colors hover:text-white"
+              className="mt-7 inline-flex items-center text-[14px] font-medium text-[#1e6b3c] transition-colors hover:text-[#111111]"
             >
               Meet the team →
             </a>
             <a
               href="/quote"
-              className="inline-flex items-center text-[14px] font-medium text-[#2e9e58] transition-colors hover:text-white"
+              className="inline-flex items-center text-[14px] font-medium text-[#1e6b3c] transition-colors hover:text-[#111111]"
             >
               Get a quote →
             </a>
@@ -314,14 +314,14 @@ function WhyElsiaaPage() {
       </section>
 
       {/* ── outcome + CTA ── */}
-      <section className="border-t border-white/[0.06] px-6 pt-16 pb-24 text-center md:pt-24 md:pb-32">
+      <section className="border-t border-black/[0.06] px-6 pt-16 pb-24 text-center md:pt-24 md:pb-32">
         <Reveal>
           <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
             We upgrade your business daily.
           </h2>
           <a
             href="/quote"
-            className="mt-10 inline-flex min-h-[54px] items-center rounded-full bg-[#2e9e58] px-10 text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#1e6b3c]"
+            className="mt-10 inline-flex min-h-[54px] items-center rounded-full bg-[#1e6b3c] px-10 text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#111111]"
           >
             Get a quote →
           </a>

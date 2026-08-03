@@ -196,6 +196,10 @@ export function SiteNav() {
                   </span>
                 </a>
               ))}
+              <div className="mt-7 flex items-center gap-4 md:hidden" style={{ opacity: open ? 1 : 0, transition: "opacity .5s ease .45s" }}>
+                <span className="text-[13px] font-medium text-[#111111]/45">Language</span>
+                <LangSwitcher />
+              </div>
               <div
                 className="mt-6 flex flex-wrap gap-x-7 gap-y-3"
                 style={{ opacity: open ? 1 : 0, transition: "opacity .5s ease .4s" }}
