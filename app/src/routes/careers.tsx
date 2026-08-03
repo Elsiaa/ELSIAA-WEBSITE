@@ -26,33 +26,22 @@ export const Route = createFileRoute("/careers")({
 });
 
 const WHY: Array<[string, string]> = [
-  ["One standard.", "Everything we ship is hardened, tested, and fully insured. No pilots. No excuses."],
-  ["Direct impact.", "You work on live client systems, not internal experiments. Your work reaches production."],
-  ["Global footprint.", "Offices in New York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv. Collaborate across three continents."],
-  ["Leadership of consequence.", "Founders, operators, and academic advisors — including University of Toronto faculty — sit at the same table and hold the same bar."],
+  ["One standard.", "Hardened, tested, fully insured. No pilots."],
+  ["Real impact.", "Live client systems, not internal experiments."],
+  ["Six cities.", "New York · LA · London · Geneva · Antwerp · Tel Aviv."],
+  ["Direct access.", "Founders and advisors at the same table."],
 ];
 
 const ROLES: Array<[string, string]> = [
-  ["Design", "Product design, interface systems, brand identity, and visual systems for high-stakes digital products."],
-  ["Engineering", "Software engineering, AI systems, automation infrastructure, and internal tools that run in production."],
-  ["Client Engagement & Sales", "Relationship ownership, scoping, and commercial development with enterprise and growth-stage clients."],
-  ["Legal & Business Operations", "Commercial counsel, contracts, process design, and operational excellence that protect both clients and the firm."],
+  ["Design", "Product, interface, and brand systems."],
+  ["Engineering", "Software, AI systems, and automation infrastructure."],
+  ["Client & Sales", "Scoping and relationships with growth-stage clients."],
+  ["Legal & Ops", "Contracts, process, and operational excellence."],
 ];
 
-const OFFER = [
-  "Competitive compensation aligned with the quality of work we demand",
-  "Direct access to leadership and decision-makers",
-  "Work on fully insured, production systems with real accountability",
-  "The opportunity to operate across multiple markets and time zones",
-  "A culture that values clarity, ownership, and results over process theater",
-];
 
-const STEPS = [
-  "Select the relevant area(s) below.",
-  "Indicate your preferred work arrangement and commitment.",
-  "Submit a brief statement (250–400 words) on why you're a fit and how you'd contribute.",
-  "Attach your résumé.",
-];
+
+
 
 function Careers() {
   const formRef = useRef<HTMLDivElement>(null);
@@ -85,7 +74,7 @@ function Careers() {
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]">Open roles</p>
           <h2 className="mt-2 text-2xl font-semibold tracking-[-0.035em] md:text-3xl">
-            We're accepting applications in four areas.
+            Four areas. Apply to any.
           </h2>
         </Reveal>
         <div className="mt-8 divide-y divide-black/[0.07] border-y border-black/[0.07]">
@@ -99,42 +88,7 @@ function Careers() {
           ))}
         </div>
         <p className="mt-5 text-[13.5px] text-[#111111]/55">
-          Full-time and select part-time roles. Remote, hybrid, and on-site arrangements are considered by role and location.
-        </p>
-      </section>
-
-      {/* What we offer */}
- <section className="mx-auto max-w-5xl px-6 py-8 md:py-12">
-        <Reveal>
-          <p className="text-[13px] font-bold text-[#1e6b3c]">What we offer</p>
-        </Reveal>
-        <ul className="mt-6 grid gap-x-10 gap-y-3 sm:grid-cols-2">
-          {OFFER.map((o) => (
-            <li key={o} className="flex gap-3 text-[14.5px] leading-relaxed text-[#111111]/70">
-              <span className="mt-[7px] h-1.5 w-1.5 flex-none rotate-45 bg-[#1e6b3c]/60" />
-              {o}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* How to apply */}
- <section className="mx-auto max-w-5xl px-6 py-8 md:py-12">
-        <Reveal>
-          <p className="text-[13px] font-bold text-[#1e6b3c]">How to apply</p>
-        </Reveal>
-        <ol className="mt-6 grid gap-4 sm:grid-cols-2">
-          {STEPS.map((s, i) => (
-            <li key={s} className="flex gap-4">
-              <span className="flex h-7 w-7 flex-none items-center justify-center rounded-full border border-[#1e6b3c]/30 text-[13px] font-semibold text-[#1e6b3c]">
-                {i + 1}
-              </span>
-              <span className="pt-0.5 text-[14.5px] leading-relaxed text-[#111111]/70">{s}</span>
-            </li>
-          ))}
-        </ol>
-        <p className="mt-6 text-[13.5px] text-[#111111]/55">
-          Every application is reviewed by the team. We respond to all candidates.
+          Full-time and select part-time. Remote, hybrid, or on-site.
         </p>
       </section>
 
@@ -161,21 +115,18 @@ function Hero({ onApply }: { onApply: () => void }) {
   return (
     <section className="relative flex min-h-[50vh] items-end overflow-hidden bg-[#0c0c0c] text-white">
       <img
-        src="/assets/office_premium_v1.jpg"
+        src="/assets/careers_hero.jpg"
         alt=""
         className="absolute inset-0 h-full w-full object-cover opacity-40"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-[#0c0c0c]/40 to-[#0c0c0c]/60" />
       <div className="relative mx-auto w-full max-w-5xl px-6 pt-36 pb-10 md:pb-14">
         <p className="text-[13px] font-bold text-[#2e9e58]">Careers</p>
-        <h1 className="mt-3 max-w-3xl text-4xl leading-[1.03] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl">
-          Build production-grade AI systems that set the standard.
+        <h1 className="mt-3 max-w-2xl text-4xl leading-[1.03] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl">
+          Come build the real thing.
         </h1>
-        <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-white/65">
-          ELSIAA designs, builds, and deploys the AI, automation, and software companies rely on every
-          day. We ship only what we'd put our name on — fully insured, production-ready, held to one
-          standard. We're selective: we hire people who take ownership, think clearly, and deliver
-          work that lasts.
+        <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-white/70">
+          We only ship work we'd put our name on. If that's how you work, we want to meet you.
         </p>
         <button
           onClick={onApply}

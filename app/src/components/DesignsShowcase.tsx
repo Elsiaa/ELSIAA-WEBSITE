@@ -1316,6 +1316,23 @@ function ProductAdFeature() {
             it&rsquo;s entirely avoidable.
           </p>
 
+          {/* websites start at $750 — direct purchase path */}
+          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <a
+              href="/quote?service=Website"
+              className="inline-flex min-h-[52px] items-center rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#111111]"
+              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            >
+              Purchase a website →
+            </a>
+            <p
+              className="text-[15px] font-medium text-[#111111]/60"
+              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            >
+              Websites start at <span className="font-semibold text-[#111111]">$750</span>
+            </p>
+          </div>
+
           {/* the easel — our lion on the canvas, right at the top of the page */}
           <img
             src="/assets/design_easel.png"
