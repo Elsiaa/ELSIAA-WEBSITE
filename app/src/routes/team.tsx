@@ -41,7 +41,7 @@ const LEADERSHIP: Person[] = [
     init: "YK",
     photo: "/assets/team/yk.jpg",
     role: "Founder & CEO",
-    line: "Sets the standard and holds the line on it. One bar for everything ELSIAA ships: would we sign our name to it.",
+    line: "Former executive at Dialog Healthcare, founder of the Mitzva App (non-profit), and artist at Gestalt-Art.com. Background in biology, psychology, and business, grounded in intensive Talmudic study; lectures in Torah at Ahavas Chaim in Baltimore, MD.",
     loc: "New York",
   },
   {
@@ -56,7 +56,7 @@ const LEADERSHIP: Person[] = [
     init: "JR",
     photo: "/assets/team/jr.jpg",
     role: "Executive Legal & Strategic Counsel",
-    line: "Keeps ambition and liability on the same page. Structures the agreements that protect every client.",
+    line: "Strategist and partner. Bachelor's in mathematics, magna cum laude, from Touro University; George Washington University Law School; background in intensive Talmudic study. Active EMT and firefighter.",
     loc: "New York",
   },
 ];
@@ -67,8 +67,8 @@ const DIRECTORS: Person[] = [
     init: "CL",
     photo: "/assets/team/cl.jpg",
     role: "Executive Director & Partner",
-    line: "The front door to ELSIAA in Europe — a natural builder of relationships across the continent.",
-    loc: "Geneva / Antwerp",
+    line: "Former CEO of Libersilver and former fund manager at a Belgian private fund. Based in Antwerp, operating across all of Western Europe and Israel.",
+    loc: "Antwerp",
   },
   {
     name: "Izzy Eisenberg",
