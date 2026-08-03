@@ -479,6 +479,8 @@ function AutomationSection() {
   const sans = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
   const trackRef = useRef<HTMLElement | null>(null);
   const vidRef = useRef<HTMLVideoElement | null>(null);
+  const [typed, setTyped] = useState(0);
+  const LINE = "Robots like me can automate your business.";
 
   // Scroll-controlled, beginning to end: the stage pins while the robot's
   // animation (wave → point + stare → wave) is scrubbed by your scroll, then
@@ -501,6 +503,8 @@ function AutomationSection() {
       const r = track.getBoundingClientRect();
       const span = r.height - window.innerHeight;
       const p = clamp01(span > 0 ? -r.top / span : 0);
+      // comic bubble types itself out across the first half of the scrub
+      setTyped(Math.round(clamp01(p / 0.55) * LINE.length));
       const d = v.duration;
       if (d && !Number.isNaN(d)) {
         const target = Math.min(d - 0.04, p * d);
@@ -527,6 +531,20 @@ function AutomationSection() {
         <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
           Automations
         </h2>
+        <div className="pointer-events-none relative w-full max-w-3xl">
+          <div
+            aria-hidden={typed === 0}
+            className="absolute top-[6%] left-1/2 z-10 w-[min(74vw,300px)] -translate-x-[118%] rounded-2xl border border-black/[0.1] bg-white px-5 py-3.5 text-left shadow-[0_18px_44px_-24px_rgba(17,17,17,0.4)] transition-opacity duration-300 md:-translate-x-[128%]"
+            style={{ opacity: typed > 0 ? 1 : 0, fontFamily: "'Schibsted Grotesk', system-ui, sans-serif" }}
+          >
+            <p className="text-[15px] leading-snug font-medium text-[#111111] md:text-[16px]">
+              {LINE.slice(0, typed)}
+              <span className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-[#1e6b3c]" style={{ opacity: typed < LINE.length ? 1 : 0 }} />
+            </p>
+            {/* tail pointing at the robot's mouth */}
+            <span className="absolute top-[58%] -right-[9px] h-4 w-4 rotate-45 border-t border-r border-black/[0.1] bg-white" />
+          </div>
+        </div>
         <video
           ref={vidRef}
           src="/assets/robot3d_wave_only.mp4"
