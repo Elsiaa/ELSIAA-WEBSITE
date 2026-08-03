@@ -44,7 +44,7 @@ function ConsultationPage() {
       {/* the three options */}
       <section className="mx-auto max-w-6xl px-6 pb-24 md:pb-32">
         <Reveal delay={0.08}>
-          <ConsultOptions />
+          <ConsultOptions headingLevel={2} />
         </Reveal>
       </section>
     </main>

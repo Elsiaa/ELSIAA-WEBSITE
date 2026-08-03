@@ -71,6 +71,13 @@ function AutomatePage() {
       <section className="px-4 pt-6 md:px-6">
         <div className="mx-auto max-w-6xl">
           <p className="text-center text-[13px] font-semibold tracking-[0.02em] text-[#2e9e58]">ELSIAA Secretary</p>
+          <h1 className="mx-auto mt-2 max-w-2xl text-center text-[1.9rem] leading-[1.08] font-semibold tracking-[-0.04em] text-white md:text-[2.9rem]">
+            Talk to a system we built. It answers.
+          </h1>
+          <p className="mx-auto mt-3 max-w-xl text-center text-[14.5px] leading-relaxed text-white/55 md:text-[16px]">
+            This is the live agent, not a recording — call it or type to it. The systems
+            below are the same idea pointed at the other jobs that still wait on a person.
+          </p>
           <div className="mt-3 overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#070907] shadow-[0_60px_140px_-70px_rgba(0,0,0,0.9)]">
             <iframe
               src="/elsiaa-secretary.html?embed=1"
@@ -92,14 +99,23 @@ function AutomatePage() {
 
       {/* placeholder systems — tight vertical sequence, empty premium frames */}
       <section id="systems" className="scroll-mt-24 px-4 pt-10 md:px-6">
-        <div className="mx-auto max-w-6xl space-y-8">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center text-[1.4rem] font-semibold tracking-[-0.03em] text-white md:text-[2rem]">
+            The problems these replace.
+          </h2>
+          <p className="mx-auto mt-2 max-w-lg text-center text-[13.5px] leading-relaxed text-white/45 md:text-[15px]">
+            Each one is a job that currently waits on a person. Screens are being filled
+            in as each build goes live.
+          </p>
+        </div>
+        <div className="mx-auto mt-8 max-w-6xl space-y-8">
           {SYSTEMS.map((s) => (
             <div key={s.problem}>
-              <p className="mb-3 text-center text-[15px] font-semibold tracking-[-0.01em] md:text-[16px]">
+              <h3 className="mb-3 text-center text-[15px] font-semibold tracking-[-0.01em] md:text-[16px]">
                 <span className="text-white/45">{s.problem}</span>
                 <span className="px-2 text-[#2e9e58]">→</span>
                 <span className="text-white">{s.solution}</span>
-              </p>
+              </h3>
               <Monitor />
             </div>
           ))}

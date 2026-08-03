@@ -31,6 +31,7 @@ const GROUPS: Array<{ title: string; items: Array<{ label: string; href: string 
       { label: "Design", href: "/designs" },
       { label: "Automate", href: "/automate" },
       { label: "Services", href: "/services" },
+      { label: "Voice intake", href: "/intake" },
       { label: "Store", href: "/store" },
     ],
   },

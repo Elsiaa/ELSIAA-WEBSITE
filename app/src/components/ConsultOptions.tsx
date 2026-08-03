@@ -87,15 +87,24 @@ function BookBar() {
   );
 }
 
-export function ConsultOptions({ className = "" }: { className?: string }) {
+export function ConsultOptions({
+  className = "",
+  /* heading level for the two option cards — h3 under a section heading (home),
+     h2 when this block is the first thing after the page h1 (/consultation) */
+  headingLevel = 3,
+}: {
+  className?: string;
+  headingLevel?: 2 | 3;
+}) {
+  const H = (headingLevel === 2 ? "h2" : "h3") as "h2" | "h3";
   return (
     <div className={className}>
       <div className="mx-auto grid max-w-4xl grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
         {/* 1 — free 20-minute call */}
         <div className="flex flex-col rounded-3xl border border-black/[0.08] bg-white p-7 shadow-[0_24px_60px_-50px_rgba(17,17,17,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 md:p-8">
-          <h3 className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]" style={{ fontFamily: SANS }}>
+          <H className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]" style={{ fontFamily: SANS }}>
             20-Minute Call
-          </h3>
+          </H>
           <p className="mt-5 text-[34px] font-semibold leading-none tracking-[-0.04em] text-[#111111] md:text-[40px]" style={{ fontFamily: SANS }}>
             Free
           </p>
@@ -120,9 +129,9 @@ export function ConsultOptions({ className = "" }: { className?: string }) {
           className="group flex flex-col rounded-3xl border border-[#1e6b3c]/35 bg-white p-7 shadow-[0_30px_70px_-45px_rgba(30,107,60,0.45)] transition-all duration-300 hover:-translate-y-1 md:p-8"
         >
           <div className="flex items-start justify-between gap-3">
-            <h3 className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]" style={{ fontFamily: SANS }}>
+            <H className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]" style={{ fontFamily: SANS }}>
               1-Hour Consult
-            </h3>
+            </H>
             <span className="shrink-0 rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[12px] font-semibold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
               Most chosen
             </span>
