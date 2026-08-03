@@ -1344,7 +1344,7 @@ function DesignEverything() {
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2 className="max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: F }}>
-            We design every aspect of your online presence.
+            We obsess over every aspect of your online presence.
           </h2>
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]" style={{ fontFamily: F }}>
             The same business, before and after an ELSIAA rebuild.
