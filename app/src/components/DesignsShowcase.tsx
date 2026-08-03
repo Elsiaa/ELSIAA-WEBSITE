@@ -1383,9 +1383,12 @@ function DesignEverything() {
                   {site.url ? (
                     <SitePreview src={site.url} poster="/assets/compare/mrbins_new.jpg" title={`${site.name} — live site`} />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#F5F5F3] to-white">
+                    <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-[#F5F5F3] to-white">
                       <span className="text-[17px] font-semibold tracking-[-0.02em] text-[#111111]/70" style={{ fontFamily: F }}>
                         {site.name}
+                      </span>
+                      <span className="rounded-full border border-black/10 px-3 py-1 text-[11.5px] font-medium text-[#111111]/45" style={{ fontFamily: F }}>
+                        Launching soon
                       </span>
                     </div>
                   )}

@@ -22,7 +22,7 @@ const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string
   {
     title: "Company",
     links: [
-      { label: "Why ELSIAA", href: "/why-elsiaa" },
+      { label: "Why ELSIAA", href: "/why-elsiaa" }, { label: "Overview", href: "/overview" },
       { label: "Team", href: "/team" },
       { label: "Careers", href: "/careers" },
       { label: "Locations", href: "/locations" },
@@ -86,7 +86,7 @@ export function SiteFooter() {
               info@elsiaa.com
             </a>
             <p className="mt-2.5 text-[12.5px] leading-snug text-[#111111]/50" style={mono}>
-              New York · London · Geneva · Antwerp · Tel Aviv · Los Angeles
+              New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv
             </p>
           </div>
 
