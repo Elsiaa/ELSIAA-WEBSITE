@@ -54,6 +54,7 @@ const LEADERSHIP: Person[] = [
   {
     name: "Jacob Rubelow",
     init: "JR",
+    photo: "/assets/team/jr.jpg",
     role: "Executive Legal & Strategic Counsel",
     line: "Keeps ambition and liability on the same page. Structures the agreements that protect every client.",
     loc: "New York",
@@ -79,9 +80,23 @@ const DIRECTORS: Person[] = [
   {
     name: "Ynon Azulai",
     init: "YA",
+    photo: "/assets/team/ya.jpg",
     role: "AI & Technology Expert",
     line: "At the edge of applied AI — the deep-tech eye on every architecture ELSIAA ships.",
     loc: "Jerusalem / Tel Aviv",
+  },
+];
+
+const ADVISORS: Person[] = [
+  {
+    name: "Dr. Edward Margolin, MD, FRCSC, Dipl. ABO",
+    init: "EM",
+    photo: "/assets/team/em.jpg",
+    role: "Healthcare Advisor",
+    line: "Professor, University of Toronto — Dept. of Ophthalmology and Visual Sciences; Dept. of Medicine, Division of Neurology. Director, Neuro-Ophthalmology and Strabismus Fellowship.",
+    loc: "University of Toronto",
+    href: "mailto:drmargolin@elsiaa.com",
+    hrefLabel: "drmargolin@elsiaa.com",
   },
 ];
 
@@ -237,6 +252,7 @@ function TeamPage() {
 
       <Group label="01 · Leadership" people={LEADERSHIP} />
       <Group label="02 · Directors" people={DIRECTORS} border />
+      <Group label="03 · Advisors" people={ADVISORS} border />
 
       {/* credibility band */}
  <section className="bg-[#F5F5F3]">

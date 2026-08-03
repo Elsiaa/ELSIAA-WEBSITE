@@ -148,13 +148,13 @@ const REASONS: Array<{ num: string; kind: string; title: string; body: string; s
     num: "01",
     kind: "leaks",
     title: "Your data stays yours",
-    body: "Client data is isolated, encrypted, and never used to train anyone's models. We architect exactly what the AI can see — and what it never can.",
-    solo: "Going solo: an employee pastes your customer list into a public chatbot. It is now outside your control — and possibly in the next model.",
+    body: "Client data is isolated, encrypted, and never used to train any model. We decide exactly what the AI can see — and what it never can.",
+    solo: "Going solo: an employee pastes your customer list into a public chatbot. It is now outside your control and possibly in the next training run.",
   },
   {
     num: "02",
     kind: "bugs",
-    title: "Protected against bugs & viruses",
+    title: "Protected against bugs",
     body: "Every system is tested, monitored, and maintained by engineers. Failures are caught in staging — not by your customers.",
     solo: "Going solo: AI-generated code with a silent bug quietly corrupts three months of invoices before anyone notices.",
   },
@@ -162,14 +162,14 @@ const REASONS: Array<{ num: string; kind: string; title: string; body: string; s
     num: "03",
     kind: "hacks",
     title: "Hardened against hacks",
-    body: "Keys, permissions, and infrastructure locked down to professional security standards, and kept patched as threats evolve.",
+    body: "Keys, permissions, and infrastructure locked to professional standards and kept patched as threats evolve.",
     solo: "Going solo: one exposed API key in a script and an attacker runs up your accounts — or walks through your systems.",
   },
   {
     num: "04",
     kind: "hipaa",
     title: "HIPAA & compliance ready",
-    body: "Healthcare groups run on ELSIAA systems because we build to regulatory standards — HIPAA-conscious architecture, audit trails, retention rules.",
+    body: "Healthcare groups run on ELSIAA systems because we build to regulatory standards: HIPAA-conscious architecture, audit trails, retention rules.",
     solo: "Going solo: an untracked AI tool touches patient data. That is a reportable breach, federal fines, and a headline.",
   },
   {
@@ -183,7 +183,7 @@ const REASONS: Array<{ num: string; kind: string; title: string; body: string; s
     num: "06",
     kind: "team",
     title: "AI maximised by a professional team",
-    body: "Operators from every industry plus frontier engineers, extracting everything the tools can actually do — applied directly to your process.",
+    body: "Operators from every industry + frontier engineers extracting everything the tools can actually do — applied directly to your process.",
     solo: "Going solo: the tools are capable of ten times what most people get out of them. Without the team, that value stays on the table.",
   },
 ];
@@ -226,9 +226,9 @@ function WhyElsiaaPage() {
               Exactly. That is why we partner with you.
             </p>
             <p className="mx-auto mt-3 max-w-2xl text-[15px] leading-relaxed text-white/55 md:text-[16px]">
-              You teach us your real process. We turn it into working,
-              production-ready systems — built, secured, and run to a standard
-              no general-purpose tool provides on its own.
+              You teach us your real process. We turn it into production-ready systems — built,
+              secured, tested, and run to a standard no general-purpose tool
+              delivers on its own.
             </p>
           </Reveal>
         </div>
@@ -239,7 +239,7 @@ function WhyElsiaaPage() {
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <h2 className="max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl">
-              What ELSIAA adds to the tools.
+              What ELSIAA adds
             </h2>
           </Reveal>
           {/* reason → reason workflow: a connected rail, one reason at a time */}
@@ -282,28 +282,33 @@ function WhyElsiaaPage() {
         <div className="mx-auto max-w-4xl text-center">
           <Reveal>
             <p className="text-[13px] font-semibold tracking-[0.02em] text-[#2e9e58]">About ELSIAA</p>
-            <h2 className="mt-4 text-2xl font-semibold leading-[1.1] tracking-[-0.03em] md:text-4xl">
-              Professionals from every industry.
+            <h2 className="mt-4 text-2xl font-semibold leading-[1.15] tracking-[-0.03em] md:text-4xl">
+              Operators who have run businesses like yours.
               <br />
-              The brightest minds in technology.
+              Engineers who build at the frontier of AI.
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-white/55 md:text-[16px]">
-              ELSIAA — Eternal Lions · Solutions · Innovation · Automation · Alliance —
-              is built from operators who have run businesses like yours and engineers
-              who build at the frontier of AI. Partnering with ELSIAA means that
-              combined expertise works on your business — your process, their hands,
-              one standard.
+              ELSIAA turns that combined expertise into working systems for your exact
+              process — one standard, full ownership, fully insured.
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-[13.5px] leading-relaxed text-white/40">
               On the ground in {OFFICES} — with regional U.S. offices in Baltimore,
-              Montvale, and Kingston. Every engagement fully insured.
+              Montvale, and Kingston.
             </p>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
             <a
               href="/team"
               className="mt-7 inline-flex items-center text-[14px] font-medium text-[#2e9e58] transition-colors hover:text-white"
             >
               Meet the team →
             </a>
+            <a
+              href="/quote"
+              className="inline-flex items-center text-[14px] font-medium text-[#2e9e58] transition-colors hover:text-white"
+            >
+              Get a quote →
+            </a>
+            </div>
           </Reveal>
         </div>
       </section>
