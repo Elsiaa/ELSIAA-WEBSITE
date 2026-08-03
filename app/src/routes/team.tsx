@@ -43,6 +43,8 @@ const LEADERSHIP: Person[] = [
     role: "Founder & CEO",
     line: "Former executive at Dialog Healthcare, founder of the Mitzva App (non-profit), and artist at Gestalt-Art.com. Background in biology, psychology, and business, grounded in intensive Talmudic study; lectures in Torah at Ahavas Chaim in Baltimore, MD.",
     loc: "New York",
+    href: "mailto:yisrael@elsiaa.com",
+    hrefLabel: "yisrael@elsiaa.com",
   },
   {
     name: "David Heimowitz",
@@ -50,6 +52,8 @@ const LEADERSHIP: Person[] = [
     role: "Co-Founder & CTO",
     line: "Owns the engineering. If it ships from ELSIAA it ships hardened, tested, and insured — no excuses.",
     loc: "New York",
+    href: "mailto:davidh@elsiaa.com",
+    hrefLabel: "davidh@elsiaa.com",
   },
   {
     name: "Jacob Rubelow",
@@ -58,6 +62,8 @@ const LEADERSHIP: Person[] = [
     role: "Executive Legal & Strategic Counsel",
     line: "Strategist and partner. Bachelor's in mathematics, magna cum laude, from Touro University; George Washington University Law School; background in intensive Talmudic study. Active EMT and firefighter.",
     loc: "New York",
+    href: "mailto:jacob@elsiaa.com",
+    hrefLabel: "jacob@elsiaa.com",
   },
 ];
 
@@ -69,6 +75,8 @@ const DIRECTORS: Person[] = [
     role: "Executive Director & Partner",
     line: "Former CEO of Libersilver and former fund manager at a Belgian private fund. Based in Antwerp, operating across all of Western Europe and Israel.",
     loc: "Antwerp",
+    href: "mailto:chaim@elsiaa.com",
+    hrefLabel: "chaim@elsiaa.com",
   },
   {
     name: "Izzy Eisenberg",
@@ -76,6 +84,8 @@ const DIRECTORS: Person[] = [
     role: "Director, California Business",
     line: "West Coast to the core. Drives California operations and the client relationships that come with it.",
     loc: "Los Angeles",
+    href: "mailto:izzy@elsiaa.com",
+    hrefLabel: "izzy@elsiaa.com",
   },
   {
     name: "Ynon Azulai",
@@ -124,7 +134,7 @@ function Card({ p, i }: { p: Person; i: number }) {
             <img
               src={p.photo}
               alt={p.name}
-              className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+              className="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-[1.03]"
             />
           </div>
         ) : (
