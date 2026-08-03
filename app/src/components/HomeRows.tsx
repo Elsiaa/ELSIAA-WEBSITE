@@ -494,13 +494,22 @@ function AutomationSection() {
    (grey body, green accents, black outlines, white). Its right arm waves as
    you scroll — the arm's rotation is driven by the section's scroll position. */
 function ToyRobot() {
-  // The ELSIAA mascot — a glossy 3D render (white/black/emerald, lion nameplate),
-  // waving. Gentle breathing float; pure-white render melts into the page.
+  // The ELSIAA mascot — glossy 3D animation: waves and smiles, points straight
+  // at the viewer with a serious stare, then waves again. Seamless loop,
+  // blended into the white page.
   return (
-    <div className="robot-breath pointer-events-none w-full max-w-[340px]">
-      <img
-        src="/assets/robot3d_wave.png"
-        alt="The ELSIAA robot, waving"
+    <div className="pointer-events-none w-full max-w-[300px]">
+      <video
+        src="/assets/robot3d_anim.mp4"
+        poster="/assets/robot3d_wave.png"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
+        onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
+        aria-label="The ELSIAA robot — waves, points at you, and waves again"
         className="block w-full select-none"
         style={{ mixBlendMode: "multiply" }}
       />
