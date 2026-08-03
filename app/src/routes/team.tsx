@@ -263,26 +263,6 @@ function TeamPage() {
       <Group label="Directors" people={DIRECTORS} border />
       <Group label="Advisory" people={ADVISORS} border />
 
-      {/* credibility band */}
- <section className="bg-[#F5F5F3]">
-        <div className="mx-auto max-w-6xl px-6 py-12 text-center md:py-14">
-          <Reveal>
-            <p
-              className="text-[13px] text-[#1e6b3c] "
-              style={{ fontFamily: MONO }}
-            >
-              The measure of it
-            </p>
-            <p
-              className="mx-auto mt-4 max-w-3xl text-xl font-semibold tracking-[-0.02em] text-[#111111] md:text-2xl"
-              style={{ fontFamily: SANS }}
-            >
-              University of Toronto faculty · six cities · three continents · fully insured builds.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
       {/* CTA */}
  <section className="mx-auto max-w-6xl px-6 py-16 text-center">
         <Reveal>
