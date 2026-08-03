@@ -35,6 +35,31 @@ export function PlatformBadges({ className = "" }: { className?: string }) {
   );
 }
 
+/** LinkedIn's "in" mark — brand chrome for the feed mockup */
+function LinkedInMark({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <rect width="24" height="24" rx="4" fill="#0A66C2" />
+      <path
+        fill="#fff"
+        d="M7.1 9.4H4.7V19h2.4V9.4zM5.9 8.4a1.4 1.4 0 100-2.8 1.4 1.4 0 000 2.8zM19.3 19h-2.4v-4.7c0-1.2-.4-2-1.5-2-.8 0-1.3.5-1.5 1.1-.1.2-.1.5-.1.8V19H11.4s0-8.7 0-9.6h2.4v1.4c.3-.5 1-1.3 2.4-1.3 1.8 0 3.1 1.1 3.1 3.6V19z"
+      />
+    </svg>
+  );
+}
+
+/** Google's four-colour G — brand chrome for the reviews mockup */
+function GoogleG({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 01-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z" />
+      <path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1A12 12 0 0012 24z" />
+      <path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 010-4.6V6.7H1.4a12 12 0 000 10.8l4-3.1z" />
+      <path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.5 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0A12 12 0 001.4 6.7l4 3.1C6.3 6.9 8.9 4.8 12 4.8z" />
+    </svg>
+  );
+}
+
 type FeedKind = "video" | "instagram" | "linkedin" | "facebook" | "reviews";
 
 const HEADER: Record<FeedKind, string> = {
@@ -60,7 +85,7 @@ function FeedCards({ kind }: { kind: FeedKind }) {
           <div key={i} className="relative overflow-hidden bg-[#111111]" style={{ height: VIEW_H }}>
             {/* the actual clip — muted, looping, decorative */}
             <video
-              src="/assets/social/fyp.mp4"
+              src={`/assets/social/fyp${i + 1}.mp4`}
               autoPlay
               loop
               muted
@@ -68,7 +93,7 @@ function FeedCards({ kind }: { kind: FeedKind }) {
               preload={i === 0 ? "auto" : "none"}
               aria-hidden
               className="absolute inset-0 h-full w-full object-cover"
-              style={{ transform: `scale(1.02) translateY(${i * 2}px)` }}
+              style={{ transform: "scale(1.02)" }}
             />
             <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/25" />
             <div className="absolute inset-x-0 top-0 flex gap-1 p-2">
@@ -138,15 +163,25 @@ function FeedCards({ kind }: { kind: FeedKind }) {
   if (kind === "linkedin") {
     return (
       <div className="space-y-2 p-2">
+        {/* profile strip — the brand chrome above the feed */}
+        <div className="flex items-center gap-1.5 rounded-xl border border-black/[0.07] bg-white px-2.5 py-2">
+          <LinkedInMark className="h-4 w-4 shrink-0 rounded-[3px]" />
+          <span className="text-[9px] font-bold text-[#0A66C2]" style={{ fontFamily: SANS }}>
+            LinkedIn
+          </span>
+          <span className="ml-auto flex items-center gap-1">
+            <span className="text-[7.5px] text-[#111111]/45" style={{ fontFamily: SANS }}>2,481 followers</span>
+          </span>
+        </div>
         {[0, 1, 2, 3, 4].map((i) => (
           <div key={i} className="rounded-xl border border-black/[0.06] bg-white p-2.5">
             <div className="flex items-center gap-1.5">
-              <span className="h-6 w-6 rounded-full bg-[#1e6b3c]/15" />
+              <span className="h-6 w-6 rounded-full bg-[#0A66C2]/15" />
               <div className="flex-1 space-y-1">
                 <Bar w="60%" />
                 <Bar w="40%" o={0.09} />
               </div>
-              <span className="rounded-full border border-[#1e6b3c]/40 px-2 py-0.5 text-[8px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+              <span className="rounded-full border border-[#0A66C2]/45 px-2 py-0.5 text-[8px] font-bold text-[#0A66C2]" style={{ fontFamily: SANS }}>
                 + Follow
               </span>
             </div>
@@ -163,7 +198,7 @@ function FeedCards({ kind }: { kind: FeedKind }) {
               )}
             </div>
             <div className="mt-2 flex items-center gap-1.5 border-t border-black/[0.05] pt-1.5">
-              <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#1e6b3c] text-[7px] text-white">👍</span>
+              <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#0A66C2] text-[7px] text-white">👍</span>
               <span className="text-[8px] text-[#111111]/45" style={{ fontFamily: SANS }}>
                 {[214, 88, 512, 31, 140][i]} · {[18, 4, 63, 2, 20][i]} comments
               </span>
@@ -199,22 +234,79 @@ function FeedCards({ kind }: { kind: FeedKind }) {
       </div>
     );
   }
-  // reviews
+  // reviews — Google-branded chrome and the local-SEO panel underneath.
+  // Content stays as placeholder shapes rather than invented review text:
+  // this illustrates the surface we manage, not testimonials anyone wrote.
   return (
     <div className="space-y-2 p-2">
-      {[0, 1, 2, 3, 4].map((i) => (
+      {/* business summary card */}
+      <div className="rounded-xl border border-black/[0.07] bg-white p-2.5">
+        <div className="flex items-center gap-1.5">
+          <GoogleG className="h-4 w-4 shrink-0" />
+          <span className="text-[9px] font-bold tracking-[0.02em] text-[#111111]/75" style={{ fontFamily: SANS }}>
+            Google Business Profile
+          </span>
+        </div>
+        <div className="mt-2 flex items-end gap-2">
+          <span className="text-[22px] leading-none font-semibold tracking-[-0.03em] text-[#111111]" style={{ fontFamily: SANS }}>
+            4.9
+          </span>
+          <span className="flex gap-0.5 pb-0.5">
+            {Array.from({ length: 5 }).map((_, s2) => (
+              <span key={s2} className="text-[10px] leading-none text-[#FBBC05]">★</span>
+            ))}
+          </span>
+        </div>
+        {/* star distribution */}
+        <div className="mt-2 space-y-[3px]">
+          {[92, 6, 1, 0, 1].map((w, r) => (
+            <div key={r} className="flex items-center gap-1.5">
+              <span className="w-[5px] text-[7px] text-[#111111]/40" style={{ fontFamily: SANS }}>{5 - r}</span>
+              <span className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-black/[0.07]">
+                <span className="absolute inset-y-0 left-0 rounded-full bg-[#FBBC05]" style={{ width: `${w}%` }} />
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* local SEO panel */}
+      <div className="rounded-xl border border-black/[0.07] bg-white p-2.5">
+        <span className="text-[8px] font-bold tracking-[0.12em] text-[#1e6b3c] uppercase" style={{ fontFamily: SANS }}>
+          Local SEO
+        </span>
+        <div className="mt-2 grid grid-cols-2 gap-1.5">
+          {[
+            ["Map pack", "#1"],
+            ["Search views", "12.4k"],
+            ["Direction taps", "486"],
+            ["Calls", "203"],
+          ].map(([l, v]) => (
+            <div key={l} className="rounded-lg bg-black/[0.03] px-2 py-1.5">
+              <p className="text-[11px] leading-none font-semibold text-[#111111]" style={{ fontFamily: SANS }}>{v}</p>
+              <p className="mt-1 text-[7.5px] leading-none text-[#111111]/50" style={{ fontFamily: SANS }}>{l}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-2 flex items-center gap-1.5">
+          <span className="text-[8px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>↑ 38%</span>
+          <span className="text-[7.5px] text-[#111111]/45" style={{ fontFamily: SANS }}>discovery searches, 90 days</span>
+        </div>
+      </div>
+
+      {/* the review stream itself — shapes only */}
+      {[0, 1, 2, 3].map((i) => (
         <div key={i} className="rounded-xl border border-black/[0.06] bg-white p-2.5">
           <div className="flex items-center gap-1.5">
             <span className="h-6 w-6 rounded-full bg-[#1e6b3c]/15" />
             <div className="flex-1 space-y-1">
               <Bar w="50%" />
             </div>
+            <GoogleG className="h-3 w-3 shrink-0 opacity-70" />
           </div>
           <div className="mt-1.5 flex gap-0.5">
-            {Array.from({ length: 5 }).map((_, s) => (
-              <span key={s} className="text-[11px] leading-none text-[#1e6b3c]">
-                ★
-              </span>
+            {Array.from({ length: 5 }).map((_, s2) => (
+              <span key={s2} className="text-[11px] leading-none text-[#FBBC05]">★</span>
             ))}
           </div>
           <div className="mt-1.5 space-y-1">
