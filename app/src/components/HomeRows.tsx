@@ -1021,10 +1021,6 @@ const TEAM = [
   { name: "Chaim Lieberman", role: "Director of European Business", init: "CL", photo: "/assets/team/cl.jpg" },
   { name: "Izzy Eisenberg", role: "Director of California Business", init: "IE", photo: "/assets/team/ie.jpg" },
   { name: "Ynon Azulai", role: "AI & Technology Expert · Jerusalem", init: "YA", photo: "/assets/team/ya.jpg" },
-  { name: "Mendel Parnas", role: "Chairman & Advisor · Insurance Expert", init: "MP", photo: "/assets/team/mp.jpg" },
-  { name: "Berel Krug", role: "Executive Advisor · Healthcare Consultant", init: "BK", photo: "/assets/team/bk.jpg" },
-  { name: "Dr. Esther Krug, MD", role: "Professor of Medicine, Johns Hopkins University", init: "EK", photo: "/assets/team/ek.jpg" },
-  { name: "Dr. Edward Margolin, MD", role: "Professor of Medicine, University of Toronto", init: "EM", photo: "/assets/team/em.jpg" },
 ];
 
 function Team() {
