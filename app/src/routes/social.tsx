@@ -214,7 +214,7 @@ function SocialPage() {
       </section>
 
       {/* the feeds — where attention already lives */}
- <section className="bg-white px-6 py-14 md:py-16">
+ <section className="bg-white px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <h2 className="mx-auto max-w-2xl text-center text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: SANS }}>
@@ -232,7 +232,7 @@ function SocialPage() {
       </section>
 
       {/* full-service — everything we run */}
- <section className="bg-[#F5F5F3] px-6 py-14 md:py-16">
+ <section className="bg-[#F5F5F3] px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
@@ -276,7 +276,7 @@ function SocialPage() {
       </section>
 
       {/* clipping — one long recording becomes a month of short-form */}
-      <section className="bg-white px-6 py-14 md:py-16">
+      <section className="bg-white px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <div className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,520px)] lg:gap-16">
             <Reveal>
@@ -382,7 +382,7 @@ function SocialPage() {
       </section>
 
       {/* every capability, one anchored panel each */}
-      <section className="bg-white px-6 py-14 md:py-16">
+      <section className="bg-white px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
@@ -405,34 +405,34 @@ function SocialPage() {
             </div>
           </Reveal>
 
-          <div className="mt-10 space-y-4">
+          <div className="mt-7 space-y-3 md:mt-10 md:space-y-4">
             {SERVICES.map((sv, i) => (
               <Reveal key={sv.id} delay={Math.min(i * 0.03, 0.15)}>
                 <article
                   id={sv.id}
-                  className="scroll-mt-28 rounded-3xl border border-black/[0.08] bg-[#FBFBFA] p-6 md:p-9"
+                  className="scroll-mt-28 rounded-3xl border border-black/[0.08] bg-[#FBFBFA] p-5 md:p-9"
                 >
-                  <div className="grid gap-6 md:grid-cols-[auto_1fr] md:gap-9">
+                  <div className="grid grid-cols-[auto_1fr] gap-4 md:gap-9">
                     <img
                       src={sv.art}
                       alt=""
                       loading="lazy"
                       width={128}
                       height={128}
-                      className="h-20 w-20 shrink-0 object-contain md:h-28 md:w-28"
+                      className="h-12 w-12 shrink-0 object-contain md:h-28 md:w-28"
                     />
                     <div className="min-w-0">
                       <p className="text-[12px] font-bold tracking-[0.14em] text-[#1e6b3c] uppercase" style={{ fontFamily: SANS }}>
                         {sv.eyebrow}
                       </p>
-                      <h3 className="mt-2 text-[22px] font-semibold tracking-[-0.03em] text-[#111111] md:text-[28px]" style={{ fontFamily: SANS }}>
+                      <h3 className="mt-1.5 text-[19px] font-semibold tracking-[-0.03em] text-[#111111] md:mt-2 md:text-[28px]" style={{ fontFamily: SANS }}>
                         {sv.title}
                       </h3>
-                      <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[#111111]/65" style={{ fontFamily: SANS }}>
+                      <p className="mt-2.5 max-w-2xl text-[14.5px] leading-relaxed text-[#111111]/65 md:mt-3 md:text-[15px]" style={{ fontFamily: SANS }}>
                         {sv.lede}
                       </p>
 
-                      <div className="mt-6 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+                      <div className="mt-4 grid gap-x-8 gap-y-1.5 md:mt-6 md:gap-y-2 sm:grid-cols-2">
                         {sv.includes.map((it) => (
                           <span key={it} className="flex gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: SANS }}>
                             <span aria-hidden className="mt-[8px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#1e6b3c]" />
@@ -441,7 +441,7 @@ function SocialPage() {
                         ))}
                       </div>
 
-                      <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-black/[0.07] pt-5">
+                      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-black/[0.07] pt-4 md:mt-6 md:pt-5">
                         <p className="text-[14px] font-semibold text-[#111111]" style={{ fontFamily: SANS }}>
                           {sv.outcome}
                         </p>
@@ -463,7 +463,7 @@ function SocialPage() {
       </section>
 
       {/* positioning — not just social */}
- <section className="bg-[#0b0d0c] px-6 py-14 text-center text-white md:py-16">
+ <section className="bg-[#0b0d0c] px-6 py-10 text-center text-white md:py-16">
         <Reveal>
           <p className="text-[13px] font-bold text-[#2e9e58]" style={{ fontFamily: SANS }}>
             One team, one standard
@@ -497,7 +497,7 @@ function SocialPage() {
       </section>
 
       {/* speak to social media */}
- <section className="bg-[#F5F5F3] px-6 py-14 text-center md:py-16">
+ <section className="bg-[#F5F5F3] px-6 py-10 text-center md:py-16">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
             Speak to social media

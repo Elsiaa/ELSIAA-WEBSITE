@@ -282,7 +282,7 @@ function ApplyForm() {
                 if (aiFlag) setAiFlag(false);
               }}
               rows={8}
-              className="mt-2 w-full rounded-xl border border-black/10 bg-[#FBFBFA] px-4 py-3.5 text-[15px] leading-relaxed outline-none transition-colors focus:border-[#1e6b3c]"
+              className="mt-2 w-full rounded-xl border border-black/10 bg-[#FBFBFA] px-4 py-3.5 text-[16px] leading-relaxed transition-colors focus:border-[#1e6b3c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] md:text-[15px]"
               placeholder="Please write in your own words."
             />
             <p className="mt-1.5 text-[11.5px] text-[#111111]/55">
@@ -400,7 +400,7 @@ function Field({
         value={value}
         autoComplete={autoComplete}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1.5 w-full rounded-xl border border-black/10 bg-[#FBFBFA] px-4 py-3.5 text-[15px] outline-none transition-colors focus:border-[#1e6b3c]"
+        className="mt-1.5 w-full rounded-xl border border-black/10 bg-[#FBFBFA] px-4 py-3.5 text-[16px] transition-colors focus:border-[#1e6b3c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] md:text-[15px]"
       />
     </label>
   );

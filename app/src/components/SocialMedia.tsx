@@ -610,15 +610,21 @@ export function SocialPhoneRow() {
   }, []);
 
   return (
-    <div ref={wrapRef} className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
+    <div
+      ref={wrapRef}
+      tabIndex={0}
+      role="group"
+      aria-label="Social surfaces — swipe or use the arrow keys"
+      className="-mx-6 flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:gap-12 sm:overflow-visible sm:px-0 sm:grid-cols-2 lg:grid-cols-3"
+    >
       {ROW.map((item, i) => (
-        <div key={i} className="flex flex-col items-center text-center">
+        <div key={i} className="flex w-[78vw] max-w-[300px] shrink-0 snap-center flex-col items-center text-center sm:w-auto sm:max-w-none sm:shrink">
           <PhoneFrame
             item={item}
             viewRef={(el) => { views.current[i] = el; }}
             stripRef={(el) => { strips.current[i] = el; }}
           />
-          <h3 className="mt-8 text-xl font-semibold tracking-[-0.03em] text-[#111111]" style={{ fontFamily: SANS }}>
+          <h3 className="mt-5 text-xl font-semibold tracking-[-0.03em] text-[#111111] sm:mt-8" style={{ fontFamily: SANS }}>
             {item.title}
           </h3>
           <p className="mt-2 max-w-[240px] text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>

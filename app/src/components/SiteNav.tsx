@@ -27,6 +27,7 @@ const GROUPS: Array<{ title: string; items: Array<{ label: string; href: string 
   {
     title: "What we build",
     items: [
+      { label: "Deals", href: "/deals" },
       { label: "Design", href: "/designs" },
       { label: "Automate", href: "/automate" },
       { label: "Services", href: "/services" },
