@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ElsiaaExperience } from "../components/ElsiaaExperience";
 import { SiteNav } from "../components/SiteNav";
 import { DesignsShowcase } from "../components/DesignsShowcase";
 import { DesignsOpener } from "../components/DesignsOpener";
@@ -34,7 +33,6 @@ function Designs() {
     <main className="bg-white text-[#111111] antialiased">
       <SiteNav />
       <DesignsShowcase />
-      <ElsiaaExperience />
       <DesignsOpener />
     </main>
   );
