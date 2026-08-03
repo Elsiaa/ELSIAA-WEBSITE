@@ -64,7 +64,7 @@ const DIRECTORS: Person[] = [
     name: "Chaim Lieberman",
     init: "CL",
     photo: "/assets/team/cl.jpg",
-    role: "Director, European Business",
+    role: "Executive Director & Partner",
     line: "The front door to ELSIAA in Europe — a natural builder of relationships across the continent.",
     loc: "Geneva / Antwerp",
   },
