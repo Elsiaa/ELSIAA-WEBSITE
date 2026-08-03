@@ -1196,8 +1196,8 @@ function AutomationCatalog() {
                 Sales, operations, finance, support and more — built for you, and running around the clock.
               </p>
             </div>
-            <a href="/services" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3 text-[13px] font-bold text-white transition-all hover:bg-[#111111]" style={{ fontFamily: sans }}>
-              Discover services →
+            <a href="/automate" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3 text-[13px] font-bold text-white transition-all hover:bg-[#111111]" style={{ fontFamily: sans }}>
+              Discover automations →
             </a>
           </div>
         </Reveal>
