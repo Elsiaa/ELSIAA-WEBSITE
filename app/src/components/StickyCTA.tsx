@@ -13,7 +13,7 @@ export function StickyCTA() {
   return (
     <div
       className={`fixed inset-x-0 bottom-0 z-40 border-t border-black/[0.06] bg-white/95 px-4 pt-3 backdrop-blur-md transition-transform duration-300 md:hidden ${show ? "translate-y-0" : "translate-y-full"}`}
-      style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+      style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))", fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
     >
       <a
         href="/contact"

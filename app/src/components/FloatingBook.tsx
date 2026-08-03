@@ -36,7 +36,7 @@ export function FloatingBook() {
         <a
           href="/contact"
           className="flex min-h-[48px] items-center text-[13px] font-bold text-white "
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Book a call →
         </a>

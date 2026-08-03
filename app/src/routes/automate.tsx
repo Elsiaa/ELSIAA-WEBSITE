@@ -27,7 +27,7 @@ export const Route = createFileRoute("/automate")({
 });
 
 const SANS =
-  "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 const OFFICES = "New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv";
 const HEBREW = "בעזרת ה׳ נעשה ונצליח";
 

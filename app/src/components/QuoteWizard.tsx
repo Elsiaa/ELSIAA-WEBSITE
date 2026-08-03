@@ -6,7 +6,7 @@ import { useState } from "react";
   Posts the same payload shape /api/quote already accepts.
 */
 const SANS =
-  "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 
 const TYPES = ["Automation", "Software", "Design", "Consultation"];
 const BUDGETS = ["Under $5k", "$5k–$15k", "$15k–$50k", "$50k+", "Not sure yet"];

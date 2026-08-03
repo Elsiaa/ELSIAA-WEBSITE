@@ -115,7 +115,7 @@ function buildHead(meta: AppMeta) {
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=IBM+Plex+Mono:wght@400&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=IBM+Plex+Mono:wght@400&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap",
       },
       ...(favicon ? [{ rel: "icon", href: favicon }] : []),
     ],

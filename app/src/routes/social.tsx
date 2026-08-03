@@ -28,7 +28,7 @@ export const Route = createFileRoute("/social")({
 });
 
 const SANS =
-  "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 
 /* ── platform brand glyphs (monochrome, inherit colour) ── */
 const PLATFORMS: Array<{ name: string; svg: ReactNode }> = [
