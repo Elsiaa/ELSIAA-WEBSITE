@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { StickyCTA } from "./StickyCTA";
 import { AssemblingArtist } from "./AssemblingArtist";
-import { LiveGraphic } from "./LiveGraphic";
 import { WorkingRobot } from "./WorkingRobot";
 import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 import { Reveal } from "./Reveal";
@@ -1536,8 +1535,19 @@ export function HomeRows() {
       <DivisionRow
         n="3"
         title="Consultation"
-        lede="Strategy, technology, business, product, growth — book a seat at the table."
-        graphic={<LiveGraphic src="/assets/consult_live_v2.mp4" poster="/assets/consult_live_poster_v2.jpg" />}
+        lede="We listen to your business first — strategy, technology, product, growth — then tell you exactly what to build."
+        graphic={
+          <div className="relative aspect-[3/2] w-full">
+            <img
+              src="/assets/consult/seating.png"
+              alt=""
+              width={1100}
+              height={614}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-contain"
+            />
+          </div>
+        }
         subs={[]}
         href="/consultation"
         cta="Book Consultation"
