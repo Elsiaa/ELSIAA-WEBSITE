@@ -1403,6 +1403,12 @@ const LIVE_SITES: Array<{ name: string; kind: string; url?: string }> = [
 ];
 
 function DesignEverything() {
+  const sitesRef = useRef<HTMLDivElement>(null);
+  const nudge = (dir: 1 | -1) => {
+    const el = sitesRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.85, 340), behavior: "smooth" });
+  };
   return (
     <section className="bg-white px-6 py-10 md:py-16" id="websites">
       <div className="mx-auto max-w-6xl">
@@ -1438,7 +1444,9 @@ function DesignEverything() {
         </Reveal>
 
         {/* live client sites */}
+        <div className="relative">
         <div
+          ref={sitesRef}
           tabIndex={0}
           role="group"
           aria-label="Live client sites — swipe or use the arrow keys"
@@ -1484,6 +1492,29 @@ function DesignEverything() {
             </Reveal>
           ))}
         </div>
+
+        {/* arrows — the row is horizontally scrollable and that isn't obvious
+            without an affordance, so both edges carry a control on every size */}
+        <button
+          type="button"
+          aria-label="Previous site"
+          onClick={() => nudge(-1)}
+          className="absolute top-[38%] -left-1 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white/95 text-[17px] text-[#111111]/60 shadow-[0_10px_30px_-12px_rgba(17,17,17,0.4)] backdrop-blur transition-all hover:border-[#1e6b3c]/40 hover:text-[#1e6b3c] md:-left-4"
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          aria-label="Next site"
+          onClick={() => nudge(1)}
+          className="absolute top-[38%] -right-1 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white/95 text-[17px] text-[#111111]/60 shadow-[0_10px_30px_-12px_rgba(17,17,17,0.4)] backdrop-blur transition-all hover:border-[#1e6b3c]/40 hover:text-[#1e6b3c] md:-right-4"
+        >
+          ›
+        </button>
+        </div>
+        <p className="mt-3 text-center text-[12.5px] text-[#111111]/45 md:hidden" style={{ fontFamily: F }}>
+          Swipe to see more client sites
+        </p>
       </div>
     </section>
   );
