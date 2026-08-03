@@ -169,6 +169,42 @@
   /* Headings carry an inline fontFamily in a lot of components, and an inline
      style beats a stylesheet rule — so the display face needs !important to
      land. One contained rule is cheaper than editing ~200 call sites. */
+  /* ---- Mobile: centre the section openers ----
+     On a 375px column a left-aligned section heading with a short lede reads as
+     unfinished, so section headings and their ledes are centred below md.
+
+     Matched by exclusion rather than by depth: components wrap headings in
+     varying numbers of divs (Reveal, grids, stages), so a depth-based selector
+     missed some pages entirely. Anything inside a card, list item or form is
+     excluded — there a heading usually sits beside an icon or a price and
+     centring reads as misalignment. Body copy, bullets, data rows and forms
+     stay left-aligned: a centred multi-line paragraph or list destroys the
+     ragged edge the eye tracks down. Desktop is untouched. */
+  @media (max-width: 767px) {
+    :is(h1, h2):not(:is(article, li, form, footer, nav, header) *) {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* the lede after a heading, and the eyebrow before it, travel with it */
+    :is(h1, h2):not(:is(article, li, form, footer, nav, header) *) + p,
+    p:has(+ :is(h1, h2)):not(:is(article, li, form, footer, nav, header) *),
+    p:has(+ div :is(h1, h2)):not(:is(article, li, form, footer, nav, header) *) {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Never centre inside a card, a row or a list. !important because the
+       opener selectors above carry higher specificity via :has(). */
+    :is(article, li, form) :is(h1, h2, h3, p) {
+      text-align: left !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+  }
+
   h1, h2 {
     font-family: var(--font-display) !important;
     letter-spacing: -0.02em;
