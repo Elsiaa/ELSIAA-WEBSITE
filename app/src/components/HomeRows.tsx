@@ -5,6 +5,7 @@ import { LiveGraphic } from "./LiveGraphic";
 import { WorkingRobot } from "./WorkingRobot";
 import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 import { Reveal } from "./Reveal";
+import { ConsultOptions } from "./ConsultOptions";
 import { WhyBrandsChose } from "./BrandLogos";
 import { SoftwareDemos } from "./SoftwareDemos";
 import { SocialHomeSection } from "./SocialMedia";
@@ -688,99 +689,12 @@ export const AUTOSOFT: Sub[] = (() => {
 })();
 
 /* ---------- consultation pricing (stripe-ready tiers) ---------- */
-const TIERS = [
-  {
-    name: "Basic",
-    price: "$350",
-    unit: "one session",
-    pitch: "A 1-on-1 strategy call plus a written action plan. The fastest way to know exactly what to build.",
-    features: ["60-minute call with leadership", "Business & process audit", "Written recommendations in 48h"],
-    featured: false,
-  },
-  {
-    name: "Sprint",
-    price: "$1,850",
-    unit: "two weeks",
-    pitch: "We don't just advise — we implement the first automation or design fix with you.",
-    features: ["Everything in Basic", "Hands-on implementation", "Two review sessions", "Team walkthrough"],
-    featured: true,
-  },
-  {
-    name: "Advisory",
-    price: "Custom",
-    unit: "monthly",
-    pitch: "ELSIAA as your standing technology counsel — architecture, roadmap, and vendor decisions.",
-    features: ["Ongoing monthly advisory", "Priority access to leadership", "Quarterly roadmap reviews"],
-    featured: false,
-  },
-];
+
 
 function ConsultPricing() {
   return (
-    <div className="mt-6">
-      <h3
-        className="text-[13px] text-[#111111]/55 "
-        style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-      >
-        Engagements
-      </h3>
-      <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-3">
-        {TIERS.map((t) => (
-          <div
-            key={t.name}
-            className={`flex flex-col rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 ${
-              t.featured
-                ? "border-[#1e6b3c] bg-[#111111] text-white shadow-[0_30px_70px_-30px_rgba(30,107,60,0.55)]"
-                : "border-black/[0.08] bg-white text-[#111111] shadow-[0_18px_44px_-30px_rgba(17,17,17,0.35)]"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <h3 className="text-[14px] font-semibold" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                {t.name}
-              </h3>
-              {t.featured && (
-                <span
-                  className="rounded-full bg-[#2e9e58] px-2.5 py-1 text-[13px] font-bold text-white "
-                  style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                >
-                  Most chosen
-                </span>
-              )}
-            </div>
-            <p className="mt-3">
-              <span className="text-2xl font-semibold tracking-[-0.03em]" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-                {t.price}
-              </span>
-              <span className={`ml-2 text-[13px] ${t.featured ? "text-white/50" : "text-black/55"}`}>/ {t.unit}</span>
-            </p>
-            <p
-              className={`mt-2.5 text-[12.5px] leading-relaxed ${t.featured ? "text-white/65" : "text-black/55"}`}
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              {t.pitch}
-            </p>
-            <ul className="mt-4 flex-1 space-y-2">
-              {t.features.map((f) => (
-                <li key={f} className={`flex gap-2 text-[12.5px] ${t.featured ? "text-white/80" : "text-black/65"}`}>
-                  <span className="text-[#2e9e58]">✓</span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a
-              href="/consultation"
-              className={`mt-4 rounded-full px-4 py-2.5 text-center text-[13px] font-bold  transition-all ${
-                t.featured
-                  ? "bg-[#2e9e58] text-white hover:bg-white hover:text-[#111111]"
-                  : "border border-[#111111]/20 text-[#111111] hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
-              }`}
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-            >
-              Book {t.name} →
-            </a>
-          </div>
-        ))}
-      </div>
+    <div className="mt-8">
+      <ConsultOptions />
     </div>
   );
 }
