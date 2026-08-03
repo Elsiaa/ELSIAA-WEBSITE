@@ -21,7 +21,7 @@ export const Route = createFileRoute("/store")({
 });
 
 function StorePage() {
-  const F = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
+  const F = { fontFamily: "var(--font-sans)" };
   return (
     <StoreShell>
       <section className="mx-auto max-w-6xl px-6 pt-12 pb-20 md:pt-16 md:pb-24">

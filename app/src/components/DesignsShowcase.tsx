@@ -91,7 +91,7 @@ function LazyFrame({
         aria-label={`Load ${title}`}
       >
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-white">▶</span>
-        <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif" }}>
+        <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "var(--font-sans)" }}>
           Tap to explore live
         </span>
       </button>
@@ -121,7 +121,7 @@ function LazyFrame({
         <div className="flex h-full w-full items-center justify-center bg-[#ECECEA]">
           <span
             className="text-[13px] text-black/50 "
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Loading live site…
           </span>
@@ -134,7 +134,7 @@ function LazyFrame({
 /* ---------------- drag-to-compare: ELSIAA design wipes over the original ---------------- */
 function DialogNewPreview() {
   return (
-    <div className="flex h-full w-full flex-col bg-white" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+    <div className="flex h-full w-full flex-col bg-white" style={{ fontFamily: "var(--font-sans)" }}>
       <div className="flex items-center justify-between border-b border-black/5 px-8 py-5">
         <span className="text-lg font-bold tracking-tight text-[#111111]">
           Dialog<span className="text-[#111111]/55"> Healthcare</span>
@@ -146,7 +146,7 @@ function DialogNewPreview() {
       <div className="flex flex-1 flex-col justify-center px-8">
         <p
           className="text-[13px] text-[#1e6b3c] "
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           Healthcare staffing
         </p>
@@ -172,13 +172,13 @@ function DialogNewPreview() {
       <div className="flex items-center justify-between border-t border-black/5 px-8 py-4">
         <span
           className="text-[13px] text-black/50 "
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           New site · in production
         </span>
         <span
           className="rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[13px] font-bold text-[#1e6b3c] "
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           ELSIAA
         </span>
@@ -207,13 +207,13 @@ function CompareSlider() {
         <div className="mx-auto mb-14 max-w-3xl border-t border-black/[0.08] pt-12 text-center">
           <h3
             className="mt-3 text-3xl font-semibold tracking-[-0.035em] text-[#111111] text-balance md:text-5xl"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             We specialize in <span className="text-[#1e6b3c]">healthcare</span>.
           </h3>
           <p
             className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[#111111]/55 md:text-lg"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             We uplift and re-vision entire healthcare brands — staffing firms, clinics,
             telehealth, and ABA providers — making your brand more professional and
@@ -248,13 +248,13 @@ function CompareSlider() {
           </div>
           <span
             className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-full bg-[#1e6b3c] px-3 py-1 text-[13px] font-bold text-white "
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             ELSIAA — in production
           </span>
           <span
             className="pointer-events-none absolute right-3 bottom-3 z-10 rounded-full bg-black/55 px-3 py-1 text-[13px] font-bold text-white/85  backdrop-blur"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Their site today
           </span>
@@ -342,7 +342,7 @@ function Ticker() {
     <span key={i} className="flex items-center gap-8">
       <span
         className="text-[13px] whitespace-nowrap text-[#111111]/55 "
-        style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+        style={{ fontFamily: "var(--font-sans)" }}
       >
         {w}
       </span>
@@ -382,7 +382,7 @@ function SideToggle({
             className={`rounded-full px-5 py-2 text-[13px] font-bold  transition-all ${
               side === k ? (k === "after" ? "bg-[#1e6b3c] text-white" : "bg-[#111111] text-white") : "text-black/55"
             }`}
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             {k === "after" ? "After — ELSIAA" : "Before"}
           </button>
@@ -451,7 +451,7 @@ function SitePreview({ src, poster, title }: { src: string; poster: string; titl
           aria-label={`Explore ${title}`}
         >
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-white shadow-lg">▶</span>
-          <span className="rounded-full bg-white/90 px-3 py-1 text-[13px] font-medium text-[#111111]" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif" }}>
+          <span className="rounded-full bg-white/90 px-3 py-1 text-[13px] font-medium text-[#111111]" style={{ fontFamily: "var(--font-sans)" }}>
             Tap to scroll the live site
           </span>
         </button>
@@ -459,7 +459,7 @@ function SitePreview({ src, poster, title }: { src: string; poster: string; titl
       {!gated && ready && (
         <span
           className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-white/85 px-3 py-1 text-[12px] font-medium text-[#111111]/70 shadow-sm backdrop-blur-sm"
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           Scroll inside ↕
         </span>
@@ -481,7 +481,7 @@ function DiscoverDesigns() {
           <div className="pointer-events-none absolute top-[38%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
             <span
               className="flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-[13px] font-bold tracking-[0.08em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.3)]"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               VS
             </span>
@@ -493,7 +493,7 @@ function DiscoverDesigns() {
               <div>
                 <h3
                   className="mt-1 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
-                  style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   The original.
                 </h3>
@@ -503,7 +503,7 @@ function DiscoverDesigns() {
                 target="_blank"
                 rel="noreferrer"
                 className="text-[13px] text-[#111111]/55  underline-offset-4 hover:underline"
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 Open ↗
               </a>
@@ -515,7 +515,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-2 rounded-full bg-[#57A85C]" />
                 <span
                   className="mx-auto rounded-md bg-white px-4 py-0.5 text-[13px] tracking-[0.08em] text-black/55"
-                  style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   primebins.com
                 </span>
@@ -531,7 +531,7 @@ function DiscoverDesigns() {
                 "No single path from interest to action",
                 "Busy visuals working against the sale",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "var(--font-sans)" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[13px] font-bold text-white">✕</span>
                   {t}
                 </li>
@@ -545,7 +545,7 @@ function DiscoverDesigns() {
               <div>
                 <h3
                   className="mt-1 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
-                  style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   Rebuilt by <span className="text-[#1e6b3c]">ELSIAA</span>.
                 </h3>
@@ -555,7 +555,7 @@ function DiscoverDesigns() {
                 target="_blank"
                 rel="noreferrer"
                 className="text-[13px] text-[#1e6b3c]  underline-offset-4 hover:underline"
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 Open ↗
               </a>
@@ -567,7 +567,7 @@ function DiscoverDesigns() {
                 <span className="h-2 w-2 rounded-full bg-[#57A85C]" />
                 <span
                   className="mx-auto rounded-md bg-white px-4 py-0.5 text-[13px] tracking-[0.08em] text-black/55"
-                  style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   mr. bins — by ELSIAA
                 </span>
@@ -583,7 +583,7 @@ function DiscoverDesigns() {
                 "Every scroll ends at the next obvious step",
                 "Premium restraint — design that earns trust",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "var(--font-sans)" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[13px] font-bold text-white">✓</span>
                   {t}
                 </li>
@@ -628,7 +628,7 @@ function AfterApp({
   const doneCount = done.filter(Boolean).length;
   const MITZVOT = ["Morning tefillah", "Give tzedakah", "Call your mother"];
   return (
-    <div className="flex h-full flex-col bg-[#FBFBFA] pt-9" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+    <div className="flex h-full flex-col bg-[#FBFBFA] pt-9" style={{ fontFamily: "var(--font-sans)" }}>
       <div className="flex items-center justify-between px-4 pb-2">
         <span className="text-[13px] font-bold tracking-tight text-[#111111]">
           Mitzva<span className="text-[#1e6b3c]">.</span>
@@ -748,7 +748,7 @@ function AfterApp({
 
 function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }) {
   return (
-    <div className="flex h-full flex-col bg-[#e8e4d8] pt-9" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+    <div className="flex h-full flex-col bg-[#e8e4d8] pt-9" style={{ fontFamily: "var(--font-sans)" }}>
       <div className="bg-[#3d3a33] px-3 py-2">
         <p className="text-[13px] font-bold tracking-wide text-[#c9a227]">PSI CONSTRUCTION APP</p>
         <p className="text-[13px] text-white/50">v1.0.2 — update required</p>
@@ -950,13 +950,13 @@ function DiscoverApps() {
         <Reveal>
           <h2
             className="mx-auto mt-4 max-w-3xl text-center text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl md:leading-[1.06]"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             It doesn&rsquo;t matter how good your backend is.
           </h2>
           <p
             className="mx-auto mt-3 max-w-2xl text-center text-base text-[#111111]/60 md:text-xl"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             If your target audience doesn&rsquo;t use your app because of poor design,
             the engineering never gets its chance.
@@ -968,7 +968,7 @@ function DiscoverApps() {
           <div className="pointer-events-none absolute top-[40%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
             <span
               className="flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-[13px] font-bold tracking-[0.08em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.3)]"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               VS
             </span>
@@ -979,7 +979,7 @@ function DiscoverApps() {
             <div className="mb-5 text-center">
               <h3
                 className="mt-1 text-2xl font-semibold tracking-[-0.035em] md:text-3xl"
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 The Mitzva app — by <span className="text-[#1e6b3c]">ELSIAA</span>.
               </h3>
@@ -1005,7 +1005,7 @@ function DiscoverApps() {
               <span
                 ref={mStatusRef}
                 className="text-[13px] text-[#1e6b3c] "
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 Watching the Mitzva app demo itself…
               </span>
@@ -1016,7 +1016,7 @@ function DiscoverApps() {
                 "Progress you can feel — streaks, weeks, family circles",
                 "Design that makes the habit effortless",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "var(--font-sans)" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[13px] font-bold text-white">✓</span>
                   {t}
                 </li>
@@ -1030,7 +1030,7 @@ function DiscoverApps() {
             <div className="mb-5 text-center">
               <h3
                 className="mt-1 text-2xl font-semibold tracking-[-0.035em] md:text-3xl"
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 The legacy contractor app.
               </h3>
@@ -1051,7 +1051,7 @@ function DiscoverApps() {
               <span
                 ref={pStatusRef}
                 className="text-[13px] text-[#111111]/55 "
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 Watching the legacy app struggle…
               </span>
@@ -1062,7 +1062,7 @@ function DiscoverApps() {
                 "The one thing users want is buried in a form",
                 "Broken galleries instead of a reason to trust",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "var(--font-sans)" }}>
                   <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[13px] font-bold text-white">✕</span>
                   {t}
                 </li>
@@ -1083,13 +1083,13 @@ function DiscoverApps() {
                 <div key={t}>
                   <h4
                     className="text-[15px] font-semibold tracking-[-0.02em] text-[#111111]"
-                    style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                    style={{ fontFamily: "var(--font-sans)" }}
                   >
                     {t}
                   </h4>
                   <p
                     className="mt-2 text-[13px] leading-relaxed text-[#111111]/55"
-                    style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                    style={{ fontFamily: "var(--font-sans)" }}
                   >
                     {d}
                   </p>
@@ -1202,7 +1202,7 @@ function ScrollScrubVideo() {
         </div>
         <p
           className="mt-5 max-w-xl text-center text-sm leading-relaxed text-[#111111]/55 md:text-base"
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           Scroll — one identity on every object. This is what clean
           branding looks like.
@@ -1287,7 +1287,7 @@ function ProductAdFeature() {
 }
 
 /* ---------------- 2 · we design every aspect — Mr. Bins hero + live sites ---------------- */
-const F = "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+const F = "var(--font-sans)";
 
 /*
   Client review under the Mr. Bins before/after.
@@ -1673,7 +1673,7 @@ function BeyondWebsites() {
           <div className="mt-3 flex items-end justify-between gap-6">
             <h2
               className="max-w-2xl text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               Every surface your brand touches.
             </h2>
@@ -1694,7 +1694,7 @@ function BeyondWebsites() {
               </button>
             </div>
           </div>
-          <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+          <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "var(--font-sans)" }}>
             Thirty-two applications of design, one standard. It never stops moving —
             neither do we.
           </p>
@@ -1724,19 +1724,19 @@ function BeyondWebsites() {
           >
             <span
               className="text-[13px] text-[#1e6b3c]"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {String((i % APPS.length) + 1)}
             </span>
             <h3
               className="mt-3 text-[17px] leading-snug font-semibold tracking-[-0.02em] text-[#111111]"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {t}
             </h3>
             <p
               className="mt-2 text-[13px] leading-relaxed text-[#111111]/60"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {d}
             </p>
@@ -1893,17 +1893,17 @@ function OurProcess() {
         <Reveal>
           <p
             className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             The ELSIAA process
           </p>
           <h2
             className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Every uplift runs the same road.
           </h2>
-          <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+          <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "var(--font-sans)" }}>
             Six stages, one direction — from understanding your business to a living
             product that keeps getting better.
           </p>
@@ -1984,13 +1984,13 @@ function Results() {
           <Reveal key={x.l}>
             <p
               className="text-5xl font-semibold tracking-[-0.035em] text-[#111111] md:text-7xl"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               <Counter to={x.n} suffix={x.s} />
             </p>
             <p
               className="mt-3 text-sm text-[#111111]/55"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {x.l}
             </p>
@@ -2008,7 +2008,7 @@ function FinalCTA() {
       <Reveal>
         <p
           className="text-[13px] text-[#2e9e58] "
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           ELSIAA
         </p>
@@ -2021,7 +2021,7 @@ function FinalCTA() {
         <a
           href="/contact"
           className="group mt-9 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-9 py-3.5 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           Book a strategy call
           <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>

@@ -10,8 +10,8 @@ import { Reveal } from "./Reveal";
   Arrows + dots, autoplay paused on hover / interaction / off-screen.
 */
 
-const mono = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-const inter = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+const mono = { fontFamily: "var(--font-sans)" } as const;
+const inter = { fontFamily: "var(--font-sans)" } as const;
 const GREEN = "#1e6b3c";
 
 /* ----------------------------- app chrome ----------------------------- */

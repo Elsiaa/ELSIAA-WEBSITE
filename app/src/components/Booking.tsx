@@ -57,7 +57,7 @@ export function Booking() {
     return (
       <div className="mt-10 rounded-2xl border border-[#1e6b3c]/30 bg-[#1e6b3c]/[0.05] p-8 text-center">
         <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[#1e6b3c] text-white">✓</span>
-        <h3 className="mt-4 text-lg font-semibold" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+        <h3 className="mt-4 text-lg font-semibold" style={{ fontFamily: "var(--font-sans)" }}>
           Call requested
         </h3>
         <p className="mt-1.5 text-[13.5px] text-[#111111]/55">
@@ -72,10 +72,10 @@ export function Booking() {
   return (
     <div id="book" className="mt-10 scroll-mt-28 rounded-2xl border border-black/[0.07] bg-white p-6 md:p-8">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h3 className="text-lg font-semibold tracking-[-0.02em] md:text-xl" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+        <h3 className="text-lg font-semibold tracking-[-0.02em] md:text-xl" style={{ fontFamily: "var(--font-sans)" }}>
           Book your call
         </h3>
-        <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+        <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "var(--font-sans)" }}>
           First call free
         </span>
       </div>
@@ -97,8 +97,8 @@ export function Booking() {
             }`}
           >
             <div className="flex items-center justify-between">
-              <span className="text-[14px] font-semibold" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>{o.title}</span>
-              <span className={`text-[13px] font-semibold ${kind === o.id ? "text-[#1e6b3c]" : "text-[#111111]/55"}`} style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+              <span className="text-[14px] font-semibold" style={{ fontFamily: "var(--font-sans)" }}>{o.title}</span>
+              <span className={`text-[13px] font-semibold ${kind === o.id ? "text-[#1e6b3c]" : "text-[#111111]/55"}`} style={{ fontFamily: "var(--font-sans)" }}>
                 {o.meta}
               </span>
             </div>
@@ -109,7 +109,7 @@ export function Booking() {
 
       {/* schedule */}
       <div className="mt-5">
-        <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>Pick a day</span>
+        <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "var(--font-sans)" }}>Pick a day</span>
         <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {days.map((d) => (
             <button
@@ -119,13 +119,13 @@ export function Booking() {
               className={`flex-none rounded-lg border px-3.5 py-2.5 text-[13px] font-medium transition-all ${
                 day === d.label ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/10 bg-white text-[#111111]/65 hover:border-black/30"
               }`}
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {d.label}
             </button>
           ))}
         </div>
-        <span className="mt-4 block text-[13px] text-[#111111]/55 " style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>Pick a time</span>
+        <span className="mt-4 block text-[13px] text-[#111111]/55 " style={{ fontFamily: "var(--font-sans)" }}>Pick a time</span>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {HOURS.map((h) => (
             <button
@@ -135,7 +135,7 @@ export function Booking() {
               className={`rounded-lg border px-3.5 py-2 text-[13px] font-medium transition-all ${
                 time === h ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/10 bg-white text-[#111111]/65 hover:border-black/30"
               }`}
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {h}
             </button>
@@ -167,11 +167,11 @@ export function Booking() {
           className={`rounded-full px-7 py-3.5 text-[13px] font-bold  transition-all ${
             valid ? "bg-[#111111] text-white hover:bg-[#1e6b3c]" : "cursor-not-allowed bg-black/[0.06] text-[#111111]/50"
           }`}
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           {state === "sending" ? "Booking…" : kind === "free" ? "Book free call →" : "Book — $100 →"}
         </button>
-        <p className="text-[11.5px] text-[#111111]/55" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+        <p className="text-[11.5px] text-[#111111]/55" style={{ fontFamily: "var(--font-sans)" }}>
           {kind === "paid"
             ? "Secure card checkout with Stripe is coming online — for now you'll receive a payment link with your confirmation."
             : "Confirmation arrives by email within hours."}

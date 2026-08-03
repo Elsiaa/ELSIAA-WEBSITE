@@ -21,8 +21,8 @@ export const Route = createFileRoute("/team")({
 });
 
 const SANS =
-  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
-const MONO = "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "var(--font-sans)";
+const MONO = "var(--font-sans)";
 
 type Person = {
   name: string;

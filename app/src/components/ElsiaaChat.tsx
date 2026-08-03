@@ -13,7 +13,7 @@ import { search } from "../lib/search-engine";
 */
 
 const SANS =
-  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "var(--font-sans)";
 
 type Msg = {
   from: "bot" | "you";

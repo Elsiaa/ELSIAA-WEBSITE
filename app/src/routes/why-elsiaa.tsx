@@ -28,7 +28,7 @@ export const Route = createFileRoute("/why-elsiaa")({
 });
 
 const SANS =
-  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "var(--font-sans)";
 const OFFICES = "New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv";
 
 /* Monochrome glyphs of the tools everyone knows — nominal, low-key, secondary. */

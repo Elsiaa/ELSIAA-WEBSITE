@@ -22,7 +22,7 @@ export const Route = createFileRoute("/consultation")({
 });
 
 const SANS =
-  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "var(--font-sans)";
 
 function ConsultationPage() {
   return (

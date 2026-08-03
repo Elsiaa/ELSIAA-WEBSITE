@@ -22,11 +22,11 @@ export const Route = createFileRoute("/insights")({
 });
 
 const mono = {
-  fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
+  fontFamily: "var(--font-sans)",
 } as const;
 const inter = {
   fontFamily:
-    "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
+    "var(--font-sans)",
 } as const;
 
 function CountUp({ target, suffix = "%" }: { target: number; suffix?: string }) {

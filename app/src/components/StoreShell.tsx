@@ -5,7 +5,7 @@ import { bySlug } from "../lib/merch";
    one green accent. Header (wordmark · The Store · direct · quote · cart),
    slide-over cart drawer, toast stack, and the offices footer. */
 
-export const F = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+export const F = { fontFamily: "var(--font-sans)" } as const;
 
 function Header() {
   const { count, setDrawerOpen } = useCart();

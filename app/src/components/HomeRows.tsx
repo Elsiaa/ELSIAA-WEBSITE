@@ -190,20 +190,20 @@ function DivisionRow({
           <Reveal className="order-2 md:order-1">
             <h2
               className="text-3xl font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {title}
             </h2>
             <p
               className="mt-3 max-w-md text-[15px] text-[#111111]/60"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {lede}
             </p>
             <a
               href={href}
               className="mt-5 inline-block text-[13px] text-[#1e6b3c]  hover:underline"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               {cta ?? "Explore"} ↗
             </a>
@@ -237,7 +237,7 @@ function DivisionRow({
                 <div className="flex items-center justify-between">
                   <h3
                     className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]"
-                    style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                    style={{ fontFamily: "var(--font-sans)" }}
                   >
                     {s.name}
                   </h3>
@@ -250,7 +250,7 @@ function DivisionRow({
                     <li
                       key={it}
                       className="text-[13px] leading-snug text-[#111111]/55"
-                      style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                      style={{ fontFamily: "var(--font-sans)" }}
                     >
                       {it}
                     </li>
@@ -350,7 +350,7 @@ function CountUp({ target }: { target: number }) {
    colour. Only once he's fully alive does the pin release and the page scrolls
    on. On mobile / reduced-motion it degrades to a normal hero with a live lion. */
 function HomeHero() {
-  const sans = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
+  const sans = { fontFamily: "var(--font-sans)" };
   const vidRef = useRef<HTMLVideoElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
 
@@ -487,7 +487,7 @@ function HomeHero() {
 
 /* ---------- Automation: robot + walkthrough, per sketch ---------- */
 function AutomationSection() {
-  const sans = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+  const sans = { fontFamily: "var(--font-sans)" } as const;
   const trackRef = useRef<HTMLElement | null>(null);
   const vidRef = useRef<HTMLVideoElement | null>(null);
   const [typed, setTyped] = useState(0);
@@ -560,7 +560,7 @@ function AutomationSection() {
           <div
             aria-hidden={typed === 0}
             className="absolute bottom-full left-1/2 z-10 mb-3 w-[72vw] max-w-[268px] -translate-x-1/2 -rotate-[1.5deg] rounded-[16px] border-[2.5px] border-[#111111] bg-white px-3.5 py-2.5 text-left shadow-[3px_3px_0_#111111] transition-opacity duration-300 md:top-[15%] md:right-full md:bottom-auto md:left-auto md:mr-4 md:mb-0 md:w-[290px] md:translate-x-0 md:rotate-0 md:px-5 md:py-3.5 md:shadow-[4px_4px_0_#111111]"
-            style={{ opacity: typed > 0 ? 1 : 0, fontFamily: "'Bangers', 'Schibsted Grotesk', system-ui, sans-serif" }}
+            style={{ opacity: typed > 0 ? 1 : 0, fontFamily: "'Bangers', var(--font-sans)" }}
           >
             {/* invisible copy reserves the final size so typing never reflows */}
             <p className="invisible text-[13px] leading-[1.2] tracking-[0.015em] md:text-[19px]">{LINE}</p>
@@ -658,13 +658,13 @@ function HeroCards() {
                 </span>
                 <h2
                   className="mt-4 text-[17px] font-semibold tracking-[-0.02em] text-[#111111]"
-                  style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {it.title}
                 </h2>
                 <p
                   className="mt-2 text-[14px] leading-relaxed text-[#111111]/55"
-                  style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {it.body}
                 </p>
@@ -782,8 +782,8 @@ function Locations() {
     return () => clearInterval(t);
   }, [paused]);
   const active = CITIES[idx];
-  const mono = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-  const inter = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+  const mono = { fontFamily: "var(--font-sans)" } as const;
+  const inter = { fontFamily: "var(--font-sans)" } as const;
   return (
     <section
       className="relative overflow-hidden border-t border-black/[0.06] bg-white py-16 text-[#111111] md:py-16"
@@ -942,19 +942,19 @@ function Team() {
         <Reveal>
           <p
             className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             04 · Who we are
           </p>
           <h2
             className="mt-3 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Leadership of consequence.
           </h2>
           <p
             className="mt-3 max-w-xl text-[15px] text-[#111111]/60"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Founders, executives, and tenured professors — decades of academic
             distinction and enterprise success at one table.
@@ -972,10 +972,10 @@ function Team() {
                   style={{ width: 52, height: 52 }}
                 />
                 <div>
-                  <h3 className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+                  <h3 className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "var(--font-sans)" }}>
                     {m.name}
                   </h3>
-                  <p className="mt-0.5 text-[13px] text-[#111111]/60" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+                  <p className="mt-0.5 text-[13px] text-[#111111]/60" style={{ fontFamily: "var(--font-sans)" }}>
                     {m.role}
                   </p>
                 </div>
@@ -987,7 +987,7 @@ function Team() {
           <a
             href="/team"
             className="mt-8 inline-flex items-center gap-3 rounded-full border border-[#111111]/15 px-7 py-3.5 text-[13px] font-bold text-[#111111]  transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Meet the leadership →
           </a>
@@ -1023,26 +1023,26 @@ function MerchStrip() {
         <Reveal>
           <p
             className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             06 · The Store
           </p>
           <h2
             className="mt-2 max-w-2xl text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             The ELSIAA Store.
           </h2>
           <p
             className="mt-3 max-w-md text-[15px] text-[#111111]/60"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             You asked where we got our merch. Here it is.
           </p>
           <a
             href="/store"
             className="mt-5 inline-block text-[13px] text-[#1e6b3c]  hover:underline"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Shop the store ↗
           </a>
@@ -1075,8 +1075,8 @@ function MerchStrip() {
                 />
               </div>
               <div className="mt-2.5 flex items-baseline justify-between px-0.5">
-                <p className="text-[13.5px] font-semibold text-[#111111]" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>{m.name}</p>
-                <p className="text-[12.5px] text-[#111111]/60" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>{m.price}</p>
+                <p className="text-[13.5px] font-semibold text-[#111111]" style={{ fontFamily: "var(--font-sans)" }}>{m.name}</p>
+                <p className="text-[12.5px] text-[#111111]/60" style={{ fontFamily: "var(--font-sans)" }}>{m.price}</p>
               </div>
             </a>
           ))}
@@ -1095,19 +1095,19 @@ function FinalCTA() {
         <Reveal>
           <p
             className="text-[13px] text-[#2e9e58] "
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             07 · Next
           </p>
           <h2
             className="mx-auto mt-4 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Let's build your first system.
           </h2>
           <p
             className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-white/55"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Tell us the step that still waits on a person. We'll scope it, price it, and show you the before and after.
           </p>
@@ -1117,21 +1117,21 @@ function FinalCTA() {
             <a
               href="/contact"
               className="rounded-full bg-[#2e9e58] px-10 py-5 text-[13px] font-bold text-white  transition-all duration-300 hover:bg-white hover:text-[#111111]"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               Start with a free call →
             </a>
             <a
               href="/quote"
               className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all duration-300 hover:border-white hover:bg-white hover:text-[#111111]"
-              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               Get a Quote
             </a>
           </div>
           <p
             className="mt-5 text-[13px] text-white/50"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             20 minutes. No pitch. Straight answers on where AI actually pays off for you.
           </p>
@@ -1143,7 +1143,7 @@ function FinalCTA() {
 
 /* ---------- automation capability catalog — one single-row carousel ---------- */
 function AutomationCatalog() {
-  const sans = "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  const sans = "var(--font-sans)";
   const rowRef = useRef<HTMLDivElement | null>(null);
   const nudge = (dir: number) => {
     const el = rowRef.current;
@@ -1239,7 +1239,7 @@ function AutomationCatalog() {
    rock (cold) → dawn (curiosity) → alive (revelation) → CTA (desire).
    Reduced motion: static living earth. */
 function DesignDivision() {
-  const inter = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+  const inter = { fontFamily: "var(--font-sans)" } as const;
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const earthRef = useRef<HTMLImageElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
@@ -1368,7 +1368,7 @@ function DesignDivision() {
 
 function DesignCatalog() {
   const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
-  const inter = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+  const inter = { fontFamily: "var(--font-sans)" } as const;
   return (
     <div className="mx-auto w-full max-w-6xl px-6">
       <Reveal delay={0.05}>
@@ -1410,7 +1410,7 @@ function ExpandSection({
 }) {
   const [open, setOpen] = useState(defaultOpen);
   const panelId = `sec-${title.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
-  const sans = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
+  const sans = { fontFamily: "var(--font-sans)" };
   return (
  <section className="">
       <button
@@ -1452,7 +1452,7 @@ const ADOPTION: Array<[string, number]> = [
 
 function AdoptionSection() {
   const sans =
-    "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+    "var(--font-sans)";
   const ref = useRef<HTMLElement | null>(null);
   const [on, setOn] = useState(false);
   useEffect(() => {

@@ -8,8 +8,8 @@ import { useEffect, useRef, useState } from "react";
   final note before the footer. Transform/opacity only; reduced motion → panels.
 */
 
-const mono = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-const inter = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+const mono = { fontFamily: "var(--font-sans)" } as const;
+const inter = { fontFamily: "var(--font-sans)" } as const;
 
 function seg(p: number, a: number, b: number) {
   if (p <= a) return 0;

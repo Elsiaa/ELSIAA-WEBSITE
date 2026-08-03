@@ -101,7 +101,7 @@ export function ElsiaaSections() {
             </p>
             <p
               className="text-[13px] text-neutral-500"
-              style={{ fontFamily: "IBM Plex Mono, 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "IBM Plex Mono, var(--font-sans)" }}
             >
               {CITIES.join("  ·  ")}
             </p>

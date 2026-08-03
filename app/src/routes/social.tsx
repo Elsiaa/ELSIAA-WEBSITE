@@ -29,7 +29,7 @@ export const Route = createFileRoute("/social")({
 });
 
 const SANS =
-  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "var(--font-sans)";
 
 /* ── platform brand glyphs (monochrome, inherit colour) ── */
 const PLATFORMS: Array<{ name: string; svg: ReactNode }> = [

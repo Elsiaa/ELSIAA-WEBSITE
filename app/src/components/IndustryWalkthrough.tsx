@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 */
 
 const SANS =
-  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "var(--font-sans)";
 const GREEN = "#1e6b3c";
 
 type Msg = { from: "user" | "ai"; text: string };
