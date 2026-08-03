@@ -480,7 +480,7 @@ function AutomationSection() {
   const trackRef = useRef<HTMLElement | null>(null);
   const vidRef = useRef<HTMLVideoElement | null>(null);
   const [typed, setTyped] = useState(0);
-  const LINE = "Robots like me can automate your business.";
+  const LINE = "AI robots like me can automate your business!";
 
   // Scroll-controlled, beginning to end: the stage pins while the robot's
   // animation (wave → point + stare → wave) is scrubbed by your scroll, then
@@ -495,8 +495,8 @@ function AutomationSection() {
       v.play().catch(() => {});
       return;
     }
-    v.pause();
-    v.play().then(() => v.pause()).catch(() => {}); // prime decode for seeking
+    v.loop = true;
+    v.play().catch(() => {}); // always waving while the bubble types
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
     let raf = 0;
     const tick = () => {
@@ -505,15 +505,6 @@ function AutomationSection() {
       const p = clamp01(span > 0 ? -r.top / span : 0);
       // comic bubble types itself out across the first half of the scrub
       setTyped(Math.round(clamp01(p / 0.55) * LINE.length));
-      const d = v.duration;
-      if (d && !Number.isNaN(d)) {
-        const target = Math.min(d - 0.04, p * d);
-        const cur = v.currentTime;
-        // all-keyframe clip → instant seeks; fine-grained ease = butter
-        if (Math.abs(target - cur) > 0.006) {
-          try { v.currentTime = cur + (target - cur) * 0.4; } catch { /* seeking */ }
-        }
-      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -534,15 +525,15 @@ function AutomationSection() {
         <div className="pointer-events-none relative w-full max-w-3xl">
           <div
             aria-hidden={typed === 0}
-            className="absolute top-[6%] left-1/2 z-10 w-[min(74vw,300px)] -translate-x-[118%] rounded-2xl border border-black/[0.1] bg-white px-5 py-3.5 text-left shadow-[0_18px_44px_-24px_rgba(17,17,17,0.4)] transition-opacity duration-300 md:-translate-x-[128%]"
-            style={{ opacity: typed > 0 ? 1 : 0, fontFamily: "'Schibsted Grotesk', system-ui, sans-serif" }}
+            className="absolute top-[16%] left-1/2 z-10 w-[min(66vw,270px)] -translate-x-[104%] rounded-[22px] border-[2.5px] border-[#111111] bg-white px-5 py-4 text-left shadow-[4px_5px_0_0_rgba(17,17,17,0.9)] transition-opacity duration-300 md:top-[18%] md:-translate-x-[112%]"
+            style={{ opacity: typed > 0 ? 1 : 0, fontFamily: "'Bangers', 'Schibsted Grotesk', system-ui, sans-serif" }}
           >
-            <p className="text-[15px] leading-snug font-medium text-[#111111] md:text-[16px]">
+            <p className="text-[19px] leading-[1.15] tracking-[0.02em] text-[#111111] md:text-[22px]">
               {LINE.slice(0, typed)}
               <span className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-[#1e6b3c]" style={{ opacity: typed < LINE.length ? 1 : 0 }} />
             </p>
             {/* tail pointing at the robot's mouth */}
-            <span className="absolute top-[58%] -right-[9px] h-4 w-4 rotate-45 border-t border-r border-black/[0.1] bg-white" />
+            <span className="absolute top-[62%] -right-[11px] h-4 w-4 rotate-45 border-t-[2.5px] border-r-[2.5px] border-[#111111] bg-white" />
           </div>
         </div>
         <video

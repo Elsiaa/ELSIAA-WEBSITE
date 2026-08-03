@@ -201,130 +201,179 @@ function WhyElsiaaPage() {
         </div>
       </div>
 
-      {/* ── hero — meet the objection head-on ── */}
-      <section className="relative overflow-hidden px-6 pt-14 pb-12 md:pt-28 md:pb-24">
-        <div className="relative mx-auto max-w-4xl text-center">
+      {/* ── hero — the objection, then the answer ── */}
+      <section className="px-6 pt-16 pb-14 md:pt-24 md:pb-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          {/* the objection, as a real pull quote */}
           <Reveal>
-            <p className="text-[13px] font-semibold tracking-[0.02em] text-[#1e6b3c]">Why ELSIAA</p>
-            <h1 className="mt-5 text-[1.9rem] font-semibold leading-[1.06] tracking-[-0.04em] sm:text-4xl md:text-6xl">
-              "Why not just use Claude?
-              <br />
-              I know my business best."
-            </h1>
-
-            {/* the tools everyone already knows — present, quiet, secondary */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-[#111111]/35 sm:gap-x-9 sm:gap-y-4">
-              {AI_TOOLS.map((t) => (
-                <span key={t.kind} className="flex items-center gap-2.5 transition-colors hover:text-[#111111]/55">
-                  <AiMark kind={t.kind} />
-                  <span className="text-[13px] font-medium tracking-[0.04em]">{t.name}</span>
-                </span>
-              ))}
+            <p className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase">
+              Why ELSIAA
+            </p>
+            <div className="relative mt-6">
+              <span
+                aria-hidden
+                className="absolute -top-8 -left-2 text-[110px] leading-none font-semibold text-[#1e6b3c]/10 select-none md:-top-10 md:text-[150px]"
+              >
+                &ldquo;
+              </span>
+              <h1 className="relative text-[2rem] leading-[1.08] font-semibold tracking-[-0.04em] sm:text-[2.6rem] md:text-[3.4rem]">
+                Why not just use Claude?
+                <br />
+                I know my business best.
+              </h1>
             </div>
+            <div className="mt-8 border-l-2 border-[#1e6b3c] pl-5">
+              <p className="text-[19px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[22px]">
+                Exactly. That is why we partner with you.
+              </p>
+              <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
+                You teach us your real process. We turn it into production-ready systems —
+                built, secured, tested, and run to a standard no general-purpose tool
+                delivers on its own.
+              </p>
+            </div>
+          </Reveal>
 
-            <p className="mx-auto mt-9 max-w-2xl text-[17px] leading-relaxed text-[#111111]/70 md:text-[19px]">
-              Exactly. That is why we partner with you.
-            </p>
-            <p className="mx-auto mt-3 max-w-2xl text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]">
-              You teach us your real process. We turn it into production-ready systems — built,
-              secured, tested, and run to a standard no general-purpose tool
-              delivers on its own.
-            </p>
+          {/* the tools everyone already has, framed as the comparison */}
+          <Reveal delay={0.1}>
+            <div className="rounded-3xl border border-black/[0.08] bg-[#F5F5F3] p-7 md:p-9">
+              <p className="text-[12px] font-semibold tracking-[0.12em] text-[#111111]/40 uppercase">
+                The tools you already have
+              </p>
+              <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-2">
+                {AI_TOOLS.map((t) => (
+                  <span
+                    key={t.kind}
+                    className="flex items-center gap-2.5 text-[#111111]/45 transition-colors hover:text-[#111111]/70"
+                  >
+                    <AiMark kind={t.kind} />
+                    <span className="text-[13.5px] font-medium">{t.name}</span>
+                  </span>
+                ))}
+              </div>
+              <p className="mt-7 border-t border-black/[0.08] pt-5 text-[14.5px] leading-relaxed text-[#111111]/60">
+                Powerful. Also generic, uninsured, and only as good as the hands running them.
+              </p>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── differentiators ── */}
-      <section className="border-t border-black/[0.06] px-6 py-12 md:py-24">
+      {/* ── the six reasons ── */}
+      <section className="border-t border-black/[0.06] bg-[#FBFBFA] px-6 py-14 md:py-20">
         <div className="mx-auto max-w-6xl">
           <Reveal>
-            <h2 className="max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl">
+            <h2 className="max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-4xl">
               What ELSIAA adds
             </h2>
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#111111]/55">
+              Six things a general-purpose tool cannot give you on its own.
+            </p>
           </Reveal>
-          {/* reason → reason workflow: a connected rail, one reason at a time */}
-          <div className="relative mt-12">
-            <div aria-hidden className="absolute top-2 bottom-2 left-[21px] hidden w-px bg-black/[0.08] sm:block" />
-            <div className="space-y-10 md:space-y-12">
-              {REASONS.map((d, i) => (
-                <Reveal key={d.num} delay={Math.min(i * 0.04, 0.16)}>
-                  <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-[44px_minmax(0,1fr)] sm:gap-7">
-                    <div className="relative z-10 hidden h-[44px] w-[44px] place-items-center rounded-xl border border-black/[0.1] bg-[#F5F5F3] sm:grid">
+
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+            {REASONS.map((d, i) => (
+              <Reveal key={d.num} delay={Math.min((i % 2) * 0.06, 0.12)}>
+                <article className="flex h-full flex-col rounded-3xl border border-black/[0.08] bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.3)] md:p-8">
+                  <div className="flex items-start gap-4">
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#1e6b3c]/[0.07]">
                       <ReasonArt kind={d.kind} />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-[11.5px] font-bold tracking-[0.16em] text-[#1e6b3c]">{d.num}</p>
+                      <h3 className="mt-1 text-[18px] leading-tight font-semibold tracking-[-0.02em] text-[#111111] md:text-[20px]">
+                        {d.title}
+                      </h3>
                     </div>
-                    <div>
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-black/[0.1] bg-[#F5F5F3] sm:hidden">
-                          <ReasonArt kind={d.kind} />
-                        </span>
-                        <p className="text-[12px] font-semibold tracking-[0.16em] text-[#1e6b3c]">{d.num}</p>
-                        <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[22px]">
-                          {d.title}
-                        </h3>
-                      </div>
-                      <p className="mt-2.5 max-w-2xl text-[14.5px] leading-relaxed text-[#111111]/60 md:text-[15.5px]">
-                        {d.body}
+                  </div>
+
+                  <p className="mt-5 text-[14.5px] leading-relaxed text-[#111111]/65 md:text-[15px]">
+                    {d.body}
+                  </p>
+
+                  <div className="mt-auto pt-6">
+                    <div className="rounded-2xl bg-[#b4543a]/[0.05] p-4">
+                      <p className="text-[11px] font-bold tracking-[0.14em] text-[#b4543a]/85 uppercase">
+                        Going solo
                       </p>
-                      <p className="mt-3 max-w-2xl border-l-2 border-[#b4543a]/70 pl-3.5 text-[13.5px] leading-relaxed text-[#111111]/45">
-                        {d.solo}
+                      <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#111111]/55">
+                        {d.solo.replace(/^Going solo:\s*/, "")}
                       </p>
                     </div>
                   </div>
-                </Reveal>
-              ))}
-            </div>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── about ELSIAA — who is behind the systems ── */}
-      <section className="border-t border-black/[0.06] px-6 py-12 md:py-24">
+      {/* ── about ELSIAA ── */}
+      <section className="border-t border-black/[0.06] px-6 py-16 md:py-24">
         <div className="mx-auto max-w-4xl text-center">
           <Reveal>
-            <p className="text-[13px] font-semibold tracking-[0.02em] text-[#1e6b3c]">About ELSIAA</p>
-            <h2 className="mt-4 text-2xl font-semibold leading-[1.15] tracking-[-0.03em] md:text-4xl">
+            <p className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase">
+              About ELSIAA
+            </p>
+            <h2 className="mt-5 text-2xl font-semibold leading-[1.15] tracking-[-0.035em] md:text-4xl">
               Operators who have run businesses like yours.
-              <br />
+              <br className="hidden sm:block" />
               Engineers who build at the frontier of AI.
             </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]">
+            <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
               ELSIAA turns that combined expertise into working systems for your exact
               process — one standard, full ownership, fully insured.
             </p>
-            <p className="mx-auto mt-4 max-w-2xl text-[13.5px] leading-relaxed text-[#111111]/45">
+
+            <div className="mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-4 border-y border-black/[0.08] py-6">
+              {[
+                ["6", "Cities"],
+                ["3", "Continents"],
+                ["100%", "Insured"],
+              ].map(([n, l]) => (
+                <div key={l}>
+                  <p className="text-[26px] font-semibold tracking-[-0.03em] md:text-[32px]">{n}</p>
+                  <p className="mt-1 text-[12.5px] text-[#111111]/50">{l}</p>
+                </div>
+              ))}
+            </div>
+
+            <p className="mx-auto mt-6 max-w-2xl text-[13.5px] leading-relaxed text-[#111111]/45">
               On the ground in {OFFICES} — with regional U.S. offices in Baltimore,
               Montvale, and Kingston.
             </p>
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
-            <a
-              href="/team"
-              className="mt-7 inline-flex items-center text-[14px] font-medium text-[#1e6b3c] transition-colors hover:text-[#111111]"
-            >
-              Meet the team →
-            </a>
-            <a
-              href="/quote"
-              className="inline-flex items-center text-[14px] font-medium text-[#1e6b3c] transition-colors hover:text-[#111111]"
-            >
-              Get a quote →
-            </a>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
+              <a
+                href="/team"
+                className="inline-flex items-center text-[14px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+              >
+                Meet the team →
+              </a>
             </div>
           </Reveal>
         </div>
       </section>
 
       {/* ── outcome + CTA ── */}
-      <section className="border-t border-black/[0.06] px-6 pt-16 pb-24 text-center md:pt-24 md:pb-32">
+      <section className="border-t border-black/[0.06] bg-[#F5F5F3] px-6 py-16 text-center md:py-24">
         <Reveal>
           <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
             We upgrade your business daily.
           </h2>
-          <a
-            href="/quote"
-            className="mt-10 inline-flex min-h-[54px] items-center rounded-full bg-[#1e6b3c] px-10 text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#111111]"
-          >
-            Get a quote →
-          </a>
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/quote"
+              className="inline-flex min-h-[54px] items-center rounded-full bg-[#1e6b3c] px-10 text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#111111]"
+            >
+              Get a quote →
+            </a>
+            <a
+              href="/contact"
+              className="inline-flex min-h-[54px] items-center rounded-full border border-black/15 px-8 text-[15px] font-semibold text-[#111111] transition-colors duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+            >
+              Free 20-minute call
+            </a>
+          </div>
         </Reveal>
       </section>
     </main>
