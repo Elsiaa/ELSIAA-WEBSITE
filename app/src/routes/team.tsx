@@ -221,7 +221,7 @@ function TeamPage() {
             className="text-[13px] text-[#1e6b3c] "
             style={{ fontFamily: MONO }}
           >
-            The team behind ELSIAA
+            Meet the international team behind ELSIAA
           </p>
           <h1
             className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl"
