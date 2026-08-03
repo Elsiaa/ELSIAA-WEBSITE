@@ -91,40 +91,6 @@ const DIRECTORS: Person[] = [
   },
 ];
 
-const ADVISORS: Person[] = [
-  {
-    name: "Mendel Parnas",
-    init: "MP",
-    role: "Chairman & Advisor · Insurance",
-    line: "Chairs the advisory board. The insurance mind behind ELSIAA's fully-insured guarantee.",
-    loc: "Insurance",
-  },
-  {
-    name: "Berel Krug",
-    init: "BK",
-    role: "Executive Advisor · Healthcare",
-    line: "Advises the executive team on healthcare operations and market strategy across our engagements.",
-    loc: "Healthcare",
-  },
-];
-
-const ACADEMIC: Person[] = [
-  {
-    name: "Dr. Esther Krug, MD",
-    init: "EK",
-    role: "Professor of Medicine, Johns Hopkins",
-    line: "Brings academic medical leadership to ELSIAA's advisory board, grounding clinical work in real practice.",
-    loc: "Johns Hopkins",
-  },
-  {
-    name: "Dr. Edward Margolin, MD",
-    init: "EM",
-    role: "Professor of Medicine, University of Toronto",
-    line: "Clinical rigor from the Depts. of Ophthalmology and Neurology behind ELSIAA's medical work.",
-    loc: "University of Toronto",
-  },
-];
-
 function Monogram({ init }: { init: string }) {
   return (
     <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-black/[0.06] bg-[#F5F5F3] transition-colors duration-300 group-hover:border-[#1e6b3c]/25">
@@ -267,8 +233,6 @@ function TeamPage() {
 
       <Group label="01 · Leadership" people={LEADERSHIP} />
       <Group label="02 · Directors" people={DIRECTORS} border />
-      <Group label="03 · Advisors" people={ADVISORS} border />
-      <Group label="04 · Academic" people={ACADEMIC} border />
 
       {/* credibility band */}
  <section className="bg-[#F5F5F3]">
