@@ -527,14 +527,14 @@ function AutomationSection() {
   const feather = "radial-gradient(120% 120% at 50% 46%, #000 62%, rgba(0,0,0,0) 90%)";
 
   return (
-    <section ref={trackRef} className="relative bg-white" style={{ height: "170vh" }} id="automation">
-      <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-1 overflow-hidden bg-white px-6 text-center">
+    <section ref={trackRef} className="relative bg-white [--track:125svh] md:[--track:170vh]" style={{ height: "var(--track)" }} id="automation">
+      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center gap-1 overflow-hidden bg-white px-6 text-center">
         {/* titled like the design centrepiece */}
         <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
           Automations
         </h2>
         {/* robot + bubble anchored together */}
-        <div className="pointer-events-none relative inline-block">
+        <div className="pointer-events-none relative mt-[104px] inline-block [--robot-h:min(42vh,360px)] md:mt-0 md:[--robot-h:min(52vh,440px)]">
           <video
             ref={vidRef}
             src="/assets/robot3d_wave_v2.mp4"
@@ -547,9 +547,9 @@ function AutomationSection() {
             onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
             onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
             aria-label="The ELSIAA robot, waving"
-            className="block w-auto select-none"
+            className="relative z-20 block w-auto select-none"
             style={{
-              height: "min(52vh, 440px)",
+              height: "var(--robot-h)",
               mixBlendMode: "multiply",
               filter: "brightness(1.07) contrast(1.04)",
               WebkitMaskImage: feather,
@@ -559,19 +559,20 @@ function AutomationSection() {
           {/* speech bubble — sits just off the robot's head, tail at the mouth */}
           <div
             aria-hidden={typed === 0}
-            className="absolute top-[13%] right-full z-10 mr-3 w-[46vw] max-w-[260px] rounded-[20px] border border-black/10 bg-white px-4 py-3 text-left shadow-[0_12px_30px_-12px_rgba(17,17,17,0.28)] transition-opacity duration-300 sm:mr-4 sm:w-[260px] md:top-[15%] md:w-[290px] md:px-5 md:py-3.5"
+            className="absolute bottom-full left-1/2 z-10 mb-3 w-[72vw] max-w-[268px] -translate-x-1/2 -rotate-[1.5deg] rounded-[16px] border-[2.5px] border-[#111111] bg-white px-3.5 py-2.5 text-left shadow-[3px_3px_0_#111111] transition-opacity duration-300 md:top-[15%] md:right-full md:bottom-auto md:left-auto md:mr-4 md:mb-0 md:w-[290px] md:translate-x-0 md:rotate-0 md:px-5 md:py-3.5 md:shadow-[4px_4px_0_#111111]"
             style={{ opacity: typed > 0 ? 1 : 0, fontFamily: "'Bangers', 'Schibsted Grotesk', system-ui, sans-serif" }}
           >
             {/* invisible copy reserves the final size so typing never reflows */}
-            <p className="invisible text-[16px] leading-[1.25] tracking-[0.015em] md:text-[19px]">{LINE}</p>
-            <p className="absolute inset-x-4 top-3 text-[16px] leading-[1.25] tracking-[0.015em] text-[#111111] md:inset-x-5 md:top-3.5 md:text-[19px]">
+            <p className="invisible text-[13px] leading-[1.2] tracking-[0.015em] md:text-[19px]">{LINE}</p>
+            <p className="absolute inset-x-3 top-2 text-[13px] leading-[1.2] tracking-[0.015em] text-[#111111] md:inset-x-5 md:top-3.5 md:text-[19px]">
               {LINE.slice(0, typed)}
               <span
                 className="ml-[2px] inline-block h-[0.9em] w-[2px] translate-y-[2px] bg-[#1e6b3c]"
                 style={{ opacity: typed < LINE.length ? 1 : 0 }}
               />
             </p>
-            <span className="absolute top-[58%] -right-[7px] h-3.5 w-3.5 rotate-45 border-t border-r border-black/10 bg-white" />
+            <span className="absolute -bottom-[9px] left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r-[2.5px] border-b-[2.5px] border-[#111111] bg-white md:hidden" />
+            <span className="absolute top-[58%] -right-[9px] hidden h-3.5 w-3.5 rotate-45 border-t-[2.5px] border-r-[2.5px] border-[#111111] bg-white md:block" />
           </div>
         </div>
       </div>
@@ -1198,7 +1199,7 @@ function AutomationCatalog() {
           if (e.key === "ArrowRight") { e.preventDefault(); el.scrollBy({ left: Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
           if (e.key === "ArrowLeft") { e.preventDefault(); el.scrollBy({ left: -Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
         }}
-              className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]"
+              className="flex items-start snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]"
             >
               {AUTOSOFT.map((s, i) => (
                 <a
@@ -1335,8 +1336,8 @@ function DesignDivision() {
 
   return (
     <>
- <section ref={wrapRef} className="relative bg-white" style={{ height: "170vh" }}>
-        <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-4 overflow-hidden px-6 text-center">
+ <section ref={wrapRef} className="relative bg-white [--track:125svh] md:[--track:170vh]" style={{ height: "var(--track)" }}>
+        <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center gap-4 overflow-hidden px-6 text-center">
           <div>
             <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
           </div>
@@ -1442,9 +1443,9 @@ function AdoptionSection() {
   }, []);
 
   return (
-    <section ref={ref} className="border-y border-black/[0.06] bg-[#FBFBFA] py-16 md:py-16" id="adoption">
+    <section ref={ref} className="border-y border-black/[0.06] bg-[#FBFBFA] py-10 md:py-16" id="adoption">
       <div className="mx-auto w-full max-w-6xl px-6">
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,470px)] lg:gap-16">
+        <div className="grid items-center gap-7 md:gap-10 lg:grid-cols-[1fr_minmax(0,470px)] lg:gap-16">
           {/* the argument */}
           <div>
             <p className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase" style={{ fontFamily: sans }}>
@@ -1496,7 +1497,7 @@ function AdoptionSection() {
           </div>
 
           {/* the grid, on its own plate so it reads as the centrepiece */}
-          <div className="rounded-3xl border border-black/[0.08] bg-white p-7 shadow-[0_40px_90px_-60px_rgba(17,17,17,0.5)] md:p-9">
+          <div className="rounded-3xl border border-black/[0.08] bg-white p-5 shadow-[0_40px_90px_-60px_rgba(17,17,17,0.5)] sm:p-7 md:p-9">
             <div className="flex items-end justify-between gap-4">
               <p
                 className="text-[64px] leading-[0.85] font-semibold tracking-[-0.05em] text-[#1e6b3c] tabular-nums md:text-[80px]"
@@ -1511,7 +1512,7 @@ function AdoptionSection() {
               </p>
             </div>
 
-            <div className="mt-7 grid w-full max-w-[330px] grid-cols-10 gap-[6px] md:gap-[7px]">
+            <div className="mt-5 grid w-full max-w-[330px] grid-cols-10 gap-[5px] md:mt-7 md:gap-[7px]">
               {Array.from({ length: 100 }).map((_, i) => {
                 const lit = i < 78;
                 return (

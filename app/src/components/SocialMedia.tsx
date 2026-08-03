@@ -532,8 +532,8 @@ export function SocialHomeSection() {
   }, []);
 
   return (
- <section ref={trackRef} id="social" className="relative bg-white" style={{ height: "130vh" }}>
-      <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-7 overflow-hidden px-6 text-center">
+ <section ref={trackRef} id="social" className="relative bg-white [--track:118svh] md:[--track:130vh]" style={{ height: "var(--track)" }}>
+      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center gap-7 overflow-hidden px-6 text-center">
         <div>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
             Social Media
