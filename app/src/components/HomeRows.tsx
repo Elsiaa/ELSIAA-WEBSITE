@@ -1517,8 +1517,10 @@ function AdoptionSection() {
             </div>
           </div>
 
-          {/* the grid, on its own plate so it reads as the centrepiece */}
-          <div className="rounded-3xl border border-black/[0.08] bg-white p-5 shadow-[0_40px_90px_-60px_rgba(17,17,17,0.5)] sm:p-7 md:p-9">
+          {/* the grid, on its own plate so it reads as the centrepiece.
+              Hidden on phones: stacked under the ledger it repeats the headline
+              and the industry rows, and costs a screen of scroll to do it. */}
+          <div className="hidden rounded-3xl border border-black/[0.08] bg-white p-5 shadow-[0_40px_90px_-60px_rgba(17,17,17,0.5)] sm:p-7 md:block md:p-9">
             <div className="flex items-end justify-between gap-4">
               <p
                 className="text-[64px] leading-[0.85] font-semibold tracking-[-0.05em] text-[#1e6b3c] tabular-nums md:text-[80px]"
