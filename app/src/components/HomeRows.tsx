@@ -1392,8 +1392,25 @@ function DesignCatalog() {
 
 
 /* ---- anti-fatigue: collapsed chapter that mounts content only when opened ---- */
-function ExpandSection({ title, blurb, children }: { title: string; blurb: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
+/* Section that can be collapsed but is OPEN by default and always renders its
+   children. Previously it did `{open && children}` starting closed, so the
+   team, the proof cards and the offices never existed in the DOM at all — no
+   crawler, no screen reader and no Cmd-F could find them, and a visitor only
+   saw them if they happened to tap the header. Collapsing is now done with
+   grid-template-rows, which animates without unmounting anything. */
+function ExpandSection({
+  title,
+  blurb,
+  children,
+  defaultOpen = true,
+}: {
+  title: string;
+  blurb: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  const panelId = `sec-${title.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
   const sans = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" };
   return (
  <section className="">
@@ -1401,6 +1418,7 @@ function ExpandSection({ title, blurb, children }: { title: string; blurb: strin
         onClick={() => setOpen(!open)}
         className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-7 text-left transition-colors hover:bg-black/[0.015] md:py-9"
         aria-expanded={open}
+        aria-controls={panelId}
         style={sans}
       >
         <span>
@@ -1413,8 +1431,12 @@ function ExpandSection({ title, blurb, children }: { title: string; blurb: strin
           +
         </span>
       </button>
-      <div className={`overflow-hidden transition-all duration-500 ${open ? "max-h-none opacity-100" : "max-h-0 opacity-0"}`}>
-        {open && children}
+      <div
+        id={panelId}
+        className="grid transition-[grid-template-rows] duration-500 ease-out"
+        style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">{children}</div>
       </div>
     </section>
   );
