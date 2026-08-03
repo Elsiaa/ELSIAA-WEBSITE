@@ -521,8 +521,8 @@ function AutomationSection() {
   const feather = "radial-gradient(120% 120% at 50% 46%, #000 62%, rgba(0,0,0,0) 90%)";
 
   return (
-    <section ref={trackRef} className="relative bg-white" style={{ height: "260vh" }} id="automation">
-      <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-3 overflow-hidden bg-white px-6 text-center">
+    <section ref={trackRef} className="relative bg-white" style={{ height: "170vh" }} id="automation">
+      <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-1 overflow-hidden bg-white px-6 text-center">
         {/* titled like the design centrepiece */}
         <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
           Automations
@@ -537,7 +537,7 @@ function AutomationSection() {
           aria-label="The ELSIAA robot, waving as you scroll"
           className="pointer-events-none block w-auto select-none"
           style={{
-            height: "min(64vh, 560px)",
+            height: "min(52vh, 440px)",
             mixBlendMode: "multiply",
             filter: "brightness(1.07) contrast(1.04)",
             WebkitMaskImage: feather,
@@ -693,7 +693,7 @@ export const AUTOSOFT: Sub[] = (() => {
 
 function ConsultPricing() {
   return (
-    <div className="mt-8">
+    <div className="mt-6">
       <ConsultOptions />
     </div>
   );
@@ -1204,7 +1204,7 @@ function AutomationCatalog() {
 
         {/* single row — a carousel; grey arrows make the affordance obvious */}
         <Reveal delay={0.08}>
-          <div className="relative mt-7">
+          <div className="relative mt-5">
             <button
               type="button"
               aria-label="Scroll left"

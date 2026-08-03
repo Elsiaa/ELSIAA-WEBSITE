@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 /*
   Consultation options — one shared block used by BOTH the homepage and the
   /consultation page so the two read identically.
@@ -57,43 +55,13 @@ function StripeMark({ className = "" }: { className?: string }) {
   );
 }
 
-export type ConsultOption = {
-  name: string;
-  lines: string[];
-  featured?: boolean;
-};
+/* TODO: swap in the real 1-888 office number — digits were not supplied yet. */
+export const OFFICE_PHONE = "1-888-000-0000";
+const OFFICE_TEL = `tel:+1${OFFICE_PHONE.replace(/\D/g, "").replace(/^1/, "")}`;
 
-export const CONSULT_OPTIONS: ConsultOption[] = [
-  {
-    name: "Strategy Session",
-    lines: [
-      "You talk. We dig into what's actually going on.",
-      "You leave with a clear written plan of what to do next.",
-    ],
-  },
-  {
-    name: "Two-Week Build",
-    featured: true,
-    lines: [
-      "We don't just talk. We sit with you and build or fix the first thing that matters.",
-    ],
-  },
-  {
-    name: "Monthly Advisor",
-    lines: [
-      "We're on call every month.",
-      "Roadmap, tech decisions, vendors — someone who's actually done the work.",
-    ],
-  },
-];
-
-function BookBar({ selected }: { selected: string }) {
+function BookBar() {
   return (
-    <a
-      href={`/quote?option=${encodeURIComponent(selected)}`}
-      aria-label={`Book ${selected} with Apple Pay, Google Pay, or card`}
-      className="mx-auto mt-8 flex w-full max-w-2xl items-center justify-center gap-3 rounded-full bg-[#111111] px-6 py-4 text-white shadow-[0_14px_36px_-14px_rgba(17,17,17,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1e6b3c] hover:shadow-[0_20px_44px_-16px_rgba(30,107,60,0.5)] md:py-5"
-    >
+    <span className="mt-auto flex w-full items-center justify-center gap-3 rounded-full bg-[#111111] px-6 py-4 text-white shadow-[0_14px_36px_-14px_rgba(17,17,17,0.5)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-[#1e6b3c] group-hover:shadow-[0_20px_44px_-16px_rgba(30,107,60,0.5)]">
       <span className="text-[15px] font-semibold tracking-[-0.01em]" style={{ fontFamily: SANS }}>
         Book with
       </span>
@@ -104,74 +72,69 @@ function BookBar({ selected }: { selected: string }) {
         <span aria-hidden className="h-3.5 w-px bg-white/25" />
         <StripeMark className="h-[15px] w-auto" />
       </span>
-    </a>
+    </span>
   );
 }
 
 export function ConsultOptions({ className = "" }: { className?: string }) {
-  const [selected, setSelected] = useState(
-    CONSULT_OPTIONS.find((o) => o.featured)?.name ?? CONSULT_OPTIONS[0].name,
-  );
   return (
     <div className={className}>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
-        {CONSULT_OPTIONS.map((o) => {
-          const on = o.name === selected;
-          return (
-            <button
-              key={o.name}
-              type="button"
-              onClick={() => setSelected(o.name)}
-              aria-pressed={on}
-              className={`flex flex-col rounded-3xl border bg-white p-7 text-left transition-all duration-300 hover:-translate-y-1 md:p-8 ${
-                on
-                  ? "border-[#1e6b3c] shadow-[0_30px_70px_-45px_rgba(30,107,60,0.5)] ring-1 ring-[#1e6b3c]/25"
-                  : "border-black/[0.08] shadow-[0_24px_60px_-50px_rgba(17,17,17,0.4)] hover:border-[#1e6b3c]/35"
-              }`}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <h3
-                  className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]"
-                  style={{ fontFamily: SANS }}
-                >
-                  {o.name}
-                </h3>
-                {o.featured && (
-                  <span
-                    className="shrink-0 rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[12px] font-semibold text-[#1e6b3c]"
-                    style={{ fontFamily: SANS }}
-                  >
-                    Most chosen
-                  </span>
-                )}
-              </div>
+      <div className="mx-auto grid max-w-4xl grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+        {/* 1 — free 20-minute call */}
+        <div className="flex flex-col rounded-3xl border border-black/[0.08] bg-white p-7 shadow-[0_24px_60px_-50px_rgba(17,17,17,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 md:p-8">
+          <h3 className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]" style={{ fontFamily: SANS }}>
+            20-Minute Call
+          </h3>
+          <p className="mt-5 text-[34px] font-semibold leading-none tracking-[-0.04em] text-[#111111] md:text-[40px]" style={{ fontFamily: SANS }}>
+            Free
+          </p>
+          <p className="mt-5 mb-8 text-[15px] leading-relaxed text-[#111111]/60" style={{ fontFamily: SANS }}>
+            Tell us what you're dealing with. No pitch, no charge.
+          </p>
+          <a
+            href={OFFICE_TEL}
+            className="mt-auto flex w-full items-center justify-center gap-2.5 rounded-full border border-[#111111]/15 bg-white px-6 py-4 text-[15px] font-semibold text-[#111111] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+            style={{ fontFamily: SANS }}
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8.1 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z" />
+            </svg>
+            Call {OFFICE_PHONE}
+          </a>
+        </div>
 
-              <p
-                className="mt-5 text-[34px] font-semibold leading-none tracking-[-0.04em] text-[#111111] md:text-[40px]"
-                style={{ fontFamily: SANS }}
-                aria-label="Pricing on request"
-              >
-                $
-              </p>
-
-              <div className="mt-5 space-y-2">
-                {o.lines.map((l) => (
-                  <p
-                    key={l}
-                    className="text-[15px] leading-relaxed text-[#111111]/60"
-                    style={{ fontFamily: SANS }}
-                  >
-                    {l}
-                  </p>
-                ))}
-              </div>
-            </button>
-          );
-        })}
+        {/* 2 — paid hour */}
+        <a
+          href="/quote?option=1-Hour%20Consult"
+          className="group flex flex-col rounded-3xl border border-[#1e6b3c]/35 bg-white p-7 shadow-[0_30px_70px_-45px_rgba(30,107,60,0.45)] transition-all duration-300 hover:-translate-y-1 md:p-8"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]" style={{ fontFamily: SANS }}>
+              1-Hour Consult
+            </h3>
+            <span className="shrink-0 rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[12px] font-semibold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+              Most chosen
+            </span>
+          </div>
+          <p className="mt-5 text-[34px] font-semibold leading-none tracking-[-0.04em] text-[#111111] md:text-[40px]" style={{ fontFamily: SANS }}>
+            $120
+          </p>
+          <p className="mt-5 mb-8 text-[15px] leading-relaxed text-[#111111]/60" style={{ fontFamily: SANS }}>
+            A full hour with a specialist. You leave with a clear plan of what to do next.
+          </p>
+          <BookBar />
+        </a>
       </div>
 
-      {/* one payment bar for all three */}
-      <BookBar selected={selected} />
+      {/* the promise, under the two offers */}
+      <div className="mx-auto mt-10 max-w-2xl text-center">
+        <p className="text-[16px] leading-relaxed text-[#111111]/60 md:text-[17px]" style={{ fontFamily: SANS }}>
+          We help businesses with every aspect of their tech — and anything related to it.
+        </p>
+        <p className="mt-3 text-[17px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[19px]" style={{ fontFamily: SANS }}>
+          Get paired today with an ELSIAA AI specialist to discuss your business.
+        </p>
+      </div>
     </div>
   );
 }
