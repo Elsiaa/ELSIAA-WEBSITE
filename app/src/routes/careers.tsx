@@ -28,10 +28,10 @@ export const Route = createFileRoute("/careers")({
 
 
 const ROLES: Array<[string, string]> = [
-  ["Design", "Product, interface, and brand systems."],
-  ["Engineering", "Software, AI systems, and automation infrastructure."],
-  ["Client & Sales", "Scoping and relationships with growth-stage clients."],
-  ["Legal & Ops", "Contracts, process, and operational excellence."],
+  ["Design", "Websites, apps, and brand work for our clients."],
+  ["Engineering", "The software and AI systems we build and keep running."],
+  ["Client & Sales", "Talking to new clients and scoping their projects."],
+  ["Legal & Ops", "Contracts, billing, and keeping the company organized."],
 ];
 
 
@@ -51,7 +51,7 @@ function Careers() {
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]">Open roles</p>
           <h2 className="mx-auto mt-2 max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-3xl">
-            Four areas. Apply to any.
+            Four areas. Pick the one that fits.
           </h2>
         </Reveal>
         <div className="mt-8 divide-y divide-black/[0.07] border-y border-black/[0.07]">
@@ -65,7 +65,7 @@ function Careers() {
           ))}
         </div>
         <p className="mt-5 text-[13.5px] text-[#111111]/55">
-          Full-time and select part-time. Remote, hybrid, or on-site.
+          Full-time and some part-time. Remote, hybrid, or in one of our offices.
         </p>
       </section>
 
@@ -103,10 +103,9 @@ function Hero() {
           Careers at ELSIAA
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-white/70 md:text-[17px]">
-          ELSIAA designs, builds, and maintains the AI systems, software, and design
-          our clients run their businesses on — from six offices across three
-          continents. We are hiring across design, engineering, client engagement,
-          and legal operations.
+          We build websites, apps, and AI systems for businesses, and we look after
+          them once they're live. The company works out of six offices across three
+          continents, and we're hiring in four areas.
         </p>
 
       </div>
