@@ -27,6 +27,9 @@ function QuotePage() {
     <main className="min-h-screen bg-[#FBFBFA] text-[#111111]">
       <SiteNav />
       <section className="mx-auto max-w-3xl px-6 pt-36 pb-24 md:pt-44">
+        {/* the hero copy sits beside the mascot; the form stays full width below */}
+        <div className="flex items-start justify-between gap-8">
+        <div className="min-w-0 flex-1">
         <p
           className="text-[13px] text-[#1e6b3c] "
           style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
@@ -42,11 +45,21 @@ function QuotePage() {
         <p className="mt-3 text-[13px] text-[#1e6b3c] " style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
           Quote delivered within 1 business day
         </p>
-        <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-[#111111]/55">
+        <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-[#111111]/60">
           A few focused questions — two minutes of your time. Your answers are
           distilled into a project brief for our team, and a personal quote
           comes back within one business day.
         </p>
+        </div>
+        <img
+          src="/assets/quote/robot.png"
+          alt=""
+          width={760}
+          height={760}
+          /* the render ships on white, so multiply drops it into the page tint */
+          className="hidden w-44 shrink-0 object-contain mix-blend-multiply md:block lg:w-56"
+        />
+        </div>
         <div className="mt-10">
           <QuoteWizard />
         </div>

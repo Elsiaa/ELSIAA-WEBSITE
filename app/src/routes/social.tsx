@@ -84,15 +84,15 @@ const PLATFORMS: Array<{ name: string; svg: ReactNode }> = [
   },
 ];
 
-const OFFERS: Array<{ num: string; title: string; blurb: string }> = [
-  { num: "01", title: "Strategy", blurb: "We study your business first, then build the plan — the angle, cadence, and story that makes the right people stop." },
-  { num: "02", title: "Video Production", blurb: "Filmed, directed, and produced — thumb-stopping content shot for the platform, not repurposed onto it." },
-  { num: "03", title: "Editing", blurb: "Fast, native edits — a hook in the first second and retention held to the last frame." },
-  { num: "04", title: "Content & Copy", blurb: "Captions, carousels, and posts written to carry your voice and move people to act." },
-  { num: "05", title: "Brand Setup", blurb: "Profiles, bios, highlights, and a consistent identity dialled in across every platform." },
-  { num: "06", title: "Personal Brand", blurb: "Turn a founder into a category authority — the face people trust before they trust the company." },
-  { num: "07", title: "Meta Ads", blurb: "Full-funnel paid social — creative, targeting, and reporting that ties every dollar to a result." },
-  { num: "08", title: "Google Reviews", blurb: "Reputation on autopilot — the five-star proof that closes the customer before they ever call." },
+const OFFERS: Array<{ num: string; title: string; blurb: string; art: string }> = [
+  { art: "/assets/social/strategy.png", num: "01", title: "Strategy", blurb: "We study your business first, then build the plan — the angle, cadence, and story that makes the right people stop." },
+  { art: "/assets/social/video.png", num: "02", title: "Video Production", blurb: "Filmed, directed, and produced — thumb-stopping content shot for the platform, not repurposed onto it." },
+  { art: "/assets/social/editing.png", num: "03", title: "Editing", blurb: "Fast, native edits — a hook in the first second and retention held to the last frame." },
+  { art: "/assets/social/content.png", num: "04", title: "Content & Copy", blurb: "Captions, carousels, and posts written to carry your voice and move people to act." },
+  { art: "/assets/social/brand.png", num: "05", title: "Brand Setup", blurb: "Profiles, bios, highlights, and a consistent identity dialled in across every platform." },
+  { art: "/assets/social/personal.png", num: "06", title: "Personal Brand", blurb: "Turn a founder into a category authority — the face people trust before they trust the company." },
+  { art: "/assets/social/ads.png", num: "07", title: "Meta Ads", blurb: "Full-funnel paid social — creative, targeting, and reporting that ties every dollar to a result." },
+  { art: "/assets/social/reviews.png", num: "08", title: "Google Reviews", blurb: "Reputation on autopilot — the five-star proof that closes the customer before they ever call." },
 ];
 
 function Avatar({ init }: { init: string }) {
@@ -160,14 +160,24 @@ function SocialPage() {
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {OFFERS.map((o, i) => (
               <Reveal key={o.num} delay={(i % 4) * 0.05}>
-                <div className="flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
-                  <p className="text-[13px] font-bold tracking-[0.14em] text-[#1e6b3c]" style={{ fontFamily: SANS }}>
-                    {o.num}
-                  </p>
-                  <h3 className="mt-3 text-lg font-semibold tracking-[-0.02em]" style={{ fontFamily: SANS }}>
+                <div className="group flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-[13px] font-bold tracking-[0.14em] text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+                      {o.num}
+                    </p>
+                    <img
+                      src={o.art}
+                      alt=""
+                      loading="lazy"
+                      width={112}
+                      height={112}
+                      className="-mt-1 -mr-1 h-14 w-14 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105 md:h-16 md:w-16"
+                    />
+                  </div>
+                  <h3 className="mt-2 text-lg font-semibold tracking-[-0.02em]" style={{ fontFamily: SANS }}>
                     {o.title}
                   </h3>
-                  <p className="mt-2.5 flex-1 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
+                  <p className="mt-2.5 flex-1 text-[14px] leading-relaxed text-[#111111]/60" style={{ fontFamily: SANS }}>
                     {o.blurb}
                   </p>
                 </div>
