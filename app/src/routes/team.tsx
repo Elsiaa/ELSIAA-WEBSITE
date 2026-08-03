@@ -27,6 +27,7 @@ const MONO = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text'
 type Person = {
   name: string;
   init: string;
+  photo?: string;
   role: string;
   line: string;
   loc: string;
@@ -62,6 +63,7 @@ const DIRECTORS: Person[] = [
   {
     name: "Chaim Lieberman",
     init: "CL",
+    photo: "/assets/team/cl.jpg",
     role: "Director, European Business",
     line: "The front door to ELSIAA in Europe — a natural builder of relationships across the continent.",
     loc: "Geneva / Antwerp",
@@ -79,15 +81,6 @@ const DIRECTORS: Person[] = [
     role: "AI & Technology Expert",
     line: "At the edge of applied AI — the deep-tech eye on every architecture ELSIAA ships.",
     loc: "Jerusalem / Tel Aviv",
-  },
-  {
-    name: "Dovid Spivak",
-    init: "DS",
-    role: "Director of Social Media & Marketing",
-    line: "Owns ELSIAA's presence across every feed — content strategy, personal brand, and the paid engine behind the growth.",
-    loc: "New York",
-    href: "https://linktr.ee/spivak_photography",
-    hrefLabel: "Linktree",
   },
 ];
 
@@ -110,7 +103,17 @@ function Card({ p, i }: { p: Person; i: number }) {
   return (
     <Reveal delay={i * 0.05}>
       <div className="group rounded-2xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30">
-        <Monogram init={p.init} />
+        {p.photo ? (
+          <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-black/[0.06] bg-[#F5F5F3] transition-colors duration-300 group-hover:border-[#1e6b3c]/25">
+            <img
+              src={p.photo}
+              alt={p.name}
+              className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+            />
+          </div>
+        ) : (
+          <Monogram init={p.init} />
+        )}
         <h3
           className="mt-4 text-[17px] leading-[1.12] font-semibold tracking-[-0.015em] text-[#111111]"
           style={{ fontFamily: SANS }}
