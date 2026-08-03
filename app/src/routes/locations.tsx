@@ -35,13 +35,20 @@ type Office = {
   tz: string;
   tzLabel: string;
   art: string;
-  role: string;
   hq?: boolean;
-  line: string;
-  focus: string[];
+  /* Contact details. Left empty where we do not have a verified value — the
+     card simply omits the row rather than showing an invented address or a
+     placeholder phone number. Fill these in and they appear. */
+  address?: string;
+  phone?: string;
+  email?: string;
   // approximate longitude for the follow-the-sun strip (−180…180)
   lon: number;
 };
+
+/* Shown until a verified street address exists for that city. Deliberately
+   reads as a blank to fill, never as an address, so it cannot ship as one. */
+const ADDRESS_TBC = "Street address to be confirmed";
 
 const OFFICES: Office[] = [
   {
@@ -52,10 +59,7 @@ const OFFICES: Office[] = [
     tz: "America/New_York",
     tzLabel: "Eastern",
     art: "/assets/cityart/nyc.jpg",
-    role: "Headquarters & delivery",
     hq: true,
-    line: "Where the standard is set. Program delivery and client strategy for the Americas.",
-    focus: ["Program delivery", "Client strategy"],
     lon: -74,
   },
   {
@@ -66,9 +70,6 @@ const OFFICES: Office[] = [
     tz: "Europe/London",
     tzLabel: "Greenwich",
     art: "/assets/cityart/london.jpg",
-    role: "Client & partnerships",
-    line: "The European front door — where new relationships and account leadership begin.",
-    focus: ["Partnerships", "Account leadership"],
     lon: 0,
   },
   {
@@ -79,9 +80,6 @@ const OFFICES: Office[] = [
     tz: "Europe/Zurich",
     tzLabel: "Central European",
     art: "/assets/cityart/geneva.jpg",
-    role: "Continental European desk",
-    line: "Precision work for precision clients. Governance and discretion by default.",
-    focus: ["Governance", "Private clients"],
     lon: 6,
   },
   {
@@ -92,9 +90,6 @@ const OFFICES: Office[] = [
     tz: "Europe/Brussels",
     tzLabel: "Central European",
     art: "/assets/cityart/antwerp.jpg",
-    role: "Benelux delivery desk",
-    line: "The Benelux desk — hands-on delivery operations and localisation across the region.",
-    focus: ["Delivery ops", "Localisation"],
     lon: 4,
   },
   {
@@ -105,9 +100,6 @@ const OFFICES: Office[] = [
     tz: "Asia/Jerusalem",
     tzLabel: "Israel",
     art: "/assets/cityart/telaviv.jpg",
-    role: "AI & engineering",
-    line: "The engine room. Applied research, model work and platform engineering.",
-    focus: ["Applied research", "Platform engineering"],
     lon: 35,
   },
   {
@@ -118,9 +110,6 @@ const OFFICES: Office[] = [
     tz: "America/Los_Angeles",
     tzLabel: "Pacific",
     art: "/assets/cityart/la.jpg",
-    role: "West Coast desk",
-    line: "The West Coast chapter — design, media and entertainment work close to its clients.",
-    focus: ["Design", "Media & entertainment"],
     lon: -118,
   },
 ];
@@ -246,14 +235,11 @@ function LocationsPage() {
       {/* ── the directory — the clearest statement of the dual presence ── */}
       <section className="mx-auto max-w-6xl px-6 py-16 md:py-16">
         <Reveal>
-          <p className="text-[13px] font-semibold text-[#1e6b3c]">The directory</p>
-          <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
-            Clients and staff, city by city.
+          <h2 className="max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
+            Our offices
           </h2>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
-            In each city we have active clients and an ELSIAA team you can meet in
-            person, by appointment — the same people and the same standard wherever
-            you engage us. Get in touch and we'll arrange the meeting.
+          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
+            Local time is live. Visits are by appointment.
           </p>
         </Reveal>
 
@@ -275,55 +261,43 @@ function LocationsPage() {
                   </span>
                 </div>
 
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="flex items-center gap-2.5 whitespace-nowrap text-[19px] font-semibold tracking-[-0.02em]">
-                        <img
-                          src={`/assets/flags/${o.flag}.png`}
-                          srcSet={`/assets/flags/${o.flag}@2x.png 2x`}
-                          alt=""
-                          className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-black/10"
-                        />
-                        {o.name}
-                        {o.hq && (
-                          <span className="rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 text-[12px] font-semibold text-[#1e6b3c]">
-                            HQ
-                          </span>
-                        )}
-                      </h3>
-                      <p className="mt-1.5 text-[13px] text-[#111111]/45">
-                        {o.country} · {fmtOffset(now, o.tz, o.tzLabel)}
-                      </p>
-                    </div>
-                    <span className="shrink-0 text-right text-[13px] text-[#1e6b3c]">{o.role}</span>
-                  </div>
-
-                  <p className="mt-4 text-[14px] leading-relaxed text-[#111111]/70">{o.line}</p>
-
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {o.focus.map((f) => (
-                      <span
-                        key={f}
-                        className="rounded-full border border-black/[0.08] bg-[#F5F5F3] px-3 py-1 text-[13px] text-[#111111]/65"
-                      >
-                        {f}
+                <div className="flex flex-1 flex-col p-5 md:p-6">
+                  <h3 className="flex items-center gap-2.5 text-[19px] font-semibold tracking-[-0.02em]">
+                    <img
+                      src={`/assets/flags/${o.flag}.png`}
+                      srcSet={`/assets/flags/${o.flag}@2x.png 2x`}
+                      alt=""
+                      className="h-[13px] w-[19px] rounded-[2px] object-cover ring-1 ring-black/10"
+                    />
+                    {o.name}
+                    {o.hq && (
+                      <span className="rounded-full bg-[#1e6b3c]/10 px-2 py-0.5 text-[12px] font-semibold text-[#1e6b3c]">
+                        HQ
                       </span>
-                    ))}
-                  </div>
+                    )}
+                  </h3>
+                  <p className="mt-1.5 text-[13.5px] text-[#111111]/55">
+                    {o.country} · {fmtOffset(now, o.tz, o.tzLabel)}
+                  </p>
 
-                  {/* the dual presence, on every card */}
-                  <div className="mt-6 space-y-2.5 border-t border-black/[0.06] pt-5">
-                    <p className="flex items-center gap-2 text-[13px] font-medium text-[#111111]/70">
-                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
-                      Active clients &amp; on-site team — meetings by appointment
+                  <div className="mt-4 space-y-1.5 border-t border-black/[0.06] pt-4 text-[13.5px] text-[#111111]/70">
+                    <p className={o.address ? "" : "text-[#111111]/35 italic"}>
+                      {o.address ?? ADDRESS_TBC}
                     </p>
-                    <a
-                      href="/contact"
-                      className="mt-3 inline-block text-[13px] font-medium text-[#1e6b3c] transition-colors hover:text-[#111111]"
-                    >
-                      Reach this desk →
-                    </a>
+                    {o.phone ? (
+                      <p>
+                        <a href={`tel:${o.phone.replace(/[^+\d]/g, "")}`} className="transition-colors hover:text-[#1e6b3c]">
+                          {o.phone}
+                        </a>
+                      </p>
+                    ) : (
+                      <p className="text-[#111111]/35 italic">Phone number to be confirmed</p>
+                    )}
+                    <p>
+                      <a href={`mailto:${o.email ?? "info@elsiaa.com"}`} className="transition-colors hover:text-[#1e6b3c]">
+                        {o.email ?? "info@elsiaa.com"}
+                      </a>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -399,9 +373,9 @@ function LocationsPage() {
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-16">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] md:items-center md:gap-16">
             <Reveal>
-              <p className="text-[13px] font-semibold text-[#1e6b3c]">Follow the sun</p>
+              <p className="text-[13px] font-semibold text-[#1e6b3c]">Time zones</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
-                A desk is always awake.
+                Someone is working at any hour.
               </h2>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#111111]/60">
                 From Tel Aviv opening the day to Los Angeles closing it, our six cities
@@ -448,7 +422,7 @@ function LocationsPage() {
         <Reveal>
           <p className="text-[13px] font-semibold text-[#1e6b3c]">Anywhere in the world</p>
           <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
-            Six cities is where we live. Not where we stop.
+            Working outside these cities
           </h2>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
             Our people deploy and work anywhere on earth. If your business is outside these
