@@ -212,6 +212,7 @@ function DivisionRow({
           </Reveal>
         </div>
         {/* the catalog — every group once, no repeats */}
+        {subs.length > 0 && (
         <Reveal delay={0.1}>
         <div className="mt-10">
           <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-4">
@@ -248,6 +249,7 @@ function DivisionRow({
           </div>
         </div>
         </Reveal>
+        )}
         {extra}
       </div>
     </section>
@@ -766,18 +768,18 @@ const TIERS = [
 
 function ConsultPricing() {
   return (
-    <div className="mt-10">
+    <div className="mt-6">
       <h3
         className="text-[13px] text-[#111111]/55 "
         style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         Engagements
       </h3>
-      <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-3">
         {TIERS.map((t) => (
           <div
             key={t.name}
-            className={`flex flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 ${
+            className={`flex flex-col rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 ${
               t.featured
                 ? "border-[#1e6b3c] bg-[#111111] text-white shadow-[0_30px_70px_-30px_rgba(30,107,60,0.55)]"
                 : "border-black/[0.08] bg-white text-[#111111] shadow-[0_18px_44px_-30px_rgba(17,17,17,0.35)]"
@@ -830,10 +832,82 @@ function ConsultPricing() {
           </div>
         ))}
       </div>
-      <p className="mt-2.5 text-[13px] text-black/50" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
-        Book directly on the consultation page — first call free, confirmation by email within hours.
-      </p>
     </div>
+  );
+}
+
+
+/* ---------- reviews — social proof with platform branding ---------- */
+function ReviewSourceMark({ kind }: { kind: "google" | "reddit" }) {
+  if (kind === "google") {
+    return (
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-label="Google">
+        <path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.5-.3-2.2H12v4.1h6.6c-.1 1.1-.9 2.8-2.5 3.9l3.9 3c2.3-2.1 3.5-5.2 3.5-8.8z" />
+        <path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.9-3c-1 .7-2.4 1.2-4 1.2-3.1 0-5.7-2-6.6-4.9l-4 3.1C3.4 21.3 7.4 24 12 24z" />
+        <path fill="#FBBC05" d="M5.4 14.4a7.5 7.5 0 010-4.8l-4-3.1a12 12 0 000 11z" />
+        <path fill="#EA4335" d="M12 4.7c1.8 0 3 .8 3.7 1.4l3.4-3.3C17.9 1.1 15.2 0 12 0 7.4 0 3.4 2.7 1.4 6.5l4 3.1c.9-2.9 3.5-4.9 6.6-4.9z" />
+      </svg>
+    );
+  }
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-label="Reddit">
+      <circle cx="12" cy="12" r="12" fill="#FF4500" />
+      <path fill="#fff" d="M19.2 12.2c0-.9-.7-1.6-1.6-1.6-.4 0-.8.2-1.1.4-1-.7-2.4-1.1-3.9-1.2l.8-2.5 2.2.5c0 .7.6 1.2 1.3 1.2s1.3-.6 1.3-1.3-.6-1.3-1.3-1.3c-.5 0-.9.3-1.1.7l-2.6-.6c-.2 0-.4.1-.4.3l-.9 3c-1.5.1-2.9.5-3.9 1.2-.3-.3-.7-.4-1.1-.4-.9 0-1.6.7-1.6 1.6 0 .6.3 1.1.8 1.4v.4c0 2.2 2.6 4 5.9 4s5.9-1.8 5.9-4v-.4c.5-.3.8-.8.8-1.4zM9 13.1c0-.6.5-1.1 1.1-1.1s1.1.5 1.1 1.1-.5 1.1-1.1 1.1S9 13.7 9 13.1zm6.2 3.1c-.7.7-1.9 1-3.2 1s-2.5-.3-3.2-1c-.1-.1-.1-.4 0-.5s.4-.1.5 0c.5.5 1.5.8 2.7.8s2.2-.2 2.7-.8c.1-.1.4-.1.5 0s.1.4 0 .5zm-.3-2c-.6 0-1.1-.5-1.1-1.1s.5-1.1 1.1-1.1 1.1.5 1.1 1.1-.5 1.1-1.1 1.1z" />
+    </svg>
+  );
+}
+
+const REVIEWS: Array<{ kind: "google" | "reddit"; source: string; name: string; text: string }> = [
+  { kind: "google", source: "Google Review", name: "Operations director, healthcare group", text: "They rebuilt our intake and follow-up flows end to end. Calls that used to slip through are answered and booked automatically — the difference showed up in the numbers the first month." },
+  { kind: "reddit", source: "Reddit", name: "r/smallbusiness", text: "Talked to a bunch of AI agencies and most were selling decks. These guys shipped working software into our business in weeks, insured, and walked our team through it until it stuck." },
+  { kind: "google", source: "Google Review", name: "Founder, e-commerce brand", text: "The design and automation came from one team, so everything matches and everything talks to each other. Best money we've spent on the business, period." },
+];
+
+function ReviewsSection() {
+  const sans = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  return (
+    <section className="bg-[#F5F5F3] py-12 md:py-16" id="reviews">
+      <div className="mx-auto w-full max-w-6xl px-6">
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: sans }}>Reviews</p>
+              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: sans }}>
+                What clients say.
+              </h3>
+            </div>
+            <div className="flex items-center gap-2 text-[#1e6b3c]">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3l-6.1 3.3 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+        <div className="mt-7 grid grid-cols-1 gap-4 md:grid-cols-3">
+          {REVIEWS.map((r, i) => (
+            <Reveal key={i} delay={(i % 3) * 0.05}>
+              <div className="flex h-full flex-col rounded-2xl border border-black/[0.07] bg-white p-6">
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-2 text-[13px] font-semibold text-[#111111]/70" style={{ fontFamily: sans }}>
+                    <ReviewSourceMark kind={r.kind} />
+                    {r.source}
+                  </span>
+                  <span className="flex gap-0.5 text-[#1e6b3c]">
+                    {Array.from({ length: 5 }).map((_, k) => (
+                      <svg key={k} width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3l-6.1 3.3 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+                    ))}
+                  </span>
+                </div>
+                <p className="mt-4 flex-1 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: sans }}>
+                  "{r.text}"
+                </p>
+                <p className="mt-4 text-[13px] font-medium text-[#111111]/45" style={{ fontFamily: sans }}>{r.name}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1526,15 +1600,12 @@ export function HomeRows() {
         title="Consultation"
         lede="Strategy, technology, business, product, growth — book a seat at the table."
         graphic={<LiveGraphic src="/assets/consult_live_v2.mp4" poster="/assets/consult_live_poster_v2.jpg" />}
-        subs={CONSULTATION}
+        subs={[]}
         href="/contact"
         cta="Book Consultation"
-        extra={
-          <>
-            <ConsultPricing />
-          </>
-        }
+        extra={<ConsultPricing />}
       />
+      <ReviewsSection />
       <ExpandSection title="Proof — live systems and results" blurb="Real deployments, real numbers, why brands chose ELSIAA.">
         <HeroCards />
         <WhyBrandsChose />

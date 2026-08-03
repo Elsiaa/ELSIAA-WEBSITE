@@ -1303,10 +1303,6 @@ function ProductAdFeature() {
           </p>
         </Reveal>
 
-        {/* the PRIME showcase — scroll-controlled assembly cinematic */}
-      </div>
-      <div className="mx-auto max-w-6xl">
-        <ScrollScrubVideo />
       </div>
       <div className="mx-auto max-w-6xl">
         {/* the layers — an ambient film, no tricks */}
@@ -1873,34 +1869,42 @@ function OurProcess() {
             product that keeps getting better.
           </p>
         </Reveal>
-        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {STEPS.map(([n, t, d], i) => (
-            <Reveal key={n} delay={(i % 3) * 0.07}>
-              <div className="flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
-                <div className="flex items-start justify-between">
-                  <StepArt step={Number(n)} />
-                  <span
-                    className="text-[13px] font-bold text-[#1e6b3c]"
-                    style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                  >
-                    {n}
-                  </span>
+        {/* the road itself — one connected top-to-bottom workflow */}
+        <div className="relative mt-12 max-w-3xl">
+          <div aria-hidden className="absolute top-4 bottom-4 left-[27px] w-px bg-[#1e6b3c]/20" />
+          <div className="space-y-9">
+            {STEPS.map(([n, t, d], i) => (
+              <Reveal key={n} delay={Math.min(i * 0.04, 0.16)}>
+                <div className="grid grid-cols-[56px_minmax(0,1fr)] items-start gap-5">
+                  <div className="relative z-10 grid h-[56px] w-[56px] place-items-center rounded-2xl border border-black/[0.08] bg-white shadow-[0_10px_28px_-16px_rgba(17,17,17,0.3)]">
+                    <StepArt step={Number(n)} />
+                  </div>
+                  <div className="pt-0.5">
+                    <div className="flex items-baseline gap-2.5">
+                      <span
+                        className="text-[12px] font-bold tracking-[0.14em] text-[#1e6b3c]"
+                        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                      >
+                        {n}
+                      </span>
+                      <h3
+                        className="text-[17px] font-semibold tracking-[-0.02em] md:text-lg"
+                        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                      >
+                        {t}
+                      </h3>
+                    </div>
+                    <p
+                      className="mt-1.5 text-[14px] leading-relaxed text-[#111111]/55"
+                      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                    >
+                      {d}
+                    </p>
+                  </div>
                 </div>
-                <h3
-                  className="mt-4 text-lg font-semibold tracking-[-0.02em]"
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                >
-                  {t}
-                </h3>
-                <p
-                  className="mt-2 text-[14px] leading-relaxed text-[#111111]/55"
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                >
-                  {d}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -2044,6 +2048,7 @@ export function DesignsShowcase() {
       <DiscoverApps />
       <OurProcess />
       <Results />
+      <FinalCTA />
     </>
   );
 }

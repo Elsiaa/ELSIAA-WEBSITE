@@ -202,18 +202,18 @@ function WhyElsiaaPage() {
       </div>
 
       {/* ── hero — meet the objection head-on ── */}
-      <section className="relative overflow-hidden px-6 pt-20 pb-16 md:pt-28 md:pb-24">
+      <section className="relative overflow-hidden px-6 pt-14 pb-12 md:pt-28 md:pb-24">
         <div className="relative mx-auto max-w-4xl text-center">
           <Reveal>
             <p className="text-[13px] font-semibold tracking-[0.02em] text-[#2e9e58]">Why ELSIAA</p>
-            <h1 className="mt-5 text-4xl font-semibold leading-[1.04] tracking-[-0.045em] md:text-6xl">
+            <h1 className="mt-5 text-[1.9rem] font-semibold leading-[1.06] tracking-[-0.04em] sm:text-4xl md:text-6xl">
               "Why not just use Claude?
               <br />
               I know my business best."
             </h1>
 
             {/* the tools everyone already knows — present, quiet, secondary */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-9 gap-y-4 text-white/30">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-white/30 sm:gap-x-9 sm:gap-y-4">
               {AI_TOOLS.map((t) => (
                 <span key={t.kind} className="flex items-center gap-2.5 transition-colors hover:text-white/55">
                   <AiMark kind={t.kind} />
@@ -235,7 +235,7 @@ function WhyElsiaaPage() {
       </section>
 
       {/* ── differentiators ── */}
-      <section className="border-t border-white/[0.06] px-6 py-16 md:py-24">
+      <section className="border-t border-white/[0.06] px-6 py-12 md:py-24">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <h2 className="max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl">
@@ -253,7 +253,7 @@ function WhyElsiaaPage() {
                       <ReasonArt kind={d.kind} />
                     </div>
                     <div>
-                      <div className="flex items-center gap-3">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-white/[0.1] bg-[#0b0e0c] sm:hidden">
                           <ReasonArt kind={d.kind} />
                         </span>
@@ -278,7 +278,7 @@ function WhyElsiaaPage() {
       </section>
 
       {/* ── about ELSIAA — who is behind the systems ── */}
-      <section className="border-t border-white/[0.06] px-6 py-16 md:py-24">
+      <section className="border-t border-white/[0.06] px-6 py-12 md:py-24">
         <div className="mx-auto max-w-4xl text-center">
           <Reveal>
             <p className="text-[13px] font-semibold tracking-[0.02em] text-[#2e9e58]">About ELSIAA</p>
