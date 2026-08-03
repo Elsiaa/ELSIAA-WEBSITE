@@ -171,7 +171,7 @@ function SocialPage() {
                       loading="lazy"
                       width={112}
                       height={112}
-                      className="-mt-1 -mr-1 h-14 w-14 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105 md:h-16 md:w-16"
+                      className="-mt-2 -mr-2 h-20 w-20 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105 md:h-24 md:w-24"
                     />
                   </div>
                   <h3 className="mt-2 text-lg font-semibold tracking-[-0.02em]" style={{ fontFamily: SANS }}>

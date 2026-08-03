@@ -56,7 +56,7 @@ function QuotePage() {
           alt=""
           width={760}
           height={760}
-          className="hidden w-44 shrink-0 object-contain md:block lg:w-56"
+          className="hidden w-52 shrink-0 object-contain md:block lg:w-72"
         />
         </div>
         <div className="mt-10">
