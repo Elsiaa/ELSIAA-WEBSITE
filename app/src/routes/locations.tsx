@@ -220,20 +220,7 @@ function LocationsPage() {
               remote, in your timezone, around the clock. Every engagement is fully
               insured.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href="/contact"
-                className="inline-flex min-h-[52px] items-center rounded-full bg-[#111111] px-8 text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#1e6b3c]"
-              >
-                Book a call →
-              </a>
-              <a
-                href="/contact"
-                className="inline-flex min-h-[52px] items-center rounded-full border border-[#111111]/20 px-8 text-[15px] font-semibold text-[#111111] transition-colors duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
-              >
-                Request on-site support
-              </a>
-            </div>
+            
           </Reveal>
 
           <Reveal delay={0.1}>

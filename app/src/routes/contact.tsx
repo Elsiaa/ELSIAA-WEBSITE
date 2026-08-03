@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
-import { OFFICE_PHONE, PHONE_IS_PLACEHOLDER } from "../components/ConsultOptions";
+import { OFFICE_PHONE } from "../components/ConsultOptions";
 import { absoluteUrl } from "../lib/site-url";
 
 /*
@@ -48,8 +48,8 @@ const PATHS: Path[] = [
     title: "Free 20-minute call",
     price: "Free",
     line: "Tell us what you're dealing with. No pitch, no charge.",
-    cta: PHONE_IS_PLACEHOLDER ? "Book a free call" : `Call ${OFFICE_PHONE}`,
-    href: PHONE_IS_PLACEHOLDER ? "mailto:info@elsiaa.com?subject=Free%2020-minute%20call" : OFFICE_TEL,
+    cta: `Call ${OFFICE_PHONE}`,
+    href: OFFICE_TEL,
     external: true,
   },
   {
