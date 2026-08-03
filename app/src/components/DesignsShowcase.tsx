@@ -1949,7 +1949,7 @@ function Results() {
         {[
           { n: 6, s: "", l: "Cities worldwide" },
           { n: 25, s: "+", l: "Design disciplines" },
-          { n: 1, s: "", l: "Standard: excellence" },
+          { n: 100, s: "%", l: "Fully insured work" },
         ].map((x) => (
           <Reveal key={x.l}>
             <p
@@ -2040,7 +2040,6 @@ export function DesignsShowcase() {
       <ClientLogos />
       <BeyondWebsites />
       <DiscoverDesigns />
-      <Ticker />
       <Transformations />
       <DiscoverApps />
       <OurProcess />
