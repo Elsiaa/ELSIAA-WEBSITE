@@ -522,37 +522,47 @@ function AutomationSection() {
         <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
           Automations
         </h2>
-        <div className="pointer-events-none relative w-full max-w-3xl">
+        {/* robot + bubble anchored together */}
+        <div className="pointer-events-none relative inline-block">
+          <video
+            ref={vidRef}
+            src="/assets/robot3d_wave_only.mp4"
+            poster="/assets/robot3d_wave.png"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
+            onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
+            aria-label="The ELSIAA robot, waving"
+            className="block w-auto select-none"
+            style={{
+              height: "min(52vh, 440px)",
+              mixBlendMode: "multiply",
+              filter: "brightness(1.07) contrast(1.04)",
+              WebkitMaskImage: feather,
+              maskImage: feather,
+            }}
+          />
+          {/* speech bubble — sits just off the robot's head, tail at the mouth */}
           <div
             aria-hidden={typed === 0}
-            className="absolute top-[16%] left-1/2 z-10 w-[min(66vw,270px)] -translate-x-[104%] rounded-[22px] border-[2.5px] border-[#111111] bg-white px-5 py-4 text-left shadow-[4px_5px_0_0_rgba(17,17,17,0.9)] transition-opacity duration-300 md:top-[18%] md:-translate-x-[112%]"
+            className="absolute top-[13%] right-full z-10 mr-3 w-[46vw] max-w-[260px] rounded-[20px] border border-black/10 bg-white px-4 py-3 text-left shadow-[0_12px_30px_-12px_rgba(17,17,17,0.28)] transition-opacity duration-300 sm:mr-4 sm:w-[260px] md:top-[15%] md:w-[290px] md:px-5 md:py-3.5"
             style={{ opacity: typed > 0 ? 1 : 0, fontFamily: "'Bangers', 'Schibsted Grotesk', system-ui, sans-serif" }}
           >
-            <p className="text-[19px] leading-[1.15] tracking-[0.02em] text-[#111111] md:text-[22px]">
+            {/* invisible copy reserves the final size so typing never reflows */}
+            <p className="invisible text-[16px] leading-[1.25] tracking-[0.015em] md:text-[19px]">{LINE}</p>
+            <p className="absolute inset-x-4 top-3 text-[16px] leading-[1.25] tracking-[0.015em] text-[#111111] md:inset-x-5 md:top-3.5 md:text-[19px]">
               {LINE.slice(0, typed)}
-              <span className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-[#1e6b3c]" style={{ opacity: typed < LINE.length ? 1 : 0 }} />
+              <span
+                className="ml-[2px] inline-block h-[0.9em] w-[2px] translate-y-[2px] bg-[#1e6b3c]"
+                style={{ opacity: typed < LINE.length ? 1 : 0 }}
+              />
             </p>
-            {/* tail pointing at the robot's mouth */}
-            <span className="absolute top-[62%] -right-[11px] h-4 w-4 rotate-45 border-t-[2.5px] border-r-[2.5px] border-[#111111] bg-white" />
+            <span className="absolute top-[58%] -right-[7px] h-3.5 w-3.5 rotate-45 border-t border-r border-black/10 bg-white" />
           </div>
         </div>
-        <video
-          ref={vidRef}
-          src="/assets/robot3d_wave_only.mp4"
-          poster="/assets/robot3d_wave.png"
-          muted
-          playsInline
-          preload="auto"
-          aria-label="The ELSIAA robot, waving as you scroll"
-          className="pointer-events-none block w-auto select-none"
-          style={{
-            height: "min(52vh, 440px)",
-            mixBlendMode: "multiply",
-            filter: "brightness(1.07) contrast(1.04)",
-            WebkitMaskImage: feather,
-            maskImage: feather,
-          }}
-        />
       </div>
     </section>
   );
