@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
-import { OFFICE_PHONE } from "../components/ConsultOptions";
+import { CALL_HREF, CALL_LABEL } from "../components/ConsultOptions";
 import { absoluteUrl } from "../lib/site-url";
 
 /*
@@ -29,7 +29,6 @@ export const Route = createFileRoute("/contact")({
 const SANS =
   "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 const OFFICES = "New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv";
-const OFFICE_TEL = `tel:+1${OFFICE_PHONE.replace(/\D/g, "").replace(/^1/, "")}`;
 
 type Path = {
   eyebrow: string;
@@ -48,8 +47,8 @@ const PATHS: Path[] = [
     title: "Free 20-minute call",
     price: "Free",
     line: "Tell us what you're dealing with. No pitch, no charge.",
-    cta: `Call ${OFFICE_PHONE}`,
-    href: OFFICE_TEL,
+    cta: CALL_LABEL,
+    href: CALL_HREF,
     external: true,
   },
   {

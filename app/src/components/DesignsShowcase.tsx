@@ -1114,9 +1114,6 @@ const MARQUEE_LOGOS: Array<[string, string, string]> = [
   ["/assets/logos/kore_autism.png", "Kore Autism Services", "h-8"],
   ["/assets/logos/hidden_talents.png", "Hidden Talents ABA", "h-8"],
   ["/assets/logos/diet_fantasy.png", "The Diet Fantasy", "h-8"],
-  ["/assets/logos/aaa.png", "AAA", "h-8"],
-  ["/assets/logos/uoft_ophtho.png", "University of Toronto — Dept. of Ophthalmology & Visual Sciences", "h-5"],
-  ["/assets/logos/neuro_strabismus.png", "Neuro-Ophthalmology & Strabismus Fellowship — Division of Neurology", "h-6"],
 ];
 
 function LogoMarquee() {

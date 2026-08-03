@@ -17,9 +17,6 @@ export const CLIENT_LOGOS: Array<[string, string, string]> = [
   ["/assets/logos/kore_autism.png", "Kore Autism Services", "h-8"],
   ["/assets/logos/hidden_talents.png", "Hidden Talents ABA", "h-8"],
   ["/assets/logos/diet_fantasy.png", "The Diet Fantasy", "h-8"],
-  ["/assets/logos/aaa.png", "AAA", "h-8"],
-  ["/assets/logos/uoft_ophtho.png", "University of Toronto — Dept. of Ophthalmology & Visual Sciences", "h-5"],
-  ["/assets/logos/neuro_strabismus.png", "Neuro-Ophthalmology & Strabismus Fellowship — Division of Neurology", "h-6"],
 ];
 
 const mono = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
@@ -36,7 +33,7 @@ const REASONS: Array<{ title: string; body: string }> = [
   },
   {
     title: "Held to a higher standard.",
-    body: "Healthcare groups and university departments chose ELSIAA because the work meets an academic and clinical bar — not a startup's.",
+    body: "Healthcare and clinical-services groups chose ELSIAA because the work has to meet their regulatory bar, not a startup's.",
   },
 ];
 
