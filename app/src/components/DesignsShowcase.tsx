@@ -1575,30 +1575,36 @@ const F = "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Displ
 function BinsCompare() {
   return (
     <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
-      {[
-        { label: "Before", src: "/assets/compare/mrbins_old.jpg", tone: "bg-black/60" },
-        { label: "After — ELSIAA", src: "/assets/compare/mrbins_new.jpg", tone: "bg-[#1e6b3c]" },
-      ].map((v) => (
-        <figure
-          key={v.label}
-          className="group relative overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_28px_70px_-45px_rgba(17,17,17,0.4)] transition-all duration-300 hover:-translate-y-1"
+      {/* before — the old site, as it was */}
+      <figure className="group relative overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_28px_70px_-45px_rgba(17,17,17,0.4)]">
+        <div className="aspect-[16/11] overflow-hidden">
+          <img
+            src="/assets/compare/mrbins_old.jpg"
+            alt="Mr. Bins — before"
+            loading="lazy"
+            className="h-full w-full object-cover object-top"
+          />
+        </div>
+        <figcaption
+          className="absolute top-3 left-3 rounded-full bg-black/60 px-3 py-1 text-[12px] font-semibold text-white"
+          style={{ fontFamily: F }}
         >
-          <div className="aspect-[16/11] overflow-hidden">
-            <img
-              src={v.src}
-              alt={`Mr. Bins — ${v.label}`}
-              loading="lazy"
-              className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-            />
-          </div>
-          <figcaption
-            className={`absolute top-3 left-3 rounded-full px-3 py-1 text-[12px] font-semibold text-white ${v.tone}`}
-            style={{ fontFamily: F }}
-          >
-            {v.label}
-          </figcaption>
-        </figure>
-      ))}
+          Before
+        </figcaption>
+      </figure>
+
+      {/* after — the real rebuild, live and explorable */}
+      <figure className="group relative overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_28px_70px_-45px_rgba(17,17,17,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30">
+        <div className="aspect-[16/11] overflow-hidden">
+          <SitePreview src="/mr-bins/" poster="/assets/compare/mrbins_new.jpg" title="Mr. Bins — rebuilt by ELSIAA" />
+        </div>
+        <figcaption
+          className="absolute top-3 left-3 z-10 rounded-full bg-[#1e6b3c] px-3 py-1 text-[12px] font-semibold text-white"
+          style={{ fontFamily: F }}
+        >
+          After — ELSIAA
+        </figcaption>
+      </figure>
     </div>
   );
 }
@@ -1626,7 +1632,7 @@ function DesignEverything() {
           <div className="mt-8">
             <BinsCompare />
             <p className="mt-3 text-[13.5px] text-[#111111]/50" style={{ fontFamily: F }}>
-              Mr. Bins — rebuilt by ELSIAA
+              Mr. Bins — the rebuild on the right is live. Scroll inside it.
             </p>
           </div>
         </Reveal>
