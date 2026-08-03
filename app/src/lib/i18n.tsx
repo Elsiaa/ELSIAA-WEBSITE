@@ -28,6 +28,16 @@ const RTL: Lang[] = ["he", "yi"];
 // key = exact English string that appears in the DOM (trimmed).
 type Row = Partial<Record<Lang, string>>;
 const DICT: Record<string, Row> = {
+  // ---- menu directory ----
+  "What we build": { es: "Lo que construimos", fr: "Ce que nous construisons", de: "Was wir bauen", ru: "Что мы создаём", nl: "Wat wij bouwen", he: "מה אנחנו בונים", yi: "וואָס מיר בויען" },
+  "The company": { es: "La empresa", fr: "L'entreprise", de: "Das Unternehmen", ru: "Компания", nl: "Het bedrijf", he: "החברה", yi: "די פֿירמע" },
+  "The work": { es: "El trabajo", fr: "Nos réalisations", de: "Die Arbeit", ru: "Работы", nl: "Het werk", he: "העבודה", yi: "די אַרבעט" },
+  "Book a free call": { es: "Reserva una llamada gratuita", fr: "Réserver un appel gratuit", de: "Kostenloses Gespräch buchen", ru: "Заказать бесплатный звонок", nl: "Plan een gratis gesprek", he: "לקביעת שיחה ללא עלות", yi: "פֿאַרשרײַבט אַ פֿרײַען רוף" },
+  "Client sign in": { es: "Acceso de clientes", fr: "Espace client", de: "Kundenlogin", ru: "Вход для клиентов", nl: "Klant-login", he: "כניסת לקוחות", yi: "קליענט־לאָגין" },
+  "New client — the process": { es: "Nuevo cliente: el proceso", fr: "Nouveau client — la démarche", de: "Neukunde — der Ablauf", ru: "Новый клиент — как это работает", nl: "Nieuwe klant — het proces", he: "לקוח חדש — התהליך", yi: "נײַער קליענט — דער פּראָצעס" },
+  "Full search": { es: "Búsqueda completa", fr: "Recherche complète", de: "Vollständige Suche", ru: "Полный поиск", nl: "Volledig zoeken", he: "חיפוש מלא", yi: "פֿולע זוכן" },
+  "Search services, cities, careers…": { es: "Busca servicios, ciudades, empleo…", fr: "Rechercher services, villes, carrières…", de: "Leistungen, Standorte, Karriere suchen…", ru: "Поиск услуг, городов, вакансий…", nl: "Zoek diensten, steden, vacatures…", he: "חיפוש שירותים, ערים, משרות…", yi: "זוכט סערוויסעס, שטעט, קאַריערעס…" },
+
   // ---- nav ----
   "Automate": { es: "Automatizar", fr: "Automatiser", de: "Automatisieren", ru: "Автоматизация", nl: "Automatiseren", he: "אוטומציה", yi: "אויטאָמאַטיזירן" },
   "Services": { es: "Servicios", fr: "Services", de: "Leistungen", ru: "Услуги", nl: "Diensten", he: "שירותים", yi: "סערוויסעס" },

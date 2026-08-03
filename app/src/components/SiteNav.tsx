@@ -1,34 +1,71 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { LionWalker } from "./LionWalker";
 import { SiteSearch, SEARCH_INDEX } from "./SiteSearch";
 import { LangSwitcher } from "./LangSwitcher";
 
 /*
   ELSIAA site nav — fixed white bar, ink type.
-  Menu overlay: white sheet, black type, search at the very top, quiet
-  editorial styling (sentence case, no mono, no numbering), warm gold
-  accent, live lion at the bottom.
+  Menu overlay: a directory rather than a list — three grouped columns of
+  destinations, a dark action rail carrying the two CTAs and the direct
+  contacts, and the live lion walking the footer rule.
 */
 const SANS =
   "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 const GOLD = "#b0812a";
+const OFFICES = "New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv";
 
+/* the top bar keeps its short list; the overlay carries the full directory */
 const PRIMARY = [
   { label: "Design", href: "/designs" },
   { label: "Automate", href: "/automate" },
   { label: "Contact", href: "/contact" },
   { label: "Sign in", href: "/portal/sign-in" },
 ];
-const MORE = [
-  { label: "Why ELSIAA", href: "/why-elsiaa" },
-  { label: "Services", href: "/services" },
-  { label: "Clients", href: "/clients" },
-  { label: "Insights", href: "/insights" },
-  { label: "Locations", href: "/locations" },
-  { label: "Team", href: "/team" },
-  { label: "Careers", href: "/careers" },
-  { label: "Store", href: "/store" },
+
+const GROUPS: Array<{ title: string; items: Array<{ label: string; href: string }> }> = [
+  {
+    title: "What we build",
+    items: [
+      { label: "Design", href: "/designs" },
+      { label: "Automate", href: "/automate" },
+      { label: "Services", href: "/services" },
+      { label: "Store", href: "/store" },
+    ],
+  },
+  {
+    title: "The company",
+    items: [
+      { label: "Why ELSIAA", href: "/why-elsiaa" },
+      { label: "Team", href: "/team" },
+      { label: "Locations", href: "/locations" },
+      { label: "Careers", href: "/careers" },
+    ],
+  },
+  {
+    title: "The work",
+    items: [
+      { label: "Clients", href: "/clients" },
+      { label: "Insights", href: "/insights" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
 ];
+
+/* secondary destinations inside the dark rail */
+const RAIL = [
+  { label: "Client sign in", href: "/portal/sign-in" },
+  { label: "New client — the process", href: "/clients" },
+  { label: "Full search", href: "/search" },
+];
+
+/** staggered entrance for the overlay's blocks */
+function fade(open: boolean, delay: number): CSSProperties {
+  return {
+    opacity: open ? 1 : 0,
+    transform: open ? "none" : "translateY(16px)",
+    transition: `opacity .5s ease ${delay}s, transform .5s cubic-bezier(.2,.8,.2,1) ${delay}s`,
+  };
+}
 
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -60,6 +97,22 @@ export function SiteNav() {
       document.documentElement.style.overflow = "";
     };
   }, [open]);
+
+  /* focus moves into the sheet on open and returns to the trigger on close,
+     so the menu is usable from the keyboard rather than merely reachable */
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const t = window.setTimeout(() => {
+      sheetRef.current?.querySelector<HTMLElement>("input, a, button")?.focus();
+    }, 60);
+    return () => window.clearTimeout(t);
+  }, [open]);
+  const closeMenu = () => {
+    setOpen(false);
+    triggerRef.current?.focus();
+  };
 
   return (
     <>
@@ -137,9 +190,10 @@ export function SiteNav() {
               Book a call
             </a>
             <button
+              ref={triggerRef}
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
-              onClick={() => setOpen(!open)}
+              onClick={() => (open ? closeMenu() : setOpen(true))}
               className="group relative flex h-10 w-10 items-center justify-center"
             >
               <span className={`absolute h-[1.5px] w-6 bg-[#111111] transition-all duration-300 ${open ? "rotate-45" : "-translate-y-[7px]"}`} />
@@ -150,161 +204,134 @@ export function SiteNav() {
         </div>
       </header>
 
-      {/* menu overlay — white sheet, ink type */}
+      {/* menu overlay — the directory: grouped index, action rail, lion band */}
       <div
-        className={`fixed inset-0 z-40 bg-white transition-opacity duration-400 ${
+        className={`fixed inset-0 z-[45] bg-white transition-opacity duration-300 ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={() => setOpen(false)}
+        // audit fix: without these the 18 controls below stay tabbable and
+        // screen-reader-visible while the menu is shut
+        {...(open ? {} : { inert: true, "aria-hidden": true })}
       >
         <div
-          className="mx-auto flex h-full max-w-6xl flex-col overflow-y-auto px-6 pt-24 pb-8 md:px-8 md:pt-28"
+          ref={sheetRef}
+          className="mx-auto flex h-full max-w-6xl flex-col overflow-y-auto px-6 pt-24 pb-6 md:px-8 md:pt-28"
           onClick={(e) => e.stopPropagation()}
           style={{ fontFamily: SANS }}
         >
           {/* search — first thing */}
-          <div
-            style={{
-              opacity: open ? 1 : 0,
-              transform: open ? "none" : "translateY(14px)",
-              transition: "opacity .45s ease .05s, transform .45s cubic-bezier(.2,.8,.2,1) .05s",
-            }}
-          >
+          <div style={fade(open, 0.04)}>
             <MenuSearch onNavigate={() => setOpen(false)} />
           </div>
 
-          <div className="mt-10 grid flex-1 grid-cols-1 gap-x-20 gap-y-10 md:grid-cols-[1.15fr_1fr]">
-            {/* nav column */}
-            <nav className="flex flex-col gap-0.5">
-              {PRIMARY.map((l, i) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className="group flex items-baseline border-b border-black/[0.08] py-3"
-                  style={{
-                    opacity: open ? 1 : 0,
-                    transform: open ? "none" : "translateY(18px)",
-                    transition: `opacity .5s ease ${0.12 + i * 0.05}s, transform .5s cubic-bezier(.2,.8,.2,1) ${0.12 + i * 0.05}s`,
-                  }}
-                >
-                  <span className="text-[26px] font-semibold tracking-[-0.02em] text-[#111111] transition-all duration-200 group-hover:translate-x-1 md:text-[32px]">
-                    {l.label}
-                  </span>
-                  <span className="ml-auto translate-x-1 text-[20px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" style={{ color: GOLD }}>
-                    →
-                  </span>
-                </a>
-              ))}
-              <div className="mt-7 flex items-center gap-4 md:hidden" style={{ opacity: open ? 1 : 0, transition: "opacity .5s ease .45s" }}>
-                <span className="text-[13px] font-medium text-[#111111]/45">Language</span>
-                <LangSwitcher />
-              </div>
-              <div
-                className="mt-6 flex flex-wrap gap-x-7 gap-y-3"
-                style={{ opacity: open ? 1 : 0, transition: "opacity .5s ease .4s" }}
+          {/* the directory */}
+          <div className="mt-11 grid flex-1 grid-cols-1 items-start gap-x-10 gap-y-11 sm:grid-cols-2 lg:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,19rem)]">
+            {GROUPS.map((g, gi) => (
+              <nav key={g.title} aria-label={g.title} style={fade(open, 0.1 + gi * 0.05)}>
+                <p className="text-[11px] font-semibold tracking-[0.13em] uppercase" style={{ color: GOLD }}>
+                  {g.title}
+                </p>
+                <ul className="mt-4 flex flex-col">
+                  {g.items.map((l) => (
+                    <li key={l.href}>
+                      <a
+                        href={l.href}
+                        onClick={() => setOpen(false)}
+                        className="group flex min-h-[44px] items-center justify-between border-b border-black/[0.07] py-1"
+                      >
+                        <span className="text-[19px] font-medium tracking-[-0.02em] text-[#111111] transition-transform duration-200 group-hover:translate-x-1 md:text-[21px]">
+                          {l.label}
+                        </span>
+                        <span
+                          aria-hidden
+                          className="translate-x-1 text-[15px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
+                          style={{ color: GOLD }}
+                        >
+                          →
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
+
+            {/* action rail */}
+            <div
+              className="rounded-2xl bg-[#0f110f] p-6 text-white sm:col-span-2 lg:col-span-1"
+              style={fade(open, 0.26)}
+            >
+              <p className="text-[11px] font-semibold tracking-[0.13em] text-white/45 uppercase">
+                Start here
+              </p>
+              <a
+                href="/quote"
+                onClick={() => setOpen(false)}
+                className="mt-4 flex min-h-[48px] w-full items-center justify-center rounded-full bg-white px-6 text-[14px] font-semibold text-[#111111] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#f0d9a4]"
               >
-                {MORE.map((l) => (
+                Get a quote →
+              </a>
+              <a
+                href="/consultation"
+                onClick={() => setOpen(false)}
+                className="mt-2.5 flex min-h-[48px] w-full items-center justify-center rounded-full border border-white/25 px-6 text-[14px] font-semibold text-white transition-colors duration-300 hover:border-white hover:bg-white/10"
+              >
+                Book a free call
+              </a>
+
+              <div className="mt-6 space-y-1 border-t border-white/12 pt-5">
+                {RAIL.map((l) => (
                   <a
                     key={l.href}
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="text-[22px] font-medium tracking-[-0.02em] text-[#111111]/70 transition-colors hover:text-[#1e6b3c] md:text-[24px]"
+                    className="flex min-h-[40px] items-center justify-between text-[14px] text-white/70 transition-colors hover:text-white"
                   >
                     {l.label}
+                    <span aria-hidden style={{ color: GOLD }}>→</span>
                   </a>
                 ))}
               </div>
-            </nav>
 
-            {/* utility column */}
-            <div
-              className="flex flex-col gap-7"
-              style={{
-                opacity: open ? 1 : 0,
-                transform: open ? "none" : "translateY(18px)",
-                transition: "opacity .6s ease .3s, transform .6s cubic-bezier(.2,.8,.2,1) .3s",
-              }}
-            >
-              <div className="border-t border-black/[0.08] pt-5">
-                <p className="text-[13px] font-medium text-[#111111]/45">Clients</p>
-                <a
-                  href="/clients"
-                  onClick={() => setOpen(false)}
-                  className="group mt-3 flex items-baseline justify-between border-b border-black/[0.06] py-2"
-                >
-                  <span className="text-[15px] font-medium text-[#111111]/85 transition-colors group-hover:text-[#111111]">
-                    New client — start here
-                  </span>
-                  <span className="text-[13px] font-medium" style={{ color: GOLD }}>The process →</span>
-                </a>
-                <a
-                  href="/portal/sign-in"
-                  onClick={() => setOpen(false)}
-                  className="group flex items-baseline justify-between py-2"
-                >
-                  <span className="text-[15px] font-medium text-[#111111]/85 transition-colors group-hover:text-[#111111]">
-                    Existing client — Sign in
-                  </span>
-                  <span className="text-[13px] font-medium" style={{ color: GOLD }}>Sign in →</span>
-                </a>
-              </div>
-              <div className="border-t border-black/[0.08] pt-5">
-                <p className="text-[13px] font-medium text-[#111111]/45">Direct</p>
+              <div className="mt-5 border-t border-white/12 pt-5">
+                <p className="text-[11px] font-semibold tracking-[0.13em] text-white/45 uppercase">
+                  Direct
+                </p>
                 <a
                   href="mailto:info@elsiaa.com"
-                  className="mt-3 block text-[17px] font-medium text-[#111111] transition-colors"
-                  style={{ ["--gold" as string]: GOLD }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#111111")}
+                  className="mt-2 block min-h-[40px] text-[15px] font-medium text-white transition-colors hover:text-[#f0d9a4]"
                 >
                   info@elsiaa.com
                 </a>
-                <a
-                  href="/quote"
-                  onClick={() => setOpen(false)}
-                  className="mt-4 inline-flex w-fit items-center gap-3 rounded-full bg-[#111111] px-6 py-3 text-[13px] font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-18px_rgba(0,0,0,0.55)]"
-                >
-                  Get a quote →
-                </a>
               </div>
-              <div className="border-t border-black/[0.08] pt-5">
-                <p className="text-[13px] font-medium text-[#111111]/45">Offices</p>
-                <p className="mt-3 text-[13px] leading-relaxed text-[#111111]/60">
-                  New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv
-                </p>
+
+              <div className="mt-4 flex items-center gap-3 border-t border-white/12 pt-4 lg:hidden">
+                <span className="text-[13px] text-white/45">Language</span>
+                <LangSwitcher />
               </div>
             </div>
           </div>
 
-          {/* the ELSIAA lion — forged in wire, a signature plate */}
-          <div
-            className="mt-8 flex justify-center"
-            style={{ opacity: open ? 1 : 0, transition: "opacity .7s ease .45s" }}
-          >
-            <video
-              src="/assets/lion_walk_v1.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="pointer-events-none h-40 w-auto object-contain mix-blend-multiply md:h-48"
-              aria-label="The ELSIAA lion, alive"
-            />
-          </div>
-
-          {/* overlay footer */}
-          <div
-            className="mt-4 flex items-center justify-between border-t border-black/[0.08] pt-4"
-            style={{ opacity: open ? 1 : 0, transition: "opacity .5s ease .5s" }}
-          >
-            <p className="text-[13px] text-[#111111]/50">Elsiaa</p>
-            <p
-              title="With God's help we shall do and succeed."
-              className="cursor-help text-[13px] text-[#111111]/50"
-            >
-              בעזרת ה׳ נעשה ונצליח
-            </p>
+          {/* lion band — the signature, walking the footer rule */}
+          <div className="mt-10 border-t border-black/[0.08] pt-2" style={fade(open, 0.34)}>
+            <div className="flex items-end justify-center">
+              <video
+                src="/assets/lion_walk_v1.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="pointer-events-none h-28 w-auto object-contain mix-blend-multiply md:h-32"
+                aria-label="The ELSIAA lion, alive"
+              />
+            </div>
+            <div className="flex flex-col items-center gap-2 border-t border-black/[0.08] pt-4 text-center sm:flex-row sm:justify-between sm:text-left">
+              <p className="text-[12.5px] text-[#111111]/60">{OFFICES}</p>
+              <p lang="he" dir="rtl" className="text-[12.5px] text-[#111111]/60">
+                בעזרת ה׳ נעשה ונצליח
+              </p>
+            </div>
           </div>
         </div>
       </div>
