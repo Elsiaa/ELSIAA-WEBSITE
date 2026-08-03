@@ -25,12 +25,7 @@ export const Route = createFileRoute("/careers")({
   component: Careers,
 });
 
-const WHY: Array<[string, string]> = [
-  ["One standard.", "Hardened, tested, fully insured. No pilots."],
-  ["Real impact.", "Live client systems, not internal experiments."],
-  ["Six cities.", "New York · LA · London · Geneva · Antwerp · Tel Aviv."],
-  ["Direct access.", "Founders and advisors at the same table."],
-];
+
 
 const ROLES: Array<[string, string]> = [
   ["Design", "Product, interface, and brand systems."],
@@ -51,23 +46,6 @@ function Careers() {
     <main className="min-h-screen bg-[#FBFBFA] text-[#111111]" style={{ fontFamily: SANS }}>
       <SiteNav />
       <Hero onApply={toForm} />
-
-      {/* Why ELSIAA */}
-      <section className="mx-auto max-w-5xl px-6 py-8 md:py-12">
-        <Reveal>
-          <p className="text-[13px] font-bold text-[#1e6b3c]">Why ELSIAA</p>
-        </Reveal>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {WHY.map(([t, d], i) => (
-            <Reveal key={t} delay={i * 0.05}>
-              <div className="h-full rounded-2xl border border-black/[0.08] bg-white p-6">
-                <h3 className="text-[16px] font-semibold tracking-[-0.015em]">{t}</h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-[#111111]/60">{d}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
 
       {/* Open roles */}
  <section className="mx-auto max-w-5xl px-6 py-8 md:py-12">

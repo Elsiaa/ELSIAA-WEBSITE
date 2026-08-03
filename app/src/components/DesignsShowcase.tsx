@@ -1568,6 +1568,169 @@ function Transformations() {
   );
 }
 
+
+/* ---------------- 2 · we design every aspect — Mr. Bins hero + live sites ---------------- */
+const F = "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+
+function BinsCompare() {
+  const [pct, setPct] = useState(52);
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const dragging = useRef(false);
+  const move = (clientX: number) => {
+    const r = boxRef.current?.getBoundingClientRect();
+    if (!r) return;
+    setPct(Math.min(96, Math.max(4, ((clientX - r.left) / r.width) * 100)));
+  };
+  return (
+    <div
+      ref={boxRef}
+      className="relative aspect-[16/10] w-full touch-none overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_40px_90px_-50px_rgba(17,17,17,0.45)] select-none"
+      onPointerMove={(e) => dragging.current && move(e.clientX)}
+      onPointerUp={() => (dragging.current = false)}
+      onPointerLeave={() => (dragging.current = false)}
+    >
+      <img src="/assets/compare/mrbins_old.jpg" alt="Mr. Bins — before" className="absolute inset-0 h-full w-full object-cover object-top" />
+      <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
+        <img src="/assets/compare/mrbins_new.jpg" alt="Mr. Bins — rebuilt by ELSIAA" className="h-full w-full object-cover object-top" />
+      </div>
+      <span className="absolute top-3 left-3 rounded-full bg-[#1e6b3c] px-3 py-1 text-[12px] font-semibold text-white" style={{ fontFamily: F }}>
+        After
+      </span>
+      <span className="absolute top-3 right-3 rounded-full bg-black/60 px-3 py-1 text-[12px] font-semibold text-white" style={{ fontFamily: F }}>
+        Before
+      </span>
+      <div
+        className="absolute inset-y-0 z-10 w-10 -translate-x-1/2 cursor-ew-resize"
+        style={{ left: `${pct}%` }}
+        onPointerDown={(e) => {
+          dragging.current = true;
+          (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+          move(e.clientX);
+        }}
+      >
+        <span className="absolute inset-y-0 left-1/2 w-[2px] -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(17,17,17,0.18)]" />
+        <span className="absolute top-1/2 left-1/2 grid h-10 w-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white text-[13px] text-[#111111] shadow-[0_10px_24px_-10px_rgba(17,17,17,0.5)]">
+          ‹ ›
+        </span>
+      </div>
+    </div>
+  );
+}
+
+const LIVE_SITES: Array<{ name: string; kind: string; url?: string }> = [
+  { name: "Michael Elbaz Law", kind: "Legal practice" },
+  { name: "PSI Construction", kind: "Construction", url: "https://www.psiconstructionpa.com" },
+  { name: "Dialog Healthcare", kind: "Healthcare", url: "https://dialoghealthcare.com" },
+];
+
+function DesignEverything() {
+  return (
+    <section className="bg-white px-6 py-16 md:py-20" id="websites">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <h2 className="max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: F }}>
+            We design every aspect of your business.
+          </h2>
+          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]" style={{ fontFamily: F }}>
+            Drag to see what a rebuild actually looks like.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.06}>
+          <div className="mt-8">
+            <BinsCompare />
+            <p className="mt-3 text-[13.5px] text-[#111111]/50" style={{ fontFamily: F }}>
+              Mr. Bins — rebuilt by ELSIAA
+            </p>
+          </div>
+        </Reveal>
+
+        {/* live client sites */}
+        <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-3">
+          {LIVE_SITES.map((site, i) => (
+            <Reveal key={site.name} delay={0.05 + i * 0.05}>
+              <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#F5F5F3]">
+                  {site.url ? (
+                    <SitePreview src={site.url} poster="/assets/compare/mrbins_new.jpg" title={`${site.name} — live site`} />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#F5F5F3] to-white">
+                      <span className="text-[17px] font-semibold tracking-[-0.02em] text-[#111111]/70" style={{ fontFamily: F }}>
+                        {site.name}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-baseline justify-between gap-3 px-5 py-4">
+                  <div>
+                    <h3 className="text-[15.5px] font-semibold tracking-[-0.015em] text-[#111111]" style={{ fontFamily: F }}>
+                      {site.name}
+                    </h3>
+                    <p className="mt-0.5 text-[13px] text-[#111111]/45" style={{ fontFamily: F }}>{site.kind}</p>
+                  </div>
+                  {site.url && (
+                    <a
+                      href={site.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="shrink-0 text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                      style={{ fontFamily: F }}
+                    >
+                      Visit ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- 3 · buy a website ---------------- */
+function BuyWebsite() {
+  return (
+    <section className="border-y border-black/[0.06] bg-[#F5F5F3] px-6 py-14 md:py-16">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <div className="grid items-center gap-8 md:grid-cols-[1.1fr_0.9fr] md:gap-14">
+            <div>
+              <h2 className="text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl" style={{ fontFamily: F }}>
+                Purchase a website
+              </h2>
+              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]" style={{ fontFamily: F }}>
+                A clean, fast marketing site — up to five pages, your branding, mobile-perfect,
+                contact form, and live hosting. No custom backend, no dashboards, no logins:
+                the site that makes people call you.
+              </p>
+              <p className="mt-3 text-[13.5px] text-[#111111]/45" style={{ fontFamily: F }}>
+                Need accounts, portals, or a database? That is backend software — priced separately.
+              </p>
+            </div>
+            <div className="rounded-3xl border border-black/[0.08] bg-white p-7 shadow-[0_24px_60px_-50px_rgba(17,17,17,0.4)] md:p-8">
+              <p className="text-[12px] font-semibold tracking-[0.1em] text-[#111111]/40 uppercase" style={{ fontFamily: F }}>
+                Starting at
+              </p>
+              <p className="mt-1 text-[42px] font-semibold leading-none tracking-[-0.04em] text-[#111111]" style={{ fontFamily: F }}>
+                $750
+              </p>
+              <a
+                href="/quote?service=Website"
+                className="mt-6 flex w-full items-center justify-center rounded-full bg-[#111111] px-6 py-4 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1e6b3c]"
+                style={{ fontFamily: F }}
+              >
+                Purchase a website →
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /* ---------------- 4 · beyond websites ---------------- */
 function PhonePreview() {
   return (
@@ -1878,12 +2041,12 @@ function Lion3DSpin() {
 /* ---------------- the process — how every uplift actually happens ---------------- */
 function OurProcess() {
   const STEPS = [
-    ["1", "Immersion", "Before anything is designed, we study the business: your market, your customers, and precisely what \u201cbetter received\u201d means for you. Every engagement begins as research, not aesthetics."],
-    ["2", "Sketch-first ideation", "Concepts are drawn by hand before a pixel exists. Structure gets decided by thinking, never by templates \u2014 which is why no two ELSIAA builds look alike."],
-    ["3", "Directed generation", "Our proprietary AI production pipeline turns creative direction into studio-grade assets \u2014 imagery, film, and interfaces \u2014 at a pace traditional studios cannot match."],
-    ["4", "Live assembly", "Designs are built as working software from day one and reviewed in the real medium. We don\u2019t present mockups of the thing; we present the thing."],
-    ["5", "Ruthless iteration", "Work is measured against the standard, not the effort. Anything below the bar is rebuilt \u2014 in hours, not sprints \u2014 until every detail holds."],
-    ["6", "Launch & refinement", "The work ships live, then keeps improving against real visitor behavior. Delivery is the beginning of the standard, not the end of it."],
+    ["1", "Immersion", "We study your market and customers first. Research, not aesthetics."],
+    ["2", "Sketch first", "Drawn by hand before a pixel exists. No templates, ever."],
+    ["3", "Directed generation", "Our AI pipeline turns direction into studio-grade imagery, film, and interfaces."],
+    ["4", "Live assembly", "Built as working software from day one. We show you the thing, not a mockup."],
+    ["5", "Ruthless iteration", "Anything below the bar gets rebuilt — in hours, not sprints."],
+    ["6", "Launch & refine", "It ships live, then keeps improving against real visitor behaviour."],
   ];
   return (
     <section className="bg-[#F5F5F3] px-6 py-14 text-[#111111]">
@@ -1906,38 +2069,25 @@ function OurProcess() {
             product that keeps getting better.
           </p>
         </Reveal>
-        {/* the road itself — one connected top-to-bottom workflow */}
-        <div className="relative mt-12 max-w-3xl">
-          <div aria-hidden className="absolute top-4 bottom-4 left-[27px] w-px bg-[#1e6b3c]/20" />
-          <div className="space-y-9">
+        {/* one connected run — reads left-to-right, no long scroll */}
+        <div className="relative mt-10">
+          <div aria-hidden className="absolute top-[27px] right-0 left-0 hidden h-px bg-[#1e6b3c]/20 lg:block" />
+          <div className="grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-6 lg:gap-x-4">
             {STEPS.map(([n, t, d], i) => (
-              <Reveal key={n} delay={Math.min(i * 0.04, 0.16)}>
-                <div className="grid grid-cols-[56px_minmax(0,1fr)] items-start gap-5">
-                  <div className="relative z-10 grid h-[56px] w-[56px] place-items-center rounded-2xl border border-black/[0.08] bg-white shadow-[0_10px_28px_-16px_rgba(17,17,17,0.3)]">
+              <Reveal key={n} delay={Math.min(i * 0.05, 0.25)}>
+                <div className="relative">
+                  <span className="relative z-10 grid h-[54px] w-[54px] place-items-center rounded-2xl border border-black/[0.08] bg-white shadow-[0_10px_26px_-16px_rgba(17,17,17,0.35)]">
                     <StepArt step={Number(n)} />
-                  </div>
-                  <div className="pt-0.5">
-                    <div className="flex items-baseline gap-2.5">
-                      <span
-                        className="text-[12px] font-bold tracking-[0.14em] text-[#1e6b3c]"
-                        style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                      >
-                        {n}
-                      </span>
-                      <h3
-                        className="text-[17px] font-semibold tracking-[-0.02em] md:text-lg"
-                        style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                      >
-                        {t}
-                      </h3>
-                    </div>
-                    <p
-                      className="mt-1.5 text-[14px] leading-relaxed text-[#111111]/55"
-                      style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
-                    >
-                      {d}
-                    </p>
-                  </div>
+                  </span>
+                  <p className="mt-4 text-[11.5px] font-bold tracking-[0.14em] text-[#1e6b3c]" style={{ fontFamily: F }}>
+                    0{n}
+                  </p>
+                  <h3 className="mt-1 text-[15.5px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]" style={{ fontFamily: F }}>
+                    {t}
+                  </h3>
+                  <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#111111]/55" style={{ fontFamily: F }}>
+                    {d}
+                  </p>
                 </div>
               </Reveal>
             ))}
@@ -2080,11 +2230,10 @@ export function DesignsShowcase() {
       {/* narrative: thesis → proof of uplift → breadth → the work → apps →
           trust wall → how we work → numbers → close */}
       <ProductAdFeature />
-      <Lion3DSpin />
-      <Transformations />
-      <BeyondWebsites />
-      <DiscoverDesigns />
+      <DesignEverything />
+      <BuyWebsite />
       <DiscoverApps />
+      <BeyondWebsites />
       <ClientLogos />
       <OurProcess />
       <Results />
