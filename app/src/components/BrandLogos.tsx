@@ -75,7 +75,7 @@ export function WhyBrandsChose() {
  <section className="relative overflow-hidden bg-white py-16 md:py-24" aria-label="Why brands chose ELSIAA">
       {/* subtle brand watermark — the ELSIAA lion, barely there */}
       <img
-        src="/assets/elsiaa-lion.png"
+        src="/assets/elsiaa-lion-192.png"
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute -top-10 -right-16 hidden w-[360px] opacity-[0.035] select-none md:block lg:-right-8 lg:w-[440px]"

@@ -22,7 +22,7 @@ import { readPortalPlace, writePortalPlace } from "@/lib/ui-place";
 function ElsiaaMark({ className }: { className?: string }) {
   return (
     <div className={className}>
-      <img src="/assets/elsiaa-lion.png" alt="ELSIAA" className="h-10 w-10 object-contain" />
+      <img src="/assets/elsiaa-lion-192.png" alt="ELSIAA" className="h-10 w-10 object-contain" />
     </div>
   );
 }

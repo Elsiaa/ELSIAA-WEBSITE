@@ -13,7 +13,7 @@ function Header() {
     <header className="sticky top-0 z-40 border-b border-black/[0.06] bg-white/95 backdrop-blur-sm" style={F}>
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <a href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-70" aria-label="ELSIAA — home">
-          <img src="/assets/elsiaa-lion.png" alt="" width={32} height={32} className="h-8 w-8 object-contain" />
+          <img src="/assets/elsiaa-lion-192.png" alt="" width={32} height={32} className="h-8 w-8 object-contain" />
           <span className="text-[14px] font-bold tracking-[0.24em] text-[#111111]">ELSIAA</span>
         </a>
         <nav className="flex items-center gap-4 md:gap-6">

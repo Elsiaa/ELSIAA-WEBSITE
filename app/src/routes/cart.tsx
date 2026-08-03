@@ -20,7 +20,7 @@ function CartBody() {
   if (lines.length === 0) {
     return (
       <section className="mx-auto flex max-w-2xl flex-col items-center px-6 py-24 text-center" style={F}>
-        <img src="/assets/elsiaa-lion.png" alt="" className="h-14 w-14 opacity-25" />
+        <img src="/assets/elsiaa-lion-192.png" alt="" className="h-14 w-14 opacity-25" />
         <h1 className="mt-5 text-[24px] font-semibold tracking-[-0.02em] text-[#111111]">Your cart is empty.</h1>
         <p className="mt-2 max-w-sm text-[14.5px] leading-relaxed text-[#111111]/55">
           Quiet, heavy, never reprinted — the good ones don't wait long.

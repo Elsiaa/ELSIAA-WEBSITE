@@ -58,7 +58,7 @@ export function PortalShell({
               {open ? <X size={18} /> : <Menu size={18} />}
             </button>
             <Link to="/" className="flex items-center gap-2">
-              <img src="/assets/elsiaa-lion.png" alt="" className="h-7 w-7 object-contain" />
+              <img src="/assets/elsiaa-lion-192.png" alt="" className="h-7 w-7 object-contain" />
               <span className="text-[13px] font-bold tracking-wide text-[#111111]" style={mono}>
                 ELSIAA
               </span>

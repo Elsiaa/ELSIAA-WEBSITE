@@ -34,7 +34,7 @@ export default function AnimatedPoelLogo({
       }}
     >
       <img
-        src="/assets/elsiaa-lion.png"
+        src="/assets/elsiaa-lion-192.png"
         alt=""
         style={{
           width: "55%",

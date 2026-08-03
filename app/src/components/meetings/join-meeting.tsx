@@ -710,7 +710,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         {/* Logo and Meeting Title */}
         <div className="flex items-center gap-4">
           <Image
-            src="/assets/elsiaa-lion.png"
+            src="/assets/elsiaa-lion-192.png"
             alt="ELSIAA"
             width={40}
             height={40}
