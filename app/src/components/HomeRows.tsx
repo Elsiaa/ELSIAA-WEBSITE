@@ -527,8 +527,8 @@ function AutomationSection() {
   const feather = "radial-gradient(120% 120% at 50% 46%, #000 62%, rgba(0,0,0,0) 90%)";
 
   return (
-    <section ref={trackRef} className="relative bg-white [--track:125svh] md:[--track:170vh]" style={{ height: "var(--track)" }} id="automation">
-      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center gap-1 overflow-hidden bg-white px-6 text-center">
+    <section ref={trackRef} className="relative bg-white [--track:112svh] md:[--track:170vh]" style={{ height: "var(--track)" }} id="automation">
+      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-end gap-1 overflow-hidden bg-white px-6 pb-8 text-center md:justify-center md:pb-0">
         {/* titled like the design centrepiece */}
         <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
           Automations
@@ -1336,7 +1336,7 @@ function DesignDivision() {
 
   return (
     <>
- <section ref={wrapRef} className="relative bg-white [--track:125svh] md:[--track:170vh]" style={{ height: "var(--track)" }}>
+ <section ref={wrapRef} className="relative bg-white [--track:112svh] md:[--track:170vh]" style={{ height: "var(--track)" }}>
         <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center gap-4 overflow-hidden px-6 text-center">
           <div>
             <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
