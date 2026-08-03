@@ -22,12 +22,12 @@ export function LangSwitcher({ dark = false }: { dark?: boolean }) {
   const ink = dark ? "text-white/85" : "text-[#111111]/80";
 
   return (
-    <div ref={ref} data-no-translate className="relative">
+    <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label="Change language"
         aria-expanded={open}
-        className={`flex items-center gap-1.5 ${ink} transition-opacity hover:opacity-60`}
+        className={`flex min-h-[44px] items-center gap-1.5 px-1 ${ink} transition-opacity hover:opacity-60 md:min-h-0 md:px-0`}
       >
         {/* globe */}
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -44,8 +44,9 @@ export function LangSwitcher({ dark = false }: { dark?: boolean }) {
 
       {open && (
         <div
-          className="absolute right-0 z-50 mt-3 w-44 overflow-hidden rounded-xl border border-black/[0.08] bg-white py-1 shadow-[0_24px_60px_-30px_rgba(17,17,17,0.4)]"
+          className="absolute top-full left-0 z-50 mt-2 max-h-[52vh] w-44 overflow-y-auto rounded-xl border border-black/[0.08] bg-white py-1 shadow-[0_24px_60px_-30px_rgba(17,17,17,0.4)] md:right-0 md:left-auto md:mt-3"
           role="listbox"
+          data-no-translate
         >
           {LANGS.map((l) => (
             <button
@@ -56,7 +57,7 @@ export function LangSwitcher({ dark = false }: { dark?: boolean }) {
                 setLang(l.code);
                 setOpen(false);
               }}
-              className={`flex w-full items-center justify-between px-4 py-2 text-left transition-colors hover:bg-[#1e6b3c]/[0.06] ${
+              className={`flex min-h-[44px] w-full items-center justify-between px-4 py-2.5 text-left transition-colors hover:bg-[#1e6b3c]/[0.06] ${
                 l.code === lang ? "bg-[#1e6b3c]/[0.08]" : ""
               }`}
               dir={l.rtl ? "rtl" : "ltr"}

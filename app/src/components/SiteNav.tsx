@@ -223,9 +223,14 @@ export function SiteNav() {
           onClick={(e) => e.stopPropagation()}
           style={{ fontFamily: SANS }}
         >
-          {/* search — first thing */}
+          {/* search — first thing, with the language control beside it so the
+              switcher is reachable without scrolling the sheet on a phone */}
           <div style={fade(open, 0.04)}>
             <MenuSearch onNavigate={() => setOpen(false)} />
+            <div className="mt-3 flex items-center gap-3 md:hidden">
+              <span className="text-[13px] text-[#111111]/45">Language</span>
+              <LangSwitcher />
+            </div>
           </div>
 
           {/* the directory */}
@@ -309,10 +314,6 @@ export function SiteNav() {
                 </a>
               </div>
 
-              <div className="mt-4 flex items-center gap-3 border-t border-white/12 pt-4 lg:hidden">
-                <span className="text-[13px] text-white/45">Language</span>
-                <LangSwitcher />
-              </div>
             </div>
           </div>
 
