@@ -945,7 +945,7 @@ function DiscoverApps() {
   );
 
   return (
-    <section className="bg-[#F5F5F3] px-6 pt-6 pb-24 text-[#111111]">
+    <section className="bg-[#F5F5F3] px-6 pt-6 pb-14 text-[#111111] md:pb-24">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2
@@ -964,7 +964,7 @@ function DiscoverApps() {
         </Reveal>
         <SideToggle side={side} setSide={setSide} />
 
-        <div className="relative mt-9 grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-10">
+        <div className="relative mt-7 grid grid-cols-1 gap-8 md:mt-9 md:gap-16 lg:grid-cols-2 lg:gap-10">
           <div className="pointer-events-none absolute top-[40%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
             <span
               className="flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-[13px] font-bold tracking-[0.08em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.3)]"
@@ -1340,7 +1340,7 @@ const LIVE_SITES: Array<{ name: string; kind: string; url?: string }> = [
 
 function DesignEverything() {
   return (
-    <section className="bg-white px-6 py-16 md:py-16" id="websites">
+    <section className="bg-white px-6 py-10 md:py-16" id="websites">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2 className="max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: F }}>
@@ -1363,7 +1363,7 @@ function DesignEverything() {
         {/* the point of it all */}
         <Reveal delay={0.05}>
           <p
-            className="mx-auto mt-14 max-w-3xl border-l-2 border-[#1e6b3c] pl-5 text-[17px] leading-relaxed font-medium text-[#111111]/75 md:text-[20px]"
+            className="mx-auto mt-9 max-w-3xl border-l-2 border-[#1e6b3c] pl-5 text-[16px] leading-relaxed font-medium text-[#111111]/75 md:mt-14 md:text-[20px]"
             style={{ fontFamily: F }}
           >
             We don't just design your site. Our goal is to convert strangers who view it
@@ -1372,9 +1372,14 @@ function DesignEverything() {
         </Reveal>
 
         {/* live client sites */}
-        <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-3">
+        <div
+          tabIndex={0}
+          role="group"
+          aria-label="Live client sites — swipe or use the arrow keys"
+          className="-mx-6 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] [&::-webkit-scrollbar]:hidden md:mx-0 md:mt-14 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0"
+        >
           {LIVE_SITES.map((site, i) => (
-            <Reveal key={site.name} delay={0.05 + i * 0.05}>
+            <Reveal key={site.name} className="w-[80vw] max-w-[320px] shrink-0 snap-center md:w-auto md:max-w-none md:shrink" delay={0.05 + i * 0.05}>
               <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
                 <div className="relative aspect-[4/3] overflow-hidden bg-[#F5F5F3]">
                   {site.url ? (
@@ -1786,7 +1791,7 @@ function OurProcess() {
     ["6", "Launch & refine", "It ships live, then keeps improving against real visitor behaviour."],
   ];
   return (
-    <section className="bg-[#F5F5F3] px-6 py-14 text-[#111111]">
+    <section className="bg-[#F5F5F3] px-6 py-10 text-[#111111] md:py-14">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p
@@ -1872,7 +1877,7 @@ function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
 
 function Results() {
   return (
- <section className="bg-white px-6 py-14">
+ <section className="bg-white px-6 py-10 md:py-14">
       <div className="mx-auto grid max-w-5xl grid-cols-3 gap-8 text-center">
         {[
           { n: 6, s: "", l: "Cities worldwide" },
@@ -1902,7 +1907,7 @@ function Results() {
 /* ---------------- 6 · final CTA ---------------- */
 function FinalCTA() {
   return (
-    <section className="bg-[#070907] px-6 py-14 text-center text-[#F5F5F3]">
+    <section className="bg-[#070907] px-6 py-10 text-center md:py-14 text-[#F5F5F3]">
       <Reveal>
         <p
           className="text-[13px] text-[#2e9e58] "

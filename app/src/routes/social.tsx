@@ -3,6 +3,7 @@ import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
 import { SocialPhoneRow } from "../components/SocialMedia";
 import { absoluteUrl } from "../lib/site-url";
+import { useState } from "react";
 import type { ReactNode } from "react";
 
 export const Route = createFileRoute("/social")({
@@ -178,6 +179,37 @@ function Avatar({ init }: { init: string }) {
   );
 }
 
+/* Mobile-only disclosure. The children are ALWAYS rendered — collapsing is done
+   with grid-template-rows, so nothing is removed from the DOM and the panel is
+   simply always open from md up. */
+function MobileDetail({ id, children }: { id: string; children: ReactNode }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls={`${id}-detail`}
+        className="mt-3 inline-flex min-h-[40px] items-center gap-1.5 text-[13.5px] font-semibold text-[#1e6b3c] md:hidden"
+        style={{ fontFamily: SANS }}
+      >
+        {open ? "Less" : "What's included"}
+        <span aria-hidden className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
+          ⌄
+        </span>
+      </button>
+      <div
+        id={`${id}-detail`}
+        className="grid transition-[grid-template-rows] duration-300 ease-out md:!grid-rows-[1fr]"
+        style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">{children}</div>
+      </div>
+    </>
+  );
+}
+
 function SocialPage() {
   return (
     <main className="bg-white text-[#111111] antialiased">
@@ -247,28 +279,32 @@ function SocialPage() {
               stay in your business; we handle the feed.
             </p>
           </Reveal>
-          <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-5 md:mt-9 lg:grid-cols-4">
             {OFFERS.map((o, i) => (
-              <Reveal key={o.num} delay={(i % 4) * 0.05}>
-                <div className="group flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
+              <Reveal key={o.num} className="h-full" delay={(i % 4) * 0.05}>
+                <a
+                  href={`#${SERVICES[i]?.id ?? ""}`}
+                  className="group flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-3.5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)] md:p-6"
+                >
                   <img
                     src={o.art}
                     alt=""
                     loading="lazy"
                     width={112}
                     height={112}
-                    className="mx-auto h-24 w-24 object-contain transition-transform duration-300 group-hover:scale-105 md:h-28 md:w-28"
+                    className="mx-auto h-14 w-14 object-contain transition-transform duration-300 group-hover:scale-105 md:h-28 md:w-28"
                   />
-                  <p className="mt-3 text-[13px] font-bold tracking-[0.14em] text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+                  <p className="mt-2 text-[11px] font-bold tracking-[0.14em] text-[#1e6b3c] md:mt-3 md:text-[13px]" style={{ fontFamily: SANS }}>
                     {o.num}
                   </p>
-                  <h3 className="mt-1.5 text-lg font-semibold tracking-[-0.02em]" style={{ fontFamily: SANS }}>
+                  <h3 className="mt-1 text-[14px] leading-tight font-semibold tracking-[-0.02em] md:mt-1.5 md:text-lg" style={{ fontFamily: SANS }}>
                     {o.title}
                   </h3>
-                  <p className="mt-2.5 flex-1 text-[14px] leading-relaxed text-[#111111]/60" style={{ fontFamily: SANS }}>
+                  {/* the blurb repeats the detail panel below — desktop only */}
+                  <p className="mt-2.5 hidden flex-1 text-[14px] leading-relaxed text-[#111111]/60 md:block" style={{ fontFamily: SANS }}>
                     {o.blurb}
                   </p>
-                </div>
+                </a>
               </Reveal>
             ))}
           </div>
@@ -432,6 +468,7 @@ function SocialPage() {
                         {sv.lede}
                       </p>
 
+                      <MobileDetail id={sv.id}>
                       <div className="mt-4 grid gap-x-8 gap-y-1.5 md:mt-6 md:gap-y-2 sm:grid-cols-2">
                         {sv.includes.map((it) => (
                           <span key={it} className="flex gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: SANS }}>
@@ -453,6 +490,7 @@ function SocialPage() {
                           Get a quote for {sv.eyebrow.toLowerCase()} →
                         </a>
                       </div>
+                      </MobileDetail>
                     </div>
                   </div>
                 </article>
