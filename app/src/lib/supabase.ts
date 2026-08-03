@@ -24,25 +24,7 @@ export function getServerSupabaseClient(): SupabaseClient {
 }
 
 export function getClientSupabaseClient(): SupabaseClient {
-  const env = portalEnv();
-  const url =
-    env.supabaseUrl ||
-    (typeof import.meta !== "undefined"
-      ? (import.meta.env.VITE_SUPABASE_URL as string | undefined)
-      : undefined) ||
-    (typeof process !== "undefined"
-      ? process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL
-      : undefined);
-  const anon =
-    env.supabaseAnonKey ||
-    (typeof import.meta !== "undefined"
-      ? (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined) ||
-        (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)
-      : undefined) ||
-    (typeof process !== "undefined"
-      ? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-        process.env.VITE_SUPABASE_PUBLISHABLE_KEY
-      : undefined);
+  const { supabaseUrl: url, supabaseAnonKey: anon } = portalEnv();
   if (!url || !anon) {
     throw new Error("Missing SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY");
   }

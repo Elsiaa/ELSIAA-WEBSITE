@@ -3,7 +3,7 @@
  * Never hardcode secrets here.
  *
  * Prefer static `process.env.FOO` reads so Vite/Nitro can inject values.
- * Dynamic `process.env[name]` alone often stays undefined under SSR.
+ * Dynamic `process.env[name]` alone often stays undefined under SSR / client.
  */
 
 function trim(v: string | undefined | null): string | undefined {
@@ -11,22 +11,62 @@ function trim(v: string | undefined | null): string | undefined {
   return t || undefined;
 }
 
+function fromProcess(value: string | undefined): string | undefined {
+  return trim(value);
+}
+
+function fromVite(value: string | undefined): string | undefined {
+  return trim(value);
+}
+
 function read(...names: string[]): string | undefined {
   for (const name of names) {
-    const fromProcess =
+    const fromDyn =
       typeof process !== "undefined" ? trim(process.env[name]) : undefined;
-    if (fromProcess) return fromProcess;
+    if (fromDyn) return fromDyn;
     if (name.startsWith("VITE_")) {
-      const fromVite = trim(
+      const fromMeta = trim(
         (import.meta.env as Record<string, string | undefined>)[name],
       );
-      if (fromVite) return fromVite;
+      if (fromMeta) return fromMeta;
     }
   }
   return undefined;
 }
 
 export function portalEnv() {
+  // Static property access so Vite can replace client-safe keys at build time
+  // (Vercel `SUPABASE_*` → `NEXT_PUBLIC_*` / `VITE_*` via vite.config define).
+  const supabaseUrl =
+    fromProcess(
+      typeof process !== "undefined"
+        ? process.env.SUPABASE_URL ||
+            process.env.VITE_SUPABASE_URL ||
+            process.env.NEXT_PUBLIC_SUPABASE_URL
+        : undefined,
+    ) ||
+    fromVite(
+      typeof import.meta !== "undefined"
+        ? (import.meta.env.VITE_SUPABASE_URL as string | undefined)
+        : undefined,
+    );
+  const supabaseAnonKey =
+    fromProcess(
+      typeof process !== "undefined"
+        ? process.env.SUPABASE_PUBLISHABLE_KEY ||
+            process.env.SUPABASE_ANON_KEY ||
+            process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+            process.env.VITE_SUPABASE_ANON_KEY ||
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+        : undefined,
+    ) ||
+    fromVite(
+      typeof import.meta !== "undefined"
+        ? (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined) ||
+            (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)
+        : undefined,
+    );
+
   return {
     siteUrl: read("VITE_SITE_URL"),
     databaseUrl: read("DATABASE_URL"),
@@ -37,14 +77,9 @@ export function portalEnv() {
       .split(",")
       .map((e) => e.trim().toLowerCase())
       .filter(Boolean),
-    supabaseUrl: read("SUPABASE_URL", "VITE_SUPABASE_URL"),
+    supabaseUrl,
     /** Browser / user-scoped key (new name + legacy aliases). */
-    supabaseAnonKey: read(
-      "SUPABASE_PUBLISHABLE_KEY",
-      "VITE_SUPABASE_PUBLISHABLE_KEY",
-      "SUPABASE_ANON_KEY",
-      "VITE_SUPABASE_ANON_KEY",
-    ),
+    supabaseAnonKey,
     /** Service role — bypasses RLS; narrow server paths only. */
     supabaseServiceRoleKey: read("SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_ROLE_KEY"),
     supabaseJwksUrl: read("SUPABASE_JWKS_URL"),
