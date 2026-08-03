@@ -29,7 +29,7 @@ const WHY: Array<[string, string]> = [
   ["One standard.", "Everything we ship is hardened, tested, and fully insured. No pilots. No excuses."],
   ["Direct impact.", "You work on live client systems, not internal experiments. Your work reaches production."],
   ["Global footprint.", "Offices in New York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv. Collaborate across three continents."],
-  ["Leadership of consequence.", "Founders, operators, and academic advisors — including faculty from Johns Hopkins and the University of Toronto — sit at the same table and hold the same bar."],
+  ["Leadership of consequence.", "Founders, operators, and academic advisors — including University of Toronto faculty — sit at the same table and hold the same bar."],
 ];
 
 const ROLES: Array<[string, string]> = [

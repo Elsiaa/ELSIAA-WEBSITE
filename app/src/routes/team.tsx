@@ -110,72 +110,71 @@ const ADVISORS: Person[] = [
   },
 ];
 
-function Monogram({ init }: { init: string }) {
+function Plate({ p }: { p: Person }) {
   return (
-    <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-black/[0.06] bg-[#F5F5F3] transition-colors duration-300 group-hover:border-[#1e6b3c]/25">
-      {/* corner diamond mark */}
-      <span className="absolute top-3 right-3 h-[7px] w-[7px] rotate-45 bg-[#1e6b3c]/70" />
-      <span
-        className="flex h-full w-full items-center justify-center text-4xl font-semibold tracking-[-0.03em] text-[#111111]/80 transition-transform duration-500 group-hover:scale-[1.04] md:text-5xl"
-        style={{ fontFamily: SANS }}
-      >
-        {init}
-      </span>
+    <div className="relative aspect-[2/3] w-full overflow-hidden rounded-2xl bg-[#0d0f0e] ring-1 ring-black/[0.06] transition-all duration-300 group-hover:ring-[#1e6b3c]/30">
+      {p.photo ? (
+        <img
+          src={p.photo}
+          alt={p.name}
+          loading="lazy"
+          className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+        />
+      ) : (
+        <span
+          className="flex h-full w-full items-center justify-center text-5xl font-semibold tracking-[-0.03em] text-white/85 transition-transform duration-500 group-hover:scale-[1.03]"
+          style={{
+            fontFamily: SANS,
+            background:
+              "radial-gradient(120% 90% at 62% 38%, rgba(30,107,60,0.30), rgba(13,15,14,0) 62%)",
+          }}
+        >
+          {p.init}
+        </span>
+      )}
+      <span className="absolute top-3.5 right-3.5 h-[7px] w-[7px] rotate-45 bg-[#2e9e58]/80" />
     </div>
   );
 }
 
 function Card({ p, i }: { p: Person; i: number }) {
   return (
-    <Reveal delay={i * 0.05}>
-      <div className="group rounded-2xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30">
-        {p.photo ? (
-          <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-black/[0.06] bg-[#F5F5F3] transition-colors duration-300 group-hover:border-[#1e6b3c]/25">
-            <img
-              src={p.photo}
-              alt={p.name}
-              className="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-[1.03]"
-            />
-          </div>
-        ) : (
-          <Monogram init={p.init} />
-        )}
-        <h3
-          className="mt-4 text-[17px] leading-[1.12] font-semibold tracking-[-0.015em] text-[#111111]"
-          style={{ fontFamily: SANS }}
-        >
-          {p.name}
-        </h3>
-        <p
-          className="mt-1.5 text-[13px] text-[#1e6b3c] "
-          style={{ fontFamily: MONO }}
-        >
-          {p.role}
-        </p>
-        <p className="mt-2.5 text-[13px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
-          {p.line}
-        </p>
-        <div className="mt-4 flex items-center gap-2 border-t border-black/[0.06] pt-3">
-          <span className="h-[5px] w-[5px] rotate-45 bg-[#1e6b3c]/50" />
-          <span
-            className="text-[13px] text-[#111111]/45 "
-            style={{ fontFamily: MONO }}
+    <Reveal delay={Math.min(i * 0.05, 0.2)}>
+      <article className="group flex h-full flex-col rounded-3xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
+        <Plate p={p} />
+        <div className="flex flex-1 flex-col px-1.5 pt-5 pb-1">
+          <h3
+            className="text-[18px] leading-[1.15] font-semibold tracking-[-0.02em] text-[#111111]"
+            style={{ fontFamily: SANS }}
           >
-            {p.loc}
-          </span>
-          {p.href && (
-            <a
-              href={p.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-auto text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
-              style={{ fontFamily: MONO }}
-            >
-              {p.hrefLabel ?? "Link"} ↗
-            </a>
-          )}
+            {p.name}
+          </h3>
+          <p className="mt-1.5 text-[13px] font-semibold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+            {p.role}
+          </p>
+          <p
+            className="mt-3 text-[13.5px] leading-relaxed text-[#111111]/55"
+            style={{ fontFamily: SANS }}
+          >
+            {p.line}
+          </p>
+          <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-black/[0.06] pt-4">
+            <span className="flex items-center gap-2 text-[13px] text-[#111111]/45" style={{ fontFamily: SANS }}>
+              <span className="h-[5px] w-[5px] rotate-45 bg-[#1e6b3c]/50" />
+              {p.loc}
+            </span>
+            {p.href && (
+              <a
+                href={p.href}
+                className="ml-auto text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                style={{ fontFamily: SANS }}
+              >
+                {p.hrefLabel ?? "Contact"} →
+              </a>
+            )}
+          </div>
         </div>
-      </div>
+      </article>
     </Reveal>
   );
 }
@@ -194,14 +193,14 @@ function Group({
       className={`mx-auto max-w-6xl px-6 py-12 md:py-14 ${border ? "border-t border-black/[0.06]" : ""}`}
     >
       <Reveal>
-        <h2
-          className="text-[13px] text-[#1e6b3c] "
-          style={{ fontFamily: MONO }}
-        >
-          {label}
-        </h2>
+        <div className="flex items-center gap-4">
+          <h2 className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase" style={{ fontFamily: SANS }}>
+            {label}
+          </h2>
+          <span className="h-px flex-1 bg-black/[0.08]" />
+        </div>
       </Reveal>
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {people.map((p, i) => (
           <Card key={p.name} p={p} i={i} />
         ))}
@@ -236,7 +235,7 @@ function TeamPage() {
           </p>
           <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-black/[0.06] pt-6">
             {[
-              ["11", "Leaders & advisors"],
+              ["7", "Leaders & advisors"],
               ["6", "Cities on the ground"],
               ["3", "Continents"],
               ["100%", "Insured builds"],
@@ -260,9 +259,9 @@ function TeamPage() {
         </Reveal>
       </section>
 
-      <Group label="01 · Leadership" people={LEADERSHIP} />
-      <Group label="02 · Directors" people={DIRECTORS} border />
-      <Group label="03 · Advisors" people={ADVISORS} border />
+      <Group label="Leadership" people={LEADERSHIP} />
+      <Group label="Directors" people={DIRECTORS} border />
+      <Group label="Advisory" people={ADVISORS} border />
 
       {/* credibility band */}
  <section className="bg-[#F5F5F3]">
@@ -278,7 +277,7 @@ function TeamPage() {
               className="mx-auto mt-4 max-w-3xl text-xl font-semibold tracking-[-0.02em] text-[#111111] md:text-2xl"
               style={{ fontFamily: SANS }}
             >
-              Johns Hopkins · University of Toronto · six cities · fully insured builds.
+              University of Toronto faculty · six cities · three continents · fully insured builds.
             </p>
           </Reveal>
         </div>
