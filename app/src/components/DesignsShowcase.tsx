@@ -1188,7 +1188,7 @@ function ScrollScrubVideo() {
   }, []);
   return (
     <div ref={wrapRef} className="relative mt-9 h-[260vh]">
-      <div className="sticky top-0 flex h-screen flex-col items-center justify-center">
+      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center">
         <div className="w-full overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_60px_130px_-60px_rgba(17,17,17,0.35)]">
           <video
             ref={videoRef}
@@ -1759,7 +1759,7 @@ function Lion3DSpin() {
   }, []);
   return (
     <section ref={wrapRef} className="relative" style={{ height: "200vh", background: "#edf4ee" }}>
-      <div className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden">
+      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden">
         <video
           ref={vidRef}
           src="/assets/lion3d_spin.mp4"
