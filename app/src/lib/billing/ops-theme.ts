@@ -24,6 +24,6 @@ export const ops = {
 export const opsFonts = {
   sans: {
     fontFamily:
-      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
+      "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
   },
 } as const;

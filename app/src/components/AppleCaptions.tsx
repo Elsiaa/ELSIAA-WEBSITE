@@ -37,14 +37,14 @@ function Caption({ line, sub }: { line: string; sub?: string }) {
       <div ref={ref} className="text-center will-change-transform">
         <h2
           className="text-6xl font-semibold tracking-[-0.03em] text-[#111111] md:text-[7.5rem] md:leading-[1.02]"
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {line}
         </h2>
         {sub && (
           <p
             className="mt-6 text-lg text-[#111111]/55 md:text-2xl"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif", fontWeight: 400 }}
+            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif", fontWeight: 400 }}
           >
             {sub}
           </p>

@@ -196,7 +196,7 @@ export function ElsiaaExperience() {
         >
           <p
             className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             The ELSIAA signature
           </p>

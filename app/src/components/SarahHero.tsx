@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from "react";
 
 const sans = {
   fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
+    "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
 } as const;
 const mono = sans;
 

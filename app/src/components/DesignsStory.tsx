@@ -30,14 +30,14 @@ function BigCaption({ children, sub }: { children: React.ReactNode; sub?: string
       <div ref={ref} className="max-w-4xl text-center will-change-transform">
         <h2
           className="text-4xl font-semibold tracking-[-0.03em] text-[#111111] md:text-6xl md:leading-[1.06]"
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           {children}
         </h2>
         {sub && (
           <p
             className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[#111111]/60 md:text-xl"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             {sub}
           </p>
@@ -348,14 +348,14 @@ function GlobeSection() {
           <p
             ref={line1Ref}
             className="mt-6 text-center text-3xl font-semibold tracking-[-0.02em] text-[#111111] opacity-0 will-change-transform md:text-6xl"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             The world is moving quickly.
           </p>
           <p
             ref={line2Ref}
             className="mt-3 text-center text-lg text-[#111111]/55 opacity-0 will-change-transform md:text-2xl"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Are you keeping up?
           </p>
@@ -503,7 +503,7 @@ function GraphicsSection() {
             </TiltCard>
             <figcaption
               className="mt-5 text-[13px] text-[#111111]/55 "
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               Presented
             </figcaption>
@@ -520,7 +520,7 @@ function GraphicsSection() {
             </TiltCard>
             <figcaption
               className="mt-5 text-[13px] text-[#1e6b3c] "
-              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+              style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
             >
               Marketed
             </figcaption>
@@ -560,17 +560,17 @@ function PreviousWork() {
       <div className="mx-auto max-w-6xl">
         <p
           className="text-[13px] text-[#1e6b3c] "
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Selected work
         </p>
         <h2
           className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.02em] text-[#111111] md:text-5xl"
-          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Discover our previous work.
         </h2>
-        <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+        <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
           Every piece on this page — the identity, the films, the experience you just
           scrolled — is our own work. The portfolio is the site.
         </p>
@@ -590,13 +590,13 @@ function PreviousWork() {
               <figcaption className="absolute inset-x-0 bottom-0 flex flex-col gap-0.5 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-4 pt-10">
                 <span
                   className="text-sm font-semibold text-white"
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                  style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {w.label}
                 </span>
                 <span
                   className="text-[13px] text-white/60 "
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                  style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
                 >
                   {w.meta}
                 </span>
@@ -614,7 +614,7 @@ function ClosingCTA() {
     <section className="bg-[#070907] px-6 py-32 text-center text-[#F5F5F3]">
       <p
         className="text-[13px] text-[#2e9e58] "
-        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+        style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         ELSIAA
       </p>
@@ -627,14 +627,14 @@ function ClosingCTA() {
       <a
         href="/quote"
         className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-8 py-3 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
-        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+        style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         Start your project
         <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
       </a>
       <p
         className="mt-14 text-[13px] text-[#F5F5F3]/35 "
-        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+        style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         Antwerp · Geneva · London · Tel Aviv · New York · Los Angeles
       </p>

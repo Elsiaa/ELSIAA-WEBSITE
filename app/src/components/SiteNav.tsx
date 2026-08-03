@@ -10,7 +10,7 @@ import { LangSwitcher } from "./LangSwitcher";
   accent, live lion at the bottom.
 */
 const SANS =
-  "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 const GOLD = "#b0812a";
 
 const PRIMARY = [

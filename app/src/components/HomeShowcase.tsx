@@ -140,19 +140,19 @@ export function HomeShowcase() {
         <Reveal>
           <p
             className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             ELSIAA · AI Done Better
           </p>
           <h2
             className="mx-auto mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.035em] text-balance text-[#111111] md:text-6xl md:leading-[1.04]"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Everything your business shows the world — done right.
           </h2>
           <p
             className="mx-auto mt-5 max-w-xl text-lg text-[#111111]/60 md:text-xl"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Websites, apps, ads, and automation. One standard.
           </p>
@@ -178,25 +178,25 @@ export function HomeShowcase() {
             <div className="flex flex-1 flex-col p-6 text-left">
               <p
                 className="text-[13px] text-[#1e6b3c] "
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 {b.eyebrow}
               </p>
               <h3
                 className="mt-2 text-[19px] font-semibold tracking-[-0.02em] text-[#111111]"
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 {b.title}
               </h3>
               <p
                 className="mt-1.5 text-[13.5px] leading-relaxed text-[#111111]/60"
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 {b.desc}
               </p>
               <span
                 className="mt-auto pt-4 text-[13px] text-[#111111]/50  transition-colors duration-300 group-hover:text-[#1e6b3c]"
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
               >
                 Explore →
               </span>
@@ -210,7 +210,7 @@ export function HomeShowcase() {
           <a
             href="/designs"
             className="inline-flex items-center gap-3 rounded-full border border-[#111111] bg-[#111111] px-9 py-3.5 text-[13px] text-white  transition-colors duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c]"
-            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             Discover designs →
           </a>
