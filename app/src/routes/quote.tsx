@@ -32,17 +32,17 @@ function QuotePage() {
         <div className="min-w-0 flex-1">
         <p
           className="text-[13px] text-[#1e6b3c] "
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           Project Quote
         </p>
         <h1
           className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl"
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           Tell us what you need. We'll quote it.
         </h1>
-        <p className="mt-3 text-[13px] text-[#1e6b3c] " style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}>
+        <p className="mt-3 text-[13px] text-[#1e6b3c] " style={{ fontFamily: "var(--font-sans)" }}>
           Quote delivered within 1 business day
         </p>
         <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-[#111111]/60">

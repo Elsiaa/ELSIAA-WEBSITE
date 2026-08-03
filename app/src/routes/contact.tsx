@@ -27,7 +27,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 const SANS =
-  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "var(--font-sans)";
 const OFFICES = "New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv";
 
 type Path = {

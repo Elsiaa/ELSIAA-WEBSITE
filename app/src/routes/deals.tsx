@@ -35,7 +35,7 @@ export const Route = createFileRoute("/deals")({
 });
 
 const SANS =
-  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "var(--font-sans)";
 
 type Deal = {
   art: string;

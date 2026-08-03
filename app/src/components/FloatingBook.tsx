@@ -39,7 +39,7 @@ export function FloatingBook() {
       <button
         onClick={() => setChat(true)}
         className="flex min-h-[48px] items-center gap-2 rounded-full border border-black/10 bg-white pl-5 pr-6 text-[13px] font-bold text-[#111111] shadow-[0_18px_44px_-18px_rgba(0,0,0,0.35)] transition-colors hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
-        style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+        style={{ fontFamily: "var(--font-sans)" }}
       >
         <img src="/assets/quote/robot.png" alt="" width={56} height={56} className="h-7 w-7 object-contain" />
         Chat with ELSIAA
@@ -48,7 +48,7 @@ export function FloatingBook() {
         <a
           href="/contact"
           className="flex min-h-[48px] items-center text-[13px] font-bold text-white "
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           Book a call →
         </a>

@@ -5,11 +5,11 @@ import { portalNavMeta } from "../../lib/portal/modules";
 export const portalFonts = {
   mono: {
     fontFamily:
-      "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
+      "var(--font-sans)",
   },
   sans: {
     fontFamily:
-      "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
+      "var(--font-sans)",
   },
 } as const;
 

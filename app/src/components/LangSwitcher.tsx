@@ -36,7 +36,7 @@ export function LangSwitcher({ dark = false }: { dark?: boolean }) {
         </svg>
         <span
           className="text-[13px] "
-          style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          style={{ fontFamily: "var(--font-sans)" }}
         >
           {current.code}
         </span>
@@ -64,13 +64,13 @@ export function LangSwitcher({ dark = false }: { dark?: boolean }) {
             >
               <span
                 className="text-[13px] text-[#111111]"
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {l.native}
               </span>
               <span
                 className={`text-[13px]  ${l.code === lang ? "text-[#1e6b3c]" : "text-[#111111]/35"}`}
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {l.code}
               </span>

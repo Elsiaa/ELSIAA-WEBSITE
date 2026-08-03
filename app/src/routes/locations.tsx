@@ -24,7 +24,7 @@ export const Route = createFileRoute("/locations")({
 
 const sans = {
   fontFamily:
-    "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
+    "var(--font-sans)",
 } as const;
 
 type Office = {

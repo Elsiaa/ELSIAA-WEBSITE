@@ -5,7 +5,7 @@ import { Reveal } from "../components/Reveal";
 import { absoluteUrl } from "../lib/site-url";
 
 const SANS =
-  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "var(--font-sans)";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({

@@ -115,7 +115,7 @@ function buildHead(meta: AppMeta) {
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=IBM+Plex+Mono:wght@400&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Bangers&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Bangers&family=Cormorant+Garamond:ital,wght@1,500&family=IBM+Plex+Mono:wght@400&family=Libre+Franklin:ital,wght@0,300..800;1,300..800&display=swap",
       },
       ...(favicon ? [{ rel: "icon", href: favicon }] : []),
     ],

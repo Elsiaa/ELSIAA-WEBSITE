@@ -20,7 +20,7 @@ export const Route = createFileRoute("/search")({
 });
 
 const SANS =
-  "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  "var(--font-sans)";
 const MONO = SANS;
 
 

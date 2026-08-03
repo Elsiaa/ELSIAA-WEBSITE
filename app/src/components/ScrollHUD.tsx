@@ -65,13 +65,13 @@ export function ScrollHUD() {
             >
               <span
                 className="text-[13px] text-[#2e9e58]"
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {s.id}
               </span>
               <span
                 className="text-[13px] text-white "
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {s.label}
               </span>
@@ -80,7 +80,7 @@ export function ScrollHUD() {
           <span
             ref={pctRef}
             className="mt-1 text-[13px] text-white/50"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             00%
           </span>

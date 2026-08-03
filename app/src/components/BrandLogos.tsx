@@ -19,8 +19,8 @@ export const CLIENT_LOGOS: Array<[string, string, string]> = [
   ["/assets/logos/diet_fantasy.png", "The Diet Fantasy", "h-8"],
 ];
 
-const mono = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
-const inter = { fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" } as const;
+const mono = { fontFamily: "var(--font-sans)" } as const;
+const inter = { fontFamily: "var(--font-sans)" } as const;
 
 const REASONS: Array<{ title: string; body: string }> = [
   {

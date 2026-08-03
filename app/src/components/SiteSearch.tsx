@@ -75,11 +75,11 @@ export function SiteSearch({
             }}
             placeholder="Search ELSIAA — services, locations, careers…"
             className="w-full bg-transparent py-4 text-[15px] outline-none placeholder:text-[#111111]/50"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           />
           <kbd
             className="hidden rounded border border-black/10 px-1.5 py-0.5 text-[13px] text-[#111111]/55 md:block"
-            style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             ESC
           </kbd>
@@ -111,13 +111,13 @@ export function SiteSearch({
             >
               <span
                 className="text-[14px] font-medium text-[#111111]"
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {r.label}
               </span>
               <span
                 className="flex-none text-[13px] text-[#111111]/50 "
-                style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {r.group}
               </span>

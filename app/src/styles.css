@@ -148,12 +148,30 @@
   }
 }
 
-/* ---- Apple-crisp typography: San Francisco, smoothed ---- */
+/* ---- Typography: Libre Franklin body, Archivo display ---- */
 @layer base {
+  :root {
+    /* Libre Franklin — Franklin Gothic lineage, a corporate workhorse that has
+       been in use for a century. Archivo for display sizes: same grotesque
+       skeleton, tighter and heavier, so headings hold at 4rem+.
+       No Apple system fonts in either chain — the site renders identically on
+       every platform instead of silently becoming SF Pro on Mac and iOS. */
+    --font-sans: "Libre Franklin", ui-sans-serif, sans-serif;
+    --font-display: "Archivo", "Libre Franklin", ui-sans-serif, sans-serif;
+  }
+
   html, body {
-    font-family: "Schibsted Grotesk", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Headings carry an inline fontFamily in a lot of components, and an inline
+     style beats a stylesheet rule — so the display face needs !important to
+     land. One contained rule is cheaper than editing ~200 call sites. */
+  h1, h2 {
+    font-family: var(--font-display) !important;
+    letter-spacing: -0.02em;
     text-rendering: optimizeLegibility;
   }
 }
