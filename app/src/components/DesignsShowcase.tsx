@@ -1573,46 +1573,32 @@ function Transformations() {
 const F = "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
 
 function BinsCompare() {
-  const [pct, setPct] = useState(52);
-  const boxRef = useRef<HTMLDivElement | null>(null);
-  const dragging = useRef(false);
-  const move = (clientX: number) => {
-    const r = boxRef.current?.getBoundingClientRect();
-    if (!r) return;
-    setPct(Math.min(96, Math.max(4, ((clientX - r.left) / r.width) * 100)));
-  };
   return (
-    <div
-      ref={boxRef}
-      className="relative aspect-[16/10] w-full touch-none overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_40px_90px_-50px_rgba(17,17,17,0.45)] select-none"
-      onPointerMove={(e) => dragging.current && move(e.clientX)}
-      onPointerUp={() => (dragging.current = false)}
-      onPointerLeave={() => (dragging.current = false)}
-    >
-      <img src="/assets/compare/mrbins_old.jpg" alt="Mr. Bins — before" className="absolute inset-0 h-full w-full object-cover object-top" />
-      <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
-        <img src="/assets/compare/mrbins_new.jpg" alt="Mr. Bins — rebuilt by ELSIAA" className="h-full w-full object-cover object-top" />
-      </div>
-      <span className="absolute top-3 left-3 rounded-full bg-[#1e6b3c] px-3 py-1 text-[12px] font-semibold text-white" style={{ fontFamily: F }}>
-        After
-      </span>
-      <span className="absolute top-3 right-3 rounded-full bg-black/60 px-3 py-1 text-[12px] font-semibold text-white" style={{ fontFamily: F }}>
-        Before
-      </span>
-      <div
-        className="absolute inset-y-0 z-10 w-10 -translate-x-1/2 cursor-ew-resize"
-        style={{ left: `${pct}%` }}
-        onPointerDown={(e) => {
-          dragging.current = true;
-          (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
-          move(e.clientX);
-        }}
-      >
-        <span className="absolute inset-y-0 left-1/2 w-[2px] -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(17,17,17,0.18)]" />
-        <span className="absolute top-1/2 left-1/2 grid h-10 w-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white text-[13px] text-[#111111] shadow-[0_10px_24px_-10px_rgba(17,17,17,0.5)]">
-          ‹ ›
-        </span>
-      </div>
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+      {[
+        { label: "Before", src: "/assets/compare/mrbins_old.jpg", tone: "bg-black/60" },
+        { label: "After — ELSIAA", src: "/assets/compare/mrbins_new.jpg", tone: "bg-[#1e6b3c]" },
+      ].map((v) => (
+        <figure
+          key={v.label}
+          className="group relative overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_28px_70px_-45px_rgba(17,17,17,0.4)] transition-all duration-300 hover:-translate-y-1"
+        >
+          <div className="aspect-[16/11] overflow-hidden">
+            <img
+              src={v.src}
+              alt={`Mr. Bins — ${v.label}`}
+              loading="lazy"
+              className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+            />
+          </div>
+          <figcaption
+            className={`absolute top-3 left-3 rounded-full px-3 py-1 text-[12px] font-semibold text-white ${v.tone}`}
+            style={{ fontFamily: F }}
+          >
+            {v.label}
+          </figcaption>
+        </figure>
+      ))}
     </div>
   );
 }
@@ -1632,7 +1618,7 @@ function DesignEverything() {
             We design every aspect of your business.
           </h2>
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]" style={{ fontFamily: F }}>
-            Drag to see what a rebuild actually looks like.
+            The same business, before and after an ELSIAA rebuild.
           </p>
         </Reveal>
 
