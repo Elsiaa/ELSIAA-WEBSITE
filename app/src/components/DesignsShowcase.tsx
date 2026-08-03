@@ -1637,6 +1637,17 @@ function DesignEverything() {
           </div>
         </Reveal>
 
+        {/* the point of it all */}
+        <Reveal delay={0.05}>
+          <p
+            className="mx-auto mt-14 max-w-3xl border-l-2 border-[#1e6b3c] pl-5 text-[17px] leading-relaxed font-medium text-[#111111]/75 md:text-[20px]"
+            style={{ fontFamily: F }}
+          >
+            We don't just design your site. Our goal is to convert strangers who view it
+            into clients — and we take that responsibility seriously.
+          </p>
+        </Reveal>
+
         {/* live client sites */}
         <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-3">
           {LIVE_SITES.map((site, i) => (
