@@ -1391,11 +1391,122 @@ function ExpandSection({ title, blurb, children }: { title: string; blurb: strin
   );
 }
 
+/* ---------- AI adoption — radial dials on a dark band ---------- */
+const ADOPTION: Array<[string, number]> = [
+  ["All industries", 78],
+  ["Finance", 91],
+  ["Marketing", 71],
+  ["Healthcare", 66],
+  ["Retail", 63],
+  ["Manufacturing", 55],
+];
+
+/** one dial — the ring draws itself in once the band is on screen */
+function Dial({ label, pct, on, delay, lead }: { label: string; pct: number; on: boolean; delay: number; lead?: boolean }) {
+  const sans =
+    "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  const R = 52;
+  const C = 2 * Math.PI * R;
+  return (
+    <div className="flex flex-col items-center">
+      <div className="relative">
+        <svg width="128" height="128" viewBox="0 0 128 128" className="-rotate-90">
+          <circle cx="64" cy="64" r={R} fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="9" />
+          <circle
+            cx="64"
+            cy="64"
+            r={R}
+            fill="none"
+            stroke={lead ? "#5fd08a" : "#1e6b3c"}
+            strokeWidth="9"
+            strokeLinecap="round"
+            strokeDasharray={C}
+            strokeDashoffset={on ? C * (1 - pct / 100) : C}
+            style={{ transition: `stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1) ${delay}s` }}
+          />
+        </svg>
+        <span
+          className="absolute inset-0 grid place-items-center text-[26px] font-semibold tracking-[-0.03em] text-white tabular-nums"
+          style={{ fontFamily: sans }}
+        >
+          {pct}%
+        </span>
+      </div>
+      <p
+        className={`mt-3 text-center text-[13px] ${lead ? "font-semibold text-white" : "text-white/60"}`}
+        style={{ fontFamily: sans }}
+      >
+        {label}
+      </p>
+    </div>
+  );
+}
+
+function AdoptionSection() {
+  const sans =
+    "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif";
+  const ref = useRef<HTMLElement | null>(null);
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") { setOn(true); return; }
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setOn(true), io.disconnect()), { threshold: 0.25 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <section ref={ref} className="relative overflow-hidden bg-[#0c0e0d] py-16 md:py-24" id="adoption">
+      {/* a single soft green bloom behind the dials */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[130px]"
+        style={{ background: "radial-gradient(circle, rgba(30,107,60,0.30), transparent 68%)" }}
+      />
+      <div className="relative mx-auto w-full max-w-6xl px-6">
+        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+          <h2
+            className="max-w-2xl text-2xl font-semibold tracking-[-0.035em] text-white md:text-4xl"
+            style={{ fontFamily: sans }}
+          >
+            Adoption is no longer a question of if.
+          </h2>
+          <p className="text-[12.5px] text-white/45" style={{ fontFamily: sans }}>
+            Sources below · Updated July 2026
+          </p>
+        </div>
+
+        <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
+          {ADOPTION.map(([label, pct], i) => (
+            <Dial
+              key={label}
+              label={label}
+              pct={pct}
+              on={on}
+              delay={i * 0.09}
+              lead={i === 0}
+            />
+          ))}
+        </div>
+
+        <p
+          className="mt-12 max-w-3xl border-t border-white/10 pt-6 text-[14px] leading-relaxed text-white/60 md:text-[15px]"
+          style={{ fontFamily: sans }}
+        >
+          Read across: 78% of organizations already run AI in at least one business
+          function. The industry lines below it aren't outliers — they're the baseline
+          your customers now compare you against.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 export function HomeRows() {
   return (
     <main className="bg-white">
       <ScrollProgress />
       <HomeHero />
+      <AdoptionSection />
       <AutomationSection />
       <AutomationCatalog />
       <DesignDivision />
