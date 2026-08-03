@@ -199,18 +199,17 @@ function LocationsPage() {
       <section className="mx-auto max-w-6xl px-6 pt-28 pb-10 md:pt-40 md:pb-16">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:gap-16">
           <Reveal>
-            <p className="text-[13px] font-semibold text-[#1e6b3c]">ELSIAA on the ground</p>
+            <p className="text-[13px] font-semibold text-[#1e6b3c]">Where we work</p>
             <h1 className="mt-4 text-[2.6rem] font-semibold leading-[1.03] tracking-[-0.045em] md:text-[4.1rem]">
-              Clients in six cities.
+              Six cities.
               <br />
-              Our own people in all of them.
+              Our own people in each.
             </h1>
-            <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-[#111111]/60 md:text-[17px]">
-              New York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv — every one
-              has active ELSIAA clients and an ELSIAA team on the ground. Meet them in
-              person by appointment. Everywhere else, we travel to you and run fully
-              remote, in your timezone, around the clock. Every engagement is fully
-              insured.
+            <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-[#111111]/65 md:text-[17px]">
+              New York, Los Angeles, London, Geneva, Antwerp and Tel Aviv. Each one has
+              ELSIAA clients and ELSIAA staff you can sit down with, by appointment. If
+              you are somewhere else, we work your hours remotely and fly out when the
+              job needs someone in the room.
             </p>
             
           </Reveal>

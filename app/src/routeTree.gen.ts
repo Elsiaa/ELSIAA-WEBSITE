@@ -28,6 +28,7 @@ import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IntakeRouteImport } from './routes/intake'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as DesignsRouteImport } from './routes/designs'
+import { Route as DealsRouteImport } from './routes/deals'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ConceptWalkRouteImport } from './routes/concept-walk'
@@ -321,6 +322,11 @@ const InsightsRoute = InsightsRouteImport.update({
 const DesignsRoute = DesignsRouteImport.update({
   id: '/designs',
   path: '/designs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DealsRoute = DealsRouteImport.update({
+  id: '/deals',
+  path: '/deals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -1418,6 +1424,7 @@ export interface FileRoutesByFullPath {
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/deals': typeof DealsRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/intake': typeof IntakeRoute
@@ -1638,6 +1645,7 @@ export interface FileRoutesByTo {
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/deals': typeof DealsRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/intake': typeof IntakeRoute
@@ -1859,6 +1867,7 @@ export interface FileRoutesById {
   '/concept-walk': typeof ConceptWalkRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/deals': typeof DealsRoute
   '/designs': typeof DesignsRoute
   '/insights': typeof InsightsRoute
   '/intake': typeof IntakeRoute
@@ -2081,6 +2090,7 @@ export interface FileRouteTypes {
     | '/concept-walk'
     | '/consultation'
     | '/contact'
+    | '/deals'
     | '/designs'
     | '/insights'
     | '/intake'
@@ -2301,6 +2311,7 @@ export interface FileRouteTypes {
     | '/concept-walk'
     | '/consultation'
     | '/contact'
+    | '/deals'
     | '/designs'
     | '/insights'
     | '/intake'
@@ -2521,6 +2532,7 @@ export interface FileRouteTypes {
     | '/concept-walk'
     | '/consultation'
     | '/contact'
+    | '/deals'
     | '/designs'
     | '/insights'
     | '/intake'
@@ -2742,6 +2754,7 @@ export interface RootRouteChildren {
   ConceptWalkRoute: typeof ConceptWalkRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
+  DealsRoute: typeof DealsRoute
   DesignsRoute: typeof DesignsRoute
   InsightsRoute: typeof InsightsRoute
   IntakeRoute: typeof IntakeRoute
@@ -2984,6 +2997,13 @@ declare module '@tanstack/react-router' {
       path: '/designs'
       fullPath: '/designs'
       preLoaderRoute: typeof DesignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/deals': {
+      id: '/deals'
+      path: '/deals'
+      fullPath: '/deals'
+      preLoaderRoute: typeof DealsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -4966,6 +4986,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConceptWalkRoute: ConceptWalkRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
+  DealsRoute: DealsRoute,
   DesignsRoute: DesignsRoute,
   InsightsRoute: InsightsRoute,
   IntakeRoute: IntakeRoute,

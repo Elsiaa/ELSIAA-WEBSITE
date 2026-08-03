@@ -185,11 +185,11 @@ export function RequestCalendar() {
             Request {picked.time} · {days.find((d) => d.iso === picked.date)?.label}
           </p>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
-            <input className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} placeholder="Your name *" value={name} onChange={(e) => setName(e.target.value)} />
-            <input className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} type="email" placeholder="Email *" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} placeholder="Your name *" value={name} onChange={(e) => setName(e.target.value)} />
+            <input className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} type="email" placeholder="Email *" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
-          <input className="mt-3 w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} placeholder="Company (optional)" value={company} onChange={(e) => setCompany(e.target.value)} />
-          <textarea className="mt-3 min-h-[80px] w-full resize-y rounded-lg border border-black/10 bg-white px-4 py-3 text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} placeholder="What would you like to talk about?" value={topic} onChange={(e) => setTopic(e.target.value)} />
+          <input className="mt-3 w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} placeholder="Company (optional)" value={company} onChange={(e) => setCompany(e.target.value)} />
+          <textarea className="mt-3 min-h-[80px] w-full resize-y rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} placeholder="What would you like to talk about?" value={topic} onChange={(e) => setTopic(e.target.value)} />
           {error && <p className="mt-3 text-[13px] text-red-600" style={inter}>{error}</p>}
           <button
             onClick={submit}
