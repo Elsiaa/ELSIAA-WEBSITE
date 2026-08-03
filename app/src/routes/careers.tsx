@@ -101,16 +101,19 @@ function Hero({ onApply }: { onApply: () => void }) {
       <div className="relative mx-auto w-full max-w-5xl px-6 pt-36 pb-10 text-center md:pb-14">
         <p className="text-[13px] font-bold text-[#2e9e58]">Careers</p>
         <h1 className="mx-auto mt-3 max-w-2xl text-4xl leading-[1.03] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl">
-          Come build the real thing.
+          Careers at ELSIAA
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-white/70">
-          We only ship work we'd put our name on. If that's how you work, we want to meet you.
+        <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-white/70 md:text-[17px]">
+          ELSIAA designs, builds, and maintains the AI systems, software, and design
+          our clients run their businesses on — from six offices across three
+          continents. We are hiring across design, engineering, client engagement,
+          and legal operations.
         </p>
         <button
           onClick={onApply}
           className="mt-8 inline-flex items-center rounded-full bg-[#2e9e58] px-8 py-3.5 text-[14px] font-semibold text-white transition-all hover:bg-[#1e6b3c]"
         >
-          Apply →
+          View open roles →
         </button>
       </div>
     </section>
