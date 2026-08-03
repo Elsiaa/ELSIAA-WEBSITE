@@ -56,8 +56,7 @@ function QuotePage() {
           alt=""
           width={760}
           height={760}
-          /* the render ships on white, so multiply drops it into the page tint */
-          className="hidden w-44 shrink-0 object-contain mix-blend-multiply md:block lg:w-56"
+          className="hidden w-44 shrink-0 object-contain md:block lg:w-56"
         />
         </div>
         <div className="mt-10">
