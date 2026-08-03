@@ -1391,9 +1391,8 @@ function DesignCatalog() {
 }
 
 
-/* ---- anti-fatigue: collapsed chapter that mounts content only when opened ---- */
 /* Section that can be collapsed but is OPEN by default and always renders its
-   children. Previously it did `{open && children}` starting closed, so the
+   children. It previously mounted them only while open, starting closed, so the
    team, the proof cards and the offices never existed in the DOM at all — no
    crawler, no screen reader and no Cmd-F could find them, and a visitor only
    saw them if they happened to tap the header. Collapsing is now done with
