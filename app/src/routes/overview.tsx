@@ -97,7 +97,7 @@ function Overview() {
       </section>
 
       {/* the gap */}
- <section className="bg-[#070907] px-6 py-24 text-center text-[#F5F5F3] md:py-32">
+ <section className="bg-[#070907] px-6 py-16 text-center text-[#F5F5F3] md:py-32">
         <Reveal>
           <h2
             className="mx-auto max-w-3xl text-3xl font-semibold leading-[1.15] tracking-[-0.035em] md:text-5xl"
@@ -116,7 +116,7 @@ function Overview() {
       </section>
 
       {/* what we actually ship */}
- <section className="bg-white px-6 py-24 md:py-28">
+ <section className="bg-white px-6 py-16 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-bold text-[#1e6b3c]" style={sans}>
@@ -130,7 +130,7 @@ function Overview() {
             </h2>
           </Reveal>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
+          <div className="mt-9 grid gap-5 md:grid-cols-3">
             {SHIP.map((s, i) => (
               <Reveal key={s.num} delay={i * 80}>
                 <div className="flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
@@ -167,7 +167,7 @@ function Overview() {
       </section>
 
       {/* proof first */}
- <section className="bg-[#F5F5F3] px-6 py-24 text-center md:py-32">
+ <section className="bg-[#F5F5F3] px-6 py-16 text-center md:py-32">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={sans}>
             Proof first.

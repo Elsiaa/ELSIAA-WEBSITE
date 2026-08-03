@@ -144,7 +144,7 @@ export function EmpireHero() {
           </p>
           <a
             href="#services"
-            className="group mt-16 inline-flex items-center gap-3 border border-[#F5F5F3]/20 px-7 py-3 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
+            className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/20 px-7 py-3 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
             style={{
               fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
               opacity: ready ? 1 : 0,

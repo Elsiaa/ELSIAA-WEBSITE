@@ -191,7 +191,7 @@ function SearchPage() {
 
         {/* ---------- empty / discovery state ---------- */}
         {!hasQuery && (
-          <div className="mt-12 space-y-10">
+          <div className="mt-9 space-y-10">
             <div>
               <p className="text-[13px] text-[#111111]/55" style={{ fontFamily: MONO }}>Suggested deep paths</p>
               <div className="mt-3 flex flex-wrap gap-2">

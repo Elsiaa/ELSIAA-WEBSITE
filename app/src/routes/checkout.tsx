@@ -51,7 +51,7 @@ function CheckoutBody() {
 
   if (lines.length === 0) {
     return (
-      <section className="mx-auto max-w-2xl px-6 py-24 text-center" style={F}>
+      <section className="mx-auto max-w-2xl px-6 py-16 text-center" style={F}>
         <h1 className="text-[24px] font-semibold text-[#111111]">Nothing to check out — yet.</h1>
         <a href="/store" className="mt-6 inline-flex min-h-[50px] items-center rounded-full bg-[#111111] px-8 text-[15px] font-semibold text-white hover:opacity-85">Browse the store →</a>
       </section>

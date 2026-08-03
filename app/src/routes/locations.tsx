@@ -245,7 +245,7 @@ function LocationsPage() {
       </section>
 
       {/* ── the directory — the clearest statement of the dual presence ── */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-16">
         <Reveal>
           <p className="text-[13px] font-semibold text-[#1e6b3c]">The directory</p>
           <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
@@ -258,7 +258,7 @@ function LocationsPage() {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-9 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {OFFICES.map((o, i) => (
             <Reveal key={o.name} delay={(i % 3) * 0.05}>
               <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.07] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
@@ -334,7 +334,7 @@ function LocationsPage() {
       </section>
 
       {/* ── U.S. offices — the regional footprint, with public addresses ── */}
- <section className="bg-[#F5F5F3] px-6 py-16 md:py-24">
+ <section className="bg-[#F5F5F3] px-6 py-16 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-semibold text-[#1e6b3c]">U.S. offices</p>
@@ -397,7 +397,7 @@ function LocationsPage() {
 
       {/* ── follow the sun — one clean coverage strip, full city names ── */}
  <section className="bg-[#F5F5F3]">
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <div className="mx-auto max-w-6xl px-6 py-16 md:py-16">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] md:items-center md:gap-16">
             <Reveal>
               <p className="text-[13px] font-semibold text-[#1e6b3c]">Follow the sun</p>
@@ -445,7 +445,7 @@ function LocationsPage() {
       </section>
 
       {/* ── anywhere in the world ── */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-16">
         <Reveal>
           <p className="text-[13px] font-semibold text-[#1e6b3c]">Anywhere in the world</p>
           <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
@@ -474,7 +474,7 @@ function LocationsPage() {
       </section>
 
       {/* ── closing ── */}
- <section className="mx-auto max-w-6xl px-6 py-20 text-center md:py-28">
+ <section className="mx-auto max-w-6xl px-6 py-14 text-center md:py-16">
         <Reveal>
           <h2 className="mx-auto max-w-3xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
             Tell us where you are. We'll be there — or already awake for you.

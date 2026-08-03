@@ -215,7 +215,7 @@ function TeamPage() {
       <SiteNav />
 
       {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-40 pb-6 md:pt-44">
+      <section className="mx-auto max-w-6xl px-6 pt-32 pb-6 md:pt-44">
         <Reveal>
           <p
             className="text-[13px] text-[#1e6b3c] "
@@ -283,7 +283,7 @@ function TeamPage() {
           </div>
           <p
             title="With God's help we shall do and succeed."
-            className="mt-12 cursor-help text-[13px] text-[#111111]/50 "
+            className="mt-9 cursor-help text-[13px] text-[#111111]/50 "
             style={{ fontFamily: MONO }}
           >
             בעזרת ה׳ נעשה ונצליח

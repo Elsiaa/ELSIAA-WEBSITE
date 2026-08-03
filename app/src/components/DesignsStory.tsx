@@ -574,7 +574,7 @@ function PreviousWork() {
           Every piece on this page — the identity, the films, the experience you just
           scrolled — is our own work. The portfolio is the site.
         </p>
-        <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5">
+        <div className="mt-9 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5">
           {WORK.map((w) => (
             <figure
               key={w.label}
@@ -626,7 +626,7 @@ function ClosingCTA() {
       </h2>
       <a
         href="/quote"
-        className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-8 py-3 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
+        className="group mt-9 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-8 py-3 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
         style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
       >
         Start your project

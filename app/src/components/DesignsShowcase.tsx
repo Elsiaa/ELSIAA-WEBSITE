@@ -964,7 +964,7 @@ function DiscoverApps() {
         </Reveal>
         <SideToggle side={side} setSide={setSide} />
 
-        <div className="relative mt-12 grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-10">
+        <div className="relative mt-9 grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-10">
           <div className="pointer-events-none absolute top-[40%] left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center lg:flex">
             <span
               className="flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-[13px] font-bold tracking-[0.08em] text-[#111111] shadow-[0_16px_40px_-12px_rgba(17,17,17,0.3)]"
@@ -1072,7 +1072,7 @@ function DiscoverApps() {
         </div>
 
         <Reveal delay={0.1}>
-          <div className="mx-auto mt-16 max-w-5xl border-t border-black/[0.08] pt-10">
+          <div className="mx-auto mt-12 max-w-5xl border-t border-black/[0.08] pt-10">
             <div className="mt-8 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 ["Platform-correct", "iOS and Android patterns done natively — gestures, navigation, and type that feel at home on each device."],
@@ -1187,7 +1187,7 @@ function ScrollScrubVideo() {
     };
   }, []);
   return (
-    <div ref={wrapRef} className="relative mt-12 h-[260vh]">
+    <div ref={wrapRef} className="relative mt-9 h-[260vh]">
       <div className="sticky top-0 flex h-screen flex-col items-center justify-center">
         <div className="w-full overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_60px_130px_-60px_rgba(17,17,17,0.35)]">
           <video
@@ -1340,7 +1340,7 @@ const LIVE_SITES: Array<{ name: string; kind: string; url?: string }> = [
 
 function DesignEverything() {
   return (
-    <section className="bg-white px-6 py-16 md:py-20" id="websites">
+    <section className="bg-white px-6 py-16 md:py-16" id="websites">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2 className="max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: F }}>
@@ -1605,7 +1605,15 @@ function BeyondWebsites() {
         onPointerLeave={() => (paused.current = false)}
         onTouchStart={() => (paused.current = true)}
         onTouchEnd={() => (paused.current = false)}
-        className="mt-12 flex gap-4 overflow-x-auto px-6 pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        tabIndex={0}
+        role="group"
+        aria-label="Scrollable list — use the left and right arrow keys"
+        onKeyDown={(e) => {
+          const el = e.currentTarget;
+          if (e.key === "ArrowRight") { e.preventDefault(); el.scrollBy({ left: Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
+          if (e.key === "ArrowLeft") { e.preventDefault(); el.scrollBy({ left: -Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
+        }}
+        className="mt-9 flex gap-3 overflow-x-auto px-6 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]"
       >
         {[...APPS, ...APPS].map(([t, d], i) => (
           <div
@@ -1894,7 +1902,7 @@ function Results() {
 /* ---------------- 6 · final CTA ---------------- */
 function FinalCTA() {
   return (
-    <section className="bg-[#070907] px-6 py-20 text-center text-[#F5F5F3]">
+    <section className="bg-[#070907] px-6 py-14 text-center text-[#F5F5F3]">
       <Reveal>
         <p
           className="text-[13px] text-[#2e9e58] "
@@ -1910,14 +1918,14 @@ function FinalCTA() {
         </h2>
         <a
           href="/contact"
-          className="group mt-12 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-9 py-3.5 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
+          className="group mt-9 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-9 py-3.5 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
           style={{ fontFamily: "'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
         >
           Book a strategy call
           <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </a>
         <p
-          className="mt-16 text-sm italic text-[#F5F5F3]/40"
+          className="mt-12 text-sm italic text-[#F5F5F3]/40"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
           Omnia possibilia
