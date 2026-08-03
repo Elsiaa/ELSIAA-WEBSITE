@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
 import { absoluteUrl } from "../lib/site-url";
@@ -128,7 +128,10 @@ function ApplyForm() {
   const [essay, setEssay] = useState("");
   const [aiFlag, setAiFlag] = useState(false);
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const fileInput = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const doneRef = useRef<HTMLDivElement>(null);
 
   const words = essay.trim() ? essay.trim().split(/\s+/).length : 0;
 
@@ -147,17 +150,22 @@ function ApplyForm() {
     return hits >= 2;
   };
 
-  const valid =
-    first.trim() &&
-    last.trim() &&
-    number.trim().length >= 7 &&
-    /.+@.+\..+/.test(email) &&
-    positions.length > 0 &&
-    country.trim() &&
-    arrangement &&
-    commitment &&
-    words >= 250 &&
-    !aiFlag;
+  /* Validation runs on submit and reports per field. The button stays enabled:
+     a permanently dead button with no explanation is unusable with a screen
+     reader, and gives a sighted user nothing to act on either. */
+  const validate = () => {
+    const e: Record<string, string> = {};
+    if (!first.trim()) e.first = "Enter your first name.";
+    if (!last.trim()) e.last = "Enter your last name.";
+    if (number.trim().length < 7) e.phone = "Enter a phone number we can reach you on.";
+    if (!/.+@.+\..+/.test(email)) e.email = "Enter a valid email address.";
+    if (positions.length === 0) e.positions = "Choose at least one area.";
+    if (!country.trim()) e.country = "Where are you based?";
+    if (!arrangement) e.arrangement = "Pick a work arrangement.";
+    if (!commitment) e.commitment = "Pick a commitment.";
+    if (words < 250) e.essay = `Your statement is ${words} words — 250 is the minimum.`;
+    return e;
+  };
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -166,13 +174,23 @@ function ApplyForm() {
     if (f) setFile(f);
   }, []);
 
-  const submit = async () => {
+  const submit = async (ev?: React.FormEvent) => {
+    ev?.preventDefault();
     if (state === "sending") return;
-    if (looksAi(essay)) {
-      setAiFlag(true);
+
+    const e = validate();
+    setErrors(e);
+    if (Object.keys(e).length) {
+      /* move the user to the first thing that needs fixing */
+      const firstKey = Object.keys(e)[0];
+      const el = formRef.current?.querySelector<HTMLElement>(
+        `#apply-${firstKey}, [data-field="${firstKey}"]`,
+      );
+      el?.focus();
+      el?.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
-    if (!valid) return;
+    if (looksAi(essay)) setAiFlag(true); /* a warning now, not a block */
     setState("sending");
     try {
       const fd = new FormData();
@@ -201,10 +219,19 @@ function ApplyForm() {
     }
   };
 
+  useEffect(() => {
+    if (state === "done") doneRef.current?.focus();
+  }, [state]);
+
   if (state === "done") {
     return (
       <section className="mx-auto max-w-5xl px-6 pb-24">
-        <div className="rounded-2xl border border-[#1e6b3c]/30 bg-[#1e6b3c]/[0.06] p-10 text-center">
+        <div
+          ref={doneRef}
+          role="status"
+          tabIndex={-1}
+          className="rounded-2xl border border-[#1e6b3c]/30 bg-[#1e6b3c]/[0.06] p-8 text-center focus:outline-none md:p-10"
+        >
           <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#1e6b3c] text-white">✓</span>
           <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em]">Application submitted</h3>
           <p className="mt-2 text-[14px] text-[#111111]/55">
@@ -228,26 +255,30 @@ function ApplyForm() {
           </p>
         </div>
 
-        <div className="mt-6 lg:mt-0 lg:min-w-0 lg:flex-1">
+        <form ref={formRef} onSubmit={submit} noValidate className="mt-6 lg:mt-0 lg:min-w-0 lg:flex-1">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="First name" value={first} onChange={setFirst} autoComplete="given-name" />
-            <Field label="Last name" value={last} onChange={setLast} autoComplete="family-name" />
-            <Field label="Phone" value={number} onChange={setNumber} type="tel" autoComplete="tel" />
-            <Field label="Email" value={email} onChange={setEmail} type="email" autoComplete="email" />
+            <Field id="apply-first" label="First name" value={first} onChange={setFirst} autoComplete="given-name" error={errors.first} />
+            <Field id="apply-last" label="Last name" value={last} onChange={setLast} autoComplete="family-name" error={errors.last} />
+            <Field id="apply-phone" label="Phone" value={number} onChange={setNumber} type="tel" inputMode="tel" autoComplete="tel" error={errors.phone} />
+            <Field id="apply-email" label="Email" value={email} onChange={setEmail} type="email" inputMode="email" autoComplete="email" error={errors.email} />
           </div>
 
           {/* areas of interest */}
           <div className="mt-6">
-            <span className="text-[13px] text-[#111111]/55">Areas of interest — select all that apply</span>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <span id="apply-positions-label" className="text-[13px] text-[#111111]/55">
+              Areas of interest — select all that apply
+            </span>
+            <div role="group" aria-labelledby="apply-positions-label" className="mt-2 flex flex-wrap gap-2">
               {["Design", "Engineering", "Client Engagement & Sales", "Legal", "Business Operations"].map((p) => {
                 const on = positions.includes(p);
                 return (
                   <button
                     key={p}
                     type="button"
+                    aria-pressed={on}
+                    data-field="positions"
                     onClick={() => setPositions((cur) => (on ? cur.filter((x) => x !== p) : [...cur, p]))}
-                    className={`rounded-full border px-4 py-2 text-[12.5px] font-medium transition-all duration-200 ${
+                    className={`min-h-[44px] rounded-full border px-4 py-2 text-[12.5px] font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] ${
                       on ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/15 bg-white text-[#111111]/70 hover:border-black/35"
                     }`}
                   >
@@ -256,13 +287,14 @@ function ApplyForm() {
                 );
               })}
             </div>
+            {errors.positions && <p className="mt-1.5 text-[12.5px] text-[#E53E3E]">{errors.positions}</p>}
           </div>
 
           {/* location + arrangement + commitment */}
-          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <Field label="Location" value={country} onChange={setCountry} autoComplete="country-name" />
-            <Choice label="Work arrangement" value={arrangement} onChange={setArrangement} options={["Remote", "Hybrid", "On-site"]} />
-            <Choice label="Commitment" value={commitment} onChange={setCommitment} options={["Full-time", "Part-time"]} />
+          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <Field id="apply-country" label="Location" value={country} onChange={setCountry} autoComplete="country-name" error={errors.country} />
+            <Choice label="Work arrangement" value={arrangement} onChange={setArrangement} options={["Remote", "Hybrid", "On-site"]} error={errors.arrangement} />
+            <Choice label="Commitment" value={commitment} onChange={setCommitment} options={["Full-time", "Part-time"]} error={errors.commitment} />
           </div>
 
           {/* statement */}
@@ -286,16 +318,18 @@ function ApplyForm() {
               placeholder="Please write in your own words."
             />
             <p className="mt-1.5 text-[11.5px] text-[#111111]/55">
-              Written by you, not by AI — machine-written answers are detected and disqualified.
+              Please write this yourself — we read every statement personally.
             </p>
             {aiFlag && (
               <p className="mt-2 rounded-lg border border-[#E53E3E]/30 bg-[#E53E3E]/[0.05] px-4 py-3 text-[13px] text-[#E53E3E]">
-                This reads machine-written. Rewrite it in your own voice — tell us something only you could say.
+                This reads machine-written to us. It won't stop you submitting, but a statement in your own voice lands far better.
               </p>
             )}
           </div>
 
-          {/* résumé */}
+          {/* résumé — the input stays in the DOM and in the tab order. It was
+              previously className="hidden", which measured 0px, so a CV could
+              not be attached without a mouse. */}
           <div
             onDragOver={(e) => {
               e.preventDefault();
@@ -303,45 +337,64 @@ function ApplyForm() {
             }}
             onDragLeave={() => setDrag(false)}
             onDrop={onDrop}
-            onClick={() => fileInput.current?.click()}
-            className={`mt-4 flex cursor-pointer items-center justify-center gap-3 rounded-xl border border-dashed p-6 transition-all duration-200 ${
-              drag ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.05]" : file ? "border-[#1e6b3c]/50 bg-[#1e6b3c]/[0.04]" : "border-black/15 hover:border-black/30"
+            className={`mt-4 rounded-xl border border-dashed p-5 transition-all duration-200 ${
+              drag ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.05]" : file ? "border-[#1e6b3c]/50 bg-[#1e6b3c]/[0.04]" : "border-black/15"
             }`}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={file ? "#1e6b3c" : "#666"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="17 8 12 3 7 8" />
-              <line x1="12" y1="3" x2="12" y2="15" />
-            </svg>
-            <p className="text-[13px] text-[#111111]/60">
-              {file ? (
-                <span className="font-medium text-[#1e6b3c]">{file.name}</span>
-              ) : (
-                <>
-                  <span className="font-medium text-[#111111]">Drag your résumé here</span>
-                  <span className="text-[#111111]/55"> — or click to upload</span>
-                </>
-              )}
+            <label
+              htmlFor="apply-resume"
+              className="flex min-h-[44px] cursor-pointer flex-wrap items-center justify-center gap-3 text-center"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={file ? "#1e6b3c" : "#666"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              <span className="text-[13px] text-[#111111]/60">
+                {file ? (
+                  <span className="font-medium text-[#1e6b3c]">{file.name}</span>
+                ) : (
+                  <>
+                    <span className="font-medium text-[#111111]">Attach your résumé</span>
+                    <span className="text-[#111111]/55"> — or drag it here</span>
+                  </>
+                )}
+              </span>
+            </label>
+            <input
+              id="apply-resume"
+              ref={fileInput}
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+              className="mx-auto mt-3 block w-full max-w-full text-[13px] text-[#111111]/70 file:mr-3 file:min-h-[44px] file:cursor-pointer file:rounded-full file:border file:border-black/15 file:bg-white file:px-4 file:text-[13px] file:font-semibold file:text-[#111111] hover:file:border-[#1e6b3c] hover:file:text-[#1e6b3c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]"
+            />
+            {/* announced to assistive tech when a file is chosen */}
+            <p role="status" className="sr-only">
+              {file ? `${file.name} attached` : "No file attached"}
             </p>
-            <input ref={fileInput} type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
           </div>
 
           <button
-            onClick={submit}
-            disabled={!valid || state === "sending"}
-            className={`mt-6 w-full rounded-full px-6 py-4 text-[13px] font-semibold transition-all duration-300 md:w-auto md:min-w-[220px] ${
-              valid ? "bg-[#111111] text-white hover:bg-[#1e6b3c]" : "cursor-not-allowed bg-black/[0.06] text-[#111111]/50"
-            }`}
+            type="submit"
+            disabled={state === "sending"}
+            className="mt-6 min-h-[52px] w-full rounded-full bg-[#111111] px-6 text-[13px] font-semibold text-white transition-all duration-300 hover:bg-[#1e6b3c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] disabled:opacity-60 md:w-auto md:min-w-[220px]"
           >
             {state === "sending" ? "Sending…" : "Submit application →"}
           </button>
+          {Object.keys(errors).length > 0 && (
+            <p role="alert" className="mt-3 text-[13px] text-[#E53E3E]">
+              {Object.keys(errors).length} field
+              {Object.keys(errors).length === 1 ? "" : "s"} need attention — see the notes above.
+            </p>
+          )}
           {state === "error" && (
-            <p className="mt-3 text-[13px] text-[#E53E3E]">
+            <p role="alert" className="mt-3 text-[13px] text-[#E53E3E]">
               Something broke on the way — try once more, or email{" "}
               <a className="underline" href="mailto:info@elsiaa.com">info@elsiaa.com</a>.
             </p>
           )}
-        </div>
+        </form>
       </div>
     </section>
   );
@@ -352,22 +405,26 @@ function Choice({
   value,
   onChange,
   options,
+  error,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   options: string[];
+  error?: string;
 }) {
   return (
-    <div>
+    <div role="radiogroup" aria-label={label} aria-invalid={error ? true : undefined}>
       <span className="text-[13px] text-[#111111]/55">{label}</span>
       <div className="mt-1.5 flex gap-1.5">
         {options.map((o) => (
           <button
             key={o}
             type="button"
+            role="radio"
+            aria-checked={value === o}
             onClick={() => onChange(o)}
-            className={`flex-1 rounded-xl border px-2 py-3 text-[12.5px] font-medium transition-all duration-200 ${
+            className={`min-h-[44px] flex-1 rounded-xl border px-2 py-3 text-[12.5px] font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] ${
               value === o ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/10 bg-[#FBFBFA] text-[#111111]/65 hover:border-black/30"
             }`}
           >
@@ -375,33 +432,56 @@ function Choice({
           </button>
         ))}
       </div>
+      {error && <p className="mt-1 text-[12.5px] text-[#E53E3E]">{error}</p>}
     </div>
   );
 }
 
 function Field({
+  id,
   label,
   value,
   onChange,
   type = "text",
   autoComplete,
+  error,
+  inputRef,
+  inputMode,
 }: {
+  id: string;
   label: string;
   value: string;
   onChange: (v: string) => void;
   type?: string;
   autoComplete?: string;
+  error?: string;
+  inputRef?: React.Ref<HTMLInputElement>;
+  inputMode?: "text" | "tel" | "email";
 }) {
   return (
-    <label className="block">
-      <span className="text-[13px] text-[#111111]/55">{label}</span>
+    <div className="block">
+      <label htmlFor={id} className="text-[13px] text-[#111111]/55">
+        {label}
+      </label>
       <input
+        id={id}
+        ref={inputRef}
         type={type}
+        inputMode={inputMode}
         value={value}
         autoComplete={autoComplete}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${id}-err` : undefined}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1.5 w-full rounded-xl border border-black/10 bg-[#FBFBFA] px-4 py-3.5 text-[16px] transition-colors focus:border-[#1e6b3c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] md:text-[15px]"
+        className={`mt-1.5 w-full rounded-xl border bg-[#FBFBFA] px-4 py-3.5 text-[16px] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] md:text-[15px] ${
+          error ? "border-[#E53E3E]" : "border-black/10 focus:border-[#1e6b3c]"
+        }`}
       />
-    </label>
+      {error && (
+        <p id={`${id}-err`} className="mt-1 text-[12.5px] text-[#E53E3E]">
+          {error}
+        </p>
+      )}
+    </div>
   );
 }
