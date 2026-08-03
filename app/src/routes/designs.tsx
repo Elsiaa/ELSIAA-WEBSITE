@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { DesignsShowcase } from "../components/DesignsShowcase";
-import { DesignsOpener } from "../components/DesignsOpener";
 import { absoluteUrl } from "../lib/site-url";
 
 export const Route = createFileRoute("/designs")({
@@ -33,7 +32,6 @@ function Designs() {
     <main className="bg-white text-[#111111] antialiased">
       <SiteNav />
       <DesignsShowcase />
-      <DesignsOpener />
     </main>
   );
 }

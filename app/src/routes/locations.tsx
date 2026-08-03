@@ -143,6 +143,7 @@ const REGIONS = [
 const US_OFFICES: Array<{ city: string; state: string; address: string; tz: string }> = [
   { city: "Baltimore", state: "Maryland", address: "2901 Fallstaff Rd, Suite 304", tz: "America/New_York" },
   { city: "Montvale", state: "New Jersey", address: "50 Chestnut Ridge Rd, Suite 130", tz: "America/New_York" },
+  { city: "Hackensack", state: "New Jersey", address: "1 University Plaza", tz: "America/New_York" },
   { city: "Kingston", state: "Pennsylvania", address: "150 James St", tz: "America/New_York" },
 ];
 
