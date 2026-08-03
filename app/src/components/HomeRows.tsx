@@ -1058,7 +1058,7 @@ const TEAM = [
   { name: "Yisrael Krug", role: "Founder & Chief Executive Officer", init: "YK", photo: "/assets/team/yk.jpg" },
   { name: "David Heimowitz", role: "Co-Founder & Chief Technology Officer", init: "DH", photo: "/assets/team/dh.jpg" },
   { name: "Jacob Rubelow", role: "Executive Legal & Strategic Counsel", init: "JR", photo: "/assets/team/jr.jpg" },
-  { name: "Chaim Lieberman", role: "Director of European Business", init: "CL", photo: "/assets/team/cl.jpg" },
+  { name: "Chaim Lieberman", role: "Executive Director & Partner", init: "CL", photo: "/assets/team/cl.jpg" },
   { name: "Izzy Eisenberg", role: "Director of California Business", init: "IE", photo: "/assets/team/ie.jpg" },
   { name: "Ynon Azulai", role: "AI & Technology Expert · Jerusalem", init: "YA", photo: "/assets/team/ya.jpg" },
 ];
