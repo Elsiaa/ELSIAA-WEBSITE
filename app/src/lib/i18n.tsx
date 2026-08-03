@@ -388,6 +388,27 @@ const DICT: Record<string, Row> = {
   "We obsess over every aspect of your online presence.": { es: "Nos obsesionamos con cada aspecto de tu presencia online.", fr: "Nous sommes obsédés par chaque aspect de votre présence en ligne.", de: "Wir sind besessen von jedem Aspekt Ihrer Online-Präsenz.", ru: "Мы одержимы каждым аспектом вашего присутствия в сети.", nl: "Wij zijn geobsedeerd door elk aspect van uw online aanwezigheid.", he: "אנחנו אובססיביים לגבי כל היבט של הנוכחות המקוונת שלכם.", yi: "מיר זײַנען פֿאַרכאַפּט מיט יעדן אַספּעקט פֿון אײַער אָנלײַן־אָנוועזנהייט." },
   "The same business, before and after an ELSIAA rebuild.": { es: "El mismo negocio, antes y después de una reconstrucción de ELSIAA.", fr: "La même entreprise, avant et après une refonte ELSIAA.", de: "Dasselbe Unternehmen, vor und nach einem ELSIAA-Neuaufbau.", ru: "Тот же бизнес — до и после перестройки ELSIAA.", nl: "Hetzelfde bedrijf, voor en na een ELSIAA-herbouw.", he: "אותו עסק, לפני ואחרי בנייה מחדש של ELSIAA.", yi: "דאָס זעלבע געשעפֿט, פֿאַר און נאָך אַן ELSIAA איבערבוי." },
 
+  "Deals": { es: "Ofertas", fr: "Offres", de: "Angebote", ru: "Предложения", nl: "Aanbiedingen", he: "מבצעים", yi: "מציאות" },
+  "Voice intake": { es: "Recepción por voz", fr: "Accueil téléphonique", de: "Telefonannahme", ru: "Голосовой приём", nl: "Telefonische intake", he: "מענה קולי", yi: "קול־אויפֿנעמונג" },
+  // ---- control labels & placeholders (attributes) ----
+  "e.g. Our front desk misses 40% of calls — we want an AI receptionist that books patients into the right doctor's calendar.": { es: "p. ej. Nuestra recepción pierde el 40 % de las llamadas: queremos una recepcionista con IA que agende a los pacientes en la agenda del médico correcto.", fr: "ex. notre accueil manque 40 % des appels — nous voulons une réceptionniste IA qui place les patients dans l'agenda du bon médecin.", de: "z. B. Unser Empfang verpasst 40 % der Anrufe — wir wollen eine KI-Rezeption, die Patienten im Kalender des richtigen Arztes einträgt.", ru: "например: наша стойка пропускает 40 % звонков — нужен ИИ-администратор, который записывает пациентов к нужному врачу.", nl: "bijv. onze balie mist 40% van de oproepen — we willen een AI-receptionist die patiënten in de agenda van de juiste arts zet.", he: "לדוגמה: הקבלה שלנו מפספסת 40% מהשיחות — אנחנו רוצים פקיד קבלה מבוסס AI שיקבע למטופלים תור אצל הרופא הנכון.", yi: "למשל: אונדזער אויפֿנעם פֿאַרפֿעלט 40% פֿון די רופֿן — מיר ווילן אַן AI־אויפֿנעמער וואָס שרײַבט אײַן פּאַציענטן בײַם ריכטיקן דאָקטער." },
+  "Your name": { es: "Tu nombre", fr: "Votre nom", de: "Ihr Name", ru: "Ваше имя", nl: "Uw naam", he: "השם שלך", yi: "אײַער נאָמען" },
+  "Company (optional)": { es: "Empresa (opcional)", fr: "Entreprise (facultatif)", de: "Unternehmen (optional)", ru: "Компания (необязательно)", nl: "Bedrijf (optioneel)", he: "חברה (לא חובה)", yi: "פֿירמע (אָפּציאָנעל)" },
+  "Search the site": { es: "Buscar en el sitio", fr: "Rechercher sur le site", de: "Website durchsuchen", ru: "Поиск по сайту", nl: "Zoek op de site", he: "חיפוש באתר", yi: "זוכט אויפֿן זײַטל" },
+  "Search custom systems, case studies, cities, careers…": { es: "Busca sistemas a medida, casos, ciudades, empleo…", fr: "Rechercher systèmes sur mesure, études de cas, villes, carrières…", de: "Individuelle Systeme, Fallstudien, Standorte, Karriere suchen…", ru: "Поиск систем, кейсов, городов, вакансий…", nl: "Zoek maatwerksystemen, cases, steden, vacatures…", he: "חיפוש מערכות, מקרי בוחן, ערים, משרות…", yi: "זוכט סיסטעמען, פֿאַל־שטודיעס, שטעט, קאַריערעס…" },
+  "Open menu": { es: "Abrir menú", fr: "Ouvrir le menu", de: "Menü öffnen", ru: "Открыть меню", nl: "Menu openen", he: "פתיחת תפריט", yi: "עפֿנט מעניו" },
+  "Close menu": { es: "Cerrar menú", fr: "Fermer le menu", de: "Menü schließen", ru: "Закрыть меню", nl: "Menu sluiten", he: "סגירת תפריט", yi: "פֿאַרמאַכט מעניו" },
+  "Change language": { es: "Cambiar idioma", fr: "Changer de langue", de: "Sprache ändern", ru: "Сменить язык", nl: "Taal wijzigen", he: "שינוי שפה", yi: "בײַט שפּראַך" },
+  "Scroll left": { es: "Desplazar a la izquierda", fr: "Défiler vers la gauche", de: "Nach links scrollen", ru: "Прокрутить влево", nl: "Naar links scrollen", he: "גלילה שמאלה", yi: "בלעטערט לינקס" },
+  "Scroll right": { es: "Desplazar a la derecha", fr: "Défiler vers la droite", de: "Nach rechts scrollen", ru: "Прокрутить вправо", nl: "Naar rechts scrollen", he: "גלילה ימינה", yi: "בלעטערט רעכטס" },
+  "Previous site": { es: "Sitio anterior", fr: "Site précédent", de: "Vorherige Website", ru: "Предыдущий сайт", nl: "Vorige site", he: "האתר הקודם", yi: "פֿריִערדיקער זײַטל" },
+  "Next site": { es: "Sitio siguiente", fr: "Site suivant", de: "Nächste Website", ru: "Следующий сайт", nl: "Volgende site", he: "האתר הבא", yi: "קומענדיקער זײַטל" },
+  "Dismiss": { es: "Descartar", fr: "Fermer", de: "Schließen", ru: "Закрыть", nl: "Sluiten", he: "סגירה", yi: "פֿאַרמאַכן" },
+  "Our locations": { es: "Nuestras ubicaciones", fr: "Nos bureaux", de: "Unsere Standorte", ru: "Наши локации", nl: "Onze locaties", he: "המיקומים שלנו", yi: "אונדזערע ערטער" },
+  "Scrollable list — use the left and right arrow keys": { es: "Lista desplazable: usa las flechas izquierda y derecha", fr: "Liste défilante — utilisez les flèches gauche et droite", de: "Scrollbare Liste — mit den Pfeiltasten links und rechts", ru: "Прокручиваемый список — используйте стрелки влево и вправо", nl: "Scrollbare lijst — gebruik de pijltjestoetsen", he: "רשימה נגללת — השתמשו במקשי החצים", yi: "בלעטערדיקע רשימה — ניצט די פֿײַל־קלאַפּקעס" },
+  "ELSIAA — home": { es: "ELSIAA — inicio", fr: "ELSIAA — accueil", de: "ELSIAA — Startseite", ru: "ELSIAA — главная", nl: "ELSIAA — home", he: "‏ELSIAA — דף הבית", yi: "‏ELSIAA — היים" },
+  "ELSIAA — return to the home page": { es: "ELSIAA — volver a la página de inicio", fr: "ELSIAA — retour à l'accueil", de: "ELSIAA — zurück zur Startseite", ru: "ELSIAA — вернуться на главную", nl: "ELSIAA — terug naar de homepage", he: "‏ELSIAA — חזרה לדף הבית", yi: "‏ELSIAA — צוריק צום היים־בלאַט" },
+
   // ---- menu directory ----
   "What we build": { es: "Lo que construimos", fr: "Ce que nous construisons", de: "Was wir bauen", ru: "Что мы создаём", nl: "Wat wij bouwen", he: "מה אנחנו בונים", yi: "וואָס מיר בויען" },
   "The company": { es: "La empresa", fr: "L'entreprise", de: "Das Unternehmen", ru: "Компания", nl: "Het bedrijf", he: "החברה", yi: "די פֿירמע" },
@@ -746,6 +767,29 @@ function translateDom(lang: Lang) {
     nodes.push(n as Text);
     n = walker.nextNode();
   }
+  /* Attributes the reader actually sees. The tree walker only visits text
+     nodes, so placeholders and tooltips stayed English in every language until
+     they were handled explicitly here. */
+  const ATTRS = ["placeholder", "title", "aria-label"] as const;
+  for (const el of Array.from(root.querySelectorAll<HTMLElement>("[placeholder],[title],[aria-label]"))) {
+    if (el.closest("[data-no-translate]")) continue;
+    for (const attr of ATTRS) {
+      const cur = el.getAttribute(attr);
+      if (!cur) continue;
+      const store = `__en_${attr}`;
+      const bag = el as HTMLElement & Record<string, string | undefined>;
+      if (bag[store] === undefined) bag[store] = cur;
+      const original = bag[store] as string;
+      if (lang === "en") {
+        if (cur !== original) el.setAttribute(attr, original);
+        continue;
+      }
+      const t = DICT[original.trim()]?.[lang];
+      if (t && cur !== t) el.setAttribute(attr, t);
+      else if (!t && cur !== original) el.setAttribute(attr, original);
+    }
+  }
+
   for (const node of nodes) {
     // stash the original English once
     const el = node as Text & { __en?: string };
