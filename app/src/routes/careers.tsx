@@ -40,12 +40,11 @@ const ROLES: Array<[string, string]> = [
 
 function Careers() {
   const formRef = useRef<HTMLDivElement>(null);
-  const toForm = () => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
     <main className="min-h-screen bg-[#FBFBFA] text-[#111111]" style={{ fontFamily: SANS }}>
       <SiteNav />
-      <Hero onApply={toForm} />
+      <Hero />
 
       {/* Open roles */}
  <section className="mx-auto max-w-5xl px-6 py-8 text-center md:py-12">
@@ -89,7 +88,7 @@ function Careers() {
   );
 }
 
-function Hero({ onApply }: { onApply: () => void }) {
+function Hero() {
   return (
     <section className="relative flex min-h-[50vh] items-end overflow-hidden bg-[#0c0c0c] text-white">
       <img
@@ -109,12 +108,7 @@ function Hero({ onApply }: { onApply: () => void }) {
           continents. We are hiring across design, engineering, client engagement,
           and legal operations.
         </p>
-        <button
-          onClick={onApply}
-          className="mt-8 inline-flex items-center rounded-full bg-[#2e9e58] px-8 py-3.5 text-[14px] font-semibold text-white transition-all hover:bg-[#1e6b3c]"
-        >
-          View open roles →
-        </button>
+
       </div>
     </section>
   );
