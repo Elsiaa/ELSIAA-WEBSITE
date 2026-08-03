@@ -1257,16 +1257,22 @@ function ProductAdFeature() {
     return () => io.disconnect();
   }, []);
   return (
-    <section className="bg-white px-6 pt-24 pb-14 md:pt-28 text-[#111111]">
+    <section className="relative overflow-hidden px-6 pt-24 pb-16 md:pt-28 md:pb-24 text-[#111111]" style={{ background: "#eef5f0" }}>
+      {/* the emerald lion — the background this text lives on */}
+      <img
+        src="/assets/lion3d_still.png"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 right-[-6%] h-[130%] w-auto max-w-none -translate-y-1/2 select-none md:right-[-2%]"
+      />
+      {/* scrim — keeps the copy crisp while the lion breathes behind it */}
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(90deg, #eef5f0 0%, #eef5f0 44%, rgba(238,245,240,0.82) 62%, rgba(238,245,240,0.18) 100%)" }}
+      />
       <div className="relative mx-auto max-w-6xl">
-        {/* the easel — our lion on the canvas, tucked in the top-right corner */}
-        <img
-          src="/assets/design_easel.png"
-          alt="An easel with the ELSIAA lion on the canvas, beside a painter's palette"
-          className="pointer-events-none absolute right-0 hidden w-[170px] select-none sm:-top-8 sm:block md:-top-16 md:w-[240px] lg:w-[300px]"
-        />
-        {/* reserve the top-right corner so the easel never covers the copy */}
-        <Reveal className="sm:pr-[190px] md:pr-[270px] lg:pr-[330px]">
+        <Reveal className="md:pr-[300px] lg:pr-[380px]">
           <h2
             className="max-w-3xl text-3xl font-semibold tracking-[-0.035em] text-balance md:text-5xl"
             style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
@@ -1276,6 +1282,14 @@ function ProductAdFeature() {
           </h2>
           <p
             className="mt-4 max-w-2xl text-base leading-relaxed text-[#111111]/60 md:text-lg"
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
+          >
+            And no — AI did not replace artists. Artists use the same tools as
+            you. It&rsquo;s not the tools; it&rsquo;s how the tools are used.
+            That&rsquo;s our job.
+          </p>
+          <p
+            className="mt-3 max-w-2xl text-base leading-relaxed text-[#111111]/60 md:text-lg"
             style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif" }}
           >
             The artist&rsquo;s job is to capture the core of what you want to
@@ -1301,6 +1315,13 @@ function ProductAdFeature() {
             become customers. And that&rsquo;s a real shame, because
             it&rsquo;s entirely avoidable.
           </p>
+
+          {/* the easel — our lion on the canvas, right at the top of the page */}
+          <img
+            src="/assets/design_easel.png"
+            alt="An easel with the ELSIAA lion on the canvas, beside a painter's palette"
+            className="pointer-events-none mt-6 w-[150px] select-none md:w-[180px]"
+          />
         </Reveal>
 
       </div>
