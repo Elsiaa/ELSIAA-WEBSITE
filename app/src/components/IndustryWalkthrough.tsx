@@ -294,7 +294,7 @@ export function IndustryWalkthrough() {
           </a>
           <button
             onClick={() => goStep(0)}
-            className="rounded-full border border-black/[0.15] px-4 py-1.5 text-[13px] font-medium text-[#111111]/70 transition-colors hover:border-black/40"
+            className="inline-flex min-h-[44px] items-center rounded-full border border-black/[0.15] px-4 text-[13px] font-medium text-[#111111]/70 transition-colors hover:border-black/40"
           >
             {done ? "Replay ↺" : "Restart ↺"}
           </button>

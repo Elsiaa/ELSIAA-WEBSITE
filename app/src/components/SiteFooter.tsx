@@ -101,7 +101,7 @@ export function SiteFooter() {
                   <li key={`${col.title}-${l.label}`}>
                     <a
                       href={l.href}
-                      className="text-[13.5px] text-[#111111]/65 transition-colors hover:text-[#1e6b3c]"
+                      className="-my-1.5 inline-flex min-h-[44px] items-center text-[13.5px] text-[#111111]/65 transition-colors hover:text-[#1e6b3c]"
                       style={inter}
                     >
                       {l.label}
@@ -121,14 +121,14 @@ export function SiteFooter() {
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a
               href="/legal/privacy"
-              className="text-[13px] text-[#111111]/55  transition-colors hover:text-[#1e6b3c]"
+              className="-my-1.5 inline-flex min-h-[44px] items-center text-[13px] text-[#111111]/55 transition-colors hover:text-[#1e6b3c]"
               style={mono}
             >
               Privacy Policy
             </a>
             <a
               href="/legal/terms"
-              className="text-[13px] text-[#111111]/55  transition-colors hover:text-[#1e6b3c]"
+              className="-my-1.5 inline-flex min-h-[44px] items-center text-[13px] text-[#111111]/55 transition-colors hover:text-[#1e6b3c]"
               style={mono}
             >
               Terms of Service
