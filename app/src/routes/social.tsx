@@ -85,14 +85,14 @@ const PLATFORMS: Array<{ name: string; svg: ReactNode }> = [
 ];
 
 const OFFERS: Array<{ num: string; title: string; blurb: string; art: string }> = [
-  { art: "/assets/social/strategy.png", num: "01", title: "Strategy", blurb: "We study your business first, then build the plan — the angle, cadence, and story that makes the right people stop." },
-  { art: "/assets/social/video.png", num: "02", title: "Video Production", blurb: "Filmed, directed, and produced — thumb-stopping content shot for the platform, not repurposed onto it." },
-  { art: "/assets/social/editing.png", num: "03", title: "Editing", blurb: "Fast, native edits — a hook in the first second and retention held to the last frame." },
-  { art: "/assets/social/content.png", num: "04", title: "Content & Copy", blurb: "Captions, carousels, and posts written to carry your voice and move people to act." },
-  { art: "/assets/social/brand.png", num: "05", title: "Brand Setup", blurb: "Profiles, bios, highlights, and a consistent identity dialled in across every platform." },
-  { art: "/assets/social/personal.png", num: "06", title: "Personal Brand", blurb: "Turn a founder into a category authority — the face people trust before they trust the company." },
-  { art: "/assets/social/ads.png", num: "07", title: "Meta Ads", blurb: "Full-funnel paid social — creative, targeting, and reporting that ties every dollar to a result." },
-  { art: "/assets/social/reviews.png", num: "08", title: "Google Reviews", blurb: "Reputation on autopilot — the five-star proof that closes the customer before they ever call." },
+  { art: "/assets/social/strategy.png", num: "1", title: "Strategy", blurb: "We study your business first, then build the plan — the angle, cadence, and story that makes the right people stop." },
+  { art: "/assets/social/video.png", num: "2", title: "Video Production", blurb: "Filmed, directed, and produced — thumb-stopping content shot for the platform, not repurposed onto it." },
+  { art: "/assets/social/editing.png", num: "3", title: "Editing", blurb: "Fast, native edits — a hook in the first second and retention held to the last frame." },
+  { art: "/assets/social/content.png", num: "4", title: "Content & Copy", blurb: "Captions, carousels, and posts written to carry your voice and move people to act." },
+  { art: "/assets/social/brand.png", num: "5", title: "Brand Setup", blurb: "Profiles, bios, highlights, and a consistent identity dialled in across every platform." },
+  { art: "/assets/social/personal.png", num: "6", title: "Personal Brand", blurb: "Turn a founder into a category authority — the face people trust before they trust the company." },
+  { art: "/assets/social/ads.png", num: "7", title: "Meta Ads", blurb: "Full-funnel paid social — creative, targeting, and reporting that ties every dollar to a result." },
+  { art: "/assets/social/reviews.png", num: "8", title: "Google Reviews", blurb: "Reputation on autopilot — the five-star proof that closes the customer before they ever call." },
 ];
 
 function Avatar({ init }: { init: string }) {
