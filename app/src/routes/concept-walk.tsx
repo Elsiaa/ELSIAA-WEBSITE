@@ -5,6 +5,13 @@ import { ElsiaaSections } from "../components/ElsiaaSections";
 import { WalkingLion } from "../components/WalkingLion";
 
 export const Route = createFileRoute("/concept-walk")({
+  /* internal design scratch page — reachable for review, never indexed */
+  head: () => ({
+    meta: [
+      { title: "Concept walk — ELSIAA (internal)" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+  }),
   component: ConceptWalk,
 });
 
