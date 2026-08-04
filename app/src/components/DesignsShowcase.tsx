@@ -1832,57 +1832,6 @@ function StepArt({ step }: { step: number }) {
   );
 }
 
-/* ---------------- the 3D lion — glass logo turntable, scroll-driven ----------------
-   Pinned: your scroll turns the emerald glass lion one full revolution; when
-   the turn completes the page releases to the next section. */
-function Lion3DSpin() {
-  const wrapRef = useRef<HTMLDivElement | null>(null);
-  const vidRef = useRef<HTMLVideoElement | null>(null);
-  useEffect(() => {
-    const v = vidRef.current;
-    const wrap = wrapRef.current;
-    if (!v || !wrap) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return; // static first frame
-    v.pause();
-    v.play().then(() => v.pause()).catch(() => {}); // prime decode for seeking
-    const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
-    let raf = 0;
-    const tick = () => {
-      const r = wrap.getBoundingClientRect();
-      const span = r.height - window.innerHeight;
-      const prog = clamp01(span > 0 ? -r.top / span : 0);
-      const d = v.duration;
-      if (d && !Number.isNaN(d)) {
-        const target = Math.min(d - 0.04, prog * d);
-        const cur = v.currentTime;
-        if (Math.abs(target - cur) > 0.006) {
-          try { v.currentTime = cur + (target - cur) * 0.4; } catch { /* seeking */ }
-        }
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-  return (
-    <section ref={wrapRef} className="relative" style={{ height: "200vh", background: "#edf4ee" }}>
-      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden">
-        <video
-          ref={vidRef}
-          src="/assets/lion3d_spin.mp4"
-          poster="/assets/lion3d_still.png"
-          muted
-          playsInline
-          preload="auto"
-          aria-label="The ELSIAA lion in emerald glass — turns as you scroll"
-          className="max-h-[74vh] w-auto max-w-[88vw] rounded-3xl"
-        />
-      </div>
-    </section>
-  );
-}
-
 /* ---------------- the process — how every uplift actually happens ---------------- */
 function OurProcess() {
   const STEPS = [
