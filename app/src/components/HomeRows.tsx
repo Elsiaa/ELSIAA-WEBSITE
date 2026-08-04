@@ -526,6 +526,11 @@ function AutomationSection() {
   // disappears into the pure-white page
   const feather = "radial-gradient(120% 120% at 50% 46%, #000 62%, rgba(0,0,0,0) 90%)";
 
+  // Do not shrink --track below ~112svh. The scrub is
+  //   span = trackHeight - window.innerHeight
+  // so the track is bounded by the VIEWPORT, not by the stage: at 100svh the
+  // span hits zero and the bubble never types. Shrinking the stage instead
+  // just opens a white band under the pinned content and saves nothing.
   return (
     <section ref={trackRef} className="relative bg-white [--track:112svh] md:[--track:170vh]" style={{ height: "var(--track)" }} id="automation">
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-end gap-1 overflow-hidden bg-white px-6 pb-8 text-center md:justify-center md:pb-0">
@@ -1164,19 +1169,19 @@ function AutomationCatalog() {
     el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.8, 520), behavior: "smooth" });
   };
   return (
- <section className="bg-white pb-12 pt-2 md:pb-14 md:pt-3" id="automation-catalog">
+ <section className="bg-white pb-8 pt-2 md:pb-14 md:pt-3" id="automation-catalog">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
-          <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="flex flex-wrap items-end justify-between gap-3 md:gap-4">
             <div className="max-w-xl">
-              <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl" style={{ fontFamily: sans }}>
+              <h3 className="text-xl font-semibold tracking-[-0.03em] text-[#111111] sm:text-2xl md:text-3xl" style={{ fontFamily: sans }}>
                 We automate your business.
               </h3>
-              <p className="mt-3 text-[14.5px] leading-relaxed text-[#111111]/60" style={{ fontFamily: sans }}>
+              <p className="mt-1.5 text-[13px] leading-snug text-[#111111]/60 sm:mt-3 sm:text-[14.5px] sm:leading-relaxed" style={{ fontFamily: sans }}>
                 Sales, operations, finance, support and more — built for you, and running around the clock.
               </p>
             </div>
-            <a href="/automate" className="inline-flex items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3 text-[13px] font-bold text-white transition-all hover:bg-[#111111]" style={{ fontFamily: sans }}>
+            <a href="/automate" className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#1e6b3c] px-6 py-2.5 text-[12.5px] font-bold text-white transition-all hover:bg-[#111111] sm:px-7 sm:py-3 sm:text-[13px]" style={{ fontFamily: sans }}>
               Discover automations →
             </a>
           </div>
@@ -1184,7 +1189,7 @@ function AutomationCatalog() {
 
         {/* single row — a carousel; grey arrows make the affordance obvious */}
         <Reveal delay={0.08}>
-          <div className="relative mt-5">
+          <div className="relative mt-3.5 sm:mt-5">
             <button
               type="button"
               aria-label="Scroll left"
@@ -1218,7 +1223,7 @@ function AutomationCatalog() {
                 <a
                   key={`${s.name}-${i}`}
                   href="/services"
-                  className="group flex w-[248px] shrink-0 snap-start flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]"
+                  className="group flex w-[218px] shrink-0 snap-start flex-col rounded-xl border border-black/[0.07] bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)] sm:w-[248px] sm:p-4"
                 >
                   <div className="flex items-center justify-between">
                     <h4 className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={{ fontFamily: sans }}>
