@@ -960,22 +960,23 @@ function Team() {
             distinction and enterprise success at one table.
           </p>
         </Reveal>
-        <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Two-up on mobile with the photo stacked over the name: one-per-row
+            left six wide cards mostly empty and ran the section past 900px. */}
+        <div className="mt-6 grid grid-cols-2 gap-2.5 sm:mt-10 sm:gap-3 lg:grid-cols-3">
           {TEAM.slice(0, 6).map((m, i) => (
-            <Reveal key={m.name} delay={i * 0.05}>
-              <div className="group flex items-center gap-3.5 rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/35">
+            <Reveal key={m.name} delay={i * 0.05} className="h-full">
+              <div className="group flex h-full flex-col items-center gap-2 rounded-xl border border-black/[0.07] bg-white p-3 text-center transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/35 sm:flex-row sm:gap-3.5 sm:p-4 sm:text-left">
                 <img
                   src={m.photo}
                   alt={m.name}
                   loading="lazy"
-                  className="flex-none rounded-full border border-black/[0.06] object-cover"
-                  style={{ width: 52, height: 52 }}
+                  className="h-12 w-12 flex-none rounded-full border border-black/[0.06] object-cover sm:h-[52px] sm:w-[52px]"
                 />
-                <div>
-                  <h3 className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: "var(--font-sans)" }}>
+                <div className="min-w-0">
+                  <h3 className="text-[13.5px] leading-tight font-semibold text-[#111111] sm:text-[15px]" style={{ fontFamily: "var(--font-sans)" }}>
                     {m.name}
                   </h3>
-                  <p className="mt-0.5 text-[13px] text-[#111111]/60" style={{ fontFamily: "var(--font-sans)" }}>
+                  <p className="mt-1 text-[11.5px] leading-snug text-[#111111]/60 sm:mt-0.5 sm:text-[13px]" style={{ fontFamily: "var(--font-sans)" }}>
                     {m.role}
                   </p>
                 </div>
@@ -986,7 +987,7 @@ function Team() {
         <Reveal>
           <a
             href="/team"
-            className="mt-8 inline-flex items-center gap-3 rounded-full border border-[#111111]/15 px-7 py-3.5 text-[13px] font-bold text-[#111111]  transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+            className="mt-6 inline-flex items-center gap-3 rounded-full border border-[#111111]/15 px-7 py-3.5 text-[13px] font-bold text-[#111111] transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white sm:mt-8"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Meet the leadership →
