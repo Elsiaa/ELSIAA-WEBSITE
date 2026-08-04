@@ -164,7 +164,7 @@ function InsightsPage() {
       <SiteNav />
 
       {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-32 pb-14 md:pt-44 md:pb-20">
+      <section className="mx-auto max-w-6xl px-6 pt-32 pb-9 md:pt-44 md:pb-20">
         <Reveal>
           <div className="flex items-center gap-3">
             <p className="text-[13px] text-[#1e6b3c] " style={mono}>
@@ -273,7 +273,7 @@ function InsightsPage() {
 
       {/* stat band — stone */}
       <section className="bg-[#F5F5F3]">
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-16">
+        <div className="mx-auto max-w-6xl px-6 py-10 md:py-16">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -342,7 +342,7 @@ function InsightsPage() {
       </section>
 
       {/* article grid */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-16">
+      <section className="mx-auto max-w-6xl px-6 py-10 md:py-16">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>

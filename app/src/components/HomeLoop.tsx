@@ -78,7 +78,7 @@ export function HomeLoop() {
   }, []);
 
   return (
-    <section className="bg-gradient-to-b from-white to-[#F5F5F3] py-14">
+    <section className="bg-gradient-to-b from-white to-[#F5F5F3] py-9 md:py-14">
       <div className="mx-auto max-w-6xl px-6">
         <p
           className="text-[13px] text-[#1e6b3c] "

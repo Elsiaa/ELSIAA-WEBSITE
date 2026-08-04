@@ -41,7 +41,7 @@ export function ElsiaaSections() {
   return (
     <>
       {/* Services */}
-      <section id="services" className="bg-white px-6 py-16 md:py-32">
+      <section id="services" className="bg-white px-6 py-10 md:py-32">
         <div className="mx-auto max-w-6xl">
           <p className="text-xs font-medium  text-[#1e6b3c]">
             What we actually do
@@ -69,7 +69,7 @@ export function ElsiaaSections() {
       </section>
 
       {/* CTA band */}
-      <section className="bg-[#0d0f0e] px-6 py-16">
+      <section className="bg-[#0d0f0e] px-6 py-10 md:py-16">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-10 md:flex-row md:items-center">
           <div>
             <h2 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
@@ -90,7 +90,7 @@ export function ElsiaaSections() {
       </section>
 
       {/* Footer register */}
-      <footer className="bg-[#0d0f0e] px-6 pb-12 pt-4">
+      <footer className="bg-[#0d0f0e] px-6 pb-8 md:pb-12 pt-4">
         <div className="mx-auto max-w-6xl border-t border-white/10 pt-10">
           <div className="flex flex-col items-center gap-6 text-center">
             <p

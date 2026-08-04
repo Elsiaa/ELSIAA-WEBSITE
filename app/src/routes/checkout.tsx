@@ -51,7 +51,7 @@ function CheckoutBody() {
 
   if (lines.length === 0) {
     return (
-      <section className="mx-auto max-w-2xl px-6 py-16 text-center" style={F}>
+      <section className="mx-auto max-w-2xl px-6 py-10 md:py-16 text-center" style={F}>
         <h1 className="text-[24px] font-semibold text-[#111111]">Nothing to check out — yet.</h1>
         <a href="/store" className="mt-6 inline-flex min-h-[50px] items-center rounded-full bg-[#111111] px-8 text-[15px] font-semibold text-white hover:opacity-85">Browse the store →</a>
       </section>
@@ -59,7 +59,7 @@ function CheckoutBody() {
   }
 
   return (
-    <section className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-12 md:grid-cols-[1fr_380px] md:py-16" style={F}>
+    <section className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-8 md:grid-cols-[1fr_380px] md:py-16" style={F}>
       {/* form */}
       <div>
         <h1 className="text-[26px] font-semibold tracking-[-0.02em] text-[#111111]">Checkout</h1>

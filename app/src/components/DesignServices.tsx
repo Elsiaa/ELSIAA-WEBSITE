@@ -402,7 +402,7 @@ function CategoryBlock({ cat }: { cat: Category }) {
   }, []);
 
   return (
-    <div ref={ref} className="ds-cat mx-auto max-w-6xl px-6 py-16 md:py-16">
+    <div ref={ref} className="ds-cat mx-auto max-w-6xl px-6 py-10 md:py-16">
       <p
         className="text-[13px] text-[#1e6b3c] "
         style={{ fontFamily: "var(--font-sans)" }}

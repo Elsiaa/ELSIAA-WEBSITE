@@ -76,7 +76,7 @@ function ContactPage() {
       <SiteNav />
 
       {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-36 pb-12 text-center md:pt-44 md:pb-16">
+      <section className="mx-auto max-w-6xl px-6 pt-36 pb-8 text-center md:pt-44 md:pb-16">
         <Reveal>
           <h1 className="text-5xl font-semibold tracking-[-0.045em] md:text-7xl">Let's talk.</h1>
           <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-[#111111]/55 md:text-[17px]">
@@ -87,7 +87,7 @@ function ContactPage() {
       </section>
 
       {/* the three paths */}
-      <section className="mx-auto max-w-6xl px-6 pb-14 md:pb-16">
+      <section className="mx-auto max-w-6xl px-6 pb-9 md:pb-16">
         <Reveal delay={0.06}>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
             {PATHS.map((p) => (
@@ -135,7 +135,7 @@ function ContactPage() {
 
       {/* direct */}
       <section className="border-t border-black/[0.06] bg-[#F5F5F3]">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 py-12 text-center md:flex-row md:justify-between md:text-left">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 py-8 md:py-12 text-center md:flex-row md:justify-between md:text-left">
           <Reveal>
             <p className="text-[13px] font-semibold text-[#1e6b3c]">Direct</p>
             <a
@@ -155,7 +155,7 @@ function ContactPage() {
       </section>
 
       {/* how it goes */}
-      <section className="mx-auto max-w-6xl px-6 py-14 md:py-16">
+      <section className="mx-auto max-w-6xl px-6 py-9 md:py-16">
         <Reveal>
           <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
             What happens next.

@@ -652,7 +652,7 @@ function HeroCards() {
     },
   ];
   return (
- <section className="bg-white py-14 md:py-16">
+ <section className="bg-white py-9 md:py-16">
       <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           {items.map((it, i) => (

@@ -146,7 +146,7 @@ function SearchPage() {
         <div className="absolute left-1/2 top-[-30%] h-[420px] w-[820px] -translate-x-1/2 rounded-full blur-[130px]" style={{ background: "radial-gradient(circle, rgba(30,107,60,0.07), transparent 66%)" }} />
       </div>
 
-      <section className="relative mx-auto max-w-3xl px-6 pt-36 pb-28 md:pt-44">
+      <section className="relative mx-auto max-w-3xl px-6 pt-36 pb-14 md:pt-44 md:pb-28">
         <p className="text-[13px] tracking-[0.06em] text-[#1e6b3c]" style={{ fontFamily: MONO }}>Search</p>
         <h1 className="mt-3 text-3xl font-semibold tracking-[-0.04em] md:text-[3.25rem] md:leading-[1.02]" style={{ fontFamily: SANS }}>
           Find anything ELSIAA builds.

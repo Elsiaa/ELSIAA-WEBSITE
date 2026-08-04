@@ -34,7 +34,7 @@ function ProductBody() {
 
   if (!p) {
     return (
-      <section className="mx-auto max-w-6xl px-6 py-16 text-center" style={F}>
+      <section className="mx-auto max-w-6xl px-6 py-10 md:py-16 text-center" style={F}>
         <h1 className="text-2xl font-semibold">Not part of the catalog.</h1>
         <a href="/store" className="mt-4 inline-block text-[14px] font-medium text-[#1e6b3c] hover:underline">← Back to the store</a>
       </section>
@@ -55,7 +55,7 @@ function ProductBody() {
 
   return (
     <>
-      <section className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 pt-8 pb-16 md:grid-cols-2 md:gap-14 md:pt-14" style={F}>
+      <section className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 pt-8 pb-10 md:pb-16 md:grid-cols-2 md:gap-14 md:pt-14" style={F}>
         {/* gallery */}
         <div className="flex flex-col gap-3">
           <div className="overflow-hidden rounded-3xl bg-[#f6f6f4]">
@@ -148,7 +148,7 @@ function ProductBody() {
 
       {/* related */}
       {related.length > 0 && (
- <section className="mx-auto max-w-6xl px-6 py-14 pb-28 md:pb-14" style={F}>
+ <section className="mx-auto max-w-6xl px-6 py-9 md:py-14 pb-28 md:pb-14" style={F}>
           <h2 className="text-[18px] font-semibold text-[#111111]">More from {meta.title}</h2>
           <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
             {related.map((r) => (

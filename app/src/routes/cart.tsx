@@ -19,7 +19,7 @@ function CartBody() {
 
   if (lines.length === 0) {
     return (
-      <section className="mx-auto flex max-w-2xl flex-col items-center px-6 py-16 text-center" style={F}>
+      <section className="mx-auto flex max-w-2xl flex-col items-center px-6 py-10 md:py-16 text-center" style={F}>
         <img src="/assets/elsiaa-lion-192.png" alt="" className="h-14 w-14 opacity-25" />
         <h1 className="mt-5 text-[24px] font-semibold tracking-[-0.02em] text-[#111111]">Your cart is empty.</h1>
         <p className="mt-2 max-w-sm text-[14.5px] leading-relaxed text-[#111111]/55">
@@ -33,7 +33,7 @@ function CartBody() {
   }
 
   return (
-    <section className="mx-auto max-w-4xl px-6 py-12 md:py-16" style={F}>
+    <section className="mx-auto max-w-4xl px-6 py-8 md:py-16" style={F}>
       <div className="flex items-baseline justify-between">
         <h1 className="text-[26px] font-semibold tracking-[-0.02em] text-[#111111]">Cart</h1>
         <button onClick={clear} className="text-[13px] text-[#111111]/45 hover:text-[#111111]">Clear cart</button>
