@@ -1262,7 +1262,9 @@ function ProductAdFeature() {
             </div>
           </Reveal>
 
-          {/* the mark — contained, not a wash */}
+          {/* the mark — the easel carrying the ELSIAA lion on its canvas.
+              design_easel_cut.png is the alpha-cut version: the source art is
+              opaque white, which would show as a white box on the gradient. */}
           <Reveal delay={0.1}>
             <div className="relative mx-auto w-full max-w-[440px]">
               <div
@@ -1270,18 +1272,18 @@ function ProductAdFeature() {
                 style={{ background: "linear-gradient(160deg,#eef5f0 0%,#f7faf8 100%)" }}
               >
                 <img
-                  src="/assets/lion3d_still.png"
-                  alt="The ELSIAA lion in emerald glass"
-                  className="mx-auto block w-full max-w-[320px] select-none"
+                  src="/assets/design_easel_cut.png"
+                  alt="An easel holding a canvas painted with the ELSIAA lion, beside a palette and brushes"
+                  width={423}
+                  height={468}
+                  /* inline, not max-w-[…]: styles.css has an unlayered
+                     `img,video,canvas,iframe { max-width:100% }`, and unlayered
+                     rules beat every Tailwind utility layer, so max-w-* on an
+                     image is inert. */
+                  style={{ maxWidth: 300 }}
+                  className="mx-auto block w-full select-none drop-shadow-[0_14px_30px_rgba(17,17,17,0.10)]"
                 />
               </div>
-              {/* the easel, tucked as a small corner accent */}
-              <img
-                src="/assets/design_easel.png"
-                alt=""
-                aria-hidden
-                className="pointer-events-none absolute -bottom-5 -left-4 hidden w-[120px] select-none drop-shadow-[0_10px_24px_rgba(17,17,17,0.12)] sm:block md:w-[140px]"
-              />
             </div>
           </Reveal>
         </div>
