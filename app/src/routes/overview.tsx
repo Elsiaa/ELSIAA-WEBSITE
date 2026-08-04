@@ -68,7 +68,7 @@ function Overview() {
       <SiteNav />
 
       {/* hero */}
-      <section className="flex min-h-[64svh] flex-col items-center justify-center bg-white px-6 pt-28 pb-16 text-center">
+      <section className="flex min-h-[64svh] flex-col items-center justify-center bg-white px-6 pt-28 pb-10 md:pb-16 text-center">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={sans}>
             ELSIAA — AI Done Better

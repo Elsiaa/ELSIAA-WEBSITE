@@ -186,7 +186,7 @@ function LocationsPage() {
 
       {/* ── hero — dual-presence message left, live globe anchor right ── */}
       <section className="mx-auto max-w-6xl px-6 pt-28 pb-10 md:pt-40 md:pb-16">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:gap-16">
+        <div className="grid grid-cols-1 items-center gap-7 md:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:gap-16">
           <Reveal>
             <p className="text-[13px] font-semibold text-[#1e6b3c]">Where we work</p>
             <h1 className="mt-4 text-[2.6rem] font-semibold leading-[1.03] tracking-[-0.045em] md:text-[4.1rem]">

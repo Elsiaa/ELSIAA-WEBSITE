@@ -139,7 +139,7 @@ function WhyElsiaaPage() {
 
       {/* ── hero — the objection, then the answer ── */}
       <section className="px-6 pt-36 pb-14 md:pt-44 md:pb-20">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+        <div className="mx-auto grid max-w-6xl items-center gap-7 md:gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* the objection, as a real pull quote */}
           <Reveal>
             <p className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase">

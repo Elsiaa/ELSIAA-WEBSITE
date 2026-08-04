@@ -216,7 +216,7 @@ function SocialPage() {
       <SiteNav />
 
       {/* hero */}
-      <section className="bg-white px-6 pt-32 pb-14 text-center md:pt-44">
+      <section className="bg-white px-6 pt-32 pb-10 md:pb-14 text-center md:pt-44">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
             ELSIAA · Social Media
@@ -314,7 +314,7 @@ function SocialPage() {
       {/* clipping — one long recording becomes a month of short-form */}
       <section className="bg-white px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,520px)] lg:gap-16">
+          <div className="grid items-center gap-7 md:gap-10 lg:grid-cols-[1fr_minmax(0,520px)] lg:gap-16">
             <Reveal>
               <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
                 Clipping

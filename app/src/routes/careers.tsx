@@ -225,7 +225,7 @@ function ApplyForm() {
 
   if (state === "done") {
     return (
-      <section className="mx-auto max-w-5xl px-6 pb-24">
+      <section className="mx-auto max-w-5xl px-6 pb-12 md:pb-24">
         <div
           ref={doneRef}
           role="status"
@@ -244,7 +244,7 @@ function ApplyForm() {
   }
 
   return (
- <section className="mx-auto max-w-5xl px-6 pb-16 pt-8 md:pt-12">
+ <section className="mx-auto max-w-5xl px-6 pb-10 md:pb-16 pt-8 md:pt-12">
       <div className="rounded-2xl border border-black/[0.07] bg-white p-6 md:p-12 lg:flex lg:gap-14">
         {/* identity rail */}
         <div className="lg:w-[240px] lg:flex-none">
