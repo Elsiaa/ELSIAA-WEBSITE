@@ -926,58 +926,63 @@ function Locations() {
 }
 
 /* ---------- team ---------- */
+/* `short` is the phone-width title — three across leaves roughly 110px per
+   name, and the full board titles wrap to three lines in that space. The
+   long form still shows from sm: up and on /team. */
 const TEAM = [
-  { name: "Yisrael Krug", role: "Founder & Chief Executive Officer", init: "YK", photo: "/assets/team/yk.jpg" },
-  { name: "David Heimowitz", role: "Co-Founder & Chief Technology Officer", init: "DH", photo: "/assets/team/dh.jpg" },
-  { name: "Jacob Rubelow", role: "Partner & Chief Operating Officer", init: "JR", photo: "/assets/team/jr.jpg" },
-  { name: "Chaim Lieberman", role: "Executive Director & Partner", init: "CL", photo: "/assets/team/cl.jpg" },
-  { name: "Izzy Eisenberg", role: "Director of California Business", init: "IE", photo: "/assets/team/ie.jpg" },
-  { name: "Ynon Azulai", role: "AI & Technology Expert · Jerusalem", init: "YA", photo: "/assets/team/ya.jpg" },
+  { name: "Yisrael Krug", role: "Founder & Chief Executive Officer", short: "Founder & CEO", init: "YK", photo: "/assets/team/yk.jpg" },
+  { name: "David Heimowitz", role: "Co-Founder & Chief Technology Officer", short: "Co-Founder & CTO", init: "DH", photo: "/assets/team/dh.jpg" },
+  { name: "Jacob Rubelow", role: "Partner & Chief Operating Officer", short: "Partner & COO", init: "JR", photo: "/assets/team/jr.jpg" },
+  { name: "Chaim Lieberman", role: "Executive Director & Partner", short: "Exec. Director", init: "CL", photo: "/assets/team/cl.jpg" },
+  { name: "Izzy Eisenberg", role: "Director of California Business", short: "Director, California", init: "IE", photo: "/assets/team/ie.jpg" },
+  { name: "Ynon Azulai", role: "AI & Technology Expert · Jerusalem", short: "AI & Technology", init: "YA", photo: "/assets/team/ya.jpg" },
 ];
 
 function Team() {
   return (
-    <section className="bg-white py-8 md:py-12">
+    <section className="bg-white py-6 md:py-12">
       <div className="mx-auto max-w-5xl px-6">
         <Reveal>
           <p
-            className="text-[13px] text-[#1e6b3c] "
+            className="text-[12px] text-[#1e6b3c] sm:text-[13px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             04 · Who we are
           </p>
           <h2
-            className="mt-3 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
+            className="mt-1.5 text-xl font-semibold tracking-[-0.035em] text-[#111111] sm:mt-3 sm:text-2xl md:text-4xl"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Leadership of consequence.
           </h2>
           <p
-            className="mt-3 max-w-xl text-[15px] text-[#111111]/60"
+            className="mt-1.5 max-w-xl text-[13px] leading-snug text-[#111111]/60 sm:mt-3 sm:text-[15px] sm:leading-relaxed"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Founders, executives, and tenured professors — decades of academic
             distinction and enterprise success at one table.
           </p>
         </Reveal>
-        {/* Two-up on mobile with the photo stacked over the name: one-per-row
-            left six wide cards mostly empty and ran the section past 900px. */}
-        <div className="mt-6 grid grid-cols-2 gap-2.5 sm:mt-10 sm:gap-3 lg:grid-cols-3">
+        {/* Phone: three bare portraits per row, no card chrome — six boxed
+            rows spent most of their height on borders and padding. The
+            bordered photo-beside-name row returns from sm: up. */}
+        <div className="mt-4 grid grid-cols-3 gap-x-2 gap-y-3 sm:mt-10 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
           {TEAM.slice(0, 6).map((m, i) => (
             <Reveal key={m.name} delay={i * 0.05} className="h-full">
-              <div className="group flex h-full flex-col items-center gap-2 rounded-xl border border-black/[0.07] bg-white p-3 text-center transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/35 sm:flex-row sm:gap-3.5 sm:p-4 sm:text-left">
+              <div className="group flex h-full flex-col items-center gap-1.5 rounded-xl border-0 p-0 text-center transition-all duration-300 sm:flex-row sm:gap-3.5 sm:border sm:border-black/[0.07] sm:bg-white sm:p-4 sm:text-left sm:hover:-translate-y-0.5 sm:hover:border-[#1e6b3c]/35">
                 <img
                   src={m.photo}
                   alt={m.name}
                   loading="lazy"
-                  className="h-12 w-12 flex-none rounded-full border border-black/[0.06] object-cover sm:h-[52px] sm:w-[52px]"
+                  className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover sm:h-[52px] sm:w-[52px]"
                 />
                 <div className="min-w-0">
-                  <h3 className="text-[13.5px] leading-tight font-semibold text-[#111111] sm:text-[15px]" style={{ fontFamily: "var(--font-sans)" }}>
+                  <h3 className="text-[11.5px] leading-tight font-semibold tracking-[-0.01em] text-[#111111] sm:text-[15px] sm:tracking-normal" style={{ fontFamily: "var(--font-sans)" }}>
                     {m.name}
                   </h3>
-                  <p className="mt-1 text-[11.5px] leading-snug text-[#111111]/60 sm:mt-0.5 sm:text-[13px]" style={{ fontFamily: "var(--font-sans)" }}>
-                    {m.role}
+                  <p className="mt-0.5 text-[10.5px] leading-snug text-[#111111]/55 sm:text-[13px] sm:text-[#111111]/60" style={{ fontFamily: "var(--font-sans)" }}>
+                    <span className="sm:hidden">{m.short}</span>
+                    <span className="hidden sm:inline">{m.role}</span>
                   </p>
                 </div>
               </div>
@@ -987,7 +992,7 @@ function Team() {
         <Reveal>
           <a
             href="/team"
-            className="mt-6 inline-flex items-center gap-3 rounded-full border border-[#111111]/15 px-7 py-3.5 text-[13px] font-bold text-[#111111] transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white sm:mt-8"
+            className="mt-4 inline-flex min-h-[44px] items-center gap-3 rounded-full border border-[#111111]/15 px-6 py-2.5 text-[12.5px] font-bold text-[#111111] transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white sm:mt-8 sm:px-7 sm:py-3.5 sm:text-[13px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Meet the leadership →
