@@ -522,7 +522,11 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[340px] overflow-hidden md:h-[54svh]">
-                <SitePreview src="/prime-bins/" poster="/assets/compare/mrbins_old.jpg" title="Prime Bins — the original website" />
+                {/* Frames primebins.com live, not a mirror. The old local copy
+                    under /public/prime-bins/ rendered with no CSS at all — a
+                    bare bullet list — which misrepresented the client's actual
+                    site in a public before/after. */}
+                <SitePreview src="https://primebins.com/" poster="/assets/compare/mrbins_old.jpg" title="Prime Bins — the current website" />
               </div>
             </figure>
             <ul className="mx-auto mt-4 max-w-md space-y-1.5">
@@ -1358,9 +1362,9 @@ function BinsCompare() {
     {
       label: "Before",
       tone: "bg-black/60",
-      src: "/prime-bins/",
+      src: "https://primebins.com/",
       poster: "/assets/compare/mrbins_old.jpg",
-      title: "Mr. Bins — the original website",
+      title: "Mr. Bins — the current website",
       note: "Everything competes for attention, so nothing lands. No clear next step, hard to read on a phone, and nothing that tells you why to drive there.",
     },
     {

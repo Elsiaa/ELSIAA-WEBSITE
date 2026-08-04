@@ -227,12 +227,12 @@ function DivisionRow({
         {subs.length > 0 && (
         <Reveal delay={0.1}>
         <div className="mt-10">
-          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
+          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[62%] [&>*]:snap-start sm:[&>*]:min-w-[78%] md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
             {subs.map((s, i) => (
               <a
                 key={`${s.name}-${i}`}
                 href={href}
-                className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]"
+                className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)] sm:p-4"
               >
                 <div className="flex items-center justify-between">
                   <h3
@@ -1347,7 +1347,7 @@ function DesignDivision() {
           </p>
           <a href="/designs" className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-7 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={inter}>Discover design →</a>
         </div>
-        <div className="mt-14"><DesignCatalog /></div>
+        <div className="mt-8 sm:mt-14"><DesignCatalog /></div>
       </section>
     );
   }
@@ -1390,9 +1390,9 @@ function DesignCatalog() {
   return (
     <div className="mx-auto w-full max-w-6xl px-6">
       <Reveal delay={0.05}>
-        <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[78%] [&>*]:snap-start md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
+        <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[62%] [&>*]:snap-start sm:[&>*]:min-w-[78%] md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
           {DESIGN.map((s, i) => (
-            <a key={`${s.name}-${i}`} href="/designs" className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)]">
+            <a key={`${s.name}-${i}`} href="/designs" className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)] sm:p-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={inter}>{s.name}</h3>
                 <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[12px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">→</span>
