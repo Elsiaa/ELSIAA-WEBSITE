@@ -233,7 +233,7 @@ function LocationsPage() {
       </section>
 
       {/* ── the directory — the clearest statement of the dual presence ── */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-16">
+      <section className="mx-auto max-w-6xl px-6 py-10 md:py-16">
         <Reveal>
           <h2 className="max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
             Our offices
@@ -307,7 +307,7 @@ function LocationsPage() {
       </section>
 
       {/* ── U.S. offices — the regional footprint, with public addresses ── */}
- <section className="bg-[#F5F5F3] px-6 py-16 md:py-16">
+ <section className="bg-[#F5F5F3] px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-semibold text-[#1e6b3c]">U.S. offices</p>
@@ -370,7 +370,7 @@ function LocationsPage() {
 
       {/* ── follow the sun — one clean coverage strip, full city names ── */}
  <section className="bg-[#F5F5F3]">
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-16">
+        <div className="mx-auto max-w-6xl px-6 py-10 md:py-16">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] md:items-center md:gap-16">
             <Reveal>
               <p className="text-[13px] font-semibold text-[#1e6b3c]">Time zones</p>
@@ -418,7 +418,7 @@ function LocationsPage() {
       </section>
 
       {/* ── anywhere in the world ── */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-16">
+      <section className="mx-auto max-w-6xl px-6 py-10 md:py-16">
         <Reveal>
           <p className="text-[13px] font-semibold text-[#1e6b3c]">Anywhere in the world</p>
           <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
@@ -447,7 +447,7 @@ function LocationsPage() {
       </section>
 
       {/* ── closing ── */}
- <section className="mx-auto max-w-6xl px-6 py-14 text-center md:py-16">
+ <section className="mx-auto max-w-6xl px-6 py-9 text-center md:py-16">
         <Reveal>
           <h2 className="mx-auto max-w-3xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
             Tell us where you are. We'll be there — or already awake for you.

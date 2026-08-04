@@ -513,7 +513,7 @@ export function SoftwareDemos() {
     <section
       ref={sectionRef}
       id="automate"
-      className="scroll-mt-24 border-b border-black/[0.06] bg-white pt-28 pb-12 md:pt-32 md:pb-16"
+      className="scroll-mt-24 border-b border-black/[0.06] bg-white pt-28 pb-8 md:pt-32 md:pb-16"
       aria-label="Automation & Software — the operating system for your business"
       onMouseEnter={() => (paused.current = true)}
       onMouseLeave={() => (paused.current = false)}

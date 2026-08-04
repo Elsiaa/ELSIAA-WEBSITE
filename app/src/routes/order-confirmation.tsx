@@ -29,7 +29,7 @@ function ConfirmBody() {
 
   if (!order) {
     return (
-      <section className="mx-auto max-w-2xl px-6 py-16 text-center" style={F}>
+      <section className="mx-auto max-w-2xl px-6 py-10 md:py-16 text-center" style={F}>
         <h1 className="text-[24px] font-semibold text-[#111111]">No recent order found.</h1>
         <a href="/store" className="mt-6 inline-flex min-h-[50px] items-center rounded-full bg-[#111111] px-8 text-[15px] font-semibold text-white hover:opacity-85">Back to the store →</a>
       </section>
@@ -37,7 +37,7 @@ function ConfirmBody() {
   }
 
   return (
-    <section className="mx-auto max-w-2xl px-6 py-16 md:py-16" style={F}>
+    <section className="mx-auto max-w-2xl px-6 py-10 md:py-16" style={F}>
       <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#1e6b3c] text-2xl text-white">✓</span>
       <h1 className="mt-5 text-[28px] font-semibold tracking-[-0.03em] text-[#111111]">
         Order confirmed, {order.name.split(" ")[0]}.

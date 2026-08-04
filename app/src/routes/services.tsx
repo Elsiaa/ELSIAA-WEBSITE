@@ -101,7 +101,7 @@ function ServicesPage() {
       <SiteNav />
 
       {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-36 pb-12 text-center md:pt-44 md:pb-16">
+      <section className="mx-auto max-w-6xl px-6 pt-36 pb-8 text-center md:pt-44 md:pb-16">
         <Reveal>
           <h1 className="text-5xl font-semibold tracking-[-0.045em] md:text-7xl">Services</h1>
           <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-[#111111]/55 md:text-[17px]">
@@ -112,7 +112,7 @@ function ServicesPage() {
       </section>
 
       {/* the three offers */}
-      <section className="mx-auto max-w-6xl px-6 pb-16 md:pb-20">
+      <section className="mx-auto max-w-6xl px-6 pb-10 md:pb-20">
         <Reveal delay={0.06}>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
             {SERVICES.map((s) => (
@@ -144,7 +144,7 @@ function ServicesPage() {
 
       {/* the standard */}
       <section className="border-t border-black/[0.06] bg-[#F5F5F3]">
-        <div className="mx-auto max-w-6xl px-6 py-14 text-center md:py-16">
+        <div className="mx-auto max-w-6xl px-6 py-9 text-center md:py-16">
           <Reveal>
             <p className="mx-auto max-w-2xl text-[17px] leading-relaxed text-[#111111]/70 md:text-[19px]">
               Every build is tested, maintained, and{" "}
@@ -156,7 +156,7 @@ function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-6xl px-6 py-16 text-center md:py-16">
+      <section className="mx-auto max-w-6xl px-6 py-10 text-center md:py-16">
         <Reveal>
           <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
             Tell us what you need built.

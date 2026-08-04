@@ -42,7 +42,7 @@ function IntakePage() {
       <SiteNav />
 
       {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-32 pb-14 md:pt-40 md:pb-16">
+      <section className="mx-auto max-w-6xl px-6 pt-32 pb-9 md:pt-40 md:pb-16">
         <Reveal>
           <div className="flex flex-wrap items-center gap-3">
             <p className="text-[13px] text-[#1e6b3c] " style={mono}>Product · Voice</p>
@@ -78,7 +78,7 @@ function IntakePage() {
       </section>
 
       {/* how it works */}
- <section className="bg-white px-6 py-16 md:py-16">
+ <section className="bg-white px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] text-[#1e6b3c] " style={mono}>How it works</p>
@@ -128,7 +128,7 @@ function IntakePage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#0c0c0c] px-6 py-16 text-white md:py-32">
+      <section className="bg-[#0c0c0c] px-6 py-10 text-white md:py-32">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <h2 className="text-4xl font-semibold tracking-[-0.045em] md:text-6xl" style={inter}>Put it on your line.</h2>

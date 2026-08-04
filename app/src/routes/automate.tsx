@@ -123,7 +123,7 @@ function AutomatePage() {
       </section>
 
       {/* closing — two factual lines, one button */}
-      <section className="px-6 pb-16 pt-12 text-center">
+      <section className="px-6 pb-10 md:pb-16 pt-8 md:pt-12 text-center">
         <p className="text-[14px] text-white/60">Fully insured · Fixed scope · You own the finished system.</p>
         <p className="mt-1 text-[14px] text-white/45">info@elsiaa.com</p>
         <a href="/quote" className="mt-6 inline-flex items-center rounded-full bg-[#2e9e58] px-9 py-3.5 text-[14px] font-semibold text-white transition-all hover:bg-[#1e6b3c]">

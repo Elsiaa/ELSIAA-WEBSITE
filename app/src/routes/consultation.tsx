@@ -30,7 +30,7 @@ function ConsultationPage() {
       <SiteNav />
 
       {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-36 pb-12 text-center md:pt-44 md:pb-16">
+      <section className="mx-auto max-w-6xl px-6 pt-36 pb-8 text-center md:pt-44 md:pb-16">
         <Reveal>
           <h1 className="text-5xl font-semibold tracking-[-0.045em] md:text-7xl">
             Consultation
@@ -42,7 +42,7 @@ function ConsultationPage() {
       </section>
 
       {/* the three options */}
-      <section className="mx-auto max-w-6xl px-6 pb-24 md:pb-32">
+      <section className="mx-auto max-w-6xl px-6 pb-12 md:pb-32">
         <Reveal delay={0.08}>
           <ConsultOptions headingLevel={2} />
         </Reveal>

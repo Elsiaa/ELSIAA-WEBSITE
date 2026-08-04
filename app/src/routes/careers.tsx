@@ -225,7 +225,7 @@ function ApplyForm() {
 
   if (state === "done") {
     return (
-      <section className="mx-auto max-w-5xl px-6 pb-12 md:pb-24">
+      <section className="mx-auto max-w-5xl px-6 pb-8 md:pb-24">
         <div
           ref={doneRef}
           role="status"

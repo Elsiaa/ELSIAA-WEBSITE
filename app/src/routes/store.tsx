@@ -24,7 +24,7 @@ function StorePage() {
   const F = { fontFamily: "var(--font-sans)" };
   return (
     <StoreShell>
-      <section className="mx-auto max-w-6xl px-6 pt-12 pb-20 md:pt-16 md:pb-24">
+      <section className="mx-auto max-w-6xl px-6 pt-8 pb-12 md:pt-16 md:pb-24">
         <p className="text-[13px] font-bold text-[#1e6b3c]" style={F}>The Store</p>
         <h1 className="mt-2 max-w-2xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={F}>
           ELSIAA Merch — AI Done Better.

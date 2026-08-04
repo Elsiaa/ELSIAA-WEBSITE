@@ -204,7 +204,7 @@ function CompareSlider() {
   return (
     <Reveal delay={0.1}>
       <div className="mx-auto mt-20 hidden max-w-5xl lg:block">
-        <div className="mx-auto mb-14 max-w-3xl border-t border-black/[0.08] pt-12 text-center">
+        <div className="mx-auto mb-14 max-w-3xl border-t border-black/[0.08] pt-8 md:pt-12 text-center">
           <h3
             className="mt-3 text-3xl font-semibold tracking-[-0.035em] text-[#111111] text-balance md:text-5xl"
             style={{ fontFamily: "var(--font-sans)" }}
@@ -949,7 +949,7 @@ function DiscoverApps() {
   );
 
   return (
-    <section className="bg-[#F5F5F3] px-6 pt-6 pb-14 text-[#111111] md:pb-24">
+    <section className="bg-[#F5F5F3] px-6 pt-6 pb-9 text-[#111111] md:pb-24">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2
@@ -1220,7 +1220,7 @@ function ScrollScrubVideo() {
 /* ---------------- product design — the right way ---------------- */
 function ProductAdFeature() {
   return (
-    <section className="relative overflow-hidden bg-white px-6 pt-28 pb-16 text-[#111111] md:pt-32 md:pb-20">
+    <section className="relative overflow-hidden bg-white px-6 pt-28 pb-10 text-[#111111] md:pt-32 md:pb-20">
       <div className="mx-auto max-w-6xl">
         <div className="grid items-center gap-7 md:gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* the argument */}
@@ -1529,7 +1529,7 @@ function DesignEverything() {
 /* ---------------- 3 · buy a website ---------------- */
 function BuyWebsite() {
   return (
-    <section className="border-y border-black/[0.06] bg-[#F5F5F3] px-6 py-14 md:py-16">
+    <section className="border-y border-black/[0.06] bg-[#F5F5F3] px-6 py-9 md:py-16">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="grid items-center gap-8 md:grid-cols-[1.1fr_0.9fr] md:gap-14">
@@ -1673,7 +1673,7 @@ function BeyondWebsites() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-[#F5F5F3] to-white pt-24 pb-14 md:pb-28">
+    <section className="bg-gradient-to-b from-[#F5F5F3] to-white pt-24 pb-9 md:pb-28">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <div className="mt-3 flex items-end justify-between gap-6">

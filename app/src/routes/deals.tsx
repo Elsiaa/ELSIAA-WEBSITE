@@ -142,7 +142,7 @@ function DealsPage() {
       </section>
 
       {/* the deals */}
-      <section className="mx-auto max-w-6xl px-6 pb-12 md:pb-20">
+      <section className="mx-auto max-w-6xl px-6 pb-8 md:pb-20">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
           {DEALS.map((d, i) => (
             <Reveal key={d.title} className="h-full" delay={Math.min(i * 0.05, 0.15)}>

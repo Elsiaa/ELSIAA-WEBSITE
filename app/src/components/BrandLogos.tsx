@@ -72,7 +72,7 @@ function LogoRow() {
 
 export function WhyBrandsChose() {
   return (
- <section className="relative overflow-hidden bg-white py-16 md:py-16" aria-label="Why brands chose ELSIAA">
+ <section className="relative overflow-hidden bg-white py-10 md:py-16" aria-label="Why brands chose ELSIAA">
       {/* subtle brand watermark — the ELSIAA lion, barely there */}
       <img
         src="/assets/elsiaa-lion-192.png"
