@@ -786,7 +786,7 @@ function Locations() {
   const inter = { fontFamily: "var(--font-sans)" } as const;
   return (
     <section
-      className="relative overflow-hidden border-t border-black/[0.06] bg-white py-16 text-[#111111] md:py-16"
+      className="relative overflow-hidden border-t border-black/[0.06] bg-white py-8 text-[#111111] md:py-16"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -808,13 +808,13 @@ function Locations() {
 
       <div className="relative mx-auto max-w-6xl px-6">
         <Reveal>
-          <p className="text-[13px] text-[#1e6b3c] " style={mono}>
+          <p className="text-[12px] text-[#1e6b3c] sm:text-[13px]" style={mono}>
             05 · Locations
           </p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
+          <h2 className="mt-1.5 text-xl font-semibold tracking-[-0.035em] sm:mt-3 sm:text-2xl md:text-4xl" style={inter}>
             One standard. Every timezone.
           </h2>
-          <p className="mt-3 max-w-md text-[14px] leading-relaxed text-[#111111]/55" style={inter}>
+          <p className="mt-1.5 max-w-md text-[13px] leading-snug text-[#111111]/55 sm:mt-3 sm:text-[14px] sm:leading-relaxed" style={inter}>
             <span className="font-semibold text-[#111111]">24/7 virtual support</span> — and
             in person, on site, in six cities. Right now it's{" "}
             <span className="font-semibold text-[#1e6b3c]">{cityTime(now, active.tz).slice(0, 5)}</span>{" "}
@@ -822,7 +822,7 @@ function Locations() {
           </p>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,420px)_1fr]">
+        <div className="mt-4 grid grid-cols-1 gap-10 sm:mt-10 md:grid-cols-[minmax(0,420px)_1fr]">
           {/* the city desk — live clocks */}
           <Reveal delay={0.08}>
             <div role="tablist" aria-label="ELSIAA cities">
@@ -832,12 +832,12 @@ function Locations() {
                   role="tab"
                   aria-selected={i === idx}
                   onClick={() => setIdx(i)}
-                  className={`group flex w-full items-center gap-4 border-b border-black/[0.06] py-3.5 text-left transition-all duration-300 ${
+                  className={`group flex min-h-[44px] w-full items-center gap-3 border-b border-black/[0.06] py-2 text-left transition-all duration-300 sm:gap-4 sm:py-3.5 ${
                     i === idx ? "" : "opacity-45 hover:opacity-80"
                   }`}
                 >
                   <span
-                    className={`h-8 w-[3px] flex-none rounded-full transition-colors duration-300 ${
+                    className={`h-6 w-[3px] flex-none rounded-full transition-colors duration-300 sm:h-8 ${
                       i === idx ? "bg-[#1e6b3c]" : "bg-black/[0.08]"
                     }`}
                   />
@@ -847,12 +847,15 @@ function Locations() {
                     alt=""
                     className="h-[13px] w-[19px] flex-none rounded-[2px] object-cover ring-1 ring-black/10"
                   />
+                  {/* Phones collapse each city to a single line: the second
+                      line was "ELSIAA office" and "· local" repeated six
+                      times, which cost 30px a row and said nothing new. */}
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[15.5px] font-semibold tracking-[-0.01em]" style={inter}>
+                    <span className="block truncate text-[14px] font-semibold tracking-[-0.01em] sm:text-[15.5px]" style={inter}>
                       {c.name}
                     </span>
                     <span
-                      className={`block text-[13px]  transition-colors ${
+                      className={`hidden text-[13px] transition-colors sm:block ${
                         i === idx ? "text-[#1e6b3c]" : "text-[#111111]/50"
                       }`}
                       style={mono}
@@ -860,16 +863,20 @@ function Locations() {
                       {i === idx ? "On site now" : "ELSIAA office"}
                     </span>
                   </span>
-                  <span className="text-right">
+                  <span className="flex-none text-right">
                     <span
-                      className={`block text-[17px] font-medium tabular-nums transition-colors ${
+                      className={`block text-[14px] font-medium tabular-nums transition-colors sm:text-[17px] ${
                         i === idx ? "text-[#111111]" : "text-[#111111]/55"
                       }`}
                       style={mono}
                     >
-                      {cityTime(now, c.tz)}
+                      <span className="mr-1.5 text-[#111111]/45 sm:hidden">
+                        {cityDay(now, c.tz)}
+                      </span>
+                      <span className="sm:hidden">{cityTime(now, c.tz).slice(0, 5)}</span>
+                      <span className="hidden sm:inline">{cityTime(now, c.tz)}</span>
                     </span>
-                    <span className="block text-[13px] text-[#111111]/50 " style={mono}>
+                    <span className="hidden text-[13px] text-[#111111]/50 sm:block" style={mono}>
                       {cityDay(now, c.tz)} · local
                     </span>
                   </span>
@@ -884,7 +891,7 @@ function Locations() {
 
         {/* map on demand — never blocks the art */}
         <Reveal delay={0.14}>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 sm:mt-8">
             <button
               onClick={() => setShowMap((v) => !v)}
               className="rounded-full border border-black/12 bg-white/80 px-6 py-2.5 text-[10.5px] font-bold text-[#111111]  backdrop-blur transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
