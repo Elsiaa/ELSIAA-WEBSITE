@@ -390,7 +390,7 @@ function HomeHero() {
 
   return (
     <section className="relative bg-white">
-      <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pt-36 pb-10 text-center md:pt-44">
+      <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pt-28 pb-7 text-center md:pt-44 md:pb-10">
         {/* headline — centred */}
         <Reveal>
           <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl" style={sans}>
@@ -401,7 +401,7 @@ function HomeHero() {
 
         {/* quick nav into the divisions */}
         <Reveal delay={0.06}>
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5 md:mt-7">
             {[
               { label: "Why ELSIAA", href: "/why-elsiaa" },
               { label: "Automations", href: "/automate" },
@@ -421,7 +421,9 @@ function HomeHero() {
         </Reveal>
 
         {/* the lion — the ELSIAA logo, front-facing, roars as you scroll */}
-        <div className="pointer-events-none relative mt-8 w-full max-w-[380px]">
+        {/* The clip is masked and feathered, so it already carries a wide
+            transparent margin — the gap above it can be small. */}
+        <div className="pointer-events-none relative mt-3 w-full max-w-[300px] md:mt-8 md:max-w-[380px]">
           <div
             ref={glowRef}
             className="absolute inset-[14%] -z-10 rounded-full blur-3xl"
@@ -462,7 +464,7 @@ function HomeHero() {
         {/* thin locations ticker — a quiet marquee of where ELSIAA is */}
         <a
           href="/locations"
-          className="pointer-events-auto group mt-7 block w-full max-w-[620px] overflow-hidden border-t border-black/[0.07] py-2.5"
+          className="pointer-events-auto group mt-5 block w-full max-w-[620px] overflow-hidden border-t border-black/[0.07] py-2.5 md:mt-7"
           aria-label="Our locations"
         >
           <div className="loc-ticker flex w-max whitespace-nowrap">
@@ -1259,6 +1261,7 @@ function AutomationCatalog() {
 function DesignDivision() {
   const inter = { fontFamily: "var(--font-sans)" } as const;
   const wrapRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const earthRef = useRef<HTMLImageElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
   const sphereRef = useRef<HTMLDivElement | null>(null);
@@ -1283,7 +1286,13 @@ function DesignDivision() {
     const ease = (t: number) => t * t * (3 - 2 * t); // smoothstep
     const tick = () => {
       const r = wrap.getBoundingClientRect();
-      const span = r.height - window.innerHeight;
+      // A sticky stage stays pinned for exactly (track - stage), so the span
+      // is measured against the STAGE, not the viewport. Using innerHeight
+      // only worked while the stage was pinned at a full 100svh, and it
+      // forced the track to stay taller than the viewport just to keep the
+      // span positive — which is what padded this section out to 112svh.
+      const stageH = stageRef.current?.offsetHeight ?? window.innerHeight;
+      const span = r.height - stageH;
       const target = span > 0 ? clamp01(-r.top / span) : 0;
       sp += (target - sp) * 0.14; // lerp — momentum without lag
       const p = sp;
@@ -1354,8 +1363,11 @@ function DesignDivision() {
 
   return (
     <>
- <section ref={wrapRef} className="relative bg-white [--track:112svh] md:[--track:170vh]" style={{ height: "var(--track)" }}>
-        <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center gap-4 overflow-hidden px-6 text-center">
+ <section ref={wrapRef} className="relative bg-white [--track:96svh] md:[--track:170vh]" style={{ height: "var(--track)" }}>
+        {/* Stage is sized to its content on phones (~522px of h2 + sphere +
+            caption + CTA); at 100svh it was 812px holding 474px, so a third
+            of the screen was empty band above and below. */}
+        <div ref={stageRef} className="sticky top-0 flex h-[74svh] flex-col items-center justify-center gap-3 overflow-hidden px-6 text-center md:h-[100svh] md:gap-4">
           <div>
             <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
           </div>
