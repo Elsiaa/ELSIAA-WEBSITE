@@ -26,7 +26,7 @@ function QuotePage() {
   return (
     <main className="min-h-screen bg-[#FBFBFA] text-[#111111]">
       <SiteNav />
-      <section className="mx-auto max-w-3xl px-6 pt-36 pb-24 md:pt-44">
+      <section className="mx-auto max-w-3xl px-6 pt-36 pb-12 md:pb-24 md:pt-44">
         {/* the hero copy sits beside the mascot; the form stays full width below */}
         <div className="flex items-start justify-between gap-8">
         <div className="min-w-0 flex-1">

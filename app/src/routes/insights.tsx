@@ -426,7 +426,7 @@ function InsightsPage() {
       </section>
 
       {/* get the research CTA */}
-      <section className="bg-[#070907] px-6 py-16 text-[#F5F5F3]">
+      <section className="bg-[#070907] px-6 py-10 md:py-16 text-[#F5F5F3]">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
             <p className="text-[13px] text-[#4fb37a] " style={mono}>

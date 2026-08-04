@@ -62,7 +62,7 @@ function IntakePage() {
       </section>
 
       {/* the console */}
- <section id="console" className="scroll-mt-20 bg-[#F5F5F3] px-6 py-16 md:py-16">
+ <section id="console" className="scroll-mt-20 bg-[#F5F5F3] px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl" style={inter}>Front end and back end, on one screen.</h2>
@@ -99,7 +99,7 @@ function IntakePage() {
       </section>
 
       {/* worked example + spec */}
- <section className="bg-[#F5F5F3] px-6 py-16">
+ <section className="bg-[#F5F5F3] px-6 py-10 md:py-16">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr]">
           <Reveal>
             <p className="text-[13px] text-[#1e6b3c] " style={mono}>Why it holds up</p>

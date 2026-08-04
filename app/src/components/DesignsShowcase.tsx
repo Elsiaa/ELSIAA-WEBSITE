@@ -473,7 +473,7 @@ function DiscoverDesigns() {
 
 
   return (
-    <section id="discover-designs" className="bg-[#F5F5F3] px-6 pt-14 pb-16 text-[#111111]">
+    <section id="discover-designs" className="bg-[#F5F5F3] px-6 pt-10 md:pt-14 pb-10 md:pb-16 text-[#111111]">
       <div className="mx-auto max-w-6xl">
         <SideToggle side={side} setSide={setSide} />
 
@@ -1218,7 +1218,7 @@ function ProductAdFeature() {
   return (
     <section className="relative overflow-hidden bg-white px-6 pt-28 pb-16 text-[#111111] md:pt-32 md:pb-20">
       <div className="mx-auto max-w-6xl">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+        <div className="grid items-center gap-7 md:gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* the argument */}
           <Reveal>
             <p className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase" style={{ fontFamily: F }}>
@@ -1667,7 +1667,7 @@ function BeyondWebsites() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-[#F5F5F3] to-white pt-24 pb-28">
+    <section className="bg-gradient-to-b from-[#F5F5F3] to-white pt-24 pb-14 md:pb-28">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <div className="mt-3 flex items-end justify-between gap-6">

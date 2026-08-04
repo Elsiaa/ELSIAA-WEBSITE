@@ -264,7 +264,7 @@ function TeamPage() {
       <Group label="Advisory" people={ADVISORS} border />
 
       {/* CTA */}
- <section className="mx-auto max-w-6xl px-6 py-16 text-center">
+ <section className="mx-auto max-w-6xl px-6 py-10 md:py-16 text-center">
         <Reveal>
           <p
             className="text-lg font-semibold tracking-[-0.02em] md:text-2xl"
