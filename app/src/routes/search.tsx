@@ -7,6 +7,8 @@ import { absoluteUrl } from "../lib/site-url";
 export const Route = createFileRoute("/search")({
   head: () => ({
     meta: [
+      /* noindex: thin, query-dependent result pages. */
+      { name: "robots", content: "noindex, follow" },
       { title: "Search — ELSIAA · AI Done Better" },
       {
         name: "description",
