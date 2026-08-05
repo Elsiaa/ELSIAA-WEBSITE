@@ -1,8 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../../components/SiteNav";
+import { absoluteUrl } from "../../lib/site-url";
 
 export const Route = createFileRoute("/legal/terms")({
-  head: () => ({ meta: [{ title: "Terms — ELSIAA" }, { name: "robots", content: "noindex" }] }),
+  /* Indexable on purpose: these were noindex while also being listed in
+     sitemap.xml, which are contradictory signals — and privacy/terms are
+     pages people search for and regulators expect to find. */
+  head: () => ({
+    meta: [
+      { title: "Terms — ELSIAA" },
+      { name: "description", content: "The terms governing use of the ELSIAA website and the services ELSIAA provides." },
+      { property: "og:title", content: "Terms — ELSIAA" },
+      { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
+    ],
+    links: [{ rel: "canonical", href: absoluteUrl("/legal/terms") }],
+  }),
   component: Terms,
 });
 
