@@ -128,18 +128,18 @@ function IntakePage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#0c0c0c] px-6 py-10 text-white md:py-32">
+      <section className="bg-[#F5F5F3] px-6 py-10 text-[#111111] md:py-32">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <h2 className="text-4xl font-semibold tracking-[-0.045em] md:text-6xl" style={inter}>Put it on your line.</h2>
-            <p className="mx-auto mt-5 max-w-lg text-lg leading-relaxed text-white/60" style={inter}>
+            <p className="mx-auto mt-5 max-w-lg text-lg leading-relaxed text-[#111111]/60" style={inter}>
               Intake OS is built to your specialists, your rules, and your systems — then measured against the front desk it replaces before it ever answers a real call.
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-              <a href="/contact" className="rounded-full bg-[#2e9e58] px-9 py-4 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]" style={mono}>Book a strategy call →</a>
-              <a href="https://plumbing.demo.elsiaa.com" target="_blank" rel="noreferrer" className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all hover:border-white hover:bg-white hover:text-[#111111]" style={mono}>Open the live demo ↗</a>
+              <a href="/contact" className="rounded-full bg-[#1e6b3c] px-9 py-4 text-[13px] font-bold text-white  transition-all hover:bg-[#111111] hover:text-white" style={mono}>Book a strategy call →</a>
+              <a href="https://plumbing.demo.elsiaa.com" target="_blank" rel="noreferrer" className="rounded-full border border-black/15 px-8 py-4 text-[13px] font-bold text-[#111111]  transition-all hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white" style={mono}>Open the live demo ↗</a>
             </div>
-            <p className="mt-8 text-[13px] text-white/35 " style={mono}><a href="/clients" className="underline-offset-2 hover:text-white/70 hover:underline">Fully insured builds ↗</a> · Six cities · One standard</p>
+            <p className="mt-8 text-[13px] text-[#111111]/45 " style={mono}><a href="/clients" className="underline-offset-2 hover:text-[#111111]/70 hover:underline">Fully insured builds ↗</a> · Six cities · One standard</p>
           </Reveal>
         </div>
       </section>

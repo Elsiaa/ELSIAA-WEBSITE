@@ -1959,10 +1959,10 @@ function Results() {
 /* ---------------- 6 · final CTA ---------------- */
 function FinalCTA() {
   return (
-    <section className="bg-[#070907] px-6 py-10 text-center md:py-14 text-[#F5F5F3]">
+    <section className="bg-[#F5F5F3] px-6 py-10 text-center md:py-14 text-[#111111]">
       <Reveal>
         <p
-          className="text-[13px] text-[#2e9e58] "
+          className="text-[13px] text-[#1e6b3c] "
           style={{ fontFamily: "var(--font-sans)" }}
         >
           ELSIAA
@@ -1975,14 +1975,14 @@ function FinalCTA() {
         </h2>
         <a
           href="/contact"
-          className="group mt-9 inline-flex items-center gap-3 border border-[#F5F5F3]/25 px-9 py-3.5 text-[13px]  transition-colors duration-300 hover:border-[#2e9e58] hover:text-[#2e9e58]"
+          className="group mt-9 inline-flex items-center gap-3 border border-black/15 px-9 py-3.5 text-[13px]  transition-colors duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Book a strategy call
           <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </a>
         <p
-          className="mt-12 text-sm italic text-[#F5F5F3]/40"
+          className="mt-12 text-sm italic text-[#111111]/45"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
           Omnia possibilia

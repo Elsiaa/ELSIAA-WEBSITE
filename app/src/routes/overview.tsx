@@ -97,7 +97,7 @@ function Overview() {
       </section>
 
       {/* the gap */}
- <section className="bg-[#070907] px-6 py-10 text-center text-[#F5F5F3] md:py-32">
+ <section className="bg-[#F5F5F3] px-6 py-10 text-center text-[#111111] md:py-32">
         <Reveal>
           <h2
             className="mx-auto max-w-3xl text-3xl font-semibold leading-[1.15] tracking-[-0.035em] md:text-5xl"
@@ -107,7 +107,7 @@ function Overview() {
             competitors use AI as a force multiplier.
           </h2>
           <p
-            className="mx-auto mt-6 text-[18px] font-semibold text-[#2e9e58] md:text-2xl"
+            className="mx-auto mt-6 text-[18px] font-semibold text-[#1e6b3c] md:text-2xl"
             style={sans}
           >
             We close that gap.

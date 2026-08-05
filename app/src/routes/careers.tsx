@@ -90,7 +90,7 @@ function Careers() {
 
 function Hero() {
   return (
-    <section className="relative flex min-h-[50vh] items-end overflow-hidden bg-[#0c0c0c] text-white">
+    <section className="relative flex min-h-[50vh] items-end overflow-hidden bg-[#F5F5F3] text-[#111111]">
       <img
         src="/assets/careers_hero_v2.jpg"
         alt=""
@@ -98,11 +98,11 @@ function Hero() {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-[#0c0c0c]/40 to-[#0c0c0c]/60" />
       <div className="relative mx-auto w-full max-w-5xl px-6 pt-36 pb-10 text-center md:pb-14">
-        <p className="text-[13px] font-bold text-[#2e9e58]">Careers</p>
+        <p className="text-[13px] font-bold text-[#1e6b3c]">Careers</p>
         <h1 className="mx-auto mt-3 max-w-2xl text-4xl leading-[1.03] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl">
           Careers at ELSIAA
         </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-white/70 md:text-[17px]">
+        <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-[#111111]/70 md:text-[17px]">
           We build websites, apps, and AI systems for businesses, and we look after
           them once they're live. The company works out of six offices across three
           continents, and we're hiring in four areas.

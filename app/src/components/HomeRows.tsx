@@ -1110,11 +1110,11 @@ function MerchStrip() {
 /* ---------- closing CTA — the next step, unmissable ---------- */
 function FinalCTA() {
   return (
- <section className="bg-[#0c0c0c] py-10 text-white md:py-14">
+ <section className="bg-[#F5F5F3] py-10 text-[#111111] md:py-14">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <Reveal>
           <p
-            className="text-[13px] text-[#2e9e58] "
+            className="text-[13px] text-[#1e6b3c] "
             style={{ fontFamily: "var(--font-sans)" }}
           >
             07 · Next
@@ -1126,7 +1126,7 @@ function FinalCTA() {
             Let's build your first system.
           </h2>
           <p
-            className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-white/55"
+            className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-[#111111]/55"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Tell us the step that still waits on a person. We'll scope it, price it, and show you the before and after.
@@ -1136,21 +1136,21 @@ function FinalCTA() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a
               href="/contact"
-              className="rounded-full bg-[#2e9e58] px-10 py-5 text-[13px] font-bold text-white  transition-all duration-300 hover:bg-white hover:text-[#111111]"
+              className="rounded-full bg-[#1e6b3c] px-10 py-5 text-[13px] font-bold text-white  transition-all duration-300 hover:bg-[#111111] hover:text-white"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Start with a free call →
             </a>
             <a
               href="/quote"
-              className="rounded-full border border-white/25 px-8 py-4 text-[13px] font-bold text-white  transition-all duration-300 hover:border-white hover:bg-white hover:text-[#111111]"
+              className="rounded-full border border-black/15 px-8 py-4 text-[13px] font-bold text-[#111111]  transition-all duration-300 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Get a Quote
             </a>
           </div>
           <p
-            className="mt-5 text-[13px] text-white/50"
+            className="mt-5 text-[13px] text-[#111111]/50"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             20 minutes. No pitch. Straight answers on where AI actually pays off for you.

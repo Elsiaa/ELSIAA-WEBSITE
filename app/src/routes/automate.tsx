@@ -1,13 +1,14 @@
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { AbaOperations } from "../components/AbaOperations";
 import { absoluteUrl } from "../lib/site-url";
 
 /*
-  Automate — one page: the interactive ELSIAA Secretary plus a tight, dark
-  product gallery of solution systems. The Secretary is the only live system;
-  the systems below are premium empty placeholders the CTO fills in later.
-  Brand-locked: ELSIAA green, dark surfaces, the offices line and Hebrew phrase.
+  Automate — one page, four numbered stops held together by a sticky index:
+  01 the live ELSIAA Secretary, 02 the ABA Operations build, the four screens
+  still in build, and the quote. White ground like every other page; this was
+  the last dark page on the site.
 */
 
 export const Route = createFileRoute("/automate")({
@@ -80,6 +81,80 @@ function Monitor() {
   );
 }
 
+/* Sticky index. The page is four sections of very different heights, and
+   without this the only way to reach the ABA build or the in-build screens is
+   to scroll past a 900px live demo. Sits directly under the 88px fixed nav
+   and highlights whichever section currently owns the viewport. */
+const INDEX: Array<{ id: string; label: string; note: string }> = [
+  { id: "secretary", label: "Secretary", note: "live" },
+  { id: "aba-operations", label: "ABA Operations", note: "live" },
+  { id: "systems", label: "In build", note: "4" },
+  { id: "next", label: "Get a quote", note: "" },
+];
+
+function SystemIndex() {
+  const [active, setActive] = useState("secretary");
+  useEffect(() => {
+    /* Deterministic on every scroll position: the active stop is the last one
+       whose top has passed under the index. An IntersectionObserver was wrong
+       here — it only reports sections whose visibility CHANGED in that batch,
+       so jumping by anchor left the highlight on whatever it saw last, and the
+       short closing section never crossed a threshold at all. */
+    const pick = () => {
+      const line = 140; // nav 88 + index 41, plus a little
+      let cur = INDEX[0]!.id;
+      for (const s of INDEX) {
+        const el = document.getElementById(s.id);
+        if (el && el.getBoundingClientRect().top <= line) cur = s.id;
+      }
+      // at the very bottom the last stop always wins, however short it is
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+        cur = INDEX[INDEX.length - 1]!.id;
+      }
+      setActive(cur);
+    };
+    pick();
+    window.addEventListener("scroll", pick, { passive: true });
+    window.addEventListener("resize", pick);
+    return () => {
+      window.removeEventListener("scroll", pick);
+      window.removeEventListener("resize", pick);
+    };
+  }, []);
+
+  return (
+    <nav
+      aria-label="Systems on this page"
+      className="sticky top-[88px] z-30 border-b border-black/[0.06] bg-white/92 backdrop-blur"
+    >
+      <div className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4 py-1.5 md:px-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {INDEX.map((s) => {
+          const on = active === s.id;
+          return (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              aria-current={on ? "true" : undefined}
+              className="inline-flex min-h-[36px] shrink-0 items-center gap-1.5 rounded-full px-3 text-[12.5px] font-semibold whitespace-nowrap transition-colors md:text-[13px]"
+              style={{
+                color: on ? "#1e6b3c" : "rgba(17,17,17,0.5)",
+                background: on ? "rgba(30,107,60,0.10)" : "transparent",
+              }}
+            >
+              {s.label}
+              {s.note && (
+                <span className="text-[10.5px] font-medium" style={{ color: on ? "#1e6b3c" : "rgba(17,17,17,0.35)" }}>
+                  {s.note}
+                </span>
+              )}
+            </a>
+          );
+        })}
+      </div>
+    </nav>
+  );
+}
+
 function AutomatePage() {
   return (
     <main style={{ background: "#ffffff", color: "#111111", fontFamily: SANS }} className="min-h-screen">
@@ -93,10 +168,14 @@ function AutomatePage() {
         </div>
       </div>
 
+      <SystemIndex />
+
       {/* ELSIAA SECRETARY — the one live system, strongest focus, tight */}
-      <section className="px-4 pt-6 md:px-6">
+      <section id="secretary" className="scroll-mt-[136px] px-4 pt-6 md:px-6">
         <div className="mx-auto max-w-6xl">
-          <p className="text-center text-[13px] font-semibold tracking-[0.02em] text-[#1e6b3c]">ELSIAA Secretary</p>
+          <p className="text-center text-[13px] font-semibold tracking-[0.02em] text-[#1e6b3c]">
+            01 · ELSIAA Secretary
+          </p>
           <h1 className="mx-auto mt-2 max-w-2xl text-center text-[1.9rem] leading-[1.08] font-semibold tracking-[-0.04em] text-[#111111] md:text-[2.9rem]">
             Talk to a system we built. It answers.
           </h1>
@@ -129,10 +208,10 @@ function AutomatePage() {
       {/* placeholder systems — tight vertical sequence, empty premium frames.
           Sits on the off-white so the scroll reads as a distinct third step
           after the Secretary and the ABA build. */}
-      <section id="systems" className="scroll-mt-24 bg-[#F5F5F3] px-4 py-10 md:px-6 md:py-14">
+      <section id="systems" className="scroll-mt-[136px] bg-[#F5F5F3] px-4 py-10 md:px-6 md:py-14">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center text-[1.4rem] font-semibold tracking-[-0.03em] text-[#111111] md:text-[2rem]">
-            The problems these replace.
+            In build — four more systems.
           </h2>
           <p className="mx-auto mt-2 max-w-lg text-center text-[13.5px] leading-relaxed text-[#111111]/55 md:text-[15px]">
             Each one is a job that currently waits on a person. Screens are being filled
@@ -161,7 +240,7 @@ function AutomatePage() {
       </section>
 
       {/* closing — two factual lines, one button */}
-      <section className="px-6 pb-10 md:pb-16 pt-8 md:pt-12 text-center">
+      <section id="next" className="scroll-mt-[136px] px-6 pb-10 md:pb-16 pt-8 md:pt-12 text-center">
         <p className="text-[14px] text-[#111111]/60">Fully insured · Fixed scope · You own the finished system.</p>
         <p className="mt-1 text-[14px] text-[#111111]/45">info@elsiaa.com</p>
         <a href="/quote" className="mt-6 inline-flex items-center rounded-full bg-[#1e6b3c] px-9 py-3.5 text-[14px] font-semibold text-white transition-all hover:bg-[#111111]">

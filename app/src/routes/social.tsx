@@ -501,15 +501,15 @@ function SocialPage() {
       </section>
 
       {/* positioning — not just social */}
- <section className="bg-[#0b0d0c] px-6 py-10 text-center text-white md:py-16">
+ <section className="bg-[#F5F5F3] px-6 py-10 text-center text-[#111111] md:py-16">
         <Reveal>
-          <p className="text-[13px] font-bold text-[#2e9e58]" style={{ fontFamily: SANS }}>
+          <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
             One team, one standard
           </p>
           <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-semibold leading-[1.06] tracking-[-0.04em] md:text-5xl" style={{ fontFamily: SANS }}>
             It doesn't stop at social.
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-white/65 md:text-[17px]" style={{ fontFamily: SANS }}>
+          <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-[#111111]/65 md:text-[17px]" style={{ fontFamily: SANS }}>
             We build your software, design every surface of your brand, and run the online
             strategy that ties it together. The same team that engineers your systems and
             designs your product runs the best social presence in your market — so every
@@ -518,14 +518,14 @@ function SocialPage() {
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <a
               href="/automate"
-              className="inline-flex min-h-[52px] items-center rounded-full border border-white/25 px-7 text-[15px] font-semibold text-white transition-all hover:border-[#2e9e58] hover:text-[#2e9e58]"
+              className="inline-flex min-h-[52px] items-center rounded-full border border-black/15 px-7 text-[15px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
               style={{ fontFamily: SANS }}
             >
               Automation & software
             </a>
             <a
               href="/designs"
-              className="inline-flex min-h-[52px] items-center rounded-full border border-white/25 px-7 text-[15px] font-semibold text-white transition-all hover:border-[#2e9e58] hover:text-[#2e9e58]"
+              className="inline-flex min-h-[52px] items-center rounded-full border border-black/15 px-7 text-[15px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
               style={{ fontFamily: SANS }}
             >
               Design
