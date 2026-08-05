@@ -531,10 +531,10 @@ export function AbaOperations() {
   };
 
   return (
-    <section id="aba-operations" className="scroll-mt-24 px-4 pt-7 md:px-6 md:pt-10">
+    <section id="aba-operations" className="scroll-mt-[136px] px-4 pt-7 md:px-6 md:pt-10">
       <div className="mx-auto max-w-6xl">
         <p className="text-center text-[13px] font-semibold tracking-[0.02em]" style={{ color: GREEN }}>
-          ABA Operations Automation
+          02 · ABA Operations Automation
         </p>
         <h2 className="mt-1.5 text-center text-[15px] font-semibold tracking-[-0.01em] md:text-[16px]">
           <span className="text-[#111111]/50">Manual compliance &amp; lost revenue</span>
@@ -644,10 +644,12 @@ export function AbaOperations() {
                   aria-selected={on}
                   onClick={() => setMod(m.key)}
                   className="min-h-[44px] shrink-0 snap-start rounded-full border px-4 text-[13px] font-medium transition-colors"
+                  /* Ink on the tint, not white — white on a 14% green wash is
+                     only 3.4:1. */
                   style={{
                     borderColor: on ? GREEN : "rgba(17,17,17,0.14)",
-                    color: on ? "#fff" : "rgba(17,17,17,0.55)",
-                    background: on ? "rgba(46,158,88,0.14)" : "transparent",
+                    color: on ? GREEN : "rgba(17,17,17,0.55)",
+                    background: on ? "rgba(30,107,60,0.10)" : "transparent",
                   }}
                 >
                   {m.label}

@@ -426,7 +426,7 @@ function InsightsPage() {
       </section>
 
       {/* get the research CTA */}
-      <section className="bg-[#070907] px-6 py-10 md:py-16 text-[#F5F5F3]">
+      <section className="bg-[#F5F5F3] px-6 py-10 md:py-16 text-[#111111]">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
             <p className="text-[13px] text-[#4fb37a] " style={mono}>
@@ -438,7 +438,7 @@ function InsightsPage() {
             >
               The next report, before it's public.
             </h2>
-            <p className="mx-auto mt-4 max-w-md text-[15px] text-white/50" style={inter}>
+            <p className="mx-auto mt-4 max-w-md text-[15px] text-[#111111]/50" style={inter}>
               We publish our field data and analysis to a short list first. No
               noise — a few emails a quarter, each one worth reading.
             </p>
@@ -453,18 +453,18 @@ function InsightsPage() {
                 required
                 placeholder="you@company.com"
                 aria-label="Work email"
-                className="w-full flex-1 rounded-full border border-white/15 bg-white/[0.05] px-6 py-4 text-[14px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-[#4fb37a]"
+                className="w-full flex-1 rounded-full border border-black/15 bg-white/[0.05] px-6 py-4 text-[14px] text-[#111111] outline-none transition-colors placeholder:text-[#111111]/45 focus:border-[#4fb37a]"
                 style={inter}
               />
               <button
                 type="submit"
-                className="rounded-full bg-[#2e9e58] px-8 py-4 text-[13px] font-bold text-white  transition-all hover:bg-white hover:text-[#111111]"
+                className="rounded-full bg-[#1e6b3c] px-8 py-4 text-[13px] font-bold text-white  transition-all hover:bg-[#111111] hover:text-white"
                 style={mono}
               >
                 Subscribe →
               </button>
             </form>
-            <p className="mt-4 text-[13px] text-white/35" style={inter}>
+            <p className="mt-4 text-[13px] text-[#111111]/45" style={inter}>
               Continues on our contact page — no spam, unsubscribe anytime.
             </p>
           </Reveal>
