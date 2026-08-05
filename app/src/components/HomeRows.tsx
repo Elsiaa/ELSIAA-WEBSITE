@@ -423,7 +423,7 @@ function HomeHero() {
         {/* the lion — the ELSIAA logo, front-facing, roars as you scroll */}
         {/* The clip is masked and feathered, so it already carries a wide
             transparent margin — the gap above it can be small. */}
-        <div className="pointer-events-none relative mt-3 w-full max-w-[300px] md:mt-8 md:max-w-[380px]">
+        <div className="pointer-events-none relative mt-3 w-full max-w-[262px] md:mt-8 md:max-w-[380px]">
           <div
             ref={glowRef}
             className="absolute inset-[14%] -z-10 rounded-full blur-3xl"
@@ -461,31 +461,80 @@ function HomeHero() {
           <b className="font-semibold text-[#1e6b3c]">A</b>lliance
         </p>
 
-        {/* thin locations ticker — a quiet marquee of where ELSIAA is */}
-        <a
-          href="/locations"
-          className="pointer-events-auto group mt-5 block w-full max-w-[620px] overflow-hidden border-t border-black/[0.07] py-2.5 md:mt-7"
-          aria-label="Our locations"
-        >
-          <div className="loc-ticker flex w-max whitespace-nowrap">
-            {[0, 1].map((copy) => (
-              <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
-                {["New York", "Los Angeles", "London", "Geneva", "Antwerp", "Tel Aviv", "Baltimore", "Montvale", "Kingston"].map((c) => (
-                  <span key={c} className="flex items-center">
-                    <span className="px-5 text-[11px] font-medium tracking-[0.2em] text-[#111111]/45 uppercase transition-colors group-hover:text-[#111111]/70" style={sans}>
-                      {c}
+        {/* Two counter-running marquees, stacked. What we do on top in ink,
+            where we are underneath in grey — the contrary motion is what makes
+            the band catch the eye without either line shouting. */}
+        <div className="mt-5 w-full max-w-[620px] md:mt-7">
+          <a
+            href="/services"
+            className="pointer-events-auto group block overflow-hidden border-t border-black/[0.07] py-2 md:py-2.5"
+            aria-label="What we build"
+          >
+            <div className="svc-ticker flex w-max whitespace-nowrap">
+              {[0, 1].map((copy) => (
+                <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
+                  {SERVICE_TICKER.map((s) => (
+                    <span key={s} className="flex items-center">
+                      <span
+                        className="px-5 text-[11px] font-semibold tracking-[0.2em] text-[#111111]/70 uppercase transition-colors group-hover:text-[#111111]"
+                        style={sans}
+                      >
+                        {s}
+                      </span>
+                      <span className="text-[#1e6b3c]" aria-hidden>
+                        ·
+                      </span>
                     </span>
-                    <span className="text-[#1e6b3c]/60" aria-hidden>·</span>
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </a>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </a>
+
+          <a
+            href="/locations"
+            className="pointer-events-auto group block overflow-hidden border-t border-black/[0.07] py-2 md:py-2.5"
+            aria-label="Our locations"
+          >
+            <div className="loc-ticker flex w-max whitespace-nowrap">
+              {[0, 1].map((copy) => (
+                <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
+                  {["New York", "Los Angeles", "London", "Geneva", "Antwerp", "Tel Aviv", "Baltimore", "Montvale", "Kingston"].map((c) => (
+                    <span key={c} className="flex items-center">
+                      <span className="px-5 text-[11px] font-medium tracking-[0.2em] text-[#111111]/45 uppercase transition-colors group-hover:text-[#111111]/70" style={sans}>
+                        {c}
+                      </span>
+                      <span className="text-[#1e6b3c]/60" aria-hidden>·</span>
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </a>
+        </div>
       </div>
     </section>
   );
 }
+
+/* The hero services marquee. Every line is something the site sells elsewhere
+   — /automate, /designs, /social, /services, /store — so the band never
+   advertises work that has no page behind it. */
+const SERVICE_TICKER = [
+  "AI Integration",
+  "AI Automations",
+  "Custom Robots",
+  "Voice Agents",
+  "Websites",
+  "Design Packages",
+  "Branding",
+  "Social Media",
+  "Custom Software",
+  "Mobile Apps",
+  "E-Commerce",
+  "SEO & Local",
+  "Consultation",
+];
 
 /* ---------- Automation: robot + walkthrough, per sketch ---------- */
 function AutomationSection() {

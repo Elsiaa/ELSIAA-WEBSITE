@@ -261,8 +261,23 @@ img, video, canvas, iframe { max-width: 100%; }
 .phone-sway { animation: phoneSway ease-in-out infinite; will-change: transform; }
 @media (prefers-reduced-motion: reduce) { .phone-sway { animation: none; } }
 
-/* thin locations ticker under the hero wordmark */
-@keyframes locTicker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-.loc-ticker { animation: locTicker 34s linear infinite; will-change: transform; }
-.loc-ticker:hover { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) { .loc-ticker { animation: none; } }
+/* Paired hero tickers: services running left, locations running right, so the
+   two read as one moving band the eye catches immediately. Each track holds
+   the list twice, so translating by exactly -50% / +(-50%) loops seamlessly.
+   Both were 34s; the locations line now matches the quicker services pace. */
+@keyframes locTicker { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
+@keyframes svcTicker { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+.loc-ticker,
+.svc-ticker { will-change: transform; }
+.loc-ticker { animation: locTicker 18s linear infinite; }
+.svc-ticker { animation: svcTicker 26s linear infinite; }
+
+/* Pause on hover so a name can actually be read. */
+.loc-ticker:hover,
+.svc-ticker:hover { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .loc-ticker,
+  .svc-ticker { animation: none; }
+}
