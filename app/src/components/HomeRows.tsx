@@ -923,6 +923,7 @@ function ConsultPricing() {
 const CITIES = [
   {
     name: "New York City",
+    email: "ny@elsiaa.com",
     q: "Manhattan, New York",
     flag: "us",
     tz: "America/New_York",
@@ -930,6 +931,7 @@ const CITIES = [
   },
   {
     name: "London",
+    email: "euInfo@elsiaa.com",
     q: "London, UK",
     flag: "gb",
     tz: "Europe/London",
@@ -937,6 +939,7 @@ const CITIES = [
   },
   {
     name: "Geneva",
+    email: "euInfo@elsiaa.com",
     q: "Geneva, Switzerland",
     flag: "ch",
     tz: "Europe/Zurich",
@@ -944,6 +947,7 @@ const CITIES = [
   },
   {
     name: "Antwerp",
+    email: "euInfo@elsiaa.com",
     q: "Antwerp, Belgium",
     flag: "be",
     tz: "Europe/Brussels",
@@ -951,6 +955,7 @@ const CITIES = [
   },
   {
     name: "Tel Aviv",
+    email: "isr@elsiaa.com",
     q: "Tel Aviv, Israel",
     flag: "il",
     tz: "Asia/Jerusalem",
@@ -958,6 +963,7 @@ const CITIES = [
   },
   {
     name: "Los Angeles",
+    email: "la@elsiaa.com",
     q: "Los Angeles, California",
     flag: "us",
     tz: "America/Los_Angeles",
@@ -1038,14 +1044,16 @@ function Locations() {
             className="mt-1.5 text-xl font-semibold tracking-[-0.035em] sm:mt-3 sm:text-2xl md:text-4xl"
             style={inter}
           >
-            One standard. Every timezone.
+            We are located in the following locations.
           </h2>
           <p
             className="mt-1.5 max-w-md text-[13px] leading-snug text-[#111111]/55 sm:mt-3 sm:text-[14px] sm:leading-relaxed"
             style={inter}
           >
-            <span className="font-semibold text-[#111111]">24/7 virtual support</span> — and in
-            person, on site, in six cities. Right now it's{" "}
+            The bulk of our work is virtual, and we are{" "}
+            <span className="font-semibold text-[#111111]">available around the clock</span> for
+            emergencies and questions. We operate on site and take office visits in the cities
+            below — right now it's{" "}
             <span className="font-semibold text-[#1e6b3c]">
               {cityTime(now, active.tz).slice(0, 5)}
             </span>{" "}
@@ -1058,14 +1066,20 @@ function Locations() {
           <Reveal delay={0.08}>
             <div role="tablist" aria-label="ELSIAA cities">
               {CITIES.map((c, i) => (
-                <button
+                /* role="presentation" keeps the tablist valid now that each tab
+                   is wrapped — a mailto link cannot live inside a <button>. */
+                <div
                   key={c.name}
+                  role="presentation"
+                  className={`flex items-center gap-1 border-b border-black/[0.06] transition-all duration-300 ${
+                    i === idx ? "" : "opacity-45 hover:opacity-80"
+                  }`}
+                >
+                <button
                   role="tab"
                   aria-selected={i === idx}
                   onClick={() => setIdx(i)}
-                  className={`group flex min-h-[44px] w-full items-center gap-3 border-b border-black/[0.06] py-2 text-left transition-all duration-300 sm:gap-4 sm:py-3.5 ${
-                    i === idx ? "" : "opacity-45 hover:opacity-80"
-                  }`}
+                  className="group flex min-h-[44px] min-w-0 flex-1 items-center gap-3 py-2 text-left sm:gap-4 sm:py-3.5"
                 >
                   <span
                     className={`h-6 w-[3px] flex-none rounded-full transition-colors duration-300 sm:h-8 ${
@@ -1094,7 +1108,7 @@ function Locations() {
                       }`}
                       style={mono}
                     >
-                      {i === idx ? "On site now" : "ELSIAA office"}
+                      Open 11:00–17:00 local
                     </span>
                   </span>
                   <span className="flex-none text-right">
@@ -1115,6 +1129,21 @@ function Locations() {
                     </span>
                   </span>
                 </button>
+                <a
+                  href={`mailto:${c.email}`}
+                  onClick={(e) => e.stopPropagation()}
+                  aria-label={`Email the ${c.name} desk — ${c.email}`}
+                  title={c.email}
+                  className="flex min-h-[44px] flex-none items-center gap-1.5 rounded-full px-2.5 text-[12px] font-semibold text-[#1e6b3c] transition-colors hover:bg-[#1e6b3c]/[0.08] sm:px-3 sm:text-[12.5px]"
+                  style={mono}
+                >
+                  <svg viewBox="0 0 20 20" aria-hidden className="h-[14px] w-[14px] flex-none" fill="none" stroke="currentColor" strokeWidth="1.7">
+                    <rect x="2.5" y="4.5" width="15" height="11" rx="2" />
+                    <path d="M3 6l7 5 7-5" />
+                  </svg>
+                  <span className="hidden lg:inline">{c.email}</span>
+                </a>
+                </div>
               ))}
             </div>
           </Reveal>
@@ -1221,29 +1250,23 @@ const TEAM = [
 
 function Team() {
   return (
-    <section className="bg-white py-6 md:py-12">
-      <div className="mx-auto max-w-5xl px-6">
-        <Reveal>
-          <p
-            className="text-[12px] text-[#1e6b3c] sm:text-[13px]"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            4 · Who we are
-          </p>
-          <h2
-            className="mt-1.5 text-xl font-semibold tracking-[-0.035em] text-[#111111] sm:mt-3 sm:text-2xl md:text-4xl"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            Leadership of consequence.
-          </h2>
-          <p
-            className="mt-1.5 max-w-xl text-[13px] leading-snug text-[#111111]/60 sm:mt-3 sm:text-[15px] sm:leading-relaxed"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            Founders, executives, and tenured professors — decades of academic distinction and
-            enterprise success at one table.
-          </p>
-        </Reveal>
+    <section className="relative overflow-hidden bg-white py-6 md:py-12">
+      {/* The lion, sunk into the background. aria-hidden and pointer-events-none
+          so it is pure texture; the mask fades all four edges so it reads as a
+          watermark rather than a picture someone forgot to crop. */}
+      <img
+        src="/assets/elsiaa-lion-192.png"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-[240px] max-w-none -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.028] md:w-[400px]"
+        style={{
+          WebkitMaskImage: "radial-gradient(closest-side, #000 55%, rgba(0,0,0,0) 100%)",
+          maskImage: "radial-gradient(closest-side, #000 55%, rgba(0,0,0,0) 100%)",
+        }}
+      />
+      <div className="relative z-10 mx-auto max-w-5xl px-6">
+        {/* No heading here: the collapsible header directly above already
+            reads "The team / Meet the ELSIAA team." */}
         {/* Phone: three bare portraits per row, no card chrome — six boxed
             rows spent most of their height on borders and padding. The
             bordered photo-beside-name row returns from sm: up. */}
@@ -1259,7 +1282,7 @@ function Team() {
                     src={m.photo}
                     alt={m.name}
                     loading="lazy"
-                    className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover sm:h-[52px] sm:w-[52px]"
+                    className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover object-[center_22%] sm:h-[52px] sm:w-[52px]"
                   />
                 ) : (
                   <span
@@ -2065,7 +2088,7 @@ export function HomeRows() {
         cta="Book Consultation"
         extra={<ConsultPricing />}
       />
-      <ExpandSection title="The team" blurb="Who builds it, who stands behind it.">
+      <ExpandSection title="The team" blurb="Meet the ELSIAA team.">
         <Team />
       </ExpandSection>
       <ExpandSection

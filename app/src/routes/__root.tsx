@@ -203,14 +203,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-theme="default-dark" style={{ colorScheme: "dark" }}>
+    <html lang="en" data-theme="default-dark" style={{ colorScheme: "light" }}>
       {/* Marketplace apps are permanently dark: data-theme is pinned on <html>
           above. Do not add quanta's bootstrapScript/ThemeController, a theme
           toggle, or a light mode. */}
       <head>
         <HeadContent />
       </head>
-      <body className="bg-q-background-primary text-q-text-primary">
+      {/* No bg-q-* here: those are the scaffold's dark tokens and, being Tailwind
+          utilities, they beat the base-layer canvas override. The site is light. */}
+      <body>
         {children}
         <Scripts />
       </body>

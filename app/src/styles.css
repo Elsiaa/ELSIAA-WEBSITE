@@ -124,6 +124,20 @@
   }
 }
 
+/* The scaffold pins data-theme="default-dark" on <html>, which left the
+   document canvas near-black (rgb(19,20,22)). Every ELSIAA page renders a white
+   <main>, so that black only ever showed where main did not reach: the
+   overscroll bounce at the top and bottom, and any viewport taller than the
+   content. data-theme is deliberately left alone — seven admin/ui components
+   still key `dark:` variants off it — so this overrides just the canvas. */
+@layer base {
+  html,
+  body {
+    background-color: #ffffff;
+    color-scheme: light;
+  }
+}
+
 /* ---- accessibility: visible keyboard focus + motion respect (site-wide) ---- */
 @layer base {
   a:focus-visible,
