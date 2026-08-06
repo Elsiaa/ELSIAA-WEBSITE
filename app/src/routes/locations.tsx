@@ -191,6 +191,60 @@ function LiveTime({ now, tz, className }: { now: Date | null; tz: string; classN
   );
 }
 
+
+/* Desk hours, local to each office — same window the home page publishes. */
+const OPEN_HOUR = 11;
+const CLOSE_HOUR = 17;
+
+/**
+ * Open right now? Read from the office's own timezone via Intl parts, so DST
+ * is handled by the browser and a desk flips on the right local minute.
+ * null until the clock mounts, so SSR and first paint agree.
+ */
+function deskOpen(now: Date | null, tz: string): boolean | null {
+  if (!now) return null;
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    weekday: "short",
+    hour: "numeric",
+    hour12: false,
+  }).formatToParts(now);
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  const wd = get("weekday");
+  if (wd === "Sat" || wd === "Sun") return false;
+  const hour = Number(get("hour")) % 24;
+  return hour >= OPEN_HOUR && hour < CLOSE_HOUR;
+}
+
+/** Open / Closed pill for an office card. */
+function OpenBadge({ now, tz }: { now: Date | null; tz: string }) {
+  const open = deskOpen(now, tz);
+  if (open === null) {
+    return (
+      <span suppressHydrationWarning className="text-[12.5px] text-[#111111]/40">
+        11:00–17:00 local
+      </span>
+    );
+  }
+  return (
+    <span
+      suppressHydrationWarning
+      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12.5px] font-semibold"
+      style={{
+        color: open ? "#1e6b3c" : "rgba(17,17,17,0.5)",
+        background: open ? "rgba(30,107,60,0.10)" : "rgba(17,17,17,0.05)",
+      }}
+    >
+      <span
+        className="h-[6px] w-[6px] rounded-full"
+        style={{ background: open ? "#1e6b3c" : "rgba(17,17,17,0.3)" }}
+      />
+      {open ? "Open now" : "Closed"}
+      <span className="font-normal opacity-70">{open ? "· until 17:00" : "· opens 11:00"}</span>
+    </span>
+  );
+}
+
 function LocationsPage() {
   const now = useNow();
 
@@ -268,8 +322,18 @@ function LocationsPage() {
                     className="h-full w-full object-cover object-bottom transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                   <span className="absolute top-4 right-4 flex items-center gap-2 rounded-full border border-black/[0.08] bg-white/85 px-3.5 py-1.5 text-[13px] font-medium tabular-nums backdrop-blur">
-                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#1e6b3c]" />
+                    {/* dot follows the desk, not a fixed colour */}
+                    <span
+                      suppressHydrationWarning
+                      className="inline-block h-1.5 w-1.5 rounded-full"
+                      style={{
+                        background: deskOpen(now, o.tz) ? "#1e6b3c" : "rgba(17,17,17,0.28)",
+                      }}
+                    />
                     <LiveTime now={now} tz={o.tz} />
+                  </span>
+                  <span className="absolute bottom-4 left-4">
+                    <OpenBadge now={now} tz={o.tz} />
                   </span>
                 </div>
 
