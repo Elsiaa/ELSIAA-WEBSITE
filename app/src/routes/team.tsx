@@ -94,8 +94,10 @@ const DIRECTORS: Person[] = [
     role: "Director of Social Media",
     line: "Runs ELSIAA's social output end to end — strategy, production, and the accounts themselves.",
     loc: "New York",
-    href: "mailto:info@elsiaa.com",
-    hrefLabel: "info@elsiaa.com",
+    /* utm_source=linktree_profile_share stripped: it tags the share that
+       produced the link, and would mis-attribute every visitor from the site. */
+    href: "https://linktr.ee/spivak_photography",
+    hrefLabel: "linktr.ee/spivak_photography",
   },
   {
     name: "Ynon Azulai",
@@ -182,6 +184,11 @@ function Card({ p, i }: { p: Person; i: number }) {
             {p.href && (
               <a
                 href={p.href}
+                /* mailto: stays in place; an external profile opens in a new
+                   tab and gets rel=noreferrer */
+                {...(p.href.startsWith("http")
+                  ? { target: "_blank", rel: "noreferrer" }
+                  : {})}
                 className="ml-auto text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
                 style={{ fontFamily: SANS }}
               >

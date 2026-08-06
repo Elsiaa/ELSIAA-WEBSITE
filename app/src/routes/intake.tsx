@@ -7,6 +7,8 @@ import { absoluteUrl } from "../lib/site-url";
 export const Route = createFileRoute("/intake")({
   head: () => ({
     meta: [
+      /* hidden from navigation: not in the menu, footer, sitemap or search. */
+      { name: "robots", content: "noindex, follow" },
       { title: "Intake OS — ELSIAA · AI Done Better" },
       {
         name: "description",

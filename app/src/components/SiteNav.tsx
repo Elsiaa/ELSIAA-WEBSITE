@@ -30,7 +30,6 @@ const GROUPS: Array<{ title: string; items: Array<{ label: string; href: string 
       { label: "Design", href: "/designs" },
       { label: "Automate", href: "/automate" },
       { label: "Services", href: "/services" },
-      { label: "Voice intake", href: "/intake" },
       { label: "Store", href: "/store" },
     ],
   },
@@ -47,7 +46,6 @@ const GROUPS: Array<{ title: string; items: Array<{ label: string; href: string 
     title: "The work",
     items: [
       { label: "Clients", href: "/clients" },
-      { label: "Insights", href: "/insights" },
       { label: "Contact", href: "/contact" },
     ],
   },
