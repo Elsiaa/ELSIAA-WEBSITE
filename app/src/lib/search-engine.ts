@@ -91,12 +91,6 @@ export const SEARCH_INDEX: Entry[] = [
     desc: "We're hiring across design, engineering, client work and legal ops.",
   },
   {
-    label: "Insights",
-    group: "Pages",
-    href: "/insights",
-    keys: "articles blog writing research reports thinking news",
-  },
-  {
     label: "Store",
     group: "Pages",
     href: "/store",
@@ -234,13 +228,6 @@ export const SEARCH_INDEX: Entry[] = [
     href: "/automate",
     keys: "ai agents assistants llm gpt copilot integration",
   },
-  {
-    label: "Voice intake",
-    group: "Services",
-    href: "/intake",
-    keys: "phone answering receptionist calls booking scheduling clinic healthcare intake",
-    desc: "Calls answered, triaged, and booked automatically.",
-  },
 
   /* ---------------- the people ---------------- */
   {
@@ -376,13 +363,6 @@ export const SEARCH_INDEX: Entry[] = [
   },
 
   /* ---------------- case studies & method ---------------- */
-  {
-    label: "Custom AI intake & scheduling system",
-    group: "Case study",
-    href: "/intake",
-    keys: "intake scheduling healthcare clinic voice line triage routing booking patients appointments",
-    desc: "A phone line and web intake that understand a patient, match the right specialist, and book it.",
-  },
   {
     label: "Custom dispatch & field service OS",
     group: "Case study",

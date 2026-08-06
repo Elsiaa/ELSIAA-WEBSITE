@@ -29,7 +29,6 @@ const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string
       { label: "Team", href: "/team" },
       { label: "Careers", href: "/careers" },
       { label: "Locations", href: "/locations" },
-      { label: "Insights", href: "/insights" },
       { label: "Contact", href: "/contact" },
     ],
   },

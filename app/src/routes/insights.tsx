@@ -7,6 +7,8 @@ import { absoluteUrl } from "../lib/site-url";
 export const Route = createFileRoute("/insights")({
   head: () => ({
     meta: [
+      /* hidden from navigation: not in the menu, footer, sitemap or search. */
+      { name: "robots", content: "noindex, follow" },
       { title: "Insights — ELSIAA · AI Done Better" },
       {
         name: "description",

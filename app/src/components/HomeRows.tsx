@@ -2107,54 +2107,20 @@ export function HomeRows() {
         title="Consultation"
         lede="We listen to your business first — strategy, technology, product, growth — then tell you exactly what to build."
         graphic={
-          /* The art is 1000x558 (1.79) inside a 3/2 box, so object-contain
-             letterboxes it top and bottom. Percentages against the box were
-             therefore off by the letterbox — the overlays now live in a
-             container that IS the art's aspect ratio, so a percentage means
-             the same point in the picture at every width. */
-          <div className="relative flex aspect-[3/2] w-full items-center">
-            <div className="relative aspect-[1000/558] w-full">
-              <img
-                src="/assets/consult/seating.png"
-                alt=""
-                width={1000}
-                height={558}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full"
-              />
-              {/* laptop screen — rotated to the screen tilt and skewed into
-                  its recession so it reads as displayed, not stuck on */}
-              <img
-                src="/assets/elsiaa-lion-192.png"
-                alt=""
-                aria-hidden
-                className="pointer-events-none absolute select-none"
-                style={{
-                  left: "50.2%",
-                  top: "33.5%",
-                  width: "5.6%",
-                  transform: "rotate(-8deg) skewY(10deg)",
-                  transformOrigin: "center",
-                  opacity: 0.85,
-                }}
-              />
-              {/* grey chair back — turned with the curve of the panel */}
-              <img
-                src="/assets/elsiaa-lion-192.png"
-                alt=""
-                aria-hidden
-                className="pointer-events-none absolute select-none"
-                style={{
-                  left: "63.8%",
-                  top: "57%",
-                  width: "5%",
-                  transform: "rotate(4deg) skewY(-14deg) scaleX(0.92)",
-                  transformOrigin: "center",
-                  opacity: 0.45,
-                  mixBlendMode: "multiply",
-                }}
-              />
-            </div>
+          /* The mark is rendered into the scene itself — on the laptop
+             screen and embossed into the grey chair back — rather than
+             overlaid in CSS. The previous version transformed two <img> onto
+             those planes, which never sat convincingly and had to be
+             re-tuned at every breakpoint. */
+          <div className="relative aspect-[1376/768] w-full">
+            <img
+              src="/assets/consult/seating_v2.png"
+              alt=""
+              width={1376}
+              height={768}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-contain"
+            />
           </div>
         }
         subs={[]}
