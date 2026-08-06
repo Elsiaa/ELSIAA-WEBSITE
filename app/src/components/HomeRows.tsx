@@ -1057,7 +1057,6 @@ function deskOpen(now: Date | null, tz: string): boolean | null {
 function Locations() {
   const [idx, setIdx] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [showMap, setShowMap] = useState(false);
   const now = useNow();
   useEffect(() => {
     if (paused) return;
@@ -1208,7 +1207,7 @@ function Locations() {
 
         {/* map on demand — never blocks the art */}
         <Reveal delay={0.14}>
-          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 sm:mt-8">
+          <div className="mt-5 sm:mt-8">
             <a
               href="/locations"
               className="inline-flex min-h-[44px] items-center rounded-full bg-[#1e6b3c] px-6 text-[13px] font-bold text-white transition-all hover:bg-[#111111]"
@@ -1216,41 +1215,8 @@ function Locations() {
             >
               All locations →
             </a>
-            <button
-              onClick={() => setShowMap((v) => !v)}
-              className="rounded-full border border-black/12 bg-white/80 px-6 py-2.5 text-[10.5px] font-bold text-[#111111]  backdrop-blur transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
-              style={mono}
-            >
-              {showMap ? "Hide map" : `Map of ${active.name}`} {showMap ? "↑" : "↓"}
-            </button>
-            <a
-              href={`https://maps.google.com/maps?q=${encodeURIComponent(active.q)}`}
-              target="_blank"
-              rel="noreferrer"
-              className="text-[13px] text-[#1e6b3c]  hover:underline"
-              style={mono}
-            >
-              Open in Google Maps ↗
-            </a>
           </div>
-          <div
-            className="overflow-hidden transition-all duration-500 ease-out"
-            style={{ maxHeight: showMap ? 260 : 0, opacity: showMap ? 1 : 0 }}
-          >
-            <div className="mt-4 overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_24px_60px_-45px_rgba(17,17,17,0.4)]">
-              {showMap && (
-                <iframe
-                  key={active.name}
-                  title={`Map — ${active.name}`}
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(active.q)}&z=11&output=embed`}
-                  loading="lazy"
-                  className="h-[220px] w-full grayscale-[0.25]"
-                  style={{ border: 0 }}
-                />
-              )}
-            </div>
-          </div>
-        </Reveal>
+          </Reveal>
       </div>
     </section>
   );
@@ -1263,15 +1229,15 @@ function Locations() {
 const TEAM = [
   {
     name: "Yisrael Krug",
-    role: "Founder & Chief Executive Officer",
-    short: "Founder & CEO",
+    role: "Chief Executive Officer",
+    short: "CEO",
     init: "YK",
     photo: "/assets/team/yk.jpg",
   },
   {
     name: "David Heimowitz",
-    role: "Co-Founder & Chief Technology Officer",
-    short: "Co-Founder & CTO",
+    role: "Chief Technology Officer",
+    short: "CTO",
     init: "DH",
     /* Photo intentionally absent. The file that used to be here was a stock
        portrait of a different man, published under David's name. Drop the real
@@ -1281,29 +1247,36 @@ const TEAM = [
   },
   {
     name: "Jacob Rubelow",
-    role: "Partner & Chief Operating Officer",
-    short: "Partner & COO",
+    role: "Chief Operating Officer",
+    short: "COO",
     init: "JR",
     photo: "/assets/team/jr.jpg",
   },
   {
     name: "Chaim Lieberman",
-    role: "Executive Director & Partner",
-    short: "Exec. Director",
+    role: "Executive Director of European Business",
+    short: "Exec. Director, Europe",
     init: "CL",
     photo: "/assets/team/cl.jpg",
   },
   {
     name: "Izzy Eisenberg",
-    role: "Director of California Business",
+    role: "Director of California Location",
     short: "Director, California",
     init: "IE",
     photo: "/assets/team/ie.jpg",
   },
   {
+    name: "David Spivak",
+    role: "Director of Social Media",
+    short: "Social Media",
+    init: "DS",
+    /* add photo: "/assets/team/ds.jpg" once a headshot is supplied */
+  },
+  {
     name: "Ynon Azulai",
-    role: "AI & Technology Expert · Jerusalem",
-    short: "AI & Technology",
+    role: "Software Engineer · AI & Technology Expert · Jerusalem",
+    short: "Software & AI",
     init: "YA",
     photo: "/assets/team/ya.jpg",
   },
@@ -1332,7 +1305,8 @@ function Team() {
             rows spent most of their height on borders and padding. The
             bordered photo-beside-name row returns from sm: up. */}
         <div className="mt-4 grid grid-cols-3 gap-x-2 gap-y-3 sm:mt-10 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
-          {TEAM.slice(0, 6).map((m, i) => (
+          /* all of them — the cap was 6 and silently dropped the 7th */
+          {TEAM.map((m, i) => (
             <Reveal key={m.name} delay={i * 0.05} className="h-full">
               <div className="group flex h-full flex-col items-center gap-1.5 rounded-xl border-0 p-0 text-center transition-all duration-300 sm:flex-row sm:gap-3.5 sm:border sm:border-black/[0.07] sm:bg-white sm:p-4 sm:text-left sm:hover:-translate-y-0.5 sm:hover:border-[#1e6b3c]/35">
                 {/* No photo yet → the monogram, same as /team. Never a stand-in
@@ -2133,15 +2107,54 @@ export function HomeRows() {
         title="Consultation"
         lede="We listen to your business first — strategy, technology, product, growth — then tell you exactly what to build."
         graphic={
-          <div className="relative aspect-[3/2] w-full">
-            <img
-              src="/assets/consult/seating.png"
-              alt=""
-              width={1100}
-              height={614}
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-contain"
-            />
+          /* The art is 1000x558 (1.79) inside a 3/2 box, so object-contain
+             letterboxes it top and bottom. Percentages against the box were
+             therefore off by the letterbox — the overlays now live in a
+             container that IS the art's aspect ratio, so a percentage means
+             the same point in the picture at every width. */
+          <div className="relative flex aspect-[3/2] w-full items-center">
+            <div className="relative aspect-[1000/558] w-full">
+              <img
+                src="/assets/consult/seating.png"
+                alt=""
+                width={1000}
+                height={558}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full"
+              />
+              {/* laptop screen — rotated to the screen tilt and skewed into
+                  its recession so it reads as displayed, not stuck on */}
+              <img
+                src="/assets/elsiaa-lion-192.png"
+                alt=""
+                aria-hidden
+                className="pointer-events-none absolute select-none"
+                style={{
+                  left: "50.2%",
+                  top: "33.5%",
+                  width: "5.6%",
+                  transform: "rotate(-8deg) skewY(10deg)",
+                  transformOrigin: "center",
+                  opacity: 0.85,
+                }}
+              />
+              {/* grey chair back — turned with the curve of the panel */}
+              <img
+                src="/assets/elsiaa-lion-192.png"
+                alt=""
+                aria-hidden
+                className="pointer-events-none absolute select-none"
+                style={{
+                  left: "63.8%",
+                  top: "57%",
+                  width: "5%",
+                  transform: "rotate(4deg) skewY(-14deg) scaleX(0.92)",
+                  transformOrigin: "center",
+                  opacity: 0.45,
+                  mixBlendMode: "multiply",
+                }}
+              />
+            </div>
           </div>
         }
         subs={[]}
@@ -2153,7 +2166,7 @@ export function HomeRows() {
         <Team />
       </ExpandSection>
       <ExpandSection
-        title="Offices — six cities"
+        title="Locations"
         blurb="New York, Los Angeles, London, Geneva, Antwerp, Tel Aviv."
       >
         <Locations />
