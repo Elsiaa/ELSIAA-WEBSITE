@@ -395,6 +395,9 @@ function HomeHero() {
       .then(() => v.pause())
       .catch(() => {}); // prime decoding for seeks
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+    const fadeEls = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-hero-fade]"),
+    );
     let raf = 0;
     const tick = () => {
       const sc = window.scrollY || document.documentElement.scrollTop || 0;
@@ -416,28 +419,45 @@ function HomeHero() {
       }
       if (v) v.style.transform = `scale(${(1 + p * 0.06).toFixed(3)})`;
       if (glowRef.current) glowRef.current.style.opacity = (0.14 + p * 0.5).toFixed(3);
+      /* Everything but the lion and the wordmark clears away as the roar
+         builds. Fades over the first 55% of the scrub so it is fully gone
+         before the roar completes, then stops being clickable. */
+      const fade = clamp01(1 - p / 0.55);
+      for (const el of fadeEls) {
+        el.style.opacity = fade.toFixed(3);
+        el.style.pointerEvents = fade < 0.05 ? "none" : "";
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      for (const el of fadeEls) {
+        el.style.opacity = "";
+        el.style.pointerEvents = "";
+      }
+    };
   }, []);
 
   return (
     <section className="relative bg-white">
       <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pt-[104px] pb-6 text-center md:pt-44 md:pb-10">
-        {/* headline — centred */}
-        <Reveal>
+        {/* headline — centred. data-hero-fade: clears on scroll so the
+            lion and the wordmark are what is left. */}
+        <Reveal className="w-full">
+          <div data-hero-fade>
           <h1
             className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl"
             style={sans}
           >
             Unlock the potential of your business with <span className="text-[#1e6b3c]">AI</span>.
           </h1>
+          </div>
         </Reveal>
 
         {/* quick nav into the divisions */}
         <Reveal delay={0.06}>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5 md:mt-7">
+          <div data-hero-fade className="mt-5 flex flex-wrap items-center justify-center gap-2.5 md:mt-7">
             {[
               { label: "Why ELSIAA", href: "/why-elsiaa" },
               { label: "Automations", href: "/automate" },
@@ -510,7 +530,7 @@ function HomeHero() {
         {/* Two counter-running marquees, stacked. What we do on top in ink,
             where we are underneath in grey — the contrary motion is what makes
             the band catch the eye without either line shouting. */}
-        <div className="mt-5 w-full max-w-[620px] md:mt-7">
+        <div className="mt-5 w-full max-w-[620px] md:mt-7" data-hero-fade>
           <a
             href="/services"
             className="pointer-events-auto group block overflow-hidden border-t border-black/[0.07] py-2 md:py-2.5"
@@ -1000,6 +1020,39 @@ function cityDay(now: Date | null, tz: string) {
   }).format(now);
 }
 
+/* Desk hours, local to each office. */
+const OPEN_HOUR = 11;
+const CLOSE_HOUR = 17;
+
+/**
+ * Is this desk open right now?
+ *
+ * Read from the office's own timezone rather than the visitor's, and via
+ * Intl parts rather than date arithmetic — that way DST is the browser's
+ * problem, not ours, and a desk flips on the right local minute in March
+ * and October without anything here changing.
+ *
+ * Returns null until the clock has mounted, so the server render and the
+ * first client render agree instead of flashing a wrong state.
+ */
+function deskOpen(now: Date | null, tz: string): boolean | null {
+  if (!now) return null;
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    weekday: "short",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,
+  }).formatToParts(now);
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  const weekday = get("weekday");
+  // Weekends are closed. Friday is a short day in Tel Aviv, but the site does
+  // not publish those hours, so it is left with the standard window.
+  if (weekday === "Sat" || weekday === "Sun") return false;
+  const hour = Number(get("hour")) % 24;
+  return hour >= OPEN_HOUR && hour < CLOSE_HOUR;
+}
+
 function Locations() {
   const [idx, setIdx] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -1011,6 +1064,8 @@ function Locations() {
     return () => clearInterval(t);
   }, [paused]);
   const active = CITIES[idx];
+  // null until the clock mounts, so SSR and first paint agree
+  const openCount = now === null ? null : CITIES.filter((c) => deskOpen(now, c.tz)).length;
   const mono = { fontFamily: "var(--font-sans)" } as const;
   const inter = { fontFamily: "var(--font-sans)" } as const;
   return (
@@ -1057,7 +1112,12 @@ function Locations() {
             <span className="font-semibold text-[#1e6b3c]">
               {cityTime(now, active.tz).slice(0, 5)}
             </span>{" "}
-            in {active.name}.
+            in {active.name}
+            {openCount === null
+              ? "."
+              : openCount === 0
+                ? ", and every desk is currently closed."
+                : `, and ${openCount} of ${CITIES.length} desks ${openCount === 1 ? "is" : "are"} open.`}
           </p>
         </Reveal>
 
@@ -1108,7 +1168,13 @@ function Locations() {
                       }`}
                       style={mono}
                     >
-                      Open 11:00–17:00 local
+                      {deskOpen(now, c.tz) === null ? (
+                        "11:00–17:00 local"
+                      ) : deskOpen(now, c.tz) ? (
+                        <span style={{ color: "#1e6b3c" }}>● Open now · until 17:00 local</span>
+                      ) : (
+                        <span className="text-[#111111]/45">● Closed · opens 11:00 local</span>
+                      )}
                     </span>
                   </span>
                   <span className="flex-none text-right">

@@ -11,11 +11,14 @@ export function Reveal({
   children,
   delay = 0,
   className = "",
+  /* Anything else lands on the wrapper div — data-* hooks in particular, so a
+     caller can target the revealed block without adding another wrapper. */
+  ...rest
 }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
-}) {
+} & React.HTMLAttributes<HTMLDivElement>) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [on, setOn] = useState(false);
   useEffect(() => {
@@ -46,6 +49,7 @@ export function Reveal({
   return (
     <div
       ref={ref}
+      {...rest}
       className={className}
       style={{
         opacity: on ? 1 : 0,
