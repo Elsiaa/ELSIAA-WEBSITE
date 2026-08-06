@@ -746,6 +746,17 @@ function AutomationSection() {
             <span className="absolute top-[58%] -right-[9px] hidden h-3.5 w-3.5 rotate-45 border-t-[2.5px] border-r-[2.5px] border-[#111111] bg-white md:block" />
           </div>
         </div>
+        {/* Desktop only: the CTA sits under the robot, where the eye already
+            is. On a phone the stage is tight and it stays in the catalog
+            header below. pointer-events-auto because the robot wrapper above
+            disables them. */}
+        <a
+          href="/automate"
+          className="pointer-events-auto z-30 mt-6 hidden min-h-[44px] items-center gap-2 rounded-full bg-[#1e6b3c] px-7 py-3 text-[13px] font-bold text-white transition-all hover:bg-[#111111] md:inline-flex"
+          style={sans}
+        >
+          Discover automations →
+        </a>
       </div>
     </section>
   );
@@ -1557,9 +1568,10 @@ function AutomationCatalog() {
                 clock.
               </p>
             </div>
+            {/* moved under the robot from md: up — see AutomationSection */}
             <a
               href="/automate"
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#1e6b3c] px-6 py-2.5 text-[12.5px] font-bold text-white transition-all hover:bg-[#111111] sm:px-7 sm:py-3 sm:text-[13px]"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#1e6b3c] px-6 py-2.5 text-[12.5px] font-bold text-white transition-all hover:bg-[#111111] sm:px-7 sm:py-3 sm:text-[13px] md:hidden"
               style={{ fontFamily: sans }}
             >
               Discover automations →
