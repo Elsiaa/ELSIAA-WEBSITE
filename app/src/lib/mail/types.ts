@@ -30,9 +30,7 @@ export type UpdateMailAccountInput = {
   type?: MailAccountType;
 };
 
-export type SetPasswordInput =
-  | { password: string }
-  | { generate: true; notify_to?: string };
+export type SetPasswordInput = { password: string } | { generate: true; notify_to?: string };
 
 export type FolderMembersMode = "replace" | "add" | "remove";
 
@@ -130,9 +128,4 @@ export type MailControlStatus = {
 
 /** JSON-safe opaque result for mutations proxied from the Mail API. */
 export type MailApiJson =
-  | string
-  | number
-  | boolean
-  | null
-  | MailApiJson[]
-  | { [key: string]: MailApiJson };
+  string | number | boolean | null | MailApiJson[] | { [key: string]: MailApiJson };

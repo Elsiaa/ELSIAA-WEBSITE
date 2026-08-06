@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { guardAdminCompanyFilesAccess } from '@/lib/admin-company-files-guard';
-import { createCompanyFolder } from '@/lib/company-admin-files';
+import { NextRequest, NextResponse } from "next/server";
+import { guardAdminCompanyFilesAccess } from "@/lib/admin-company-files-guard";
+import { createCompanyFolder } from "@/lib/company-admin-files";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,21 +15,21 @@ export async function POST(req: NextRequest) {
     if (!guard.ok) return guard.response;
 
     if (!body.name?.trim()) {
-      return NextResponse.json({ error: 'name is required' }, { status: 400 });
+      return NextResponse.json({ error: "name is required" }, { status: 400 });
     }
 
     const { path } = await createCompanyFolder(
       guard.data.companyId,
-      body.parentPrefix ?? '',
-      body.name
+      body.parentPrefix ?? "",
+      body.name,
     );
 
     return NextResponse.json({ path }, { status: 201 });
   } catch (error) {
-    console.error('company-files folder POST:', error);
+    console.error("company-files folder POST:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to create folder' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Failed to create folder" },
+      { status: 500 },
     );
   }
 }

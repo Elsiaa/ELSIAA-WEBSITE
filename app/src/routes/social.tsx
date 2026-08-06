@@ -28,8 +28,7 @@ export const Route = createFileRoute("/social")({
   component: SocialPage,
 });
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 
 /* ── platform brand glyphs (monochrome, inherit colour) ── */
 const PLATFORMS: Array<{ name: string; svg: ReactNode }> = [
@@ -100,72 +99,174 @@ type Service = {
 
 const SERVICES: Service[] = [
   {
-    id: "strategy", art: "/assets/social/strategy.png", eyebrow: "Strategy",
+    id: "strategy",
+    art: "/assets/social/strategy.png",
+    eyebrow: "Strategy",
     title: "The plan comes before the camera.",
     lede: "We study the business — who actually buys, what they already believe, and what would move them — then set the angle, the cadence, and the story before anything gets filmed.",
-    includes: ["Audience and competitor read", "Content pillars and posting cadence", "Hook library built for your category", "Monthly review against what performed"],
+    includes: [
+      "Audience and competitor read",
+      "Content pillars and posting cadence",
+      "Hook library built for your category",
+      "Monthly review against what performed",
+    ],
     outcome: "You stop guessing what to post and start posting against a thesis.",
   },
   {
-    id: "video", art: "/assets/social/video.png", eyebrow: "Video Production",
+    id: "video",
+    art: "/assets/social/video.png",
+    eyebrow: "Video Production",
     title: "Shot for the platform, not repurposed onto it.",
     lede: "We film on location or in studio, direct the talent, and produce content built vertical from the first frame. No landscape ad awkwardly cropped into a feed.",
-    includes: ["Half or full day shoots on site", "Direction and shot lists", "Lighting, audio, and B-roll", "Raw footage handed back to you"],
+    includes: [
+      "Half or full day shoots on site",
+      "Direction and shot lists",
+      "Lighting, audio, and B-roll",
+      "Raw footage handed back to you",
+    ],
     outcome: "A library deep enough to post from for months, not one hero video.",
   },
   {
-    id: "clipping", art: "/assets/social/editing.png", eyebrow: "Clipping",
+    id: "clipping",
+    art: "/assets/social/editing.png",
+    eyebrow: "Clipping",
     title: "Record once. Post for a month.",
     lede: "Send one long recording — a podcast, webinar, interview, or a phone video from the floor. We find the moments that hold attention, cut them vertical, caption them, and schedule them out.",
-    includes: ["Human-selected moments, not auto-splits", "Burned-in captions and safe framing", "Platform-native aspect and length", "12–20 clips from a typical session"],
+    includes: [
+      "Human-selected moments, not auto-splits",
+      "Burned-in captions and safe framing",
+      "Platform-native aspect and length",
+      "12–20 clips from a typical session",
+    ],
     outcome: "One afternoon of your time becomes a month of feed.",
   },
   {
-    id: "content", art: "/assets/social/content.png", eyebrow: "Content & Copy",
+    id: "content",
+    art: "/assets/social/content.png",
+    eyebrow: "Content & Copy",
     title: "Written in your voice, built to move.",
     lede: "Captions, carousels, and long-form posts written by people who read the transcript and know the business — not spun out of a prompt and left to sound like everyone else.",
-    includes: ["Captions and hooks per post", "Carousels and static design", "Long-form founder posts", "Comment replies in your voice"],
+    includes: [
+      "Captions and hooks per post",
+      "Carousels and static design",
+      "Long-form founder posts",
+      "Comment replies in your voice",
+    ],
     outcome: "The feed sounds like you, consistently, without you writing it.",
   },
   {
-    id: "brand", art: "/assets/social/brand.png", eyebrow: "Brand Setup",
+    id: "brand",
+    art: "/assets/social/brand.png",
+    eyebrow: "Brand Setup",
     title: "Every profile says the same thing.",
     lede: "Profiles, bios, highlights, pinned posts, and link routing dialled in across every platform so a visitor lands on the same company wherever they find you.",
-    includes: ["Profile and bio rewrite", "Highlight covers and pinned sets", "Link-in-bio routing to real pages", "Consistent handles and naming"],
+    includes: [
+      "Profile and bio rewrite",
+      "Highlight covers and pinned sets",
+      "Link-in-bio routing to real pages",
+      "Consistent handles and naming",
+    ],
     outcome: "No more dead profiles from 2019 undercutting the live one.",
   },
   {
-    id: "personal", art: "/assets/social/personal.png", eyebrow: "Personal Brand",
+    id: "personal",
+    art: "/assets/social/personal.png",
+    eyebrow: "Personal Brand",
     title: "People trust a person before a company.",
     lede: "We turn a founder or operator into the recognisable authority in the category — the face buyers already trust by the time they reach your website.",
-    includes: ["Founder positioning and narrative", "Talking-head and POV formats", "Ghostwritten thought-leadership", "Podcast and guest placement"],
+    includes: [
+      "Founder positioning and narrative",
+      "Talking-head and POV formats",
+      "Ghostwritten thought-leadership",
+      "Podcast and guest placement",
+    ],
     outcome: "Inbound that arrives already sold on who you are.",
   },
   {
-    id: "ads", art: "/assets/social/ads.png", eyebrow: "Paid Social",
+    id: "ads",
+    art: "/assets/social/ads.png",
+    eyebrow: "Paid Social",
     title: "Every dollar tied to a result.",
     lede: "Full-funnel paid social across Meta and TikTok — creative, targeting, and reporting run together so the ad account and the organic feed are not fighting each other.",
-    includes: ["Creative built for paid, not boosted posts", "Audience and retargeting structure", "Weekly spend and result reporting", "Landing pages when the offer needs one"],
+    includes: [
+      "Creative built for paid, not boosted posts",
+      "Audience and retargeting structure",
+      "Weekly spend and result reporting",
+      "Landing pages when the offer needs one",
+    ],
     outcome: "You know what a customer costs, and what to spend to get more.",
   },
   {
-    id: "reviews", art: "/assets/social/reviews.png", eyebrow: "Reviews & Local",
+    id: "reviews",
+    art: "/assets/social/reviews.png",
+    eyebrow: "Reviews & Local",
     title: "The proof that closes before the call.",
     lede: "We automate the ask at the right moment, keep the Google Business Profile current, and make sure the local search result matches the business you actually run.",
-    includes: ["Review requests timed to the job", "Profile, hours, photos, and posts", "Response drafting for every review", "Local ranking and discovery reporting"],
+    includes: [
+      "Review requests timed to the job",
+      "Profile, hours, photos, and posts",
+      "Response drafting for every review",
+      "Local ranking and discovery reporting",
+    ],
     outcome: "Buyers arrive having already read three good reasons to pick you.",
   },
 ];
 
 const OFFERS: Array<{ num: string; title: string; blurb: string; art: string }> = [
-  { art: "/assets/social/strategy.png", num: "1", title: "Strategy", blurb: "We study your business first, then build the plan — the angle, cadence, and story that makes the right people stop." },
-  { art: "/assets/social/video.png", num: "2", title: "Video Production", blurb: "Filmed, directed, and produced — thumb-stopping content shot for the platform, not repurposed onto it." },
-  { art: "/assets/social/editing.png", num: "3", title: "Editing", blurb: "Fast, native edits — a hook in the first second and retention held to the last frame." },
-  { art: "/assets/social/content.png", num: "4", title: "Content & Copy", blurb: "Captions, carousels, and posts written to carry your voice and move people to act." },
-  { art: "/assets/social/brand.png", num: "5", title: "Brand Setup", blurb: "Profiles, bios, highlights, and a consistent identity dialled in across every platform." },
-  { art: "/assets/social/personal.png", num: "6", title: "Personal Brand", blurb: "Turn a founder into a category authority — the face people trust before they trust the company." },
-  { art: "/assets/social/ads.png", num: "7", title: "Meta Ads", blurb: "Full-funnel paid social — creative, targeting, and reporting that ties every dollar to a result." },
-  { art: "/assets/social/reviews.png", num: "8", title: "Google Reviews", blurb: "Reputation on autopilot — the five-star proof that closes the customer before they ever call." },
+  {
+    art: "/assets/social/strategy.png",
+    num: "1",
+    title: "Strategy",
+    blurb:
+      "We study your business first, then build the plan — the angle, cadence, and story that makes the right people stop.",
+  },
+  {
+    art: "/assets/social/video.png",
+    num: "2",
+    title: "Video Production",
+    blurb:
+      "Filmed, directed, and produced — thumb-stopping content shot for the platform, not repurposed onto it.",
+  },
+  {
+    art: "/assets/social/editing.png",
+    num: "3",
+    title: "Editing",
+    blurb: "Fast, native edits — a hook in the first second and retention held to the last frame.",
+  },
+  {
+    art: "/assets/social/content.png",
+    num: "4",
+    title: "Content & Copy",
+    blurb: "Captions, carousels, and posts written to carry your voice and move people to act.",
+  },
+  {
+    art: "/assets/social/brand.png",
+    num: "5",
+    title: "Brand Setup",
+    blurb:
+      "Profiles, bios, highlights, and a consistent identity dialled in across every platform.",
+  },
+  {
+    art: "/assets/social/personal.png",
+    num: "6",
+    title: "Personal Brand",
+    blurb:
+      "Turn a founder into a category authority — the face people trust before they trust the company.",
+  },
+  {
+    art: "/assets/social/ads.png",
+    num: "7",
+    title: "Meta Ads",
+    blurb:
+      "Full-funnel paid social — creative, targeting, and reporting that ties every dollar to a result.",
+  },
+  {
+    art: "/assets/social/reviews.png",
+    num: "8",
+    title: "Google Reviews",
+    blurb:
+      "Reputation on autopilot — the five-star proof that closes the customer before they ever call.",
+  },
 ];
 
 function Avatar({ init }: { init: string }) {
@@ -195,7 +296,10 @@ function MobileDetail({ id, children }: { id: string; children: ReactNode }) {
         style={{ fontFamily: SANS }}
       >
         {open ? "Less" : "What's included"}
-        <span aria-hidden className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
+        <span
+          aria-hidden
+          className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+        >
           ⌄
         </span>
       </button>
@@ -221,13 +325,19 @@ function SocialPage() {
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
             ELSIAA · Social Media
           </p>
-          <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-7xl" style={{ fontFamily: SANS }}>
+          <h1
+            className="mx-auto mt-4 max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-7xl"
+            style={{ fontFamily: SANS }}
+          >
             Exposure is everything.
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-[16px] leading-relaxed text-[#111111]/60 md:text-[18px]" style={{ fontFamily: SANS }}>
-            Unless it's done poorly. Your presence on social media decides whether your
-            business unlocks its full success — so we manage every part of it and put
-            your brand in front of the right people, the right way.
+          <p
+            className="mx-auto mt-6 max-w-2xl text-[16px] leading-relaxed text-[#111111]/60 md:text-[18px]"
+            style={{ fontFamily: SANS }}
+          >
+            Unless it's done poorly. Your presence on social media decides whether your business
+            unlocks its full success — so we manage every part of it and put your brand in front of
+            the right people, the right way.
           </p>
 
           {/* platform logos */}
@@ -246,15 +356,21 @@ function SocialPage() {
       </section>
 
       {/* the feeds — where attention already lives */}
- <section className="bg-white px-6 py-10 md:py-16">
+      <section className="bg-white px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
-            <h2 className="mx-auto max-w-2xl text-center text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: SANS }}>
+            <h2
+              className="mx-auto max-w-2xl text-center text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl"
+              style={{ fontFamily: SANS }}
+            >
               Where attention already lives.
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-center text-[15px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
-              The surfaces your customer already scrolls — Instagram, TikTok, and the rest.
-              We put your brand in the scroll and make it stop.
+            <p
+              className="mx-auto mt-3 max-w-lg text-center text-[15px] leading-relaxed text-[#111111]/55"
+              style={{ fontFamily: SANS }}
+            >
+              The surfaces your customer already scrolls — Instagram, TikTok, and the rest. We put
+              your brand in the scroll and make it stop.
             </p>
           </Reveal>
           <div className="mt-9">
@@ -264,19 +380,25 @@ function SocialPage() {
       </section>
 
       {/* full-service — everything we run */}
- <section className="bg-[#F5F5F3] px-6 py-10 md:py-16">
+      <section className="bg-[#F5F5F3] px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
               Full-service
             </p>
-            <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: SANS }}>
+            <h2
+              className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl"
+              style={{ fontFamily: SANS }}
+            >
               We run all of it — end to end.
             </h2>
-            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]" style={{ fontFamily: SANS }}>
-              Video, editing, content, and brand — strategised around your business, then
-              produced and posted to make you look like the best in your category. You
-              stay in your business; we handle the feed.
+            <p
+              className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]"
+              style={{ fontFamily: SANS }}
+            >
+              Video, editing, content, and brand — strategised around your business, then produced
+              and posted to make you look like the best in your category. You stay in your business;
+              we handle the feed.
             </p>
           </Reveal>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-5 md:mt-9 lg:grid-cols-4">
@@ -294,14 +416,23 @@ function SocialPage() {
                     height={112}
                     className="mx-auto h-14 w-14 object-contain transition-transform duration-300 group-hover:scale-105 md:h-28 md:w-28"
                   />
-                  <p className="mt-2 text-[11px] font-bold tracking-[0.14em] text-[#1e6b3c] md:mt-3 md:text-[13px]" style={{ fontFamily: SANS }}>
+                  <p
+                    className="mt-2 text-[11px] font-bold tracking-[0.14em] text-[#1e6b3c] md:mt-3 md:text-[13px]"
+                    style={{ fontFamily: SANS }}
+                  >
                     {o.num}
                   </p>
-                  <h3 className="mt-1 text-[14px] leading-tight font-semibold tracking-[-0.02em] md:mt-1.5 md:text-lg" style={{ fontFamily: SANS }}>
+                  <h3
+                    className="mt-1 text-[14px] leading-tight font-semibold tracking-[-0.02em] md:mt-1.5 md:text-lg"
+                    style={{ fontFamily: SANS }}
+                  >
                     {o.title}
                   </h3>
                   {/* the blurb repeats the detail panel below — desktop only */}
-                  <p className="mt-2.5 hidden flex-1 text-[14px] leading-relaxed text-[#111111]/60 md:block" style={{ fontFamily: SANS }}>
+                  <p
+                    className="mt-2.5 hidden flex-1 text-[14px] leading-relaxed text-[#111111]/60 md:block"
+                    style={{ fontFamily: SANS }}
+                  >
                     {o.blurb}
                   </p>
                 </a>
@@ -319,26 +450,45 @@ function SocialPage() {
               <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
                 Clipping
               </p>
-              <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: SANS }}>
+              <h2
+                className="mt-3 max-w-xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl"
+                style={{ fontFamily: SANS }}
+              >
                 Record once. Post for a month.
               </h2>
-              <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]" style={{ fontFamily: SANS }}>
-                Send us one long recording — a podcast, a webinar, an interview, a walkthrough,
-                even a phone video from the shop floor. We find the moments that actually hold
-                attention, cut them vertical, caption them, and schedule them out across every
-                platform.
+              <p
+                className="mt-4 max-w-lg text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]"
+                style={{ fontFamily: SANS }}
+              >
+                Send us one long recording — a podcast, a webinar, an interview, a walkthrough, even
+                a phone video from the shop floor. We find the moments that actually hold attention,
+                cut them vertical, caption them, and schedule them out across every platform.
               </p>
               <ul className="mt-7 max-w-lg space-y-3">
                 {[
-                  ["Every clip is chosen, not chopped", "A person watches the whole recording and pulls the moments that earn a stop — not an automated split every thirty seconds."],
-                  ["Captioned and framed for the feed", "Burned-in captions, safe margins, and a hook in the first second, sized for each platform."],
-                  ["Scheduled across the month", "One session turns into a posting calendar, so the feed keeps moving while you get on with the business."],
+                  [
+                    "Every clip is chosen, not chopped",
+                    "A person watches the whole recording and pulls the moments that earn a stop — not an automated split every thirty seconds.",
+                  ],
+                  [
+                    "Captioned and framed for the feed",
+                    "Burned-in captions, safe margins, and a hook in the first second, sized for each platform.",
+                  ],
+                  [
+                    "Scheduled across the month",
+                    "One session turns into a posting calendar, so the feed keeps moving while you get on with the business.",
+                  ],
                 ].map(([t, d]) => (
                   <li key={t} className="flex gap-3">
-                    <span aria-hidden className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#1e6b3c]" />
+                    <span
+                      aria-hidden
+                      className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#1e6b3c]"
+                    />
                     <span style={{ fontFamily: SANS }}>
                       <span className="text-[14.5px] font-semibold text-[#111111]">{t}</span>
-                      <span className="mt-0.5 block text-[14px] leading-relaxed text-[#111111]/60">{d}</span>
+                      <span className="mt-0.5 block text-[14px] leading-relaxed text-[#111111]/60">
+                        {d}
+                      </span>
                     </span>
                   </li>
                 ))}
@@ -355,7 +505,10 @@ function SocialPage() {
             {/* one source timeline fanning out into vertical clips */}
             <Reveal delay={0.1}>
               <div className="rounded-3xl border border-black/[0.08] bg-[#FBFBFA] p-6 md:p-8">
-                <p className="text-[11px] font-semibold tracking-[0.14em] text-[#111111]/45 uppercase" style={{ fontFamily: SANS }}>
+                <p
+                  className="text-[11px] font-semibold tracking-[0.14em] text-[#111111]/45 uppercase"
+                  style={{ fontFamily: SANS }}
+                >
                   One recording
                 </p>
                 {/* the source track, with the chosen windows lit */}
@@ -372,7 +525,10 @@ function SocialPage() {
                   48 minutes in · the lit sections are what earned a stop
                 </p>
 
-                <div className="mt-6 flex items-center gap-2 text-[12px] text-[#111111]/45" style={{ fontFamily: SANS }}>
+                <div
+                  className="mt-6 flex items-center gap-2 text-[12px] text-[#111111]/45"
+                  style={{ fontFamily: SANS }}
+                >
                   <span className="h-px flex-1 bg-black/[0.09]" />
                   <span>becomes</span>
                   <span className="h-px flex-1 bg-black/[0.09]" />
@@ -380,7 +536,10 @@ function SocialPage() {
 
                 <div className="mt-6 grid grid-cols-4 gap-2.5">
                   {["0:22", "0:41", "0:18", "0:35"].map((len, i) => (
-                    <div key={len} className="overflow-hidden rounded-lg border border-black/[0.07] bg-white">
+                    <div
+                      key={len}
+                      className="overflow-hidden rounded-lg border border-black/[0.07] bg-white"
+                    >
                       <div className="relative aspect-[9/16] bg-[#111111]">
                         <video
                           src={`/assets/social/fyp${i + 1}.mp4`}
@@ -392,7 +551,10 @@ function SocialPage() {
                           aria-hidden
                           className="absolute inset-0 h-full w-full object-cover opacity-90"
                         />
-                        <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+                        <span
+                          aria-hidden
+                          className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent"
+                        />
                         {/* burned-in caption stand-in */}
                         <span className="absolute inset-x-1.5 bottom-4 space-y-0.5">
                           <span className="block h-1 w-4/5 rounded-full bg-white/85" />
@@ -424,7 +586,10 @@ function SocialPage() {
             <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
               What we actually do
             </p>
-            <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: SANS }}>
+            <h2
+              className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl"
+              style={{ fontFamily: SANS }}
+            >
               Eight jobs. Pick the one you need.
             </h2>
             <div className="mt-6 flex flex-wrap gap-2">
@@ -458,38 +623,57 @@ function SocialPage() {
                       className="h-12 w-12 shrink-0 object-contain md:h-28 md:w-28"
                     />
                     <div className="min-w-0">
-                      <p className="text-[12px] font-bold tracking-[0.14em] text-[#1e6b3c] uppercase" style={{ fontFamily: SANS }}>
+                      <p
+                        className="text-[12px] font-bold tracking-[0.14em] text-[#1e6b3c] uppercase"
+                        style={{ fontFamily: SANS }}
+                      >
                         {sv.eyebrow}
                       </p>
-                      <h3 className="mt-1.5 text-[19px] font-semibold tracking-[-0.03em] text-[#111111] md:mt-2 md:text-[28px]" style={{ fontFamily: SANS }}>
+                      <h3
+                        className="mt-1.5 text-[19px] font-semibold tracking-[-0.03em] text-[#111111] md:mt-2 md:text-[28px]"
+                        style={{ fontFamily: SANS }}
+                      >
                         {sv.title}
                       </h3>
-                      <p className="mt-2.5 max-w-2xl text-[14.5px] leading-relaxed text-[#111111]/65 md:mt-3 md:text-[15px]" style={{ fontFamily: SANS }}>
+                      <p
+                        className="mt-2.5 max-w-2xl text-[14.5px] leading-relaxed text-[#111111]/65 md:mt-3 md:text-[15px]"
+                        style={{ fontFamily: SANS }}
+                      >
                         {sv.lede}
                       </p>
 
                       <MobileDetail id={sv.id}>
-                      <div className="mt-4 grid gap-x-8 gap-y-1.5 md:mt-6 md:gap-y-2 sm:grid-cols-2">
-                        {sv.includes.map((it) => (
-                          <span key={it} className="flex gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: SANS }}>
-                            <span aria-hidden className="mt-[8px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#1e6b3c]" />
-                            {it}
-                          </span>
-                        ))}
-                      </div>
+                        <div className="mt-4 grid gap-x-8 gap-y-1.5 md:mt-6 md:gap-y-2 sm:grid-cols-2">
+                          {sv.includes.map((it) => (
+                            <span
+                              key={it}
+                              className="flex gap-2.5 text-[14px] leading-relaxed text-[#111111]/70"
+                              style={{ fontFamily: SANS }}
+                            >
+                              <span
+                                aria-hidden
+                                className="mt-[8px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#1e6b3c]"
+                              />
+                              {it}
+                            </span>
+                          ))}
+                        </div>
 
-                      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-black/[0.07] pt-4 md:mt-6 md:pt-5">
-                        <p className="text-[14px] font-semibold text-[#111111]" style={{ fontFamily: SANS }}>
-                          {sv.outcome}
-                        </p>
-                        <a
-                          href={`/quote?option=${encodeURIComponent(sv.eyebrow)}`}
-                          className="ml-auto inline-flex min-h-[44px] items-center text-[14px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
-                          style={{ fontFamily: SANS }}
-                        >
-                          Get a quote for {sv.eyebrow.toLowerCase()} →
-                        </a>
-                      </div>
+                        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-black/[0.07] pt-4 md:mt-6 md:pt-5">
+                          <p
+                            className="text-[14px] font-semibold text-[#111111]"
+                            style={{ fontFamily: SANS }}
+                          >
+                            {sv.outcome}
+                          </p>
+                          <a
+                            href={`/quote?option=${encodeURIComponent(sv.eyebrow)}`}
+                            className="ml-auto inline-flex min-h-[44px] items-center text-[14px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                            style={{ fontFamily: SANS }}
+                          >
+                            Get a quote for {sv.eyebrow.toLowerCase()} →
+                          </a>
+                        </div>
                       </MobileDetail>
                     </div>
                   </div>
@@ -501,19 +685,25 @@ function SocialPage() {
       </section>
 
       {/* positioning — not just social */}
- <section className="bg-[#F5F5F3] px-6 py-10 text-center text-[#111111] md:py-16">
+      <section className="bg-[#F5F5F3] px-6 py-10 text-center text-[#111111] md:py-16">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
             One team, one standard
           </p>
-          <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-semibold leading-[1.06] tracking-[-0.04em] md:text-5xl" style={{ fontFamily: SANS }}>
+          <h2
+            className="mx-auto mt-4 max-w-3xl text-3xl font-semibold leading-[1.06] tracking-[-0.04em] md:text-5xl"
+            style={{ fontFamily: SANS }}
+          >
             It doesn't stop at social.
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-[#111111]/65 md:text-[17px]" style={{ fontFamily: SANS }}>
-            We build your software, design every surface of your brand, and run the online
-            strategy that ties it together. The same team that engineers your systems and
-            designs your product runs the best social presence in your market — so every
-            touchpoint tells one story.
+          <p
+            className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-[#111111]/65 md:text-[17px]"
+            style={{ fontFamily: SANS }}
+          >
+            We build your software, design every surface of your brand, and run the online strategy
+            that ties it together. The same team that engineers your systems and designs your
+            product runs the best social presence in your market — so every touchpoint tells one
+            story.
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <a
@@ -535,7 +725,7 @@ function SocialPage() {
       </section>
 
       {/* speak to social media */}
- <section className="bg-[#F5F5F3] px-6 py-10 text-center md:py-16">
+      <section className="bg-[#F5F5F3] px-6 py-10 text-center md:py-16">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
             Speak to social media
@@ -544,9 +734,12 @@ function SocialPage() {
             <Avatar init="DS" />
             <Avatar init="YW" />
           </div>
-          <p className="mx-auto mt-5 max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={{ fontFamily: SANS }}>
-            Dovid Spivak &amp; Yosef Weil run social at ELSIAA. Bring them your brand —
-            they'll tell you exactly where the growth is.
+          <p
+            className="mx-auto mt-5 max-w-md text-[15px] leading-relaxed text-[#111111]/60"
+            style={{ fontFamily: SANS }}
+          >
+            Dovid Spivak &amp; Yosef Weil run social at ELSIAA. Bring them your brand — they'll tell
+            you exactly where the growth is.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a

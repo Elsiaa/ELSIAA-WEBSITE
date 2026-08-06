@@ -3,8 +3,6 @@
  * Sends invitation emails to new users
  */
 
-
-
 /**
  * Generate an invitation token (you can use JWT or a simple UUID)
  */
@@ -21,7 +19,7 @@ export function generateInvitationToken(
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
     ...(options?.superAdmin ? { superAdmin: true } : {}),
   };
-  return Buffer.from(JSON.stringify(payload)).toString('base64');
+  return Buffer.from(JSON.stringify(payload)).toString("base64");
 }
 
 /**
@@ -31,7 +29,7 @@ export function verifyInvitationToken(
   token: string,
 ): { email: string; companyId: string; superAdmin?: boolean } | null {
   try {
-    const payload = JSON.parse(Buffer.from(token, 'base64').toString());
+    const payload = JSON.parse(Buffer.from(token, "base64").toString());
     if (payload.expires < Date.now()) {
       return null; // Token expired
     }
@@ -44,4 +42,3 @@ export function verifyInvitationToken(
     return null;
   }
 }
-

@@ -1,29 +1,29 @@
-export type OutputType = 'image' | 'video'
+export type OutputType = "image" | "video";
 
-export type MediaFormat = 'wrapped' | 'unwrapped' | 'single'
+export type MediaFormat = "wrapped" | "unwrapped" | "single";
 
 export type GenerationStatus =
-  | 'pending'
-  | 'waiting'
-  | 'queued'
-  | 'in_progress'
-  | 'ip_detect'
-  | 'completed'
-  | 'failed'
-  | 'nsfw'
-  | 'canceled'
-  | 'ip_detected'
+  | "pending"
+  | "waiting"
+  | "queued"
+  | "in_progress"
+  | "ip_detect"
+  | "completed"
+  | "failed"
+  | "nsfw"
+  | "canceled"
+  | "ip_detected";
 
 export const TERMINAL_STATUSES: ReadonlySet<GenerationStatus> = new Set([
-  'completed',
-  'failed',
-  'nsfw',
-  'canceled',
-  'ip_detected',
-])
+  "completed",
+  "failed",
+  "nsfw",
+  "canceled",
+  "ip_detected",
+]);
 
 export function isTerminal(status: GenerationStatus): boolean {
-  return TERMINAL_STATUSES.has(status)
+  return TERMINAL_STATUSES.has(status);
 }
 
 /**
@@ -36,57 +36,57 @@ export function isTerminal(status: GenerationStatus): boolean {
  * data the app already has, or opt in to `resolveMediaMeta` to measure.
  */
 export interface MediaMeta {
-  width?: number
-  height?: number
+  width?: number;
+  height?: number;
   /** Intrinsic duration in seconds (video/audio). */
-  durationSec?: number
+  durationSec?: number;
 }
 
 export interface MediaRef {
-  id: string
-  type: string
-  url?: string
-  role?: string
-  meta?: MediaMeta
+  id: string;
+  type: string;
+  url?: string;
+  role?: string;
+  meta?: MediaMeta;
 }
 
 export interface PromptInput {
-  instruction?: string
-  enhance?: boolean
-  negative?: string
-  system?: string
+  instruction?: string;
+  enhance?: boolean;
+  negative?: string;
+  system?: string;
 }
 
-export type MediaInput = Record<string, MediaRef | MediaRef[] | undefined>
+export type MediaInput = Record<string, MediaRef | MediaRef[] | undefined>;
 
 export interface GenerationInput<S = Record<string, unknown>> {
-  model: string
-  count?: number
-  folderId?: string
+  model: string;
+  count?: number;
+  folderId?: string;
   /** Parent job set id — derived jobs (upscale/outpaint/…) link to their source via wire `parent_id`. */
-  parentId?: string
-  prompt?: PromptInput
-  media?: MediaInput
-  settings: S
-  extra?: Record<string, unknown>
+  parentId?: string;
+  prompt?: PromptInput;
+  media?: MediaInput;
+  settings: S;
+  extra?: Record<string, unknown>;
 }
 
 export interface GenerationResults {
-  rawUrl: string
-  minUrl?: string
-  thumbnailUrl?: string
+  rawUrl: string;
+  minUrl?: string;
+  thumbnailUrl?: string;
 }
 
 export interface Generation {
-  id: string
-  jobSetId?: string
+  id: string;
+  jobSetId?: string;
   /** Set when this generation is a derived job (upscale/outpaint/…) of another job set. */
-  parentJobSetId?: string
-  model: string
-  type: OutputType
-  status: GenerationStatus
-  input: GenerationInput
-  results?: GenerationResults
-  failReason?: string
-  createdAt?: number
+  parentJobSetId?: string;
+  model: string;
+  type: OutputType;
+  status: GenerationStatus;
+  input: GenerationInput;
+  results?: GenerationResults;
+  failReason?: string;
+  createdAt?: number;
 }

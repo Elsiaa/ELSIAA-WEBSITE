@@ -18,14 +18,16 @@ export type QuoteInput = {
 };
 
 const MAX = 4000;
-const clean = (v: unknown, max = MAX) =>
-  typeof v === "string" ? v.trim().slice(0, max) : "";
+const clean = (v: unknown, max = MAX) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
 export function parseQuoteInput(body: unknown): QuoteInput | null {
   if (!body || typeof body !== "object") return null;
   const b = body as Record<string, unknown>;
   const types = Array.isArray(b.projectTypes)
-    ? b.projectTypes.map((t) => clean(t, 40)).filter(Boolean).slice(0, 6)
+    ? b.projectTypes
+        .map((t) => clean(t, 40))
+        .filter(Boolean)
+        .slice(0, 6)
     : [];
   const q: QuoteInput = {
     name: clean(b.name, 120),
@@ -40,8 +42,7 @@ export function parseQuoteInput(body: unknown): QuoteInput | null {
     timeline: clean(b.timeline, 60),
     notes: clean(b.notes),
   };
-  if (!q.name || !q.email || !q.description || q.projectTypes.length === 0)
-    return null;
+  if (!q.name || !q.email || !q.description || q.projectTypes.length === 0) return null;
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(q.email)) return null;
   return q;
 }
@@ -52,9 +53,7 @@ export function composeBrief(q: QuoteInput): string {
   const who = q.company ? `${q.name} of ${q.company}` : q.name;
   const divisions = q.projectTypes.join(" + ");
   const sentences: string[] = [];
-  sentences.push(
-    `${who} is requesting a ${divisions} engagement.`,
-  );
+  sentences.push(`${who} is requesting a ${divisions} engagement.`);
   const desc = q.description.replace(/\s+/g, " ").trim();
   sentences.push(`Project: ${desc}${desc.endsWith(".") ? "" : "."}`);
   if (q.features) {
@@ -73,9 +72,7 @@ export function composeBrief(q: QuoteInput): string {
     const notes = q.notes.replace(/\s+/g, " ").trim();
     sentences.push(`Additional notes: ${notes}${notes.endsWith(".") ? "" : "."}`);
   }
-  sentences.push(
-    `Reach ${q.name.split(" ")[0]} at ${q.email}${q.phone ? ` or ${q.phone}` : ""}.`,
-  );
+  sentences.push(`Reach ${q.name.split(" ")[0]} at ${q.email}${q.phone ? ` or ${q.phone}` : ""}.`);
   return sentences.join(" ");
 }
 
@@ -120,9 +117,7 @@ export function isAdmin(request: Request): boolean {
   const key = bindings().ADMIN_KEY;
   if (!key) return false;
   const given =
-    request.headers.get("x-admin-key") ??
-    new URL(request.url).searchParams.get("key") ??
-    "";
+    request.headers.get("x-admin-key") ?? new URL(request.url).searchParams.get("key") ?? "";
   return given === key;
 }
 

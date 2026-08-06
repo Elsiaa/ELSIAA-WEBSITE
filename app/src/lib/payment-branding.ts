@@ -41,8 +41,7 @@ function sanitizeElsiaaEmail(raw: string | undefined, fallback: string): string 
 
 export function getPaymentContactEmail(): string {
   return sanitizeElsiaaEmail(
-    process.env.NEXT_PUBLIC_PAYMENT_CONTACT_EMAIL ||
-      process.env.PAYMENT_CONTACT_EMAIL,
+    process.env.NEXT_PUBLIC_PAYMENT_CONTACT_EMAIL || process.env.PAYMENT_CONTACT_EMAIL,
     "hello@elsiaa.com",
   );
 }
@@ -70,10 +69,7 @@ export function getPaymentZelleTag(): string {
 
 /** Zelle email recipients can use. Override: NEXT_PUBLIC_PAYMENT_ZELLE_EMAIL */
 export function getPaymentZelleEmail(): string {
-  return sanitizeElsiaaEmail(
-    process.env.NEXT_PUBLIC_PAYMENT_ZELLE_EMAIL,
-    "payments@elsiaa.com",
-  );
+  return sanitizeElsiaaEmail(process.env.NEXT_PUBLIC_PAYMENT_ZELLE_EMAIL, "payments@elsiaa.com");
 }
 
 /** Copied on customer invoices, receipts, and payment confirmations. Override: PAYMENTS_OPERATIONS_EMAIL */

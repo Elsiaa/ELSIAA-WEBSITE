@@ -4,10 +4,7 @@ import { absoluteUrl } from "../../lib/site-url";
 
 export const Route = createFileRoute("/sign/$token")({
   head: () => ({
-    meta: [
-      { title: "Sign document — ELSIAA" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Sign document — ELSIAA" }, { name: "robots", content: "noindex" }],
     links: [{ rel: "canonical", href: absoluteUrl("/sign") }],
   }),
   component: PublicSignPage,

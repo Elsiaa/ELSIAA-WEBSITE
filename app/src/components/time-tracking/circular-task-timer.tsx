@@ -52,8 +52,7 @@ export function CircularTaskTimer({
   size = "md",
   "aria-label": ariaLabel,
 }: CircularTaskTimerProps) {
-  const label =
-    ariaLabel ?? (running ? "Pause timer" : "Start timer");
+  const label = ariaLabel ?? (running ? "Pause timer" : "Start timer");
 
   return (
     <button
@@ -69,7 +68,7 @@ export function CircularTaskTimer({
         running
           ? "border-primary shadow-[0_0_0_3px_rgba(231,69,44,0.12)]"
           : "border-border hover:border-primary/60",
-        sizePx[size]
+        sizePx[size],
       )}
     >
       <svg
@@ -83,7 +82,7 @@ export function CircularTaskTimer({
         <span
           className={cn(
             "font-mono font-semibold tabular-nums leading-none tracking-tight text-foreground",
-            textSize[size]
+            textSize[size],
           )}
         >
           {formatDurationClock(totalSeconds)}

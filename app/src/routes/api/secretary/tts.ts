@@ -47,17 +47,11 @@ export const Route = createFileRoute("/api/secretary/tts")({
       POST: async ({ request }) => {
         const key = (process.env.OPENAI_API_KEY || "").trim();
         if (!key) {
-          return Response.json(
-            { ok: false, code: "tts_not_configured" },
-            { status: 503 },
-          );
+          return Response.json({ ok: false, code: "tts_not_configured" }, { status: 503 });
         }
 
         if (!rateLimit(clientIp(request))) {
-          return Response.json(
-            { ok: false, code: "rate_limited" },
-            { status: 429 },
-          );
+          return Response.json({ ok: false, code: "rate_limited" }, { status: 429 });
         }
 
         let body: unknown;
@@ -76,10 +70,7 @@ export const Route = createFileRoute("/api/secretary/tts")({
             : "";
 
         if (!text || text.length > MAX_CHARS) {
-          return Response.json(
-            { ok: false, code: "invalid_text" },
-            { status: 400 },
-          );
+          return Response.json({ ok: false, code: "invalid_text" }, { status: 400 });
         }
 
         const voiceEnv = (process.env.OPENAI_TTS_VOICE || "nova").trim();
@@ -104,10 +95,7 @@ export const Route = createFileRoute("/api/secretary/tts")({
           if (!upstream.ok) {
             const detail = await upstream.text().catch(() => "");
             console.error("[secretary/tts] OpenAI error", upstream.status, detail.slice(0, 300));
-            return Response.json(
-              { ok: false, code: "upstream_error" },
-              { status: 502 },
-            );
+            return Response.json({ ok: false, code: "upstream_error" }, { status: 502 });
           }
 
           return new Response(upstream.body, {
@@ -119,10 +107,7 @@ export const Route = createFileRoute("/api/secretary/tts")({
           });
         } catch (err) {
           console.error("[secretary/tts] fetch failed", err);
-          return Response.json(
-            { ok: false, code: "tts_failed" },
-            { status: 502 },
-          );
+          return Response.json({ ok: false, code: "tts_failed" }, { status: 502 });
         }
       },
     },

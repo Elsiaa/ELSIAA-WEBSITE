@@ -2,8 +2,8 @@
  * Company management functions
  */
 
-import { getServerSupabaseClient } from './supabase';
-import type { Company, CreateCompanyInput, UpdateCompanyInput } from '@/types/company';
+import { getServerSupabaseClient } from "./supabase";
+import type { Company, CreateCompanyInput, UpdateCompanyInput } from "@/types/company";
 
 /**
  * Get all companies (super admin only)
@@ -11,10 +11,7 @@ import type { Company, CreateCompanyInput, UpdateCompanyInput } from '@/types/co
 export async function getAllCompanies(): Promise<Company[]> {
   try {
     const supabase = getServerSupabaseClient();
-    const { data, error } = await supabase
-      .from('companies')
-      .select('*')
-      .order('name');
+    const { data, error } = await supabase.from("companies").select("*").order("name");
 
     if (error) {
       // Silently handle database errors - return empty array if can't connect
@@ -34,11 +31,7 @@ export async function getAllCompanies(): Promise<Company[]> {
 export async function getCompanyById(id: string): Promise<Company | null> {
   try {
     const supabase = getServerSupabaseClient();
-    const { data, error } = await supabase
-      .from('companies')
-      .select('*')
-      .eq('id', id)
-      .maybeSingle();
+    const { data, error } = await supabase.from("companies").select("*").eq("id", id).maybeSingle();
 
     if (error) {
       return null;
@@ -56,7 +49,7 @@ export async function getCompanyById(id: string): Promise<Company | null> {
 export async function createCompany(input: CreateCompanyInput): Promise<Company> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('companies')
+    .from("companies")
     .insert({
       name: input.name,
     })
@@ -64,8 +57,8 @@ export async function createCompany(input: CreateCompanyInput): Promise<Company>
     .single();
 
   if (error) {
-    console.error('Error creating company:', error);
-    throw new Error('Failed to create company');
+    console.error("Error creating company:", error);
+    throw new Error("Failed to create company");
   }
 
   return data;
@@ -74,21 +67,18 @@ export async function createCompany(input: CreateCompanyInput): Promise<Company>
 /**
  * Update a company
  */
-export async function updateCompany(
-  id: string,
-  input: UpdateCompanyInput
-): Promise<Company> {
+export async function updateCompany(id: string, input: UpdateCompanyInput): Promise<Company> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('companies')
+    .from("companies")
     .update(input)
-    .eq('id', id)
+    .eq("id", id)
     .select()
     .single();
 
   if (error) {
-    console.error('Error updating company:', error);
-    throw new Error('Failed to update company');
+    console.error("Error updating company:", error);
+    throw new Error("Failed to update company");
   }
 
   return data;
@@ -99,14 +89,11 @@ export async function updateCompany(
  */
 export async function deleteCompany(id: string): Promise<void> {
   const supabase = getServerSupabaseClient();
-  const { error } = await supabase
-    .from('companies')
-    .delete()
-    .eq('id', id);
+  const { error } = await supabase.from("companies").delete().eq("id", id);
 
   if (error) {
-    console.error('Error deleting company:', error);
-    throw new Error('Failed to delete company');
+    console.error("Error deleting company:", error);
+    throw new Error("Failed to delete company");
   }
 }
 
@@ -120,12 +107,12 @@ export async function getCompanyStats(companyId: string) {
 
 /** One RPC for many companies (admin SSR). Falls back to per-company counts if RPC missing. */
 export async function getCompaniesAdminStatsBatch(
-  companyIds: string[]
+  companyIds: string[],
 ): Promise<Map<string, { users: number; projects: number; meetings: number }>> {
   const unique = [...new Set(companyIds.filter(Boolean))];
   if (unique.length === 0) return new Map();
 
-  const { fetchCompaniesAdminStats } = await import('@/lib/admin-db-rpc');
+  const { fetchCompaniesAdminStats } = await import("@/lib/admin-db-rpc");
   const fromRpc = await fetchCompaniesAdminStats(unique);
   if (fromRpc.size > 0) return fromRpc;
 
@@ -135,9 +122,18 @@ export async function getCompaniesAdminStatsBatch(
     unique.map(async (companyId) => {
       try {
         const [usersCount, projectsCount, meetingsCount] = await Promise.all([
-          supabase.from('users').select('id', { count: 'exact', head: true }).eq('company_id', companyId),
-          supabase.from('projects').select('id', { count: 'exact', head: true }).eq('company_id', companyId),
-          supabase.from('meetings').select('id', { count: 'exact', head: true }).eq('company_id', companyId),
+          supabase
+            .from("users")
+            .select("id", { count: "exact", head: true })
+            .eq("company_id", companyId),
+          supabase
+            .from("projects")
+            .select("id", { count: "exact", head: true })
+            .eq("company_id", companyId),
+          supabase
+            .from("meetings")
+            .select("id", { count: "exact", head: true })
+            .eq("company_id", companyId),
         ]);
         out.set(companyId, {
           users: usersCount.count || 0,
@@ -147,7 +143,7 @@ export async function getCompaniesAdminStatsBatch(
       } catch {
         out.set(companyId, { users: 0, projects: 0, meetings: 0 });
       }
-    })
+    }),
   );
   return out;
 }

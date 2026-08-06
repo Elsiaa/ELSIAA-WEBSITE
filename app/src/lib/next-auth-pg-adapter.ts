@@ -1,10 +1,10 @@
 /**
  * Postgres adapter for Auth.js using schema `next_auth` so it never collides with `public.users`.
  */
-import type { Pool } from 'pg';
-import { mapExpiresAt } from '@auth/pg-adapter';
+import type { Pool } from "pg";
+import { mapExpiresAt } from "@auth/pg-adapter";
 
-const S = 'next_auth';
+const S = "next_auth";
 
 export default function NextAuthPostgresAdapter(client: Pool) {
   return {
@@ -21,13 +21,7 @@ export default function NextAuthPostgresAdapter(client: Pool) {
       await client.query(sql, [identifier, expires, token]);
       return verificationToken;
     },
-    async useVerificationToken({
-      identifier,
-      token,
-    }: {
-      identifier: string;
-      token: string;
-    }) {
+    async useVerificationToken({ identifier, token }: { identifier: string; token: string }) {
       const sql = `DELETE FROM ${S}.verification_token
         WHERE identifier = $1 AND token = $2
         RETURNING identifier, expires, token`;
@@ -132,7 +126,7 @@ export default function NextAuthPostgresAdapter(client: Pool) {
       expires: Date;
     }) {
       if (userId === undefined) {
-        throw new Error('userId is undef in createSession');
+        throw new Error("userId is undef in createSession");
       }
       const sql = `INSERT INTO ${S}.sessions ("userId", expires, "sessionToken")
         VALUES ($1, $2, $3)
@@ -144,15 +138,16 @@ export default function NextAuthPostgresAdapter(client: Pool) {
       if (sessionToken === undefined) {
         return null;
       }
-      const result1 = await client.query(
-        `SELECT * FROM ${S}.sessions WHERE "sessionToken" = $1`,
-        [sessionToken]
-      );
+      const result1 = await client.query(`SELECT * FROM ${S}.sessions WHERE "sessionToken" = $1`, [
+        sessionToken,
+      ]);
       if (result1.rowCount === 0) {
         return null;
       }
       const session = result1.rows[0];
-      const result2 = await client.query(`SELECT * FROM ${S}.users WHERE id = $1`, [session.userId]);
+      const result2 = await client.query(`SELECT * FROM ${S}.users WHERE id = $1`, [
+        session.userId,
+      ]);
       if (result2.rowCount === 0) {
         return null;
       }
@@ -161,10 +156,9 @@ export default function NextAuthPostgresAdapter(client: Pool) {
     },
     async updateSession(session: { sessionToken: string; expires: Date }) {
       const { sessionToken } = session;
-      const result1 = await client.query(
-        `SELECT * FROM ${S}.sessions WHERE "sessionToken" = $1`,
-        [sessionToken]
-      );
+      const result1 = await client.query(`SELECT * FROM ${S}.sessions WHERE "sessionToken" = $1`, [
+        sessionToken,
+      ]);
       if (result1.rowCount === 0) {
         return null;
       }
@@ -181,7 +175,7 @@ export default function NextAuthPostgresAdapter(client: Pool) {
       const { provider, providerAccountId } = partialAccount;
       await client.query(
         `DELETE FROM ${S}.accounts WHERE "providerAccountId" = $1 AND provider = $2`,
-        [providerAccountId, provider]
+        [providerAccountId, provider],
       );
     },
     async deleteUser(userId: string) {

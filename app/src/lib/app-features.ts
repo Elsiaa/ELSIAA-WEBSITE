@@ -17,7 +17,7 @@ export type AppFeaturesPartial = AppFeatures;
 export const DEFAULT_APP_FEATURES: AppFeatures = {};
 
 /** Example keys shown as quick-add chips in admin UI (not enforced by the API). */
-export const EXAMPLE_APP_FEATURE_KEYS = ['concurrences', 'bcbaReports', 'rbtReports'] as const;
+export const EXAMPLE_APP_FEATURE_KEYS = ["concurrences", "bcbaReports", "rbtReports"] as const;
 
 const FEATURE_KEY_RE = /^[a-zA-Z][a-zA-Z0-9_]{0,63}$/;
 
@@ -28,8 +28,8 @@ export function isValidAppFeatureKey(key: string): boolean {
 /** Title-case / split camelCase for display. */
 export function formatAppFeatureLabel(key: string): string {
   const spaced = key
-    .replace(/_/g, ' ')
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/_/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
     .trim();
   if (!spaced) return key;
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
@@ -43,7 +43,7 @@ export function formatAppFeatureLabel(key: string): string {
 export function parseAppFeaturesPartial(input: unknown): AppFeatures | null {
   if (input === null) return null;
   if (input === undefined) return {};
-  if (typeof input !== 'object' || Array.isArray(input)) return null;
+  if (typeof input !== "object" || Array.isArray(input)) return null;
 
   const out: AppFeatures = {};
   for (const [rawKey, value] of Object.entries(input as Record<string, unknown>)) {

@@ -1,4 +1,4 @@
-import type { InvoiceLineItem } from '@/lib/invoice-line-items';
+import type { InvoiceLineItem } from "@/lib/invoice-line-items";
 
 interface InvoiceLineItemsTableProps {
   items: InvoiceLineItem[];
@@ -10,7 +10,7 @@ export default function InvoiceLineItemsTable({ items, className }: InvoiceLineI
   if (!items.length) return null;
 
   return (
-    <div className={`border rounded-md overflow-hidden text-sm ${className ?? ''}`}>
+    <div className={`border rounded-md overflow-hidden text-sm ${className ?? ""}`}>
       <table className="w-full">
         <thead>
           <tr className="bg-muted/50 text-left text-xs text-muted-foreground">

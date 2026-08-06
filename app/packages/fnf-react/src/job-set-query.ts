@@ -1,13 +1,13 @@
-import type { Generation } from '@higgsfield/fnf/client'
-import type { LiveQueryOptions } from './generation-query'
-import { isTerminalJobStatus } from '@higgsfield/fnf/client'
-import { queryOptions } from '@tanstack/react-query'
-import { DEFAULT_POLL_INTERVAL_MS } from './generation-query'
-import { fnfKeys } from './keys'
+import type { Generation } from "@higgsfield/fnf/client";
+import type { LiveQueryOptions } from "./generation-query";
+import { isTerminalJobStatus } from "@higgsfield/fnf/client";
+import { queryOptions } from "@tanstack/react-query";
+import { DEFAULT_POLL_INTERVAL_MS } from "./generation-query";
+import { fnfKeys } from "./keys";
 
 /** What the job-set query needs from a client — structural on purpose. */
 export interface JobSetQueryClient {
-  getSet: (jobSetId: string) => Promise<Generation[]>
+  getSet: (jobSetId: string) => Promise<Generation[]>;
 }
 
 /**
@@ -18,22 +18,27 @@ export interface JobSetQueryClient {
  * fnfKeys.jobSet(id) })` — TanStack dedupes and cancels racing refetches.
  * Defaults are overridable by spreading over the result.
  */
-export function jobSetQueryOptions(client: JobSetQueryClient, jobSetId: string, opts?: LiveQueryOptions) {
+export function jobSetQueryOptions(
+  client: JobSetQueryClient,
+  jobSetId: string,
+  opts?: LiveQueryOptions,
+) {
   return queryOptions({
     queryKey: fnfKeys.jobSet(jobSetId, opts),
     queryFn: () => client.getSet(jobSetId),
     refetchInterval: (query) => {
-      if (opts?.intervalMs === false)
-        return false
-      const members = query.state.data
-      return members !== undefined && members.every(g => isTerminalJobStatus(g.status))
+      if (opts?.intervalMs === false) return false;
+      const members = query.state.data;
+      return members !== undefined && members.every((g) => isTerminalJobStatus(g.status))
         ? false
-        : opts?.intervalMs ?? DEFAULT_POLL_INTERVAL_MS
+        : (opts?.intervalMs ?? DEFAULT_POLL_INTERVAL_MS);
     },
     refetchIntervalInBackground: true,
     staleTime: (query) => {
-      const members = query.state.data
-      return members !== undefined && members.every(g => isTerminalJobStatus(g.status)) ? Number.POSITIVE_INFINITY : 0
+      const members = query.state.data;
+      return members !== undefined && members.every((g) => isTerminalJobStatus(g.status))
+        ? Number.POSITIVE_INFINITY
+        : 0;
     },
-  })
+  });
 }

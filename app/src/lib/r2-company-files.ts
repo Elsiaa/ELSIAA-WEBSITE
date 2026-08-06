@@ -1,4 +1,4 @@
-import { S3Client } from '@aws-sdk/client-s3';
+import { S3Client } from "@aws-sdk/client-s3";
 
 /**
  * Admin company file storage (`company-admin-files/…` keys).
@@ -20,15 +20,14 @@ import { S3Client } from '@aws-sdk/client-s3';
  * Folder page links (/share/files + ZIP download) also need:
  * - COMPANY_FILES_SHARE_TOKEN_SECRET — at least 16 chars; encrypts folder share tokens
  */
-const accountId =
-  process.env.R2_COMPANY_FILES_ACCOUNT_ID || process.env.R2_ACCOUNT_ID || '';
+const accountId = process.env.R2_COMPANY_FILES_ACCOUNT_ID || process.env.R2_ACCOUNT_ID || "";
 const accessKeyId =
-  process.env.R2_COMPANY_FILES_ACCESS_KEY_ID || process.env.R2_ACCESS_KEY_ID || '';
+  process.env.R2_COMPANY_FILES_ACCESS_KEY_ID || process.env.R2_ACCESS_KEY_ID || "";
 const secretAccessKey =
-  process.env.R2_COMPANY_FILES_SECRET_ACCESS_KEY || process.env.R2_SECRET_ACCESS_KEY || '';
+  process.env.R2_COMPANY_FILES_SECRET_ACCESS_KEY || process.env.R2_SECRET_ACCESS_KEY || "";
 
 export const r2CompanyFilesClient = new S3Client({
-  region: 'auto',
+  region: "auto",
   endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
   credentials: {
     accessKeyId,
@@ -38,27 +37,28 @@ export const r2CompanyFilesClient = new S3Client({
   // SDK v3.934+ adds automatic CRC32 checksums and includes content-length in presigned
   // signed headers. Both break browser→R2 CORS preflight. Disable checksums so presigned
   // PUT URLs work from the browser.
-  requestChecksumCalculation: 'WHEN_REQUIRED',
-  responseChecksumValidation: 'WHEN_REQUIRED',
+  requestChecksumCalculation: "WHEN_REQUIRED",
+  responseChecksumValidation: "WHEN_REQUIRED",
 });
 
 /** When unset, matches legacy single-bucket setup (same as R2_BUCKET_NAME). */
 export const R2_COMPANY_FILES_BUCKET_NAME =
-  process.env.R2_COMPANY_FILES_BUCKET_NAME || process.env.R2_BUCKET_NAME || '';
+  process.env.R2_COMPANY_FILES_BUCKET_NAME || process.env.R2_BUCKET_NAME || "";
 
-export const R2_COMPANY_FILES_PUBLIC_URL =
-  process.env.R2_COMPANY_FILES_PUBLIC_URL || '';
+export const R2_COMPANY_FILES_PUBLIC_URL = process.env.R2_COMPANY_FILES_PUBLIC_URL || "";
 
 const usingDedicatedBucket = Boolean(process.env.R2_COMPANY_FILES_BUCKET_NAME);
 
 if (usingDedicatedBucket) {
   if (!accountId) {
-    console.warn('R2_COMPANY_FILES_BUCKET_NAME is set but R2_ACCOUNT_ID (or R2_COMPANY_FILES_ACCOUNT_ID) is missing.');
+    console.warn(
+      "R2_COMPANY_FILES_BUCKET_NAME is set but R2_ACCOUNT_ID (or R2_COMPANY_FILES_ACCOUNT_ID) is missing.",
+    );
   }
   if (!accessKeyId || !secretAccessKey) {
-    console.warn('R2 company-files bucket: set R2_* or R2_COMPANY_FILES_* access credentials.');
+    console.warn("R2 company-files bucket: set R2_* or R2_COMPANY_FILES_* access credentials.");
   }
   if (!R2_COMPANY_FILES_BUCKET_NAME) {
-    console.warn('R2_COMPANY_FILES_BUCKET_NAME is invalid or empty.');
+    console.warn("R2_COMPANY_FILES_BUCKET_NAME is invalid or empty.");
   }
 }

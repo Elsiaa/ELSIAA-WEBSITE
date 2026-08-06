@@ -1,10 +1,6 @@
-import type { Project } from '@/lib/projects';
-import { findActiveDeviceByExternalId } from '@/lib/project-auth-device-lookup';
-import {
-  parseAppFeaturesPartial,
-  resolveAppFeatures,
-  type AppFeatures,
-} from '@/lib/app-features';
+import type { Project } from "@/lib/projects";
+import { findActiveDeviceByExternalId } from "@/lib/project-auth-device-lookup";
+import { parseAppFeaturesPartial, resolveAppFeatures, type AppFeatures } from "@/lib/app-features";
 
 function featuresFromRow(features: unknown): AppFeatures | null {
   if (features === null || features === undefined) return null;
@@ -14,9 +10,7 @@ function featuresFromRow(features: unknown): AppFeatures | null {
 function getExternalDeviceIdFromRequest(request: Request): string {
   const url = new URL(request.url);
   return (
-    request.headers.get('x-device-id')?.trim() ||
-    url.searchParams.get('deviceId')?.trim() ||
-    ''
+    request.headers.get("x-device-id")?.trim() || url.searchParams.get("deviceId")?.trim() || ""
   );
 }
 
@@ -27,7 +21,7 @@ function getExternalDeviceIdFromRequest(request: Request): string {
  */
 export async function resolveAppFeaturesForProjectRequest(
   project: Project,
-  request: Request
+  request: Request,
 ): Promise<AppFeatures> {
   const externalDeviceId = getExternalDeviceIdFromRequest(request);
   let deviceFeatures: AppFeatures | null = null;

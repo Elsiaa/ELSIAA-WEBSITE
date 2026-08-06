@@ -1,13 +1,8 @@
-import { auth } from '@/auth';
-import { NextResponse } from 'next/server';
-import {
-  getMeeting,
-  updateMeeting,
-  deleteMeeting,
-  updateMeetingStatus,
-} from '@/lib/meetings';
-import { getUserByAuthUserId, getUserById } from '@/lib/users';
-import { isSuperAdmin } from '@/lib/permissions';
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+import { getMeeting, updateMeeting, deleteMeeting, updateMeetingStatus } from "@/lib/meetings";
+import { getUserByAuthUserId, getUserById } from "@/lib/users";
+import { isSuperAdmin } from "@/lib/permissions";
 
 interface RouteContext {
   params: Promise<{ meetingId: string }>;
@@ -20,7 +15,7 @@ export async function GET(request: Request, context: RouteContext) {
     const authUserId = session?.user?.id;
 
     if (!authUserId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const dbUser = await getUserByAuthUserId(authUserId);
@@ -31,22 +26,19 @@ export async function GET(request: Request, context: RouteContext) {
     const meeting = await getMeeting(meetingId);
 
     if (!meeting) {
-      return NextResponse.json({ error: 'Meeting not found' }, { status: 404 });
+      return NextResponse.json({ error: "Meeting not found" }, { status: 404 });
     }
 
     let hasAccess = false;
 
     if (dbUserId !== null) {
-      if (
-        meeting.hostUserId === dbUserId ||
-        meeting.participantUserIds.includes(dbUserId)
-      ) {
+      if (meeting.hostUserId === dbUserId || meeting.participantUserIds.includes(dbUserId)) {
         hasAccess = true;
       }
 
       if (
         !hasAccess &&
-        meeting.accessType === 'company' &&
+        meeting.accessType === "company" &&
         userCompanyId &&
         meeting.participantCompanyIds.includes(userCompanyId)
       ) {
@@ -54,18 +46,18 @@ export async function GET(request: Request, context: RouteContext) {
       }
     }
 
-    if (!hasAccess && meeting.accessType === 'public') {
+    if (!hasAccess && meeting.accessType === "public") {
       hasAccess = true;
     }
 
     if (!hasAccess && !(await isSuperAdmin())) {
-      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
+      return NextResponse.json({ error: "Access denied" }, { status: 403 });
     }
 
     return NextResponse.json({ meeting });
   } catch (error) {
-    console.error('Error fetching meeting:', error);
-    return NextResponse.json({ error: 'Failed to fetch meeting' }, { status: 500 });
+    console.error("Error fetching meeting:", error);
+    return NextResponse.json({ error: "Failed to fetch meeting" }, { status: 500 });
   }
 }
 
@@ -76,14 +68,14 @@ export async function PATCH(request: Request, context: RouteContext) {
     const authUserId = session?.user?.id;
 
     if (!authUserId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { meetingId } = await context.params;
     const meeting = await getMeeting(meetingId);
 
     if (!meeting) {
-      return NextResponse.json({ error: 'Meeting not found' }, { status: 404 });
+      return NextResponse.json({ error: "Meeting not found" }, { status: 404 });
     }
 
     const dbUser = await getUserByAuthUserId(authUserId);
@@ -92,8 +84,8 @@ export async function PATCH(request: Request, context: RouteContext) {
 
     if (!isHost && !superUser) {
       return NextResponse.json(
-        { error: 'Only the host or admin can update this meeting' },
-        { status: 403 }
+        { error: "Only the host or admin can update this meeting" },
+        { status: 403 },
       );
     }
 
@@ -121,11 +113,11 @@ export async function PATCH(request: Request, context: RouteContext) {
     if (status) {
       const additionalData: { startedAt?: string; endedAt?: string } = {};
 
-      if (status === 'in-progress' && !meeting.startedAt) {
+      if (status === "in-progress" && !meeting.startedAt) {
         additionalData.startedAt = new Date().toISOString();
       }
 
-      if (status === 'completed' && !meeting.endedAt) {
+      if (status === "completed" && !meeting.endedAt) {
         additionalData.endedAt = new Date().toISOString();
       }
 
@@ -135,13 +127,13 @@ export async function PATCH(request: Request, context: RouteContext) {
     }
 
     if (!updatedMeeting) {
-      return NextResponse.json({ error: 'Failed to update meeting' }, { status: 500 });
+      return NextResponse.json({ error: "Failed to update meeting" }, { status: 500 });
     }
 
     return NextResponse.json({ meeting: updatedMeeting });
   } catch (error) {
-    console.error('Error updating meeting:', error);
-    return NextResponse.json({ error: 'Failed to update meeting' }, { status: 500 });
+    console.error("Error updating meeting:", error);
+    return NextResponse.json({ error: "Failed to update meeting" }, { status: 500 });
   }
 }
 
@@ -152,14 +144,14 @@ export async function DELETE(request: Request, context: RouteContext) {
     const authUserId = session?.user?.id;
 
     if (!authUserId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { meetingId } = await context.params;
     const meeting = await getMeeting(meetingId);
 
     if (!meeting) {
-      return NextResponse.json({ error: 'Meeting not found' }, { status: 404 });
+      return NextResponse.json({ error: "Meeting not found" }, { status: 404 });
     }
 
     const dbUser = await getUserByAuthUserId(authUserId);
@@ -168,20 +160,20 @@ export async function DELETE(request: Request, context: RouteContext) {
 
     if (!isHost && !superUser) {
       return NextResponse.json(
-        { error: 'Only the host or admin can delete this meeting' },
-        { status: 403 }
+        { error: "Only the host or admin can delete this meeting" },
+        { status: 403 },
       );
     }
 
     const deleted = await deleteMeeting(meetingId);
 
     if (!deleted) {
-      return NextResponse.json({ error: 'Failed to delete meeting' }, { status: 500 });
+      return NextResponse.json({ error: "Failed to delete meeting" }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting meeting:', error);
-    return NextResponse.json({ error: 'Failed to delete meeting' }, { status: 500 });
+    console.error("Error deleting meeting:", error);
+    return NextResponse.json({ error: "Failed to delete meeting" }, { status: 500 });
   }
 }

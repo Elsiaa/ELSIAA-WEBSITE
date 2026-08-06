@@ -82,7 +82,10 @@ export default function AdminCalendarClient({
 
       // Generate slots from 8 AM to 9 PM (21:00) for all days
       const slotDate = new Date(dayDate);
-      while (slotDate.getHours() < 21 || (slotDate.getHours() === 21 && slotDate.getMinutes() === 0)) {
+      while (
+        slotDate.getHours() < 21 ||
+        (slotDate.getHours() === 21 && slotDate.getMinutes() === 0)
+      ) {
         slots.push(new Date(slotDate).toISOString());
         slotDate.setMinutes(slotDate.getMinutes() + 30);
       }
@@ -146,7 +149,7 @@ export default function AdminCalendarClient({
     if (typeof status === "object" && status.type === "meeting") {
       return "bg-[#1e6b3c]/25 border-[#1e6b3c] text-[#111]";
     }
-    const statusStr = typeof status === "string" ? status : (status?.type || "available");
+    const statusStr = typeof status === "string" ? status : status?.type || "available";
     switch (statusStr) {
       case "blocked":
         return "bg-red-100 border-red-400 text-red-900";
@@ -214,7 +217,7 @@ export default function AdminCalendarClient({
     if (blockedSlot) {
       const slotStart = new Date(blockedSlot.startTime);
       const slotKey = slotStart.toISOString();
-      
+
       // Optimistic update - immediately show as unblocked
       setOptimisticUnblockedSlots((prev) => new Set(prev).add(slotKey));
       setOptimisticBlockedSlots((prev) => {
@@ -267,35 +270,37 @@ export default function AdminCalendarClient({
       }
 
       const data = await response.json();
-      
+
       // Find the request to get its details
       const request = meetingRequests.find((req) => req.id === requestId);
-      
+
       // Optimistically add the meeting to the list
       if (data.meetingId && request) {
         // Create a temporary meeting object for immediate display
         const tempMeeting: Meeting = {
           id: data.meetingId,
           title: `Meeting with ${request.name}`,
-          description: request.message || `Meeting with ${request.name}${request.company ? ` from ${request.company}` : ''}`,
+          description:
+            request.message ||
+            `Meeting with ${request.name}${request.company ? ` from ${request.company}` : ""}`,
           hostUserId: "", // Will be updated on refresh
           participantUserIds: [],
           participantCompanyIds: [],
-          accessType: 'public',
+          accessType: "public",
           scheduledAt: slot,
           duration: 30,
           jitsiRoomName: "",
-          status: 'scheduled',
+          status: "scheduled",
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           meetingRequestId: requestId,
         };
         setMeetings([...meetings, tempMeeting]);
       }
-      
+
       // Remove from pending requests
       setMeetingRequests(meetingRequests.filter((req) => req.id !== requestId));
-      
+
       // Refresh meetings and blocked slots in background
       const [meetingsRes, blockedRes, requestsRes] = await Promise.all([
         fetch("/api/meetings").then((r) => r.json()),
@@ -349,15 +354,15 @@ export default function AdminCalendarClient({
     const date = new Date(slot);
     // Use local date to avoid timezone issues
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
     const dayKey = `${year}-${month}-${day}`;
     if (!slotsByDay[dayKey]) {
       slotsByDay[dayKey] = [];
     }
     slotsByDay[dayKey].push(slot);
   });
-  
+
   // Sort slots within each day by time
   Object.keys(slotsByDay).forEach((dayKey) => {
     slotsByDay[dayKey].sort((a, b) => {
@@ -382,9 +387,7 @@ export default function AdminCalendarClient({
         <p className="text-[#111]/55">
           Manage your schedule, block times, and confirm meeting requests
         </p>
-        {loading && (
-          <p className="mt-2 text-sm text-[#1e6b3c]">Loading calendar data…</p>
-        )}
+        {loading && <p className="mt-2 text-sm text-[#1e6b3c]">Loading calendar data…</p>}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -407,13 +410,14 @@ export default function AdminCalendarClient({
                   day: "numeric",
                 })}{" "}
                 -{" "}
-                {new Date(
-                  currentWeekStart.getTime() + 6 * 24 * 60 * 60 * 1000
-                ).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
+                {new Date(currentWeekStart.getTime() + 6 * 24 * 60 * 60 * 1000).toLocaleDateString(
+                  "en-US",
+                  {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  },
+                )}
               </div>
             </div>
 
@@ -451,7 +455,9 @@ export default function AdminCalendarClient({
                 {daysOfWeek.map((day, dayIndex) => (
                   <div key={`header-${dayIndex}`} className="sticky top-0 bg-[#F5F5F3] z-10 pb-2">
                     <div className="text-center">
-                      <div className="text-sm font-medium text-[#111]">{dayNames[day.getDay()]}</div>
+                      <div className="text-sm font-medium text-[#111]">
+                        {dayNames[day.getDay()]}
+                      </div>
                       <div className="text-xs text-[#111]/45">{day.getDate()}</div>
                     </div>
                   </div>
@@ -462,8 +468,8 @@ export default function AdminCalendarClient({
               {daysOfWeek.map((day, dayIndex) => {
                 // Use local date to match slot grouping
                 const year = day.getFullYear();
-                const month = String(day.getMonth() + 1).padStart(2, '0');
-                const dayNum = String(day.getDate()).padStart(2, '0');
+                const month = String(day.getMonth() + 1).padStart(2, "0");
+                const dayNum = String(day.getDate()).padStart(2, "0");
                 const dayKey = `${year}-${month}-${dayNum}`;
                 const daySlots = slotsByDay[dayKey] || [];
                 const isClosed = day.getDay() === 6; // Saturday
@@ -472,9 +478,7 @@ export default function AdminCalendarClient({
                 return (
                   <div key={dayIndex} className="space-y-1">
                     {daySlots.length === 0 ? (
-                      <div className="text-xs text-muted-foreground text-center py-4">
-                        No slots
-                      </div>
+                      <div className="text-xs text-muted-foreground text-center py-4">No slots</div>
                     ) : (
                       daySlots.map((slot) => {
                         const status = getSlotStatus(slot);
@@ -489,8 +493,12 @@ export default function AdminCalendarClient({
                         });
 
                         // Extract meeting info if status is a meeting
-                        const meetingInfo = typeof status === "object" && status.type === "meeting" ? status.meeting : null;
-                        const statusStr = typeof status === "string" ? status : (status.type || "available");
+                        const meetingInfo =
+                          typeof status === "object" && status.type === "meeting"
+                            ? status.meeting
+                            : null;
+                        const statusStr =
+                          typeof status === "string" ? status : status.type || "available";
 
                         // Check if slot should be disabled
                         let isDisabled = false;
@@ -512,7 +520,9 @@ export default function AdminCalendarClient({
                         if (meetingInfo) {
                           // First try to find the meeting request
                           if (meetingInfo.meetingRequestId) {
-                            const request = meetingRequests.find((r) => r.id === meetingInfo.meetingRequestId);
+                            const request = meetingRequests.find(
+                              (r) => r.id === meetingInfo.meetingRequestId,
+                            );
                             if (request) {
                               meetingName = request.name;
                             }
@@ -545,12 +555,14 @@ export default function AdminCalendarClient({
                               isPast
                                 ? "bg-gray-500/30 text-muted-foreground border-gray-500/50 opacity-50 cursor-not-allowed"
                                 : isDisabled && !blockedSlot
-                                ? isClosed
-                                  ? "bg-secondary/30 text-muted-foreground border-border cursor-not-allowed opacity-40 blur-[0.5px]"
-                                  : "bg-secondary/50 text-muted-foreground border-border cursor-not-allowed opacity-50"
-                                : getSlotColor(status)
+                                  ? isClosed
+                                    ? "bg-secondary/30 text-muted-foreground border-border cursor-not-allowed opacity-40 blur-[0.5px]"
+                                    : "bg-secondary/50 text-muted-foreground border-border cursor-not-allowed opacity-50"
+                                  : getSlotColor(status)
                             } ${
-                              (statusStr === "available" || statusStr === "blocked") && !isDisabled && !isPast
+                              (statusStr === "available" || statusStr === "blocked") &&
+                              !isDisabled &&
+                              !isPast
                                 ? "hover:opacity-80 cursor-pointer"
                                 : "cursor-default"
                             }`}
@@ -558,30 +570,35 @@ export default function AdminCalendarClient({
                               isPast
                                 ? "Past time slot"
                                 : isClosed
-                                ? "Saturday - Closed"
-                                : isFriday && slotDate.getHours() >= 13
-                                ? "Friday - Closed after 1pm"
-                                : statusStr === "blocked"
-                                ? "Click to unblock"
-                                : statusStr === "available"
-                                ? "Click to block"
-                                : statusStr === "pending"
-                                ? "Has pending requests - click to view"
-                                : statusStr === "meeting" && meetingName
-                                ? `Meeting with ${meetingName}`
-                                : "Scheduled meeting"
+                                  ? "Saturday - Closed"
+                                  : isFriday && slotDate.getHours() >= 13
+                                    ? "Friday - Closed after 1pm"
+                                    : statusStr === "blocked"
+                                      ? "Click to unblock"
+                                      : statusStr === "available"
+                                        ? "Click to block"
+                                        : statusStr === "pending"
+                                          ? "Has pending requests - click to view"
+                                          : statusStr === "meeting" && meetingName
+                                            ? `Meeting with ${meetingName}`
+                                            : "Scheduled meeting"
                             }
                           >
                             <div>{timeString}</div>
                             {statusStr === "pending" && (
                               <div className="text-[10px] mt-0.5">
-                                ({meetingRequests.filter((r) => {
-                                  if (!r.selectedTimeSlots || !Array.isArray(r.selectedTimeSlots)) return false;
-                                  return r.selectedTimeSlots.some((selectedSlot: string) => {
-                                    const selectedDate = new Date(selectedSlot);
-                                    return selectedDate.getTime() === slotDate.getTime();
-                                  });
-                                }).length})
+                                (
+                                {
+                                  meetingRequests.filter((r) => {
+                                    if (!r.selectedTimeSlots || !Array.isArray(r.selectedTimeSlots))
+                                      return false;
+                                    return r.selectedTimeSlots.some((selectedSlot: string) => {
+                                      const selectedDate = new Date(selectedSlot);
+                                      return selectedDate.getTime() === slotDate.getTime();
+                                    });
+                                  }).length
+                                }
+                                )
                               </div>
                             )}
                             {statusStr === "meeting" && meetingName && (
@@ -606,7 +623,7 @@ export default function AdminCalendarClient({
             <h2 className="text-lg font-bold mb-4 text-[#111]">
               Pending Requests ({meetingRequests.length})
             </h2>
-            
+
             {meetingRequests.length === 0 ? (
               <p className="text-sm text-[#111]/55">No pending requests</p>
             ) : (
@@ -715,9 +732,7 @@ export default function AdminCalendarClient({
                             })}
                           </div>
                           {confirmingSlot === slot && (
-                            <div className="text-xs text-muted-foreground mt-1">
-                              Confirming...
-                            </div>
+                            <div className="text-xs text-muted-foreground mt-1">Confirming...</div>
                           )}
                         </button>
                       );
@@ -731,4 +746,3 @@ export default function AdminCalendarClient({
     </div>
   );
 }
-

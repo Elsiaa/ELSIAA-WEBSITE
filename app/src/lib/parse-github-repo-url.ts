@@ -17,6 +17,6 @@ export function parseGitHubRepoUrl(url: string): ParsedGitHubRepo | null {
   const owner = m[1];
   const repo = m[2];
   const refFromTree = m[3];
-  const ref = refFromTree ? decodeURIComponent(refFromTree.replace(/\/+$/, '')) : 'main';
+  const ref = refFromTree ? decodeURIComponent(refFromTree.replace(/\/+$/, "")) : "main";
   return { owner, repo, ref };
 }

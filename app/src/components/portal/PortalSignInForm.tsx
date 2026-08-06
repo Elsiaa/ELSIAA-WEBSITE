@@ -1,9 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import {
-  getPortalAuthState,
-  portalSignIn,
-} from "../../lib/portal/auth.functions";
+import { getPortalAuthState, portalSignIn } from "../../lib/portal/auth.functions";
 import { portalFonts } from "./tokens";
 
 type Props = {
@@ -57,10 +54,7 @@ export function PortalSignInForm({ initial, initialEmail, next }: Props) {
             ELSIAA
           </span>
         </Link>
-        <h1
-          className="mt-10 text-3xl font-semibold tracking-[-0.035em] md:text-4xl"
-          style={sans}
-        >
+        <h1 className="mt-10 text-3xl font-semibold tracking-[-0.035em] md:text-4xl" style={sans}>
           Sign in.
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-[#111]/55" style={sans}>
@@ -72,8 +66,7 @@ export function PortalSignInForm({ initial, initialEmail, next }: Props) {
             className="mt-6 rounded-xl border border-amber-500/30 bg-amber-50 px-4 py-3 text-[13px] leading-relaxed text-amber-900"
             style={sans}
           >
-            Sign-in is temporarily unavailable. Please try again later or contact
-            support.
+            Sign-in is temporarily unavailable. Please try again later or contact support.
           </p>
         )}
 

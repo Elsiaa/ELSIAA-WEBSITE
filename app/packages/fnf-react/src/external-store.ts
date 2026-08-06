@@ -9,18 +9,18 @@
  * without React; `useStore` is the one-line binding.
  */
 export class ExternalStore {
-  private version = 0
-  private readonly listeners = new Set<() => void>()
+  private version = 0;
+  private readonly listeners = new Set<() => void>();
 
-  readonly snapshot = (): number => this.version
+  readonly snapshot = (): number => this.version;
 
   readonly subscribe = (listener: () => void): (() => void) => {
-    this.listeners.add(listener)
-    return () => this.listeners.delete(listener)
-  }
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  };
 
   protected commit(): void {
-    this.version++
-    for (const listener of this.listeners) listener()
+    this.version++;
+    for (const listener of this.listeners) listener();
   }
 }

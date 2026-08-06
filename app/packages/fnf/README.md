@@ -39,42 +39,42 @@ do not copy the generated-app restriction blindly. Use the matching adapter
 or implement the backend ports with a custom adapter/transport.
 
 ```ts
-import { createJobClient } from '@higgsfield/fnf/client'
-import { createProfileClient } from '@higgsfield/fnf/profile'
-import { nanoBanana2, seedance2_0 } from '@higgsfield/fnf/jobs'
-import { createWorkflowPlatformAdapter } from '@higgsfield/fnf/workflow-platform'
+import { createJobClient } from "@higgsfield/fnf/client";
+import { createProfileClient } from "@higgsfield/fnf/profile";
+import { nanoBanana2, seedance2_0 } from "@higgsfield/fnf/jobs";
+import { createWorkflowPlatformAdapter } from "@higgsfield/fnf/workflow-platform";
 
 const adapter = createWorkflowPlatformAdapter({
-  baseUrl: 'https://fnf.internal',
-})
+  baseUrl: "https://fnf.internal",
+});
 // For non-generated hosts, replace the adapter above with the adapter that
 // matches that host's backend/auth contract.
 const client = createJobClient({
   adapter,
   jobs: [nanoBanana2, seedance2_0], // the source of per-model autocomplete
-})
-const profile = createProfileClient({ profileAdapter: adapter })
+});
+const profile = createProfileClient({ profileAdapter: adapter });
 
 // Submit (does not wait for completion). `model` autocompletes to a registered
 // jobSetType and `settings` is typed to that model's schema.
 const { generations } = await client.submit({
-  model: 'nano_banana_2',
-  prompt: { instruction: 'a blue cat' },
-  settings: { aspectRatio: '1:1', resolution: '2k' },
-})
+  model: "nano_banana_2",
+  prompt: { instruction: "a blue cat" },
+  settings: { aspectRatio: "1:1", resolution: "2k" },
+});
 
 // Poll the batch to terminal states. Throws JobTimeoutError if a job does not
 // reach a terminal status within poll.timeoutMs (default 600000ms).
-const [done] = await client.wait(generations)
-console.log(done.status, done.results?.rawUrl)
+const [done] = await client.wait(generations);
+console.log(done.status, done.results?.rawUrl);
 
 // Profile/workspace reads share the same adapter.
-const snapshot = await profile.getSnapshot()
-console.log(snapshot.user?.email, snapshot.credits?.totalAvailableCredits)
+const snapshot = await profile.getSnapshot();
+console.log(snapshot.user?.email, snapshot.credits?.totalAvailableCredits);
 
 // Regenerate is just submitting the parsed input back. The read model carries
 // `model: string`, so cast onto the typed submit input (it is runtime-validated).
-await client.submit(done.input as Parameters<typeof client.submit>[0])
+await client.submit(done.input as Parameters<typeof client.submit>[0]);
 ```
 
 ### Offline / tests
@@ -84,9 +84,9 @@ backend (no network) that completes jobs immediately — use it for tests, demos
 and offline development.
 
 ```ts
-import { createMemoryBackend } from '@higgsfield/fnf-adapters'
+import { createMemoryBackend } from "@higgsfield/fnf-adapters";
 
-const client = createJobClient({ adapter: createMemoryBackend(), jobs: [nanoBanana2] })
+const client = createJobClient({ adapter: createMemoryBackend(), jobs: [nanoBanana2] });
 ```
 
 ## Three domains, separate factories
@@ -96,21 +96,21 @@ factories** behind **separate entry points**, so a jobs-only frontend does not
 need to pull media/profile code unless it imports those entries:
 
 ```ts
-import { createJobClient } from '@higgsfield/fnf/client'  // submit/adjust/get/poll/wait/cancel/list/cost
-import { nanoBanana2 } from '@higgsfield/fnf/jobs'          // the model catalog + defineJob toolkit
-import { createMediaClient } from '@higgsfield/fnf/media' // get/list/resolve/upload
-import { createProfileClient } from '@higgsfield/fnf/profile' // user/workspaces/wallet/credits/switch
-import { createWorkflowPlatformAdapter } from '@higgsfield/fnf/workflow-platform'
+import { createJobClient } from "@higgsfield/fnf/client"; // submit/adjust/get/poll/wait/cancel/list/cost
+import { nanoBanana2 } from "@higgsfield/fnf/jobs"; // the model catalog + defineJob toolkit
+import { createMediaClient } from "@higgsfield/fnf/media"; // get/list/resolve/upload
+import { createProfileClient } from "@higgsfield/fnf/profile"; // user/workspaces/wallet/credits/switch
+import { createWorkflowPlatformAdapter } from "@higgsfield/fnf/workflow-platform";
 
 const adapter = createWorkflowPlatformAdapter({
-  baseUrl: 'https://fnf.internal',
-})
+  baseUrl: "https://fnf.internal",
+});
 // Replace this adapter in product/dev/custom hosts as needed.
-const media = createMediaClient({ mediaAdapter: adapter })
-const profile = createProfileClient({ profileAdapter: adapter })
-const ref = await media.get('m1', 'image') // get-by-id is per-type
-const upload = await media.upload({ source: fileBytes, filename: 'cat.png' })
-const credits = await profile.getCredits()
+const media = createMediaClient({ mediaAdapter: adapter });
+const profile = createProfileClient({ profileAdapter: adapter });
+const ref = await media.get("m1", "image"); // get-by-id is per-type
+const upload = await media.upload({ source: fileBytes, filename: "cat.png" });
+const credits = await profile.getCredits();
 ```
 
 The seam between them: media ops produce a `MediaRef`, which drops into
@@ -119,6 +119,7 @@ The seam between them: media ops produce a `MediaRef`, which drops into
 ## Surface
 
 **Jobs** (`createJobClient`, `@higgsfield/fnf/client`; model catalog at `@higgsfield/fnf/jobs`):
+
 - `submit` / `safeSubmit` — submit `count` jobs (a client-side fan-out; a model's
   `batchSize` setting is a separate, per-job wire param — total outputs =
   `count × batchSize`). A partial fan-out failure returns the successes plus a
@@ -165,6 +166,7 @@ The seam between them: media ops produce a `MediaRef`, which drops into
   typed `not_supported` for generic tooling.
 
 **Media** (`createMediaClient`, `@higgsfield/fnf/media`):
+
 - `get` — get one media by id (per-type route).
 - `list` — list uploaded media (no prod route — the fnf adapters throw typed `not_supported`).
 - `resolve` — normalize URLs / structured refs (and, with an injected `resolveJob`, job ids) into `MediaRef`s.
@@ -180,8 +182,13 @@ The seam between them: media ops produce a `MediaRef`, which drops into
   presign/confirm bodies (the product sends `force_ip_check`/`surface` there).
 
 ```ts
-const ref = (await media.upload({ source: fileBytes, filename: 'cat.png' })).ref
-await jobClient.submit({ model: 'nano_banana_2', media: { image: [ref] }, prompt: { instruction: 'restyle' }, settings: { aspectRatio: '1:1' } })
+const ref = (await media.upload({ source: fileBytes, filename: "cat.png" })).ref;
+await jobClient.submit({
+  model: "nano_banana_2",
+  media: { image: [ref] },
+  prompt: { instruction: "restyle" },
+  settings: { aspectRatio: "1:1" },
+});
 ```
 
 Strict browser/server bridge rule: do not put `File`, `Blob`, `ArrayBuffer`,
@@ -197,6 +204,7 @@ Every operation is also a free function over a shared context (`createContext` f
 `createMediaContext` for media), so you can call `submit(ctx, input)` without the full client.
 
 **Profile** (`createProfileClient`, `@higgsfield/fnf/profile`):
+
 - `getUser()` — current account/user profile, camelCase fields such as
   `workspaceId`, `workspaceType`, `workspaceRole`, `planType`,
   `billingPeriod`, `totalPlanCredits`.
@@ -208,7 +216,7 @@ Every operation is also a free function over a shared context (`createContext` f
   credits. Display values are divided by 100; the `raw` property keeps the
   original credit-cent values.
 - `getSnapshot()` — composed `{ user, workspaces, currentWorkspace, wallet,
-  credits }`.
+credits }`.
 - `switchWorkspace({ workspaceId })` — posts backend workspace context and
   returns a fresh snapshot. Host apps remain responsible for mirroring the
   choice into Clerk/session metadata or adapter header state.
@@ -252,22 +260,22 @@ Pick or write a concrete adapter:
 ## Defining a job
 
 ```ts
-import { defineJob, z } from '@higgsfield/fnf'
+import { defineJob, z } from "@higgsfield/fnf";
 
 export const myModel = defineJob({
-  jobSetType: 'my_model', // the only identity the backend needs (POST /jobs)
-  outputType: 'image',
+  jobSetType: "my_model", // the only identity the backend needs (POST /jobs)
+  outputType: "image",
   // `params` mirrors the backend wire `params` object: the prompt/media
   // envelopes (serialized by their codecs) plus the scalar settings fields.
   params: {
     prompt: true, // opt in to the standard prompt group; omit if the job takes no prompt
-    media: { field: 'input_images', format: 'unwrapped', roles: ['image'] }, // omit if no media
+    media: { field: "input_images", format: "unwrapped", roles: ["image"] }, // omit if no media
     settings: {
-      aspectRatio: z.wire('aspect_ratio', z.aspectRatio(['1:1', '16:9'])), // typed camelCase, snake_case on the wire
-      resolution: z._default(z.enum(['1k', '2k', '4k']), '1k'),
+      aspectRatio: z.wire("aspect_ratio", z.aspectRatio(["1:1", "16:9"])), // typed camelCase, snake_case on the wire
+      resolution: z._default(z.enum(["1k", "2k", "4k"]), "1k"),
     },
   },
-})
+});
 ```
 
 `prompt`/`media` appear in the typed submit input **only when the job declares them**,
@@ -315,10 +323,10 @@ fallbacks apply). Populate it from data the app already has, or opt in to the
 async measurement step before validating/submitting (mirrors `adjust`):
 
 ```ts
-import { createDomMediaMetaResolver, resolveMediaMeta } from '@higgsfield/fnf/media'
+import { createDomMediaMetaResolver, resolveMediaMeta } from "@higgsfield/fnf/media";
 
-const measured = await resolveMediaMeta(input, createDomMediaMetaResolver())
-await client.submit(measured) // meta rules now judge every ref
+const measured = await resolveMediaMeta(input, createDomMediaMetaResolver());
+await client.submit(measured); // meta rules now judge every ref
 ```
 
 `meta` never reaches the wire — the codec serializes only `id`/`type`/`url`.
@@ -329,6 +337,7 @@ The root and `@higgsfield/fnf/jobs` barrels export the current SDK catalog.
 Public settings are camelCase and mapped to backend wire names with `z.wire`.
 
 Image models:
+
 - `soulV2Image` (`text2image_soul_v2`) and `soulCinemaImage`
   (`soul_cinematic`)
 - `gptImage2` (`gpt_image_2`)
@@ -338,6 +347,7 @@ Image models:
 - `recraftV41Image`
 
 Video models:
+
 - `seedance2_0` with `settings.mode: 'std' | 'fast'`
 - `kling3_0`, `kling3MotionControl`
 - `happyHorse`
@@ -346,6 +356,7 @@ Video models:
 - `wan27`
 
 Upscale apps:
+
 - `topazImageUpscale`, `topazImageGenerativeUpscale`,
   `nanoBanana2Upscale`
 - `topazVideoUpscale`, `higgsfieldVideoUpscale`,

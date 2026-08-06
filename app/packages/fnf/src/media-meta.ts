@@ -1,4 +1,4 @@
-import type { MediaInput, MediaMeta, MediaRef } from './types'
+import type { MediaInput, MediaMeta, MediaRef } from "./types";
 
 /**
  * Measures one media ref — answers its intrinsic `MediaMeta`, or undefined
@@ -7,7 +7,7 @@ import type { MediaInput, MediaMeta, MediaRef } from './types'
  * could back this with a probe service. Resolution is a capability the caller
  * injects, so the core stays zero-I/O.
  */
-export type MediaMetaResolver = (ref: MediaRef) => Promise<MediaMeta | undefined>
+export type MediaMetaResolver = (ref: MediaRef) => Promise<MediaMeta | undefined>;
 
 /**
  * Fill in missing `meta` on every media ref of a submit input — the opt-in
@@ -26,29 +26,27 @@ export async function resolveMediaMeta<Input extends { media?: MediaInput }>(
   input: Input,
   resolve: MediaMetaResolver,
 ): Promise<Input> {
-  const media = input.media
-  if (!media)
-    return input
+  const media = input.media;
+  if (!media) return input;
 
-  const out: MediaInput = {}
-  await Promise.all(Object.entries(media).map(async ([role, value]) => {
-    if (value === undefined)
-      return
-    out[role] = Array.isArray(value)
-      ? await Promise.all(value.map(ref => withMeta(ref, resolve)))
-      : await withMeta(value, resolve)
-  }))
-  return { ...input, media: out }
+  const out: MediaInput = {};
+  await Promise.all(
+    Object.entries(media).map(async ([role, value]) => {
+      if (value === undefined) return;
+      out[role] = Array.isArray(value)
+        ? await Promise.all(value.map((ref) => withMeta(ref, resolve)))
+        : await withMeta(value, resolve);
+    }),
+  );
+  return { ...input, media: out };
 }
 
 async function withMeta(ref: MediaRef, resolve: MediaMetaResolver): Promise<MediaRef> {
-  if (ref.meta)
-    return ref
+  if (ref.meta) return ref;
   try {
-    const meta = await resolve(ref)
-    return meta ? { ...ref, meta } : ref
-  }
-  catch {
-    return ref // measurement is best-effort; the backend re-validates anyway
+    const meta = await resolve(ref);
+    return meta ? { ...ref, meta } : ref;
+  } catch {
+    return ref; // measurement is best-effort; the backend re-validates anyway
   }
 }

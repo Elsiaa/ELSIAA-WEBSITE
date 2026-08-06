@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 interface JaasJWTPayload {
   context: {
@@ -13,7 +13,7 @@ interface JaasJWTPayload {
       livestreaming?: boolean;
       recording?: boolean;
       transcription?: boolean;
-      'outbound-call'?: boolean;
+      "outbound-call"?: boolean;
     };
   };
   aud: string;
@@ -51,7 +51,9 @@ export function generateJaasToken(params: {
   const privateKey = process.env.JAAS_PRIVATE_KEY;
 
   if (!appId || !apiKeyId || !privateKey) {
-    throw new Error('JaaS credentials not configured. Please set JAAS_APP_ID, JAAS_API_KEY_ID, and JAAS_PRIVATE_KEY in your .env.local file.');
+    throw new Error(
+      "JaaS credentials not configured. Please set JAAS_APP_ID, JAAS_API_KEY_ID, and JAAS_PRIVATE_KEY in your .env.local file.",
+    );
   }
 
   const now = Math.floor(Date.now() / 1000);
@@ -70,11 +72,11 @@ export function generateJaasToken(params: {
         livestreaming: isModerator,
         recording: isModerator,
         transcription: true,
-        'outbound-call': isModerator,
+        "outbound-call": isModerator,
       },
     },
-    aud: 'jitsi',
-    iss: 'chat',
+    aud: "jitsi",
+    iss: "chat",
     sub: appId,
     room: roomName,
     exp,
@@ -82,11 +84,11 @@ export function generateJaasToken(params: {
   };
 
   const token = jwt.sign(payload, privateKey, {
-    algorithm: 'RS256',
+    algorithm: "RS256",
     header: {
       kid: apiKeyId, // apiKeyId already contains the full path: appId/keyId
-      typ: 'JWT',
-      alg: 'RS256',
+      typ: "JWT",
+      alg: "RS256",
     },
   });
 
@@ -97,16 +99,12 @@ export function generateJaasToken(params: {
  * Get the JaaS domain for meetings
  */
 export function getJaasDomain(): string {
-  return '8x8.vc';
+  return "8x8.vc";
 }
 
 /**
  * Check if JaaS is properly configured
  */
 export function isJaasConfigured(): boolean {
-  return !!(
-    process.env.JAAS_APP_ID &&
-    process.env.JAAS_API_KEY_ID &&
-    process.env.JAAS_PRIVATE_KEY
-  );
+  return !!(process.env.JAAS_APP_ID && process.env.JAAS_API_KEY_ID && process.env.JAAS_PRIVATE_KEY);
 }

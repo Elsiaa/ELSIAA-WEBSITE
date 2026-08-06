@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { bySlug } from "./merch";
 
 /* ELSIAA Merch cart — localStorage-backed, shared across store pages.
@@ -34,13 +42,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const raw = localStorage.getItem(KEY);
       if (raw) setLines(JSON.parse(raw));
-    } catch { /* fresh cart */ }
+    } catch {
+      /* fresh cart */
+    }
     loaded.current = true;
   }, []);
 
   useEffect(() => {
     if (!loaded.current) return;
-    try { localStorage.setItem(KEY, JSON.stringify(lines)); } catch { /* ignore */ }
+    try {
+      localStorage.setItem(KEY, JSON.stringify(lines));
+    } catch {
+      /* ignore */
+    }
   }, [lines]);
 
   const toast = useCallback((text: string) => {
@@ -49,19 +63,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 2400);
   }, []);
 
-  const add = useCallback((slug: string, size: string, qty = 1) => {
-    setLines((ls) => {
-      const i = ls.findIndex((l) => l.slug === slug && l.size === size);
-      if (i > -1) {
-        const next = [...ls];
-        next[i] = { ...next[i], qty: next[i].qty + qty };
-        return next;
-      }
-      return [...ls, { slug, size, qty }];
-    });
-    const p = bySlug(slug);
-    toast(`Added — ${p?.name ?? slug}${size !== "One Size" ? ` · ${size}` : ""}`);
-  }, [toast]);
+  const add = useCallback(
+    (slug: string, size: string, qty = 1) => {
+      setLines((ls) => {
+        const i = ls.findIndex((l) => l.slug === slug && l.size === size);
+        if (i > -1) {
+          const next = [...ls];
+          next[i] = { ...next[i], qty: next[i].qty + qty };
+          return next;
+        }
+        return [...ls, { slug, size, qty }];
+      });
+      const p = bySlug(slug);
+      toast(`Added — ${p?.name ?? slug}${size !== "One Size" ? ` · ${size}` : ""}`);
+    },
+    [toast],
+  );
 
   const setQty = useCallback((slug: string, size: string, qty: number) => {
     setLines((ls) =>
@@ -84,7 +101,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 
   const value = useMemo(
-    () => ({ lines, count, subtotal, add, setQty, remove, clear, drawerOpen, setDrawerOpen, toasts }),
+    () => ({
+      lines,
+      count,
+      subtotal,
+      add,
+      setQty,
+      remove,
+      clear,
+      drawerOpen,
+      setDrawerOpen,
+      toasts,
+    }),
     [lines, count, subtotal, add, setQty, remove, clear, drawerOpen, toasts],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

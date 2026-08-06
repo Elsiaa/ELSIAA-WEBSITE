@@ -3,18 +3,18 @@
  * All times are displayed in America/New_York timezone (Eastern Time)
  */
 
-const TIMEZONE = 'America/New_York';
+const TIMEZONE = "America/New_York";
 
 /**
  * Format a date string (ISO) to a human-readable date string in the configured timezone
  */
 export function formatDateInTimezone(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
+  return date.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
     timeZone: TIMEZONE,
   });
 }
@@ -24,9 +24,9 @@ export function formatDateInTimezone(dateString: string): string {
  */
 export function formatTimeInTimezone(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
     hour12: true,
     timeZone: TIMEZONE,
   });
@@ -37,16 +37,16 @@ export function formatTimeInTimezone(dateString: string): string {
  */
 export function formatDateTimeInTimezone(dateString: string): string {
   const date = new Date(dateString);
-  const dateStr = date.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
+  const dateStr = date.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
     timeZone: TIMEZONE,
   });
-  const timeStr = date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
+  const timeStr = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
     hour12: true,
     timeZone: TIMEZONE,
   });
@@ -58,15 +58,15 @@ export function formatDateTimeInTimezone(dateString: string): string {
  */
 export function formatShortDateTimeInTimezone(dateString: string): string {
   const date = new Date(dateString);
-  const dateStr = date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
+  const dateStr = date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
     timeZone: TIMEZONE,
   });
-  const timeStr = date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
+  const timeStr = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
     hour12: true,
     timeZone: TIMEZONE,
   });
@@ -80,22 +80,22 @@ export function formatTimeSlotsForEmail(timeSlots: string[]): string {
   return timeSlots
     .map((slot) => {
       const date = new Date(slot);
-      const dateStr = date.toLocaleDateString('en-US', {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
+      const dateStr = date.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
         timeZone: TIMEZONE,
       });
-      const timeStr = date.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
+      const timeStr = date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
         hour12: true,
         timeZone: TIMEZONE,
       });
       return `${dateStr} at ${timeStr} ET`;
     })
-    .join('<br>');
+    .join("<br>");
 }
 
 /**
@@ -105,36 +105,38 @@ export function formatTimeSlotsForTextEmail(timeSlots: string[]): string {
   return timeSlots
     .map((slot) => {
       const date = new Date(slot);
-      const dateStr = date.toLocaleDateString('en-US', {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
+      const dateStr = date.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
         timeZone: TIMEZONE,
       });
-      const timeStr = date.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
+      const timeStr = date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
         hour12: true,
         timeZone: TIMEZONE,
       });
       return `${dateStr} at ${timeStr} ET`;
     })
-    .join('\n');
+    .join("\n");
 }
 
 /**
  * Get the current date/time formatted in the configured timezone
  */
 export function getCurrentDateTimeInTimezone(): string {
-  return new Date().toLocaleString('en-US', {
-    timeZone: TIMEZONE,
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  }) + ' ET';
+  return (
+    new Date().toLocaleString("en-US", {
+      timeZone: TIMEZONE,
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    }) + " ET"
+  );
 }

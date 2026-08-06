@@ -44,10 +44,7 @@ export const bootstrapJoinMeeting = createServerFn({ method: "GET" })
 
     let hasAccess = false;
     if (dbUserId !== null) {
-      if (
-        meeting.hostUserId === dbUserId ||
-        meeting.participantUserIds.includes(dbUserId)
-      ) {
+      if (meeting.hostUserId === dbUserId || meeting.participantUserIds.includes(dbUserId)) {
         hasAccess = true;
       }
       if (

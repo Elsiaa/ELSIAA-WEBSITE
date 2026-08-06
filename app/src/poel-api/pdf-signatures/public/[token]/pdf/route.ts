@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getPdfSignatureRequestByToken, getPdfKeyFromUrl } from '@/lib/pdf-signatures';
-import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { r2Client, R2_BUCKET_NAME } from '@/lib/r2';
+import { NextRequest, NextResponse } from "next/server";
+import { getPdfSignatureRequestByToken, getPdfKeyFromUrl } from "@/lib/pdf-signatures";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { r2Client, R2_BUCKET_NAME } from "@/lib/r2";
 
 async function streamToBuffer(stream: any): Promise<Buffer> {
   const chunks: Buffer[] = [];
   for await (const chunk of stream as any) {
-    if (typeof chunk === 'string') {
+    if (typeof chunk === "string") {
       chunks.push(Buffer.from(chunk));
     } else {
       chunks.push(Buffer.from(chunk));
@@ -15,17 +15,14 @@ async function streamToBuffer(stream: any): Promise<Buffer> {
   return Buffer.concat(chunks);
 }
 
-export async function GET(
-  _req: NextRequest,
-  context: { params: Promise<{ token: string }> }
-) {
+export async function GET(_req: NextRequest, context: { params: Promise<{ token: string }> }) {
   try {
     const { token } = await context.params;
 
     const request = await getPdfSignatureRequestByToken(token);
     if (!request || !request.pdf_file_url) {
-      console.error('[PDF public] No request or pdf_file_url found for token', token);
-      return NextResponse.json({ error: 'PDF not found' }, { status: 404 });
+      console.error("[PDF public] No request or pdf_file_url found for token", token);
+      return NextResponse.json({ error: "PDF not found" }, { status: 404 });
     }
 
     const key = getPdfKeyFromUrl(request.pdf_file_url);
@@ -37,8 +34,8 @@ export async function GET(
 
     const object = await r2Client.send(command);
     if (!object.Body) {
-      console.error('[PDF public] R2 object has no Body', { key });
-      return NextResponse.json({ error: 'Failed to load PDF' }, { status: 500 });
+      console.error("[PDF public] R2 object has no Body", { key });
+      return NextResponse.json({ error: "Failed to load PDF" }, { status: 500 });
     }
 
     const body = await streamToBuffer(object.Body);
@@ -49,17 +46,15 @@ export async function GET(
     return new NextResponse(body as any, {
       status: 200,
       headers: {
-        'Content-Type': 'application/pdf',
-        'Cache-Control': 'private, no-store',
+        "Content-Type": "application/pdf",
+        "Cache-Control": "private, no-store",
       },
     });
   } catch (error) {
-    console.error('Error streaming public PDF:', error);
+    console.error("Error streaming public PDF:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to load PDF' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Failed to load PDF" },
+      { status: 500 },
     );
   }
 }
-
-

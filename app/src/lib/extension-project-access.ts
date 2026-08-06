@@ -1,16 +1,14 @@
-import type { Project } from './projects';
-import { getProjectByApiKey } from './projects';
-import { getExtensionEntitlementForProject } from './extension-project-entitlement';
-import { findActiveDeviceByExternalId } from './project-auth-device-lookup';
-import {
-  activeAdminDeviceBypassesEntitlement,
-} from './project-auth-devices';
+import type { Project } from "./projects";
+import { getProjectByApiKey } from "./projects";
+import { getExtensionEntitlementForProject } from "./extension-project-entitlement";
+import { findActiveDeviceByExternalId } from "./project-auth-device-lookup";
+import { activeAdminDeviceBypassesEntitlement } from "./project-auth-devices";
 import {
   extensionSourceForDevMode,
   getExtensionSource,
   type ProjectExtensionSource,
-} from './project-extension-sources';
-import { getParsedProjectApiKeyFromRequest } from './project-api-key';
+} from "./project-extension-sources";
+import { getParsedProjectApiKeyFromRequest } from "./project-api-key";
 
 export type ProjectExtensionAccessError = {
   status: number;
@@ -30,29 +28,32 @@ export function getProjectApiKeyFromRequest(request: Request): string | null {
  * @throws ProjectExtensionAccessError as a plain object (caller checks with instanceof or use try/catch on message - better use return discriminated union)
  */
 export async function resolveProjectExtensionAccess(
-  request: Request
-): Promise<{ project: Project; source: ProjectExtensionSource; deviceId: string | null } | ProjectExtensionAccessError> {
+  request: Request,
+): Promise<
+  | { project: Project; source: ProjectExtensionSource; deviceId: string | null }
+  | ProjectExtensionAccessError
+> {
   const parsedKey = getParsedProjectApiKeyFromRequest(request);
   if (!parsedKey) {
-    return { status: 401, body: { error: 'Missing project API key' } };
+    return { status: 401, body: { error: "Missing project API key" } };
   }
 
   const project = await getProjectByApiKey(parsedKey.lookupKey);
   if (!project) {
-    return { status: 403, body: { error: 'Invalid project API key' } };
+    return { status: 403, body: { error: "Invalid project API key" } };
   }
 
   const devMode = parsedKey.devMode;
 
-  const skipDevice = project.accessOverride === 'allowed';
+  const skipDevice = project.accessOverride === "allowed";
 
   const url = new URL(request.url);
-  const deviceIdParam = url.searchParams.get('deviceId')?.trim() ?? null;
+  const deviceIdParam = url.searchParams.get("deviceId")?.trim() ?? null;
 
   let resolvedDevice = null;
   if (!skipDevice) {
     if (!deviceIdParam) {
-      return { status: 400, body: { error: 'deviceId query parameter is required' } };
+      return { status: 400, body: { error: "deviceId query parameter is required" } };
     }
 
     resolvedDevice = await findActiveDeviceByExternalId(project.id, deviceIdParam);
@@ -60,11 +61,11 @@ export async function resolveProjectExtensionAccess(
       return {
         status: 403,
         body: {
-          error: 'device_not_authorized',
+          error: "device_not_authorized",
           projectId: project.id,
           deviceIdReceived: deviceIdParam,
           message:
-            'No active auth device matches this deviceId. Call POST /api/entitlement/request-device with the same deviceId, then wait for a super admin to approve.',
+            "No active auth device matches this deviceId. Call POST /api/entitlement/request-device with the same deviceId, then wait for a super admin to approve.",
         },
       };
     }
@@ -74,9 +75,9 @@ export async function resolveProjectExtensionAccess(
     return {
       status: 403,
       body: {
-        error: 'dev_mode_requires_admin_device',
+        error: "dev_mode_requires_admin_device",
         message:
-          'Append =dev to the API key only with an active admin device (same deviceId). Example: x-project-api-key: <your-key>=dev',
+          "Append =dev to the API key only with an active admin device (same deviceId). Example: x-project-api-key: <your-key>=dev",
       },
     };
   }
@@ -86,7 +87,7 @@ export async function resolveProjectExtensionAccess(
     return {
       status: 403,
       body: {
-        error: 'entitlement_denied',
+        error: "entitlement_denied",
         reason: entitlement.reason,
         pendingFees: entitlement.pendingFees,
         overdueSubscriptions: entitlement.overdueSubscriptions,
@@ -99,7 +100,10 @@ export async function resolveProjectExtensionAccess(
   if (!source) {
     return {
       status: 404,
-      body: { error: 'extension_repo_not_configured', message: 'Super admin has not linked a GitHub repo for this project.' },
+      body: {
+        error: "extension_repo_not_configured",
+        message: "Super admin has not linked a GitHub repo for this project.",
+      },
     };
   }
 
@@ -111,7 +115,9 @@ export async function resolveProjectExtensionAccess(
 }
 
 export function isAccessError(
-  r: { project: Project; source: ProjectExtensionSource; deviceId: string | null } | ProjectExtensionAccessError
+  r:
+    | { project: Project; source: ProjectExtensionSource; deviceId: string | null }
+    | ProjectExtensionAccessError,
 ): r is ProjectExtensionAccessError {
-  return 'status' in r && 'body' in r;
+  return "status" in r && "body" in r;
 }

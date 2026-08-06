@@ -28,9 +28,7 @@ export const listAdminProjects = createServerFn({ method: "GET" }).handler(
       // Pre-parity migration: no device columns
       const fallback = await client
         .from("projects")
-        .select(
-          "id, company_id, title, url, description, status, created_at, companies(name)",
-        )
+        .select("id, company_id, title, url, description, status, created_at, companies(name)")
         .order("created_at", { ascending: false });
       if (fallback.error) throw new Error(fallback.error.message);
       return (fallback.data ?? []).map((p) => mapAdminProject(p));
@@ -40,11 +38,7 @@ export const listAdminProjects = createServerFn({ method: "GET" }).handler(
 );
 
 function mapAdminProject(p: Record<string, unknown>): AdminProject {
-  const co = p.companies as
-    | { name: string }
-    | { name: string }[]
-    | null
-    | undefined;
+  const co = p.companies as { name: string } | { name: string }[] | null | undefined;
   const company = Array.isArray(co) ? co[0] : co;
   return {
     id: p.id as string,
@@ -106,8 +100,7 @@ export const updateAdminProject = createServerFn({ method: "POST" })
     if (data.description !== undefined) patch.description = data.description;
     if (data.status !== undefined) patch.status = data.status;
     if (data.deviceLimit !== undefined) patch.device_limit = data.deviceLimit;
-    if (data.accessOverride !== undefined)
-      patch.access_override = data.accessOverride;
+    if (data.accessOverride !== undefined) patch.access_override = data.accessOverride;
     const { error } = await client.from("projects").update(patch).eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true as const };

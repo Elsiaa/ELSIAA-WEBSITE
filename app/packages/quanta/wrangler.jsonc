@@ -9,6 +9,6 @@
   // `directory` is relative to this file: packages/quanta/storybook-static.
   "assets": {
     "directory": "./storybook-static",
-    "not_found_handling": "single-page-application"
-  }
+    "not_found_handling": "single-page-application",
+  },
 }

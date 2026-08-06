@@ -2,14 +2,14 @@
  * Unified billing — bills, charges, and events (parallel to legacy payments_requests).
  */
 
-import { getServerSupabaseClient } from '@/lib/supabase';
-import { generatePublicToken } from '@/lib/public-token';
+import { getServerSupabaseClient } from "@/lib/supabase";
+import { generatePublicToken } from "@/lib/public-token";
 import {
   type InvoiceLineItem,
   normalizeInvoiceLineItems,
   totalFromLineItems,
   validateLineItemsForCreate,
-} from '@/lib/invoice-line-items';
+} from "@/lib/invoice-line-items";
 import {
   getAnySavedMethodForCompany,
   getDefaultPaymentMethod,
@@ -17,37 +17,37 @@ import {
   getPaymentMethodForBilling,
   getPaymentMethodForUserBilling,
   type SavedPaymentMethod,
-} from '@/lib/payments';
-import { calculateNextBillingDate } from '@/lib/project-payments';
+} from "@/lib/payments";
+import { calculateNextBillingDate } from "@/lib/project-payments";
 
-export type { InvoiceLineItem } from '@/lib/invoice-line-items';
+export type { InvoiceLineItem } from "@/lib/invoice-line-items";
 
-export type BillScheduleType = 'one_time' | 'recurring';
-export type BillCollectionMode = 'auto_charge' | 'invoice_link';
-export type BillStatus = 'draft' | 'active' | 'paused' | 'completed' | 'cancelled';
-export type BillRecurrenceInterval = 'daily' | 'weekly' | 'monthly';
-export type BillChargeStatus = 'pending' | 'invoiced' | 'paid' | 'failed' | 'cancelled';
+export type BillScheduleType = "one_time" | "recurring";
+export type BillCollectionMode = "auto_charge" | "invoice_link";
+export type BillStatus = "draft" | "active" | "paused" | "completed" | "cancelled";
+export type BillRecurrenceInterval = "daily" | "weekly" | "monthly";
+export type BillChargeStatus = "pending" | "invoiced" | "paid" | "failed" | "cancelled";
 
-const BILL_RECURRENCE_INTERVALS: BillRecurrenceInterval[] = ['daily', 'weekly', 'monthly'];
+const BILL_RECURRENCE_INTERVALS: BillRecurrenceInterval[] = ["daily", "weekly", "monthly"];
 
 export function normalizeBillRecurrenceInterval(
   scheduleType: BillScheduleType,
-  interval: BillRecurrenceInterval | string | null | undefined
+  interval: BillRecurrenceInterval | string | null | undefined,
 ): BillRecurrenceInterval | null {
-  if (scheduleType !== 'recurring') return null;
+  if (scheduleType !== "recurring") return null;
   if (interval && BILL_RECURRENCE_INTERVALS.includes(interval as BillRecurrenceInterval)) {
     return interval as BillRecurrenceInterval;
   }
-  return 'monthly';
+  return "monthly";
 }
 
 function billDbError(error: { code?: string; message?: string }, action: string): Error {
-  if (error.code === '23514' && error.message?.includes('bills_recurrence_interval_check')) {
+  if (error.code === "23514" && error.message?.includes("bills_recurrence_interval_check")) {
     return new Error(
-      'Daily recurrence is not enabled on the database yet. Run migration add_bills_recurrence_daily.sql in Supabase, or choose Week or Month for repeat.'
+      "Daily recurrence is not enabled on the database yet. Run migration add_bills_recurrence_daily.sql in Supabase, or choose Week or Month for repeat.",
     );
   }
-  return new Error(`${action}: ${error.message ?? 'unknown error'}`);
+  return new Error(`${action}: ${error.message ?? "unknown error"}`);
 }
 
 export interface Bill {
@@ -119,8 +119,10 @@ function rowToBill(row: Record<string, unknown>): Bill {
     amount: Number(row.amount),
     status: row.status as BillStatus,
     recurrenceInterval: (row.recurrence_interval as BillRecurrenceInterval) ?? null,
-    recurrenceDayOfMonth: row.recurrence_day_of_month != null ? Number(row.recurrence_day_of_month) : null,
-    recurrenceDayOfWeek: row.recurrence_day_of_week != null ? Number(row.recurrence_day_of_week) : null,
+    recurrenceDayOfMonth:
+      row.recurrence_day_of_month != null ? Number(row.recurrence_day_of_month) : null,
+    recurrenceDayOfWeek:
+      row.recurrence_day_of_week != null ? Number(row.recurrence_day_of_week) : null,
     nextBillingDate: (row.next_billing_date as string) ?? null,
     stripeCustomerId: (row.stripe_customer_id as string) ?? null,
     stripePaymentMethodId: (row.stripe_payment_method_id as string) ?? null,
@@ -131,8 +133,8 @@ function rowToBill(row: Record<string, unknown>): Bill {
     createdByClerkUserId: row.created_by_clerk_user_id as string,
     createdAt: row.created_at as string,
     updatedAt: row.updated_at as string,
-    users: row.users as Bill['users'],
-    companies: row.companies as Bill['companies'],
+    users: row.users as Bill["users"],
+    companies: row.companies as Bill["companies"],
   };
 }
 
@@ -154,8 +156,8 @@ function rowToBillCharge(row: Record<string, unknown>): BillCharge {
 
 export function getBillDisplayInfo(bill: Bill): { name: string; email: string } {
   return {
-    name: bill.recipientName || 'Unknown',
-    email: bill.recipientEmail || '',
+    name: bill.recipientName || "Unknown",
+    email: bill.recipientEmail || "",
   };
 }
 
@@ -167,7 +169,7 @@ export async function recordBillEvent(params: {
   metadata?: Record<string, unknown>;
 }): Promise<void> {
   const supabase = getServerSupabaseClient();
-  await supabase.from('bill_events').insert({
+  await supabase.from("bill_events").insert({
     bill_id: params.billId,
     bill_charge_id: params.billChargeId ?? null,
     event_type: params.eventType,
@@ -183,18 +185,22 @@ export async function resolveCompanyIdForBill(params: {
   if (params.companyId) return params.companyId;
   if (!params.userId) return null;
   const supabase = getServerSupabaseClient();
-  const { data } = await supabase.from('users').select('company_id').eq('id', params.userId).maybeSingle();
+  const { data } = await supabase
+    .from("users")
+    .select("company_id")
+    .eq("id", params.userId)
+    .maybeSingle();
   return data?.company_id ?? null;
 }
 
 /** Same lookup order as legacy pay-now / attachCompanyDefaultToPaymentRequests. */
 export async function findCompanySavedPaymentMethod(
   companyId: string,
-  adminUserId?: string
+  adminUserId?: string,
 ): Promise<SavedPaymentMethod | null> {
   const companyMethod =
     (await getDefaultPaymentMethod({ companyId })) ||
-    (await getPaymentMethodForBilling(companyId, 'one_time')) ||
+    (await getPaymentMethodForBilling(companyId, "one_time")) ||
     (await getAnySavedMethodForCompany(companyId));
   if (companyMethod?.stripeCustomerId && companyMethod?.stripePaymentMethodId) {
     return companyMethod;
@@ -202,7 +208,7 @@ export async function findCompanySavedPaymentMethod(
   if (!adminUserId) return companyMethod;
   return (
     (await getDefaultPaymentMethod({ userId: adminUserId })) ||
-    (await getPaymentMethodForUserBilling(adminUserId, 'one_time'))
+    (await getPaymentMethodForUserBilling(adminUserId, "one_time"))
   );
 }
 
@@ -210,11 +216,11 @@ export async function findCompanySavedPaymentMethod(
 export async function resolveStripePaymentMethodForBill(
   billId: string,
   companyId: string,
-  options?: { adminUserId?: string }
+  options?: { adminUserId?: string },
 ): Promise<{ stripeCustomerId: string; stripePaymentMethodId: string }> {
   const method = await findCompanySavedPaymentMethod(companyId, options?.adminUserId);
   if (!method?.stripeCustomerId || !method?.stripePaymentMethodId) {
-    throw new Error('No payment method on file. Add one under Payment methods, then try again.');
+    throw new Error("No payment method on file. Add one under Payment methods, then try again.");
   }
   await updateBillStripeInfo(billId, method.stripeCustomerId, method.stripePaymentMethodId);
   return {
@@ -226,13 +232,13 @@ export async function resolveStripePaymentMethodForBill(
 export async function attachCompanyPaymentMethodToBill(
   billId: string,
   companyId: string,
-  adminUserId?: string
+  adminUserId?: string,
 ): Promise<boolean> {
   try {
     await resolveStripePaymentMethodForBill(billId, companyId, { adminUserId });
     return true;
   } catch (e) {
-    console.error('[bills] attachCompanyPaymentMethodToBill failed', e);
+    console.error("[bills] attachCompanyPaymentMethodToBill failed", e);
     return false;
   }
 }
@@ -242,25 +248,25 @@ export async function attachCompanyPaymentMethodToBill(
  * Mirrors attachCompanyDefaultToPaymentRequests for the unified bills engine.
  */
 export async function attachCompanyDefaultToActiveAutoChargeBills(
-  companyId: string
+  companyId: string,
 ): Promise<{ updated: number; methodFound: boolean }> {
   const method =
     (await getDefaultPaymentMethod({ companyId })) ||
-    (await getPaymentMethodForBilling(companyId, 'one_time')) ||
+    (await getPaymentMethodForBilling(companyId, "one_time")) ||
     (await getAnySavedMethodForCompany(companyId));
   if (!method) return { updated: 0, methodFound: false };
 
   const supabase = getServerSupabaseClient();
   const { data: bills, error } = await supabase
-    .from('bills')
-    .select('id')
-    .eq('company_id', companyId)
-    .eq('status', 'active')
-    .eq('collection_mode', 'auto_charge')
-    .or('stripe_customer_id.is.null,stripe_payment_method_id.is.null');
+    .from("bills")
+    .select("id")
+    .eq("company_id", companyId)
+    .eq("status", "active")
+    .eq("collection_mode", "auto_charge")
+    .or("stripe_customer_id.is.null,stripe_payment_method_id.is.null");
 
   if (error) {
-    console.error('[bills] attachCompanyDefaultToActiveAutoChargeBills fetch failed', error);
+    console.error("[bills] attachCompanyDefaultToActiveAutoChargeBills fetch failed", error);
     return { updated: 0, methodFound: true };
   }
 
@@ -277,39 +283,43 @@ export async function getCompanyIdsWithDueBills(asOfDate?: string): Promise<stri
   return [...new Set(due.map((b) => b.companyId).filter((id): id is string => Boolean(id)))];
 }
 
-export async function attachUserPaymentMethodToBill(billId: string, userId: string): Promise<boolean> {
+export async function attachUserPaymentMethodToBill(
+  billId: string,
+  userId: string,
+): Promise<boolean> {
   const method =
-    (await getPaymentMethodForUserBilling(userId, 'one_time')) || (await getDefaultPaymentMethod({ userId }));
+    (await getPaymentMethodForUserBilling(userId, "one_time")) ||
+    (await getDefaultPaymentMethod({ userId }));
   if (!method) return false;
 
   const supabase = getServerSupabaseClient();
   const { error } = await supabase
-    .from('bills')
+    .from("bills")
     .update({
       stripe_customer_id: method.stripeCustomerId,
       stripe_payment_method_id: method.stripePaymentMethodId,
       updated_at: new Date().toISOString(),
     })
-    .eq('id', billId);
+    .eq("id", billId);
 
   if (error) {
-    console.error('[bills] attachUserPaymentMethodToBill failed', error);
+    console.error("[bills] attachUserPaymentMethodToBill failed", error);
     return false;
   }
   return true;
 }
 
 function billRecurrenceToInterval(
-  recurrence: BillRecurrenceInterval | null | undefined
-): 'daily' | 'weekly' | 'monthly' {
-  if (recurrence === 'daily') return 'daily';
-  if (recurrence === 'weekly') return 'weekly';
-  return 'monthly';
+  recurrence: BillRecurrenceInterval | null | undefined,
+): "daily" | "weekly" | "monthly" {
+  if (recurrence === "daily") return "daily";
+  if (recurrence === "weekly") return "weekly";
+  return "monthly";
 }
 
 export function calculateBillNextBillingDate(
-  bill: Pick<Bill, 'recurrenceInterval' | 'recurrenceDayOfMonth' | 'recurrenceDayOfWeek'>,
-  fromDate?: Date
+  bill: Pick<Bill, "recurrenceInterval" | "recurrenceDayOfMonth" | "recurrenceDayOfWeek">,
+  fromDate?: Date,
 ): Date {
   const interval = billRecurrenceToInterval(bill.recurrenceInterval);
   return calculateNextBillingDate(interval, fromDate, {
@@ -326,25 +336,25 @@ export function resolveBillDueDate(params: {
   recurrenceDayOfWeek?: number;
   dueDate?: string;
 }): string {
-  const explicit = params.dueDate?.trim().split('T')[0];
+  const explicit = params.dueDate?.trim().split("T")[0];
   if (explicit) return explicit;
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  if (params.scheduleType === 'one_time') {
-    return today.toISOString().split('T')[0];
+  if (params.scheduleType === "one_time") {
+    return today.toISOString().split("T")[0];
   }
 
   const interval = billRecurrenceToInterval(params.recurrenceInterval);
-  if (interval === 'daily') {
-    return today.toISOString().split('T')[0];
+  if (interval === "daily") {
+    return today.toISOString().split("T")[0];
   }
   const next = calculateNextBillingDate(interval, today, {
     dayOfMonth: params.recurrenceDayOfMonth,
     dayOfWeek: params.recurrenceDayOfWeek,
   });
-  return next.toISOString().split('T')[0];
+  return next.toISOString().split("T")[0];
 }
 
 export async function createBillCharge(params: {
@@ -355,19 +365,19 @@ export async function createBillCharge(params: {
 }): Promise<BillCharge> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('bill_charges')
+    .from("bill_charges")
     .insert({
       bill_id: params.billId,
       amount: params.amount,
       line_items_snapshot: params.lineItemsSnapshot,
-      status: params.status ?? 'pending',
+      status: params.status ?? "pending",
     })
     .select()
     .single();
 
   if (error) {
-    console.error('[bills] createBillCharge failed', error);
-    throw new Error('Failed to create bill charge');
+    console.error("[bills] createBillCharge failed", error);
+    throw new Error("Failed to create bill charge");
   }
   return rowToBillCharge(data as Record<string, unknown>);
 }
@@ -375,17 +385,17 @@ export async function createBillCharge(params: {
 export async function getOpenBillCharge(billId: string): Promise<BillCharge | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('bill_charges')
-    .select('*')
-    .eq('bill_id', billId)
-    .in('status', ['pending', 'invoiced'])
-    .order('created_at', { ascending: false })
+    .from("bill_charges")
+    .select("*")
+    .eq("bill_id", billId)
+    .in("status", ["pending", "invoiced"])
+    .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
   if (error) {
-    console.error('[bills] getOpenBillCharge failed', error);
-    throw new Error('Failed to fetch open bill charge');
+    console.error("[bills] getOpenBillCharge failed", error);
+    throw new Error("Failed to fetch open bill charge");
   }
   return data ? rowToBillCharge(data as Record<string, unknown>) : null;
 }
@@ -393,17 +403,17 @@ export async function getOpenBillCharge(billId: string): Promise<BillCharge | nu
 export async function getLatestPaidBillCharge(billId: string): Promise<BillCharge | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('bill_charges')
-    .select('*')
-    .eq('bill_id', billId)
-    .eq('status', 'paid')
-    .order('paid_at', { ascending: false })
+    .from("bill_charges")
+    .select("*")
+    .eq("bill_id", billId)
+    .eq("status", "paid")
+    .order("paid_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
   if (error) {
-    console.error('[bills] getLatestPaidBillCharge failed', error);
-    throw new Error('Failed to fetch paid bill charge');
+    console.error("[bills] getLatestPaidBillCharge failed", error);
+    throw new Error("Failed to fetch paid bill charge");
   }
   return data ? rowToBillCharge(data as Record<string, unknown>) : null;
 }
@@ -438,12 +448,12 @@ export async function createBill(params: {
   });
 
   if (params.attachCompanyPaymentMethod && !companyId) {
-    throw new Error('Company is required when attaching a company payment method.');
+    throw new Error("Company is required when attaching a company payment method.");
   }
 
   const amount = totalFromLineItems(validated.items);
   const publicToken = generatePublicToken(16);
-  const status = params.status ?? 'active';
+  const status = params.status ?? "active";
 
   const nextBillingDate = resolveBillDueDate({
     scheduleType: params.scheduleType,
@@ -455,12 +465,12 @@ export async function createBill(params: {
 
   const recurrenceInterval = normalizeBillRecurrenceInterval(
     params.scheduleType,
-    params.recurrenceInterval
+    params.recurrenceInterval,
   );
 
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('bills')
+    .from("bills")
     .insert({
       recipient_email: params.recipientEmail.trim(),
       recipient_name: params.recipientName.trim(),
@@ -481,12 +491,12 @@ export async function createBill(params: {
       public_token: publicToken,
       created_by_clerk_user_id: params.createdByClerkUserId,
     })
-    .select('*, users (email, first_name, last_name), companies (name)')
+    .select("*, users (email, first_name, last_name), companies (name)")
     .single();
 
   if (error) {
-    console.error('[bills] createBill failed', error);
-    throw billDbError(error, 'Failed to create bill');
+    console.error("[bills] createBill failed", error);
+    throw billDbError(error, "Failed to create bill");
   }
 
   let bill = rowToBill(data as Record<string, unknown>);
@@ -503,7 +513,7 @@ export async function createBill(params: {
 
   await recordBillEvent({
     billId: bill.id,
-    eventType: 'created',
+    eventType: "created",
     message: `Bill created (${bill.scheduleType}, ${bill.collectionMode})`,
   });
 
@@ -513,14 +523,14 @@ export async function createBill(params: {
 export async function getBillById(id: string): Promise<Bill | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('bills')
-    .select('*, users (email, first_name, last_name), companies (name)')
-    .eq('id', id)
+    .from("bills")
+    .select("*, users (email, first_name, last_name), companies (name)")
+    .eq("id", id)
     .maybeSingle();
 
   if (error) {
-    console.error('[bills] getBillById failed', error);
-    throw new Error('Failed to fetch bill');
+    console.error("[bills] getBillById failed", error);
+    throw new Error("Failed to fetch bill");
   }
   return data ? rowToBill(data as Record<string, unknown>) : null;
 }
@@ -528,14 +538,14 @@ export async function getBillById(id: string): Promise<Bill | null> {
 export async function getBillByToken(token: string): Promise<Bill | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('bills')
-    .select('*, users (email, first_name, last_name), companies (name)')
-    .eq('public_token', token)
+    .from("bills")
+    .select("*, users (email, first_name, last_name), companies (name)")
+    .eq("public_token", token)
     .maybeSingle();
 
   if (error) {
-    console.error('[bills] getBillByToken failed', error);
-    throw new Error('Failed to fetch bill');
+    console.error("[bills] getBillByToken failed", error);
+    throw new Error("Failed to fetch bill");
   }
   return data ? rowToBill(data as Record<string, unknown>) : null;
 }
@@ -559,10 +569,10 @@ export type AdminBillsListResult = {
 async function listBillsFromTable(companyId: string | null): Promise<Bill[]> {
   const supabase = getServerSupabaseClient();
   let query = supabase
-    .from('bills')
-    .select('*, users (email, first_name, last_name), companies (name)')
-    .order('created_at', { ascending: false });
-  if (companyId) query = query.eq('company_id', companyId);
+    .from("bills")
+    .select("*, users (email, first_name, last_name), companies (name)")
+    .order("created_at", { ascending: false });
+  if (companyId) query = query.eq("company_id", companyId);
 
   const { data, error } = await query;
   if (error) throw error;
@@ -571,13 +581,13 @@ async function listBillsFromTable(companyId: string | null): Promise<Bill[]> {
 
 /** Bills for admin UI; uses RPC with recent charges when available. */
 export async function listAdminBillsWithCharges(
-  companyId: string | null
+  companyId: string | null,
 ): Promise<AdminBillsListResult> {
-  const { fetchListAdminBillsWithCharges } = await import('@/lib/admin-db-rpc');
+  const { fetchListAdminBillsWithCharges } = await import("@/lib/admin-db-rpc");
   const rpc = await fetchListAdminBillsWithCharges(companyId, 12);
   if (rpc) {
     const bills = rpc.bills.map((row) => rowToBill(row as Record<string, unknown>));
-    const chargesByBillId: AdminBillsListResult['chargesByBillId'] = {};
+    const chargesByBillId: AdminBillsListResult["chargesByBillId"] = {};
     for (const [billId, rows] of Object.entries(rpc.chargesByBillId)) {
       chargesByBillId[billId] = (rows || []).map((c) => ({
         id: c.id,
@@ -600,8 +610,8 @@ export async function getAllBills(): Promise<Bill[]> {
   try {
     return (await listAdminBillsWithCharges(null)).bills;
   } catch (error) {
-    console.error('[bills] getAllBills failed', error);
-    throw new Error('Failed to fetch bills');
+    console.error("[bills] getAllBills failed", error);
+    throw new Error("Failed to fetch bills");
   }
 }
 
@@ -609,22 +619,22 @@ export async function getBillsByCompany(companyId: string): Promise<Bill[]> {
   try {
     return (await listAdminBillsWithCharges(companyId)).bills;
   } catch (error) {
-    console.error('[bills] getBillsByCompany failed', error);
-    throw new Error('Failed to fetch company bills');
+    console.error("[bills] getBillsByCompany failed", error);
+    throw new Error("Failed to fetch company bills");
   }
 }
 
 export async function getBillCharges(billId: string): Promise<BillCharge[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('bill_charges')
-    .select('*')
-    .eq('bill_id', billId)
-    .order('created_at', { ascending: false });
+    .from("bill_charges")
+    .select("*")
+    .eq("bill_id", billId)
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('[bills] getBillCharges failed', error);
-    throw new Error('Failed to fetch bill charges');
+    console.error("[bills] getBillCharges failed", error);
+    throw new Error("Failed to fetch bill charges");
   }
   return (data || []).map((row) => rowToBillCharge(row as Record<string, unknown>));
 }
@@ -632,13 +642,13 @@ export async function getBillCharges(billId: string): Promise<BillCharge[]> {
 export async function getBillChargeById(chargeId: string): Promise<BillCharge | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('bill_charges')
-    .select('*')
-    .eq('id', chargeId)
+    .from("bill_charges")
+    .select("*")
+    .eq("id", chargeId)
     .maybeSingle();
 
   if (error) {
-    throw new Error('Failed to fetch bill charge');
+    throw new Error("Failed to fetch bill charge");
   }
   return data ? rowToBillCharge(data as Record<string, unknown>) : null;
 }
@@ -646,29 +656,29 @@ export async function getBillChargeById(chargeId: string): Promise<BillCharge | 
 export async function updateBillStatus(billId: string, status: BillStatus): Promise<void> {
   const supabase = getServerSupabaseClient();
   const { error } = await supabase
-    .from('bills')
+    .from("bills")
     .update({ status, updated_at: new Date().toISOString() })
-    .eq('id', billId);
+    .eq("id", billId);
 
-  if (error) throw new Error('Failed to update bill status');
+  if (error) throw new Error("Failed to update bill status");
 }
 
 export async function updateBillStripeInfo(
   billId: string,
   stripeCustomerId: string | null,
-  stripePaymentMethodId: string | null
+  stripePaymentMethodId: string | null,
 ): Promise<void> {
   const supabase = getServerSupabaseClient();
   const { error } = await supabase
-    .from('bills')
+    .from("bills")
     .update({
       stripe_customer_id: stripeCustomerId,
       stripe_payment_method_id: stripePaymentMethodId,
       updated_at: new Date().toISOString(),
     })
-    .eq('id', billId);
+    .eq("id", billId);
 
-  if (error) throw new Error('Failed to update bill payment method');
+  if (error) throw new Error("Failed to update bill payment method");
 }
 
 export async function updateBillCharge(params: {
@@ -687,12 +697,13 @@ export async function updateBillCharge(params: {
   if (params.invoiceNumber != null) patch.invoice_number = params.invoiceNumber;
   if (params.amount != null) patch.amount = params.amount;
   if (params.lineItemsSnapshot != null) patch.line_items_snapshot = params.lineItemsSnapshot;
-  if (params.stripePaymentIntentId !== undefined) patch.stripe_payment_intent_id = params.stripePaymentIntentId;
+  if (params.stripePaymentIntentId !== undefined)
+    patch.stripe_payment_intent_id = params.stripePaymentIntentId;
   if (params.failureMessage !== undefined) patch.failure_message = params.failureMessage;
   if (params.paidAt !== undefined) patch.paid_at = params.paidAt;
 
-  const { error } = await supabase.from('bill_charges').update(patch).eq('id', params.chargeId);
-  if (error) throw new Error('Failed to update bill charge');
+  const { error } = await supabase.from("bill_charges").update(patch).eq("id", params.chargeId);
+  if (error) throw new Error("Failed to update bill charge");
 }
 
 /** Assign a global invoice number to a charge if it does not have one yet. */
@@ -715,12 +726,12 @@ export async function updateBillDetails(
     recurrenceInterval?: BillRecurrenceInterval;
     recurrenceDayOfMonth?: number | null;
     recurrenceDayOfWeek?: number | null;
-  }
+  },
 ): Promise<Bill> {
   const bill = await getBillById(billId);
-  if (!bill) throw new Error('Bill not found');
-  if (bill.status === 'cancelled' || bill.status === 'completed') {
-    throw new Error('Cannot edit a cancelled or completed bill');
+  if (!bill) throw new Error("Bill not found");
+  if (bill.status === "cancelled" || bill.status === "completed") {
+    throw new Error("Cannot edit a cancelled or completed bill");
   }
 
   const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
@@ -730,10 +741,15 @@ export async function updateBillDetails(
   if (params.internalNote !== undefined) patch.internal_note = params.internalNote;
   if (params.nextBillingDate !== undefined) patch.next_billing_date = params.nextBillingDate;
   if (params.recurrenceInterval != null) {
-    patch.recurrence_interval = normalizeBillRecurrenceInterval(bill.scheduleType, params.recurrenceInterval);
+    patch.recurrence_interval = normalizeBillRecurrenceInterval(
+      bill.scheduleType,
+      params.recurrenceInterval,
+    );
   }
-  if (params.recurrenceDayOfMonth !== undefined) patch.recurrence_day_of_month = params.recurrenceDayOfMonth;
-  if (params.recurrenceDayOfWeek !== undefined) patch.recurrence_day_of_week = params.recurrenceDayOfWeek;
+  if (params.recurrenceDayOfMonth !== undefined)
+    patch.recurrence_day_of_month = params.recurrenceDayOfMonth;
+  if (params.recurrenceDayOfWeek !== undefined)
+    patch.recurrence_day_of_week = params.recurrenceDayOfWeek;
 
   let lineItems = bill.lineItems;
   let amount = bill.amount;
@@ -747,8 +763,8 @@ export async function updateBillDetails(
   }
 
   const supabase = getServerSupabaseClient();
-  const { error } = await supabase.from('bills').update(patch).eq('id', billId);
-  if (error) throw billDbError(error, 'Failed to update bill');
+  const { error } = await supabase.from("bills").update(patch).eq("id", billId);
+  if (error) throw billDbError(error, "Failed to update bill");
 
   const openCharge = await getOpenBillCharge(billId);
   if (openCharge && params.lineItems) {
@@ -760,49 +776,52 @@ export async function updateBillDetails(
   }
 
   const updated = await getBillById(billId);
-  if (!updated) throw new Error('Bill not found after update');
+  if (!updated) throw new Error("Bill not found after update");
   return updated;
 }
 
-export async function updateBillNextBillingDate(billId: string, nextDate: string | null): Promise<void> {
+export async function updateBillNextBillingDate(
+  billId: string,
+  nextDate: string | null,
+): Promise<void> {
   const supabase = getServerSupabaseClient();
   const { error } = await supabase
-    .from('bills')
+    .from("bills")
     .update({ next_billing_date: nextDate, updated_at: new Date().toISOString() })
-    .eq('id', billId);
+    .eq("id", billId);
 
-  if (error) throw new Error('Failed to update next billing date');
+  if (error) throw new Error("Failed to update next billing date");
 }
 
 export async function markBillChargePaid(
   chargeId: string,
   invoiceNumber: number,
-  stripePaymentIntentId?: string | null
+  stripePaymentIntentId?: string | null,
 ): Promise<BillCharge> {
   await updateBillCharge({
     chargeId,
-    status: 'paid',
+    status: "paid",
     invoiceNumber,
     stripePaymentIntentId: stripePaymentIntentId ?? null,
     paidAt: new Date().toISOString(),
     failureMessage: null,
   });
   const charge = await getBillChargeById(chargeId);
-  if (!charge) throw new Error('Bill charge not found after update');
+  if (!charge) throw new Error("Bill charge not found after update");
   return charge;
 }
 
 /** Record payment received outside Stripe (check, wire, etc.). */
 export async function markBillPaidManually(billId: string): Promise<{ invoiceNumber: number }> {
   let bill = await getBillById(billId);
-  if (!bill) throw new Error('Bill not found');
-  if (bill.status === 'completed') throw new Error('Bill is already paid');
-  if (bill.status === 'cancelled') throw new Error('Cannot mark a cancelled bill as paid');
+  if (!bill) throw new Error("Bill not found");
+  if (bill.status === "completed") throw new Error("Bill is already paid");
+  if (bill.status === "cancelled") throw new Error("Cannot mark a cancelled bill as paid");
 
-  if (bill.status === 'draft' || bill.status === 'paused') {
-    await updateBillStatus(billId, 'active');
+  if (bill.status === "draft" || bill.status === "paused") {
+    await updateBillStatus(billId, "active");
     bill = await getBillById(billId);
-    if (!bill) throw new Error('Bill not found');
+    if (!bill) throw new Error("Bill not found");
   }
 
   let charge = await getOpenBillCharge(billId);
@@ -810,7 +829,13 @@ export async function markBillPaidManually(billId: string): Promise<{ invoiceNum
     const lineItems =
       bill.lineItems.length > 0
         ? bill.lineItems
-        : [{ description: bill.description?.trim() || 'Bill payment', quantity: 1, unit_amount: bill.amount }];
+        : [
+            {
+              description: bill.description?.trim() || "Bill payment",
+              quantity: 1,
+              unit_amount: bill.amount,
+            },
+          ];
     charge = await createBillCharge({
       billId,
       amount: bill.amount,
@@ -821,18 +846,18 @@ export async function markBillPaidManually(billId: string): Promise<{ invoiceNum
   const invoiceNumber = charge.invoiceNumber ?? (await getNextInvoiceNumber());
   await markBillChargePaid(charge.id, invoiceNumber, null);
 
-  if (bill.scheduleType === 'one_time') {
-    await updateBillStatus(billId, 'completed');
+  if (bill.scheduleType === "one_time") {
+    await updateBillStatus(billId, "completed");
     await updateBillNextBillingDate(billId, null);
   } else {
     const next = calculateBillNextBillingDate(bill, new Date());
-    await updateBillNextBillingDate(billId, next.toISOString().split('T')[0]);
+    await updateBillNextBillingDate(billId, next.toISOString().split("T")[0]);
   }
 
   await recordBillEvent({
     billId,
     billChargeId: charge.id,
-    eventType: 'manual_payment',
+    eventType: "manual_payment",
     message: `Marked paid manually ($${bill.amount.toFixed(2)})`,
     metadata: { invoiceNumber },
   });
@@ -842,18 +867,18 @@ export async function markBillPaidManually(billId: string): Promise<{ invoiceNum
 
 export async function getDueBills(asOfDate?: string): Promise<Bill[]> {
   const supabase = getServerSupabaseClient();
-  const today = asOfDate ?? new Date().toISOString().split('T')[0];
+  const today = asOfDate ?? new Date().toISOString().split("T")[0];
 
   const { data, error } = await supabase
-    .from('bills')
-    .select('*, users (email, first_name, last_name), companies (name)')
-    .eq('status', 'active')
-    .not('next_billing_date', 'is', null)
-    .lte('next_billing_date', today);
+    .from("bills")
+    .select("*, users (email, first_name, last_name), companies (name)")
+    .eq("status", "active")
+    .not("next_billing_date", "is", null)
+    .lte("next_billing_date", today);
 
   if (error) {
-    console.error('[bills] getDueBills failed', error);
-    throw new Error('Failed to fetch due bills');
+    console.error("[bills] getDueBills failed", error);
+    throw new Error("Failed to fetch due bills");
   }
   return (data || []).map((row) => rowToBill(row as Record<string, unknown>));
 }
@@ -867,24 +892,27 @@ export async function getCompanyBillPaymentContribution(companyId: string): Prom
 }> {
   const supabase = getServerSupabaseClient();
 
-  const { data: companyUsers } = await supabase.from('users').select('id').eq('company_id', companyId);
+  const { data: companyUsers } = await supabase
+    .from("users")
+    .select("id")
+    .eq("company_id", companyId);
   const userIds = companyUsers?.map((u) => u.id) ?? [];
 
   let query = supabase
-    .from('bills')
-    .select('id, schedule_type, status, next_billing_date, created_at, company_id, user_id')
-    .eq('status', 'active');
+    .from("bills")
+    .select("id, schedule_type, status, next_billing_date, created_at, company_id, user_id")
+    .eq("status", "active");
 
   if (userIds.length > 0) {
-    query = query.or(`company_id.eq.${companyId},user_id.in.(${userIds.join(',')})`);
+    query = query.or(`company_id.eq.${companyId},user_id.in.(${userIds.join(",")})`);
   } else {
-    query = query.eq('company_id', companyId);
+    query = query.eq("company_id", companyId);
   }
 
   const { data: bills, error } = await query;
 
   if (error) {
-    console.error('[bills] getCompanyBillPaymentContribution failed', error);
+    console.error("[bills] getCompanyBillPaymentContribution failed", error);
     return { overdueBills: 0, maxDaysOverdueFromBills: 0 };
   }
 
@@ -897,7 +925,7 @@ export async function getCompanyBillPaymentContribution(companyId: string): Prom
     const scheduleType = row.schedule_type as string;
     let dueTime: number | null = null;
 
-    if (scheduleType === 'recurring') {
+    if (scheduleType === "recurring") {
       if (!row.next_billing_date) continue;
       dueTime = new Date(row.next_billing_date).getTime();
       if (dueTime >= now.getTime()) continue;
@@ -920,10 +948,10 @@ export async function getCompanyBillPaymentContribution(companyId: string): Prom
 
 export async function duplicateBillAsDraft(
   billId: string,
-  createdByClerkUserId: string
+  createdByClerkUserId: string,
 ): Promise<Bill> {
   const source = await getBillById(billId);
-  if (!source) throw new Error('Bill not found');
+  if (!source) throw new Error("Bill not found");
 
   return createBill({
     recipientEmail: source.recipientEmail,
@@ -934,7 +962,7 @@ export async function duplicateBillAsDraft(
     collectionMode: source.collectionMode,
     attachCompanyPaymentMethod: source.attachCompanyPaymentMethod,
     lineItems: source.lineItems,
-    status: 'draft',
+    status: "draft",
     recurrenceInterval: source.recurrenceInterval ?? undefined,
     recurrenceDayOfMonth: source.recurrenceDayOfMonth ?? undefined,
     recurrenceDayOfWeek: source.recurrenceDayOfWeek ?? undefined,

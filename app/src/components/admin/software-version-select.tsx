@@ -1,12 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { cn } from '@/components/ui/utils';
-import { resolveExtensionRefSelectValue } from '@/lib/extension-github-ref-select';
-import { GITHUB_STATUS_COMMIT_LIMIT } from '@/lib/github-dynamic-repo';
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/components/ui/utils";
+import { resolveExtensionRefSelectValue } from "@/lib/extension-github-ref-select";
+import { GITHUB_STATUS_COMMIT_LIMIT } from "@/lib/github-dynamic-repo";
 
 export type SoftwareVersionCommit = {
   sha: string;
@@ -27,7 +33,7 @@ type SoftwareVersionSelectProps = {
   onCommitsUpdate: (
     commits: SoftwareVersionCommit[],
     hasMoreCommits: boolean,
-    commitRawOffset: number
+    commitRawOffset: number,
   ) => void;
   disabled?: boolean;
   formatDate: (dateStr: string) => string;
@@ -35,7 +41,7 @@ type SoftwareVersionSelectProps = {
 
 function mergeCommitsBySha(
   existing: SoftwareVersionCommit[],
-  incoming: SoftwareVersionCommit[]
+  incoming: SoftwareVersionCommit[],
 ): SoftwareVersionCommit[] {
   const seen = new Set(existing.map((c) => c.sha));
   const merged = [...existing];
@@ -74,7 +80,7 @@ export function SoftwareVersionSelect({
     try {
       const res = await fetch(
         `/api/projects/${projectId}/github-commits?offset=${commitRawOffset}&limit=${GITHUB_STATUS_COMMIT_LIMIT}`,
-        { cache: 'no-store' }
+        { cache: "no-store" },
       );
       if (!res.ok) return;
       const data = (await res.json()) as {
@@ -84,11 +90,11 @@ export function SoftwareVersionSelect({
       };
       const next = data.commits ?? [];
       const rawCount =
-        typeof data.rawCount === 'number' ? data.rawCount : GITHUB_STATUS_COMMIT_LIMIT;
+        typeof data.rawCount === "number" ? data.rawCount : GITHUB_STATUS_COMMIT_LIMIT;
       onCommitsUpdate(
         mergeCommitsBySha(commits, next),
         Boolean(data.hasMore),
-        commitRawOffset + rawCount
+        commitRawOffset + rawCount,
       );
     } finally {
       setLoadingMore(false);
@@ -114,9 +120,9 @@ export function SoftwareVersionSelect({
             key={commit.sha}
             value={commit.sha}
             className={cn(
-              'text-xs whitespace-normal break-words leading-snug py-2',
+              "text-xs whitespace-normal break-words leading-snug py-2",
               commit.beforeDeploymentCutoff &&
-                'text-amber-800 focus:text-amber-900 dark:text-amber-400 dark:focus:text-amber-300'
+                "text-amber-800 focus:text-amber-900 dark:text-amber-400 dark:focus:text-amber-300",
             )}
           >
             <span className="whitespace-normal break-words">
@@ -143,7 +149,7 @@ export function SoftwareVersionSelect({
                   Loading…
                 </>
               ) : (
-                'Load more versions'
+                "Load more versions"
               )}
             </Button>
           </div>

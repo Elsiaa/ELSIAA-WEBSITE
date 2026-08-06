@@ -6,7 +6,8 @@ type Ctx = { request: Request; params: Record<string, string> };
 
 function method(name: "GET" | "POST" | "PUT" | "PATCH" | "DELETE") {
   return async ({ request, params }: Ctx) => {
-    const handlers = await import("../../../../../../poel-api/projects/[id]/subscriptions/[subscriptionId]/create-payment/route");
+    const handlers =
+      await import("../../../../../../poel-api/projects/[id]/subscriptions/[subscriptionId]/create-payment/route");
     const fn = (handlers as Record<string, unknown>)[name];
     if (typeof fn !== "function") {
       return new Response("Method Not Allowed", { status: 405 });
@@ -21,7 +22,9 @@ function method(name: "GET" | "POST" | "PUT" | "PATCH" | "DELETE") {
   };
 }
 
-export const Route = createFileRoute("/api/projects/$id/subscriptions/$subscriptionId/create-payment")({
+export const Route = createFileRoute(
+  "/api/projects/$id/subscriptions/$subscriptionId/create-payment",
+)({
   server: {
     handlers: {
       GET: method("GET"),

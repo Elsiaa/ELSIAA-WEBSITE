@@ -67,10 +67,7 @@ function PanelChrome({
           <p className="text-[13px] text-[#1e6b3c]" style={mono}>
             {meta.label}
           </p>
-          <h1
-            className="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl"
-            style={sans}
-          >
+          <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl" style={sans}>
             {meta.blurb}
           </h1>
         </div>
@@ -152,8 +149,8 @@ function OverviewPanel({ workspace }: { workspace: PortalWorkspace | null }) {
         </div>
       </div>
       <p className="mt-5 max-w-xl text-[14px] leading-relaxed text-[#111]/55" style={sans}>
-        Projects, Authorizations, Files, Messages, Meetings, Billing, Support, Logs,
-        and Signatures. What you see depends on your company role and module access.
+        Projects, Authorizations, Files, Messages, Meetings, Billing, Support, Logs, and Signatures.
+        What you see depends on your company role and module access.
       </p>
     </PanelChrome>
   );
@@ -195,12 +192,7 @@ function ProjectsPanel() {
                   {p.status ?? "active"}
                 </span>
                 {p.url ? (
-                  <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={btnGhost}
-                  >
+                  <a href={p.url} target="_blank" rel="noreferrer" className={btnGhost}>
                     Open
                   </a>
                 ) : null}
@@ -305,8 +297,7 @@ function ThreadInbox({ kind }: { kind: "messages" | "support" }) {
   const [busy, setBusy] = useState(false);
 
   const refreshThreads = useCallback(() => {
-    const loader =
-      kind === "support" ? listSupportTickets() : listMessageThreads();
+    const loader = kind === "support" ? listSupportTickets() : listMessageThreads();
     void loader
       .then((rows) => setThreads(rows))
       .catch((e) => setError(e instanceof Error ? e.message : String(e)));
@@ -382,9 +373,7 @@ function ThreadInbox({ kind }: { kind: "messages" | "support" }) {
       <div className="grid gap-4 lg:grid-cols-[240px_1fr]">
         <ul className="max-h-[420px] space-y-1 overflow-y-auto rounded-xl border border-black/[0.06] p-2">
           {threads.length === 0 ? (
-            <li className="px-2 py-6 text-center text-[12px] text-[#111]/40">
-              None yet
-            </li>
+            <li className="px-2 py-6 text-center text-[12px] text-[#111]/40">None yet</li>
           ) : (
             threads.map((t) => (
               <li key={t.id}>
@@ -392,9 +381,7 @@ function ThreadInbox({ kind }: { kind: "messages" | "support" }) {
                   type="button"
                   onClick={() => setActiveId(t.id)}
                   className={`w-full rounded-lg px-3 py-2 text-left text-[13px] ${
-                    activeId === t.id
-                      ? "bg-[#1e6b3c] text-white"
-                      : "hover:bg-black/[0.03]"
+                    activeId === t.id ? "bg-[#1e6b3c] text-white" : "hover:bg-black/[0.03]"
                   }`}
                 >
                   {t.title}
@@ -414,9 +401,7 @@ function ThreadInbox({ kind }: { kind: "messages" | "support" }) {
                 <div
                   key={m.id}
                   className={`max-w-[85%] rounded-xl px-3 py-2 text-[13px] ${
-                    m.role === "client"
-                      ? "ml-auto bg-[#1e6b3c]/10"
-                      : "bg-black/[0.04]"
+                    m.role === "client" ? "ml-auto bg-[#1e6b3c]/10" : "bg-black/[0.04]"
                   }`}
                 >
                   <p className="text-[11px] uppercase tracking-wide text-[#111]/40" style={mono}>
@@ -462,9 +447,7 @@ function ThreadInbox({ kind }: { kind: "messages" | "support" }) {
                       refreshMessages(activeId);
                       refreshThreads();
                     })
-                    .catch((e) =>
-                      setError(e instanceof Error ? e.message : String(e)),
-                    )
+                    .catch((e) => setError(e instanceof Error ? e.message : String(e)))
                     .finally(() => setBusy(false));
                 }}
               >
@@ -593,8 +576,7 @@ function AuthorizationsPanel() {
     <PanelChrome id="authorizations">
       <Err message={error} />
       <p className="mb-4 text-[13px] text-[#111]/50" style={sans}>
-        Per-project device limits, access override, and
-        registered devices.
+        Per-project device limits, access override, and registered devices.
       </p>
       {projects.length === 0 ? (
         <Empty>No projects to authorize yet.</Empty>
@@ -607,9 +589,7 @@ function AuthorizationsPanel() {
                   type="button"
                   onClick={() => setSelected(p.id)}
                   className={`w-full rounded-lg px-3 py-2 text-left text-[13px] ${
-                    selected === p.id
-                      ? "bg-[#1e6b3c] text-white"
-                      : "hover:bg-black/[0.03]"
+                    selected === p.id ? "bg-[#1e6b3c] text-white" : "hover:bg-black/[0.03]"
                   }`}
                 >
                   <span className="font-medium">{p.title}</span>
@@ -643,9 +623,7 @@ function AuthorizationsPanel() {
                         data: { projectId: project.id, deviceLimit: v },
                       })
                         .then(refresh)
-                        .catch((err) =>
-                          setError(err instanceof Error ? err.message : String(err)),
-                        )
+                        .catch((err) => setError(err instanceof Error ? err.message : String(err)))
                         .finally(() => setBusy(false));
                     }}
                   />
@@ -665,9 +643,7 @@ function AuthorizationsPanel() {
                         },
                       })
                         .then(refresh)
-                        .catch((err) =>
-                          setError(err instanceof Error ? err.message : String(err)),
-                        )
+                        .catch((err) => setError(err instanceof Error ? err.message : String(err)))
                         .finally(() => setBusy(false));
                     }}
                   >
@@ -699,9 +675,7 @@ function AuthorizationsPanel() {
                       setDeviceName("");
                       refresh();
                     })
-                    .catch((e) =>
-                      setError(e instanceof Error ? e.message : String(e)),
-                    )
+                    .catch((e) => setError(e instanceof Error ? e.message : String(e)))
                     .finally(() => setBusy(false));
                 }}
               >
@@ -736,11 +710,7 @@ function AuthorizationsPanel() {
                               data: { deviceId: d.id, status: st },
                             })
                               .then(refresh)
-                              .catch((e) =>
-                                setError(
-                                  e instanceof Error ? e.message : String(e),
-                                ),
-                              )
+                              .catch((e) => setError(e instanceof Error ? e.message : String(e)))
                               .finally(() => setBusy(false));
                           }}
                         >
@@ -756,9 +726,7 @@ function AuthorizationsPanel() {
                           setBusy(true);
                           void deleteAuthDevice({ data: { deviceId: d.id } })
                             .then(refresh)
-                            .catch((e) =>
-                              setError(e instanceof Error ? e.message : String(e)),
-                            )
+                            .catch((e) => setError(e instanceof Error ? e.message : String(e)))
                             .finally(() => setBusy(false));
                         }}
                       >
@@ -792,14 +760,9 @@ function LogsPanel() {
       ) : (
         <ul className="max-h-[480px] space-y-1 overflow-y-auto font-mono text-[12px]">
           {rows.map((r) => (
-            <li
-              key={r.id}
-              className="rounded-lg border border-black/[0.05] px-3 py-2"
-            >
+            <li key={r.id} className="rounded-lg border border-black/[0.05] px-3 py-2">
               <span className="text-[#1e6b3c]">{r.level}</span>{" "}
-              <span className="text-[#111]/40">
-                {new Date(r.createdAt).toLocaleString()}
-              </span>
+              <span className="text-[#111]/40">{new Date(r.createdAt).toLocaleString()}</span>
               <div className="mt-0.5 whitespace-pre-wrap text-[#111]/80">{r.message}</div>
             </li>
           ))}
@@ -880,9 +843,7 @@ function SignaturesPanel() {
                         data: { requestId: r.id, status: "sent" },
                       })
                         .then(refresh)
-                        .catch((e) =>
-                          setError(e instanceof Error ? e.message : String(e)),
-                        )
+                        .catch((e) => setError(e instanceof Error ? e.message : String(e)))
                         .finally(() => setBusy(false));
                     }}
                   >
@@ -982,9 +943,7 @@ function UsersPanel() {
                         })
                           .then(refresh)
                           .catch((err) =>
-                            setError(
-                              err instanceof Error ? err.message : String(err),
-                            ),
+                            setError(err instanceof Error ? err.message : String(err)),
                           )
                           .finally(() => setBusy(false));
                       }}
@@ -1010,9 +969,7 @@ function UsersPanel() {
                           })
                             .then(refresh)
                             .catch((err) =>
-                              setError(
-                                err instanceof Error ? err.message : String(err),
-                              ),
+                              setError(err instanceof Error ? err.message : String(err)),
                             )
                             .finally(() => setBusy(false));
                         }}

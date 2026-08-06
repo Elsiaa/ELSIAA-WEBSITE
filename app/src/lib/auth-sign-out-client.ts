@@ -5,9 +5,7 @@ const DEFAULT_PATH = "/";
 /**
  * Ends the single app session then hard-navigates (default: home).
  */
-export async function signOutAndHardRedirect(
-  callbackPath: string = DEFAULT_PATH,
-): Promise<void> {
+export async function signOutAndHardRedirect(callbackPath: string = DEFAULT_PATH): Promise<void> {
   const path = callbackPath.startsWith("/") ? callbackPath : `/${callbackPath}`;
   try {
     await Promise.race([

@@ -9,13 +9,7 @@ import { SEARCH_INDEX, search, type Entry } from "../lib/search-engine";
 export { SEARCH_INDEX };
 export type { Entry };
 
-export function SiteSearch({
-  open,
-  onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
+export function SiteSearch({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -52,7 +46,15 @@ export function SiteSearch({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 border-b border-black/[0.07] px-5">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#666"
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
             <circle cx="11" cy="11" r="7" />
             <line x1="21" y1="21" x2="16.5" y2="16.5" />
           </svg>
@@ -87,9 +89,7 @@ export function SiteSearch({
         <div className="max-h-[46vh] overflow-y-auto py-2">
           {results.length === 0 && (
             <div className="px-5 py-6">
-              <p className="text-[14px] text-[#111111]/60">
-                No matches for "{q.trim()}".
-              </p>
+              <p className="text-[14px] text-[#111111]/60">No matches for "{q.trim()}".</p>
               {didYouMean && (
                 <button
                   onClick={() => setQ(didYouMean)}

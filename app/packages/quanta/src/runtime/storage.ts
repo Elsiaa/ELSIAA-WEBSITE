@@ -19,9 +19,9 @@
  */
 
 export interface ThemeStorage {
-  get: (key: string) => string | null
-  set: (key: string, value: string) => void
-  remove: (key: string) => void
+  get: (key: string) => string | null;
+  set: (key: string, value: string) => void;
+  remove: (key: string) => void;
 }
 
 // ────────────────────────────────────────────────────────────────────
@@ -31,56 +31,50 @@ export interface ThemeStorage {
 export const localStorageAdapter: ThemeStorage = {
   get(key) {
     try {
-      return localStorage.getItem(key)
-    }
-    catch {
-      return null
+      return localStorage.getItem(key);
+    } catch {
+      return null;
     }
   },
   set(key, value) {
     try {
-      localStorage.setItem(key, value)
-    }
-    catch {
+      localStorage.setItem(key, value);
+    } catch {
       // QuotaExceeded / privacy mode — silently degrade.
     }
   },
   remove(key) {
     try {
-      localStorage.removeItem(key)
-    }
-    catch {
+      localStorage.removeItem(key);
+    } catch {
       // silently degrade
     }
   },
-}
+};
 
 export const sessionStorageAdapter: ThemeStorage = {
   get(key) {
     try {
-      return sessionStorage.getItem(key)
-    }
-    catch {
-      return null
+      return sessionStorage.getItem(key);
+    } catch {
+      return null;
     }
   },
   set(key, value) {
     try {
-      sessionStorage.setItem(key, value)
-    }
-    catch {
+      sessionStorage.setItem(key, value);
+    } catch {
       // QuotaExceeded / privacy mode — silently degrade.
     }
   },
   remove(key) {
     try {
-      sessionStorage.removeItem(key)
-    }
-    catch {
+      sessionStorage.removeItem(key);
+    } catch {
       // silently degrade
     }
   },
-}
+};
 
 export interface UrlAdapterOptions {
   /**
@@ -88,7 +82,7 @@ export interface UrlAdapterOptions {
    * (visible in URL bar, shareable). `hash` → #key=value (client-only,
    * not sent to server). Default: 'search'.
    */
-  mode?: 'search' | 'hash'
+  mode?: "search" | "hash";
 }
 
 /**
@@ -98,58 +92,58 @@ export interface UrlAdapterOptions {
  *
  * Writes use `history.replaceState` — no navigation, no scroll jump.
  */
-export function urlAdapter({ mode = 'search' }: UrlAdapterOptions = {}): ThemeStorage {
+export function urlAdapter({ mode = "search" }: UrlAdapterOptions = {}): ThemeStorage {
   function readParams(): URLSearchParams {
-    if (mode === 'hash') {
+    if (mode === "hash") {
       // Hash form like "#theme=ai-ocean&foo=bar". Strip the leading "#".
-      return new URLSearchParams(window.location.hash.replace(/^#/, ''))
+      return new URLSearchParams(window.location.hash.replace(/^#/, ""));
     }
-    return new URLSearchParams(window.location.search)
+    return new URLSearchParams(window.location.search);
   }
 
   function writeParams(params: URLSearchParams): void {
-    const serialized = params.toString()
-    const path = window.location.pathname
-    if (mode === 'hash') {
-      const newUrl = serialized ? `${path}${window.location.search}#${serialized}` : path + window.location.search
-      window.history.replaceState(null, '', newUrl)
-    }
-    else {
-      const newUrl = serialized ? `${path}?${serialized}${window.location.hash}` : path + window.location.hash
-      window.history.replaceState(null, '', newUrl)
+    const serialized = params.toString();
+    const path = window.location.pathname;
+    if (mode === "hash") {
+      const newUrl = serialized
+        ? `${path}${window.location.search}#${serialized}`
+        : path + window.location.search;
+      window.history.replaceState(null, "", newUrl);
+    } else {
+      const newUrl = serialized
+        ? `${path}?${serialized}${window.location.hash}`
+        : path + window.location.hash;
+      window.history.replaceState(null, "", newUrl);
     }
   }
 
   return {
     get(key) {
       try {
-        return readParams().get(key)
-      }
-      catch {
-        return null
+        return readParams().get(key);
+      } catch {
+        return null;
       }
     },
     set(key, value) {
       try {
-        const params = readParams()
-        params.set(key, value)
-        writeParams(params)
-      }
-      catch {
+        const params = readParams();
+        params.set(key, value);
+        writeParams(params);
+      } catch {
         // SSR / no window — silently degrade.
       }
     },
     remove(key) {
       try {
-        const params = readParams()
-        params.delete(key)
-        writeParams(params)
-      }
-      catch {
+        const params = readParams();
+        params.delete(key);
+        writeParams(params);
+      } catch {
         // silently degrade
       }
     },
-  }
+  };
 }
 
 /**
@@ -157,14 +151,14 @@ export function urlAdapter({ mode = 'search' }: UrlAdapterOptions = {}): ThemeSt
  * survives reload. Useful for SSR (no window) and tests.
  */
 export function memoryStorage(): ThemeStorage {
-  const store = new Map<string, string>()
+  const store = new Map<string, string>();
   return {
-    get: key => store.get(key) ?? null,
+    get: (key) => store.get(key) ?? null,
     set: (key, value) => {
-      store.set(key, value)
+      store.set(key, value);
     },
     remove: (key) => {
-      store.delete(key)
+      store.delete(key);
     },
-  }
+  };
 }

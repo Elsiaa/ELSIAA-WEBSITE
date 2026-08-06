@@ -104,45 +104,45 @@ For zero width use Tailwind's native `border-0`.
 
 ## Package exports
 
-| Path | Contents |
-|---|---|
-| `@higgsfield/quanta/tailwind.css` | `@theme` + `@utility` for Tailwind v4 |
-| `@higgsfield/quanta/theme.css` | semantic aliases (color/typography by `data-theme`) |
-| `@higgsfield/quanta/primitives.css` | raw literal values (`--hf-color-grey-900` etc.) |
-| `@higgsfield/quanta/runtime` | `ThemeController`, `bootstrapScript`, `defineTheme`, `readInitialThemeState` |
-| `@higgsfield/quanta/<component>` | React components — e.g. `/button`, `/dropdown` |
+| Path                                | Contents                                                                     |
+| ----------------------------------- | ---------------------------------------------------------------------------- |
+| `@higgsfield/quanta/tailwind.css`   | `@theme` + `@utility` for Tailwind v4                                        |
+| `@higgsfield/quanta/theme.css`      | semantic aliases (color/typography by `data-theme`)                          |
+| `@higgsfield/quanta/primitives.css` | raw literal values (`--hf-color-grey-900` etc.)                              |
+| `@higgsfield/quanta/runtime`        | `ThemeController`, `bootstrapScript`, `defineTheme`, `readInitialThemeState` |
+| `@higgsfield/quanta/<component>`    | React components — e.g. `/button`, `/dropdown`                               |
 
 ## Runtime — quick reference
 
 Anti-FOUC bootstrap — a generated string, inject into the `<head>` of any framework:
 
 ```ts
-import { bootstrapScript } from '@higgsfield/quanta/runtime'
+import { bootstrapScript } from "@higgsfield/quanta/runtime";
 
-const inlineScript = bootstrapScript() // → plain JS string
+const inlineScript = bootstrapScript(); // → plain JS string
 // Inject in a <script> tag in <head> synchronously, before first paint
 ```
 
 Programmatic theme control:
 
 ```ts
-import { ThemeController } from '@higgsfield/quanta/runtime'
+import { ThemeController } from "@higgsfield/quanta/runtime";
 
-const controller = new ThemeController({ brand: 'default' })
-controller.setPref('dark')                       // 'auto' | 'light' | 'dark'
-controller.subscribe(state => console.log(state.resolvedTheme))
+const controller = new ThemeController({ brand: "default" });
+controller.setPref("dark"); // 'auto' | 'light' | 'dark'
+controller.subscribe((state) => console.log(state.resolvedTheme));
 ```
 
 Dynamic theme (AI-generated / preview):
 
 ```ts
-import { defineTheme } from '@higgsfield/quanta/runtime'
+import { defineTheme } from "@higgsfield/quanta/runtime";
 
-defineTheme('ai-ocean', {
-  'background-primary': '#001a2a',
-  'text-primary': '#e0f4ff',
-})
-controller.setOverride('ai-ocean')
+defineTheme("ai-ocean", {
+  "background-primary": "#001a2a",
+  "text-primary": "#e0f4ff",
+});
+controller.setOverride("ai-ocean");
 ```
 
 Full API reference — JSDoc in [`src/runtime/`](./src/runtime/).

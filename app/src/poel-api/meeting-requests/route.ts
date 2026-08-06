@@ -1,12 +1,23 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { createMeetingRequest, getMeetingRequests } from '@/lib/meeting-scheduling';
-import { requireCompanyAdmin, isSuperAdmin } from '@/lib/permissions';
-import { formatTimeSlotsForEmail, formatTimeSlotsForTextEmail, getCurrentDateTimeInTimezone } from '@/lib/timezone';
-import { getOperationalBrandName, getOperationalLogoUrl, getSmtpFromDisplayName } from '@/lib/operational-brand';
-import { getPaymentContactEmail } from '@/lib/payment-branding';
-import { sendTransactionalMail } from '@/lib/transactional-mail';
-import { poelLightNotificationEmailStyles, poelLightTransactionalEmailUtilityStyles } from '@/lib/poel-theme';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { createMeetingRequest, getMeetingRequests } from "@/lib/meeting-scheduling";
+import { requireCompanyAdmin, isSuperAdmin } from "@/lib/permissions";
+import {
+  formatTimeSlotsForEmail,
+  formatTimeSlotsForTextEmail,
+  getCurrentDateTimeInTimezone,
+} from "@/lib/timezone";
+import {
+  getOperationalBrandName,
+  getOperationalLogoUrl,
+  getSmtpFromDisplayName,
+} from "@/lib/operational-brand";
+import { getPaymentContactEmail } from "@/lib/payment-branding";
+import { sendTransactionalMail } from "@/lib/transactional-mail";
+import {
+  poelLightNotificationEmailStyles,
+  poelLightTransactionalEmailUtilityStyles,
+} from "@/lib/poel-theme";
 
 // POST - Create a meeting request (public)
 export async function POST(request: NextRequest) {
@@ -15,20 +26,27 @@ export async function POST(request: NextRequest) {
     const { name, email, company, phone, message, selectedTimeSlots } = body;
 
     // Validate required fields
-    if (!name || !email || !phone || !selectedTimeSlots || !Array.isArray(selectedTimeSlots) || selectedTimeSlots.length === 0) {
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !selectedTimeSlots ||
+      !Array.isArray(selectedTimeSlots) ||
+      selectedTimeSlots.length === 0
+    ) {
       return NextResponse.json(
-        { error: 'Missing required fields: name, email, phone, and at least one time slot are required' },
-        { status: 400 }
+        {
+          error:
+            "Missing required fields: name, email, phone, and at least one time slot are required",
+        },
+        { status: 400 },
       );
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email format' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid email format" }, { status: 400 });
     }
 
     // Create the meeting request
@@ -43,24 +61,27 @@ export async function POST(request: NextRequest) {
         selectedTimeSlots,
       });
     } catch (error) {
-      console.error('Error creating meeting request in database:', error);
+      console.error("Error creating meeting request in database:", error);
       return NextResponse.json(
-        { 
-          error: 'Failed to create meeting request', 
-          details: error instanceof Error ? error.message : 'Database error occurred'
+        {
+          error: "Failed to create meeting request",
+          details: error instanceof Error ? error.message : "Database error occurred",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     // Send email notification to admin (don't fail the request if email fails)
     try {
-      const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
+      const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000").replace(
+        /\/$/,
+        "",
+      );
       const calendarUrl = `${baseUrl}/admin/calendar`;
       const brand = getOperationalBrandName();
-      const logoUrl = getOperationalLogoUrl(baseUrl, 'full');
-      const linkColor = '#1c2d3f';
-    
+      const logoUrl = getOperationalLogoUrl(baseUrl, "full");
+      const linkColor = "#1c2d3f";
+
       // Format selected time slots for display using timezone utilities
       const formattedSlots = formatTimeSlotsForEmail(selectedTimeSlots);
 
@@ -98,24 +119,32 @@ export async function POST(request: NextRequest) {
         <div class="info-value"><a href="tel:${phone}" style="color: ${linkColor};">${phone}</a></div>
       </div>
 
-      ${company ? `
+      ${
+        company
+          ? `
       <div class="info-row">
         <div class="info-label">Company</div>
         <div class="info-value">${company}</div>
       </div>
-      ` : ''}
+      `
+          : ""
+      }
 
       <div class="info-row">
         <div class="info-label">Selected Time Slots (${selectedTimeSlots.length})</div>
         <div class="info-value">${formattedSlots}</div>
       </div>
 
-      ${message ? `
+      ${
+        message
+          ? `
       <div class="info-row">
         <div class="info-label">Message</div>
         <div class="info-value" style="white-space: pre-wrap;">${message}</div>
       </div>
-      ` : ''}
+      `
+          : ""
+      }
 
       <div class="poel-email-cta-wrap" style="margin: 30px 0;">
         <a href="${calendarUrl}" class="poel-email-btn">View &amp; confirm on calendar</a>
@@ -143,12 +172,12 @@ New Meeting Request from ${brand}
 Name: ${name}
 Email: ${email}
 Phone: ${phone}
-${company ? `Company: ${company}` : ''}
+${company ? `Company: ${company}` : ""}
 
 Selected Time Slots (${selectedTimeSlots.length}):
 ${formatTimeSlotsForTextEmail(selectedTimeSlots)}
 
-${message ? `Message: ${message}` : ''}
+${message ? `Message: ${message}` : ""}
 
 View & Confirm Time: ${calendarUrl}
 
@@ -160,26 +189,29 @@ Reply to: ${email}
       const zohoEmail = process.env.ZOHO_EMAIL || getPaymentContactEmail();
       const sent = await sendTransactionalMail({
         from: `"${getSmtpFromDisplayName()}" <${zohoEmail}>`,
-        to: 'hshloimie@gmail.com',
-        subject: `New Meeting Request from ${name}${company ? ` (${company})` : ''} - ${selectedTimeSlots.length} time slot${selectedTimeSlots.length !== 1 ? 's' : ''}`,
+        to: "hshloimie@gmail.com",
+        subject: `New Meeting Request from ${name}${company ? ` (${company})` : ""} - ${selectedTimeSlots.length} time slot${selectedTimeSlots.length !== 1 ? "s" : ""}`,
         html: htmlBody,
         text: textBody,
         replyTo: email,
       });
       if (!sent) {
-        console.error('Meeting request notification email: transport failed');
+        console.error("Meeting request notification email: transport failed");
       }
     } catch (emailError) {
       // Log email error but don't fail the request
-      console.error('Error sending meeting request notification email:', emailError);
+      console.error("Error sending meeting request notification email:", emailError);
     }
 
     return NextResponse.json({ meetingRequest }, { status: 201 });
   } catch (error) {
-    console.error('Error creating meeting request:', error);
+    console.error("Error creating meeting request:", error);
     return NextResponse.json(
-      { error: 'Failed to create meeting request', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
+      {
+        error: "Failed to create meeting request",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
     );
   }
 }
@@ -190,7 +222,7 @@ export async function GET(request: NextRequest) {
     const session = await auth();
     const userId = session?.user?.id;
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check if user is admin
@@ -198,21 +230,23 @@ export async function GET(request: NextRequest) {
     const companyAdmin = await requireCompanyAdmin().catch(() => null);
 
     if (!superAdmin && !companyAdmin) {
-      return NextResponse.json({ error: 'Forbidden - admin access required' }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden - admin access required" }, { status: 403 });
     }
 
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get('status') as 'pending' | 'confirmed' | 'cancelled' | undefined;
+    const status = searchParams.get("status") as "pending" | "confirmed" | "cancelled" | undefined;
 
     const requests = await getMeetingRequests(status);
 
     return NextResponse.json({ requests });
   } catch (error) {
-    console.error('Error getting meeting requests:', error);
+    console.error("Error getting meeting requests:", error);
     return NextResponse.json(
-      { error: 'Failed to get meeting requests', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
+      {
+        error: "Failed to get meeting requests",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
     );
   }
 }
-

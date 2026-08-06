@@ -1,7 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Edit2, Trash2, X, Building2, Users, FolderOpen, ChevronDown, ChevronRight, Mail, Phone, User as UserIcon, ExternalLink, Send, CheckCircle2, Clock, UserX } from "lucide-react";
+import {
+  Plus,
+  Edit2,
+  Trash2,
+  X,
+  Building2,
+  Users,
+  FolderOpen,
+  ChevronDown,
+  ChevronRight,
+  Mail,
+  Phone,
+  User as UserIcon,
+  ExternalLink,
+  Send,
+  CheckCircle2,
+  Clock,
+  UserX,
+} from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -32,7 +50,7 @@ export default function CompaniesManagement({
   initialUsers,
   initialProjects,
   currentUser,
-  onDataChange
+  onDataChange,
 }: CompaniesManagementProps) {
   const [companies, setCompanies] = useState<Company[]>(initialCompanies);
   const [users, setUsers] = useState<UserWithCompany[]>(initialUsers);
@@ -65,27 +83,33 @@ export default function CompaniesManagement({
   });
 
   // Group users and projects by company (platform users without a tenant company are omitted)
-  const usersByCompany = users.reduce((acc, user) => {
-    const companyId = user.company_id;
-    if (!companyId) return acc;
-    if (!acc[companyId]) {
-      acc[companyId] = [];
-    }
-    acc[companyId].push(user);
-    return acc;
-  }, {} as Record<string, UserWithCompany[]>);
+  const usersByCompany = users.reduce(
+    (acc, user) => {
+      const companyId = user.company_id;
+      if (!companyId) return acc;
+      if (!acc[companyId]) {
+        acc[companyId] = [];
+      }
+      acc[companyId].push(user);
+      return acc;
+    },
+    {} as Record<string, UserWithCompany[]>,
+  );
 
-  const projectsByCompany = projects.reduce((acc, project) => {
-    const companyId = project.companyId;
-    if (!acc[companyId]) {
-      acc[companyId] = [];
-    }
-    acc[companyId].push(project);
-    return acc;
-  }, {} as Record<string, Project[]>);
+  const projectsByCompany = projects.reduce(
+    (acc, project) => {
+      const companyId = project.companyId;
+      if (!acc[companyId]) {
+        acc[companyId] = [];
+      }
+      acc[companyId].push(project);
+      return acc;
+    },
+    {} as Record<string, Project[]>,
+  );
 
   const toggleCompany = (companyId: string) => {
-    setExpandedCompanies(prev => {
+    setExpandedCompanies((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(companyId)) {
         newSet.delete(companyId);
@@ -197,7 +221,7 @@ export default function CompaniesManagement({
 
         if (res.ok) {
           const updated = await res.json();
-          setCompanies(prev => prev.map(c => c.id === updated.id ? updated : c));
+          setCompanies((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
           onDataChange?.();
         } else {
           alert("Failed to update company");
@@ -212,7 +236,10 @@ export default function CompaniesManagement({
 
         if (res.ok) {
           const newCompany = await res.json();
-          setCompanies(prev => [...prev, { ...newCompany, stats: { users: 0, projects: 0, meetings: 0 } }]);
+          setCompanies((prev) => [
+            ...prev,
+            { ...newCompany, stats: { users: 0, projects: 0, meetings: 0 } },
+          ]);
           onDataChange?.();
         } else {
           alert("Failed to create company");
@@ -243,8 +270,10 @@ export default function CompaniesManagement({
 
         if (res.ok) {
           const updated = await res.json();
-          const company = companies.find(c => c.id === updated.company_id);
-          setUsers(prev => prev.map(u => u.id === updated.id ? { ...updated, company: company! } : u));
+          const company = companies.find((c) => c.id === updated.company_id);
+          setUsers((prev) =>
+            prev.map((u) => (u.id === updated.id ? { ...updated, company: company! } : u)),
+          );
           onDataChange?.();
         } else {
           alert("Failed to update user");
@@ -259,8 +288,8 @@ export default function CompaniesManagement({
 
         if (res.ok) {
           const response = await res.json();
-          const company = companies.find(c => c.id === userFormData.company_id);
-          setUsers(prev => [...prev, { ...response, company: company! }]);
+          const company = companies.find((c) => c.id === userFormData.company_id);
+          setUsers((prev) => [...prev, { ...response, company: company! }]);
           onDataChange?.();
 
           if (response.message) {
@@ -295,8 +324,10 @@ export default function CompaniesManagement({
 
         if (res.ok) {
           const { project } = await res.json();
-          const company = companies.find(c => c.id === project.companyId);
-          setProjects(prev => prev.map(p => p.id === project.id ? { ...project, company } : p));
+          const company = companies.find((c) => c.id === project.companyId);
+          setProjects((prev) =>
+            prev.map((p) => (p.id === project.id ? { ...project, company } : p)),
+          );
           onDataChange?.();
         } else {
           alert("Failed to update project");
@@ -314,8 +345,8 @@ export default function CompaniesManagement({
 
         if (res.ok) {
           const { project } = await res.json();
-          const company = companies.find(c => c.id === project.companyId);
-          setProjects(prev => [...prev, { ...project, company }]);
+          const company = companies.find((c) => c.id === project.companyId);
+          setProjects((prev) => [...prev, { ...project, company }]);
           onDataChange?.();
         } else {
           alert("Failed to create project");
@@ -344,7 +375,7 @@ export default function CompaniesManagement({
       });
 
       if (res.ok) {
-        setUsers(prev => prev.filter(u => u.id !== userId));
+        setUsers((prev) => prev.filter((u) => u.id !== userId));
         onDataChange?.();
       } else {
         alert("Failed to delete user");
@@ -370,7 +401,7 @@ export default function CompaniesManagement({
       });
 
       if (res.ok) {
-        setProjects(prev => prev.filter(p => p.id !== projectId));
+        setProjects((prev) => prev.filter((p) => p.id !== projectId));
         onDataChange?.();
       } else {
         alert("Failed to delete project");
@@ -406,9 +437,9 @@ export default function CompaniesManagement({
             const companyRes = await fetch(`/api/companies/${updatedUser.company_id}`);
             const company = await companyRes.json();
 
-            setUsers(prev => prev.map(u =>
-              u.id === userId ? { ...updatedUser, company } : u
-            ));
+            setUsers((prev) =>
+              prev.map((u) => (u.id === userId ? { ...updatedUser, company } : u)),
+            );
           }
         }
       } else {
@@ -436,7 +467,7 @@ export default function CompaniesManagement({
       });
 
       if (res.ok) {
-        setCompanies(prev => prev.filter(c => c.id !== companyId));
+        setCompanies((prev) => prev.filter((c) => c.id !== companyId));
         onDataChange?.();
       } else {
         alert("Failed to delete company");
@@ -487,7 +518,9 @@ export default function CompaniesManagement({
                       <div>
                         <h3 className="font-semibold text-lg text-left">{company.name}</h3>
                         <p className="text-sm text-[#111]/55">
-                          {companyUsers.length} {companyUsers.length === 1 ? 'user' : 'users'} • {companyProjects.length} {companyProjects.length === 1 ? 'project' : 'projects'}
+                          {companyUsers.length} {companyUsers.length === 1 ? "user" : "users"} •{" "}
+                          {companyProjects.length}{" "}
+                          {companyProjects.length === 1 ? "project" : "projects"}
                         </p>
                       </div>
                     </div>
@@ -496,7 +529,9 @@ export default function CompaniesManagement({
                         role="button"
                         tabIndex={0}
                         onClick={() => openEditCompanyModal(company)}
-                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') openEditCompanyModal(company); }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") openEditCompanyModal(company);
+                        }}
                         className="p-1.5 hover:bg-black/[0.06] rounded transition-colors cursor-pointer"
                         title="Edit company"
                       >
@@ -506,7 +541,9 @@ export default function CompaniesManagement({
                         role="button"
                         tabIndex={0}
                         onClick={() => handleDelete(company.id)}
-                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleDelete(company.id); }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") handleDelete(company.id);
+                        }}
                         className="p-1.5 hover:bg-red-500/20/40 rounded transition-colors text-red-400 cursor-pointer"
                         title="Delete company"
                       >
@@ -538,12 +575,24 @@ export default function CompaniesManagement({
                           <table className="w-full">
                             <thead className="bg-black/[0.04] border-b border-black/[0.08]/50">
                               <tr>
-                                <th className="px-4 py-3 text-left text-sm font-medium text-[#111]">Name</th>
-                                <th className="px-4 py-3 text-left text-sm font-medium text-[#111]">Email</th>
-                                <th className="px-4 py-3 text-left text-sm font-medium text-[#111]">Phone</th>
-                                <th className="px-4 py-3 text-left text-sm font-medium text-[#111]">Role</th>
-                                <th className="px-4 py-3 text-left text-sm font-medium text-[#111]">Status</th>
-                                <th className="px-4 py-3 text-right text-sm font-medium text-[#111]">Actions</th>
+                                <th className="px-4 py-3 text-left text-sm font-medium text-[#111]">
+                                  Name
+                                </th>
+                                <th className="px-4 py-3 text-left text-sm font-medium text-[#111]">
+                                  Email
+                                </th>
+                                <th className="px-4 py-3 text-left text-sm font-medium text-[#111]">
+                                  Phone
+                                </th>
+                                <th className="px-4 py-3 text-left text-sm font-medium text-[#111]">
+                                  Role
+                                </th>
+                                <th className="px-4 py-3 text-left text-sm font-medium text-[#111]">
+                                  Status
+                                </th>
+                                <th className="px-4 py-3 text-right text-sm font-medium text-[#111]">
+                                  Actions
+                                </th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-border/50">
@@ -554,8 +603,8 @@ export default function CompaniesManagement({
                                       <UserIcon className="w-4 h-4 text-[#111]/55" />
                                       <span className="font-medium">
                                         {user.first_name || user.last_name
-                                          ? `${user.first_name || ''} ${user.last_name || ''}`.trim()
-                                          : 'No name'}
+                                          ? `${user.first_name || ""} ${user.last_name || ""}`.trim()
+                                          : "No name"}
                                       </span>
                                     </div>
                                   </td>
@@ -568,41 +617,46 @@ export default function CompaniesManagement({
                                   <td className="px-4 py-3 text-[#111]">
                                     <div className="flex items-center gap-2">
                                       <Phone className="w-4 h-4 text-[#111]/55" />
-                                      {user.phone || '—'}
+                                      {user.phone || "—"}
                                     </div>
                                   </td>
                                   <td className="px-4 py-3">
                                     <span
-                                      className={`px-2 py-1 rounded-full text-xs font-medium ${user.role === 'admin'
-                                        ? 'bg-black/[0.04] text-[#111]'
-                                        : 'bg-black/[0.06] text-[#111]'
-                                        }`}
+                                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                        user.role === "admin"
+                                          ? "bg-black/[0.04] text-[#111]"
+                                          : "bg-black/[0.06] text-[#111]"
+                                      }`}
                                     >
                                       {user.role}
                                     </span>
                                   </td>
                                   <td className="px-4 py-3">
                                     <span
-                                      className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${user.status === 'active'
-                                        ? 'bg-[#1e6b3c]/20 text-[#1e6b3c]'
-                                      : user.status === 'pending'
-                                        ? 'bg-black/[0.04] text-[#111]/55'
-                                        : 'bg-destructive/15 text-destructive'
-                                        }`}
+                                      className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${
+                                        user.status === "active"
+                                          ? "bg-[#1e6b3c]/20 text-[#1e6b3c]"
+                                          : user.status === "pending"
+                                            ? "bg-black/[0.04] text-[#111]/55"
+                                            : "bg-destructive/15 text-destructive"
+                                      }`}
                                     >
-                                      {user.status === 'active' && (
+                                      {user.status === "active" && (
                                         <>
-                                          <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden />
+                                          <CheckCircle2
+                                            className="w-3.5 h-3.5 shrink-0"
+                                            aria-hidden
+                                          />
                                           Active
                                         </>
                                       )}
-                                      {user.status === 'pending' && (
+                                      {user.status === "pending" && (
                                         <>
                                           <Clock className="w-3.5 h-3.5 shrink-0" aria-hidden />
                                           Pending
                                         </>
                                       )}
-                                      {user.status === 'inactive' && (
+                                      {user.status === "inactive" && (
                                         <>
                                           <UserX className="w-3.5 h-3.5 shrink-0" aria-hidden />
                                           Inactive
@@ -612,7 +666,7 @@ export default function CompaniesManagement({
                                   </td>
                                   <td className="px-4 py-3">
                                     <div className="flex gap-2 justify-end">
-                                      {user.status === 'pending' && (
+                                      {user.status === "pending" && (
                                         <button
                                           onClick={() => sendInvitation(user.id)}
                                           className="p-1.5 hover:bg-[#1e6b3c]/15 rounded transition-colors text-[#1e6b3c]"
@@ -623,9 +677,17 @@ export default function CompaniesManagement({
                                       )}
                                       <button
                                         onClick={() => setAssigningProjectsUser(user)}
-                                        disabled={currentUser?.id === user.id || user.role === 'admin'}
+                                        disabled={
+                                          currentUser?.id === user.id || user.role === "admin"
+                                        }
                                         className="p-1.5 hover:bg-[#1e6b3c]/15 rounded transition-colors text-[#1e6b3c] disabled:opacity-50 disabled:cursor-not-allowed"
-                                        title={currentUser?.id === user.id ? "Cannot change your own project access" : user.role === 'admin' ? "Admins have access to all projects" : "Assign projects"}
+                                        title={
+                                          currentUser?.id === user.id
+                                            ? "Cannot change your own project access"
+                                            : user.role === "admin"
+                                              ? "Admins have access to all projects"
+                                              : "Assign projects"
+                                        }
                                       >
                                         <FolderOpen className="w-4 h-4" />
                                       </button>
@@ -633,7 +695,11 @@ export default function CompaniesManagement({
                                         onClick={() => openEditUserModal(user)}
                                         disabled={currentUser?.id === user.id}
                                         className="p-1.5 hover:bg-black/[0.06] rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                        title={currentUser?.id === user.id ? "Cannot edit yourself" : "Edit user"}
+                                        title={
+                                          currentUser?.id === user.id
+                                            ? "Cannot edit yourself"
+                                            : "Edit user"
+                                        }
                                       >
                                         <Edit2 className="w-4 h-4" />
                                       </button>
@@ -641,7 +707,11 @@ export default function CompaniesManagement({
                                         onClick={() => handleDeleteUser(user.id)}
                                         disabled={currentUser?.id === user.id}
                                         className="p-1.5 hover:bg-red-500/20/40 rounded transition-colors text-red-400 disabled:opacity-50 disabled:cursor-not-allowed"
-                                        title={currentUser?.id === user.id ? "Cannot delete yourself" : "Delete user"}
+                                        title={
+                                          currentUser?.id === user.id
+                                            ? "Cannot delete yourself"
+                                            : "Delete user"
+                                        }
                                       >
                                         <Trash2 className="w-4 h-4" />
                                       </button>
@@ -692,7 +762,10 @@ export default function CompaniesManagement({
                                     role="button"
                                     tabIndex={0}
                                     onClick={() => openEditProjectModal(project)}
-                                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') openEditProjectModal(project); }}
+                                    onKeyDown={(e) => {
+                                      if (e.key === "Enter" || e.key === " ")
+                                        openEditProjectModal(project);
+                                    }}
                                     className="p-1.5 hover:bg-black/[0.06] rounded transition-colors cursor-pointer"
                                     title="Edit project"
                                   >
@@ -702,7 +775,10 @@ export default function CompaniesManagement({
                                     role="button"
                                     tabIndex={0}
                                     onClick={() => handleDeleteProject(project.id)}
-                                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleDeleteProject(project.id); }}
+                                    onKeyDown={(e) => {
+                                      if (e.key === "Enter" || e.key === " ")
+                                        handleDeleteProject(project.id);
+                                    }}
                                     className="p-1.5 hover:bg-red-500/20/40 rounded transition-colors text-red-400 cursor-pointer"
                                     title="Delete project"
                                   >
@@ -712,7 +788,9 @@ export default function CompaniesManagement({
                               </div>
 
                               {project.description && (
-                                <p className="text-sm text-[#111]/55 mb-4 line-clamp-2">{project.description}</p>
+                                <p className="text-sm text-[#111]/55 mb-4 line-clamp-2">
+                                  {project.description}
+                                </p>
                               )}
 
                               <div className="mt-auto space-y-3">
@@ -789,8 +867,9 @@ export default function CompaniesManagement({
                       Support agent file access
                     </Label>
                     <p className="text-xs text-[#111]/55">
-                      Lets support agents who have the Files grant for this company (under Support agents) use Admin
-                      → Files. Company admins can change this anytime from the Files tab.
+                      Lets support agents who have the Files grant for this company (under Support
+                      agents) use Admin → Files. Company admins can change this anytime from the
+                      Files tab.
                     </p>
                   </div>
                   <Switch
@@ -829,9 +908,7 @@ export default function CompaniesManagement({
         <div className="fixed inset-0 bg-[#F5F5F3]/70 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-lg w-full border border-black/[0.08]/50">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold">
-                {editingUser ? "Edit User" : "Add User"}
-              </h3>
+              <h3 className="text-xl font-semibold">{editingUser ? "Edit User" : "Add User"}</h3>
               <button
                 onClick={closeUserModal}
                 className="p-1 hover:bg-black/[0.06] rounded transition-colors text-[#111]"
@@ -847,7 +924,9 @@ export default function CompaniesManagement({
                   <input
                     type="text"
                     value={userFormData.first_name}
-                    onChange={(e) => setUserFormData({ ...userFormData, first_name: e.target.value })}
+                    onChange={(e) =>
+                      setUserFormData({ ...userFormData, first_name: e.target.value })
+                    }
                     className="w-full bg-black/[0.04] rounded-lg p-3 border border-black/[0.08]/50 focus:border-ring focus:ring-1 focus:ring-ring/40 focus:bg-white outline-none text-[#111] placeholder:text-[#111]/55 transition-colors"
                     placeholder="John"
                   />
@@ -857,7 +936,9 @@ export default function CompaniesManagement({
                   <input
                     type="text"
                     value={userFormData.last_name}
-                    onChange={(e) => setUserFormData({ ...userFormData, last_name: e.target.value })}
+                    onChange={(e) =>
+                      setUserFormData({ ...userFormData, last_name: e.target.value })
+                    }
                     className="w-full bg-black/[0.04] rounded-lg p-3 border border-black/[0.08]/50 focus:border-ring focus:ring-1 focus:ring-ring/40 focus:bg-white outline-none text-[#111] placeholder:text-[#111]/55 transition-colors"
                     placeholder="Doe"
                   />
@@ -891,7 +972,9 @@ export default function CompaniesManagement({
                 <label className="block mb-2 font-medium text-[#111]">Role *</label>
                 <select
                   value={userFormData.role}
-                  onChange={(e) => setUserFormData({ ...userFormData, role: e.target.value as "admin" | "member" })}
+                  onChange={(e) =>
+                    setUserFormData({ ...userFormData, role: e.target.value as "admin" | "member" })
+                  }
                   required
                   className="w-full bg-black/[0.04] rounded-lg p-3 border border-black/[0.08]/50 focus:border-ring focus:ring-1 focus:ring-ring/40 focus:bg-white outline-none text-[#111] transition-colors"
                 >
@@ -944,7 +1027,9 @@ export default function CompaniesManagement({
                 <input
                   type="text"
                   value={projectFormData.title}
-                  onChange={(e) => setProjectFormData({ ...projectFormData, title: e.target.value })}
+                  onChange={(e) =>
+                    setProjectFormData({ ...projectFormData, title: e.target.value })
+                  }
                   required
                   className="w-full bg-black/[0.04] rounded-lg p-3 border border-black/[0.08]/50 focus:border-ring focus:ring-1 focus:ring-ring/40 focus:bg-white outline-none text-[#111] placeholder:text-[#111]/55 transition-colors"
                   placeholder="Website Redesign"
@@ -967,7 +1052,9 @@ export default function CompaniesManagement({
                 <label className="block mb-2 font-medium text-[#111]">Description</label>
                 <textarea
                   value={projectFormData.description}
-                  onChange={(e) => setProjectFormData({ ...projectFormData, description: e.target.value })}
+                  onChange={(e) =>
+                    setProjectFormData({ ...projectFormData, description: e.target.value })
+                  }
                   rows={3}
                   className="w-full bg-black/[0.04] rounded-lg p-3 border border-black/[0.08]/50 focus:border-ring focus:ring-1 focus:ring-ring/40 focus:bg-white outline-none text-[#111] placeholder:text-[#111]/55 transition-colors resize-none"
                   placeholder="Project description..."
@@ -1000,7 +1087,10 @@ export default function CompaniesManagement({
       {assigningProjectsUser && assigningProjectsUser.company_id && (
         <UserProjectAssignment
           userId={assigningProjectsUser.id}
-          userName={`${assigningProjectsUser.first_name} ${assigningProjectsUser.last_name}`.trim() || assigningProjectsUser.email}
+          userName={
+            `${assigningProjectsUser.first_name} ${assigningProjectsUser.last_name}`.trim() ||
+            assigningProjectsUser.email
+          }
           companyId={assigningProjectsUser.company_id}
           currentUser={currentUser}
           onClose={() => setAssigningProjectsUser(null)}

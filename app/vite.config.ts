@@ -60,16 +60,10 @@ export default defineConfig(({ command, mode }) => {
       // Bake publishable Supabase config into the client bundle. Server still
       // reads live process.env at runtime for secrets.
       "process.env.NEXT_PUBLIC_SUPABASE_URL": JSON.stringify(supabaseUrl),
-      "process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY": JSON.stringify(
-        supabasePublishableKey,
-      ),
+      "process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY": JSON.stringify(supabasePublishableKey),
       "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(supabaseUrl),
-      "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
-        supabasePublishableKey,
-      ),
-      "import.meta.env.VITE_SUPABASE_ANON_KEY": JSON.stringify(
-        supabasePublishableKey,
-      ),
+      "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(supabasePublishableKey),
+      "import.meta.env.VITE_SUPABASE_ANON_KEY": JSON.stringify(supabasePublishableKey),
     },
     resolve: {
       alias: [
@@ -84,9 +78,7 @@ export default defineConfig(({ command, mode }) => {
         },
         {
           find: "next/navigation",
-          replacement: fileURLToPath(
-            new URL("./src/shims/next-navigation.ts", import.meta.url),
-          ),
+          replacement: fileURLToPath(new URL("./src/shims/next-navigation.ts", import.meta.url)),
         },
         {
           find: "next/image",
@@ -98,9 +90,7 @@ export default defineConfig(({ command, mode }) => {
         },
         {
           find: "next-auth/react",
-          replacement: fileURLToPath(
-            new URL("./src/shims/next-auth-react.tsx", import.meta.url),
-          ),
+          replacement: fileURLToPath(new URL("./src/shims/next-auth-react.tsx", import.meta.url)),
         },
         {
           find: "@/auth",
@@ -136,9 +126,7 @@ export default defineConfig(({ command, mode }) => {
           icon: true,
           svgProps: { fill: "currentColor" },
           svgoConfig: {
-            plugins: [
-              { name: "preset-default", params: { overrides: { removeViewBox: false } } },
-            ],
+            plugins: [{ name: "preset-default", params: { overrides: { removeViewBox: false } } }],
           },
         },
       }),

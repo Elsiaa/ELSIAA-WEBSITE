@@ -21,9 +21,7 @@ export async function ensureMailSchema(): Promise<boolean> {
   return true;
 }
 
-export async function mailTablesReachable(
-  client: SupabaseClient,
-): Promise<boolean> {
+export async function mailTablesReachable(client: SupabaseClient): Promise<boolean> {
   const { error } = await client.from("mail_api_keys").select("id").limit(1);
   if (!error) return true;
   // Empty table or RLS deny still means table exists for service role

@@ -90,7 +90,9 @@ function LazyFrame({
         className="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#f4f4f2]"
         aria-label={`Load ${title}`}
       >
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-white">▶</span>
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-white">
+          ▶
+        </span>
         <span className="text-[13px] text-[#111111]/55 " style={{ fontFamily: "var(--font-sans)" }}>
           Tap to explore live
         </span>
@@ -119,10 +121,7 @@ function LazyFrame({
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-[#ECECEA]">
-          <span
-            className="text-[13px] text-black/50 "
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
+          <span className="text-[13px] text-black/50 " style={{ fontFamily: "var(--font-sans)" }}>
             Loading live site…
           </span>
         </div>
@@ -134,7 +133,10 @@ function LazyFrame({
 /* ---------------- drag-to-compare: ELSIAA design wipes over the original ---------------- */
 function DialogNewPreview() {
   return (
-    <div className="flex h-full w-full flex-col bg-white" style={{ fontFamily: "var(--font-sans)" }}>
+    <div
+      className="flex h-full w-full flex-col bg-white"
+      style={{ fontFamily: "var(--font-sans)" }}
+    >
       <div className="flex items-center justify-between border-b border-black/5 px-8 py-5">
         <span className="text-lg font-bold tracking-tight text-[#111111]">
           Dialog<span className="text-[#111111]/55"> Healthcare</span>
@@ -144,10 +146,7 @@ function DialogNewPreview() {
         </span>
       </div>
       <div className="flex flex-1 flex-col justify-center px-8">
-        <p
-          className="text-[13px] text-[#1e6b3c] "
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
+        <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: "var(--font-sans)" }}>
           Healthcare staffing
         </p>
         <h3 className="mt-3 max-w-lg text-4xl leading-[1.05] font-semibold tracking-[-0.035em] text-[#111111] md:text-5xl">
@@ -161,7 +160,11 @@ function DialogNewPreview() {
         </div>
         <div className="mt-10 grid max-w-2xl grid-cols-3 gap-4">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="dhp-shimmer rounded-xl bg-[#F5F5F3] p-4" style={{ animationDelay: `${i * 0.25}s` }}>
+            <div
+              key={i}
+              className="dhp-shimmer rounded-xl bg-[#F5F5F3] p-4"
+              style={{ animationDelay: `${i * 0.25}s` }}
+            >
               <div className="h-2 w-2/3 rounded bg-[#1e6b3c]/60" />
               <div className="mt-2.5 h-1.5 w-full rounded bg-black/10" />
               <div className="mt-1.5 h-1.5 w-4/5 rounded bg-black/10" />
@@ -170,10 +173,7 @@ function DialogNewPreview() {
         </div>
       </div>
       <div className="flex items-center justify-between border-t border-black/5 px-8 py-4">
-        <span
-          className="text-[13px] text-black/50 "
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
+        <span className="text-[13px] text-black/50 " style={{ fontFamily: "var(--font-sans)" }}>
           New site · in production
         </span>
         <span
@@ -215,9 +215,9 @@ function CompareSlider() {
             className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[#111111]/55 md:text-lg"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            We uplift and re-vision entire healthcare brands — staffing firms, clinics,
-            telehealth, and ABA providers — making your brand more professional and
-            better received by the patients, families, and partners who judge it first.
+            We uplift and re-vision entire healthcare brands — staffing firms, clinics, telehealth,
+            and ABA providers — making your brand more professional and better received by the
+            patients, families, and partners who judge it first.
           </p>
         </div>
         <div
@@ -225,7 +225,11 @@ function CompareSlider() {
           className="relative mt-6 aspect-[16/9] overflow-hidden rounded-2xl border border-black/10 shadow-[0_50px_110px_-50px_rgba(17,17,17,0.5)]"
         >
           <div className="absolute inset-0">
-            <SitePreview src="https://dialoghealthcare.com" poster="/assets/compare/mrbins_old.jpg" title="Dialog Healthcare — current website" />
+            <SitePreview
+              src="https://dialoghealthcare.com"
+              poster="/assets/compare/mrbins_old.jpg"
+              title="Dialog Healthcare — current website"
+            />
           </div>
           <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
             <DialogNewPreview />
@@ -335,8 +339,15 @@ function Statement() {
 
 function Ticker() {
   const WORDS = [
-    "Websites", "Apps", "Brand Identity", "Motion", "AI Automation", "Product Ads",
-    "UI/UX", "Packaging", "Interactive",
+    "Websites",
+    "Apps",
+    "Brand Identity",
+    "Motion",
+    "AI Automation",
+    "Product Ads",
+    "UI/UX",
+    "Packaging",
+    "Interactive",
   ];
   const row = WORDS.map((w, i) => (
     <span key={i} className="flex items-center gap-8">
@@ -380,7 +391,11 @@ function SideToggle({
             key={k}
             onClick={() => setSide(k)}
             className={`rounded-full px-5 py-2 text-[13px] font-bold  transition-all ${
-              side === k ? (k === "after" ? "bg-[#1e6b3c] text-white" : "bg-[#111111] text-white") : "text-black/55"
+              side === k
+                ? k === "after"
+                  ? "bg-[#1e6b3c] text-white"
+                  : "bg-[#111111] text-white"
+                : "text-black/55"
             }`}
             style={{ fontFamily: "var(--font-sans)" }}
           >
@@ -408,7 +423,10 @@ function SitePreview({ src, poster, title }: { src: string; poster: string; titl
   useEffect(() => {
     const el = boxRef.current;
     if (!el) return;
-    const measure = () => { setScale(el.clientWidth / 1280); setH(el.clientHeight); };
+    const measure = () => {
+      setScale(el.clientWidth / 1280);
+      setH(el.clientHeight);
+    };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
@@ -421,7 +439,10 @@ function SitePreview({ src, poster, title }: { src: string; poster: string; titl
       { rootMargin: "500px" },
     );
     io.observe(el);
-    return () => { ro.disconnect(); io.disconnect(); };
+    return () => {
+      ro.disconnect();
+      io.disconnect();
+    };
   }, []);
 
   return (
@@ -441,7 +462,16 @@ function SitePreview({ src, poster, title }: { src: string; poster: string; titl
           loading="lazy"
           onLoad={() => setReady(true)}
           className="absolute top-0 left-0 origin-top-left"
-          style={{ width: "1280px", maxWidth: "none", minWidth: "1280px", height: `${Math.ceil(h / scale)}px`, transform: `scale(${scale})`, transformOrigin: "top left", border: "0", display: "block" }}
+          style={{
+            width: "1280px",
+            maxWidth: "none",
+            minWidth: "1280px",
+            height: `${Math.ceil(h / scale)}px`,
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+            border: "0",
+            display: "block",
+          }}
         />
       )}
       {gated && !load && (
@@ -450,8 +480,13 @@ function SitePreview({ src, poster, title }: { src: string; poster: string; titl
           className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 bg-white/45 backdrop-blur-[1px]"
           aria-label={`Explore ${title}`}
         >
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-white shadow-lg">▶</span>
-          <span className="rounded-full bg-white/90 px-3 py-1 text-[13px] font-medium text-[#111111]" style={{ fontFamily: "var(--font-sans)" }}>
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-white shadow-lg">
+            ▶
+          </span>
+          <span
+            className="rounded-full bg-white/90 px-3 py-1 text-[13px] font-medium text-[#111111]"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
             Tap to scroll the live site
           </span>
         </button>
@@ -471,9 +506,11 @@ function SitePreview({ src, poster, title }: { src: string; poster: string; titl
 function DiscoverDesigns() {
   const [side, setSide] = useState<"after" | "before">("after");
 
-
   return (
-    <section id="discover-designs" className="bg-[#F5F5F3] px-6 pt-10 md:pt-14 pb-10 md:pb-16 text-[#111111]">
+    <section
+      id="discover-designs"
+      className="bg-[#F5F5F3] px-6 pt-10 md:pt-14 pb-10 md:pb-16 text-[#111111]"
+    >
       <div className="mx-auto max-w-6xl">
         <SideToggle side={side} setSide={setSide} />
 
@@ -526,7 +563,11 @@ function DiscoverDesigns() {
                     under /public/prime-bins/ rendered with no CSS at all — a
                     bare bullet list — which misrepresented the client's actual
                     site in a public before/after. */}
-                <SitePreview src="https://primebins.com/" poster="/assets/compare/mrbins_old.jpg" title="Prime Bins — the current website" />
+                <SitePreview
+                  src="https://primebins.com/"
+                  poster="/assets/compare/mrbins_old.jpg"
+                  title="Prime Bins — the current website"
+                />
               </div>
             </figure>
             <ul className="mx-auto mt-4 max-w-md space-y-1.5">
@@ -535,8 +576,14 @@ function DiscoverDesigns() {
                 "No single path from interest to action",
                 "Busy visuals working against the sale",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "var(--font-sans)" }}>
-                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[13px] font-bold text-white">✕</span>
+                <li
+                  key={t}
+                  className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55"
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[13px] font-bold text-white">
+                    ✕
+                  </span>
                   {t}
                 </li>
               ))}
@@ -578,7 +625,11 @@ function DiscoverDesigns() {
                 <span className="h-2 w-6" />
               </div>
               <div className="h-[340px] overflow-hidden md:h-[54svh]">
-                <SitePreview src="/mr-bins/" poster="/assets/compare/mrbins_new.jpg" title="Mr. Bins — rebuilt by ELSIAA" />
+                <SitePreview
+                  src="/mr-bins/"
+                  poster="/assets/compare/mrbins_new.jpg"
+                  title="Mr. Bins — rebuilt by ELSIAA"
+                />
               </div>
             </figure>
             <ul className="mx-auto mt-4 max-w-md space-y-1.5">
@@ -587,8 +638,14 @@ function DiscoverDesigns() {
                 "Every scroll ends at the next obvious step",
                 "Premium restraint — design that earns trust",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "var(--font-sans)" }}>
-                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[13px] font-bold text-white">✓</span>
+                <li
+                  key={t}
+                  className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70"
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[13px] font-bold text-white">
+                    ✓
+                  </span>
                   {t}
                 </li>
               ))}
@@ -597,9 +654,6 @@ function DiscoverDesigns() {
         </div>
 
         <CompareSlider />
-
-
-
       </div>
     </section>
   );
@@ -632,7 +686,10 @@ function AfterApp({
   const doneCount = done.filter(Boolean).length;
   const MITZVOT = ["Morning tefillah", "Give tzedakah", "Call your mother"];
   return (
-    <div className="flex h-full flex-col bg-[#FBFBFA] pt-9" style={{ fontFamily: "var(--font-sans)" }}>
+    <div
+      className="flex h-full flex-col bg-[#FBFBFA] pt-9"
+      style={{ fontFamily: "var(--font-sans)" }}
+    >
       <div className="flex items-center justify-between px-4 pb-2">
         <span className="text-[13px] font-bold tracking-tight text-[#111111]">
           Mitzva<span className="text-[#1e6b3c]">.</span>
@@ -685,7 +742,9 @@ function AfterApp({
               <div>
                 <p className="text-[13px] font-semibold text-[#111111]">{doneCount} of 3</p>
                 <p className="text-[13px] text-black/55">
-                  {doneCount === 3 ? "Day complete — streak grows" : "Finish the day, feed the streak"}
+                  {doneCount === 3
+                    ? "Day complete — streak grows"
+                    : "Finish the day, feed the streak"}
                 </p>
               </div>
             </div>
@@ -708,7 +767,9 @@ function AfterApp({
               ))}
             </div>
             <div className="rounded-xl bg-white p-3 shadow-sm">
-              <p className="text-[13px] font-semibold text-[#111111]">{15 + doneCount} of 21 this week</p>
+              <p className="text-[13px] font-semibold text-[#111111]">
+                {15 + doneCount} of 21 this week
+              </p>
               <p className="mt-0.5 text-[13px] text-black/55">Best week this month</p>
             </div>
           </div>
@@ -728,7 +789,9 @@ function AfterApp({
             </div>
             <div className="rounded-xl bg-white p-3 shadow-sm">
               <p className="text-[13px] font-semibold text-[#111111]">Abba is 2 ahead of you</p>
-              <p className="mt-0.5 text-[13px] text-black/55">Friendly competition, eternal rewards</p>
+              <p className="mt-0.5 text-[13px] text-black/55">
+                Friendly competition, eternal rewards
+              </p>
             </div>
           </div>
         )}
@@ -752,7 +815,10 @@ function AfterApp({
 
 function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }) {
   return (
-    <div className="flex h-full flex-col bg-[#e8e4d8] pt-9" style={{ fontFamily: "var(--font-sans)" }}>
+    <div
+      className="flex h-full flex-col bg-[#e8e4d8] pt-9"
+      style={{ fontFamily: "var(--font-sans)" }}
+    >
       <div className="bg-[#3d3a33] px-3 py-2">
         <p className="text-[13px] font-bold tracking-wide text-[#c9a227]">PSI CONSTRUCTION APP</p>
         <p className="text-[13px] text-white/50">v1.0.2 — update required</p>
@@ -763,8 +829,22 @@ function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }
       <div className="flex-1 overflow-hidden px-3 pt-2">
         {tab === 0 && (
           <div className="space-y-1.5">
-            {["Home", "About Us", "Our Services", "Photo Gallery", "Request Estimate", "Insurance Info", "Testimonials", "Service Areas", "Contact Us", "Terms of Use"].map((m) => (
-              <div key={m} className="flex items-center justify-between border-b border-black/10 bg-white px-2.5 py-1.5">
+            {[
+              "Home",
+              "About Us",
+              "Our Services",
+              "Photo Gallery",
+              "Request Estimate",
+              "Insurance Info",
+              "Testimonials",
+              "Service Areas",
+              "Contact Us",
+              "Terms of Use",
+            ].map((m) => (
+              <div
+                key={m}
+                className="flex items-center justify-between border-b border-black/10 bg-white px-2.5 py-1.5"
+              >
                 <span className="text-[13px] text-[#3d3a33]">{m}</span>
                 <span className="text-[13px] text-black/50">›</span>
               </div>
@@ -775,8 +855,8 @@ function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }
           <div className="space-y-1.5">
             <div className="bg-white p-2">
               <p className="text-[13px] leading-relaxed text-[#444]">
-                Photos coming soon. Please check back later. For examples of our work
-                please visit our office or call during business hours (Mon-Fri 8-4)...
+                Photos coming soon. Please check back later. For examples of our work please visit
+                our office or call during business hours (Mon-Fri 8-4)...
               </p>
             </div>
             <div className="bg-[#d6d0c0] p-2 text-center">
@@ -791,8 +871,8 @@ function BeforeApp({ tab, setTab }: { tab: number; setTab: (i: number) => void }
           <div className="bg-white p-2.5">
             <p className="text-[13px] font-bold text-[#3d3a33]">REQUEST AN ESTIMATE</p>
             <p className="mt-1 text-[13px] leading-relaxed text-black/60">
-              Please fill out all 14 required fields. Estimates are processed within
-              5-7 business days...
+              Please fill out all 14 required fields. Estimates are processed within 5-7 business
+              days...
             </p>
             <div className="mt-2 h-5 w-full border border-black/20 bg-[#f4f4f4]" />
             <div className="mt-1.5 h-5 w-full border border-black/20 bg-[#f4f4f4]" />
@@ -829,7 +909,6 @@ function StoreBadges() {
   );
 }
 
-
 function DiscoverApps() {
   const [side, setSide] = useState<"after" | "before">("after");
   // controlled app state — shared by the demo engine and the visitor
@@ -859,17 +938,50 @@ function DiscoverApps() {
     const M_LOOP = 13;
     const mSteps: Step[] = [
       { t: 0.5, x: 50, y: 46, status: "Watching the Mitzva app demo itself…" },
-      { t: 2, x: 50, y: 46, act: () => setMDone((d) => [d[0], true, d[2]]), status: "Tzedakah — logged in one tap" },
-      { t: 4, x: 50, y: 57, act: () => setMDone((d) => [d[0], d[1], true]), status: "Third mitzvah — the ring closes" },
-      { t: 6.5, x: 50, y: 93, act: () => setMTab(1), status: "Week view — 18 of 21, best this month" },
+      {
+        t: 2,
+        x: 50,
+        y: 46,
+        act: () => setMDone((d) => [d[0], true, d[2]]),
+        status: "Tzedakah — logged in one tap",
+      },
+      {
+        t: 4,
+        x: 50,
+        y: 57,
+        act: () => setMDone((d) => [d[0], d[1], true]),
+        status: "Third mitzvah — the ring closes",
+      },
+      {
+        t: 6.5,
+        x: 50,
+        y: 93,
+        act: () => setMTab(1),
+        status: "Week view — 18 of 21, best this month",
+      },
       { t: 9, x: 75, y: 93, act: () => setMTab(2), status: "Family circle — 247 mitzvot together" },
-      { t: 11.5, x: 25, y: 93, act: () => { setMTab(0); setMDone([true, false, false]); }, status: "A new day begins" },
+      {
+        t: 11.5,
+        x: 25,
+        y: 93,
+        act: () => {
+          setMTab(0);
+          setMDone([true, false, false]);
+        },
+        status: "A new day begins",
+      },
     ];
     const P_LOOP = 13;
     const pSteps: Step[] = [
       { t: 0.5, x: 50, y: 40, status: "Watching the legacy app struggle…" },
       { t: 2.5, x: 50, y: 93, act: () => setPTab(1), status: "Gallery — images failed to load" },
-      { t: 6, x: 79, y: 93, act: () => setPTab(2), status: "Estimate — 14 required fields, 5-7 days" },
+      {
+        t: 6,
+        x: 79,
+        y: 93,
+        act: () => setPTab(2),
+        status: "Estimate — 14 required fields, 5-7 days",
+      },
       { t: 9.5, x: 21, y: 93, act: () => setPTab(0), status: "Back to the menu maze" },
     ];
 
@@ -912,7 +1024,16 @@ function DiscoverApps() {
       const time = (performance.now() - t0) / 1000;
       if (!mTouched.current) {
         const loop = Math.floor(time / M_LOOP);
-        [mFired, lastMLoop] = run(mSteps, M_LOOP, time, mFingerRef.current, mStatusRef.current, mFired, loop, lastMLoop);
+        [mFired, lastMLoop] = run(
+          mSteps,
+          M_LOOP,
+          time,
+          mFingerRef.current,
+          mStatusRef.current,
+          mFired,
+          loop,
+          lastMLoop,
+        );
         lastMLoop = loop;
         if (mFingerRef.current) mFingerRef.current.style.opacity = "1";
       } else if (mFingerRef.current) {
@@ -921,7 +1042,16 @@ function DiscoverApps() {
       }
       if (!pTouched.current) {
         const loop = Math.floor(time / P_LOOP);
-        [pFired, lastPLoop] = run(pSteps, P_LOOP, time, pFingerRef.current, pStatusRef.current, pFired, loop, lastPLoop);
+        [pFired, lastPLoop] = run(
+          pSteps,
+          P_LOOP,
+          time,
+          pFingerRef.current,
+          pStatusRef.current,
+          pFired,
+          loop,
+          lastPLoop,
+        );
         lastPLoop = loop;
         if (pFingerRef.current) pFingerRef.current.style.opacity = "1";
       } else if (pFingerRef.current) {
@@ -943,7 +1073,8 @@ function DiscoverApps() {
         left: "50%",
         top: "50%",
         transform: "translate(-50%, -50%) scale(1)",
-        transition: "left 0.7s cubic-bezier(.22,.61,.36,1), top 0.7s cubic-bezier(.22,.61,.36,1), transform 0.16s ease, opacity 0.3s ease",
+        transition:
+          "left 0.7s cubic-bezier(.22,.61,.36,1), top 0.7s cubic-bezier(.22,.61,.36,1), transform 0.16s ease, opacity 0.3s ease",
       }}
     />
   );
@@ -962,8 +1093,8 @@ function DiscoverApps() {
             className="mx-auto mt-3 max-w-2xl text-center text-base text-[#111111]/60 md:text-xl"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            If your target audience doesn&rsquo;t use your app because of poor design,
-            the engineering never gets its chance.
+            If your target audience doesn&rsquo;t use your app because of poor design, the
+            engineering never gets its chance.
           </p>
         </Reveal>
         <SideToggle side={side} setSide={setSide} />
@@ -996,7 +1127,9 @@ function DiscoverApps() {
               <div
                 aria-hidden
                 className="absolute top-1/2 left-1/2 -z-10 h-[120%] w-[150%] -translate-x-1/2 -translate-y-1/2"
-                style={{ background: "radial-gradient(circle, rgba(46,158,88,0.16) 0%, transparent 62%)" }}
+                style={{
+                  background: "radial-gradient(circle, rgba(46,158,88,0.16) 0%, transparent 62%)",
+                }}
               />
               <div className="relative rounded-[44px] ring-4 ring-[#1e6b3c]/15">
                 {finger(mFingerRef)}
@@ -1020,8 +1153,14 @@ function DiscoverApps() {
                 "Progress you can feel — streaks, weeks, family circles",
                 "Design that makes the habit effortless",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70" style={{ fontFamily: "var(--font-sans)" }}>
-                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[13px] font-bold text-white">✓</span>
+                <li
+                  key={t}
+                  className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/70"
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-[#1e6b3c] text-[13px] font-bold text-white">
+                    ✓
+                  </span>
                   {t}
                 </li>
               ))}
@@ -1066,8 +1205,14 @@ function DiscoverApps() {
                 "The one thing users want is buried in a form",
                 "Broken galleries instead of a reason to trust",
               ].map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: "var(--font-sans)" }}>
-                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[13px] font-bold text-white">✕</span>
+                <li
+                  key={t}
+                  className="flex items-start gap-2.5 text-[14px] leading-relaxed text-[#111111]/55"
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  <span className="mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full bg-black/20 text-[13px] font-bold text-white">
+                    ✕
+                  </span>
                   {t}
                 </li>
               ))}
@@ -1079,10 +1224,22 @@ function DiscoverApps() {
           <div className="mx-auto mt-12 max-w-5xl border-t border-black/[0.08] pt-10">
             <div className="mt-8 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                ["Platform-correct", "iOS and Android patterns done natively — gestures, navigation, and type that feel at home on each device."],
-                ["Design systems", "Components, tokens, and states documented so your developers build exactly what was designed."],
-                ["Micro-interactions", "The taps, springs, and transitions that make an app feel alive — designed, not left to chance."],
-                ["Store-ready", "Icons, screenshots, and listing assets for the App Store and Google Play, prepared to spec."],
+                [
+                  "Platform-correct",
+                  "iOS and Android patterns done natively — gestures, navigation, and type that feel at home on each device.",
+                ],
+                [
+                  "Design systems",
+                  "Components, tokens, and states documented so your developers build exactly what was designed.",
+                ],
+                [
+                  "Micro-interactions",
+                  "The taps, springs, and transitions that make an app feel alive — designed, not left to chance.",
+                ],
+                [
+                  "Store-ready",
+                  "Icons, screenshots, and listing assets for the App Store and Google Play, prepared to spec.",
+                ],
               ].map(([t, d]) => (
                 <div key={t}>
                   <h4
@@ -1208,8 +1365,7 @@ function ScrollScrubVideo() {
           className="mt-5 max-w-xl text-center text-sm leading-relaxed text-[#111111]/55 md:text-base"
           style={{ fontFamily: "var(--font-sans)" }}
         >
-          Scroll — one identity on every object. This is what clean
-          branding looks like.
+          Scroll — one identity on every object. This is what clean branding looks like.
         </p>
         <LogoMarquee />
       </div>
@@ -1225,7 +1381,10 @@ function ProductAdFeature() {
         <div className="grid items-center gap-7 md:gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* the argument */}
           <Reveal>
-            <p className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase" style={{ fontFamily: F }}>
+            <p
+              className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase"
+              style={{ fontFamily: F }}
+            >
               Design
             </p>
             <h1
@@ -1236,13 +1395,19 @@ function ProductAdFeature() {
               <br />
               <span className="text-[#1e6b3c]">And art has a job.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-[#111111]/65 md:text-[17px]" style={{ fontFamily: F }}>
-              AI did not replace artists — artists use the same tools you do. It is not the
-              tools, it is how they are used. That is our job.
+            <p
+              className="mt-6 max-w-xl text-[16px] leading-relaxed text-[#111111]/65 md:text-[17px]"
+              style={{ fontFamily: F }}
+            >
+              AI did not replace artists — artists use the same tools you do. It is not the tools,
+              it is how they are used. That is our job.
             </p>
-            <p className="mt-4 max-w-xl border-l-2 border-[#1e6b3c] pl-5 text-[16px] leading-relaxed font-medium text-[#111111]/75 md:text-[17px]" style={{ fontFamily: F }}>
-              Pour everything into the backend and generic front-end design will still
-              quietly kill it. If the UI is bad, visitors don't become customers.
+            <p
+              className="mt-4 max-w-xl border-l-2 border-[#1e6b3c] pl-5 text-[16px] leading-relaxed font-medium text-[#111111]/75 md:text-[17px]"
+              style={{ fontFamily: F }}
+            >
+              Pour everything into the backend and generic front-end design will still quietly kill
+              it. If the UI is bad, visitors don't become customers.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
               <a
@@ -1334,7 +1499,9 @@ function BinsReview() {
         )}
         <div className={`flex gap-0.5 ${live ? "" : "opacity-70"}`} aria-hidden>
           {Array.from({ length: 5 }).map((_, i) => (
-            <span key={i} className="text-[17px] leading-none text-[#FBBC05]">★</span>
+            <span key={i} className="text-[17px] leading-none text-[#FBBC05]">
+              ★
+            </span>
           ))}
         </div>
         <blockquote
@@ -1393,7 +1560,10 @@ function BinsCompare() {
               {v.label}
             </figcaption>
           </figure>
-          <p className="mt-3 text-[14px] leading-relaxed text-[#111111]/60" style={{ fontFamily: F }}>
+          <p
+            className="mt-3 text-[14px] leading-relaxed text-[#111111]/60"
+            style={{ fontFamily: F }}
+          >
             {v.note}
           </p>
         </div>
@@ -1419,10 +1589,16 @@ function DesignEverything() {
     <section className="bg-white px-6 py-10 md:py-16" id="websites">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <h2 className="max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl" style={{ fontFamily: F }}>
+          <h2
+            className="max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#111111] md:text-5xl"
+            style={{ fontFamily: F }}
+          >
             We obsess over every aspect of your online presence.
           </h2>
-          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]" style={{ fontFamily: F }}>
+          <p
+            className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]"
+            style={{ fontFamily: F }}
+          >
             The same business, before and after an ELSIAA rebuild.
           </p>
         </Reveal>
@@ -1444,81 +1620,103 @@ function DesignEverything() {
             className="mx-auto mt-9 max-w-3xl border-l-2 border-[#1e6b3c] pl-5 text-[16px] leading-relaxed font-medium text-[#111111]/75 md:mt-14 md:text-[20px]"
             style={{ fontFamily: F }}
           >
-            We don't just design your site. Our goal is to convert strangers who view it
-            into clients — and we take that responsibility seriously.
+            We don't just design your site. Our goal is to convert strangers who view it into
+            clients — and we take that responsibility seriously.
           </p>
         </Reveal>
 
         {/* live client sites */}
         <div className="relative">
-        <div
-          ref={sitesRef}
-          tabIndex={0}
-          role="group"
-          aria-label="Live client sites — swipe or use the arrow keys"
-          className="-mx-6 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] [&::-webkit-scrollbar]:hidden md:mx-0 md:mt-14 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0"
-        >
-          {LIVE_SITES.map((site, i) => (
-            <Reveal key={site.name} className="w-[80vw] max-w-[320px] shrink-0 snap-center md:w-auto md:max-w-none md:shrink" delay={0.05 + i * 0.05}>
-              <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#F5F5F3]">
-                  {site.url ? (
-                    <SitePreview src={site.url} poster="/assets/compare/mrbins_new.jpg" title={`${site.name} — live site`} />
-                  ) : (
-                    <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-[#F5F5F3] to-white">
-                      <span className="text-[17px] font-semibold tracking-[-0.02em] text-[#111111]/70" style={{ fontFamily: F }}>
-                        {site.name}
-                      </span>
-                      <span className="rounded-full border border-black/10 px-3 py-1 text-[11.5px] font-medium text-[#111111]/45" style={{ fontFamily: F }}>
-                        Launching soon
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <div className="flex items-baseline justify-between gap-3 px-5 py-4">
-                  <div>
-                    <h3 className="text-[15.5px] font-semibold tracking-[-0.015em] text-[#111111]" style={{ fontFamily: F }}>
-                      {site.name}
-                    </h3>
-                    <p className="mt-0.5 text-[13px] text-[#111111]/45" style={{ fontFamily: F }}>{site.kind}</p>
+          <div
+            ref={sitesRef}
+            tabIndex={0}
+            role="group"
+            aria-label="Live client sites — swipe or use the arrow keys"
+            className="-mx-6 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] [&::-webkit-scrollbar]:hidden md:mx-0 md:mt-14 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0"
+          >
+            {LIVE_SITES.map((site, i) => (
+              <Reveal
+                key={site.name}
+                className="w-[80vw] max-w-[320px] shrink-0 snap-center md:w-auto md:max-w-none md:shrink"
+                delay={0.05 + i * 0.05}
+              >
+                <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#F5F5F3]">
+                    {site.url ? (
+                      <SitePreview
+                        src={site.url}
+                        poster="/assets/compare/mrbins_new.jpg"
+                        title={`${site.name} — live site`}
+                      />
+                    ) : (
+                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-[#F5F5F3] to-white">
+                        <span
+                          className="text-[17px] font-semibold tracking-[-0.02em] text-[#111111]/70"
+                          style={{ fontFamily: F }}
+                        >
+                          {site.name}
+                        </span>
+                        <span
+                          className="rounded-full border border-black/10 px-3 py-1 text-[11.5px] font-medium text-[#111111]/45"
+                          style={{ fontFamily: F }}
+                        >
+                          Launching soon
+                        </span>
+                      </div>
+                    )}
                   </div>
-                  {site.url && (
-                    <a
-                      href={site.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="shrink-0 text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
-                      style={{ fontFamily: F }}
-                    >
-                      Visit ↗
-                    </a>
-                  )}
+                  <div className="flex items-baseline justify-between gap-3 px-5 py-4">
+                    <div>
+                      <h3
+                        className="text-[15.5px] font-semibold tracking-[-0.015em] text-[#111111]"
+                        style={{ fontFamily: F }}
+                      >
+                        {site.name}
+                      </h3>
+                      <p className="mt-0.5 text-[13px] text-[#111111]/45" style={{ fontFamily: F }}>
+                        {site.kind}
+                      </p>
+                    </div>
+                    {site.url && (
+                      <a
+                        href={site.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="shrink-0 text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                        style={{ fontFamily: F }}
+                      >
+                        Visit ↗
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+              </Reveal>
+            ))}
+          </div>
 
-        {/* arrows — the row is horizontally scrollable and that isn't obvious
+          {/* arrows — the row is horizontally scrollable and that isn't obvious
             without an affordance, so both edges carry a control on every size */}
-        <button
-          type="button"
-          aria-label="Previous site"
-          onClick={() => nudge(-1)}
-          className="absolute top-[38%] -left-1 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white/95 text-[17px] text-[#111111]/60 shadow-[0_10px_30px_-12px_rgba(17,17,17,0.4)] backdrop-blur transition-all hover:border-[#1e6b3c]/40 hover:text-[#1e6b3c] md:-left-4"
-        >
-          ‹
-        </button>
-        <button
-          type="button"
-          aria-label="Next site"
-          onClick={() => nudge(1)}
-          className="absolute top-[38%] -right-1 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white/95 text-[17px] text-[#111111]/60 shadow-[0_10px_30px_-12px_rgba(17,17,17,0.4)] backdrop-blur transition-all hover:border-[#1e6b3c]/40 hover:text-[#1e6b3c] md:-right-4"
-        >
-          ›
-        </button>
+          <button
+            type="button"
+            aria-label="Previous site"
+            onClick={() => nudge(-1)}
+            className="absolute top-[38%] -left-1 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white/95 text-[17px] text-[#111111]/60 shadow-[0_10px_30px_-12px_rgba(17,17,17,0.4)] backdrop-blur transition-all hover:border-[#1e6b3c]/40 hover:text-[#1e6b3c] md:-left-4"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            aria-label="Next site"
+            onClick={() => nudge(1)}
+            className="absolute top-[38%] -right-1 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white/95 text-[17px] text-[#111111]/60 shadow-[0_10px_30px_-12px_rgba(17,17,17,0.4)] backdrop-blur transition-all hover:border-[#1e6b3c]/40 hover:text-[#1e6b3c] md:-right-4"
+          >
+            ›
+          </button>
         </div>
-        <p className="mt-3 text-center text-[12.5px] text-[#111111]/45 md:hidden" style={{ fontFamily: F }}>
+        <p
+          className="mt-3 text-center text-[12.5px] text-[#111111]/45 md:hidden"
+          style={{ fontFamily: F }}
+        >
           Swipe to see more client sites
         </p>
       </div>
@@ -1534,23 +1732,35 @@ function BuyWebsite() {
         <Reveal>
           <div className="grid items-center gap-8 md:grid-cols-[1.1fr_0.9fr] md:gap-14">
             <div>
-              <h2 className="text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl" style={{ fontFamily: F }}>
+              <h2
+                className="text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"
+                style={{ fontFamily: F }}
+              >
                 Purchase a website
               </h2>
-              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]" style={{ fontFamily: F }}>
+              <p
+                className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]"
+                style={{ fontFamily: F }}
+              >
                 A clean, fast marketing site — up to five pages, your branding, mobile-perfect,
-                contact form, and live hosting. No custom backend, no dashboards, no logins:
-                the site that makes people call you.
+                contact form, and live hosting. No custom backend, no dashboards, no logins: the
+                site that makes people call you.
               </p>
               <p className="mt-3 text-[13.5px] text-[#111111]/45" style={{ fontFamily: F }}>
                 Need accounts, portals, or a database? That is backend software — priced separately.
               </p>
             </div>
             <div className="rounded-3xl border border-black/[0.08] bg-white p-7 shadow-[0_24px_60px_-50px_rgba(17,17,17,0.4)] md:p-8">
-              <p className="text-[12px] font-semibold tracking-[0.1em] text-[#111111]/40 uppercase" style={{ fontFamily: F }}>
+              <p
+                className="text-[12px] font-semibold tracking-[0.1em] text-[#111111]/40 uppercase"
+                style={{ fontFamily: F }}
+              >
                 Starting at
               </p>
-              <p className="mt-1 text-[42px] font-semibold leading-none tracking-[-0.04em] text-[#111111]" style={{ fontFamily: F }}>
+              <p
+                className="mt-1 text-[42px] font-semibold leading-none tracking-[-0.04em] text-[#111111]"
+                style={{ fontFamily: F }}
+              >
                 $750
               </p>
               <a
@@ -1607,7 +1817,10 @@ function BeyondWebsites() {
 
   const APPS = [
     ["Conversion-Focused Web Experiences", "Sites engineered around a single measurable outcome."],
-    ["Native Mobile Application Design", "iOS and Android interfaces that feel born on the device."],
+    [
+      "Native Mobile Application Design",
+      "iOS and Android interfaces that feel born on the device.",
+    ],
     ["Brand Identity Architecture", "Logo, system, and voice built as one coherent structure."],
     ["Healthcare Brand Revitalization", "Clinical trust, rebuilt for patients and partners."],
     ["Motion Identity Systems", "How your brand moves — defined, not improvised."],
@@ -1700,9 +1913,11 @@ function BeyondWebsites() {
               </button>
             </div>
           </div>
-          <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "var(--font-sans)" }}>
-            Thirty-two applications of design, one standard. It never stops moving —
-            neither do we.
+          <p
+            className="mt-3 max-w-xl text-base text-[#111111]/60"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            Thirty-two applications of design, one standard. It never stops moving — neither do we.
           </p>
         </Reveal>
       </div>
@@ -1718,8 +1933,14 @@ function BeyondWebsites() {
         aria-label="Scrollable list — use the left and right arrow keys"
         onKeyDown={(e) => {
           const el = e.currentTarget;
-          if (e.key === "ArrowRight") { e.preventDefault(); el.scrollBy({ left: Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
-          if (e.key === "ArrowLeft") { e.preventDefault(); el.scrollBy({ left: -Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
+          if (e.key === "ArrowRight") {
+            e.preventDefault();
+            el.scrollBy({ left: Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" });
+          }
+          if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            el.scrollBy({ left: -Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" });
+          }
         }}
         className="mt-9 flex gap-3 overflow-x-auto px-6 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]"
       >
@@ -1728,10 +1949,7 @@ function BeyondWebsites() {
             key={`${t}-${i}`}
             className="group flex w-[280px] flex-none flex-col rounded-2xl border border-black/[0.06] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_24px_60px_-30px_rgba(30,107,60,0.35)]"
           >
-            <span
-              className="text-[13px] text-[#1e6b3c]"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
+            <span className="text-[13px] text-[#1e6b3c]" style={{ fontFamily: "var(--font-sans)" }}>
               {String((i % APPS.length) + 1)}
             </span>
             <h3
@@ -1765,7 +1983,13 @@ function StepArt({ step }: { step: number }) {
     return (
       <svg {...common} aria-hidden>
         <rect x="8" y="14" width="26" height="20" rx="3" stroke={OUT} strokeWidth="2" fill="#fff" />
-        <path d="M13 28l5-5 4 3 6-7" stroke={GL} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M13 28l5-5 4 3 6-7"
+          stroke={GL}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
         <circle cx="36" cy="34" r="9" stroke={OUT} strokeWidth="2.2" fill="rgba(46,158,88,0.08)" />
         <line x1="43" y1="41" x2="49" y2="47" stroke={OUT} strokeWidth="3" strokeLinecap="round" />
       </svg>
@@ -1775,11 +1999,32 @@ function StepArt({ step }: { step: number }) {
     // sketch-first — pencil drawing a squiggle
     return (
       <svg {...common} aria-hidden>
-        <path d="M8 44c6-2 10-1 16-6" stroke={OUT} strokeWidth="2" strokeLinecap="round" strokeDasharray="3 4" />
+        <path
+          d="M8 44c6-2 10-1 16-6"
+          stroke={OUT}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeDasharray="3 4"
+        />
         <g transform="rotate(45 36 22)">
-          <rect x="32" y="8" width="8" height="22" rx="1.5" stroke={OUT} strokeWidth="2" fill="#f0d9a8" />
+          <rect
+            x="32"
+            y="8"
+            width="8"
+            height="22"
+            rx="1.5"
+            stroke={OUT}
+            strokeWidth="2"
+            fill="#f0d9a8"
+          />
           <rect x="32" y="8" width="8" height="5" rx="1.5" stroke={OUT} strokeWidth="2" fill={GL} />
-          <path d="M32 30l4 8 4-8z" stroke={OUT} strokeWidth="2" strokeLinejoin="round" fill="#fff" />
+          <path
+            d="M32 30l4 8 4-8z"
+            stroke={OUT}
+            strokeWidth="2"
+            strokeLinejoin="round"
+            fill="#fff"
+          />
         </g>
       </svg>
     );
@@ -1788,8 +2033,24 @@ function StepArt({ step }: { step: number }) {
     // directed generation — magic wand with sparkles
     return (
       <svg {...common} aria-hidden>
-        <rect x="10" y="34" width="26" height="6" rx="3" transform="rotate(-35 23 37)" stroke={OUT} strokeWidth="2" fill="#d0d5d2" />
-        <path d="M40 14l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6 1.6-4z" fill={GL} stroke={OUT} strokeWidth="1.6" strokeLinejoin="round" />
+        <rect
+          x="10"
+          y="34"
+          width="26"
+          height="6"
+          rx="3"
+          transform="rotate(-35 23 37)"
+          stroke={OUT}
+          strokeWidth="2"
+          fill="#d0d5d2"
+        />
+        <path
+          d="M40 14l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6 1.6-4z"
+          fill={GL}
+          stroke={OUT}
+          strokeWidth="1.6"
+          strokeLinejoin="round"
+        />
         <circle cx="30" cy="12" r="1.8" fill={G} />
         <circle cx="48" cy="30" r="1.8" fill={G} />
       </svg>
@@ -1804,8 +2065,26 @@ function StepArt({ step }: { step: number }) {
         <circle cx="14" cy="16" r="1.4" fill={GL} />
         <circle cx="19" cy="16" r="1.4" fill="#d0d5d2" />
         <rect x="14" y="25" width="12" height="5" rx="1" fill={GL} stroke={OUT} strokeWidth="1.4" />
-        <rect x="14" y="32" width="12" height="5" rx="1" fill="#d0d5d2" stroke={OUT} strokeWidth="1.4" />
-        <rect x="30" y="25" width="12" height="12" rx="1" fill="rgba(46,158,88,0.15)" stroke={OUT} strokeWidth="1.4" />
+        <rect
+          x="14"
+          y="32"
+          width="12"
+          height="5"
+          rx="1"
+          fill="#d0d5d2"
+          stroke={OUT}
+          strokeWidth="1.4"
+        />
+        <rect
+          x="30"
+          y="25"
+          width="12"
+          height="12"
+          rx="1"
+          fill="rgba(46,158,88,0.15)"
+          stroke={OUT}
+          strokeWidth="1.4"
+        />
       </svg>
     );
   }
@@ -1814,20 +2093,56 @@ function StepArt({ step }: { step: number }) {
     return (
       <svg {...common} aria-hidden>
         <path d="M28 10a18 18 0 0114.5 7.4" stroke={OUT} strokeWidth="2.2" strokeLinecap="round" />
-        <path d="M45 12v7h-7" stroke={OUT} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M45 12v7h-7"
+          stroke={OUT}
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
         <path d="M28 46a18 18 0 01-14.5-7.4" stroke={OUT} strokeWidth="2.2" strokeLinecap="round" />
-        <path d="M11 44v-7h7" stroke={OUT} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M28 20l6 6-6 10-6-10 6-6z" fill={GL} stroke={OUT} strokeWidth="1.8" strokeLinejoin="round" />
+        <path
+          d="M11 44v-7h7"
+          stroke={OUT}
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M28 20l6 6-6 10-6-10 6-6z"
+          fill={GL}
+          stroke={OUT}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
       </svg>
     );
   }
   // launch & refinement — cute rocket
   return (
     <svg {...common} aria-hidden>
-      <path d="M28 8c6 4 8 12 8 18l-8 8-8-8c0-6 2-14 8-18z" fill="#fff" stroke={OUT} strokeWidth="2" strokeLinejoin="round" />
+      <path
+        d="M28 8c6 4 8 12 8 18l-8 8-8-8c0-6 2-14 8-18z"
+        fill="#fff"
+        stroke={OUT}
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
       <circle cx="28" cy="20" r="3.4" fill="rgba(46,158,88,0.2)" stroke={OUT} strokeWidth="1.6" />
-      <path d="M20 30l-5 7 7-2M36 30l5 7-7-2" fill={GL} stroke={OUT} strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="M28 36v8" stroke={GL} strokeWidth="2.4" strokeLinecap="round" strokeDasharray="2 3" />
+      <path
+        d="M20 30l-5 7 7-2M36 30l5 7-7-2"
+        fill={GL}
+        stroke={OUT}
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M28 36v8"
+        stroke={GL}
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeDasharray="2 3"
+      />
     </svg>
   );
 }
@@ -1837,8 +2152,16 @@ function OurProcess() {
   const STEPS = [
     ["1", "Immersion", "We study your market and customers first. Research, not aesthetics."],
     ["2", "Sketch first", "Drawn by hand before a pixel exists. No templates, ever."],
-    ["3", "Directed generation", "Our AI pipeline turns direction into studio-grade imagery, film, and interfaces."],
-    ["4", "Live assembly", "Built as working software from day one. We show you the thing, not a mockup."],
+    [
+      "3",
+      "Directed generation",
+      "Our AI pipeline turns direction into studio-grade imagery, film, and interfaces.",
+    ],
+    [
+      "4",
+      "Live assembly",
+      "Built as working software from day one. We show you the thing, not a mockup.",
+    ],
     ["5", "Ruthless iteration", "Anything below the bar gets rebuilt — in hours, not sprints."],
     ["6", "Launch & refine", "It ships live, then keeps improving against real visitor behaviour."],
   ];
@@ -1846,10 +2169,7 @@ function OurProcess() {
     <section className="bg-[#F5F5F3] px-6 py-10 text-[#111111] md:py-14">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <p
-            className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
+          <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: "var(--font-sans)" }}>
             The ELSIAA process
           </p>
           <h2
@@ -1858,14 +2178,20 @@ function OurProcess() {
           >
             Every uplift runs the same road.
           </h2>
-          <p className="mt-3 max-w-xl text-base text-[#111111]/60" style={{ fontFamily: "var(--font-sans)" }}>
-            Six stages, one direction — from understanding your business to a living
-            product that keeps getting better.
+          <p
+            className="mt-3 max-w-xl text-base text-[#111111]/60"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            Six stages, one direction — from understanding your business to a living product that
+            keeps getting better.
           </p>
         </Reveal>
         {/* one connected run — reads left-to-right, no long scroll */}
         <div className="relative mt-10">
-          <div aria-hidden className="absolute top-[27px] right-0 left-0 hidden h-px bg-[#1e6b3c]/20 lg:block" />
+          <div
+            aria-hidden
+            className="absolute top-[27px] right-0 left-0 hidden h-px bg-[#1e6b3c]/20 lg:block"
+          />
           <div className="grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-6 lg:gap-x-4">
             {STEPS.map(([n, t, d], i) => (
               <Reveal key={n} delay={Math.min(i * 0.05, 0.25)}>
@@ -1873,13 +2199,22 @@ function OurProcess() {
                   <span className="relative z-10 grid h-[54px] w-[54px] place-items-center rounded-2xl border border-black/[0.08] bg-white shadow-[0_10px_26px_-16px_rgba(17,17,17,0.35)]">
                     <StepArt step={Number(n)} />
                   </span>
-                  <p className="mt-4 text-[11.5px] font-bold tracking-[0.14em] text-[#1e6b3c]" style={{ fontFamily: F }}>
+                  <p
+                    className="mt-4 text-[11.5px] font-bold tracking-[0.14em] text-[#1e6b3c]"
+                    style={{ fontFamily: F }}
+                  >
                     0{n}
                   </p>
-                  <h3 className="mt-1 text-[15.5px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]" style={{ fontFamily: F }}>
+                  <h3
+                    className="mt-1 text-[15.5px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]"
+                    style={{ fontFamily: F }}
+                  >
                     {t}
                   </h3>
-                  <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#111111]/55" style={{ fontFamily: F }}>
+                  <p
+                    className="mt-1.5 text-[13.5px] leading-relaxed text-[#111111]/55"
+                    style={{ fontFamily: F }}
+                  >
                     {d}
                   </p>
                 </div>
@@ -1929,7 +2264,7 @@ function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
 
 function Results() {
   return (
- <section className="bg-white px-6 py-10 md:py-14">
+    <section className="bg-white px-6 py-10 md:py-14">
       <div className="mx-auto grid max-w-5xl grid-cols-3 gap-8 text-center">
         {[
           { n: 6, s: "", l: "Cities worldwide" },
@@ -1961,10 +2296,7 @@ function FinalCTA() {
   return (
     <section className="bg-[#F5F5F3] px-6 py-10 text-center md:py-14 text-[#111111]">
       <Reveal>
-        <p
-          className="text-[13px] text-[#1e6b3c] "
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
+        <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: "var(--font-sans)" }}>
           ELSIAA
         </p>
         <h2
@@ -2008,7 +2340,11 @@ function PageProgress() {
   }, []);
   return (
     <div className="fixed inset-x-0 top-0 z-[60] h-[2.5px]">
-      <div ref={ref} className="h-full origin-left bg-[#2e9e58]" style={{ transform: "scaleX(0)" }} />
+      <div
+        ref={ref}
+        className="h-full origin-left bg-[#2e9e58]"
+        style={{ transform: "scaleX(0)" }}
+      />
     </div>
   );
 }

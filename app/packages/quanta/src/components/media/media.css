@@ -88,11 +88,7 @@
   align-items: flex-end;
   justify-content: flex-start;
   padding: var(--hf-space-400);
-  background-image: linear-gradient(
-    to top,
-    var(--hf-color-transparent-dark-50),
-    transparent
-  );
+  background-image: linear-gradient(to top, var(--hf-color-transparent-dark-50), transparent);
 }
 
 /* Top band scrim — mirror of bottom, for top-anchored badges / titles. */
@@ -103,11 +99,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: var(--hf-space-400);
-  background-image: linear-gradient(
-    to bottom,
-    var(--hf-color-transparent-dark-50),
-    transparent
-  );
+  background-image: linear-gradient(to bottom, var(--hf-color-transparent-dark-50), transparent);
 }
 
 /* A small label region under / over the media. */

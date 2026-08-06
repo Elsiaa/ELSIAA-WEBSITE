@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import type { ComponentProps, ReactNode } from 'react'
-import { Field } from '@base-ui/react/field'
-import { cx } from '../utils/cx.ts'
+import type { ComponentProps, ReactNode } from "react";
+import { Field } from "@base-ui/react/field";
+import { cx } from "../utils/cx.ts";
 
 /**
  * Textarea — a multi-line labelled field on Base UI `Field`, pixel-matched to
@@ -18,36 +18,37 @@ import { cx } from '../utils/cx.ts'
 
 type FieldProps = {
   /** Label above the control. */
-  label?: ReactNode
+  label?: ReactNode;
   /** Helper text below the control (hidden while an `error` shows). */
-  description?: ReactNode
+  description?: ReactNode;
   /** Error message — its presence puts the field in the invalid (red) state. */
-  error?: ReactNode
+  error?: ReactNode;
   /** Force the invalid state without a message. */
-  invalid?: boolean
+  invalid?: boolean;
   /** Append a red `*` to the label. */
-  required?: boolean
+  required?: boolean;
   /** Leading slot (20px icon, any node), pinned to the top. */
-  start?: ReactNode
+  start?: ReactNode;
   /** Trailing slot (20px icon, any node), pinned to the bottom. */
-  end?: ReactNode
+  end?: ReactNode;
   /** @deprecated Use `start` — kept as an alias for back-compat. */
-  prefix?: ReactNode
+  prefix?: ReactNode;
   /** @deprecated Use `end` — kept as an alias for back-compat. */
-  suffix?: ReactNode
+  suffix?: ReactNode;
   /** Swap the underlying control element (e.g. an auto-grow / 3rd-party textarea). */
-  render?: ComponentProps<typeof Field.Control>['render']
+  render?: ComponentProps<typeof Field.Control>["render"];
   /** Class for the root Field wrapper. */
-  className?: string
+  className?: string;
   /** Class for the control surface. */
-  controlClassName?: string
+  controlClassName?: string;
   /** Class for the `<textarea>` element. */
-  inputClassName?: string
+  inputClassName?: string;
   /** Props forwarded to the Base UI `Field.Root`. */
-  fieldProps?: ComponentProps<typeof Field.Root>
-}
+  fieldProps?: ComponentProps<typeof Field.Root>;
+};
 
-export type TextareaProps = FieldProps & Omit<ComponentProps<'textarea'>, 'prefix' | 'color' | 'children'>
+export type TextareaProps = FieldProps &
+  Omit<ComponentProps<"textarea">, "prefix" | "color" | "children">;
 
 export function Textarea({
   label,
@@ -67,26 +68,28 @@ export function Textarea({
   fieldProps,
   ...controlProps
 }: TextareaProps) {
-  const invalid = invalidProp ?? error != null
+  const invalid = invalidProp ?? error != null;
   // `start`/`end` are canonical; `prefix`/`suffix` are the back-compat aliases.
-  const lead = start ?? prefix
-  const trail = end ?? suffix
+  const lead = start ?? prefix;
+  const trail = end ?? suffix;
 
   return (
-    <Field.Root className={cx('q-field q-field-multiline', className)} {...fieldProps}>
-      {label != null
-        ? (
-            <Field.Label className={cx('q-field-label', invalid && 'q-field-label-invalid')}>
-              {label}
-              {required ? <span aria-hidden className="q-field-required">*</span> : null}
-            </Field.Label>
-          )
-        : null}
+    <Field.Root className={cx("q-field q-field-multiline", className)} {...fieldProps}>
+      {label != null ? (
+        <Field.Label className={cx("q-field-label", invalid && "q-field-label-invalid")}>
+          {label}
+          {required ? (
+            <span aria-hidden className="q-field-required">
+              *
+            </span>
+          ) : null}
+        </Field.Label>
+      ) : null}
 
       <div
         className={cx(
-          'q-field-control q-field-control-multiline',
-          invalid && 'q-field-control-invalid',
+          "q-field-control q-field-control-multiline",
+          invalid && "q-field-control-invalid",
           controlClassName,
         )}
       >
@@ -97,18 +100,20 @@ export function Textarea({
             attrs/handlers at runtime — the cast bridges the element-type variance. */}
         <Field.Control
           render={render ?? <textarea rows={rows} />}
-          className={cx('q-field-input q-field-input-multiline', inputClassName)}
+          className={cx("q-field-input q-field-input-multiline", inputClassName)}
           aria-invalid={invalid || undefined}
           {...(controlProps as unknown as ComponentProps<typeof Field.Control>)}
         />
         {trail != null ? <span className="q-field-affix">{trail}</span> : null}
       </div>
 
-      {invalid && error != null
-        ? <Field.Error match className="q-field-error">{error}</Field.Error>
-        : description != null
-          ? <Field.Description className="q-field-description">{description}</Field.Description>
-          : null}
+      {invalid && error != null ? (
+        <Field.Error match className="q-field-error">
+          {error}
+        </Field.Error>
+      ) : description != null ? (
+        <Field.Description className="q-field-description">{description}</Field.Description>
+      ) : null}
     </Field.Root>
-  )
+  );
 }

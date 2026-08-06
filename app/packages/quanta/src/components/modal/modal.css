@@ -63,7 +63,9 @@
 
   transition-property: opacity, transform;
   transition-duration: var(--hf-duration-normal); /* 200ms */
-  transition-timing-function: var(--hf-ease-out); /* ease-out (enter) — cubic-bezier(0, 0, 0.2, 1) */
+  transition-timing-function: var(
+    --hf-ease-out
+  ); /* ease-out (enter) — cubic-bezier(0, 0, 0.2, 1) */
 
   &[data-starting-style],
   &[data-ending-style] {

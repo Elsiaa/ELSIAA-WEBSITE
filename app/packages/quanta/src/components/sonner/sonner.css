@@ -18,13 +18,26 @@
   width: min(var(--q-sonner-width), calc(100vw - var(--hf-space-800)));
   pointer-events: none;
 
-  & > * { pointer-events: auto; }
+  & > * {
+    pointer-events: auto;
+  }
 
-  &[data-position$="-right"] { right: var(--hf-space-400); }
-  &[data-position$="-left"] { left: var(--hf-space-400); }
-  &[data-position$="-center"] { left: 50%; transform: translateX(-50%); }
-  &[data-position^="top"] { top: var(--hf-space-400); }
-  &[data-position^="bottom"] { bottom: var(--hf-space-400); }
+  &[data-position$="-right"] {
+    right: var(--hf-space-400);
+  }
+  &[data-position$="-left"] {
+    left: var(--hf-space-400);
+  }
+  &[data-position$="-center"] {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &[data-position^="top"] {
+    top: var(--hf-space-400);
+  }
+  &[data-position^="bottom"] {
+    bottom: var(--hf-space-400);
+  }
 }
 
 /* The toast card — glassy frosted surface (matches the Modal glass), absolutely
@@ -34,7 +47,7 @@
  * (--toast-index / -offset-y / -frontmost-height / -height) + swipe movement. */
 @utility q-sonner {
   --q-sonner-peek: var(--hf-space-250); /* 10px — collapsed peek per layer */
-  --q-sonner-gap: 0.875rem;  /* 14px — gap between expanded toasts; no token: 0.875rem not in space scale (300=0.75rem→400=1rem) */
+  --q-sonner-gap: 0.875rem; /* 14px — gap between expanded toasts; no token: 0.875rem not in space scale (300=0.75rem→400=1rem) */
 
   position: absolute;
   left: var(--hf-space-0);
@@ -71,7 +84,9 @@
 [data-position^="bottom"] .q-sonner[data-expanded],
 [data-position^="bottom"][data-expand] .q-sonner {
   height: var(--toast-height);
-  transform: translateY(calc((var(--toast-offset-y) + var(--toast-index) * var(--q-sonner-gap)) * -1));
+  transform: translateY(
+    calc((var(--toast-offset-y) + var(--toast-index) * var(--q-sonner-gap)) * -1)
+  );
 }
 [data-position^="bottom"] .q-sonner[data-starting-style],
 [data-position^="bottom"] .q-sonner[data-ending-style] {
@@ -98,7 +113,10 @@
 }
 
 /* Over the configured `limit` → kept mounted for the stack count, but hidden. */
-.q-sonner[data-limited] { opacity: 0; pointer-events: none; }
+.q-sonner[data-limited] {
+  opacity: 0;
+  pointer-events: none;
+}
 
 /* Hover bridge — when expanded the stack spreads apart with a real gap between
  * cards. The viewport passes pointer events through its empty area (only the
@@ -175,7 +193,9 @@
   cursor: pointer;
   transition: opacity var(--hf-duration-150) ease; /* `ease` keyword not in ease tokens */
 
-  &:hover { opacity: 0.85; }
+  &:hover {
+    opacity: 0.85;
+  }
 }
 
 /* Holds a custom ReactNode action (e.g. a quanta Button) in the same slot as
@@ -200,7 +220,10 @@
   color: var(--hf-color-text-tertiary);
   cursor: pointer;
   opacity: 0;
-  transition: opacity var(--hf-duration-150) ease, background-color var(--hf-duration-150) ease, color var(--hf-duration-150) ease; /* `ease` keyword not in ease tokens */
+  transition:
+    opacity var(--hf-duration-150) ease,
+    background-color var(--hf-duration-150) ease,
+    color var(--hf-duration-150) ease; /* `ease` keyword not in ease tokens */
 
   &:hover {
     background-color: var(--hf-color-overlay-dim-soft);
@@ -213,21 +236,35 @@
 }
 
 /* Variant icon accents (state colors). */
-.q-sonner-success .q-sonner-icon { color: var(--hf-color-state-success-fg); }
-.q-sonner-error .q-sonner-icon { color: var(--hf-color-state-error-fg); }
-.q-sonner-warning .q-sonner-icon { color: var(--hf-color-state-warning-fg); }
-.q-sonner-info .q-sonner-icon { color: var(--hf-color-state-info-fg); }
+.q-sonner-success .q-sonner-icon {
+  color: var(--hf-color-state-success-fg);
+}
+.q-sonner-error .q-sonner-icon {
+  color: var(--hf-color-state-error-fg);
+}
+.q-sonner-warning .q-sonner-icon {
+  color: var(--hf-color-state-warning-fg);
+}
+.q-sonner-info .q-sonner-icon {
+  color: var(--hf-color-state-info-fg);
+}
 
 /* Loading spinner. */
 @utility q-sonner-spinner {
   animation: q-sonner-spin var(--hf-duration-700) linear infinite; /* `linear` keyword not in ease tokens */
 }
 @keyframes q-sonner-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   /* Keep the stack transforms (they ARE the layout) — just snap instead of animate. */
-  .q-sonner { transition-duration: 1ms; } /* no token: 1ms snap sentinel; instant token is 0ms */
-  .q-sonner-spinner { animation: none; }
+  .q-sonner {
+    transition-duration: 1ms;
+  } /* no token: 1ms snap sentinel; instant token is 0ms */
+  .q-sonner-spinner {
+    animation: none;
+  }
 }

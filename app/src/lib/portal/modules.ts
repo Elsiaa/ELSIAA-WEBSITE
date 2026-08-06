@@ -1,9 +1,4 @@
-import type {
-  CompanyModuleFlags,
-  PortalModule,
-  PortalNavId,
-  PortalRole,
-} from "./types";
+import type { CompanyModuleFlags, PortalModule, PortalNavId, PortalRole } from "./types";
 
 export function emptyModuleFlags(): CompanyModuleFlags {
   return {
@@ -47,12 +42,10 @@ export function canSeeModule(
     return role === "owner" || role === "admin";
   }
   if (module === "files") return flags.filesAllowed || role === "owner" || role === "admin";
-  if (module === "support")
-    return flags.supportAllowed || role === "owner" || role === "admin";
+  if (module === "support") return flags.supportAllowed || role === "owner" || role === "admin";
   if (module === "authorizations")
     return flags.authorizationsAllowed || role === "owner" || role === "admin";
-  if (module === "logs")
-    return flags.programLogsAllowed || role === "owner" || role === "admin";
+  if (module === "logs") return flags.programLogsAllowed || role === "owner" || role === "admin";
   if (module === "signatures") return role === "owner" || role === "admin";
   return false;
 }
@@ -81,10 +74,7 @@ export function navForWorkspace(input: {
   return all.filter((id) => canSeeModule(input.role, input.flags, id));
 }
 
-export const portalNavMeta: Record<
-  PortalNavId,
-  { label: string; blurb: string }
-> = {
+export const portalNavMeta: Record<PortalNavId, { label: string; blurb: string }> = {
   overview: { label: "Overview", blurb: "Status and what’s next." },
   projects: { label: "Projects", blurb: "Live builds and apps." },
   authorizations: {

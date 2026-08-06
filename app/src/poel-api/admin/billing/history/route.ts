@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { requireSuperAdmin } from '@/lib/permissions';
-import { fetchAdminBillingHistoryRpc, type BillingHistoryRpcRow } from '@/lib/admin-db-rpc';
-import { getServerSupabaseClient } from '@/lib/supabase';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { requireSuperAdmin } from "@/lib/permissions";
+import { fetchAdminBillingHistoryRpc, type BillingHistoryRpcRow } from "@/lib/admin-db-rpc";
+import { getServerSupabaseClient } from "@/lib/supabase";
 
 /**
  * GET /api/admin/billing/history
@@ -12,12 +12,12 @@ export async function GET(request: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await requireSuperAdmin();
 
-    const limitParam = request.nextUrl.searchParams.get('limit');
+    const limitParam = request.nextUrl.searchParams.get("limit");
     const limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10) || 500, 1), 2000) : 500;
 
     const rpcRows = await fetchAdminBillingHistoryRpc(limit);
@@ -28,12 +28,12 @@ export async function GET(request: NextRequest) {
     const transactions = await fetchAdminBillingHistoryFallback(limit);
     return NextResponse.json({ transactions });
   } catch (error: unknown) {
-    console.error('[admin/billing/history] GET', error);
-    const message = error instanceof Error ? error.message : 'Failed to fetch billing history';
-    if (message.includes('Forbidden')) {
+    console.error("[admin/billing/history] GET", error);
+    const message = error instanceof Error ? error.message : "Failed to fetch billing history";
+    if (message.includes("Forbidden")) {
       return NextResponse.json({ error: message }, { status: 403 });
     }
-    return NextResponse.json({ error: 'Failed to fetch billing history' }, { status: 500 });
+    return NextResponse.json({ error: "Failed to fetch billing history" }, { status: 500 });
   }
 }
 
@@ -42,7 +42,7 @@ async function fetchAdminBillingHistoryFallback(limit: number): Promise<BillingH
 
   const [feeRes, subRes, billRes, paymentRes] = await Promise.all([
     supabase
-      .from('project_fee_transactions')
+      .from("project_fee_transactions")
       .select(
         `
         *,
@@ -50,12 +50,12 @@ async function fetchAdminBillingHistoryFallback(limit: number): Promise<BillingH
           id, name, project_id, company_id,
           projects ( id, title, companies ( id, name ) )
         )
-      `
+      `,
       )
-      .order('transaction_date', { ascending: false })
+      .order("transaction_date", { ascending: false })
       .limit(limit),
     supabase
-      .from('project_subscription_transactions')
+      .from("project_subscription_transactions")
       .select(
         `
         *,
@@ -63,12 +63,12 @@ async function fetchAdminBillingHistoryFallback(limit: number): Promise<BillingH
           id, name, project_id, company_id,
           projects ( id, title, companies ( id, name ) )
         )
-      `
+      `,
       )
-      .order('transaction_date', { ascending: false })
+      .order("transaction_date", { ascending: false })
       .limit(limit),
     supabase
-      .from('bill_charges')
+      .from("bill_charges")
       .select(
         `
         *,
@@ -76,16 +76,16 @@ async function fetchAdminBillingHistoryFallback(limit: number): Promise<BillingH
           id, description, recipient_name, company_id,
           companies ( id, name )
         )
-      `
+      `,
       )
-      .eq('status', 'paid')
-      .order('paid_at', { ascending: false })
+      .eq("status", "paid")
+      .order("paid_at", { ascending: false })
       .limit(limit),
     supabase
-      .from('payments_requests')
-      .select('*, users ( company_id, companies ( id, name ) )')
-      .or('status.eq.completed,and(payment_type.eq.interval_billing,invoice_number.not.is.null)')
-      .order('updated_at', { ascending: false })
+      .from("payments_requests")
+      .select("*, users ( company_id, companies ( id, name ) )")
+      .or("status.eq.completed,and(payment_type.eq.interval_billing,invoice_number.not.is.null)")
+      .order("updated_at", { ascending: false })
       .limit(limit),
   ]);
 
@@ -97,12 +97,12 @@ async function fetchAdminBillingHistoryFallback(limit: number): Promise<BillingH
     const company = Array.isArray(project?.companies) ? project.companies[0] : project?.companies;
     rows.push({
       id: tx.id,
-      type: 'fee',
+      type: "fee",
       feeId: tx.project_fee_id,
       subscriptionId: null,
       billId: null,
       chargeId: null,
-      feeName: fee?.name || 'Fee',
+      feeName: fee?.name || "Fee",
       subscriptionName: null,
       billDescription: null,
       billRecipientName: null,
@@ -129,11 +129,11 @@ async function fetchAdminBillingHistoryFallback(limit: number): Promise<BillingH
     const company = Array.isArray(project?.companies) ? project.companies[0] : project?.companies;
     rows.push({
       id: tx.id,
-      type: 'subscription',
+      type: "subscription",
       feeId: null,
       subscriptionId: tx.project_subscription_id,
       feeName: null,
-      subscriptionName: sub?.name || 'Subscription',
+      subscriptionName: sub?.name || "Subscription",
       billDescription: null,
       billRecipientName: null,
       billId: null,
@@ -158,7 +158,7 @@ async function fetchAdminBillingHistoryFallback(limit: number): Promise<BillingH
     const company = Array.isArray(bill?.companies) ? bill.companies[0] : bill?.companies;
     rows.push({
       id: bc.id,
-      type: 'bill',
+      type: "bill",
       feeId: null,
       subscriptionId: null,
       billId: bc.bill_id,
@@ -187,7 +187,7 @@ async function fetchAdminBillingHistoryFallback(limit: number): Promise<BillingH
     const company = Array.isArray(user?.companies) ? user.companies[0] : user?.companies;
     rows.push({
       id: pr.id,
-      type: 'payment',
+      type: "payment",
       feeId: null,
       subscriptionId: null,
       billId: null,
@@ -215,9 +215,9 @@ async function fetchAdminBillingHistoryFallback(limit: number): Promise<BillingH
   }
 
   rows.sort(
-    (a, b) => new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime()
+    (a, b) => new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime(),
   );
 
-  const { dedupeBillingHistoryRows } = await import('@/lib/admin-db-rpc');
+  const { dedupeBillingHistoryRows } = await import("@/lib/admin-db-rpc");
   return dedupeBillingHistoryRows(rows).slice(0, limit);
 }

@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import type { ComponentProps, ReactElement, ReactNode, Ref } from 'react'
-import { useId } from 'react'
-import { NavigationMenu as Primitive } from '@base-ui/react/navigation-menu'
-import { useRender } from '@base-ui/react/use-render'
-import { Divider } from '../divider/index.ts'
-import { cx } from '../utils/cx.ts'
+import type { ComponentProps, ReactElement, ReactNode, Ref } from "react";
+import { useId } from "react";
+import { NavigationMenu as Primitive } from "@base-ui/react/navigation-menu";
+import { useRender } from "@base-ui/react/use-render";
+import { Divider } from "../divider/index.ts";
+import { cx } from "../utils/cx.ts";
 
 /**
  * NavigationMenu — the product header: a logo, a bar of nav items (each either a
@@ -59,43 +59,43 @@ import { cx } from '../utils/cx.ts'
  */
 
 /** Rows of items a column holds before wrapping to the next column. */
-export type NavRows = 1 | 2 | 3 | 4
+export type NavRows = 1 | 2 | 3 | 4;
 
 const ROWS_CLASS = {
-  1: 'q-nav-rows-1',
-  2: 'q-nav-rows-2',
-  3: 'q-nav-rows-3',
-  4: 'q-nav-rows-4',
-} satisfies Record<NavRows, string>
+  1: "q-nav-rows-1",
+  2: "q-nav-rows-2",
+  3: "q-nav-rows-3",
+  4: "q-nav-rows-4",
+} satisfies Record<NavRows, string>;
 
-export type NavMenuSize = 'auto' | 'image' | 'video' | 'audio' | 'plugins'
-export type NavMenuLayout = 'grid' | 'columns' | 'custom'
+export type NavMenuSize = "auto" | "image" | "video" | "audio" | "plugins";
+export type NavMenuLayout = "grid" | "columns" | "custom";
 
 const MENU_SIZE_CLASS = {
-  auto: '',
-  image: 'q-nav-menu-size-image',
-  video: 'q-nav-menu-size-video',
-  audio: 'q-nav-menu-size-audio',
-  plugins: 'q-nav-menu-size-plugins',
-} satisfies Record<NavMenuSize, string>
+  auto: "",
+  image: "q-nav-menu-size-image",
+  video: "q-nav-menu-size-video",
+  audio: "q-nav-menu-size-audio",
+  plugins: "q-nav-menu-size-plugins",
+} satisfies Record<NavMenuSize, string>;
 
 const MENU_LAYOUT_CLASS = {
-  grid: 'q-nav-menu-layout-grid',
-  columns: 'q-nav-menu-layout-columns',
-  custom: 'q-nav-menu-layout-custom',
-} satisfies Record<NavMenuLayout, string>
+  grid: "q-nav-menu-layout-grid",
+  columns: "q-nav-menu-layout-columns",
+  custom: "q-nav-menu-layout-custom",
+} satisfies Record<NavMenuLayout, string>;
 
 /* ── Root: the bar primitive + the shared morphing popup shell ─────────────── */
 
-export type NavigationMenuRootProps = Omit<ComponentProps<typeof Primitive.Root>, 'className'> & {
-  className?: string
-  side?: ComponentProps<typeof Primitive.Positioner>['side']
-  align?: ComponentProps<typeof Primitive.Positioner>['align']
-  sideOffset?: ComponentProps<typeof Primitive.Positioner>['sideOffset']
-  alignOffset?: ComponentProps<typeof Primitive.Positioner>['alignOffset']
-  collisionPadding?: ComponentProps<typeof Primitive.Positioner>['collisionPadding']
-  container?: ComponentProps<typeof Primitive.Portal>['container']
-}
+export type NavigationMenuRootProps = Omit<ComponentProps<typeof Primitive.Root>, "className"> & {
+  className?: string;
+  side?: ComponentProps<typeof Primitive.Positioner>["side"];
+  align?: ComponentProps<typeof Primitive.Positioner>["align"];
+  sideOffset?: ComponentProps<typeof Primitive.Positioner>["sideOffset"];
+  alignOffset?: ComponentProps<typeof Primitive.Positioner>["alignOffset"];
+  collisionPadding?: ComponentProps<typeof Primitive.Positioner>["collisionPadding"];
+  container?: ComponentProps<typeof Primitive.Portal>["container"];
+};
 
 /**
  * Renders the `<nav>` bar (logo / list / actions are its children) PLUS the
@@ -103,8 +103,8 @@ export type NavigationMenuRootProps = Omit<ComponentProps<typeof Primitive.Root>
  * `Content` morphs into when it opens.
  */
 function Root({
-  side = 'bottom',
-  align = 'center',
+  side = "bottom",
+  align = "center",
   sideOffset = 8,
   alignOffset,
   collisionPadding = 16,
@@ -114,7 +114,7 @@ function Root({
   ...props
 }: NavigationMenuRootProps) {
   return (
-    <Primitive.Root className={cx('q-nav-root', className)} {...props}>
+    <Primitive.Root className={cx("q-nav-root", className)} {...props}>
       {children}
       <Primitive.Portal container={container}>
         <Primitive.Positioner
@@ -131,187 +131,219 @@ function Root({
         </Primitive.Positioner>
       </Primitive.Portal>
     </Primitive.Root>
-  )
+  );
 }
 
 /** Logo slot — content is the dev's. */
-function Logo({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-nav-logo', className)} {...props} />
+function Logo({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-nav-logo", className)} {...props} />;
 }
 
-type ListProps = Omit<ComponentProps<typeof Primitive.List>, 'className'> & { className?: string }
+type ListProps = Omit<ComponentProps<typeof Primitive.List>, "className"> & { className?: string };
 /** The horizontal bar of items. */
 function List({ className, ...props }: ListProps) {
-  return <Primitive.List className={cx('q-nav-list', className)} {...props} />
+  return <Primitive.List className={cx("q-nav-list", className)} {...props} />;
 }
 
 /* ── Bar item: a wrapper that holds a Link, or a Trigger + Content ─────────── */
 
-export type NavigationMenuItemProps = Omit<ComponentProps<typeof Primitive.Item>, 'className'> & {
-  className?: string
+export type NavigationMenuItemProps = Omit<ComponentProps<typeof Primitive.Item>, "className"> & {
+  className?: string;
   /** Stable identity for controlled open state; auto-generated otherwise. */
-  value?: string
-}
+  value?: string;
+};
 
 /** A single bar slot. Put a `Link` inside for a plain item, or a `Trigger` +
  * `Content` pair for a panel trigger. */
 function Item({ value, children, ...props }: NavigationMenuItemProps) {
-  const autoId = useId()
-  return <Primitive.Item value={value ?? autoId} {...props}>{children}</Primitive.Item>
+  const autoId = useId();
+  return (
+    <Primitive.Item value={value ?? autoId} {...props}>
+      {children}
+    </Primitive.Item>
+  );
 }
 
-export type NavigationMenuTriggerProps = Omit<ComponentProps<typeof Primitive.Trigger>, 'className'> & {
-  className?: string
+export type NavigationMenuTriggerProps = Omit<
+  ComponentProps<typeof Primitive.Trigger>,
+  "className"
+> & {
+  className?: string;
   /** Lime accent treatment. */
-  accent?: boolean
+  accent?: boolean;
   /** Current-section indication — sets `aria-current="page"` + the active style. */
-  active?: boolean
-  ref?: Ref<HTMLButtonElement>
-}
+  active?: boolean;
+  ref?: Ref<HTMLButtonElement>;
+};
 
 /** The bar pill that opens a panel. Compose its label/icon/badge as children. */
 function Trigger({ className, accent, active, children, ...props }: NavigationMenuTriggerProps) {
   return (
     <Primitive.Trigger
-      className={cx('q-nav-item', accent && 'q-nav-item-accent', className)}
-      aria-current={active ? 'page' : undefined}
+      className={cx("q-nav-item", accent && "q-nav-item-accent", className)}
+      aria-current={active ? "page" : undefined}
       {...props}
     >
       {children}
     </Primitive.Trigger>
-  )
+  );
 }
 
-type ContentProps = Omit<ComponentProps<typeof Primitive.Content>, 'className'> & { className?: string }
+type ContentProps = Omit<ComponentProps<typeof Primitive.Content>, "className"> & {
+  className?: string;
+};
 /** The panel mounted when its Item opens — wrap a `Menu` (or any content). */
 function Content({ className, ...props }: ContentProps) {
-  return <Primitive.Content className={cx('q-nav-content', className)} {...props} />
+  return <Primitive.Content className={cx("q-nav-content", className)} {...props} />;
 }
 
-export type NavigationMenuLinkProps = Omit<ComponentProps<typeof Primitive.Link>, 'className'> & {
-  className?: string
+export type NavigationMenuLinkProps = Omit<ComponentProps<typeof Primitive.Link>, "className"> & {
+  className?: string;
   /** Lime accent treatment. */
-  accent?: boolean
+  accent?: boolean;
   /** Current-section indication — sets `aria-current="page"` + the active style. */
-  active?: boolean
-}
+  active?: boolean;
+};
 
 /** A plain bar link pill. Compose its label/icon/badge as children. */
 function Link({ className, accent, active, children, ...props }: NavigationMenuLinkProps) {
   return (
     <Primitive.Link
-      className={cx('q-nav-item', accent && 'q-nav-item-accent', className)}
-      aria-current={active ? 'page' : undefined}
+      className={cx("q-nav-item", accent && "q-nav-item-accent", className)}
+      aria-current={active ? "page" : undefined}
       {...props}
     >
       {children}
     </Primitive.Link>
-  )
+  );
 }
 
 /** Leading icon slot for a bar Trigger / Link (24px). */
-function ItemIcon({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-nav-item-icon', className)} {...props} />
+function ItemIcon({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-nav-item-icon", className)} {...props} />;
 }
 
 /* ── Right-side actions ────────────────────────────────────────────────────── */
 
 /** The actions cluster, pushed to the right end of the bar. */
-function Actions({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-nav-actions', className)} {...props} />
+function Actions({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-nav-actions", className)} {...props} />;
 }
 
 /** A tighter sub-group of adjacent actions. */
-function ActionsGroup({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-nav-actions-group', className)} {...props} />
+function ActionsGroup({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-nav-actions-group", className)} {...props} />;
 }
 
-export type NavigationMenuActionProps = Omit<ComponentProps<'button'>, 'type'> & {
+export type NavigationMenuActionProps = Omit<ComponentProps<"button">, "type"> & {
   /** Square icon-only pill (e.g. search). */
-  iconOnly?: boolean
+  iconOnly?: boolean;
   /** Render an `<a>` instead of a `<button>`. */
-  href?: string
+  href?: string;
   /** Swap the underlying element (e.g. a framework `<Link>` or quanta `Button`). */
-  render?: ReactElement
-}
+  render?: ReactElement;
+};
 
 /** A glass action pill (search / Pricing / Assets). Content is the dev's. */
 function Action({ iconOnly, className, href, render, ...props }: NavigationMenuActionProps) {
-  const cls = cx('q-nav-action', iconOnly && 'q-nav-action-icon', className)
-  const isNativeButton = render == null && href == null
+  const cls = cx("q-nav-action", iconOnly && "q-nav-action-icon", className);
+  const isNativeButton = render == null && href == null;
   return useRender({
     render,
-    defaultTagName: href != null ? 'a' : 'button',
+    defaultTagName: href != null ? "a" : "button",
     props: {
       className: cls,
       ...(href != null ? { href } : {}),
-      ...(isNativeButton ? { type: 'button' as const } : {}),
+      ...(isNativeButton ? { type: "button" as const } : {}),
       ...props,
     },
-  })
+  });
 }
 
 /** A divider — vertical in the bar/actions, reusing the Divider component. */
-function Separator({ className, ...props }: ComponentProps<'div'>) {
+function Separator({ className, ...props }: ComponentProps<"div">) {
   return (
-    <div className={cx('q-nav-separator', className)} {...props}>
+    <div className={cx("q-nav-separator", className)} {...props}>
       <Divider orientation="vertical" />
     </div>
-  )
+  );
 }
 
 /* ── Menu: the panel — a 2–4 row grid / columns + optional featured rail ───── */
 
-export type NavigationMenuMenuProps = Omit<ComponentProps<'div'>, 'children'> & {
+export type NavigationMenuMenuProps = Omit<ComponentProps<"div">, "children"> & {
   /** Rows of items per column before wrapping (1–4; 2–4 typical). Default 2. */
-  rows?: NavRows
+  rows?: NavRows;
   /** Figma-sized panel surface. Defaults to content-sized. */
-  size?: NavMenuSize
+  size?: NavMenuSize;
   /** `grid` wraps items; `columns` matches Figma mega menus; `custom` leaves content raw. */
-  layout?: NavMenuLayout
+  layout?: NavMenuLayout;
   /** Standalone (outside a Root) panel — adds the glass surface + border. */
-  standalone?: boolean
+  standalone?: boolean;
   /** Side rail content (promo / imagery / CTA). Any node. */
-  featured?: ReactNode
-  children?: ReactNode
-}
+  featured?: ReactNode;
+  children?: ReactNode;
+};
 
-function Menu({ rows = 2, size = 'auto', layout = 'grid', standalone = false, featured, className, children, ...props }: NavigationMenuMenuProps) {
+function Menu({
+  rows = 2,
+  size = "auto",
+  layout = "grid",
+  standalone = false,
+  featured,
+  className,
+  children,
+  ...props
+}: NavigationMenuMenuProps) {
   return (
-    <div className={cx('q-nav-menu', standalone && 'q-nav-menu-static', MENU_SIZE_CLASS[size], MENU_LAYOUT_CLASS[layout], className)} {...props}>
-      {layout === 'custom'
-        ? children
-        : (
-            <div className={cx(layout === 'columns' ? 'q-nav-menu-columns' : 'q-nav-menu-grid', ROWS_CLASS[rows])}>
-              {children}
-            </div>
+    <div
+      className={cx(
+        "q-nav-menu",
+        standalone && "q-nav-menu-static",
+        MENU_SIZE_CLASS[size],
+        MENU_LAYOUT_CLASS[layout],
+        className,
+      )}
+      {...props}
+    >
+      {layout === "custom" ? (
+        children
+      ) : (
+        <div
+          className={cx(
+            layout === "columns" ? "q-nav-menu-columns" : "q-nav-menu-grid",
+            ROWS_CLASS[rows],
           )}
+        >
+          {children}
+        </div>
+      )}
       {featured != null ? <div className="q-nav-featured">{featured}</div> : null}
     </div>
-  )
+  );
 }
 
 /* ── Group: a labeled cluster of rows (its own full-height column) ─────────── */
 
-function Group({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-nav-group', className)} {...props} />
+function Group({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-nav-group", className)} {...props} />;
 }
 
 /** Column heading inside a Group. */
-function GroupLabel({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-nav-group-label', className)} {...props} />
+function GroupLabel({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-nav-group-label", className)} {...props} />;
 }
 
 /* ── MenuItem: a composition-only panel row ────────────────────────────────── */
 
 export type NavigationMenuMenuItemProps = {
-  href?: string
-  render?: ComponentProps<typeof Primitive.Link>['render']
+  href?: string;
+  render?: ComponentProps<typeof Primitive.Link>["render"];
   /** Set false to render a static row (no `NavigationMenu.Link`) outside a Root. */
-  interactive?: boolean
-  className?: string
-  children?: ReactNode
-} & Omit<ComponentProps<typeof Primitive.Link>, 'href' | 'render' | 'className'>
+  interactive?: boolean;
+  className?: string;
+  children?: ReactNode;
+} & Omit<ComponentProps<typeof Primitive.Link>, "href" | "render" | "className">;
 
 /**
  * A panel row. Renders a real `NavigationMenu.Link` (keyboard + active state)
@@ -320,61 +352,74 @@ export type NavigationMenuMenuItemProps = {
  * `MenuItemTitle` / `MenuItemDescription` / `MenuItemTrailing`. Include a
  * `MenuMedia` to get the rich 60px row.
  */
-function MenuItem({ href, render, interactive = true, className, children, ...props }: NavigationMenuMenuItemProps) {
-  const itemClass = cx('q-menu-item', 'q-nav-menu-item', className)
+function MenuItem({
+  href,
+  render,
+  interactive = true,
+  className,
+  children,
+  ...props
+}: NavigationMenuMenuItemProps) {
+  const itemClass = cx("q-menu-item", "q-nav-menu-item", className);
 
   if (!interactive) {
-    const staticProps = props as ComponentProps<'a'>
-    return href != null
-      ? <a className={itemClass} href={href} {...staticProps}>{children}</a>
-      : <div className={itemClass} {...(props as ComponentProps<'div'>)}>{children}</div>
+    const staticProps = props as ComponentProps<"a">;
+    return href != null ? (
+      <a className={itemClass} href={href} {...staticProps}>
+        {children}
+      </a>
+    ) : (
+      <div className={itemClass} {...(props as ComponentProps<"div">)}>
+        {children}
+      </div>
+    );
   }
 
   return (
     <Primitive.Link className={itemClass} href={href} render={render} {...props}>
       {children}
     </Primitive.Link>
-  )
+  );
 }
 
 /** Leading icon (20px) for a default panel row. */
-function MenuItemIcon({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-menu-item-icon', className)} {...props} />
+function MenuItemIcon({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-menu-item-icon", className)} {...props} />;
 }
 
 /** Leading media tile (44px glass) — its presence makes the row the large row. */
-function MenuMedia({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-nav-menu-media', className)} {...props} />
+function MenuMedia({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-nav-menu-media", className)} {...props} />;
 }
 
 /** Content column — stacks the title row and description. */
-function MenuItemContent({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-menu-item-label', className)} {...props} />
+function MenuItemContent({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-menu-item-label", className)} {...props} />;
 }
 
-function MenuItemTitleRow({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-menu-item-title-row', className)} {...props} />
+function MenuItemTitleRow({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-menu-item-title-row", className)} {...props} />;
 }
 
-function MenuItemTitle({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-menu-item-title', className)} {...props} />
+function MenuItemTitle({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-menu-item-title", className)} {...props} />;
 }
 
-function MenuItemDescription({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-menu-item-description', className)} {...props} />
+function MenuItemDescription({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-menu-item-description", className)} {...props} />;
 }
 
-function MenuItemTrailing({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-menu-item-trailing', className)} {...props} />
+function MenuItemTrailing({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-menu-item-trailing", className)} {...props} />;
 }
 
 /** Horizontal separator inside custom NavigationMenu panels. */
-function MenuSeparator({ className, ...props }: ComponentProps<'div'>) {
+function MenuSeparator({ className, ...props }: ComponentProps<"div">) {
   return (
-    <div className={cx('q-nav-menu-separator', className)} {...props}>
+    <div className={cx("q-nav-menu-separator", className)} {...props}>
       <Divider orientation="horizontal" />
     </div>
-  )
+  );
 }
 
 export const NavigationMenu = {
@@ -402,4 +447,4 @@ export const NavigationMenu = {
   MenuItemDescription,
   MenuItemTrailing,
   MenuSeparator,
-}
+};

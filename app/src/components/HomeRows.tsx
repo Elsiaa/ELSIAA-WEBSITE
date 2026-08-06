@@ -70,18 +70,15 @@ function Parallax({ children, amount = 26 }: { children: React.ReactNode; amount
       cancelAnimationFrame(raf);
     };
   }, [amount]);
-  return <div ref={ref} style={{ willChange: "transform" }}>{children}</div>;
+  return (
+    <div ref={ref} style={{ willChange: "transform" }}>
+      {children}
+    </div>
+  );
 }
 
-
 /* ---------- shared row carousel: arrows + swipe + gentle drift ---------- */
-function Rail({
-  children,
-  drift = 0.35,
-}: {
-  children: React.ReactNode;
-  drift?: number;
-}) {
+function Rail({ children, drift = 0.35 }: { children: React.ReactNode; drift?: number }) {
   const railRef = useRef<HTMLDivElement | null>(null);
   const paused = useRef(false);
   useEffect(() => {
@@ -107,8 +104,7 @@ function Rail({
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [drift]);
-  const nudge = (d: number) =>
-    railRef.current?.scrollBy({ left: d * 300, behavior: "smooth" });
+  const nudge = (d: number) => railRef.current?.scrollBy({ left: d * 300, behavior: "smooth" });
   return (
     // full-bleed: the rail breaks out of the page container and runs to ~2mm
     // from each screen edge; cards fade in/out through the edge masks below
@@ -142,8 +138,14 @@ function Rail({
         onFocus={() => (paused.current = true)}
         onBlur={() => (paused.current = false)}
         onKeyDown={(e) => {
-          if (e.key === "ArrowRight") { e.preventDefault(); nudge(1); }
-          if (e.key === "ArrowLeft") { e.preventDefault(); nudge(-1); }
+          if (e.key === "ArrowRight") {
+            e.preventDefault();
+            nudge(1);
+          }
+          if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            nudge(-1);
+          }
         }}
         className="flex gap-2.5 overflow-x-auto px-2 pb-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{
@@ -184,7 +186,7 @@ function DivisionRow({
   extra?: React.ReactNode;
 }) {
   return (
- <section className="bg-white py-8 md:py-12">
+    <section className="bg-white py-8 md:py-12">
       <div className="mx-auto w-full max-w-6xl px-6">
         {/* header + graphic — one clean composed row */}
         <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-[minmax(0,1fr)_640px] md:gap-6">
@@ -211,57 +213,57 @@ function DivisionRow({
           </Reveal>
           <Reveal className="order-1 md:order-2">
             <Parallax>
-            <a href={href} className="group block bg-white">
-              {graphic ?? (
-                <img
-                  src={img}
-                  alt={title}
-                  loading="lazy"
-                  className="aspect-[3/2] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                />
-              )}
-            </a>
+              <a href={href} className="group block bg-white">
+                {graphic ?? (
+                  <img
+                    src={img}
+                    alt={title}
+                    loading="lazy"
+                    className="aspect-[3/2] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                )}
+              </a>
             </Parallax>
           </Reveal>
         </div>
         {/* the catalog — every group once, no repeats */}
         {subs.length > 0 && (
-        <Reveal delay={0.1}>
-        <div className="mt-10">
-          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[62%] [&>*]:snap-start sm:[&>*]:min-w-[78%] md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
-            {subs.map((s, i) => (
-              <a
-                key={`${s.name}-${i}`}
-                href={href}
-                className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)] sm:p-4"
-              >
-                <div className="flex items-center justify-between">
-                  <h3
-                    className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]"
-                    style={{ fontFamily: "var(--font-sans)" }}
+          <Reveal delay={0.1}>
+            <div className="mt-10">
+              <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[62%] [&>*]:snap-start sm:[&>*]:min-w-[78%] md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
+                {subs.map((s, i) => (
+                  <a
+                    key={`${s.name}-${i}`}
+                    href={href}
+                    className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)] sm:p-4"
                   >
-                    {s.name}
-                  </h3>
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[13px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">
-                    →
-                  </span>
-                </div>
-                <ul className="mt-2.5 space-y-1">
-                  {s.items.map((it) => (
-                    <li
-                      key={it}
-                      className="text-[13px] leading-snug text-[#111111]/55"
-                      style={{ fontFamily: "var(--font-sans)" }}
-                    >
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </a>
-            ))}
-          </div>
-        </div>
-        </Reveal>
+                    <div className="flex items-center justify-between">
+                      <h3
+                        className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]"
+                        style={{ fontFamily: "var(--font-sans)" }}
+                      >
+                        {s.name}
+                      </h3>
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[13px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">
+                        →
+                      </span>
+                    </div>
+                    <ul className="mt-2.5 space-y-1">
+                      {s.items.map((it) => (
+                        <li
+                          key={it}
+                          className="text-[13px] leading-snug text-[#111111]/55"
+                          style={{ fontFamily: "var(--font-sans)" }}
+                        >
+                          {it}
+                        </li>
+                      ))}
+                    </ul>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         )}
         {extra}
       </div>
@@ -269,15 +271,38 @@ function DivisionRow({
   );
 }
 
-
 /* ---------- AI industry statistics ---------- */
 const STATS = [
-  { pct: 78, industry: "All industries", line: "of organizations already run AI in at least one business function. The other 22% are competing against it." },
-  { pct: 66, industry: "Healthcare", line: "of physicians already practice with AI at their side. Medicine didn't wait for permission." },
-  { pct: 91, industry: "Finance", line: "of financial firms are deploying or assessing AI right now. The desks that aren't are being priced out." },
-  { pct: 71, industry: "Marketing", line: "of marketing teams ship with generative AI weekly. Entire creative departments, compressed into a prompt." },
-  { pct: 63, industry: "Retail", line: "of retailers already bank revenue they attribute to AI. The registers learned faster than the staff." },
-  { pct: 55, industry: "Manufacturing", line: "of manufacturers run AI on the production floor. The night shift doesn't sleep anymore — it computes." },
+  {
+    pct: 78,
+    industry: "All industries",
+    line: "of organizations already run AI in at least one business function. The other 22% are competing against it.",
+  },
+  {
+    pct: 66,
+    industry: "Healthcare",
+    line: "of physicians already practice with AI at their side. Medicine didn't wait for permission.",
+  },
+  {
+    pct: 91,
+    industry: "Finance",
+    line: "of financial firms are deploying or assessing AI right now. The desks that aren't are being priced out.",
+  },
+  {
+    pct: 71,
+    industry: "Marketing",
+    line: "of marketing teams ship with generative AI weekly. Entire creative departments, compressed into a prompt.",
+  },
+  {
+    pct: 63,
+    industry: "Retail",
+    line: "of retailers already bank revenue they attribute to AI. The registers learned faster than the staff.",
+  },
+  {
+    pct: 55,
+    industry: "Manufacturing",
+    line: "of manufacturers run AI on the production floor. The night shift doesn't sleep anymore — it computes.",
+  },
 ];
 
 /* Renders the FINAL percentage by default (SSR, crawlers, reduced motion) and
@@ -325,7 +350,7 @@ function CountUp({ target }: { target: number }) {
         io.disconnect();
         run();
       },
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
     io.observe(el);
     return () => {
@@ -362,9 +387,15 @@ function HomeHero() {
     const v = vidRef.current;
     if (!v) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) { v.loop = true; v.play().catch(() => {}); return; }
+    if (reduced) {
+      v.loop = true;
+      v.play().catch(() => {});
+      return;
+    }
     v.pause();
-    v.play().then(() => v.pause()).catch(() => {}); // prime decoding for seeks
+    v.play()
+      .then(() => v.pause())
+      .catch(() => {}); // prime decoding for seeks
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
     let raf = 0;
     const tick = () => {
@@ -378,7 +409,11 @@ function HomeHero() {
         const cur = v.currentTime;
         // all-keyframe clip → seeks are instant; ease finely for buttery motion
         if (Math.abs(target - cur) > 0.006) {
-          try { v.currentTime = cur + (target - cur) * 0.35; } catch { /* seeking */ }
+          try {
+            v.currentTime = cur + (target - cur) * 0.35;
+          } catch {
+            /* seeking */
+          }
         }
       }
       if (v) v.style.transform = `scale(${(1 + p * 0.06).toFixed(3)})`;
@@ -394,9 +429,11 @@ function HomeHero() {
       <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pt-[104px] pb-6 text-center md:pt-44 md:pb-10">
         {/* headline — centred */}
         <Reveal>
-          <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl" style={sans}>
-            Unlock the potential of your business with{" "}
-            <span className="text-[#1e6b3c]">AI</span>.
+          <h1
+            className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl"
+            style={sans}
+          >
+            Unlock the potential of your business with <span className="text-[#1e6b3c]">AI</span>.
           </h1>
         </Reveal>
 
@@ -428,7 +465,11 @@ function HomeHero() {
           <div
             ref={glowRef}
             className="absolute inset-[14%] -z-10 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle at 50% 46%, rgba(30,107,60,0.45), transparent 66%)", opacity: 0.14 }}
+            style={{
+              background:
+                "radial-gradient(circle at 50% 46%, rgba(30,107,60,0.45), transparent 66%)",
+              opacity: 0.14,
+            }}
           />
           <video
             ref={vidRef}
@@ -450,10 +491,16 @@ function HomeHero() {
         </div>
 
         {/* ELSIAA wordmark, written out, centred */}
-        <p className="-mt-1 text-3xl font-semibold tracking-[0.36em] text-[#111111] md:text-4xl" style={sans}>
+        <p
+          className="-mt-1 text-3xl font-semibold tracking-[0.36em] text-[#111111] md:text-4xl"
+          style={sans}
+        >
           ELSIAA
         </p>
-        <p className="mt-3 text-[10px] leading-relaxed tracking-[0.18em] text-[#111111]/55 uppercase" style={sans}>
+        <p
+          className="mt-3 text-[10px] leading-relaxed tracking-[0.18em] text-[#111111]/55 uppercase"
+          style={sans}
+        >
           <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
           <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
           <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
@@ -500,12 +547,27 @@ function HomeHero() {
             <div className="loc-ticker flex w-max whitespace-nowrap">
               {[0, 1].map((copy) => (
                 <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
-                  {["New York", "Los Angeles", "London", "Geneva", "Antwerp", "Tel Aviv", "Baltimore", "Montvale", "Kingston"].map((c) => (
+                  {[
+                    "New York",
+                    "Los Angeles",
+                    "London",
+                    "Geneva",
+                    "Antwerp",
+                    "Tel Aviv",
+                    "Baltimore",
+                    "Montvale",
+                    "Kingston",
+                  ].map((c) => (
                     <span key={c} className="flex items-center">
-                      <span className="px-5 text-[11px] font-medium tracking-[0.2em] text-[#111111]/45 uppercase transition-colors group-hover:text-[#111111]/70" style={sans}>
+                      <span
+                        className="px-5 text-[11px] font-medium tracking-[0.2em] text-[#111111]/45 uppercase transition-colors group-hover:text-[#111111]/70"
+                        style={sans}
+                      >
                         {c}
                       </span>
-                      <span className="text-[#1e6b3c]/60" aria-hidden>·</span>
+                      <span className="text-[#1e6b3c]/60" aria-hidden>
+                        ·
+                      </span>
                     </span>
                   ))}
                 </div>
@@ -588,10 +650,18 @@ function AutomationSection() {
   // span hits zero and the bubble never types. Shrinking the stage instead
   // just opens a white band under the pinned content and saves nothing.
   return (
-    <section ref={trackRef} className="relative bg-white [--track:112svh] md:[--track:170vh]" style={{ height: "var(--track)" }} id="automation">
+    <section
+      ref={trackRef}
+      className="relative bg-white [--track:112svh] md:[--track:170vh]"
+      style={{ height: "var(--track)" }}
+      id="automation"
+    >
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-end gap-1 overflow-hidden bg-white px-6 pb-8 text-center md:justify-center md:pb-0">
         {/* titled like the design centrepiece */}
-        <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={sans}>
+        <h2
+          className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl"
+          style={sans}
+        >
           Automations
         </h2>
         {/* robot + bubble anchored together */}
@@ -605,8 +675,12 @@ function AutomationSection() {
             muted
             playsInline
             preload="auto"
-            onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
-            onLoadedData={(e) => { e.currentTarget.play().catch(() => {}); }}
+            onCanPlay={(e) => {
+              e.currentTarget.play().catch(() => {});
+            }}
+            onLoadedData={(e) => {
+              e.currentTarget.play().catch(() => {});
+            }}
             aria-label="The ELSIAA robot, waving"
             className="relative z-20 block w-auto select-none"
             style={{
@@ -624,7 +698,9 @@ function AutomationSection() {
             style={{ opacity: typed > 0 ? 1 : 0, fontFamily: "'Bangers', var(--font-sans)" }}
           >
             {/* invisible copy reserves the final size so typing never reflows */}
-            <p className="invisible text-[13px] leading-[1.2] tracking-[0.015em] md:text-[19px]">{LINE}</p>
+            <p className="invisible text-[13px] leading-[1.2] tracking-[0.015em] md:text-[19px]">
+              {LINE}
+            </p>
             <p className="absolute inset-x-3 top-2 text-[13px] leading-[1.2] tracking-[0.015em] text-[#111111] md:inset-x-5 md:top-3.5 md:text-[19px]">
               {LINE.slice(0, typed)}
               <span
@@ -678,7 +754,16 @@ function HeroCards() {
   const items = [
     {
       icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#1e6b3c"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <circle cx="12" cy="12" r="9" />
           <path d="M8.5 12.5 11 15l4.5-6" />
         </svg>
@@ -688,7 +773,16 @@ function HeroCards() {
     },
     {
       icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#1e6b3c"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10Z" />
           <path d="m9 12 2 2 4-4" />
         </svg>
@@ -698,7 +792,16 @@ function HeroCards() {
     },
     {
       icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#1e6b3c"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M3 17l6-6 4 4 8-8" />
           <path d="M14 7h7v7" />
         </svg>
@@ -708,7 +811,7 @@ function HeroCards() {
     },
   ];
   return (
- <section className="bg-white py-9 md:py-16">
+    <section className="bg-white py-9 md:py-16">
       <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           {items.map((it, i) => (
@@ -741,32 +844,132 @@ function HeroCards() {
 /* ---------- data: the full catalog ---------- */
 // Ordered most-in-demand → niche (both the categories and the items in each).
 export const DESIGN: Sub[] = [
-  { name: "Branding", items: ["Branding & Logo Design", "Brand Identity", "Packaging Design", "Print Design"] },
-  { name: "Web", items: ["Website Design", "Landing Pages", "UI/UX Design", "E-commerce Design", "SaaS Interfaces", "Dashboard Design"] },
-  { name: "Marketing", items: ["Social Media Graphics", "Marketing Graphics", "Motion Graphics", "Presentation Design"] },
+  {
+    name: "Branding",
+    items: ["Branding & Logo Design", "Brand Identity", "Packaging Design", "Print Design"],
+  },
+  {
+    name: "Web",
+    items: [
+      "Website Design",
+      "Landing Pages",
+      "UI/UX Design",
+      "E-commerce Design",
+      "SaaS Interfaces",
+      "Dashboard Design",
+    ],
+  },
+  {
+    name: "Marketing",
+    items: [
+      "Social Media Graphics",
+      "Marketing Graphics",
+      "Motion Graphics",
+      "Presentation Design",
+    ],
+  },
   { name: "Product", items: ["3D Product Renders", "Commercial Imagery", "Product Staging"] },
   { name: "Apps", items: ["Mobile App Design", "iOS & Android UI", "App Store Assets"] },
 ];
 export const AUTOMATION: Sub[] = [
   { name: "AI", items: ["AI Agents & Assistants", "AI Workflow Automation"] },
-  { name: "Sales", items: ["Lead Qualification", "CRM Automation", "Appointment Booking", "Quote Follow-ups", "Proposal Generation", "Pipeline Alerts"] },
-  { name: "Marketing", items: ["Social Posting Automation", "Ad Performance Reports", "Newsletter Automation"] },
-  { name: "Customer Support", items: ["Customer Follow-up", "Email Automation", "Ticket Triage & Routing", "Review Management", "Slack & Discord Bots"] },
-  { name: "Operations", items: ["Internal Business Automation", "Document Processing", "API Integrations", "Data Entry Automation", "Zapier / Make Automation", "Inventory Sync", "Meeting Notes → CRM", "Web Scraping"] },
-  { name: "Finance", items: ["Invoice Automation", "Reporting Dashboards", "Payment Reminders", "Expense Processing", "Payroll Automation"] },
+  {
+    name: "Sales",
+    items: [
+      "Lead Qualification",
+      "CRM Automation",
+      "Appointment Booking",
+      "Quote Follow-ups",
+      "Proposal Generation",
+      "Pipeline Alerts",
+    ],
+  },
+  {
+    name: "Marketing",
+    items: ["Social Posting Automation", "Ad Performance Reports", "Newsletter Automation"],
+  },
+  {
+    name: "Customer Support",
+    items: [
+      "Customer Follow-up",
+      "Email Automation",
+      "Ticket Triage & Routing",
+      "Review Management",
+      "Slack & Discord Bots",
+    ],
+  },
+  {
+    name: "Operations",
+    items: [
+      "Internal Business Automation",
+      "Document Processing",
+      "API Integrations",
+      "Data Entry Automation",
+      "Zapier / Make Automation",
+      "Inventory Sync",
+      "Meeting Notes → CRM",
+      "Web Scraping",
+    ],
+  },
+  {
+    name: "Finance",
+    items: [
+      "Invoice Automation",
+      "Reporting Dashboards",
+      "Payment Reminders",
+      "Expense Processing",
+      "Payroll Automation",
+    ],
+  },
   { name: "HR", items: ["Recruiting Screening", "Employee Onboarding"] },
 ];
 export const SOFTWARE: Sub[] = [
   { name: "Web", items: ["Custom Web Applications", "SaaS Development", "Client Portals"] },
   { name: "AI", items: ["AI Applications", "AI Chatbots"] },
   { name: "Mobile", items: ["iOS Apps", "Android Apps"] },
-  { name: "Enterprise", items: ["CRM Development", "Internal Company Software", "Employee Dashboards", "Inventory Systems", "ERP Systems"] },
-  { name: "Infrastructure", items: ["API Development", "Cloud Infrastructure", "Database Architecture", "Maintenance & Support"] },
+  {
+    name: "Enterprise",
+    items: [
+      "CRM Development",
+      "Internal Company Software",
+      "Employee Dashboards",
+      "Inventory Systems",
+      "ERP Systems",
+    ],
+  },
+  {
+    name: "Infrastructure",
+    items: [
+      "API Development",
+      "Cloud Infrastructure",
+      "Database Architecture",
+      "Maintenance & Support",
+    ],
+  },
 ];
 export const CONSULTATION: Sub[] = [
-  { name: "Strategy", items: ["1-on-1 Strategy Calls", "AI Implementation Consulting", "Digital Transformation"] },
-  { name: "Technology", items: ["Software Architecture Review", "Technical Due Diligence", "CTO Advisory", "Code Reviews"] },
-  { name: "Business", items: ["Business Process Audits", "Automation Planning", "Team Training", "Ongoing Monthly Advisory"] },
+  {
+    name: "Strategy",
+    items: ["1-on-1 Strategy Calls", "AI Implementation Consulting", "Digital Transformation"],
+  },
+  {
+    name: "Technology",
+    items: [
+      "Software Architecture Review",
+      "Technical Due Diligence",
+      "CTO Advisory",
+      "Code Reviews",
+    ],
+  },
+  {
+    name: "Business",
+    items: [
+      "Business Process Audits",
+      "Automation Planning",
+      "Team Training",
+      "Ongoing Monthly Advisory",
+    ],
+  },
   { name: "Product", items: ["Product Roadmapping", "Startup MVP Planning", "UX Audits"] },
   { name: "Growth", items: ["Marketing Strategy", "Funnel & Conversion Advisory"] },
 ];
@@ -775,13 +978,15 @@ export const CONSULTATION: Sub[] = [
 export const AUTOSOFT: Sub[] = (() => {
   const m = new Map<string, string[]>();
   for (const g of [...AUTOMATION, ...SOFTWARE]) {
-    m.set(g.name, [...(m.get(g.name) ?? []), ...g.items.filter((it) => !(m.get(g.name) ?? []).includes(it))]);
+    m.set(g.name, [
+      ...(m.get(g.name) ?? []),
+      ...g.items.filter((it) => !(m.get(g.name) ?? []).includes(it)),
+    ]);
   }
   return [...m.entries()].map(([name, items]) => ({ name, items }));
 })();
 
 /* ---------- consultation pricing (stripe-ready tiers) ---------- */
-
 
 function ConsultPricing() {
   return (
@@ -791,16 +996,50 @@ function ConsultPricing() {
   );
 }
 
-
-
 /* ---------- locations — the city desk: live clocks, one active city ---------- */
 const CITIES = [
-  { name: "New York City", q: "Manhattan, New York", flag: "us", tz: "America/New_York", art: "/assets/cityart/nyc.jpg" },
-  { name: "London", q: "London, UK", flag: "gb", tz: "Europe/London", art: "/assets/cityart/london.jpg" },
-  { name: "Geneva", q: "Geneva, Switzerland", flag: "ch", tz: "Europe/Zurich", art: "/assets/cityart/geneva.jpg" },
-  { name: "Antwerp", q: "Antwerp, Belgium", flag: "be", tz: "Europe/Brussels", art: "/assets/cityart/antwerp.jpg" },
-  { name: "Tel Aviv", q: "Tel Aviv, Israel", flag: "il", tz: "Asia/Jerusalem", art: "/assets/cityart/telaviv.jpg" },
-  { name: "Los Angeles", q: "Los Angeles, California", flag: "us", tz: "America/Los_Angeles", art: "/assets/cityart/la.jpg" },
+  {
+    name: "New York City",
+    q: "Manhattan, New York",
+    flag: "us",
+    tz: "America/New_York",
+    art: "/assets/cityart/nyc.jpg",
+  },
+  {
+    name: "London",
+    q: "London, UK",
+    flag: "gb",
+    tz: "Europe/London",
+    art: "/assets/cityart/london.jpg",
+  },
+  {
+    name: "Geneva",
+    q: "Geneva, Switzerland",
+    flag: "ch",
+    tz: "Europe/Zurich",
+    art: "/assets/cityart/geneva.jpg",
+  },
+  {
+    name: "Antwerp",
+    q: "Antwerp, Belgium",
+    flag: "be",
+    tz: "Europe/Brussels",
+    art: "/assets/cityart/antwerp.jpg",
+  },
+  {
+    name: "Tel Aviv",
+    q: "Tel Aviv, Israel",
+    flag: "il",
+    tz: "Asia/Jerusalem",
+    art: "/assets/cityart/telaviv.jpg",
+  },
+  {
+    name: "Los Angeles",
+    q: "Los Angeles, California",
+    flag: "us",
+    tz: "America/Los_Angeles",
+    art: "/assets/cityart/la.jpg",
+  },
 ];
 
 function useNow() {
@@ -872,13 +1111,21 @@ function Locations() {
           <p className="text-[12px] text-[#1e6b3c] sm:text-[13px]" style={mono}>
             05 · Locations
           </p>
-          <h2 className="mt-1.5 text-xl font-semibold tracking-[-0.035em] sm:mt-3 sm:text-2xl md:text-4xl" style={inter}>
+          <h2
+            className="mt-1.5 text-xl font-semibold tracking-[-0.035em] sm:mt-3 sm:text-2xl md:text-4xl"
+            style={inter}
+          >
             One standard. Every timezone.
           </h2>
-          <p className="mt-1.5 max-w-md text-[13px] leading-snug text-[#111111]/55 sm:mt-3 sm:text-[14px] sm:leading-relaxed" style={inter}>
-            <span className="font-semibold text-[#111111]">24/7 virtual support</span> — and
-            in person, on site, in six cities. Right now it's{" "}
-            <span className="font-semibold text-[#1e6b3c]">{cityTime(now, active.tz).slice(0, 5)}</span>{" "}
+          <p
+            className="mt-1.5 max-w-md text-[13px] leading-snug text-[#111111]/55 sm:mt-3 sm:text-[14px] sm:leading-relaxed"
+            style={inter}
+          >
+            <span className="font-semibold text-[#111111]">24/7 virtual support</span> — and in
+            person, on site, in six cities. Right now it's{" "}
+            <span className="font-semibold text-[#1e6b3c]">
+              {cityTime(now, active.tz).slice(0, 5)}
+            </span>{" "}
             in {active.name}.
           </p>
         </Reveal>
@@ -912,7 +1159,10 @@ function Locations() {
                       line was "ELSIAA office" and "· local" repeated six
                       times, which cost 30px a row and said nothing new. */}
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[14px] font-semibold tracking-[-0.01em] sm:text-[15.5px]" style={inter}>
+                    <span
+                      className="block truncate text-[14px] font-semibold tracking-[-0.01em] sm:text-[15.5px]"
+                      style={inter}
+                    >
                       {c.name}
                     </span>
                     <span
@@ -998,12 +1248,48 @@ function Locations() {
    name, and the full board titles wrap to three lines in that space. The
    long form still shows from sm: up and on /team. */
 const TEAM = [
-  { name: "Yisrael Krug", role: "Founder & Chief Executive Officer", short: "Founder & CEO", init: "YK", photo: "/assets/team/yk.jpg" },
-  { name: "David Heimowitz", role: "Co-Founder & Chief Technology Officer", short: "Co-Founder & CTO", init: "DH", photo: "/assets/team/dh.jpg" },
-  { name: "Jacob Rubelow", role: "Partner & Chief Operating Officer", short: "Partner & COO", init: "JR", photo: "/assets/team/jr.jpg" },
-  { name: "Chaim Lieberman", role: "Executive Director & Partner", short: "Exec. Director", init: "CL", photo: "/assets/team/cl.jpg" },
-  { name: "Izzy Eisenberg", role: "Director of California Business", short: "Director, California", init: "IE", photo: "/assets/team/ie.jpg" },
-  { name: "Ynon Azulai", role: "AI & Technology Expert · Jerusalem", short: "AI & Technology", init: "YA", photo: "/assets/team/ya.jpg" },
+  {
+    name: "Yisrael Krug",
+    role: "Founder & Chief Executive Officer",
+    short: "Founder & CEO",
+    init: "YK",
+    photo: "/assets/team/yk.jpg",
+  },
+  {
+    name: "David Heimowitz",
+    role: "Co-Founder & Chief Technology Officer",
+    short: "Co-Founder & CTO",
+    init: "DH",
+    photo: "/assets/team/dh.jpg",
+  },
+  {
+    name: "Jacob Rubelow",
+    role: "Partner & Chief Operating Officer",
+    short: "Partner & COO",
+    init: "JR",
+    photo: "/assets/team/jr.jpg",
+  },
+  {
+    name: "Chaim Lieberman",
+    role: "Executive Director & Partner",
+    short: "Exec. Director",
+    init: "CL",
+    photo: "/assets/team/cl.jpg",
+  },
+  {
+    name: "Izzy Eisenberg",
+    role: "Director of California Business",
+    short: "Director, California",
+    init: "IE",
+    photo: "/assets/team/ie.jpg",
+  },
+  {
+    name: "Ynon Azulai",
+    role: "AI & Technology Expert · Jerusalem",
+    short: "AI & Technology",
+    init: "YA",
+    photo: "/assets/team/ya.jpg",
+  },
 ];
 
 function Team() {
@@ -1027,8 +1313,8 @@ function Team() {
             className="mt-1.5 max-w-xl text-[13px] leading-snug text-[#111111]/60 sm:mt-3 sm:text-[15px] sm:leading-relaxed"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            Founders, executives, and tenured professors — decades of academic
-            distinction and enterprise success at one table.
+            Founders, executives, and tenured professors — decades of academic distinction and
+            enterprise success at one table.
           </p>
         </Reveal>
         {/* Phone: three bare portraits per row, no card chrome — six boxed
@@ -1045,10 +1331,16 @@ function Team() {
                   className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover sm:h-[52px] sm:w-[52px]"
                 />
                 <div className="min-w-0">
-                  <h3 className="text-[11.5px] leading-tight font-semibold tracking-[-0.01em] text-[#111111] sm:text-[15px] sm:tracking-normal" style={{ fontFamily: "var(--font-sans)" }}>
+                  <h3
+                    className="text-[11.5px] leading-tight font-semibold tracking-[-0.01em] text-[#111111] sm:text-[15px] sm:tracking-normal"
+                    style={{ fontFamily: "var(--font-sans)" }}
+                  >
                     {m.name}
                   </h3>
-                  <p className="mt-0.5 text-[10.5px] leading-snug text-[#111111]/55 sm:text-[13px] sm:text-[#111111]/60" style={{ fontFamily: "var(--font-sans)" }}>
+                  <p
+                    className="mt-0.5 text-[10.5px] leading-snug text-[#111111]/55 sm:text-[13px] sm:text-[#111111]/60"
+                    style={{ fontFamily: "var(--font-sans)" }}
+                  >
                     <span className="sm:hidden">{m.short}</span>
                     <span className="hidden sm:inline">{m.role}</span>
                   </p>
@@ -1071,7 +1363,6 @@ function Team() {
   );
 }
 
-
 /* ---------- the merch strip: one clean line + carousel ---------- */
 const MERCH = [
   { img: "/assets/store/dtd_fitted_black.jpg", name: "Fitted Professional Tee", price: "$68" },
@@ -1092,13 +1383,10 @@ const MERCH = [
 
 function MerchStrip() {
   return (
- <section className="bg-white py-8 md:py-12">
+    <section className="bg-white py-8 md:py-12">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
-          <p
-            className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
+          <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: "var(--font-sans)" }}>
             06 · The Store
           </p>
           <h2
@@ -1123,39 +1411,52 @@ function MerchStrip() {
         </Reveal>
       </div>
       <Reveal delay={0.08}>
-      <div className="mt-8">
-        <div
-          tabIndex={0}
-          role="group"
-          aria-label="Scrollable list — use the left and right arrow keys"
-          onKeyDown={(e) => {
-            const el = e.currentTarget;
-            if (e.key === "ArrowRight") { e.preventDefault(); el.scrollBy({ left: Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
-            if (e.key === "ArrowLeft") { e.preventDefault(); el.scrollBy({ left: -Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
-          }}
-          className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
-          {MERCH.slice(0, 8).map((m, i) => (
-            <a
-              key={`${m.name}-${i}`}
-              href="/store"
-              className="group w-[170px] flex-none"
-            >
-              <div className="overflow-hidden rounded-xl border border-black/[0.06] bg-white">
-                <img
-                  src={m.img}
-                  alt={m.name}
-                  loading="lazy"
-                  className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                />
-              </div>
-              <div className="mt-2.5 flex items-baseline justify-between px-0.5">
-                <p className="text-[13.5px] font-semibold text-[#111111]" style={{ fontFamily: "var(--font-sans)" }}>{m.name}</p>
-                <p className="text-[12.5px] text-[#111111]/60" style={{ fontFamily: "var(--font-sans)" }}>{m.price}</p>
-              </div>
-            </a>
-          ))}
+        <div className="mt-8">
+          <div
+            tabIndex={0}
+            role="group"
+            aria-label="Scrollable list — use the left and right arrow keys"
+            onKeyDown={(e) => {
+              const el = e.currentTarget;
+              if (e.key === "ArrowRight") {
+                e.preventDefault();
+                el.scrollBy({ left: Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" });
+              }
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                el.scrollBy({ left: -Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" });
+              }
+            }}
+            className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]"
+          >
+            {MERCH.slice(0, 8).map((m, i) => (
+              <a key={`${m.name}-${i}`} href="/store" className="group w-[170px] flex-none">
+                <div className="overflow-hidden rounded-xl border border-black/[0.06] bg-white">
+                  <img
+                    src={m.img}
+                    alt={m.name}
+                    loading="lazy"
+                    className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                  />
+                </div>
+                <div className="mt-2.5 flex items-baseline justify-between px-0.5">
+                  <p
+                    className="text-[13.5px] font-semibold text-[#111111]"
+                    style={{ fontFamily: "var(--font-sans)" }}
+                  >
+                    {m.name}
+                  </p>
+                  <p
+                    className="text-[12.5px] text-[#111111]/60"
+                    style={{ fontFamily: "var(--font-sans)" }}
+                  >
+                    {m.price}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
       </Reveal>
     </section>
   );
@@ -1164,13 +1465,10 @@ function MerchStrip() {
 /* ---------- closing CTA — the next step, unmissable ---------- */
 function FinalCTA() {
   return (
- <section className="bg-[#F5F5F3] py-10 text-[#111111] md:py-14">
+    <section className="bg-[#F5F5F3] py-10 text-[#111111] md:py-14">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <Reveal>
-          <p
-            className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
+          <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: "var(--font-sans)" }}>
             07 · Next
           </p>
           <h2
@@ -1183,7 +1481,8 @@ function FinalCTA() {
             className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-[#111111]/55"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            Tell us the step that still waits on a person. We'll scope it, price it, and show you the before and after.
+            Tell us the step that still waits on a person. We'll scope it, price it, and show you
+            the before and after.
           </p>
         </Reveal>
         <Reveal delay={0.1}>
@@ -1225,19 +1524,30 @@ function AutomationCatalog() {
     el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.8, 520), behavior: "smooth" });
   };
   return (
- <section className="bg-white pb-8 pt-2 md:pb-14 md:pt-3" id="automation-catalog">
+    <section className="bg-white pb-8 pt-2 md:pb-14 md:pt-3" id="automation-catalog">
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-3 md:gap-4">
             <div className="max-w-xl">
-              <h3 className="text-xl font-semibold tracking-[-0.03em] text-[#111111] sm:text-2xl md:text-3xl" style={{ fontFamily: sans }}>
+              <h3
+                className="text-xl font-semibold tracking-[-0.03em] text-[#111111] sm:text-2xl md:text-3xl"
+                style={{ fontFamily: sans }}
+              >
                 We automate your business.
               </h3>
-              <p className="mt-1.5 text-[13px] leading-snug text-[#111111]/60 sm:mt-3 sm:text-[14.5px] sm:leading-relaxed" style={{ fontFamily: sans }}>
-                Sales, operations, finance, support and more — built for you, and running around the clock.
+              <p
+                className="mt-1.5 text-[13px] leading-snug text-[#111111]/60 sm:mt-3 sm:text-[14.5px] sm:leading-relaxed"
+                style={{ fontFamily: sans }}
+              >
+                Sales, operations, finance, support and more — built for you, and running around the
+                clock.
               </p>
             </div>
-            <a href="/automate" className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#1e6b3c] px-6 py-2.5 text-[12.5px] font-bold text-white transition-all hover:bg-[#111111] sm:px-7 sm:py-3 sm:text-[13px]" style={{ fontFamily: sans }}>
+            <a
+              href="/automate"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#1e6b3c] px-6 py-2.5 text-[12.5px] font-bold text-white transition-all hover:bg-[#111111] sm:px-7 sm:py-3 sm:text-[13px]"
+              style={{ fontFamily: sans }}
+            >
               Discover automations →
             </a>
           </div>
@@ -1265,14 +1575,20 @@ function AutomationCatalog() {
 
             <div
               ref={rowRef}
-        tabIndex={0}
-        role="group"
-        aria-label="Scrollable list — use the left and right arrow keys"
-        onKeyDown={(e) => {
-          const el = e.currentTarget;
-          if (e.key === "ArrowRight") { e.preventDefault(); el.scrollBy({ left: Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
-          if (e.key === "ArrowLeft") { e.preventDefault(); el.scrollBy({ left: -Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" }); }
-        }}
+              tabIndex={0}
+              role="group"
+              aria-label="Scrollable list — use the left and right arrow keys"
+              onKeyDown={(e) => {
+                const el = e.currentTarget;
+                if (e.key === "ArrowRight") {
+                  e.preventDefault();
+                  el.scrollBy({ left: Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" });
+                }
+                if (e.key === "ArrowLeft") {
+                  e.preventDefault();
+                  el.scrollBy({ left: -Math.min(el.clientWidth * 0.8, 420), behavior: "smooth" });
+                }
+              }}
               className="flex items-start snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]"
             >
               {AUTOSOFT.map((s, i) => (
@@ -1282,7 +1598,10 @@ function AutomationCatalog() {
                   className="group flex w-[218px] shrink-0 snap-start flex-col rounded-xl border border-black/[0.07] bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)] sm:w-[248px] sm:p-4"
                 >
                   <div className="flex items-center justify-between">
-                    <h4 className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={{ fontFamily: sans }}>
+                    <h4
+                      className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]"
+                      style={{ fontFamily: sans }}
+                    >
                       {s.name}
                     </h4>
                     <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[13px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">
@@ -1291,7 +1610,11 @@ function AutomationCatalog() {
                   </div>
                   <ul className="mt-2.5 space-y-1">
                     {s.items.map((it) => (
-                      <li key={it} className="text-[13px] leading-snug text-[#111111]/55" style={{ fontFamily: sans }}>
+                      <li
+                        key={it}
+                        className="text-[13px] leading-snug text-[#111111]/55"
+                        style={{ fontFamily: sans }}
+                      >
                         {it}
                       </li>
                     ))}
@@ -1334,9 +1657,12 @@ function DesignDivision() {
     if (!wrap) return;
     let raf = 0;
     let sp = 0; // smoothed progress
-    const set = (el: HTMLElement | null, o: Partial<CSSStyleDeclaration>) => { if (el) Object.assign(el.style, o); };
+    const set = (el: HTMLElement | null, o: Partial<CSSStyleDeclaration>) => {
+      if (el) Object.assign(el.style, o);
+    };
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
-    const seg = (p: number, a2: number, b2: number) => (p <= a2 ? 0 : p >= b2 ? 1 : (p - a2) / (b2 - a2));
+    const seg = (p: number, a2: number, b2: number) =>
+      p <= a2 ? 0 : p >= b2 ? 1 : (p - a2) / (b2 - a2);
     const ease = (t: number) => t * t * (3 - 2 * t); // smoothstep
     const tick = () => {
       const r = wrap.getBoundingClientRect();
@@ -1365,12 +1691,21 @@ function DesignDivision() {
       // the planet settles: slight grow + upright rotation
       const grow = 0.86 + ease(seg(p, 0, 0.7)) * 0.14;
       const rot = -8 + ease(seg(p, 0, 0.7)) * 8;
-      set(sphereRef.current, { transform: `scale(${grow.toFixed(3)}) rotate(${rot.toFixed(2)}deg)` });
+      set(sphereRef.current, {
+        transform: `scale(${grow.toFixed(3)}) rotate(${rot.toFixed(2)}deg)`,
+      });
 
       // copy arc
       set(cap1Ref.current, { opacity: String(Math.max(0, 1 - seg(p, 0.18, 0.36))) });
-      set(cap2Ref.current, { opacity: String(seg(p, 0.5, 0.66)), transform: `translateY(${(1 - ease(seg(p, 0.5, 0.66))) * 10}px)` });
-      set(ctaRef.current, { opacity: String(seg(p, 0.68, 0.84)), transform: `translateY(${(1 - ease(seg(p, 0.68, 0.84))) * 12}px)`, pointerEvents: p > 0.7 ? "auto" : "none" });
+      set(cap2Ref.current, {
+        opacity: String(seg(p, 0.5, 0.66)),
+        transform: `translateY(${(1 - ease(seg(p, 0.5, 0.66))) * 10}px)`,
+      });
+      set(ctaRef.current, {
+        opacity: String(seg(p, 0.68, 0.84)),
+        transform: `translateY(${(1 - ease(seg(p, 0.68, 0.84))) * 12}px)`,
+        pointerEvents: p > 0.7 ? "auto" : "none",
+      });
       set(hintRef.current, { opacity: String(Math.max(0, 1 - seg(p, 0.1, 0.28))) });
       raf = requestAnimationFrame(tick);
     };
@@ -1379,14 +1714,23 @@ function DesignDivision() {
   }, []);
 
   const Sphere = ({ live }: { live: boolean }) => (
-    <div className="relative flex items-center justify-center" style={{ width: "min(58vh, min(82vw, 440px))", height: "min(58vh, min(82vw, 440px))" }}>
+    <div
+      className="relative flex items-center justify-center"
+      style={{ width: "min(58vh, min(82vw, 440px))", height: "min(58vh, min(82vw, 440px))" }}
+    >
       {/* green life-glow behind the planet */}
       <div
         ref={live ? undefined : glowRef}
         className="pointer-events-none absolute h-[82%] w-[82%] rounded-full blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(46,158,88,0.42), transparent 67%)", opacity: live ? 0.5 : 0.06 }}
+        style={{
+          background: "radial-gradient(circle, rgba(46,158,88,0.42), transparent 67%)",
+          opacity: live ? 0.5 : 0.06,
+        }}
       />
-      <div ref={live ? undefined : sphereRef} className="relative aspect-square w-full will-change-transform">
+      <div
+        ref={live ? undefined : sphereRef}
+        className="relative aspect-square w-full will-change-transform"
+      >
         {/* one earth on pure white — no clip, no ring; grey → full colour */}
         <img
           ref={live ? undefined : earthRef}
@@ -1401,43 +1745,85 @@ function DesignDivision() {
 
   if (reduced) {
     return (
- <section className="bg-white py-8 md:py-12">
+      <section className="bg-white py-8 md:py-12">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 px-6 text-center">
-          <h2 className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl" style={inter}>Design</h2>
+          <h2
+            className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl"
+            style={inter}
+          >
+            Design
+          </h2>
           <Sphere live />
           <p className="max-w-md text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
-            A world without design is a rock. Design gives it life — a living surface for every screen your brand meets.
+            A world without design is a rock. Design gives it life — a living surface for every
+            screen your brand meets.
           </p>
-          <a href="/designs" className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-7 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={inter}>Discover design →</a>
+          <a
+            href="/designs"
+            className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-7 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]"
+            style={inter}
+          >
+            Discover design →
+          </a>
         </div>
-        <div className="mt-8 sm:mt-14"><DesignCatalog /></div>
+        <div className="mt-8 sm:mt-14">
+          <DesignCatalog />
+        </div>
       </section>
     );
   }
 
   return (
     <>
- <section ref={wrapRef} className="relative bg-white [--track:96svh] md:[--track:170vh]" style={{ height: "var(--track)" }}>
+      <section
+        ref={wrapRef}
+        className="relative bg-white [--track:96svh] md:[--track:170vh]"
+        style={{ height: "var(--track)" }}
+      >
         {/* Stage is sized to its content on phones (~522px of h2 + sphere +
             caption + CTA); at 100svh it was 812px holding 474px, so a third
             of the screen was empty band above and below. */}
-        <div ref={stageRef} className="sticky top-0 flex h-[74svh] flex-col items-center justify-center gap-3 overflow-hidden px-6 text-center md:h-[100svh] md:gap-4">
+        <div
+          ref={stageRef}
+          className="sticky top-0 flex h-[74svh] flex-col items-center justify-center gap-3 overflow-hidden px-6 text-center md:h-[100svh] md:gap-4"
+        >
           <div>
-            <h2 className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl" style={inter}>Design</h2>
+            <h2
+              className="mt-1 text-5xl font-semibold tracking-[-0.045em] text-[#111111] md:text-7xl"
+              style={inter}
+            >
+              Design
+            </h2>
           </div>
           <Sphere live={false} />
           <div className="relative h-[64px] w-full max-w-lg">
-            <p ref={cap1Ref} className="absolute inset-x-0 mx-auto max-w-md text-[16px] leading-relaxed text-[#111111]/65" style={inter}>
+            <p
+              ref={cap1Ref}
+              className="absolute inset-x-0 mx-auto max-w-md text-[16px] leading-relaxed text-[#111111]/65"
+              style={inter}
+            >
               A world without design is a rock.
-              <span className="mt-0.5 block text-[13.5px] text-[#111111]/40">Cold. Correct. Forgettable.</span>
+              <span className="mt-0.5 block text-[13.5px] text-[#111111]/40">
+                Cold. Correct. Forgettable.
+              </span>
             </p>
-            <p ref={cap2Ref} className="absolute inset-x-0 mx-auto max-w-md text-[16px] leading-relaxed text-[#111111]/80 opacity-0" style={inter}>
+            <p
+              ref={cap2Ref}
+              className="absolute inset-x-0 mx-auto max-w-md text-[16px] leading-relaxed text-[#111111]/80 opacity-0"
+              style={inter}
+            >
               Design gives it life.
-              <span className="mt-0.5 block text-[13.5px] text-[#111111]/50">A living surface for every screen your brand meets.</span>
+              <span className="mt-0.5 block text-[13.5px] text-[#111111]/50">
+                A living surface for every screen your brand meets.
+              </span>
             </p>
           </div>
           <div ref={ctaRef} className="opacity-0" style={{ pointerEvents: "none" }}>
-            <a href="/designs" className="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]" style={inter}>
+            <a
+              href="/designs"
+              className="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-[#1e6b3c] px-8 text-[15px] font-semibold text-white transition-all hover:bg-[#111111]"
+              style={inter}
+            >
               Discover design →
             </a>
           </div>
@@ -1451,20 +1837,37 @@ function DesignDivision() {
 }
 
 function DesignCatalog() {
-  const mono = { fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace" } as const;
+  const mono = {
+    fontFamily: "'SF Mono', ui-monospace, SFMono-Regular, 'IBM Plex Mono', monospace",
+  } as const;
   const inter = { fontFamily: "var(--font-sans)" } as const;
   return (
     <div className="mx-auto w-full max-w-6xl px-6">
       <Reveal delay={0.05}>
         <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:min-w-[62%] [&>*]:snap-start sm:[&>*]:min-w-[78%] md:grid md:snap-none md:overflow-visible md:pb-0 md:[&>*]:min-w-0 md:grid-cols-3 lg:grid-cols-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c]">
           {DESIGN.map((s, i) => (
-            <a key={`${s.name}-${i}`} href="/designs" className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)] sm:p-4">
+            <a
+              key={`${s.name}-${i}`}
+              href="/designs"
+              className="group flex flex-col rounded-xl border border-black/[0.07] bg-white p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_18px_44px_-30px_rgba(17,17,17,0.3)] sm:p-4"
+            >
               <div className="flex items-center justify-between">
-                <h3 className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]" style={inter}>{s.name}</h3>
-                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[12px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">→</span>
+                <h3
+                  className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#111111]"
+                  style={inter}
+                >
+                  {s.name}
+                </h3>
+                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/10 text-[12px] text-[#111111]/60 transition-all group-hover:border-[#1e6b3c] group-hover:bg-[#1e6b3c] group-hover:text-white">
+                  →
+                </span>
               </div>
               <ul className="mt-2.5 space-y-1">
-                {s.items.map((it) => (<li key={it} className="text-[12px] leading-snug text-[#111111]/55" style={inter}>{it}</li>))}
+                {s.items.map((it) => (
+                  <li key={it} className="text-[12px] leading-snug text-[#111111]/55" style={inter}>
+                    {it}
+                  </li>
+                ))}
               </ul>
             </a>
           ))}
@@ -1473,7 +1876,6 @@ function DesignCatalog() {
     </div>
   );
 }
-
 
 /* Section that can be collapsed but is OPEN by default and always renders its
    children. It previously mounted them only while open, starting closed, so the
@@ -1496,7 +1898,7 @@ function ExpandSection({
   const panelId = `sec-${title.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
   const sans = { fontFamily: "var(--font-sans)" };
   return (
- <section className="">
+    <section className="">
       <button
         onClick={() => setOpen(!open)}
         className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-7 text-left transition-colors hover:bg-black/[0.015] md:py-9"
@@ -1505,7 +1907,9 @@ function ExpandSection({
         style={sans}
       >
         <span>
-          <span className="block text-[19px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[22px]">{title}</span>
+          <span className="block text-[19px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[22px]">
+            {title}
+          </span>
           <span className="mt-1 block text-[14px] text-[#111111]/50">{blurb}</span>
         </span>
         <span
@@ -1535,25 +1939,37 @@ const ADOPTION: Array<[string, number]> = [
 ];
 
 function AdoptionSection() {
-  const sans =
-    "var(--font-sans)";
+  const sans = "var(--font-sans)";
   const ref = useRef<HTMLElement | null>(null);
   const [on, setOn] = useState(false);
   useEffect(() => {
     const el = ref.current;
-    if (!el || typeof IntersectionObserver === "undefined") { setOn(true); return; }
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setOn(true), io.disconnect()), { threshold: 0.2 });
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setOn(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => e.isIntersecting && (setOn(true), io.disconnect()),
+      { threshold: 0.2 },
+    );
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
   return (
-    <section ref={ref} className="border-y border-black/[0.06] bg-[#FBFBFA] py-10 md:py-16" id="adoption">
+    <section
+      ref={ref}
+      className="border-y border-black/[0.06] bg-[#FBFBFA] py-10 md:py-16"
+      id="adoption"
+    >
       <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid items-center gap-7 md:gap-10 lg:grid-cols-[1fr_minmax(0,470px)] lg:gap-16">
           {/* the argument */}
           <div>
-            <p className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase" style={{ fontFamily: sans }}>
+            <p
+              className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase"
+              style={{ fontFamily: sans }}
+            >
               Adoption
             </p>
             <h2
@@ -1566,8 +1982,8 @@ function AdoptionSection() {
               className="mt-5 max-w-lg text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]"
               style={{ fontFamily: sans }}
             >
-              It is no longer a question of if. The twenty-two that haven't are not early
-              — they are the ones their customers now compare against everybody else.
+              It is no longer a question of if. The twenty-two that haven't are not early — they are
+              the ones their customers now compare against everybody else.
             </p>
 
             {/* the industry ledger */}
@@ -1576,9 +1992,15 @@ function AdoptionSection() {
                 <div
                   key={label}
                   className="flex items-center gap-4 border-b border-black/[0.07] py-3"
-                  style={{ opacity: on ? 1 : 0, transition: `opacity .5s ease ${0.55 + i * 0.07}s` }}
+                  style={{
+                    opacity: on ? 1 : 0,
+                    transition: `opacity .5s ease ${0.55 + i * 0.07}s`,
+                  }}
                 >
-                  <span className="w-[108px] shrink-0 text-[13.5px] font-medium text-[#111111]/70" style={{ fontFamily: sans }}>
+                  <span
+                    className="w-[108px] shrink-0 text-[13.5px] font-medium text-[#111111]/70"
+                    style={{ fontFamily: sans }}
+                  >
                     {label}
                   </span>
                   <span className="relative h-[6px] flex-1 overflow-hidden rounded-full bg-black/[0.06]">
@@ -1612,7 +2034,10 @@ function AdoptionSection() {
               >
                 78<span className="text-[30px] align-top md:text-[38px]">%</span>
               </p>
-              <p className="pb-1.5 text-right text-[12.5px] leading-snug text-[#111111]/50" style={{ fontFamily: sans }}>
+              <p
+                className="pb-1.5 text-right text-[12.5px] leading-snug text-[#111111]/50"
+                style={{ fontFamily: sans }}
+              >
                 already run AI in at
                 <br />
                 least one function
@@ -1639,13 +2064,19 @@ function AdoptionSection() {
               })}
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-black/[0.07] pt-5" style={{ fontFamily: sans }}>
+            <div
+              className="mt-7 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-black/[0.07] pt-5"
+              style={{ fontFamily: sans }}
+            >
               <span className="flex items-center gap-2.5 text-[13px] text-[#111111]/75">
                 <span aria-hidden className="h-3 w-3 rounded-[3px] bg-[#1e6b3c]" />
                 <b className="font-semibold text-[#111111]">78</b> running AI
               </span>
               <span className="flex items-center gap-2.5 text-[13px] text-[#111111]/60">
-                <span aria-hidden className="h-3 w-3 rounded-[3px] border-[1.5px] border-[#b4543a]/40" />
+                <span
+                  aria-hidden
+                  className="h-3 w-3 rounded-[3px] border-[1.5px] border-[#b4543a]/40"
+                />
                 <b className="font-semibold text-[#b4543a]">22</b> falling behind
               </span>
             </div>
@@ -1690,7 +2121,10 @@ export function HomeRows() {
         cta="Book Consultation"
         extra={<ConsultPricing />}
       />
-      <ExpandSection title="Proof — live systems and results" blurb="Real deployments, real numbers, why brands chose ELSIAA.">
+      <ExpandSection
+        title="Proof — live systems and results"
+        blurb="Real deployments, real numbers, why brands chose ELSIAA."
+      >
         <HeroCards />
         <WhyBrandsChose />
         <SoftwareDemos />
@@ -1698,7 +2132,10 @@ export function HomeRows() {
       <ExpandSection title="The team" blurb="Who builds it, who stands behind it.">
         <Team />
       </ExpandSection>
-      <ExpandSection title="Offices — six cities" blurb="New York, Los Angeles, London, Geneva, Antwerp, Tel Aviv.">
+      <ExpandSection
+        title="Offices — six cities"
+        blurb="New York, Los Angeles, London, Geneva, Antwerp, Tel Aviv."
+      >
         <Locations />
       </ExpandSection>
       <FinalCTA />

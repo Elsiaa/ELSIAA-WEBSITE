@@ -1,10 +1,10 @@
-import { getServerSupabaseClient } from './supabase';
-import { getCompanyProjects } from './projects';
-import { getAuthDevicesGroupedByProjectId } from './project-auth-devices';
-import { getExtensionSourcesByProjectIds } from './project-extension-sources';
-import type { ProjectExtensionSource } from './project-extension-sources';
-import type { AppFeatures } from './app-features';
-import { parseAppFeaturesPartial, normalizeAppFeatures } from './app-features';
+import { getServerSupabaseClient } from "./supabase";
+import { getCompanyProjects } from "./projects";
+import { getAuthDevicesGroupedByProjectId } from "./project-auth-devices";
+import { getExtensionSourcesByProjectIds } from "./project-extension-sources";
+import type { ProjectExtensionSource } from "./project-extension-sources";
+import type { AppFeatures } from "./app-features";
+import { parseAppFeaturesPartial, normalizeAppFeatures } from "./app-features";
 
 export type BundleExtensionSourcePayload = {
   owner: string;
@@ -17,7 +17,7 @@ export type AuthorizationsBundleProject = {
   id: string;
   title: string;
   companyId: string;
-  accessOverride: 'allowed' | 'blocked' | null;
+  accessOverride: "allowed" | "blocked" | null;
   deviceLimit: number | null;
   features: AppFeatures | null;
   devices: Array<{
@@ -41,7 +41,7 @@ function bundleFeatures(raw: unknown): AppFeatures | null {
 
 export function bundleExtensionToSource(
   projectId: string,
-  ext: BundleExtensionSourcePayload
+  ext: BundleExtensionSourcePayload,
 ): ProjectExtensionSource | null {
   if (!ext) return null;
   return {
@@ -50,8 +50,8 @@ export function bundleExtensionToSource(
     githubRepo: ext.repo,
     githubRef: ext.ref,
     deploymentVisibleFrom: ext.deploymentVisibleFrom,
-    createdAt: '',
-    updatedAt: '',
+    createdAt: "",
+    updatedAt: "",
   };
 }
 
@@ -59,9 +59,11 @@ export function bundleExtensionToSource(
  * Loads all projects for a company with devices + extension source in one DB round-trip (RPC),
  * or three batched queries if the migration is not applied yet.
  */
-export async function loadAuthorizationsBundleProjects(companyId: string): Promise<AuthorizationsBundleProject[]> {
+export async function loadAuthorizationsBundleProjects(
+  companyId: string,
+): Promise<AuthorizationsBundleProject[]> {
   const supabase = getServerSupabaseClient();
-  const { data, error } = await supabase.rpc('get_company_authorizations_bundle', {
+  const { data, error } = await supabase.rpc("get_company_authorizations_bundle", {
     p_company_id: companyId,
   });
 
@@ -70,7 +72,7 @@ export async function loadAuthorizationsBundleProjects(companyId: string): Promi
       data as Array<
         AuthorizationsBundleProject & {
           features?: unknown;
-          devices?: Array<AuthorizationsBundleProject['devices'][number] & { features?: unknown }>;
+          devices?: Array<AuthorizationsBundleProject["devices"][number] & { features?: unknown }>;
         }
       >
     ).map((row) => ({
@@ -84,13 +86,15 @@ export async function loadAuthorizationsBundleProjects(companyId: string): Promi
   }
 
   if (error) {
-    console.warn('[authorizations-bundle] RPC unavailable, using batched queries:', error.message);
+    console.warn("[authorizations-bundle] RPC unavailable, using batched queries:", error.message);
   }
 
   return loadAuthorizationsBundleProjectsBatched(companyId);
 }
 
-async function loadAuthorizationsBundleProjectsBatched(companyId: string): Promise<AuthorizationsBundleProject[]> {
+async function loadAuthorizationsBundleProjectsBatched(
+  companyId: string,
+): Promise<AuthorizationsBundleProject[]> {
   const projects = await getCompanyProjects(companyId);
   if (projects.length === 0) return [];
 

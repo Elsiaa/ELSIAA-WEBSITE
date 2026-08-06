@@ -4,7 +4,13 @@
   Strokes/fills use currentColor so the mark inverts (ink on light, white
   on the dark menu overlay); the eye stays emerald. Scalable, crisp at any size.
 */
-export function LionMark({ className = "", title = "ELSIAA" }: { className?: string; title?: string }) {
+export function LionMark({
+  className = "",
+  title = "ELSIAA",
+}: {
+  className?: string;
+  title?: string;
+}) {
   return (
     <svg
       viewBox="0 0 96 96"

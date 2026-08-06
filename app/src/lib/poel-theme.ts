@@ -179,7 +179,9 @@ export type PoelLightTransactionalEmailOptions = {
 };
 
 /** Full light-mode transactional document: ELSIAA logo header + themed body + footer */
-export function renderPoelLightTransactionalEmailHtml(options: PoelLightTransactionalEmailOptions): string {
+export function renderPoelLightTransactionalEmailHtml(
+  options: PoelLightTransactionalEmailOptions,
+): string {
   const { logoUrl, brandName, title, contentHtml, footerInnerHtml, extraHeadStyles = "" } = options;
   const safeBrand = escapeHtml(brandName);
   const safeTitle = escapeHtml(title);
@@ -233,4 +235,3 @@ export function poelDarkPanelEmailStyles(): string {
     .footer { text-align: center; margin-top: 20px; color: ${poelColors.mist}; font-size: 13px; }
   `.trim();
 }
-

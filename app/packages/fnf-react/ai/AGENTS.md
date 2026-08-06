@@ -66,10 +66,10 @@ For generated apps, a clean split is: `@higgsfield/fnf` owns domain contracts,
 ## Provider setup
 
 ```tsx
-import { createFnfWebAdapter } from '@higgsfield/fnf-adapters'
-import { seedance2_0 } from '@higgsfield/fnf/jobs'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useMemo } from 'react'
+import { createFnfWebAdapter } from "@higgsfield/fnf-adapters";
+import { seedance2_0 } from "@higgsfield/fnf/jobs";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useMemo } from "react";
 import {
   FnfProvider,
   useFnf,
@@ -79,20 +79,21 @@ import {
   useFnfObservability,
   useFnfProfileClient,
   useFnfScopeKey,
-} from '@higgsfield/fnf-react'
+} from "@higgsfield/fnf-react";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 function Root() {
   const adapter = useMemo(
-    () => createFnfWebAdapter({
-      baseUrl,
-      getToken,
-      workspaceId: activeWorkspaceId,
-    }),
+    () =>
+      createFnfWebAdapter({
+        baseUrl,
+        getToken,
+        workspaceId: activeWorkspaceId,
+      }),
     [activeWorkspaceId, baseUrl, getToken],
-  )
-  const scopeKey = `${userId}:${activeWorkspaceId}`
+  );
+  const scopeKey = `${userId}:${activeWorkspaceId}`;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -105,25 +106,25 @@ function Root() {
         <App />
       </FnfProvider>
     </QueryClientProvider>
-  )
+  );
 }
 
 function App() {
-  const fnf = useFnf()
-  const jobs = useFnfJobClient()
-  const media = useFnfMediaClient()
-  const profile = useFnfProfileClient()
-  const registry = useFnfJobs()
-  const scopeKey = useFnfScopeKey()
-  const observability = useFnfObservability()
+  const fnf = useFnf();
+  const jobs = useFnfJobClient();
+  const media = useFnfMediaClient();
+  const profile = useFnfProfileClient();
+  const registry = useFnfJobs();
+  const scopeKey = useFnfScopeKey();
+  const observability = useFnfObservability();
 
-  void fnf
-  void jobs
-  void media
-  void profile
-  void registry
-  void scopeKey
-  void observability
+  void fnf;
+  void jobs;
+  void media;
+  void profile;
+  void registry;
+  void scopeKey;
+  void observability;
 }
 ```
 
@@ -172,7 +173,7 @@ Always use the exported query-option factories. They are the public contract for
 polling, stale-time, key shapes, and scope behavior.
 
 ```tsx
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
   costQueryOptions,
   flattenFeedPages,
@@ -180,23 +181,25 @@ import {
   jobSetQueryOptions,
   jobsFeedQueryOptions,
   profileSnapshotQueryOptions,
-} from '@higgsfield/fnf-react'
+} from "@higgsfield/fnf-react";
 
-const scope = { scopeKey }
+const scope = { scopeKey };
 
-const generation = useQuery(generationQueryOptions(jobClient, jobId, scope))
-const jobSet = useQuery(jobSetQueryOptions(jobClient, jobSetId, scope))
+const generation = useQuery(generationQueryOptions(jobClient, jobId, scope));
+const jobSet = useQuery(jobSetQueryOptions(jobClient, jobSetId, scope));
 
 const feed = useInfiniteQuery({
-  ...jobsFeedQueryOptions(jobClient, { type: 'video', size: 20 }, scope),
+  ...jobsFeedQueryOptions(jobClient, { type: "video", size: 20 }, scope),
   select: flattenFeedPages,
-})
+});
 
-const snapshot = useQuery(profileSnapshotQueryOptions(profileClient, scope))
-const cost = useQuery(costQueryOptions(jobClient, input, {
-  ...scope,
-  enabled: wirePreview.ok,
-}))
+const snapshot = useQuery(profileSnapshotQueryOptions(profileClient, scope));
+const cost = useQuery(
+  costQueryOptions(jobClient, input, {
+    ...scope,
+    enabled: wirePreview.ok,
+  }),
+);
 ```
 
 Defaults:
@@ -216,22 +219,22 @@ Use `fnfKeys` factories only. Unscoped key shapes are backward-compatible public
 contracts:
 
 ```ts
-fnfKeys.job('g1')              // ['fnf', 'job', 'g1']
-fnfKeys.jobSet('set1')         // ['fnf', 'job-set', 'set1']
-fnfKeys.jobs({ type: 'video' }) // ['fnf', 'jobs', { type: 'video' }]
+fnfKeys.job("g1"); // ['fnf', 'job', 'g1']
+fnfKeys.jobSet("set1"); // ['fnf', 'job-set', 'set1']
+fnfKeys.jobs({ type: "video" }); // ['fnf', 'jobs', { type: 'video' }]
 ```
 
 Scoped variants are additive:
 
 ```ts
-const scope = { scopeKey: `${userId}:${workspaceId}` }
+const scope = { scopeKey: `${userId}:${workspaceId}` };
 
-fnfKeys.job('g1', scope)
-fnfKeys.jobSet('set1', scope)
-fnfKeys.jobs({ type: 'video' }, scope)
-fnfKeys.cost(input, scope)
-fnfKeys.profileSnapshot(scope)
-fnfKeys.profileCredits({ ...scope, includeOnDemand: false })
+fnfKeys.job("g1", scope);
+fnfKeys.jobSet("set1", scope);
+fnfKeys.jobs({ type: "video" }, scope);
+fnfKeys.cost(input, scope);
+fnfKeys.profileSnapshot(scope);
+fnfKeys.profileCredits({ ...scope, includeOnDemand: false });
 ```
 
 Do not write `['fnf', ...]` arrays by hand in app code.
@@ -245,11 +248,11 @@ import {
   applyGenerations,
   prependGenerations,
   removeGenerationQueries,
-} from '@higgsfield/fnf-react'
+} from "@higgsfield/fnf-react";
 
-applyGenerations(queryClient, liveGenerations, { scopeKey })
-prependGenerations(queryClient, { type: 'video', size: 20 }, submittedGenerations, { scopeKey })
-removeGenerationQueries(queryClient, { scopeKey })
+applyGenerations(queryClient, liveGenerations, { scopeKey });
+prependGenerations(queryClient, { type: "video", size: 20 }, submittedGenerations, { scopeKey });
+removeGenerationQueries(queryClient, { scopeKey });
 ```
 
 Rules:
@@ -271,16 +274,13 @@ Use `useGenerationRun` in components and `GenerationRun` directly in tests or
 framework adapters.
 
 ```tsx
-import {
-  prependGenerations,
-  useGenerationRun,
-} from '@higgsfield/fnf-react'
+import { prependGenerations, useGenerationRun } from "@higgsfield/fnf-react";
 
-const run = useGenerationRun(jobClient, { scopeKey })
+const run = useGenerationRun(jobClient, { scopeKey });
 
 async function submit(input: Parameters<typeof jobClient.submit>[0]) {
-  const generations = await run.start(input)
-  prependGenerations(queryClient, { type: 'video', size: 20 }, generations, { scopeKey })
+  const generations = await run.start(input);
+  prependGenerations(queryClient, { type: "video", size: 20 }, generations, { scopeKey });
 }
 ```
 
@@ -323,24 +323,24 @@ Use `useAttachments` for file inputs. It uploads immediately, keeps previews,
 and returns submit-ready refs.
 
 ```tsx
-import { useAttachments } from '@higgsfield/fnf-react'
+import { useAttachments } from "@higgsfield/fnf-react";
 
 const attachments = useAttachments(mediaClient, {
   upload: { forceIpCheck: true },
-})
+});
 
 function onFiles(files: File[]) {
-  attachments.add(files, { role: 'start_image' })
+  attachments.add(files, { role: "start_image" });
 }
 
 async function submit() {
-  const refs = await attachments.settled()
+  const refs = await attachments.settled();
   await jobClient.submit({
-    model: 'seedance_2_0',
+    model: "seedance_2_0",
     media: { start_image: refs },
     prompt,
     settings,
-  })
+  });
 }
 ```
 
@@ -370,7 +370,7 @@ the job.
 Use profile query options for account/workspace reads.
 
 ```tsx
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query";
 import {
   profileCreditsQueryOptions,
   profileCurrentWorkspaceQueryOptions,
@@ -379,39 +379,41 @@ import {
   profileWalletQueryOptions,
   profileWorkspacesQueryOptions,
   setProfileSnapshot,
-} from '@higgsfield/fnf-react'
+} from "@higgsfield/fnf-react";
 
-const profile = useFnfProfileClient()
-const scope = { scopeKey }
+const profile = useFnfProfileClient();
+const scope = { scopeKey };
 
-const snapshot = useQuery(profileSnapshotQueryOptions(profile, scope))
-const user = useQuery(profileUserQueryOptions(profile, scope))
-const workspaces = useQuery(profileWorkspacesQueryOptions(profile, scope))
-const current = useQuery(profileCurrentWorkspaceQueryOptions(profile, scope))
-const wallet = useQuery(profileWalletQueryOptions(profile, scope))
-const credits = useQuery(profileCreditsQueryOptions(profile, {
-  ...scope,
-  includeOnDemand: true,
-}))
+const snapshot = useQuery(profileSnapshotQueryOptions(profile, scope));
+const user = useQuery(profileUserQueryOptions(profile, scope));
+const workspaces = useQuery(profileWorkspacesQueryOptions(profile, scope));
+const current = useQuery(profileCurrentWorkspaceQueryOptions(profile, scope));
+const wallet = useQuery(profileWalletQueryOptions(profile, scope));
+const credits = useQuery(
+  profileCreditsQueryOptions(profile, {
+    ...scope,
+    includeOnDemand: true,
+  }),
+);
 
-setProfileSnapshot(queryClient, snapshot.data!, scope)
+setProfileSnapshot(queryClient, snapshot.data!, scope);
 ```
 
 Workspace switching:
 
 ```tsx
-import { useSwitchWorkspaceMutation } from '@higgsfield/fnf-react'
+import { useSwitchWorkspaceMutation } from "@higgsfield/fnf-react";
 
 const switchWorkspace = useSwitchWorkspaceMutation({
   scopeKey,
-  nextScopeKey: snapshot => `${snapshot.user?.id}:${snapshot.currentWorkspace?.id}`,
-  onWorkspaceChanged: async snapshot => {
-    setActiveWorkspaceId(snapshot.currentWorkspace?.id ?? '')
-    await updateHostSession(snapshot)
+  nextScopeKey: (snapshot) => `${snapshot.user?.id}:${snapshot.currentWorkspace?.id}`,
+  onWorkspaceChanged: async (snapshot) => {
+    setActiveWorkspaceId(snapshot.currentWorkspace?.id ?? "");
+    await updateHostSession(snapshot);
   },
-})
+});
 
-await switchWorkspace.mutateAsync({ workspaceId })
+await switchWorkspace.mutateAsync({ workspaceId });
 ```
 
 On success, the mutation helper:
@@ -430,27 +432,24 @@ the page, redirect, or show copy. The host must do those things.
 Use local wire previews to show validation/build-wire state without submitting.
 
 ```tsx
-import {
-  costQueryOptions,
-  getWirePreview,
-  useFnfWirePreview,
-} from '@higgsfield/fnf-react'
+import { costQueryOptions, getWirePreview, useFnfWirePreview } from "@higgsfield/fnf-react";
 
-const preview = useFnfWirePreview(input)
-const manual = getWirePreview(input, jobs)
+const preview = useFnfWirePreview(input);
+const manual = getWirePreview(input, jobs);
 
-const cost = useQuery(costQueryOptions(jobClient, input, {
-  scopeKey,
-  enabled: preview.ok,
-}))
+const cost = useQuery(
+  costQueryOptions(jobClient, input, {
+    scopeKey,
+    enabled: preview.ok,
+  }),
+);
 
 if (preview.ok) {
-  preview.jobSetType
-  preview.outputType
-  preview.params
-}
-else {
-  preview.error.code
+  preview.jobSetType;
+  preview.outputType;
+  preview.params;
+} else {
+  preview.error.code;
 }
 ```
 
@@ -502,44 +501,43 @@ They are transport-agnostic and optional.
 
 ```tsx
 // Bad: duplicates provider orchestration and may recreate clients every render.
-const client = createJobClient({ adapter, jobs })
+const client = createJobClient({ adapter, jobs });
 
 // Good: read the provider-created stable client.
-const client = useFnfJobClient()
+const client = useFnfJobClient();
 
 // Bad: direct backend calls in browser components bypass SDK behavior and may leak auth.
-await fetch('https://dev-fnf.higgsfield.ai/jobs/v2/seedance_2_0', { body })
+await fetch("https://dev-fnf.higgsfield.ai/jobs/v2/seedance_2_0", { body });
 
 // Good: call the SDK client, or an app-local adapter if credentials are server-only.
-await jobClient.submit(input)
+await jobClient.submit(input);
 
 // Bad: hand-built query keys drift from public cache contract.
-queryClient.invalidateQueries({ queryKey: ['fnf', 'jobs', { type: 'video' }] })
+queryClient.invalidateQueries({ queryKey: ["fnf", "jobs", { type: "video" }] });
 
 // Good.
-queryClient.invalidateQueries({ queryKey: fnfKeys.jobs({ type: 'video' }, { scopeKey }) })
+queryClient.invalidateQueries({ queryKey: fnfKeys.jobs({ type: "video" }, { scopeKey }) });
 
 // Bad: bypasses terminal anti-regression and multi-cache folding.
-queryClient.setQueryData(fnfKeys.job(id, { scopeKey }), generation)
+queryClient.setQueryData(fnfKeys.job(id, { scopeKey }), generation);
 
 // Good.
-applyGenerations(queryClient, [generation], { scopeKey })
+applyGenerations(queryClient, [generation], { scopeKey });
 
 // Bad: run.start does not throw for normal lifecycle failures.
 try {
-  await run.start(input)
-}
-catch {
-  showToast()
+  await run.start(input);
+} catch {
+  showToast();
 }
 
 // Good.
-await run.start(input)
-if (run.error) renderError(run.error.code)
+await run.start(input);
+if (run.error) renderError(run.error.code);
 
 // Bad: UI/product policy in fnf-react helpers.
-toast.error('Not enough credits')
-router.push('/pricing')
+toast.error("Not enough credits");
+router.push("/pricing");
 ```
 
 ## Extending this package

@@ -2,14 +2,14 @@
  * Permission checking and authorization helpers
  */
 
-import { auth } from '@/auth';
-import { authPool } from '@/lib/auth-pool';
-import { isSuperAdminEmail } from '@/lib/super-admin';
-import { getUserByAuthUserId } from './users';
-import { supportAgentHasCompanyGrant } from '@/lib/support-agent-grants';
-import { isPlatformSupportAgent } from '@/lib/platform-role';
-import { companyUserHasModule } from '@/lib/company-user-modules';
-import type { User } from '@/types/company';
+import { auth } from "@/auth";
+import { authPool } from "@/lib/auth-pool";
+import { isSuperAdminEmail } from "@/lib/super-admin";
+import { getUserByAuthUserId } from "./users";
+import { supportAgentHasCompanyGrant } from "@/lib/support-agent-grants";
+import { isPlatformSupportAgent } from "@/lib/platform-role";
+import { companyUserHasModule } from "@/lib/company-user-modules";
+import type { User } from "@/types/company";
 
 async function getSessionAuthUserId(): Promise<string | null> {
   const session = await auth();
@@ -33,38 +33,42 @@ export async function isSupportAgentUser(): Promise<boolean> {
  * Company user with Authorizations module for this company, super admin,
  * or support agent with authorizations grant.
  */
-export async function requireCompanyAccessOrSupportAgentAuthorizations(companyId: string): Promise<void> {
+export async function requireCompanyAccessOrSupportAgentAuthorizations(
+  companyId: string,
+): Promise<void> {
   if (await isSuperAdmin()) return;
   const u = await getCurrentUser();
   if (!u) {
-    throw new Error('Unauthorized - not logged in');
+    throw new Error("Unauthorized - not logged in");
   }
-  if (u.company_id === companyId && companyUserHasModule(u, 'authorizations')) {
+  if (u.company_id === companyId && companyUserHasModule(u, "authorizations")) {
     return;
   }
   if (
     isPlatformSupportAgent(u.platform_role) &&
-    (await supportAgentHasCompanyGrant(u.id, companyId, 'authorizations'))
+    (await supportAgentHasCompanyGrant(u.id, companyId, "authorizations"))
   ) {
     return;
   }
-  throw new Error('Forbidden - access to this company denied');
+  throw new Error("Forbidden - access to this company denied");
 }
 
 /**
  * Super admin, or support agent with authorizations grant for this company (elevated ops: device limits, overrides, extension source).
  */
-export async function requireSuperAdminOrSupportAgentAuthorizations(companyId: string): Promise<void> {
+export async function requireSuperAdminOrSupportAgentAuthorizations(
+  companyId: string,
+): Promise<void> {
   if (await isSuperAdmin()) return;
   const u = await getCurrentUser();
   if (
     u &&
     isPlatformSupportAgent(u.platform_role) &&
-    (await supportAgentHasCompanyGrant(u.id, companyId, 'authorizations'))
+    (await supportAgentHasCompanyGrant(u.id, companyId, "authorizations"))
   ) {
     return;
   }
-  throw new Error('Forbidden - elevated access required');
+  throw new Error("Forbidden - elevated access required");
 }
 
 /** Super admin or support agent with authorizations grant (e.g. full GitHub status in admin). */
@@ -73,8 +77,8 @@ export async function isSuperAdminOrAuthorizationsElevated(companyId: string): P
   const u = await getCurrentUser();
   return Boolean(
     u &&
-      isPlatformSupportAgent(u.platform_role) &&
-      (await supportAgentHasCompanyGrant(u.id, companyId, 'authorizations'))
+    isPlatformSupportAgent(u.platform_role) &&
+    (await supportAgentHasCompanyGrant(u.id, companyId, "authorizations")),
   );
 }
 
@@ -84,11 +88,11 @@ export async function isSuperAdminOrAuthorizationsElevated(companyId: string): P
 export async function isUserIdSuperAdmin(authUserId: string): Promise<boolean> {
   if (!authUserId) return false;
   try {
-    const r = await authPool.query('SELECT email FROM next_auth.users WHERE id = $1', [authUserId]);
+    const r = await authPool.query("SELECT email FROM next_auth.users WHERE id = $1", [authUserId]);
     const email = r.rows[0]?.email as string | undefined;
     return isSuperAdminEmail(email);
   } catch (error) {
-    console.error('Error checking if user is super admin:', error);
+    console.error("Error checking if user is super admin:", error);
     return false;
   }
 }
@@ -109,7 +113,7 @@ export async function getCurrentUser(): Promise<User | null> {
 export async function requireAuth(): Promise<User | null> {
   const authUserId = await getSessionAuthUserId();
   if (!authUserId) {
-    throw new Error('Unauthorized - not logged in');
+    throw new Error("Unauthorized - not logged in");
   }
 
   const session = await auth();
@@ -119,7 +123,7 @@ export async function requireAuth(): Promise<User | null> {
 
   const user = await getUserByAuthUserId(authUserId);
   if (!user) {
-    throw new Error('Unauthorized - user not found in database');
+    throw new Error("Unauthorized - user not found in database");
   }
   return user;
 }
@@ -130,7 +134,7 @@ export async function requireAuth(): Promise<User | null> {
 export async function requireSuperAdmin(): Promise<void> {
   const ok = await isSuperAdmin();
   if (!ok) {
-    throw new Error('Forbidden - super admin access required');
+    throw new Error("Forbidden - super admin access required");
   }
 }
 
@@ -141,22 +145,22 @@ export async function requireSuperAdmin(): Promise<void> {
 export async function requireCompanyAdmin(companyId?: string): Promise<User | null> {
   const authUserId = await getSessionAuthUserId();
   if (!authUserId) {
-    throw new Error('Unauthorized - not logged in');
+    throw new Error("Unauthorized - not logged in");
   }
 
   const user = await getUserByAuthUserId(authUserId);
 
   if (user) {
-    if (user.role !== 'admin') {
+    if (user.role !== "admin") {
       const superAdmin = await isSuperAdmin();
       if (superAdmin) return null;
-      throw new Error('Forbidden - company admin access required');
+      throw new Error("Forbidden - company admin access required");
     }
 
     if (companyId && user.company_id !== companyId) {
       const superAdmin = await isSuperAdmin();
       if (superAdmin) return null;
-      throw new Error('Forbidden - access to this company denied');
+      throw new Error("Forbidden - access to this company denied");
     }
 
     return user;
@@ -167,7 +171,7 @@ export async function requireCompanyAdmin(companyId?: string): Promise<User | nu
     return null;
   }
 
-  throw new Error('Unauthorized - user not found');
+  throw new Error("Unauthorized - user not found");
 }
 
 /**
@@ -177,7 +181,7 @@ export async function requireCompanyAdmin(companyId?: string): Promise<User | nu
 export async function requireCompanyAccess(companyId: string): Promise<User | null> {
   const authUserId = await getSessionAuthUserId();
   if (!authUserId) {
-    throw new Error('Unauthorized - not logged in');
+    throw new Error("Unauthorized - not logged in");
   }
 
   const user = await getUserByAuthUserId(authUserId);
@@ -186,7 +190,7 @@ export async function requireCompanyAccess(companyId: string): Promise<User | nu
     if (user.company_id !== companyId) {
       const superAdmin = await isSuperAdmin();
       if (superAdmin) return null;
-      throw new Error('Forbidden - access to this company denied');
+      throw new Error("Forbidden - access to this company denied");
     }
     return user;
   }
@@ -196,7 +200,7 @@ export async function requireCompanyAccess(companyId: string): Promise<User | nu
     return null;
   }
 
-  throw new Error('Unauthorized - user not found');
+  throw new Error("Unauthorized - user not found");
 }
 
 /**
@@ -209,8 +213,8 @@ export async function canManageUser(targetUserId: string): Promise<boolean> {
   const currentUser = await getCurrentUser();
   if (!currentUser) return false;
 
-  if (currentUser.role === 'admin') {
-    const { getUserById } = await import('./users');
+  if (currentUser.role === "admin") {
+    const { getUserById } = await import("./users");
     const targetUser = await getUserById(targetUserId);
     return targetUser?.company_id === currentUser.company_id;
   }
@@ -228,7 +232,7 @@ export async function canManageProject(projectCompanyId: string): Promise<boolea
   const currentUser = await getCurrentUser();
   if (!currentUser) return false;
 
-  if (currentUser.role === 'admin' && currentUser.company_id === projectCompanyId) {
+  if (currentUser.role === "admin" && currentUser.company_id === projectCompanyId) {
     return true;
   }
 
@@ -243,9 +247,9 @@ export async function canAccessProjectProgramLogs(projectCompanyId: string): Pro
   if (await isSuperAdmin()) return true;
   const u = await getCurrentUser();
   if (!u) return false;
-  if (u.company_id === projectCompanyId && companyUserHasModule(u, 'program_logs')) return true;
+  if (u.company_id === projectCompanyId && companyUserHasModule(u, "program_logs")) return true;
   if (isPlatformSupportAgent(u.platform_role)) {
-    return supportAgentHasCompanyGrant(u.id, projectCompanyId, 'program_logs');
+    return supportAgentHasCompanyGrant(u.id, projectCompanyId, "program_logs");
   }
   return false;
 }
@@ -260,12 +264,12 @@ export async function getUserPermissions() {
 
   return {
     isSuperAdmin: superAdmin,
-    isCompanyAdmin: currentUser?.role === 'admin',
+    isCompanyAdmin: currentUser?.role === "admin",
     isSupportAgent: Boolean(supportAgent),
     companyId: currentUser?.company_id || null,
     canManageCompanies: superAdmin,
-    canManageUsers: superAdmin || currentUser?.role === 'admin',
-    canManageProjects: superAdmin || currentUser?.role === 'admin',
-    canManageMeetings: superAdmin || currentUser?.role === 'admin',
+    canManageUsers: superAdmin || currentUser?.role === "admin",
+    canManageProjects: superAdmin || currentUser?.role === "admin",
+    canManageMeetings: superAdmin || currentUser?.role === "admin",
   };
 }

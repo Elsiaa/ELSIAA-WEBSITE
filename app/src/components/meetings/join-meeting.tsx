@@ -3,7 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import { Meeting, MeetingDocument } from "@/lib/meetings";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Copy, UserPlus, Check, MousePointer2, Paperclip, X, Download, Trash2, Loader2, Circle } from "lucide-react";
+import {
+  ArrowLeft,
+  Copy,
+  UserPlus,
+  Check,
+  MousePointer2,
+  Paperclip,
+  X,
+  Download,
+  Trash2,
+  Loader2,
+  Circle,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import AnimatedPoelLogo from "@/components/AnimatedPoelLogo";
@@ -29,7 +41,12 @@ declare global {
   }
 }
 
-export default function JitsiMeetClient({ meeting, userId, displayName, isSuperuser }: JitsiMeetClientProps) {
+export default function JitsiMeetClient({
+  meeting,
+  userId,
+  displayName,
+  isSuperuser,
+}: JitsiMeetClientProps) {
   const jitsiContainerRef = useRef<HTMLDivElement>(null);
   const jitsiApiRef = useRef<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +54,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
   const [jwtToken, setJwtToken] = useState<string | null>(null);
   const [linkCopied, setLinkCopied] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
-  const [inviteType, setInviteType] = useState<'users' | 'companies'>('users');
+  const [inviteType, setInviteType] = useState<"users" | "companies">("users");
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
   const [users, setUsers] = useState<any[]>([]);
@@ -68,13 +85,13 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         const response = await fetch(`/api/meetings/${meeting.id}/token`);
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.message || 'Failed to get authentication token');
+          throw new Error(errorData.message || "Failed to get authentication token");
         }
         const data = await response.json();
         setJwtToken(data.token);
       } catch (err) {
-        console.error('Error fetching JWT token:', err);
-        setError(err instanceof Error ? err.message : 'Failed to authenticate. Please try again.');
+        console.error("Error fetching JWT token:", err);
+        setError(err instanceof Error ? err.message : "Failed to authenticate. Please try again.");
         setIsLoading(false);
       }
     };
@@ -89,12 +106,12 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
     const updateMeetingStatus = async () => {
       try {
         await fetch(`/api/meetings/${meeting.id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: 'in-progress' }),
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: "in-progress" }),
         });
       } catch (error) {
-        console.error('Error updating meeting status:', error);
+        console.error("Error updating meeting status:", error);
       }
     };
 
@@ -108,11 +125,11 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
           return;
         }
 
-        const script = document.createElement('script');
-        script.src = 'https://meet.jit.si/external_api.js';
+        const script = document.createElement("script");
+        script.src = "https://meet.jit.si/external_api.js";
         script.async = true;
         script.onload = () => resolve();
-        script.onerror = () => reject(new Error('Failed to load Jitsi Meet API'));
+        script.onerror = () => reject(new Error("Failed to load Jitsi Meet API"));
         document.body.appendChild(script);
       });
     };
@@ -123,14 +140,14 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         await loadJitsiScript();
 
         if (!jitsiContainerRef.current) {
-          throw new Error('Container not found');
+          throw new Error("Container not found");
         }
 
-        const domain = '8x8.vc';
+        const domain = "8x8.vc";
         const options = {
-          roomName: `${process.env.NEXT_PUBLIC_JAAS_APP_ID || 'vpaas-magic-cookie'}/${meeting.jitsiRoomName}`,
-          width: '100%',
-          height: '100%',
+          roomName: `${process.env.NEXT_PUBLIC_JAAS_APP_ID || "vpaas-magic-cookie"}/${meeting.jitsiRoomName}`,
+          width: "100%",
+          height: "100%",
           parentNode: jitsiContainerRef.current,
           jwt: jwtToken,
           configOverwrite: {
@@ -147,26 +164,26 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
           },
           interfaceConfigOverwrite: {
             TOOLBAR_BUTTONS: [
-              'microphone',
-              'camera',
-              'closedcaptions',
-              'desktop',
-              'fullscreen',
-              'fodeviceselection',
-              'hangup',
-              'chat',
-              'recording',
-              'livestreaming',
-              'settings',
-              'raisehand',
-              'videoquality',
-              'filmstrip',
-              'stats',
-              'shortcuts',
-              'tileview',
-              'download',
-              'help',
-              'mute-everyone',
+              "microphone",
+              "camera",
+              "closedcaptions",
+              "desktop",
+              "fullscreen",
+              "fodeviceselection",
+              "hangup",
+              "chat",
+              "recording",
+              "livestreaming",
+              "settings",
+              "raisehand",
+              "videoquality",
+              "filmstrip",
+              "stats",
+              "shortcuts",
+              "tileview",
+              "download",
+              "help",
+              "mute-everyone",
             ],
             SHOW_JITSI_WATERMARK: false,
             SHOW_WATERMARK_FOR_GUESTS: false,
@@ -179,35 +196,35 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         // Create Jitsi instance with JaaS
         jitsiApiRef.current = new window.JitsiMeetExternalAPI(domain, options);
 
-        console.log('Jitsi Meet initialized with JaaS for room:', meeting.jitsiRoomName);
+        console.log("Jitsi Meet initialized with JaaS for room:", meeting.jitsiRoomName);
 
-        jitsiApiRef.current.addEventListener('readyToClose', () => {
-          router.push('/meetings');
+        jitsiApiRef.current.addEventListener("readyToClose", () => {
+          router.push("/meetings");
         });
 
-        jitsiApiRef.current.addEventListener('videoConferenceJoined', async () => {
+        jitsiApiRef.current.addEventListener("videoConferenceJoined", async () => {
           setIsLoading(false);
-          
+
           // Check if user is moderator
           try {
             const participants = await jitsiApiRef.current.getParticipantsInfo();
             const localParticipant = participants.find((p: any) => p.local);
-            if (localParticipant?.role === 'moderator') {
+            if (localParticipant?.role === "moderator") {
               setIsModerator(true);
             }
           } catch (error) {
-            console.error('Error checking moderator status:', error);
+            console.error("Error checking moderator status:", error);
           }
         });
 
         // Listen for recording status changes
-        jitsiApiRef.current.addEventListener('recordingStatusChanged', (event: any) => {
-          console.log('Recording status changed:', event);
+        jitsiApiRef.current.addEventListener("recordingStatusChanged", (event: any) => {
+          console.log("Recording status changed:", event);
           const wasRecording = isRecordingRef.current;
           isRecordingRef.current = event.on;
           setIsRecording(event.on);
           setIsTogglingRecording(false); // Reset loading state
-          
+
           // If recording was stopped (was recording, now not recording)
           if (wasRecording && !event.on) {
             setRecordingStopped(true);
@@ -217,7 +234,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
               setShowRecordingNotification(false);
             }, 15000);
           }
-          
+
           // If recording just started
           if (!wasRecording && event.on) {
             setShowRecordingStartedNotification(true);
@@ -228,29 +245,29 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         });
 
         // Also listen for toolbar button updates to sync our button state
-        jitsiApiRef.current.addEventListener('toolbarButtonClicked', (event: any) => {
-          if (event.buttonName === 'recording' || event.button?.key === 'recording') {
-            console.log('Recording button clicked in toolbar');
+        jitsiApiRef.current.addEventListener("toolbarButtonClicked", (event: any) => {
+          if (event.buttonName === "recording" || event.button?.key === "recording") {
+            console.log("Recording button clicked in toolbar");
             // The recordingStatusChanged event will handle the state update
           }
         });
 
-        jitsiApiRef.current.addEventListener('participantLeft', async (event: any) => {
+        jitsiApiRef.current.addEventListener("participantLeft", async (event: any) => {
           // Check if all participants have left
           const participants = await jitsiApiRef.current.getNumberOfParticipants();
           if (participants === 0) {
             // Update meeting status to completed
             try {
               await fetch(`/api/meetings/${meeting.id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: 'completed' }),
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: "completed" }),
               });
             } catch (error) {
-              console.error('Error updating meeting status:', error);
+              console.error("Error updating meeting status:", error);
             }
           }
-          
+
           // If the sharing participant left, clear the sharing state
           if (event.id === sharingParticipantId) {
             setSharingParticipantId(null);
@@ -261,62 +278,66 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         });
 
         // Listen for screen sharing events
-        jitsiApiRef.current.addEventListener('participantVideoTypeChanged', async (event: any) => {
+        jitsiApiRef.current.addEventListener("participantVideoTypeChanged", async (event: any) => {
           const participantId = event.id;
           const videoType = event.videoType;
-          
-          console.log('Participant video type changed:', { participantId, videoType, isSuperuser, pointerModeEnabled });
-          
+
+          console.log("Participant video type changed:", {
+            participantId,
+            videoType,
+            isSuperuser,
+            pointerModeEnabled,
+          });
+
           // Check if this participant is sharing their screen (desktop track)
-          if (videoType === 'desktop') {
-            console.log('Desktop sharing detected for participant:', participantId);
+          if (videoType === "desktop") {
+            console.log("Desktop sharing detected for participant:", participantId);
             // If we're a superuser and pointer mode is enabled, track this participant
             if (isSuperuser && pointerModeEnabled) {
-              console.log('Setting sharing participant ID for superuser:', participantId);
+              console.log("Setting sharing participant ID for superuser:", participantId);
               setSharingParticipantId(participantId);
             } else if (!isSuperuser) {
               // If we're not a superuser and someone is sharing, we might receive pointer messages
-              console.log('Non-superuser detected screen sharing');
+              console.log("Non-superuser detected screen sharing");
               setSharingParticipantId(participantId);
             }
-          } else if (videoType === 'camera' && participantId === sharingParticipantId) {
+          } else if (videoType === "camera" && participantId === sharingParticipantId) {
             // Participant stopped sharing
-            console.log('Participant stopped sharing');
+            console.log("Participant stopped sharing");
             setSharingParticipantId(null);
             if (isSuperuser && pointerModeEnabled) {
               setPointerModeEnabled(false);
             }
           }
         });
-        
+
         // Also listen for when participants join to detect screen sharing
-        jitsiApiRef.current.addEventListener('participantJoined', async (event: any) => {
-          console.log('Participant joined:', event);
+        jitsiApiRef.current.addEventListener("participantJoined", async (event: any) => {
+          console.log("Participant joined:", event);
         });
 
         // Listen for pointer messages (for non-superusers receiving pointer)
         if (!isSuperuser) {
-          jitsiApiRef.current.addEventListener('endpointTextMessageReceived', (event: any) => {
-            console.log('Non-superuser received endpoint message:', event);
+          jitsiApiRef.current.addEventListener("endpointTextMessageReceived", (event: any) => {
+            console.log("Non-superuser received endpoint message:", event);
             try {
               const message = JSON.parse(event.text);
-              console.log('Parsed message:', message);
-              if (message.type === 'remote-pointer') {
-                console.log('Displaying pointer at:', message.x, message.y);
+              console.log("Parsed message:", message);
+              if (message.type === "remote-pointer") {
+                console.log("Displaying pointer at:", message.x, message.y);
                 // Display the pointer overlay - we assume if we receive this message,
                 // a superuser is pointing on our shared screen
                 displayPointerOverlay(message.x, message.y);
               }
             } catch (error) {
               // Not a JSON message, ignore
-              console.log('Message is not JSON, ignoring:', error);
+              console.log("Message is not JSON, ignoring:", error);
             }
           });
         }
-
       } catch (err) {
-        console.error('Error initializing Jitsi:', err);
-        setError('Failed to load video conference. Please try again.');
+        console.error("Error initializing Jitsi:", err);
+        setError("Failed to load video conference. Please try again.");
         setIsLoading(false);
       }
     };
@@ -334,7 +355,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         pointerOverlayRef.current = null;
       }
       if (mouseMoveHandlerRef.current) {
-        document.removeEventListener('mousemove', mouseMoveHandlerRef.current);
+        document.removeEventListener("mousemove", mouseMoveHandlerRef.current);
         mouseMoveHandlerRef.current = null;
       }
     };
@@ -342,26 +363,26 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
 
   const handleLeave = () => {
     if (jitsiApiRef.current) {
-      jitsiApiRef.current.executeCommand('hangup');
+      jitsiApiRef.current.executeCommand("hangup");
     }
-    router.push('/meetings');
+    router.push("/meetings");
   };
 
   const handleToggleRecording = () => {
     // Since Jitsi External API doesn't support recording commands via executeCommand,
     // we'll make this button a visual indicator that syncs with the toolbar button
     // When clicked, it will show a helpful message directing users to the toolbar button
-    
+
     if (isTogglingRecording) return;
-    
+
     // Show a helpful tooltip/message
-    const message = isRecording 
-      ? 'To stop recording, click the red recording button in the Jitsi toolbar (bottom right of the video conference).'
-      : 'To start recording, click the recording button in the Jitsi toolbar (bottom right of the video conference).';
-    
+    const message = isRecording
+      ? "To stop recording, click the red recording button in the Jitsi toolbar (bottom right of the video conference)."
+      : "To start recording, click the recording button in the Jitsi toolbar (bottom right of the video conference).";
+
     // Show a non-intrusive notification
     alert(message);
-    
+
     // The button will still show the current recording state
     // which syncs with the actual recording status via the recordingStatusChanged event
   };
@@ -383,7 +404,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         }
       }
     } catch (error) {
-      console.error('Error refreshing documents:', error);
+      console.error("Error refreshing documents:", error);
     }
   };
 
@@ -399,64 +420,67 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
     setUploading(true);
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
 
       const response = await fetch(`/api/meetings/${meeting.id}/documents`, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Upload failed');
+        throw new Error(error.error || "Upload failed");
       }
 
       const newDocument = await response.json();
-      setDocuments(prev => [...prev, newDocument]);
-      
+      setDocuments((prev) => [...prev, newDocument]);
+
       // Reset file input
       if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+        fileInputRef.current.value = "";
       }
     } catch (error) {
-      console.error('Error uploading document:', error);
-      alert(error instanceof Error ? error.message : 'Failed to upload document');
+      console.error("Error uploading document:", error);
+      alert(error instanceof Error ? error.message : "Failed to upload document");
     } finally {
       setUploading(false);
     }
   };
 
   const handleDeleteDocument = async (documentId: string) => {
-    if (!confirm('Are you sure you want to delete this document?')) {
+    if (!confirm("Are you sure you want to delete this document?")) {
       return;
     }
 
     setDeletingDocId(documentId);
     try {
-      const response = await fetch(`/api/meetings/${meeting.id}/documents?documentId=${documentId}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `/api/meetings/${meeting.id}/documents?documentId=${documentId}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Delete failed');
+        throw new Error(error.error || "Delete failed");
       }
 
-      setDocuments(prev => prev.filter(doc => doc.id !== documentId));
+      setDocuments((prev) => prev.filter((doc) => doc.id !== documentId));
     } catch (error) {
-      console.error('Error deleting document:', error);
-      alert(error instanceof Error ? error.message : 'Failed to delete document');
+      console.error("Error deleting document:", error);
+      alert(error instanceof Error ? error.message : "Failed to delete document");
     } finally {
       setDeletingDocId(null);
     }
   };
 
   const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return "0 Bytes";
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
   };
 
   const handleOpenInviteModal = async () => {
@@ -467,8 +491,8 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
     // Fetch users and companies
     try {
       const [usersRes, companiesRes] = await Promise.all([
-        fetch('/api/users'),
-        fetch('/api/companies')
+        fetch("/api/users"),
+        fetch("/api/companies"),
       ]);
 
       if (usersRes.ok) {
@@ -481,7 +505,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         setCompanies(Array.isArray(companiesData) ? companiesData : companiesData.companies || []);
       }
     } catch (error) {
-      console.error('Error fetching users/companies:', error);
+      console.error("Error fetching users/companies:", error);
     }
   };
 
@@ -489,25 +513,31 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
     setInviting(true);
     try {
       const response = await fetch(`/api/meetings/${meeting.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          participantUserIds: inviteType === 'users' ? [...meeting.participantUserIds, ...selectedUsers] : meeting.participantUserIds,
-          participantCompanyIds: inviteType === 'companies' ? [...meeting.participantCompanyIds, ...selectedCompanies] : meeting.participantCompanyIds,
+          participantUserIds:
+            inviteType === "users"
+              ? [...meeting.participantUserIds, ...selectedUsers]
+              : meeting.participantUserIds,
+          participantCompanyIds:
+            inviteType === "companies"
+              ? [...meeting.participantCompanyIds, ...selectedCompanies]
+              : meeting.participantCompanyIds,
         }),
       });
 
       if (response.ok) {
-        alert('Participants added successfully!');
+        alert("Participants added successfully!");
         setShowInviteModal(false);
         setSelectedUsers([]);
         setSelectedCompanies([]);
       } else {
-        alert('Failed to add participants');
+        alert("Failed to add participants");
       }
     } catch (error) {
-      console.error('Error inviting participants:', error);
-      alert('Failed to add participants');
+      console.error("Error inviting participants:", error);
+      alert("Failed to add participants");
     } finally {
       setInviting(false);
     }
@@ -517,14 +547,14 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
   const displayPointerOverlay = (x: number, y: number) => {
     const jitsiContainer = jitsiContainerRef.current;
     if (!jitsiContainer) {
-      console.log('Pointer overlay: No Jitsi container found');
+      console.log("Pointer overlay: No Jitsi container found");
       return;
     }
 
     if (!pointerOverlayRef.current) {
       // Create pointer overlay element - use fixed positioning to sit on top of iframe
-      const overlay = document.createElement('div');
-      overlay.id = 'remote-pointer-overlay';
+      const overlay = document.createElement("div");
+      overlay.id = "remote-pointer-overlay";
       overlay.style.cssText = `
         position: fixed;
         width: 24px;
@@ -539,18 +569,18 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(30, 107, 60, 0.35);
         transition: left 0.05s ease-out, top 0.05s ease-out;
       `;
-      
+
       // Append to body so it's on top of everything
       document.body.appendChild(overlay);
       pointerOverlayRef.current = overlay;
-      console.log('Pointer overlay created');
+      console.log("Pointer overlay created");
     }
 
     if (pointerOverlayRef.current && jitsiContainer) {
       // Try to find the iframe and calculate position relative to it
-      const iframe = jitsiContainer.querySelector('iframe');
+      const iframe = jitsiContainer.querySelector("iframe");
       let targetRect: DOMRect;
-      
+
       if (iframe) {
         // Use iframe position - the shared screen video is typically in the main area
         targetRect = iframe.getBoundingClientRect();
@@ -558,22 +588,29 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         // Fallback to container
         targetRect = jitsiContainer.getBoundingClientRect();
       }
-      
+
       // Calculate position - x and y are percentages (0-100) of the shared screen
-      const left = targetRect.left + (targetRect.width * x / 100);
-      const top = targetRect.top + (targetRect.height * y / 100);
-      
+      const left = targetRect.left + (targetRect.width * x) / 100;
+      const top = targetRect.top + (targetRect.height * y) / 100;
+
       pointerOverlayRef.current.style.left = `${left}px`;
       pointerOverlayRef.current.style.top = `${top}px`;
-      pointerOverlayRef.current.style.display = 'block';
-      
-      console.log('Pointer overlay positioned at:', { x, y, left, top, containerWidth: targetRect.width, containerHeight: targetRect.height });
-      
+      pointerOverlayRef.current.style.display = "block";
+
+      console.log("Pointer overlay positioned at:", {
+        x,
+        y,
+        left,
+        top,
+        containerWidth: targetRect.width,
+        containerHeight: targetRect.height,
+      });
+
       // Hide after 3 seconds of no movement (will be updated on next movement)
       clearTimeout((pointerOverlayRef.current as any).hideTimeout);
       (pointerOverlayRef.current as any).hideTimeout = setTimeout(() => {
         if (pointerOverlayRef.current) {
-          pointerOverlayRef.current.style.display = 'none';
+          pointerOverlayRef.current.style.display = "none";
         }
       }, 3000);
     }
@@ -585,36 +622,36 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
 
     const newPointerMode = !pointerModeEnabled;
     setPointerModeEnabled(newPointerMode);
-    console.log('Pointer mode toggled:', newPointerMode);
+    console.log("Pointer mode toggled:", newPointerMode);
 
     if (newPointerMode) {
       // Find who is sharing their screen
       try {
         const participants = await jitsiApiRef.current.getParticipantsInfo();
-        console.log('All participants:', participants);
+        console.log("All participants:", participants);
         let foundSharing = false;
         for (const participant of participants) {
-          console.log('Checking participant:', participant);
-          if (participant.videoType === 'desktop') {
-            console.log('Found sharing participant:', participant.participantId);
+          console.log("Checking participant:", participant);
+          if (participant.videoType === "desktop") {
+            console.log("Found sharing participant:", participant.participantId);
             setSharingParticipantId(participant.participantId);
             foundSharing = true;
             break;
           }
         }
         if (!foundSharing) {
-          console.log('No one is sharing yet, pointer mode will activate when someone shares');
+          console.log("No one is sharing yet, pointer mode will activate when someone shares");
           // No one is sharing yet, but enable pointer mode so it activates when someone shares
           // The participantVideoTypeChanged event will set the sharingParticipantId
         }
       } catch (error) {
-        console.error('Error getting participants:', error);
+        console.error("Error getting participants:", error);
       }
     } else {
       // Clean up mouse tracking
       const container = jitsiContainerRef.current;
       if (container && mouseMoveHandlerRef.current) {
-        container.removeEventListener('mousemove', mouseMoveHandlerRef.current);
+        container.removeEventListener("mousemove", mouseMoveHandlerRef.current);
         mouseMoveHandlerRef.current = null;
       }
       setSharingParticipantId(null);
@@ -628,7 +665,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
       if (mouseMoveHandlerRef.current) {
         const container = jitsiContainerRef.current;
         if (container && mouseMoveHandlerRef.current) {
-          container.removeEventListener('mousemove', mouseMoveHandlerRef.current);
+          container.removeEventListener("mousemove", mouseMoveHandlerRef.current);
         }
         mouseMoveHandlerRef.current = null;
       }
@@ -640,49 +677,49 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
 
     // Track mouse on the entire Jitsi container
     // Since the shared screen typically takes up the main area, we'll use the container dimensions
-      const handleMouseMove = (e: MouseEvent) => {
-        // Try to find the iframe to get more accurate positioning
-        const iframe = container.querySelector('iframe');
-        let targetRect: DOMRect;
-        
-        if (iframe) {
-          targetRect = iframe.getBoundingClientRect();
-        } else {
-          targetRect = container.getBoundingClientRect();
-        }
-        
-        // Calculate position relative to the target (iframe or container)
-        // This should match where the shared screen video is displayed
-        const x = ((e.clientX - targetRect.left) / targetRect.width) * 100;
-        const y = ((e.clientY - targetRect.top) / targetRect.height) * 100;
+    const handleMouseMove = (e: MouseEvent) => {
+      // Try to find the iframe to get more accurate positioning
+      const iframe = container.querySelector("iframe");
+      let targetRect: DOMRect;
 
-        // Only send if mouse is over the target area
-        if (x >= 0 && x <= 100 && y >= 0 && y <= 100) {
-          try {
-            const message = {
-              type: 'remote-pointer',
-              x,
-              y,
-              timestamp: Date.now()
-            };
-            console.log('Superuser sending pointer message to', sharingParticipantId, ':', message);
-            
-            // Try sendEndpointMessage - this sends to a specific participant
-            if (jitsiApiRef.current && sharingParticipantId) {
-              jitsiApiRef.current.sendEndpointMessage(sharingParticipantId, JSON.stringify(message));
-            }
-          } catch (error) {
-            console.error('Error sending pointer message:', error);
+      if (iframe) {
+        targetRect = iframe.getBoundingClientRect();
+      } else {
+        targetRect = container.getBoundingClientRect();
+      }
+
+      // Calculate position relative to the target (iframe or container)
+      // This should match where the shared screen video is displayed
+      const x = ((e.clientX - targetRect.left) / targetRect.width) * 100;
+      const y = ((e.clientY - targetRect.top) / targetRect.height) * 100;
+
+      // Only send if mouse is over the target area
+      if (x >= 0 && x <= 100 && y >= 0 && y <= 100) {
+        try {
+          const message = {
+            type: "remote-pointer",
+            x,
+            y,
+            timestamp: Date.now(),
+          };
+          console.log("Superuser sending pointer message to", sharingParticipantId, ":", message);
+
+          // Try sendEndpointMessage - this sends to a specific participant
+          if (jitsiApiRef.current && sharingParticipantId) {
+            jitsiApiRef.current.sendEndpointMessage(sharingParticipantId, JSON.stringify(message));
           }
+        } catch (error) {
+          console.error("Error sending pointer message:", error);
         }
-      };
+      }
+    };
 
-    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener("mousemove", handleMouseMove);
     mouseMoveHandlerRef.current = handleMouseMove;
 
     return () => {
       if (container && mouseMoveHandlerRef.current) {
-        container.removeEventListener('mousemove', mouseMoveHandlerRef.current);
+        container.removeEventListener("mousemove", mouseMoveHandlerRef.current);
         mouseMoveHandlerRef.current = null;
       }
     };
@@ -694,7 +731,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         <div className="text-center space-y-4">
           <h1 className="text-3xl font-bold text-destructive">Error</h1>
           <p className="text-muted-foreground">{error}</p>
-          <Button onClick={() => router.push('/meetings')} variant="outline">
+          <Button onClick={() => router.push("/meetings")} variant="outline">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Meetings
           </Button>
@@ -719,7 +756,11 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
           <div>
             <h1 className="text-foreground font-semibold text-lg">{meeting.title}</h1>
             <p className="text-muted-foreground text-sm">
-              {new Date(meeting.scheduledAt).toLocaleDateString()} at {new Date(meeting.scheduledAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {new Date(meeting.scheduledAt).toLocaleDateString()} at{" "}
+              {new Date(meeting.scheduledAt).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </p>
           </div>
         </div>
@@ -740,15 +781,18 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
               onClick={handleToggleRecording}
               variant={isRecording ? "default" : "outline"}
               size="sm"
-              className={isRecording 
-                ? "bg-flame hover:bg-coral text-white" 
-                : "bg-secondary border-border text-foreground hover:bg-secondary"
+              className={
+                isRecording
+                  ? "bg-flame hover:bg-coral text-white"
+                  : "bg-secondary border-border text-foreground hover:bg-secondary"
               }
-              title={isRecording 
-                ? "Recording is active - Click the recording button in Jitsi toolbar to stop" 
-                : "Click the recording button in Jitsi toolbar (bottom right) to start recording"}
+              title={
+                isRecording
+                  ? "Recording is active - Click the recording button in Jitsi toolbar to stop"
+                  : "Click the recording button in Jitsi toolbar (bottom right) to start recording"
+              }
             >
-              <Circle className={`mr-2 h-4 w-4 ${isRecording ? 'animate-pulse fill-white' : ''}`} />
+              <Circle className={`mr-2 h-4 w-4 ${isRecording ? "animate-pulse fill-white" : ""}`} />
               {isRecording ? "Recording Active" : "Recording Status"}
             </Button>
           )}
@@ -758,28 +802,31 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
                 onClick={handleTogglePointerMode}
                 variant={pointerModeEnabled ? "default" : "outline"}
                 size="sm"
-                className={pointerModeEnabled 
-                  ? "bg-steel hover:bg-navy text-white" 
-                  : "bg-secondary border-border text-foreground hover:bg-secondary"
+                className={
+                  pointerModeEnabled
+                    ? "bg-steel hover:bg-navy text-white"
+                    : "bg-secondary border-border text-foreground hover:bg-secondary"
                 }
-                title={pointerModeEnabled 
-                  ? "Click to turn off pointer" 
-                  : sharingParticipantId 
-                    ? "Click to show your pointer on shared screen" 
-                    : "Enable pointer mode (will activate when someone shares their screen)"}
+                title={
+                  pointerModeEnabled
+                    ? "Click to turn off pointer"
+                    : sharingParticipantId
+                      ? "Click to show your pointer on shared screen"
+                      : "Enable pointer mode (will activate when someone shares their screen)"
+                }
               >
                 <MousePointer2 className="mr-2 h-4 w-4" />
                 {pointerModeEnabled ? "Pointer On" : "Show Pointer"}
               </Button>
-            <Button
-              onClick={handleOpenInviteModal}
-              variant="outline"
-              size="sm"
-              className="bg-secondary border-border text-foreground hover:bg-secondary"
-            >
-              <UserPlus className="mr-2 h-4 w-4" />
-              Invite
-            </Button>
+              <Button
+                onClick={handleOpenInviteModal}
+                variant="outline"
+                size="sm"
+                className="bg-secondary border-border text-foreground hover:bg-secondary"
+              >
+                <UserPlus className="mr-2 h-4 w-4" />
+                Invite
+              </Button>
             </>
           )}
           <Button
@@ -800,11 +847,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
               </>
             )}
           </Button>
-          <Button
-            onClick={handleLeave}
-            variant="destructive"
-            size="sm"
-          >
+          <Button onClick={handleLeave} variant="destructive" size="sm">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Leave Meeting
           </Button>
@@ -842,13 +885,14 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
             <div>
               <p className="text-white font-medium">Recording Stopped</p>
               <p className="text-white/90 text-sm">
-                Your recording will be available in the JaaS dashboard. Processing may take a few minutes.
+                Your recording will be available in the JaaS dashboard. Processing may take a few
+                minutes.
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <Button
-              onClick={() => window.open('https://jaas.8x8.vc', '_blank')}
+              onClick={() => window.open("https://jaas.8x8.vc", "_blank")}
               variant="outline"
               size="sm"
               className="bg-white/20 border-white/30 text-white hover:bg-white/30"
@@ -872,11 +916,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
         {isLoading && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-background">
             <div className="text-center space-y-4">
-              <AnimatedPoelLogo
-                width="300px"
-                height="300px"
-                speed={3}
-              />
+              <AnimatedPoelLogo width="300px" height="300px" speed={3} />
               <p className="text-foreground text-lg mt-6">Joining {meeting.title}...</p>
             </div>
           </div>
@@ -963,7 +1003,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => window.open(doc.url, '_blank')}
+                          onClick={() => window.open(doc.url, "_blank")}
                           className="text-foreground hover:text-foreground"
                           title="Download"
                         >
@@ -1014,28 +1054,28 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
             <div className="mb-4">
               <div className="flex gap-2 mb-4">
                 <button
-                  onClick={() => setInviteType('users')}
+                  onClick={() => setInviteType("users")}
                   className={`px-4 py-2 rounded-lg transition-colors ${
-                    inviteType === 'users'
-                      ? 'bg-flame text-white'
-                      : 'bg-secondary text-muted-foreground hover:bg-secondary'
+                    inviteType === "users"
+                      ? "bg-flame text-white"
+                      : "bg-secondary text-muted-foreground hover:bg-secondary"
                   }`}
                 >
                   Users
                 </button>
                 <button
-                  onClick={() => setInviteType('companies')}
+                  onClick={() => setInviteType("companies")}
                   className={`px-4 py-2 rounded-lg transition-colors ${
-                    inviteType === 'companies'
-                      ? 'bg-flame text-white'
-                      : 'bg-secondary text-muted-foreground hover:bg-secondary'
+                    inviteType === "companies"
+                      ? "bg-flame text-white"
+                      : "bg-secondary text-muted-foreground hover:bg-secondary"
                   }`}
                 >
                   Companies
                 </button>
               </div>
 
-              {inviteType === 'users' ? (
+              {inviteType === "users" ? (
                 <div className="space-y-2 max-h-64 overflow-y-auto">
                   {users.map((user) => (
                     <label
@@ -1049,7 +1089,7 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
                           if (e.target.checked) {
                             setSelectedUsers([...selectedUsers, user.id]);
                           } else {
-                            setSelectedUsers(selectedUsers.filter(id => id !== user.id));
+                            setSelectedUsers(selectedUsers.filter((id) => id !== user.id));
                           }
                         }}
                         className="w-4 h-4"
@@ -1074,7 +1114,9 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
                           if (e.target.checked) {
                             setSelectedCompanies([...selectedCompanies, company.id]);
                           } else {
-                            setSelectedCompanies(selectedCompanies.filter(id => id !== company.id));
+                            setSelectedCompanies(
+                              selectedCompanies.filter((id) => id !== company.id),
+                            );
                           }
                         }}
                         className="w-4 h-4"
@@ -1096,10 +1138,14 @@ export default function JitsiMeetClient({ meeting, userId, displayName, isSuperu
               </Button>
               <Button
                 onClick={handleInvite}
-                disabled={inviting || (inviteType === 'users' && selectedUsers.length === 0) || (inviteType === 'companies' && selectedCompanies.length === 0)}
+                disabled={
+                  inviting ||
+                  (inviteType === "users" && selectedUsers.length === 0) ||
+                  (inviteType === "companies" && selectedCompanies.length === 0)
+                }
                 className="bg-flame hover:bg-coral text-white"
               >
-                {inviting ? 'Inviting...' : 'Invite'}
+                {inviting ? "Inviting..." : "Invite"}
               </Button>
             </div>
           </div>

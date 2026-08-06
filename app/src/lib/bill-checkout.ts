@@ -2,10 +2,10 @@
  * Public checkout adapter — resolve legacy payment request vs new bill by token.
  */
 
-import { getPaymentRequestByToken, type PaymentRequest } from '@/lib/payments';
-import { getBillByToken, getOpenBillCharge, type Bill, type BillCharge } from '@/lib/bills';
+import { getPaymentRequestByToken, type PaymentRequest } from "@/lib/payments";
+import { getBillByToken, getOpenBillCharge, type Bill, type BillCharge } from "@/lib/bills";
 
-export type CheckoutSource = 'payment_request' | 'bill';
+export type CheckoutSource = "payment_request" | "bill";
 
 export interface CheckoutContext {
   source: CheckoutSource;
@@ -33,9 +33,9 @@ export async function resolveCheckoutByToken(token: string): Promise<CheckoutCon
   const legacy = await getPaymentRequestByToken(trimmed);
   if (legacy) {
     const isRecurring =
-      legacy.payment_type === 'monthly' || legacy.payment_type === 'interval_billing';
+      legacy.payment_type === "monthly" || legacy.payment_type === "interval_billing";
     return {
-      source: 'payment_request',
+      source: "payment_request",
       publicToken: trimmed,
       amount: legacy.amount,
       recipientEmail: legacy.recipient_email,
@@ -46,7 +46,7 @@ export async function resolveCheckoutByToken(token: string): Promise<CheckoutCon
       stripePaymentMethodId: legacy.stripe_payment_method_id,
       paymentRequest: legacy,
       status: legacy.status,
-      completed: legacy.status === 'completed',
+      completed: legacy.status === "completed",
     };
   }
 
@@ -54,16 +54,16 @@ export async function resolveCheckoutByToken(token: string): Promise<CheckoutCon
   if (!bill) return null;
 
   const openCharge = await getOpenBillCharge(bill.id);
-  const completed = bill.status === 'completed' || bill.status === 'cancelled';
+  const completed = bill.status === "completed" || bill.status === "cancelled";
 
   return {
-    source: 'bill',
+    source: "bill",
     publicToken: trimmed,
     amount: openCharge?.amount ?? bill.amount,
     recipientEmail: bill.recipientEmail,
     recipientName: bill.recipientName,
     lineItems: bill.lineItems,
-    isRecurring: bill.scheduleType === 'recurring',
+    isRecurring: bill.scheduleType === "recurring",
     stripeCustomerId: bill.stripeCustomerId,
     stripePaymentMethodId: bill.stripePaymentMethodId,
     bill,

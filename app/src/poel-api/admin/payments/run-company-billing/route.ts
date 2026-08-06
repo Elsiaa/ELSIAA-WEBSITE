@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { isSuperAdmin as checkSuperAdmin } from '@/lib/permissions';
-import { getCurrentUser } from '@/lib/permissions';
-import { processAllDueBillings } from '@/lib/billing-cron';
-import { getCompanyPaymentStatus } from '@/lib/project-payments';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { isSuperAdmin as checkSuperAdmin } from "@/lib/permissions";
+import { getCurrentUser } from "@/lib/permissions";
+import { processAllDueBillings } from "@/lib/billing-cron";
+import { getCompanyPaymentStatus } from "@/lib/project-payments";
 
 /**
  * POST /api/admin/payments/run-company-billing
@@ -18,14 +18,14 @@ export async function POST(request: NextRequest) {
     const session = await auth();
     const userId = session?.user?.id;
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const isSuperAdmin = await checkSuperAdmin();
     const dbUser = await getCurrentUser();
 
-    if (!isSuperAdmin && !(dbUser && dbUser.role === 'admin')) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    if (!isSuperAdmin && !(dbUser && dbUser.role === "admin")) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     let companyId: string | null = null;
@@ -43,12 +43,15 @@ export async function POST(request: NextRequest) {
     }
 
     if (!companyId) {
-      return NextResponse.json({ error: 'Company context required' }, { status: 400 });
+      return NextResponse.json({ error: "Company context required" }, { status: 400 });
     }
 
     // Dry run is only allowed for super admin (company admin always runs for their company)
     if (dryRun && !isSuperAdmin) {
-      return NextResponse.json({ error: 'Dry run is only available for super admins' }, { status: 403 });
+      return NextResponse.json(
+        { error: "Dry run is only available for super admins" },
+        { status: 403 },
+      );
     }
 
     const result = await processAllDueBillings(undefined, { companyId, debug: dryRun });
@@ -64,13 +67,16 @@ export async function POST(request: NextRequest) {
     }
 
     const totalCharged =
-      (result.processed ?? 0) + (result.processedPaymentRequests ?? 0) + (result.processedBills ?? 0);
+      (result.processed ?? 0) +
+      (result.processedPaymentRequests ?? 0) +
+      (result.processedBills ?? 0);
     let hint: string | undefined;
     if (totalCharged === 0 && companyId) {
       try {
         const status = await getCompanyPaymentStatus(companyId);
         if (!status.allUpToDate) {
-          hint = 'Due items need a payment method attached. Add one in Payments, then run billing again.';
+          hint =
+            "Due items need a payment method attached. Add one in Payments, then run billing again.";
         }
       } catch {
         // ignore
@@ -93,10 +99,10 @@ export async function POST(request: NextRequest) {
       hint,
     });
   } catch (error) {
-    console.error('Run company billing error:', error);
+    console.error("Run company billing error:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to run billing' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Failed to run billing" },
+      { status: 500 },
     );
   }
 }

@@ -67,13 +67,26 @@
 }
 /* Grid order is TL, TR, BL, BR; delay them clockwise (TL→TR→BR→BL). */
 /* no token: stagger delays 0.3s/0.9s/0.6s — 0.9s/0.6s have no matching --hf-duration-*; kept the family raw for consistency */
-.q-loader-dots .q-loader-dot:nth-child(1) { animation-delay: 0s; }
-.q-loader-dots .q-loader-dot:nth-child(2) { animation-delay: 0.3s; } /* no token: stagger delay, no matching --hf-duration-* */
-.q-loader-dots .q-loader-dot:nth-child(3) { animation-delay: 0.9s; } /* no token: stagger delay, no matching --hf-duration-* */
-.q-loader-dots .q-loader-dot:nth-child(4) { animation-delay: 0.6s; } /* no token: stagger delay, no matching --hf-duration-* */
+.q-loader-dots .q-loader-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+.q-loader-dots .q-loader-dot:nth-child(2) {
+  animation-delay: 0.3s;
+} /* no token: stagger delay, no matching --hf-duration-* */
+.q-loader-dots .q-loader-dot:nth-child(3) {
+  animation-delay: 0.9s;
+} /* no token: stagger delay, no matching --hf-duration-* */
+.q-loader-dots .q-loader-dot:nth-child(4) {
+  animation-delay: 0.6s;
+} /* no token: stagger delay, no matching --hf-duration-* */
 @keyframes q-loader-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.15; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
 }
 
 /* ── circle — spinning ring (neutral track + accent arc) ──────────────────── */
@@ -82,10 +95,16 @@
   height: var(--q-loader-size);
   animation: q-loader-spin var(--hf-duration-800) var(--hf-ease-linear) infinite;
 }
-.q-loader-spinner-track { stroke: var(--hf-color-background-tertiary); }
-.q-loader-spinner-arc { stroke: var(--q-tint); }
+.q-loader-spinner-track {
+  stroke: var(--hf-color-background-tertiary);
+}
+.q-loader-spinner-arc {
+  stroke: var(--q-tint);
+}
 @keyframes q-loader-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── stars — twinkling sparkles (the marketing / AI motif) ────────────────── */
@@ -108,8 +127,15 @@
   animation-delay: var(--hf-duration-700);
 }
 @keyframes q-loader-twinkle {
-  0%, 100% { opacity: 0.35; transform: scale(0.6); }
-  50% { opacity: 1; transform: scale(1); }
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* ── shine — an accent gloss sweeping across a tile (media-grid shimmer) ───── */
@@ -131,19 +157,31 @@
   animation: q-loader-shine var(--hf-duration-1300) ease-in-out infinite;
 }
 @keyframes q-loader-shine {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* ── Motion off (animated={false}) + reduced-motion ───────────────────────── */
 .q-loader[data-static] .q-loader-dot,
 .q-loader[data-static] .q-loader-spinner,
-.q-loader[data-static] .q-loader-star { animation: none; }
-.q-loader-shine[data-static]::after { animation: none; }
+.q-loader[data-static] .q-loader-star {
+  animation: none;
+}
+.q-loader-shine[data-static]::after {
+  animation: none;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .q-loader-dot,
   .q-loader-spinner,
-  .q-loader-star { animation: none; }
-  .q-loader-shine::after { animation: none; }
+  .q-loader-star {
+    animation: none;
+  }
+  .q-loader-shine::after {
+    animation: none;
+  }
 }

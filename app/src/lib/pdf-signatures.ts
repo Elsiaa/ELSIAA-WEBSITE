@@ -1,10 +1,10 @@
-import { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { PDFDocument } from 'pdf-lib';
-import { getServerSupabaseClient } from './supabase';
-import { r2Client, R2_BUCKET_NAME, R2_PUBLIC_URL } from './r2';
-import { generatePublicToken } from './public-token';
+import { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { PDFDocument } from "pdf-lib";
+import { getServerSupabaseClient } from "./supabase";
+import { r2Client, R2_BUCKET_NAME, R2_PUBLIC_URL } from "./r2";
+import { generatePublicToken } from "./public-token";
 
-export { generatePublicToken } from './public-token';
+export { generatePublicToken } from "./public-token";
 
 export interface PdfSignatureField {
   id: string;
@@ -14,7 +14,7 @@ export interface PdfSignatureField {
   width: number;
   height: number;
   label: string | null;
-  field_type?: 'signature' | 'data_entry';
+  field_type?: "signature" | "data_entry";
   signature_image_url?: string | null;
 }
 
@@ -22,7 +22,7 @@ export interface PdfSignatureRequest {
   id: string;
   title: string;
   pdf_file_url: string;
-  status: 'draft' | 'sent' | 'completed';
+  status: "draft" | "sent" | "completed";
   public_token: string;
   created_at: string;
   updated_at: string;
@@ -44,17 +44,17 @@ export interface PdfSignatureRecord {
 export function getPdfKeyFromUrl(pdfUrl: string): string {
   try {
     const url = new URL(pdfUrl);
-    return url.pathname.replace(/^\//, '');
+    return url.pathname.replace(/^\//, "");
   } catch {
     // If it's already a key or relative path, return as-is
-    return pdfUrl.replace(/^\//, '');
+    return pdfUrl.replace(/^\//, "");
   }
 }
 
 async function streamToBuffer(stream: any): Promise<Buffer> {
   const chunks: Buffer[] = [];
   for await (const chunk of stream as any) {
-    if (typeof chunk === 'string') {
+    if (typeof chunk === "string") {
       chunks.push(Buffer.from(chunk));
     } else {
       chunks.push(Buffer.from(chunk));
@@ -67,37 +67,35 @@ export async function getPdfSignatureRequestById(id: string): Promise<PdfSignatu
   const supabase = getServerSupabaseClient();
 
   const { data, error } = await supabase
-    .from('pdf_signature_requests')
+    .from("pdf_signature_requests")
     .select(
       `
       *,
       fields:pdf_signature_fields(*)
-    `
+    `,
     )
-    .eq('id', id)
+    .eq("id", id)
     .maybeSingle();
 
   if (error) {
-    console.error('Error fetching PDF signature request by id:', error);
+    console.error("Error fetching PDF signature request by id:", error);
     return null;
   }
 
   return data as PdfSignatureRequest | null;
 }
 
-export async function getSignaturesForRequest(
-  requestId: string
-): Promise<PdfSignatureRecord[]> {
+export async function getSignaturesForRequest(requestId: string): Promise<PdfSignatureRecord[]> {
   const supabase = getServerSupabaseClient();
 
   const { data, error } = await supabase
-    .from('pdf_signatures')
-    .select('*')
-    .eq('request_id', requestId)
-    .order('signed_at', { ascending: false });
+    .from("pdf_signatures")
+    .select("*")
+    .eq("request_id", requestId)
+    .order("signed_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching signatures for request:', error);
+    console.error("Error fetching signatures for request:", error);
     return [];
   }
 
@@ -108,12 +106,12 @@ export async function getAllPdfSignatureRequests(): Promise<PdfSignatureRequest[
   const supabase = getServerSupabaseClient();
 
   const { data, error } = await supabase
-    .from('pdf_signature_requests')
-    .select('*')
-    .order('created_at', { ascending: false });
+    .from("pdf_signature_requests")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching all PDF signature requests:', error);
+    console.error("Error fetching all PDF signature requests:", error);
     return [];
   }
 
@@ -152,19 +150,16 @@ export async function deletePdfSignatureRequest(id: string): Promise<void> {
       });
       await r2Client.send(command);
     } catch (error) {
-      console.error('Error deleting PDF from R2 for signature request:', key, error);
+      console.error("Error deleting PDF from R2 for signature request:", key, error);
     }
   }
 
   // Delete from database; cascades remove fields and signatures
-  const { error } = await supabase
-    .from('pdf_signature_requests')
-    .delete()
-    .eq('id', id);
+  const { error } = await supabase.from("pdf_signature_requests").delete().eq("id", id);
 
   if (error) {
-    console.error('Error deleting PDF signature request from database:', error);
-    throw new Error('Failed to delete PDF signature request');
+    console.error("Error deleting PDF signature request from database:", error);
+    throw new Error("Failed to delete PDF signature request");
   }
 }
 
@@ -177,7 +172,7 @@ export async function createPdfSignatureRequest(params: {
 
   const publicToken = generatePublicToken(16);
   const timestamp = Date.now();
-  const sanitizedFilename = params.file.name.replace(/[^a-zA-Z0-9.-]/g, '_') || 'document.pdf';
+  const sanitizedFilename = params.file.name.replace(/[^a-zA-Z0-9.-]/g, "_") || "document.pdf";
   const fileKey = `pdf-signatures/${timestamp}-${sanitizedFilename}`;
 
   const fileBuffer = await params.file.arrayBuffer();
@@ -187,11 +182,11 @@ export async function createPdfSignatureRequest(params: {
     Bucket: R2_BUCKET_NAME,
     Key: fileKey,
     Body: buffer,
-    ContentType: params.file.type || 'application/pdf',
+    ContentType: params.file.type || "application/pdf",
     ContentLength: params.file.size,
     Metadata: {
-      'original-filename': sanitizedFilename,
-      'created-by-clerk-user-id': params.createdByClerkUserId,
+      "original-filename": sanitizedFilename,
+      "created-by-clerk-user-id": params.createdByClerkUserId,
     },
   });
 
@@ -200,20 +195,20 @@ export async function createPdfSignatureRequest(params: {
   const pdfUrl = `${R2_PUBLIC_URL}/${fileKey}`;
 
   const { data, error } = await supabase
-    .from('pdf_signature_requests')
+    .from("pdf_signature_requests")
     .insert({
       title: params.title,
       created_by_clerk_user_id: params.createdByClerkUserId,
       pdf_file_url: pdfUrl,
       public_token: publicToken,
-      status: 'draft',
+      status: "draft",
     })
     .select()
     .single();
 
   if (error) {
-    console.error('Error creating PDF signature request:', error);
-    throw new Error('Failed to create PDF signature request');
+    console.error("Error creating PDF signature request:", error);
+    throw new Error("Failed to create PDF signature request");
   }
 
   return data as PdfSignatureRequest;
@@ -221,19 +216,19 @@ export async function createPdfSignatureRequest(params: {
 
 export async function savePdfSignatureFields(params: {
   requestId: string;
-  fields: Omit<PdfSignatureField, 'id'>[];
+  fields: Omit<PdfSignatureField, "id">[];
 }): Promise<PdfSignatureField[]> {
   const supabase = getServerSupabaseClient();
 
   // Remove existing fields
   const { error: deleteError } = await supabase
-    .from('pdf_signature_fields')
+    .from("pdf_signature_fields")
     .delete()
-    .eq('request_id', params.requestId);
+    .eq("request_id", params.requestId);
 
   if (deleteError) {
-    console.error('Error deleting existing PDF signature fields:', deleteError);
-    throw new Error('Failed to update PDF signature fields');
+    console.error("Error deleting existing PDF signature fields:", deleteError);
+    throw new Error("Failed to update PDF signature fields");
   }
 
   if (!params.fields.length) {
@@ -241,7 +236,7 @@ export async function savePdfSignatureFields(params: {
   }
 
   const { data, error } = await supabase
-    .from('pdf_signature_fields')
+    .from("pdf_signature_fields")
     .insert(
       params.fields.map((field) => ({
         request_id: params.requestId,
@@ -251,37 +246,37 @@ export async function savePdfSignatureFields(params: {
         width: field.width,
         height: field.height,
         label: field.label,
-        field_type: field.field_type || 'signature',
-      }))
+        field_type: field.field_type || "signature",
+      })),
     )
     .select();
 
   if (error) {
-    console.error('Error saving PDF signature fields:', error);
-    throw new Error('Failed to save PDF signature fields');
+    console.error("Error saving PDF signature fields:", error);
+    throw new Error("Failed to save PDF signature fields");
   }
 
   return data as PdfSignatureField[];
 }
 
 export async function getPdfSignatureRequestByToken(
-  token: string
+  token: string,
 ): Promise<PdfSignatureRequest | null> {
   const supabase = getServerSupabaseClient();
 
   const { data, error } = await supabase
-    .from('pdf_signature_requests')
+    .from("pdf_signature_requests")
     .select(
       `
       *,
       fields:pdf_signature_fields(*)
-    `
+    `,
     )
-    .eq('public_token', token)
+    .eq("public_token", token)
     .maybeSingle();
 
   if (error) {
-    console.error('Error fetching PDF signature request by token:', error);
+    console.error("Error fetching PDF signature request by token:", error);
     return null;
   }
 
@@ -292,47 +287,48 @@ export async function markRequestAsSent(requestId: string): Promise<void> {
   const supabase = getServerSupabaseClient();
 
   const { error } = await supabase
-    .from('pdf_signature_requests')
-    .update({ status: 'sent', updated_at: new Date().toISOString() })
-    .eq('id', requestId);
+    .from("pdf_signature_requests")
+    .update({ status: "sent", updated_at: new Date().toISOString() })
+    .eq("id", requestId);
 
   if (error) {
-    console.error('Error marking request as sent:', error);
-    throw new Error('Failed to update request status');
+    console.error("Error marking request as sent:", error);
+    throw new Error("Failed to update request status");
   }
 }
 
-export async function submitPdfSignatureRequest(token: string): Promise<{ signedPdfUrl: string | null }> {
+export async function submitPdfSignatureRequest(
+  token: string,
+): Promise<{ signedPdfUrl: string | null }> {
   const supabase = getServerSupabaseClient();
 
   const request = await getPdfSignatureRequestByToken(token);
   if (!request) {
-    throw new Error('Request not found');
+    throw new Error("Request not found");
   }
 
   // Check if already submitted
   if (request.submitted_at) {
-    throw new Error('Request has already been submitted');
+    throw new Error("Request has already been submitted");
   }
 
   const { error } = await supabase
-    .from('pdf_signature_requests')
-    .update({ 
+    .from("pdf_signature_requests")
+    .update({
       submitted_at: new Date().toISOString(),
-      updated_at: new Date().toISOString() 
+      updated_at: new Date().toISOString(),
     })
-    .eq('id', request.id);
+    .eq("id", request.id);
 
   if (error) {
-    console.error('Error submitting PDF signature request:', error);
-    throw new Error('Failed to submit request');
+    console.error("Error submitting PDF signature request:", error);
+    throw new Error("Failed to submit request");
   }
 
   // Get the latest signed PDF URL from the signatures table
   const signatures = await getSignaturesForRequest(request.id);
-  const signedPdfUrl = signatures.length > 0 && signatures[0].signed_pdf_url 
-    ? signatures[0].signed_pdf_url 
-    : null;
+  const signedPdfUrl =
+    signatures.length > 0 && signatures[0].signed_pdf_url ? signatures[0].signed_pdf_url : null;
 
   return { signedPdfUrl };
 }
@@ -349,37 +345,37 @@ export async function saveSignatureForRequest(params: {
 
   const request = await getPdfSignatureRequestByToken(params.token);
   if (!request) {
-    throw new Error('Request not found');
+    throw new Error("Request not found");
   }
 
   // Prevent saving signatures if the request has been submitted
   if (request.submitted_at) {
-    throw new Error('This document has already been submitted and cannot be modified');
+    throw new Error("This document has already been submitted and cannot be modified");
   }
 
   if (!request.fields || request.fields.length === 0) {
-    throw new Error('No signature fields configured');
+    throw new Error("No signature fields configured");
   }
 
   // Find the field being signed
   const targetField = request.fields.find((f) => f.id === params.fieldId);
   if (!targetField) {
-    throw new Error('Field not found');
+    throw new Error("Field not found");
   }
 
   // Upload signature image to R2 and get URL
   const match = params.signatureImageDataUrl.match(/^data:(.+);base64,(.+)$/);
   if (!match) {
-    throw new Error('Invalid signature image data');
+    throw new Error("Invalid signature image data");
   }
-  const imageBytes = Buffer.from(match[2], 'base64');
+  const imageBytes = Buffer.from(match[2], "base64");
   const imageKey = `pdf-signatures/signatures/${request.id}/${params.fieldId}-${Date.now()}.png`;
-  
+
   const putImageCommand = new PutObjectCommand({
     Bucket: R2_BUCKET_NAME,
     Key: imageKey,
     Body: imageBytes,
-    ContentType: 'image/png',
+    ContentType: "image/png",
   });
 
   await r2Client.send(putImageCommand);
@@ -387,27 +383,29 @@ export async function saveSignatureForRequest(params: {
 
   // Update the field with the signature image URL
   const { error: fieldUpdateError } = await supabase
-    .from('pdf_signature_fields')
+    .from("pdf_signature_fields")
     .update({ signature_image_url: signatureImageUrl })
-    .eq('id', params.fieldId)
-    .eq('request_id', request.id);
+    .eq("id", params.fieldId)
+    .eq("request_id", request.id);
 
   if (fieldUpdateError) {
-    console.error('Error updating field signature:', fieldUpdateError);
-    throw new Error('Failed to save field signature');
+    console.error("Error updating field signature:", fieldUpdateError);
+    throw new Error("Failed to save field signature");
   }
 
   // Reload fields to get all signatures
   const updatedRequest = await getPdfSignatureRequestByToken(params.token);
   if (!updatedRequest || !updatedRequest.fields) {
-    throw new Error('Failed to reload request');
+    throw new Error("Failed to reload request");
   }
 
   // Check if all fields are completed (both signature fields and data_entry fields)
   // Both field types store their data in signature_image_url, so we check all fields
-  const allFieldsSigned = updatedRequest.fields.length > 0 && updatedRequest.fields.every(
-    (field) => field.signature_image_url !== null && field.signature_image_url !== undefined
-  );
+  const allFieldsSigned =
+    updatedRequest.fields.length > 0 &&
+    updatedRequest.fields.every(
+      (field) => field.signature_image_url !== null && field.signature_image_url !== undefined,
+    );
 
   // Get existing signatures to check if we need to update or create a signature record
   const existingSignatures = await getSignaturesForRequest(request.id);
@@ -419,7 +417,7 @@ export async function saveSignatureForRequest(params: {
 
   // Download base PDF from R2
   const baseUrl = new URL(basePdfUrl);
-  const keyFromUrl = baseUrl.pathname.replace(/^\//, '');
+  const keyFromUrl = baseUrl.pathname.replace(/^\//, "");
 
   const getPdfCommand = new GetObjectCommand({
     Bucket: R2_BUCKET_NAME,
@@ -428,7 +426,7 @@ export async function saveSignatureForRequest(params: {
 
   const pdfObject = await r2Client.send(getPdfCommand);
   if (!pdfObject.Body) {
-    throw new Error('Failed to download base PDF');
+    throw new Error("Failed to download base PDF");
   }
 
   const pdfBytes = await streamToBuffer(pdfObject.Body);
@@ -444,8 +442,8 @@ export async function saveSignatureForRequest(params: {
 
     // Download signature image from R2
     const sigUrl = new URL(field.signature_image_url);
-    const sigKey = sigUrl.pathname.replace(/^\//, '');
-    
+    const sigKey = sigUrl.pathname.replace(/^\//, "");
+
     const getSigCommand = new GetObjectCommand({
       Bucket: R2_BUCKET_NAME,
       Key: sigKey,
@@ -509,7 +507,7 @@ export async function saveSignatureForRequest(params: {
     Bucket: R2_BUCKET_NAME,
     Key: signedKey,
     Body: Buffer.from(signedPdfBytes),
-    ContentType: 'application/pdf',
+    ContentType: "application/pdf",
   });
 
   await r2Client.send(putSigned);
@@ -520,21 +518,21 @@ export async function saveSignatureForRequest(params: {
   if (existingSignatures.length > 0) {
     // Update existing signature record
     const { error: updateError } = await supabase
-      .from('pdf_signatures')
+      .from("pdf_signatures")
       .update({
         signed_pdf_url: signedPdfUrl,
         signer_name: params.signerName || null,
         signer_email: params.signerEmail || null,
         signer_ip: params.signerIp || null,
       })
-      .eq('id', existingSignatures[0].id);
+      .eq("id", existingSignatures[0].id);
 
     if (updateError) {
-      console.error('Error updating PDF signature record:', updateError);
+      console.error("Error updating PDF signature record:", updateError);
     }
   } else {
     // Create new signature record
-    const { error: insertError } = await supabase.from('pdf_signatures').insert({
+    const { error: insertError } = await supabase.from("pdf_signatures").insert({
       request_id: request.id,
       signer_name: params.signerName || null,
       signer_email: params.signerEmail || null,
@@ -544,7 +542,7 @@ export async function saveSignatureForRequest(params: {
     });
 
     if (insertError) {
-      console.error('Error saving PDF signature record:', insertError);
+      console.error("Error saving PDF signature record:", insertError);
     }
   }
 
@@ -552,29 +550,27 @@ export async function saveSignatureForRequest(params: {
   // This ensures the document is only considered fully signed when every field is completed
   if (allFieldsSigned) {
     const { error: updateError } = await supabase
-      .from('pdf_signature_requests')
-      .update({ status: 'completed', updated_at: new Date().toISOString() })
-      .eq('id', request.id);
+      .from("pdf_signature_requests")
+      .update({ status: "completed", updated_at: new Date().toISOString() })
+      .eq("id", request.id);
 
     if (updateError) {
-      console.error('Error updating request status to completed:', updateError);
+      console.error("Error updating request status to completed:", updateError);
     }
   } else {
     // Ensure status is not 'completed' if not all fields are filled
     // This handles the case where fields might have been removed or if status was incorrectly set
-    if (request.status === 'completed') {
+    if (request.status === "completed") {
       const { error: updateError } = await supabase
-        .from('pdf_signature_requests')
-        .update({ status: 'sent', updated_at: new Date().toISOString() })
-        .eq('id', request.id);
+        .from("pdf_signature_requests")
+        .update({ status: "sent", updated_at: new Date().toISOString() })
+        .eq("id", request.id);
 
       if (updateError) {
-        console.error('Error reverting request status from completed:', updateError);
+        console.error("Error reverting request status from completed:", updateError);
       }
     }
   }
 
   return { signedPdfUrl };
 }
-
-

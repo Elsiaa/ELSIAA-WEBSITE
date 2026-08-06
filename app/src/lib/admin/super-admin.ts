@@ -9,13 +9,8 @@ function normalizeEmail(email: string): string {
 }
 
 export function parseSuperAdminEmails(): string[] {
-  const raw =
-    (typeof process !== "undefined" ? process.env.SUPER_ADMIN_EMAILS : undefined) ??
-    "";
-  return raw
-    .split(",")
-    .map(normalizeEmail)
-    .filter(Boolean);
+  const raw = (typeof process !== "undefined" ? process.env.SUPER_ADMIN_EMAILS : undefined) ?? "";
+  return raw.split(",").map(normalizeEmail).filter(Boolean);
 }
 
 export function isSuperAdminEmail(email: string | null | undefined): boolean {

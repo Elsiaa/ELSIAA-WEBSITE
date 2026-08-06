@@ -24,9 +24,7 @@ export async function readPortalSession(): Promise<PortalSessionData | null> {
   return readAppSessionWithLegacyFallback();
 }
 
-export async function writePortalSession(
-  input: PortalSessionData,
-): Promise<void> {
+export async function writePortalSession(input: PortalSessionData): Promise<void> {
   return writeAppSession(input);
 }
 

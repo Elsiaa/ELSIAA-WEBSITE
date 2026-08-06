@@ -1,4 +1,4 @@
-export { Radio, RadioGroup, RadioLabel, radio } from './radio.tsx'
+export { Radio, RadioGroup, RadioLabel, radio } from "./radio.tsx";
 export type {
   RadioColor,
   RadioGroupProps,
@@ -8,4 +8,4 @@ export type {
   RadioOptions,
   RadioProps,
   RadioSize,
-} from './radio.tsx'
+} from "./radio.tsx";

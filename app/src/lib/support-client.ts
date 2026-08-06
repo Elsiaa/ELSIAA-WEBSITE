@@ -3,8 +3,8 @@
  * Client components must import from this file, not `@/lib/support`.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
-import type { ChatAttachment, ChatMessage } from '@/lib/chat';
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { ChatAttachment, ChatMessage } from "@/lib/chat";
 
 export type SupportMessageRow = {
   id: string;
@@ -19,7 +19,7 @@ export type SupportMessageRow = {
 /** JSONB / PostgREST sometimes returns a JSON string instead of a parsed array. */
 export function parseSupportAttachmentsColumn(raw: unknown): ChatAttachment[] {
   if (Array.isArray(raw)) return raw as ChatAttachment[];
-  if (typeof raw === 'string') {
+  if (typeof raw === "string") {
     try {
       const parsed = JSON.parse(raw) as unknown;
       return Array.isArray(parsed) ? (parsed as ChatAttachment[]) : [];
@@ -45,17 +45,17 @@ export function supportRowToMessage(row: SupportMessageRow): ChatMessage {
 
 export async function getSupportMessagesClient(
   client: SupabaseClient,
-  threadId: string
+  threadId: string,
 ): Promise<ChatMessage[]> {
   try {
     const { data, error } = await client
-      .from('support_messages')
-      .select('*')
-      .eq('thread_id', threadId)
-      .order('created_at', { ascending: true });
+      .from("support_messages")
+      .select("*")
+      .eq("thread_id", threadId)
+      .order("created_at", { ascending: true });
 
     if (error) {
-      console.error('getSupportMessagesClient', error);
+      console.error("getSupportMessagesClient", error);
       return [];
     }
     return (data || []).map((row) => supportRowToMessage(row as SupportMessageRow));

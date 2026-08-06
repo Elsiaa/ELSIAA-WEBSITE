@@ -6,7 +6,6 @@
  */
 
 @layer quanta-theme {
-
   :where(:root),
   :where([data-theme="default-light"]) {
     color-scheme: light;
@@ -277,5 +276,4 @@
     --hf-color-transparent-pink-80: var(--hf-color-pink-alpha-80);
     --hf-color-transparent-pink-90: var(--hf-color-pink-alpha-90);
   }
-
 }

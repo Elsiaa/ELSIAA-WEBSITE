@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
-import { resolvePaymentIntentRail } from '@/lib/stripe-payment-rail';
+import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
+import { resolvePaymentIntentRail } from "@/lib/stripe-payment-rail";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -11,13 +11,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const paymentIntentId = searchParams.get('paymentIntentId');
+    const paymentIntentId = searchParams.get("paymentIntentId");
     if (!paymentIntentId) {
-      return NextResponse.json({ error: 'paymentIntentId required' }, { status: 400 });
+      return NextResponse.json({ error: "paymentIntentId required" }, { status: 400 });
     }
 
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
-      expand: ['payment_method'],
+      expand: ["payment_method"],
     });
 
     const method = await resolvePaymentIntentRail(stripe, paymentIntent);
@@ -31,10 +31,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ method });
   } catch (err) {
-    console.error('Error getting payment intent method:', err);
-    return NextResponse.json(
-      { error: 'Failed to get payment method type' },
-      { status: 500 }
-    );
+    console.error("Error getting payment intent method:", err);
+    return NextResponse.json({ error: "Failed to get payment method type" }, { status: 500 });
   }
 }

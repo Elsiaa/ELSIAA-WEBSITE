@@ -43,9 +43,7 @@ export function ElsiaaSections() {
       {/* Services */}
       <section id="services" className="bg-white px-6 py-10 md:py-32">
         <div className="mx-auto max-w-6xl">
-          <p className="text-xs font-medium  text-[#1e6b3c]">
-            What we actually do
-          </p>
+          <p className="text-xs font-medium  text-[#1e6b3c]">What we actually do</p>
           <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight text-[#111111] md:text-5xl">
             The gap between AI and your business. We are the bridge.
           </h2>
@@ -55,12 +53,8 @@ export function ElsiaaSections() {
                 key={s.title}
                 className="group bg-white p-8 transition-colors duration-300 hover:bg-[#f4faf6]"
               >
-                <h3 className="text-lg font-semibold text-[#111111]">
-                  {s.title}
-                </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-neutral-600">
-                  {s.body}
-                </p>
+                <h3 className="text-lg font-semibold text-[#111111]">{s.title}</h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-neutral-600">{s.body}</p>
                 <div className="mt-6 h-px w-8 bg-neutral-300 transition-all duration-300 group-hover:w-16 group-hover:bg-[#2e9e58]" />
               </article>
             ))}
@@ -76,8 +70,7 @@ export function ElsiaaSections() {
               AI done better.
             </h2>
             <p className="mt-3 max-w-md text-neutral-400">
-              Tell us what slows your business down. We will show you what
-              happens when it stops.
+              Tell us what slows your business down. We will show you what happens when it stops.
             </p>
           </div>
           <a
@@ -106,8 +99,8 @@ export function ElsiaaSections() {
               {CITIES.join("  ·  ")}
             </p>
             <p className="text-xs text-neutral-600">
-              © {new Date().getFullYear()} ELSIAA — Eternal Lions Solutions
-              Innovation Automation Alliance
+              © {new Date().getFullYear()} ELSIAA — Eternal Lions Solutions Innovation Automation
+              Alliance
             </p>
           </div>
         </div>

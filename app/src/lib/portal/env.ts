@@ -21,13 +21,10 @@ function fromVite(value: string | undefined): string | undefined {
 
 function read(...names: string[]): string | undefined {
   for (const name of names) {
-    const fromDyn =
-      typeof process !== "undefined" ? trim(process.env[name]) : undefined;
+    const fromDyn = typeof process !== "undefined" ? trim(process.env[name]) : undefined;
     if (fromDyn) return fromDyn;
     if (name.startsWith("VITE_")) {
-      const fromMeta = trim(
-        (import.meta.env as Record<string, string | undefined>)[name],
-      );
+      const fromMeta = trim((import.meta.env as Record<string, string | undefined>)[name]);
       if (fromMeta) return fromMeta;
     }
   }
@@ -72,9 +69,8 @@ export function portalEnv() {
     databaseUrl: read("DATABASE_URL"),
     databaseSslNoVerify: read("DATABASE_SSL_NO_VERIFY") === "1",
     authSecret:
-      fromProcess(
-        typeof process !== "undefined" ? process.env.AUTH_SECRET : undefined,
-      ) || read("AUTH_SECRET"),
+      fromProcess(typeof process !== "undefined" ? process.env.AUTH_SECRET : undefined) ||
+      read("AUTH_SECRET"),
     authUrl: read("AUTH_URL"),
     superAdminEmails: (read("SUPER_ADMIN_EMAILS") ?? "")
       .split(",")

@@ -1,6 +1,6 @@
-import type { User } from '@/types/company';
+import type { User } from "@/types/company";
 
-export type CompanyUserModule = 'authorizations' | 'program_logs' | 'files' | 'support';
+export type CompanyUserModule = "authorizations" | "program_logs" | "files" | "support";
 
 export type CompanyUserModuleFlags = {
   authorizations_allowed: boolean;
@@ -10,7 +10,7 @@ export type CompanyUserModuleFlags = {
 };
 
 export function parseCompanyUserModuleFlags(
-  input: Partial<CompanyUserModuleFlags> | null | undefined
+  input: Partial<CompanyUserModuleFlags> | null | undefined,
 ): CompanyUserModuleFlags {
   return {
     authorizations_allowed: Boolean(input?.authorizations_allowed),
@@ -21,8 +21,8 @@ export function parseCompanyUserModuleFlags(
 }
 
 /** Defaults when creating a user: full access for admins, none for members. */
-export function defaultCompanyUserModuleFlags(role: 'admin' | 'member'): CompanyUserModuleFlags {
-  const all = role === 'admin';
+export function defaultCompanyUserModuleFlags(role: "admin" | "member"): CompanyUserModuleFlags {
+  const all = role === "admin";
   return {
     authorizations_allowed: all,
     program_logs_allowed: all,
@@ -31,31 +31,30 @@ export function defaultCompanyUserModuleFlags(role: 'admin' | 'member'): Company
   };
 }
 
-type ModuleUser = Pick<User, 'company_id'> &
-  Partial<CompanyUserModuleFlags> & { role?: string };
+type ModuleUser = Pick<User, "company_id"> & Partial<CompanyUserModuleFlags> & { role?: string };
 
 function readModuleFlag(user: ModuleUser, key: keyof CompanyUserModuleFlags): boolean {
   // Pre-migration / missing field: preserve previous behavior (company admins had full access).
   if (!(key in user) || user[key] === undefined || user[key] === null) {
-    return user.role === 'admin';
+    return user.role === "admin";
   }
   return Boolean(user[key]);
 }
 
 export function companyUserHasModule(
   user: ModuleUser | null | undefined,
-  kind: CompanyUserModule
+  kind: CompanyUserModule,
 ): boolean {
   if (!user?.company_id) return false;
   switch (kind) {
-    case 'authorizations':
-      return readModuleFlag(user, 'authorizations_allowed');
-    case 'program_logs':
-      return readModuleFlag(user, 'program_logs_allowed');
-    case 'files':
-      return readModuleFlag(user, 'files_allowed');
-    case 'support':
-      return readModuleFlag(user, 'support_allowed');
+    case "authorizations":
+      return readModuleFlag(user, "authorizations_allowed");
+    case "program_logs":
+      return readModuleFlag(user, "program_logs_allowed");
+    case "files":
+      return readModuleFlag(user, "files_allowed");
+    case "support":
+      return readModuleFlag(user, "support_allowed");
     default:
       return false;
   }
@@ -63,18 +62,18 @@ export function companyUserHasModule(
 
 export function companyUserHasAnyModule(user: ModuleUser | null | undefined): boolean {
   return (
-    companyUserHasModule(user, 'authorizations') ||
-    companyUserHasModule(user, 'program_logs') ||
-    companyUserHasModule(user, 'files') ||
-    companyUserHasModule(user, 'support')
+    companyUserHasModule(user, "authorizations") ||
+    companyUserHasModule(user, "program_logs") ||
+    companyUserHasModule(user, "files") ||
+    companyUserHasModule(user, "support")
   );
 }
 
 /** Company tenant can open /admin (role admin and/or any module grant). */
 export function canEnterCompanyAdminPortal(
-  user: (ModuleUser & { role?: string }) | null | undefined
+  user: (ModuleUser & { role?: string }) | null | undefined,
 ): boolean {
   if (!user?.company_id) return false;
-  if (user.role === 'admin') return true;
+  if (user.role === "admin") return true;
   return companyUserHasAnyModule(user);
 }

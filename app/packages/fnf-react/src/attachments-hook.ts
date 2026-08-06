@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import type { AttachmentsMediaClient, AttachmentsOptions } from './attachments'
-import { useEffect, useState } from 'react'
-import { AttachmentsController } from './attachments'
-import { useStore } from './external-store-hook'
-import { useOptionalFnfObservability } from './provider'
+import type { AttachmentsMediaClient, AttachmentsOptions } from "./attachments";
+import { useEffect, useState } from "react";
+import { AttachmentsController } from "./attachments";
+import { useStore } from "./external-store-hook";
+import { useOptionalFnfObservability } from "./provider";
 
 /**
  * An attachments presenter bound to the component: previews render
@@ -18,12 +18,18 @@ import { useOptionalFnfObservability } from './provider'
  *   {attachments.items.map(a => <Thumb key={a.key} src={a.previewUrl} state={a.status} />)}
  *   <button onClick={async () => submit(await attachments.settled())} />
  */
-export function useAttachments(media: AttachmentsMediaClient, opts?: AttachmentsOptions): AttachmentsController {
-  const providerObservability = useOptionalFnfObservability()
-  const observability = opts?.observability ?? providerObservability
+export function useAttachments(
+  media: AttachmentsMediaClient,
+  opts?: AttachmentsOptions,
+): AttachmentsController {
+  const providerObservability = useOptionalFnfObservability();
+  const observability = opts?.observability ?? providerObservability;
   // useState, not useMemo: items live in the controller; a cache-discard
   // would wipe them. `media` and `opts` are read once — both must be stable.
-  const [controller] = useState(() => new AttachmentsController(media, { ...opts, ...(observability ? { observability } : {}) }))
-  useEffect(() => () => controller.dispose(), [controller])
-  return useStore(controller)
+  const [controller] = useState(
+    () =>
+      new AttachmentsController(media, { ...opts, ...(observability ? { observability } : {}) }),
+  );
+  useEffect(() => () => controller.dispose(), [controller]);
+  return useStore(controller);
 }

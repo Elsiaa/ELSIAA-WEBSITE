@@ -7,7 +7,10 @@ export type CompanyPaymentStatusLike = {
 };
 
 export function overdueBillsCount(status: CompanyPaymentStatusLike): number {
-  if ('overdueBills' in status && typeof (status as { overdueBills?: number }).overdueBills === 'number') {
+  if (
+    "overdueBills" in status &&
+    typeof (status as { overdueBills?: number }).overdueBills === "number"
+  ) {
     return (status as { overdueBills: number }).overdueBills;
   }
   return 0;

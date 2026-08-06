@@ -26,8 +26,7 @@ export const Route = createFileRoute("/overview")({
 });
 
 const sans = {
-  fontFamily:
-    "var(--font-sans)",
+  fontFamily: "var(--font-sans)",
 } as const;
 
 const SHIP: Array<{
@@ -48,8 +47,7 @@ const SHIP: Array<{
   {
     num: "02",
     title: "Design",
-    blurb:
-      "Every surface your brand touches. Built to convert, not just look good.",
+    blurb: "Every surface your brand touches. Built to convert, not just look good.",
     cta: "Explore design",
     href: "/designs",
   },
@@ -83,8 +81,8 @@ function Overview() {
             className="mx-auto mt-6 max-w-xl text-[16px] leading-relaxed text-[#111111]/60 md:text-[18px]"
             style={sans}
           >
-            Custom AI, automation, and world-class design — scoped, priced, and
-            proven before you spend a dollar.
+            Custom AI, automation, and world-class design — scoped, priced, and proven before you
+            spend a dollar.
           </p>
           <a
             href="/contact"
@@ -97,14 +95,14 @@ function Overview() {
       </section>
 
       {/* the gap */}
- <section className="bg-[#F5F5F3] px-6 py-10 text-center text-[#111111] md:py-32">
+      <section className="bg-[#F5F5F3] px-6 py-10 text-center text-[#111111] md:py-32">
         <Reveal>
           <h2
             className="mx-auto max-w-3xl text-3xl font-semibold leading-[1.15] tracking-[-0.035em] md:text-5xl"
             style={sans}
           >
-            Most businesses still run on manual processes while their
-            competitors use AI as a force multiplier.
+            Most businesses still run on manual processes while their competitors use AI as a force
+            multiplier.
           </h2>
           <p
             className="mx-auto mt-6 text-[18px] font-semibold text-[#1e6b3c] md:text-2xl"
@@ -116,7 +114,7 @@ function Overview() {
       </section>
 
       {/* what we actually ship */}
- <section className="bg-white px-6 py-10 md:py-16">
+      <section className="bg-white px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-bold text-[#1e6b3c]" style={sans}>
@@ -140,10 +138,7 @@ function Overview() {
                   >
                     {s.num}
                   </p>
-                  <h3
-                    className="mt-3 text-2xl font-semibold tracking-[-0.03em]"
-                    style={sans}
-                  >
+                  <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]" style={sans}>
                     {s.title}
                   </h3>
                   <p
@@ -167,7 +162,7 @@ function Overview() {
       </section>
 
       {/* proof first */}
- <section className="bg-[#F5F5F3] px-6 py-10 text-center md:py-32">
+      <section className="bg-[#F5F5F3] px-6 py-10 text-center md:py-32">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={sans}>
             Proof first.

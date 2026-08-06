@@ -22,14 +22,14 @@ export default function UserProjectAssignment({
   userName,
   companyId,
   currentUser,
-  onClose
+  onClose,
 }: UserProjectAssignmentProps) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [assignedProjectIds, setAssignedProjectIds] = useState<string[]>([]);
   const [allProjectsAccess, setAllProjectsAccess] = useState(false);
-  const [userRole, setUserRole] = useState<string>('member');
+  const [userRole, setUserRole] = useState<string>("member");
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -54,11 +54,11 @@ export default function UserProjectAssignment({
         if (userRes.ok) {
           const userData = await userRes.json();
           setAllProjectsAccess(userData.all_projects_access || false);
-          setUserRole(userData.role || 'member');
-          setIsAdmin(userData.role === 'admin');
+          setUserRole(userData.role || "member");
+          setIsAdmin(userData.role === "admin");
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -70,7 +70,7 @@ export default function UserProjectAssignment({
   const handleSave = async () => {
     // Prevent saving if admin or self-editing
     if (isAdmin || (currentUser && currentUser.id === userId)) {
-      alert('Cannot modify project access for admins or yourself');
+      alert("Cannot modify project access for admins or yourself");
       return;
     }
 
@@ -78,8 +78,8 @@ export default function UserProjectAssignment({
     try {
       // Update all_projects_access
       const userUpdateRes = await fetch(`/api/users/${userId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           all_projects_access: allProjectsAccess,
         }),
@@ -87,15 +87,15 @@ export default function UserProjectAssignment({
 
       if (!userUpdateRes.ok) {
         const errorData = await userUpdateRes.json();
-        alert(errorData.error || 'Failed to update user access settings');
+        alert(errorData.error || "Failed to update user access settings");
         return;
       }
 
       // Update specific project permissions (only if not all projects access)
       if (!allProjectsAccess) {
         const permissionsRes = await fetch(`/api/users/${userId}/projects`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             projectIds: assignedProjectIds,
           }),
@@ -103,16 +103,16 @@ export default function UserProjectAssignment({
 
         if (!permissionsRes.ok) {
           const errorData = await permissionsRes.json();
-          alert(errorData.error || 'Failed to update project permissions');
+          alert(errorData.error || "Failed to update project permissions");
           return;
         }
       }
 
-      alert('Project assignments updated successfully!');
+      alert("Project assignments updated successfully!");
       onClose();
     } catch (error) {
-      console.error('Error saving assignments:', error);
-      alert('Failed to save assignments');
+      console.error("Error saving assignments:", error);
+      alert("Failed to save assignments");
     } finally {
       setSaving(false);
     }
@@ -120,7 +120,7 @@ export default function UserProjectAssignment({
 
   const toggleProject = (projectId: string) => {
     if (assignedProjectIds.includes(projectId)) {
-      setAssignedProjectIds(assignedProjectIds.filter(id => id !== projectId));
+      setAssignedProjectIds(assignedProjectIds.filter((id) => id !== projectId));
     } else {
       setAssignedProjectIds([...assignedProjectIds, projectId]);
     }
@@ -134,10 +134,7 @@ export default function UserProjectAssignment({
             <h3 className="text-xl font-semibold text-foreground">Assign Projects</h3>
             <p className="text-sm text-muted-foreground mt-1">Managing access for {userName}</p>
           </div>
-          <button
-            onClick={onClose}
-            className="text-muted-foreground hover:text-foreground"
-          >
+          <button onClick={onClose} className="text-muted-foreground hover:text-foreground">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -154,7 +151,8 @@ export default function UserProjectAssignment({
               <div className="mb-6 p-4 bg-muted/80 border border-border rounded-lg">
                 <div className="text-foreground font-medium mb-2">Admin User</div>
                 <p className="text-sm text-muted-foreground">
-                  Admins automatically have access to all projects in the company. Project access cannot be modified for admin users.
+                  Admins automatically have access to all projects in the company. Project access
+                  cannot be modified for admin users.
                 </p>
               </div>
             )}
@@ -171,7 +169,9 @@ export default function UserProjectAssignment({
 
             {/* All Projects Access Toggle */}
             <div className="mb-6 p-4 bg-secondary/50 rounded-lg border border-border">
-              <label className={`flex items-start gap-3 ${(isAdmin || (currentUser && currentUser.id === userId)) ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}>
+              <label
+                className={`flex items-start gap-3 ${isAdmin || (currentUser && currentUser.id === userId) ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+              >
                 <input
                   type="checkbox"
                   checked={allProjectsAccess || isAdmin}
@@ -186,9 +186,9 @@ export default function UserProjectAssignment({
                 <div>
                   <div className="text-foreground font-medium">Grant Access to All Projects</div>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {isAdmin 
-                      ? 'Admins automatically have access to all projects.'
-                      : 'User will automatically have access to all current and future projects in the company.'}
+                    {isAdmin
+                      ? "Admins automatically have access to all projects."
+                      : "User will automatically have access to all current and future projects in the company."}
                   </p>
                 </div>
               </label>
@@ -234,9 +234,17 @@ export default function UserProjectAssignment({
             <div className="mt-6 p-4 bg-primary/10 border border-primary/30 rounded-lg">
               <p className="text-primary text-sm">
                 {allProjectsAccess ? (
-                  <>User will have access to <strong>all projects</strong> in the company</>
+                  <>
+                    User will have access to <strong>all projects</strong> in the company
+                  </>
                 ) : (
-                  <>User will have access to <strong>{assignedProjectIds.length} project{assignedProjectIds.length !== 1 ? 's' : ''}</strong></>
+                  <>
+                    User will have access to{" "}
+                    <strong>
+                      {assignedProjectIds.length} project
+                      {assignedProjectIds.length !== 1 ? "s" : ""}
+                    </strong>
+                  </>
                 )}
               </p>
             </div>
@@ -254,7 +262,7 @@ export default function UserProjectAssignment({
                 disabled={!!(saving || isAdmin || (currentUser && currentUser.id === userId))}
                 className="px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors disabled:bg-muted disabled:cursor-not-allowed"
               >
-                {saving ? 'Saving...' : 'Save Changes'}
+                {saving ? "Saving..." : "Save Changes"}
               </button>
             </div>
           </>

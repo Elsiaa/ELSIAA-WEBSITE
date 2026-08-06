@@ -26,9 +26,5 @@ export function OpsLightTheme({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  return (
-    <div className="elsiaa-ops min-h-screen bg-[#F5F5F3] text-[#111]">
-      {children}
-    </div>
-  );
+  return <div className="elsiaa-ops min-h-screen bg-[#F5F5F3] text-[#111]">{children}</div>;
 }

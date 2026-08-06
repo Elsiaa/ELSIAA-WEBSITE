@@ -158,9 +158,7 @@ export async function getAccount(username: string): Promise<MailAccount> {
   );
 }
 
-export async function createAccount(
-  input: CreateMailAccountInput,
-): Promise<MailApiJson> {
+export async function createAccount(input: CreateMailAccountInput): Promise<MailApiJson> {
   return asJson(
     await mailFetch("/v1/accounts", {
       method: "POST",
@@ -234,9 +232,7 @@ export async function listSharedFolders(opts?: {
     .map(normalizeFolder);
 }
 
-export async function createSharedFolder(
-  input: CreateSharedFolderInput,
-): Promise<MailApiJson> {
+export async function createSharedFolder(input: CreateSharedFolderInput): Promise<MailApiJson> {
   return asJson(
     await mailFetch("/v1/folders", {
       method: "POST",
@@ -245,10 +241,7 @@ export async function createSharedFolder(
   );
 }
 
-export async function deleteSharedFolder(
-  name: string,
-  force?: boolean,
-): Promise<MailApiJson> {
+export async function deleteSharedFolder(name: string, force?: boolean): Promise<MailApiJson> {
   return asJson(
     await mailFetch(`/v1/folders/${encodeURIComponent(name)}`, {
       method: "DELETE",
@@ -282,9 +275,7 @@ export async function listCompanyFolders(): Promise<MailFolder[]> {
     .map(normalizeFolder);
 }
 
-export async function createCompanyFolder(
-  input: CreateCompanyFolderInput,
-): Promise<MailApiJson> {
+export async function createCompanyFolder(input: CreateCompanyFolderInput): Promise<MailApiJson> {
   return asJson(
     await mailFetch("/v1/company-folders", {
       method: "POST",
@@ -323,9 +314,7 @@ export async function sendMail(payload: MailSendPayload): Promise<MailApiJson> {
   );
 }
 
-export async function sendMailBatch(
-  payload: MailSendBatchPayload,
-): Promise<MailApiJson> {
+export async function sendMailBatch(payload: MailSendBatchPayload): Promise<MailApiJson> {
   return asJson(
     await mailFetch("/v1/send/batch", {
       method: "POST",

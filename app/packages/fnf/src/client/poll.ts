@@ -1,12 +1,12 @@
-import type { JobEntry } from '../define-job'
-import type { JobResponse } from '../spec'
-import type { Generation } from '../types'
-import type { GenerationContext } from './context'
-import { ApiJobError, JobTimeoutError, throwIfAborted } from '../errors'
-import { observeAsync, observeEvent } from '../observability'
-import { parseGeneration } from '../spec'
-import { isTerminal } from '../types'
-import { getGeneration } from './get'
+import type { JobEntry } from "../define-job";
+import type { JobResponse } from "../spec";
+import type { Generation } from "../types";
+import type { GenerationContext } from "./context";
+import { ApiJobError, JobTimeoutError, throwIfAborted } from "../errors";
+import { observeAsync, observeEvent } from "../observability";
+import { parseGeneration } from "../spec";
+import { isTerminal } from "../types";
+import { getGeneration } from "./get";
 
 /**
  * The Nth consecutive failed tick is rethrown (the counter resets on any
@@ -16,16 +16,16 @@ import { getGeneration } from './get'
  * diagnosability backstop against a hard-down backend, not parity: it surfaces
  * the real 5xx/network error instead of a 10-minute JobTimeoutError.
  */
-const MAX_CONSECUTIVE_TRANSIENT_FAILURES = 30
+const MAX_CONSECUTIVE_TRANSIENT_FAILURES = 30;
 
 /** Options for `pollGeneration` (the per-job inner loop of `wait`). */
 export interface PollOptions {
   /** Fallback entry when the job response carries no `job_set_type`. */
-  entry?: JobEntry
+  entry?: JobEntry;
   /** Cancels the poll loop with `JobAbortedError` at the next checkpoint. */
-  signal?: AbortSignal
+  signal?: AbortSignal;
   /** Fires after every fetch with the current generation (any status). */
-  onProgress?: (g: Generation) => void
+  onProgress?: (g: Generation) => void;
 }
 
 /**
@@ -44,43 +44,53 @@ export interface PollOptions {
  *   consuming deadline time — up to a consecutive-failure backstop, after
  *   which the last error is rethrown. Deterministic errors stay fatal.
  */
-export async function pollGeneration(ctx: GenerationContext, id: string, opts: PollOptions = {}): Promise<Generation> {
-  return observeAsync(ctx.observability, 'fnf.job.poll', { generation_id: id }, async () => {
-    const { sleep, isActive } = ctx.scheduler
-    let deadline = Date.now() + ctx.poll.timeoutMs
-    let transientFailures = 0
-    let lastKnown: Generation | undefined
-    while (true) {
-      throwIfAborted(opts.signal)
-      if (isActive && !isActive()) {
-        const pausedAt = Date.now()
-        await sleepUnlessAborted(sleep, ctx.poll.intervalMs, opts.signal)
-        deadline += Date.now() - pausedAt // pause does not consume the timeout
-        continue
+export async function pollGeneration(
+  ctx: GenerationContext,
+  id: string,
+  opts: PollOptions = {},
+): Promise<Generation> {
+  return observeAsync(
+    ctx.observability,
+    "fnf.job.poll",
+    { generation_id: id },
+    async () => {
+      const { sleep, isActive } = ctx.scheduler;
+      let deadline = Date.now() + ctx.poll.timeoutMs;
+      let transientFailures = 0;
+      let lastKnown: Generation | undefined;
+      while (true) {
+        throwIfAborted(opts.signal);
+        if (isActive && !isActive()) {
+          const pausedAt = Date.now();
+          await sleepUnlessAborted(sleep, ctx.poll.intervalMs, opts.signal);
+          deadline += Date.now() - pausedAt; // pause does not consume the timeout
+          continue;
+        }
+        let gen: Generation | undefined;
+        try {
+          gen = await getGeneration(ctx, id, opts.entry);
+          transientFailures = 0;
+        } catch (err) {
+          if (
+            !isTransientPollError(err) ||
+            ++transientFailures >= MAX_CONSECUTIVE_TRANSIENT_FAILURES
+          )
+            throw err;
+        }
+        if (gen) {
+          lastKnown = gen;
+          observeEvent(ctx.observability, "fnf.job.poll.progress", generationAttributes(gen));
+          opts.onProgress?.(gen);
+          if (isTerminal(gen.status)) return gen;
+        }
+        if (Date.now() >= deadline) throw new JobTimeoutError(id, ctx.poll.timeoutMs, lastKnown);
+        await sleepUnlessAborted(sleep, ctx.poll.intervalMs, opts.signal);
       }
-      let gen: Generation | undefined
-      try {
-        gen = await getGeneration(ctx, id, opts.entry)
-        transientFailures = 0
-      }
-      catch (err) {
-        if (!isTransientPollError(err) || ++transientFailures >= MAX_CONSECUTIVE_TRANSIENT_FAILURES)
-          throw err
-      }
-      if (gen) {
-        lastKnown = gen
-        observeEvent(ctx.observability, 'fnf.job.poll.progress', generationAttributes(gen))
-        opts.onProgress?.(gen)
-        if (isTerminal(gen.status))
-          return gen
-      }
-      if (Date.now() >= deadline)
-        throw new JobTimeoutError(id, ctx.poll.timeoutMs, lastKnown)
-      await sleepUnlessAborted(sleep, ctx.poll.intervalMs, opts.signal)
-    }
-  }, {
-    successAttributes: generation => ({ status: generation.status, model: generation.model }),
-  })
+    },
+    {
+      successAttributes: (generation) => ({ status: generation.status, model: generation.model }),
+    },
+  );
 }
 
 /**
@@ -102,62 +112,79 @@ export async function pollJobSetGroup(
   ctx: GenerationContext,
   jobSetId: string,
   members: Generation[],
-  opts: Omit<PollOptions, 'entry'> = {},
+  opts: Omit<PollOptions, "entry"> = {},
 ): Promise<Generation[]> {
-  return observeAsync(ctx.observability, 'fnf.job.poll', {
-    job_set_id: jobSetId,
-    generation_count: members.length,
-  }, async () => {
-    const getJobSet = ctx.adapter.getJobSet
-    if (!getJobSet)
-      throw new ApiJobError('not_supported', 'pollJobSetGroup requires an adapter with getJobSet')
-    const current = new Map(members.map(g => [g.id, g]))
-    const { sleep, isActive } = ctx.scheduler
-    let deadline = Date.now() + ctx.poll.timeoutMs
-    let transientFailures = 0
+  return observeAsync(
+    ctx.observability,
+    "fnf.job.poll",
+    {
+      job_set_id: jobSetId,
+      generation_count: members.length,
+    },
+    async () => {
+      const getJobSet = ctx.adapter.getJobSet;
+      if (!getJobSet)
+        throw new ApiJobError(
+          "not_supported",
+          "pollJobSetGroup requires an adapter with getJobSet",
+        );
+      const current = new Map(members.map((g) => [g.id, g]));
+      const { sleep, isActive } = ctx.scheduler;
+      let deadline = Date.now() + ctx.poll.timeoutMs;
+      let transientFailures = 0;
 
-    while (true) {
-      throwIfAborted(opts.signal)
-      if (isActive && !isActive()) {
-        const pausedAt = Date.now()
-        await sleepUnlessAborted(sleep, ctx.poll.intervalMs, opts.signal)
-        deadline += Date.now() - pausedAt // pause does not consume the timeout
-        continue
+      while (true) {
+        throwIfAborted(opts.signal);
+        if (isActive && !isActive()) {
+          const pausedAt = Date.now();
+          await sleepUnlessAborted(sleep, ctx.poll.intervalMs, opts.signal);
+          deadline += Date.now() - pausedAt; // pause does not consume the timeout
+          continue;
+        }
+        let body: (JobResponse & { job_set_type?: string })[] | undefined;
+        try {
+          body = (await getJobSet(jobSetId)) as (JobResponse & { job_set_type?: string })[];
+          transientFailures = 0;
+        } catch (err) {
+          if (
+            !isTransientPollError(err) ||
+            ++transientFailures >= MAX_CONSECUTIVE_TRANSIENT_FAILURES
+          )
+            throw err;
+        }
+        for (const job of Array.isArray(body) ? body : []) {
+          const known = current.get(job.id);
+          if (!known) continue; // the caller isn't waiting on this set member
+          const entry =
+            (job.job_set_type ? ctx.registry.get(job.job_set_type) : undefined) ??
+            ctx.registry.get(known.model);
+          // Fail fast like the singles path (`getGeneration`): an unresolvable type
+          // is a local configuration error no amount of further polling can fix.
+          if (!entry)
+            throw new ApiJobError(
+              "unknown_model",
+              `Cannot resolve job type for job ${job.id} in set ${jobSetId}: '${job.job_set_type ?? known.model}' is not registered`,
+            );
+          const gen = parseGeneration(job, entry);
+          current.set(job.id, gen);
+          observeEvent(ctx.observability, "fnf.job.poll.progress", generationAttributes(gen));
+          opts.onProgress?.(gen);
+        }
+        if ([...current.values()].every((g) => isTerminal(g.status)))
+          return members.map((m) => current.get(m.id) as Generation);
+        if (Date.now() >= deadline) {
+          const pending = [...current.values()].find((g) => !isTerminal(g.status)) as Generation;
+          throw new JobTimeoutError(pending.id, ctx.poll.timeoutMs, pending);
+        }
+        await sleepUnlessAborted(sleep, ctx.poll.intervalMs, opts.signal);
       }
-      let body: (JobResponse & { job_set_type?: string })[] | undefined
-      try {
-        body = await getJobSet(jobSetId) as (JobResponse & { job_set_type?: string })[]
-        transientFailures = 0
-      }
-      catch (err) {
-        if (!isTransientPollError(err) || ++transientFailures >= MAX_CONSECUTIVE_TRANSIENT_FAILURES)
-          throw err
-      }
-      for (const job of Array.isArray(body) ? body : []) {
-        const known = current.get(job.id)
-        if (!known)
-          continue // the caller isn't waiting on this set member
-        const entry = (job.job_set_type ? ctx.registry.get(job.job_set_type) : undefined) ?? ctx.registry.get(known.model)
-        // Fail fast like the singles path (`getGeneration`): an unresolvable type
-        // is a local configuration error no amount of further polling can fix.
-        if (!entry)
-          throw new ApiJobError('unknown_model', `Cannot resolve job type for job ${job.id} in set ${jobSetId}: '${job.job_set_type ?? known.model}' is not registered`)
-        const gen = parseGeneration(job, entry)
-        current.set(job.id, gen)
-        observeEvent(ctx.observability, 'fnf.job.poll.progress', generationAttributes(gen))
-        opts.onProgress?.(gen)
-      }
-      if ([...current.values()].every(g => isTerminal(g.status)))
-        return members.map(m => current.get(m.id) as Generation)
-      if (Date.now() >= deadline) {
-        const pending = [...current.values()].find(g => !isTerminal(g.status)) as Generation
-        throw new JobTimeoutError(pending.id, ctx.poll.timeoutMs, pending)
-      }
-      await sleepUnlessAborted(sleep, ctx.poll.intervalMs, opts.signal)
-    }
-  }, {
-    successAttributes: generations => ({ terminal_count: generations.filter(g => isTerminal(g.status)).length }),
-  })
+    },
+    {
+      successAttributes: (generations) => ({
+        terminal_count: generations.filter((g) => isTerminal(g.status)).length,
+      }),
+    },
+  );
 }
 
 /**
@@ -170,10 +197,9 @@ export async function pollJobSetGroup(
  * aborts, timeouts — is deterministic and rethrown immediately.
  */
 function isTransientPollError(err: unknown): boolean {
-  if (err instanceof ApiJobError && err.code === 'network')
-    return true
-  const status = (err as { status?: unknown } | null)?.status
-  return typeof status === 'number' && (status >= 500 || status === 429)
+  if (err instanceof ApiJobError && err.code === "network") return true;
+  const status = (err as { status?: unknown } | null)?.status;
+  return typeof status === "number" && (status >= 500 || status === 429);
 }
 
 function generationAttributes(g: Generation): Record<string, string | number | boolean | null> {
@@ -183,27 +209,29 @@ function generationAttributes(g: Generation): Record<string, string | number | b
     type: g.type,
     status: g.status,
     ...(g.jobSetId ? { job_set_id: g.jobSetId } : {}),
-  }
+  };
 }
 
 /** Sleep that wakes early on abort and then throws the typed `JobAbortedError`. */
-async function sleepUnlessAborted(sleep: (ms: number) => Promise<void>, ms: number, signal?: AbortSignal): Promise<void> {
+async function sleepUnlessAborted(
+  sleep: (ms: number) => Promise<void>,
+  ms: number,
+  signal?: AbortSignal,
+): Promise<void> {
   if (!signal) {
-    await sleep(ms)
-    return
+    await sleep(ms);
+    return;
   }
-  throwIfAborted(signal)
-  let onAbort: (() => void) | undefined
+  throwIfAborted(signal);
+  let onAbort: (() => void) | undefined;
   const aborted = new Promise<void>((resolve) => {
-    onAbort = resolve
-    signal.addEventListener('abort', onAbort, { once: true })
-  })
+    onAbort = resolve;
+    signal.addEventListener("abort", onAbort, { once: true });
+  });
   try {
-    await Promise.race([sleep(ms), aborted])
+    await Promise.race([sleep(ms), aborted]);
+  } finally {
+    if (onAbort) signal.removeEventListener("abort", onAbort);
   }
-  finally {
-    if (onAbort)
-      signal.removeEventListener('abort', onAbort)
-  }
-  throwIfAborted(signal)
+  throwIfAborted(signal);
 }

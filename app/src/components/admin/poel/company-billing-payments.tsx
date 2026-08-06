@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useMemo, Fragment } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect, useMemo, Fragment } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   CreditCard,
   DollarSign,
@@ -17,17 +17,17 @@ import {
   RefreshCw,
   ExternalLink,
   Eye,
-} from 'lucide-react';
-import { toast } from 'sonner';
-import PaymentMethodsManagement from '@/components/admin/payment-methods-management';
-import CompanyPaymentsAttach from '@/components/admin/company-payments-attach';
-import HistoryRowLineItems from '@/components/admin/history-row-line-items';
+} from "lucide-react";
+import { toast } from "sonner";
+import PaymentMethodsManagement from "@/components/admin/payment-methods-management";
+import CompanyPaymentsAttach from "@/components/admin/company-payments-attach";
+import HistoryRowLineItems from "@/components/admin/history-row-line-items";
 
 const GRACE_PERIOD_DAYS = 3;
 
 interface BillingHistoryTransaction {
   id: string;
-  type: 'fee' | 'subscription' | 'bill' | 'payment';
+  type: "fee" | "subscription" | "bill" | "payment";
   feeName: string | null;
   subscriptionName: string | null;
   billDescription?: string | null;
@@ -88,12 +88,12 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
     if (companyId) setLoadingStatus(true);
     try {
       const [historyRes, statusRes, billsRes, methodsRes] = await Promise.all([
-        fetch('/api/admin/payments/billing-history'),
+        fetch("/api/admin/payments/billing-history"),
         companyId
           ? fetch(`/api/companies/${companyId}/payment-status?skipPreemptive=1`)
           : Promise.resolve(null),
-        fetch('/api/admin/bills'),
-        fetch('/api/payments/saved-methods'),
+        fetch("/api/admin/bills"),
+        fetch("/api/payments/saved-methods"),
       ]);
       if (historyRes?.ok) {
         const historyData = await historyRes.json();
@@ -112,7 +112,7 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
         setHasSavedPaymentMethod((methodsData.methods?.length ?? 0) > 0);
       }
     } catch {
-      toast.error('Failed to refresh');
+      toast.error("Failed to refresh");
     } finally {
       setRefreshing(false);
       setLoadingHistory(false);
@@ -127,16 +127,18 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
     setLoadingStatus(!!companyId);
     setLoadingBills(true);
 
-    const historyPromise = fetch('/api/admin/payments/billing-history').then((res) =>
-      res.ok ? res.json() : { transactions: [] }
+    const historyPromise = fetch("/api/admin/payments/billing-history").then((res) =>
+      res.ok ? res.json() : { transactions: [] },
     );
-    const billsPromise = fetch('/api/admin/bills').then((res) => (res.ok ? res.json() : { bills: [] }));
-    const methodsPromise = fetch('/api/payments/saved-methods').then((res) =>
-      res.ok ? res.json() : { methods: [] }
+    const billsPromise = fetch("/api/admin/bills").then((res) =>
+      res.ok ? res.json() : { bills: [] },
+    );
+    const methodsPromise = fetch("/api/payments/saved-methods").then((res) =>
+      res.ok ? res.json() : { methods: [] },
     );
     const statusPromise = companyId
       ? fetch(`/api/companies/${companyId}/payment-status?skipPreemptive=1`).then((res) =>
-          res.ok ? res.json() : { status: null }
+          res.ok ? res.json() : { status: null },
         )
       : Promise.resolve({ status: null });
 
@@ -150,7 +152,7 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
         setHasSavedPaymentMethod((methodsData.methods?.length ?? 0) > 0);
       })
       .catch(() => {
-        if (!cancelled) toast.error('Failed to load payment data');
+        if (!cancelled) toast.error("Failed to load payment data");
       })
       .finally(() => {
         if (!cancelled) {
@@ -161,11 +163,13 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
         }
       });
 
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [companyId]);
 
   const getReceiptDownloadUrl = (tx: BillingHistoryTransaction): string | null => {
-    if (tx.type === 'bill' && tx.billId && tx.chargeId) {
+    if (tx.type === "bill" && tx.billId && tx.chargeId) {
       return `/api/admin/bills/${tx.billId}/receipt?chargeId=${encodeURIComponent(tx.chargeId)}&format=pdf`;
     }
     if (!tx.paymentRequestId) return null;
@@ -175,89 +179,96 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
   };
 
   const description = (tx: BillingHistoryTransaction) => {
-    if (tx.type === 'bill') {
-      const label = tx.billDescription?.trim() || 'Bill';
+    if (tx.type === "bill") {
+      const label = tx.billDescription?.trim() || "Bill";
       return tx.billRecipientName ? `${label} · ${tx.billRecipientName}` : label;
     }
-    if (tx.type === 'payment') {
-      return tx.billRecipientName?.trim() || 'Payment request';
+    if (tx.type === "payment") {
+      return tx.billRecipientName?.trim() || "Payment request";
     }
-    if (tx.type === 'fee') {
-      return [tx.feeName, tx.projectTitle].filter(Boolean).join(' · ') || 'Fee';
+    if (tx.type === "fee") {
+      return [tx.feeName, tx.projectTitle].filter(Boolean).join(" · ") || "Fee";
     }
-    return [tx.subscriptionName, tx.projectTitle].filter(Boolean).join(' · ') || 'Subscription';
+    return [tx.subscriptionName, tx.projectTitle].filter(Boolean).join(" · ") || "Subscription";
   };
 
   const runBillingNow = async () => {
     setRunningBilling(true);
     try {
-      const res = await fetch('/api/admin/payments/run-company-billing', { method: 'POST' });
+      const res = await fetch("/api/admin/payments/run-company-billing", { method: "POST" });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        toast.error(data.error || 'Failed to run billing');
+        toast.error(data.error || "Failed to run billing");
         return;
       }
       const total =
         (data.processed ?? 0) + (data.processedPaymentRequests ?? 0) + (data.processedBills ?? 0);
       const errs = (data.errors ?? 0) + (data.paymentRequestErrors ?? 0) + (data.billErrors ?? 0);
       if (errs > 0) {
-        toast.warning(`Billing run complete. ${total} charged, ${errs} failed. Check payment methods for failed items.`);
+        toast.warning(
+          `Billing run complete. ${total} charged, ${errs} failed. Check payment methods for failed items.`,
+        );
       } else if (total > 0) {
         toast.success(`${total} item(s) charged. Entitlement should update shortly.`);
       } else {
-        toast.info(data.hint || 'No due items to charge.');
+        toast.info(data.hint || "No due items to charge.");
       }
       await refreshPaymentData();
     } catch (err) {
-      toast.error('Failed to run billing');
+      toast.error("Failed to run billing");
     } finally {
       setRunningBilling(false);
       setLoadingHistory(false);
     }
   };
 
-  const isSuspended = paymentStatus && !paymentStatus.allUpToDate && paymentStatus.maxDaysOverdue > GRACE_PERIOD_DAYS;
-  const isWarning = paymentStatus && !paymentStatus.allUpToDate && paymentStatus.maxDaysOverdue <= GRACE_PERIOD_DAYS;
-  const daysRemaining = isWarning && paymentStatus ? GRACE_PERIOD_DAYS - paymentStatus.maxDaysOverdue : 0;
+  const isSuspended =
+    paymentStatus && !paymentStatus.allUpToDate && paymentStatus.maxDaysOverdue > GRACE_PERIOD_DAYS;
+  const isWarning =
+    paymentStatus &&
+    !paymentStatus.allUpToDate &&
+    paymentStatus.maxDaysOverdue <= GRACE_PERIOD_DAYS;
+  const daysRemaining =
+    isWarning && paymentStatus ? GRACE_PERIOD_DAYS - paymentStatus.maxDaysOverdue : 0;
 
   const activeCompanyBills = useMemo(
-    () => companyBills.filter((b) => b.status !== 'cancelled' && b.status !== 'completed'),
-    [companyBills]
+    () => companyBills.filter((b) => b.status !== "cancelled" && b.status !== "completed"),
+    [companyBills],
   );
 
   const pastCompanyBills = useMemo(
-    () => companyBills.filter((b) => b.status === 'completed'),
-    [companyBills]
+    () => companyBills.filter((b) => b.status === "completed"),
+    [companyBills],
   );
 
   const billPaymentUrl = (publicToken: string) =>
-    `${typeof window !== 'undefined' ? window.location.origin : ''}/payments?token=${encodeURIComponent(publicToken)}`;
+    `${typeof window !== "undefined" ? window.location.origin : ""}/payments?token=${encodeURIComponent(publicToken)}`;
 
   const payBillWithSavedMethod = async (billId: string) => {
     setPayingBillId(billId);
     try {
       const res = await fetch(`/api/admin/bills/${billId}/charge-now`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ payWithSavedMethod: true }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        toast.error(data.error || 'Payment failed');
+        toast.error(data.error || "Payment failed");
         return;
       }
       if (data.charged) {
         toast.success(
           data.processing
-            ? 'Payment submitted (processing). Receipt will appear in payment history.'
-            : 'Payment successful. Receipt will appear in payment history.'
+            ? "Payment submitted (processing). Receipt will appear in payment history."
+            : "Payment successful. Receipt will appear in payment history.",
         );
       } else {
-        toast.info('No charge was made. Check that a payment method is on file.');
+        toast.info("No charge was made. Check that a payment method is on file.");
       }
       await refreshPaymentData();
     } catch {
-      toast.error('Failed to process payment');
+      toast.error("Failed to process payment");
     } finally {
       setPayingBillId(null);
     }
@@ -279,13 +290,13 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
           <div className="min-w-0 flex-1">
             <p className="font-semibold text-red-900">
               {isSuspended
-                ? 'Access to your projects is suspended'
+                ? "Access to your projects is suspended"
                 : `Payment overdue – access will be suspended in ${daysRemaining} day(s)`}
             </p>
             <p className="mt-1 text-sm text-red-800">
               {isSuspended
-                ? 'Overdue payments exceed the grace period. Resolve outstanding payments below to restore access.'
-                : 'You have overdue payments. Pay now to avoid suspension of project authorization.'}
+                ? "Overdue payments exceed the grace period. Resolve outstanding payments below to restore access."
+                : "You have overdue payments. Pay now to avoid suspension of project authorization."}
             </p>
             {(paymentStatus.pendingFees > 0 ||
               paymentStatus.overdueSubscriptions > 0 ||
@@ -326,7 +337,8 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
             Bills (new)
           </CardTitle>
           <p className="text-sm text-muted-foreground">
-            Bills assigned to your company. Pay with your saved payment method below, or use a payment link when offered.
+            Bills assigned to your company. Pay with your saved payment method below, or use a
+            payment link when offered.
           </p>
         </CardHeader>
         <CardContent>
@@ -346,15 +358,16 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
                 >
                   <div>
                     <p className="font-medium text-sm">
-                      {bill.recipientName} <span className="text-muted-foreground">({bill.recipientEmail})</span>
+                      {bill.recipientName}{" "}
+                      <span className="text-muted-foreground">({bill.recipientEmail})</span>
                     </p>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      ${bill.amount.toFixed(2)} · {bill.status} ·{' '}
-                      {bill.collectionMode === 'auto_charge' ? 'Auto-charge' : 'Invoice link'}
+                      ${bill.amount.toFixed(2)} · {bill.status} ·{" "}
+                      {bill.collectionMode === "auto_charge" ? "Auto-charge" : "Invoice link"}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {bill.status === 'active' && hasSavedPaymentMethod && !loadingSavedMethods && (
+                    {bill.status === "active" && hasSavedPaymentMethod && !loadingSavedMethods && (
                       <Button
                         size="sm"
                         disabled={payingBillId === bill.id}
@@ -365,28 +378,32 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
                         ) : (
                           <CreditCard className="w-3.5 h-3.5 mr-1" />
                         )}
-                        {payingBillId === bill.id ? 'Processing…' : 'Pay with saved method'}
+                        {payingBillId === bill.id ? "Processing…" : "Pay with saved method"}
                       </Button>
                     )}
-                    {bill.status === 'active' && (
+                    {bill.status === "active" && (
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => {
-                          window.open(billPaymentUrl(bill.publicToken), '_blank', 'noopener,noreferrer');
+                          window.open(
+                            billPaymentUrl(bill.publicToken),
+                            "_blank",
+                            "noopener,noreferrer",
+                          );
                         }}
                       >
                         <ExternalLink className="w-3.5 h-3.5 mr-1" />
                         Pay another way
                       </Button>
                     )}
-                    {bill.collectionMode === 'invoice_link' && (
+                    {bill.collectionMode === "invoice_link" && (
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => {
                           navigator.clipboard.writeText(billPaymentUrl(bill.publicToken));
-                          toast.success('Link copied');
+                          toast.success("Link copied");
                         }}
                       >
                         Copy link
@@ -434,11 +451,7 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
           </p>
         </CardHeader>
         <CardContent>
-          <PaymentMethodsManagement
-            isSuperAdmin={false}
-            currentUser={currentUser}
-            hideTitle
-          />
+          <PaymentMethodsManagement isSuperAdmin={false} currentUser={currentUser} hideTitle />
         </CardContent>
       </Card>
 
@@ -495,8 +508,8 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
               disabled={refreshing}
               title="Refresh payment status and history"
             >
-              <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
-              {refreshing ? 'Refreshing…' : 'Refresh'}
+              <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
+              {refreshing ? "Refreshing…" : "Refresh"}
             </Button>
           </div>
         </CardHeader>
@@ -510,7 +523,9 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
             <div className="py-12 text-center text-muted-foreground">
               <FileText className="w-12 h-12 mx-auto mb-3 opacity-50" />
               <p>No payment history yet.</p>
-              <p className="text-sm mt-1">Completed charges will appear here with download links for receipts.</p>
+              <p className="text-sm mt-1">
+                Completed charges will appear here with download links for receipts.
+              </p>
             </div>
           ) : (
             <div className="overflow-x-auto rounded-lg border border-border/60">
@@ -529,73 +544,75 @@ export default function CompanyBillingPayments({ currentUser }: CompanyBillingPa
                   {history.map((tx) => {
                     const url = getReceiptDownloadUrl(tx);
                     const rowKey = tx.id;
-                    const canShowLineItems = tx.type === 'payment' || tx.type === 'bill';
+                    const canShowLineItems = tx.type === "payment" || tx.type === "bill";
                     const isExpanded = expandedHistoryRowId === rowKey;
                     return (
                       <Fragment key={rowKey}>
-                      <tr className="border-b border-border/40 hover:bg-muted/20">
-                        <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
-                          {new Date(tx.transactionDate).toLocaleString(undefined, {
-                            dateStyle: 'medium',
-                            timeStyle: 'short',
-                          })}
-                        </td>
-                        <td className="px-4 py-3">{description(tx)}</td>
-                        <td className="px-4 py-3 text-right font-medium">
-                          ${tx.amount.toFixed(2)}
-                        </td>
-                        <td className="px-4 py-3 text-center text-muted-foreground">
-                          {tx.invoiceNumber ?? '—'}
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          {canShowLineItems ? (
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              className="h-8 px-2"
-                              onClick={() =>
-                                setExpandedHistoryRowId((prev) => (prev === rowKey ? null : rowKey))
-                              }
-                            >
-                              <Eye className="w-4 h-4 mr-1" />
-                              {isExpanded ? 'Hide' : 'View'}
-                            </Button>
-                          ) : (
-                            <span className="text-muted-foreground">—</span>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          {url ? (
-                            <a
-                              href={url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 text-primary hover:text-primary/80 hover:underline"
-                            >
-                              <Download className="w-4 h-4" />
-                              Download
-                            </a>
-                          ) : (
-                            <span className="text-muted-foreground">—</span>
-                          )}
-                        </td>
-                      </tr>
-                      {canShowLineItems && isExpanded && (
-                        <tr className="border-b border-border/40 bg-muted/10">
-                          <td colSpan={6} className="px-4 py-3">
-                            <HistoryRowLineItems
-                              row={{
-                                type: tx.type,
-                                paymentRequestId: tx.paymentRequestId,
-                                billId: tx.billId,
-                                chargeId: tx.chargeId,
-                              }}
-                              active={isExpanded}
-                            />
+                        <tr className="border-b border-border/40 hover:bg-muted/20">
+                          <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
+                            {new Date(tx.transactionDate).toLocaleString(undefined, {
+                              dateStyle: "medium",
+                              timeStyle: "short",
+                            })}
+                          </td>
+                          <td className="px-4 py-3">{description(tx)}</td>
+                          <td className="px-4 py-3 text-right font-medium">
+                            ${tx.amount.toFixed(2)}
+                          </td>
+                          <td className="px-4 py-3 text-center text-muted-foreground">
+                            {tx.invoiceNumber ?? "—"}
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            {canShowLineItems ? (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 px-2"
+                                onClick={() =>
+                                  setExpandedHistoryRowId((prev) =>
+                                    prev === rowKey ? null : rowKey,
+                                  )
+                                }
+                              >
+                                <Eye className="w-4 h-4 mr-1" />
+                                {isExpanded ? "Hide" : "View"}
+                              </Button>
+                            ) : (
+                              <span className="text-muted-foreground">—</span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            {url ? (
+                              <a
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-primary hover:text-primary/80 hover:underline"
+                              >
+                                <Download className="w-4 h-4" />
+                                Download
+                              </a>
+                            ) : (
+                              <span className="text-muted-foreground">—</span>
+                            )}
                           </td>
                         </tr>
-                      )}
+                        {canShowLineItems && isExpanded && (
+                          <tr className="border-b border-border/40 bg-muted/10">
+                            <td colSpan={6} className="px-4 py-3">
+                              <HistoryRowLineItems
+                                row={{
+                                  type: tx.type,
+                                  paymentRequestId: tx.paymentRequestId,
+                                  billId: tx.billId,
+                                  chargeId: tx.chargeId,
+                                }}
+                                active={isExpanded}
+                              />
+                            </td>
+                          </tr>
+                        )}
                       </Fragment>
                     );
                   })}

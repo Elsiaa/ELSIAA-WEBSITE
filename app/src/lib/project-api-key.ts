@@ -1,7 +1,7 @@
-import { getProjectByApiKey, type Project } from './projects';
+import { getProjectByApiKey, type Project } from "./projects";
 
 /** Append to project API key (e.g. `<hex-key>=dev`) to fetch extension from default-branch HEAD; requires active admin device. */
-export const PROJECT_API_KEY_DEV_SUFFIX = '=dev';
+export const PROJECT_API_KEY_DEV_SUFFIX = "=dev";
 
 export type ParsedProjectApiKey = {
   lookupKey: string;
@@ -24,14 +24,17 @@ export function parseProjectApiKey(raw: string | null | undefined): ParsedProjec
 
 export function getParsedProjectApiKeyFromRequest(request: Request): ParsedProjectApiKey | null {
   const raw =
-    request.headers.get('x-project-api-key') ||
-    request.headers.get('authorization')?.replace(/^Bearer\s+/i, '').trim() ||
+    request.headers.get("x-project-api-key") ||
+    request.headers
+      .get("authorization")
+      ?.replace(/^Bearer\s+/i, "")
+      .trim() ||
     null;
   return parseProjectApiKey(raw);
 }
 
 export async function getProjectByRequestApiKey(
-  request: Request
+  request: Request,
 ): Promise<{ project: Project; devMode: boolean } | null> {
   const parsed = getParsedProjectApiKeyFromRequest(request);
   if (!parsed) return null;

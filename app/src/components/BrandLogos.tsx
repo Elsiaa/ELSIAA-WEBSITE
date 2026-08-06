@@ -72,7 +72,10 @@ function LogoRow() {
 
 export function WhyBrandsChose() {
   return (
- <section className="relative overflow-hidden bg-white py-10 md:py-16" aria-label="Why brands chose ELSIAA">
+    <section
+      className="relative overflow-hidden bg-white py-10 md:py-16"
+      aria-label="Why brands chose ELSIAA"
+    >
       {/* subtle brand watermark — the ELSIAA lion, barely there */}
       <img
         src="/assets/elsiaa-lion-192.png"
@@ -89,8 +92,8 @@ export function WhyBrandsChose() {
             Why brands chose ELSIAA to implement AI.
           </h2>
           <p className="mt-3 max-w-xl text-[15px] text-[#111111]/60" style={inter}>
-            The brands on this wall took AI from idea to production with one
-            team. Here's what decided it.
+            The brands on this wall took AI from idea to production with one team. Here's what
+            decided it.
           </p>
         </Reveal>
         <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -100,7 +103,10 @@ export function WhyBrandsChose() {
                 <p className="text-[13px] text-[#1e6b3c] " style={mono}>
                   0{i + 1}
                 </p>
-                <h3 className="mt-2.5 text-[16px] font-semibold tracking-[-0.02em] text-[#111111]" style={inter}>
+                <h3
+                  className="mt-2.5 text-[16px] font-semibold tracking-[-0.02em] text-[#111111]"
+                  style={inter}
+                >
                   {r.title}
                 </h3>
                 <p className="mt-2 text-[13.5px] leading-relaxed text-[#111111]/55" style={inter}>
@@ -124,11 +130,7 @@ export function WhyBrandsChose() {
             >
               Why ELSIAA →
             </a>
-            <a
-              href="/designs"
-              className="text-[13px] text-[#1e6b3c] hover:underline"
-              style={mono}
-            >
+            <a href="/designs" className="text-[13px] text-[#1e6b3c] hover:underline" style={mono}>
               See the work behind the logos ↗
             </a>
           </div>

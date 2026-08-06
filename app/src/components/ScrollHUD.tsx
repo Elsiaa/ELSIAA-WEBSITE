@@ -69,10 +69,7 @@ export function ScrollHUD() {
               >
                 {s.id}
               </span>
-              <span
-                className="text-[13px] text-white "
-                style={{ fontFamily: "var(--font-sans)" }}
-              >
+              <span className="text-[13px] text-white " style={{ fontFamily: "var(--font-sans)" }}>
                 {s.label}
               </span>
             </div>

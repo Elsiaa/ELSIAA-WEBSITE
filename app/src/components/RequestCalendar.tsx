@@ -88,8 +88,12 @@ export function RequestCalendar() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          name, email, company, topic,
-          slotDate: picked.date, slotTime: picked.time,
+          name,
+          email,
+          company,
+          topic,
+          slotDate: picked.date,
+          slotTime: picked.time,
         }),
       });
       const data = (await res.json()) as { ok: boolean };
@@ -113,9 +117,9 @@ export function RequestCalendar() {
           {d ? `${d.dow}, ${d.label}` : picked.date} at {picked.time} — requested.
         </h3>
         <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-[#111111]/55" style={inter}>
-          Thank you, {name.split(" ")[0]}. Your free 20-minute call is
-          requested — we'll confirm the slot by email shortly. If it's taken by
-          the time we see it, we'll propose the nearest open time.
+          Thank you, {name.split(" ")[0]}. Your free 20-minute call is requested — we'll confirm the
+          slot by email shortly. If it's taken by the time we see it, we'll propose the nearest open
+          time.
         </p>
       </div>
     );
@@ -128,15 +132,23 @@ export function RequestCalendar() {
         {days.map((d, i) => (
           <button
             key={d.iso}
-            onClick={() => { setDayIdx(i); setPicked(null); setBookedMsg(null); }}
+            onClick={() => {
+              setDayIdx(i);
+              setPicked(null);
+              setBookedMsg(null);
+            }}
             className={`flex w-[64px] flex-none flex-col items-center rounded-xl border px-2 py-2.5 transition-all ${
               i === dayIdx
                 ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
                 : "border-black/[0.08] bg-white text-[#111111]/70 hover:border-[#1e6b3c]/40"
             }`}
           >
-            <span className="text-[13px]  opacity-70" style={mono}>{d.dow}</span>
-            <span className="mt-1 text-[13px] font-semibold" style={inter}>{d.label}</span>
+            <span className="text-[13px]  opacity-70" style={mono}>
+              {d.dow}
+            </span>
+            <span className="mt-1 text-[13px] font-semibold" style={inter}>
+              {d.label}
+            </span>
           </button>
         ))}
       </div>
@@ -174,7 +186,10 @@ export function RequestCalendar() {
       )}
 
       {bookedMsg && (
-        <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-[13.5px] text-amber-800" style={inter}>
+        <p
+          className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-[13.5px] text-amber-800"
+          style={inter}
+        >
           {bookedMsg}
         </p>
       )}
@@ -185,12 +200,41 @@ export function RequestCalendar() {
             Request {picked.time} · {days.find((d) => d.iso === picked.date)?.label}
           </p>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
-            <input className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} placeholder="Your name *" value={name} onChange={(e) => setName(e.target.value)} />
-            <input className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} type="email" placeholder="Email *" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input
+              className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50"
+              style={inter}
+              placeholder="Your name *"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              className="w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50"
+              style={inter}
+              type="email"
+              placeholder="Email *"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
-          <input className="mt-3 w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} placeholder="Company (optional)" value={company} onChange={(e) => setCompany(e.target.value)} />
-          <textarea className="mt-3 min-h-[80px] w-full resize-y rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50" style={inter} placeholder="What would you like to talk about?" value={topic} onChange={(e) => setTopic(e.target.value)} />
-          {error && <p className="mt-3 text-[13px] text-red-600" style={inter}>{error}</p>}
+          <input
+            className="mt-3 w-full rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50"
+            style={inter}
+            placeholder="Company (optional)"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+          />
+          <textarea
+            className="mt-3 min-h-[80px] w-full resize-y rounded-lg border border-black/10 bg-white px-4 py-3 text-[16px] md:text-[15px] outline-none focus:border-[#1e6b3c] placeholder:text-[#111111]/50"
+            style={inter}
+            placeholder="What would you like to talk about?"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+          />
+          {error && (
+            <p className="mt-3 text-[13px] text-red-600" style={inter}>
+              {error}
+            </p>
+          )}
           <button
             onClick={submit}
             disabled={sending || !name.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)}

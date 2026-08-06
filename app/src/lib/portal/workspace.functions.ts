@@ -1,11 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requirePortalSupabase } from "./session.server";
-import {
-  defaultFlagsForRole,
-  emptyModuleFlags,
-  navForWorkspace,
-} from "./modules";
+import { defaultFlagsForRole, emptyModuleFlags, navForWorkspace } from "./modules";
 import type {
   CompanyModuleFlags,
   PortalCompany,
@@ -30,14 +26,11 @@ type MemberRow = {
 
 const MEMBER_SELECT_FULL =
   "company_id, role, authorizations_allowed, program_logs_allowed, files_allowed, support_allowed, all_projects_access, companies(id, name, created_at, updated_at)";
-const MEMBER_SELECT_BASIC =
-  "company_id, role, companies(id, name, created_at, updated_at)";
+const MEMBER_SELECT_BASIC = "company_id, role, companies(id, name, created_at, updated_at)";
 
 function flagsFromMember(row: MemberRow, role: PortalRole): CompanyModuleFlags {
   const hasCols =
-    "authorizations_allowed" in row ||
-    "files_allowed" in row ||
-    "support_allowed" in row;
+    "authorizations_allowed" in row || "files_allowed" in row || "support_allowed" in row;
   if (!hasCols) return defaultFlagsForRole(role);
   return {
     authorizationsAllowed: Boolean(row.authorizations_allowed),
@@ -123,9 +116,7 @@ export const listPortalProjects = createServerFn({ method: "GET" }).handler(
       if (!companyIds.length) return [];
       const { data: projects, error } = await client
         .from("projects")
-        .select(
-          "id, company_id, title, url, description, status, created_at, updated_at",
-        )
+        .select("id, company_id, title, url, description, status, created_at, updated_at")
         .in("company_id", companyIds)
         .order("created_at", { ascending: false });
       if (error) throw new Error(error.message);
@@ -136,18 +127,13 @@ export const listPortalProjects = createServerFn({ method: "GET" }).handler(
     const companyIds = memberships.map((m) => m.company_id as string);
     const { data: projects, error } = await client
       .from("projects")
-      .select(
-        "id, company_id, title, url, description, status, created_at, updated_at",
-      )
+      .select("id, company_id, title, url, description, status, created_at, updated_at")
       .in("company_id", companyIds)
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
 
     const elevated = memberships.some(
-      (m) =>
-        m.role === "owner" ||
-        m.role === "admin" ||
-        Boolean(m.all_projects_access),
+      (m) => m.role === "owner" || m.role === "admin" || Boolean(m.all_projects_access),
     );
     if (elevated) return (projects ?? []).map(mapProject);
 

@@ -30,14 +30,18 @@ export function LangSwitcher({ dark = false }: { dark?: boolean }) {
         className={`flex min-h-[44px] items-center gap-1.5 px-1 ${ink} transition-opacity hover:opacity-60 md:min-h-0 md:px-0`}
       >
         {/* globe */}
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <svg
+          width="17"
+          height="17"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+        >
           <circle cx="12" cy="12" r="9" />
           <path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18" />
         </svg>
-        <span
-          className="text-[13px] "
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
+        <span className="text-[13px] " style={{ fontFamily: "var(--font-sans)" }}>
           {current.code}
         </span>
       </button>

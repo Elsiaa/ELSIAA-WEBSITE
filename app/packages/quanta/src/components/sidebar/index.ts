@@ -1,4 +1,4 @@
-export { Sidebar } from './sidebar.tsx'
+export { Sidebar } from "./sidebar.tsx";
 export type {
   SidebarActionVisibility,
   SidebarCollaboratorsProps,
@@ -12,4 +12,4 @@ export type {
   SidebarPromoBadgeProps,
   SidebarRootProps,
   SidebarSearchProps,
-} from './sidebar.tsx'
+} from "./sidebar.tsx";

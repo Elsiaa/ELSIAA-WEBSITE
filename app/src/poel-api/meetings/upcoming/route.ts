@@ -1,20 +1,23 @@
-import { auth } from '@/auth';
-import { NextResponse } from 'next/server';
-import { getUpcomingMeetings, getAllMeetingsList, type Meeting } from '@/lib/meetings';
-import { getUserById } from '@/lib/users';
-import { isSuperAdmin } from '@/lib/permissions';
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+import { getUpcomingMeetings, getAllMeetingsList, type Meeting } from "@/lib/meetings";
+import { getUserById } from "@/lib/users";
+import { isSuperAdmin } from "@/lib/permissions";
 
 // Helper function to enrich meetings with participant names
 async function enrichMeetingsWithParticipantNames(meetings: Meeting[]): Promise<Meeting[]> {
   // Collect all unique user IDs
   const userIds = new Set<string>();
-  meetings.forEach(meeting => {
+  meetings.forEach((meeting) => {
     userIds.add(meeting.hostUserId);
-    meeting.participantUserIds.forEach(id => userIds.add(id));
+    meeting.participantUserIds.forEach((id) => userIds.add(id));
   });
 
   // Fetch all users at once
-  const usersMap = new Map<string, { firstName: string | null; lastName: string | null; email: string }>();
+  const usersMap = new Map<
+    string,
+    { firstName: string | null; lastName: string | null; email: string }
+  >();
   for (const userId of userIds) {
     const user = await getUserById(userId);
     if (user) {
@@ -27,19 +30,18 @@ async function enrichMeetingsWithParticipantNames(meetings: Meeting[]): Promise<
   }
 
   // Add participant names to meetings
-  return meetings.map(meeting => ({
+  return meetings.map((meeting) => ({
     ...meeting,
-    _participantNames: [
-      meeting.hostUserId,
-      ...meeting.participantUserIds
-    ].map(id => {
-      const user = usersMap.get(id);
-      if (user) {
-        const name = `${user.firstName || ''} ${user.lastName || ''}`.trim();
-        return name || user.email;
-      }
-      return null;
-    }).filter(Boolean) as string[],
+    _participantNames: [meeting.hostUserId, ...meeting.participantUserIds]
+      .map((id) => {
+        const user = usersMap.get(id);
+        if (user) {
+          const name = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+          return name || user.email;
+        }
+        return null;
+      })
+      .filter(Boolean) as string[],
   }));
 }
 
@@ -50,7 +52,7 @@ export async function GET() {
     const userId = session?.user?.id;
 
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     let meetings: Meeting[];
@@ -62,13 +64,10 @@ export async function GET() {
 
     // Enrich with participant names
     const enrichedMeetings = await enrichMeetingsWithParticipantNames(meetings);
-    
+
     return NextResponse.json({ meetings: enrichedMeetings });
   } catch (error) {
-    console.error('Error fetching upcoming meetings:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch upcoming meetings' },
-      { status: 500 }
-    );
+    console.error("Error fetching upcoming meetings:", error);
+    return NextResponse.json({ error: "Failed to fetch upcoming meetings" }, { status: 500 });
   }
 }

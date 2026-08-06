@@ -1,14 +1,14 @@
-export { bootstrapScript } from './bootstrap.ts'
-export type { BootstrapOptions } from './bootstrap.ts'
+export { bootstrapScript } from "./bootstrap.ts";
+export type { BootstrapOptions } from "./bootstrap.ts";
 
-export { readInitialThemeState, ThemeController } from './controller.ts'
+export { readInitialThemeState, ThemeController } from "./controller.ts";
 export type {
   ReadInitialThemeStateOptions,
   ThemeControllerOptions,
   ThemePref,
   ThemeState,
   ThemeSubscriber,
-} from './controller.ts'
+} from "./controller.ts";
 
 export {
   defineTheme,
@@ -16,18 +16,18 @@ export {
   hydratePersistedThemes,
   listThemes,
   removeTheme,
-} from './define-theme.ts'
+} from "./define-theme.ts";
 export type {
   DefineThemeOptions,
   HydrateOptions,
   RemoveThemeOptions,
   ThemeTokens,
-} from './define-theme.ts'
+} from "./define-theme.ts";
 
 export {
   localStorageAdapter,
   memoryStorage,
   sessionStorageAdapter,
   urlAdapter,
-} from './storage.ts'
-export type { ThemeStorage, UrlAdapterOptions } from './storage.ts'
+} from "./storage.ts";
+export type { ThemeStorage, UrlAdapterOptions } from "./storage.ts";

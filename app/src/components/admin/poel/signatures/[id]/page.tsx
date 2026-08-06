@@ -8,5 +8,3 @@ export default async function AdminSignaturePlacementPage({ params }: PageProps)
   const { id } = await params;
   return <SignaturePlacementPage id={id} />;
 }
-
-

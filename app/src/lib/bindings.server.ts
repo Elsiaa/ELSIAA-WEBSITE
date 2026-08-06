@@ -32,8 +32,7 @@ export function bindings(): AppEnv {
   // the Cloudflare module stub left them unset.
   return {
     ...platform,
-    HF_ENV:
-      platform.HF_ENV ?? process.env.HF_ENV ?? process.env.VERCEL_ENV ?? undefined,
+    HF_ENV: platform.HF_ENV ?? process.env.HF_ENV ?? process.env.VERCEL_ENV ?? undefined,
     APP_SLUG: platform.APP_SLUG ?? process.env.APP_SLUG,
     ADMIN_KEY: platform.ADMIN_KEY ?? process.env.ADMIN_KEY,
   };

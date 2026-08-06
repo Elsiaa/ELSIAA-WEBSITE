@@ -28,7 +28,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
 
-
 interface PdfSignatureField {
   id: string;
   page_number: number;
@@ -37,7 +36,7 @@ interface PdfSignatureField {
   width: number;
   height: number;
   label: string | null;
-  field_type?: 'signature' | 'data_entry';
+  field_type?: "signature" | "data_entry";
   signature_image_url?: string | null;
 }
 
@@ -103,15 +102,15 @@ export default function SignPageClient({ token }: SignPageClientProps) {
       prevActiveFieldIdRef.current = null;
       return;
     }
-    
+
     // Only set mode when field changes, not when signaturesByFieldId changes
     const fieldChanged = prevActiveFieldIdRef.current !== activeField.id;
     if (fieldChanged) {
       prevActiveFieldIdRef.current = activeField.id;
     }
-    
+
     // For data entry fields, always use type mode and clear typed signature if switching fields
-    if (activeField.field_type === 'data_entry') {
+    if (activeField.field_type === "data_entry") {
       if (fieldChanged) {
         setSignatureMode("type");
         // If we have a saved signature for this field, we'll show it in preview
@@ -123,7 +122,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
       }
       return;
     }
-    
+
     // For signature fields, only set mode when field changes (don't override if user is actively editing)
     if (fieldChanged) {
       // Only set to draw mode if we're not actively editing (user might be typing)
@@ -132,7 +131,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
       }
       isEditingRef.current = false; // Reset editing flag when field changes
     }
-    
+
     const signatureForField = signaturesByFieldId[activeField.id];
     if (!signatureForField) {
       // Clear canvas if no signature for this field (only when field changes)
@@ -147,7 +146,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
       }
       return;
     }
-    
+
     // Only load signature into canvas when field changes
     if (fieldChanged) {
       const canvas = canvasRef.current;
@@ -211,7 +210,9 @@ export default function SignPageClient({ token }: SignPageClientProps) {
 
         // Always try to fetch the signed PDF URL if it exists (for completed or submitted documents)
         try {
-          const sigRes = await fetch(`/api/pdf-signatures/public/${token}/signed-pdf`, { cache: "no-store" });
+          const sigRes = await fetch(`/api/pdf-signatures/public/${token}/signed-pdf`, {
+            cache: "no-store",
+          });
           if (sigRes.ok) {
             const sigData = await sigRes.json();
             if (sigData.signedPdfUrl) {
@@ -219,7 +220,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
             }
           }
         } catch (err) {
-          console.warn('Failed to load signed PDF URL:', err);
+          console.warn("Failed to load signed PDF URL:", err);
         }
 
         // Load existing signatures from fields
@@ -353,7 +354,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
     ctx.textBaseline = "middle";
     if (isDataEntry) {
       // Regular font for data entry
-      ctx.font = '48px Arial, sans-serif';
+      ctx.font = "48px Arial, sans-serif";
     } else {
       // Handwritten-style text for signatures
       ctx.font = '64px "Lucida Handwriting", "Brush Script MT", cursive';
@@ -363,13 +364,13 @@ export default function SignPageClient({ token }: SignPageClientProps) {
     // Get image data to find actual content bounds
     const imageData = ctx.getImageData(0, 0, offscreen.width, offscreen.height);
     const data = imageData.data;
-    
+
     // Find the bounding box of non-transparent pixels
     let minX = offscreen.width;
     let minY = offscreen.height;
     let maxX = 0;
     let maxY = 0;
-    
+
     for (let y = 0; y < offscreen.height; y++) {
       for (let x = 0; x < offscreen.width; x++) {
         const idx = (y * offscreen.width + x) * 4;
@@ -383,44 +384,50 @@ export default function SignPageClient({ token }: SignPageClientProps) {
         }
       }
     }
-    
+
     // If no content found, return original
     if (minX >= maxX || minY >= maxY) {
       return offscreen.toDataURL("image/png");
     }
-    
+
     // Add small padding (2% of width/height, minimum 4px)
     const paddingX = Math.max(4, Math.floor((maxX - minX) * 0.02));
     const paddingY = Math.max(4, Math.floor((maxY - minY) * 0.02));
-    
+
     minX = Math.max(0, minX - paddingX);
     minY = Math.max(0, minY - paddingY);
     maxX = Math.min(offscreen.width, maxX + paddingX);
     maxY = Math.min(offscreen.height, maxY + paddingY);
-    
+
     // Create cropped canvas
     const croppedWidth = maxX - minX;
     const croppedHeight = maxY - minY;
-    
+
     const croppedCanvas = document.createElement("canvas");
     croppedCanvas.width = croppedWidth;
     croppedCanvas.height = croppedHeight;
     const croppedCtx = croppedCanvas.getContext("2d");
     if (!croppedCtx) return offscreen.toDataURL("image/png");
-    
+
     // Draw the cropped portion
     croppedCtx.drawImage(
       offscreen,
-      minX, minY, croppedWidth, croppedHeight,
-      0, 0, croppedWidth, croppedHeight
+      minX,
+      minY,
+      croppedWidth,
+      croppedHeight,
+      0,
+      0,
+      croppedWidth,
+      croppedHeight,
     );
-    
+
     return croppedCanvas.toDataURL("image/png");
   };
 
   // Keep a live preview image while typing (only for signature fields, not data entry)
   useEffect(() => {
-    if (activeField?.field_type === 'data_entry') {
+    if (activeField?.field_type === "data_entry") {
       // For data entry, don't show preview
       setLiveSignaturePreviewUrl(null);
     } else if (signatureMode === "type") {
@@ -434,11 +441,8 @@ export default function SignPageClient({ token }: SignPageClientProps) {
   const handleSave = async (signatureOverride?: string, fieldId?: string) => {
     if (!request || !activeField) return;
     const targetFieldId = fieldId || activeField.id;
-    
-    const payloadSignature =
-      signatureOverride ||
-      canvasRef.current?.toDataURL("image/png") ||
-      "";
+
+    const payloadSignature = signatureOverride || canvasRef.current?.toDataURL("image/png") || "";
 
     if (!payloadSignature) {
       alert("Please sign the document first.");
@@ -477,13 +481,14 @@ export default function SignPageClient({ token }: SignPageClientProps) {
       // Check if all fields are completed (both signature fields and data_entry fields)
       // Both field types store their data in the signaturesByFieldId object
       const allFields = request.fields || [];
-      const allSigned = allFields.length > 0 && allFields.every((field) => updatedSignatures[field.id]);
+      const allSigned =
+        allFields.length > 0 && allFields.every((field) => updatedSignatures[field.id]);
 
       if (allSigned) {
         // Optimistically mark as completed so the UI reflects that it is signed
         // Note: The server will verify this and only mark as completed when ALL fields are filled
         setRequest((prev) => (prev ? { ...prev, status: "completed" } : prev));
-        
+
         // Wait a moment for DOM to update, then check if download button is already visible
         setTimeout(() => {
           const checkButtonVisible = () => {
@@ -493,7 +498,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
           };
 
           const isButtonVisible = checkButtonVisible();
-          
+
           // Show success toast with scroll instructions
           const toastId = toast.success("All fields completed!", {
             description: `You can now scroll down to submit your signatures and download the document.`,
@@ -520,11 +525,11 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                   }
                 });
               },
-              { threshold: 0.1 }
+              { threshold: 0.1 },
             );
-            
+
             observer.observe(downloadButtonRef.current);
-            
+
             // Fallback: dismiss after 30 seconds max if observer doesn't trigger
             setTimeout(() => {
               observer.disconnect();
@@ -536,16 +541,17 @@ export default function SignPageClient({ token }: SignPageClientProps) {
         // Show success toast for single field
         const remainingCount = allFields.length - Object.keys(updatedSignatures).length;
         toast.success("Field saved!", {
-          description: remainingCount > 0 
-            ? `${remainingCount} field${remainingCount > 1 ? 's' : ''} remaining. Fill all fields, then click "Submit Signatures".`
-            : "All fields are complete. Click 'Submit Signatures' to finalize.",
+          description:
+            remainingCount > 0
+              ? `${remainingCount} field${remainingCount > 1 ? "s" : ""} remaining. Fill all fields, then click "Submit Signatures".`
+              : "All fields are complete. Click 'Submit Signatures' to finalize.",
           duration: 5000,
         });
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An error occurred while saving.";
       toast.error("Failed to save", {
-        description: errorMessage.includes("submitted") 
+        description: errorMessage.includes("submitted")
           ? "This document has already been submitted and cannot be modified."
           : errorMessage,
       });
@@ -578,12 +584,16 @@ export default function SignPageClient({ token }: SignPageClientProps) {
       }
 
       toast.success("Signatures submitted successfully!", {
-        description: "Your document has been finalized. Signatures are now locked and cannot be modified.",
+        description:
+          "Your document has been finalized. Signatures are now locked and cannot be modified.",
         duration: 6000,
       });
     } catch (err) {
       toast.error("Failed to submit signatures", {
-        description: err instanceof Error ? err.message : "Please try again. Your signatures are still saved and can be submitted later.",
+        description:
+          err instanceof Error
+            ? err.message
+            : "Please try again. Your signatures are still saved and can be submitted later.",
       });
     } finally {
       setSubmitting(false);
@@ -623,7 +633,8 @@ export default function SignPageClient({ token }: SignPageClientProps) {
       setEmailInput("");
     } catch (err) {
       toast.error("Failed to send email", {
-        description: err instanceof Error ? err.message : "An error occurred while sending the email.",
+        description:
+          err instanceof Error ? err.message : "An error occurred while sending the email.",
       });
     } finally {
       setSendingEmail(false);
@@ -653,12 +664,13 @@ export default function SignPageClient({ token }: SignPageClientProps) {
   // This ensures ALL fields (both signature and data_entry) must be filled
   const isSigned = request.status === "completed";
   const isSubmitted = !!request.submitted_at;
-  
+
   // Check if all fields are signed
   const allFields = request.fields || [];
-  const allFieldsSigned = allFields.length > 0 && allFields.every((field) => signaturesByFieldId[field.id]);
+  const allFieldsSigned =
+    allFields.length > 0 && allFields.every((field) => signaturesByFieldId[field.id]);
   const canSubmit = allFieldsSigned && !isSubmitted;
-  
+
   // Use signed PDF if available, otherwise use the original PDF
   // After submission, we should always have a signed PDF URL
   const downloadHref = signedPdfUrl || request.pdf_file_url;
@@ -672,10 +684,22 @@ export default function SignPageClient({ token }: SignPageClientProps) {
         <div className="w-full max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-              <Image src="/assets/elsiaa-lion-192.png" alt="ELSIAA" width={40} height={40} className="rounded-full" />
+              <Image
+                src="/assets/elsiaa-lion-192.png"
+                alt="ELSIAA"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
             </Link>
             <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-              <Image src="/assets/elsiaa-lion-192.png" alt="ELSIAA" width={220} height={56} className="h-16 w-auto" />
+              <Image
+                src="/assets/elsiaa-lion-192.png"
+                alt="ELSIAA"
+                width={220}
+                height={56}
+                className="h-16 w-auto"
+              />
             </Link>
             <div className="w-10" /> {/* Spacer for balance */}
           </div>
@@ -692,7 +716,8 @@ export default function SignPageClient({ token }: SignPageClientProps) {
             </p>
           ) : (
             <p className="text-xs text-muted-foreground">
-              Click the highlighted boxes (orange for signatures, green for data entry) in the document to fill them out.
+              Click the highlighted boxes (orange for signatures, green for data entry) in the
+              document to fill them out.
             </p>
           )}
         </div>
@@ -715,7 +740,8 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                       onSignClick={(field) => {
                         if (isSubmitted) {
                           toast.info("Document already submitted", {
-                            description: "This document has been finalized. Signatures cannot be edited or removed.",
+                            description:
+                              "This document has been finalized. Signatures cannot be edited or removed.",
                             duration: 4000,
                           });
                           return;
@@ -750,7 +776,8 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                 </button>
                 {!canSubmit && allFields.length > 0 && (
                   <p className="text-sm text-muted-foreground text-center">
-                    Please fill all {allFields.length} field{allFields.length !== 1 ? 's' : ''} before submitting.
+                    Please fill all {allFields.length} field{allFields.length !== 1 ? "s" : ""}{" "}
+                    before submitting.
                   </p>
                 )}
               </>
@@ -785,10 +812,10 @@ export default function SignPageClient({ token }: SignPageClientProps) {
             <div className="max-h-[90vh] w-full max-w-md space-y-4 overflow-y-auto rounded-lg border border-border bg-card p-4 text-card-foreground shadow-xl">
               <div className="text-center">
                 <h2 className="text-lg font-semibold">
-                  {activeField.field_type === 'data_entry' ? 'Enter data' : 'Add your signature'}
+                  {activeField.field_type === "data_entry" ? "Enter data" : "Add your signature"}
                 </h2>
               </div>
-              {activeField.field_type !== 'data_entry' && (
+              {activeField.field_type !== "data_entry" && (
                 <div className="flex justify-center gap-2 text-xs">
                   <button
                     type="button"
@@ -815,7 +842,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                 </div>
               )}
 
-              {activeField.field_type === 'data_entry' ? (
+              {activeField.field_type === "data_entry" ? (
                 <div className="space-y-3">
                   <label className="block text-xs text-left font-medium text-muted-foreground">
                     Enter text
@@ -834,7 +861,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                         setTypedSignature(e.target.value);
                       }}
                       onKeyDown={async (e) => {
-                        if (e.key === 'Enter' && !submittingSignature && typedSignature.trim()) {
+                        if (e.key === "Enter" && !submittingSignature && typedSignature.trim()) {
                           e.preventDefault();
                           const dataUrl = generateTypedSignatureDataUrl(true);
                           if (dataUrl) {
@@ -858,7 +885,6 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                       >
                         Clear
                       </button>
-                  
                     </div>
                   </div>
                 </div>
@@ -915,7 +941,12 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                         setTypedSignature(e.target.value);
                       }}
                       onKeyDown={async (e) => {
-                        if (e.key === 'Enter' && !submittingSignature && typedSignature.trim() && consentGiven) {
+                        if (
+                          e.key === "Enter" &&
+                          !submittingSignature &&
+                          typedSignature.trim() &&
+                          consentGiven
+                        ) {
                           e.preventDefault();
                           const dataUrl = generateTypedSignatureDataUrl(false);
                           if (dataUrl) {
@@ -974,7 +1005,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                 </div>
               )}
               <div className="pt-2 space-y-3">
-                {activeField.field_type !== 'data_entry' && (
+                {activeField.field_type !== "data_entry" && (
                   <div className="flex items-start gap-2 p-3 bg-muted/50 rounded-lg border border-border">
                     <input
                       type="checkbox"
@@ -987,7 +1018,8 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                       htmlFor="consent-checkbox"
                       className="text-xs text-foreground leading-relaxed cursor-pointer"
                     >
-                      By signing electronically, you consent to use electronic records and signatures.
+                      By signing electronically, you consent to use electronic records and
+                      signatures.
                     </label>
                   </div>
                 )}
@@ -1004,56 +1036,63 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                   </button>
                   <button
                     type="button"
-                    disabled={submittingSignature || (activeField.field_type !== 'data_entry' && !consentGiven)}
+                    disabled={
+                      submittingSignature ||
+                      (activeField.field_type !== "data_entry" && !consentGiven)
+                    }
                     className="rounded-lg bg-flame px-4 py-2 text-sm font-medium text-white hover:bg-coral disabled:cursor-not-allowed disabled:opacity-60"
                     onClick={async () => {
-                    if (!activeField) return;
-                    
-                    let dataUrl: string | null = null;
+                      if (!activeField) return;
 
-                    if (activeField.field_type === 'data_entry') {
-                      // Data entry fields: only typed text, regular font
-                      dataUrl = generateTypedSignatureDataUrl(true);
-                      if (!dataUrl || !typedSignature.trim()) {
-                        alert("Please enter text first.");
+                      let dataUrl: string | null = null;
+
+                      if (activeField.field_type === "data_entry") {
+                        // Data entry fields: only typed text, regular font
+                        dataUrl = generateTypedSignatureDataUrl(true);
+                        if (!dataUrl || !typedSignature.trim()) {
+                          alert("Please enter text first.");
+                          return;
+                        }
+                      } else if (signatureMode === "draw") {
+                        // Signature field: drawing mode
+                        const canvas = canvasRef.current;
+                        if (!canvas) {
+                          alert("Please draw your signature first.");
+                          return;
+                        }
+                        dataUrl = canvas.toDataURL("image/png");
+                      } else {
+                        // Signature field: typing mode
+                        dataUrl = generateTypedSignatureDataUrl(false);
+                      }
+
+                      if (!dataUrl) {
+                        alert(
+                          activeField.field_type === "data_entry"
+                            ? "Please enter text first."
+                            : "Please add your signature first.",
+                        );
                         return;
                       }
-                    } else if (signatureMode === "draw") {
-                      // Signature field: drawing mode
-                      const canvas = canvasRef.current;
-                      if (!canvas) {
-                        alert("Please draw your signature first.");
+
+                      if (activeField.field_type !== "data_entry" && !consentGiven) {
+                        alert(
+                          "Please confirm your consent to use electronic records and signatures.",
+                        );
                         return;
                       }
-                      dataUrl = canvas.toDataURL("image/png");
-                    } else {
-                      // Signature field: typing mode
-                      dataUrl = generateTypedSignatureDataUrl(false);
-                    }
 
-                    if (!dataUrl) {
-                      alert(activeField.field_type === 'data_entry' 
-                        ? "Please enter text first." 
-                        : "Please add your signature first.");
-                      return;
-                    }
-
-                    if (activeField.field_type !== 'data_entry' && !consentGiven) {
-                      alert("Please confirm your consent to use electronic records and signatures.");
-                      return;
-                    }
-
-                    await handleSave(dataUrl, activeField.id);
-                    setShowSignatureModal(false);
-                    setConsentGiven(false);
-                  }}
-                >
-                  {submittingSignature 
-                    ? "Saving…" 
-                    : activeField.field_type === 'data_entry' 
-                      ? "Save data" 
-                      : "Save signature"}
-                </button>
+                      await handleSave(dataUrl, activeField.id);
+                      setShowSignatureModal(false);
+                      setConsentGiven(false);
+                    }}
+                  >
+                    {submittingSignature
+                      ? "Saving…"
+                      : activeField.field_type === "data_entry"
+                        ? "Save data"
+                        : "Save signature"}
+                  </button>
                 </div>
               </div>
             </div>
@@ -1080,7 +1119,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
                   value={emailInput}
                   onChange={(e) => setEmailInput(e.target.value)}
                   onKeyDown={async (e) => {
-                    if (e.key === 'Enter' && !sendingEmail && emailInput.trim()) {
+                    if (e.key === "Enter" && !sendingEmail && emailInput.trim()) {
                       e.preventDefault();
                       await handleSendEmail();
                     }
@@ -1178,7 +1217,7 @@ function PdfPageForSigning({
             field={field}
             onClick={() => onSignClick(field)}
             signaturePreviewUrl={
-              signaturesByFieldId[field.id] || 
+              signaturesByFieldId[field.id] ||
               (activeFieldId === field.id ? liveSignaturePreviewUrl : null)
             }
             disabled={isSubmitted}
@@ -1206,15 +1245,11 @@ function SignatureFieldButton({
   disabled = false,
 }: SignatureFieldButtonProps) {
   const hasSignature = !!signaturePreviewUrl;
-  const isDataEntry = field.field_type === 'data_entry';
+  const isDataEntry = field.field_type === "data_entry";
   const borderColor = isDataEntry ? "border-primary" : "border-flame";
   const bgColor = isDataEntry ? "bg-primary/10" : "bg-flame/10";
   const textColor = isDataEntry ? "text-foreground" : "text-navy";
-  const hoverColor = disabled
-    ? ""
-    : isDataEntry
-      ? "hover:bg-primary/15"
-      : "hover:bg-flame/15";
+  const hoverColor = disabled ? "" : isDataEntry ? "hover:bg-primary/15" : "hover:bg-flame/15";
   const opacityClass = disabled ? "opacity-60 cursor-not-allowed" : "";
 
   return (
@@ -1237,10 +1272,10 @@ function SignatureFieldButton({
           src={signaturePreviewUrl || ""}
           alt={isDataEntry ? "Data entry" : "Signature"}
           className="pointer-events-none w-full h-full"
-          style={{ 
-            objectFit: 'contain',
+          style={{
+            objectFit: "contain",
             padding: 0,
-            margin: 0
+            margin: 0,
           }}
         />
       ) : (
@@ -1251,5 +1286,3 @@ function SignatureFieldButton({
     </button>
   );
 }
-
-

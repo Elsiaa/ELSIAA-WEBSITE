@@ -1,4 +1,4 @@
-export { NavigationMenu } from './navigation-menu.tsx'
+export { NavigationMenu } from "./navigation-menu.tsx";
 export type {
   NavigationMenuActionProps,
   NavigationMenuItemProps,
@@ -10,4 +10,4 @@ export type {
   NavMenuLayout,
   NavMenuSize,
   NavRows,
-} from './navigation-menu.tsx'
+} from "./navigation-menu.tsx";

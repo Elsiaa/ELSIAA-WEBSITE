@@ -1,10 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import {
-  getSupabaseServiceClient,
-  supabaseSecretConfigured,
-} from "../portal/supabase";
+import { getSupabaseServiceClient, supabaseSecretConfigured } from "../portal/supabase";
 import { requireSuperAdmin, requireSuperAdminSupabase } from "./session.server";
 
 export type AdminPortalUser = {
@@ -21,9 +18,7 @@ export type AdminPortalUser = {
 function requireAuthAdmin() {
   const client = getSupabaseServiceClient();
   if (!client || !supabaseSecretConfigured()) {
-    throw new Error(
-      "SUPABASE_SECRET_KEY is required to create Auth users from admin.",
-    );
+    throw new Error("SUPABASE_SECRET_KEY is required to create Auth users from admin.");
   }
   return client;
 }
@@ -37,9 +32,7 @@ export const listAdminUsers = createServerFn({ method: "GET" }).handler(
     const { client } = await requireSuperAdminSupabase();
     const { data: profiles, error } = await client
       .from("profiles")
-      .select(
-        "id, email, display_name, first_name, last_name, is_active, created_at",
-      )
+      .select("id, email, display_name, first_name, last_name, is_active, created_at")
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
     if (!profiles?.length) return [];
@@ -55,9 +48,7 @@ export const listAdminUsers = createServerFn({ method: "GET" }).handler(
     for (const row of memberships ?? []) {
       const userId = row.user_id as string;
       const company = row.companies as
-        | { id: string; name: string }
-        | { id: string; name: string }[]
-        | null;
+        { id: string; name: string } | { id: string; name: string }[] | null;
       const co = Array.isArray(company) ? company[0] : company;
       if (!co) continue;
       const list = byUser.get(userId) ?? [];
@@ -148,8 +139,7 @@ export const createAdminUser = createServerFn({ method: "POST" })
           company_id: data.companyId,
           user_id: userId,
           role,
-          authorizations_allowed:
-            data.authorizationsAllowed ?? elevated,
+          authorizations_allowed: data.authorizationsAllowed ?? elevated,
           program_logs_allowed: data.programLogsAllowed ?? elevated,
           files_allowed: data.filesAllowed ?? elevated,
           support_allowed: data.supportAllowed ?? elevated,
@@ -224,17 +214,15 @@ export const deleteAdminUser = createServerFn({ method: "POST" })
     return { ok: true as const };
   });
 
-export const listCompaniesForUserForm = createServerFn({ method: "GET" }).handler(
-  async () => {
-    const { client } = await requireSuperAdminSupabase();
-    const { data, error } = await client
-      .from("companies")
-      .select("id, name")
-      .order("name", { ascending: true });
-    if (error) throw new Error(error.message);
-    return (data ?? []).map((c) => ({
-      id: c.id as string,
-      name: c.name as string,
-    }));
-  },
-);
+export const listCompaniesForUserForm = createServerFn({ method: "GET" }).handler(async () => {
+  const { client } = await requireSuperAdminSupabase();
+  const { data, error } = await client
+    .from("companies")
+    .select("id, name")
+    .order("name", { ascending: true });
+  if (error) throw new Error(error.message);
+  return (data ?? []).map((c) => ({
+    id: c.id as string,
+    name: c.name as string,
+  }));
+});

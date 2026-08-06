@@ -41,9 +41,7 @@ export function CompaniesControlPlane() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [members, setMembers] = useState<AdminCompanyMember[]>([]);
   const [memberEmail, setMemberEmail] = useState("");
-  const [memberRole, setMemberRole] = useState<"owner" | "admin" | "member">(
-    "member",
-  );
+  const [memberRole, setMemberRole] = useState<"owner" | "admin" | "member">("member");
 
   const run = useCallback(async (fn: () => Promise<void>) => {
     setBusy(true);
@@ -97,8 +95,8 @@ export function CompaniesControlPlane() {
         </p>
         <h1 className="text-2xl font-semibold tracking-[-0.03em]">Tenants</h1>
         <p className="max-w-2xl text-[14px] leading-relaxed text-[#111111]/55">
-          Create companies, attach members, and set module access (Authorizations,
-          Files, Support, Logs, All projects).
+          Create companies, attach members, and set module access (Authorizations, Files, Support,
+          Logs, All projects).
         </p>
 
         {error && (
@@ -209,8 +207,7 @@ export function CompaniesControlPlane() {
         <section className="space-y-4 rounded-2xl border border-black/[0.07] bg-white p-5 md:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-lg font-semibold">
-              Members —{" "}
-              {companies.find((c) => c.id === selectedId)?.name ?? selectedId}
+              Members — {companies.find((c) => c.id === selectedId)?.name ?? selectedId}
             </h2>
             <button type="button" className={btnGhost} onClick={() => setSelectedId(null)}>
               Close
@@ -226,9 +223,7 @@ export function CompaniesControlPlane() {
             <select
               className={inputClass}
               value={memberRole}
-              onChange={(e) =>
-                setMemberRole(e.target.value as "owner" | "admin" | "member")
-              }
+              onChange={(e) => setMemberRole(e.target.value as "owner" | "admin" | "member")}
             >
               <option value="member">member</option>
               <option value="admin">admin</option>
@@ -283,9 +278,7 @@ export function CompaniesControlPlane() {
                     <tr key={m.userId} className="border-t border-black/[0.05]">
                       <td className="px-3 py-2">
                         <div className="font-medium">{m.displayName ?? "—"}</div>
-                        <div className="text-[12px] text-[#111]/45">
-                          {m.email ?? m.userId}
-                        </div>
+                        <div className="text-[12px] text-[#111]/45">{m.email ?? m.userId}</div>
                       </td>
                       <td className="px-3 py-2">
                         <select
@@ -298,10 +291,7 @@ export function CompaniesControlPlane() {
                                 data: {
                                   companyId: selectedId,
                                   userId: m.userId,
-                                  role: e.target.value as
-                                    | "owner"
-                                    | "admin"
-                                    | "member",
+                                  role: e.target.value as "owner" | "admin" | "member",
                                 },
                               });
                               await refreshMembers(selectedId);

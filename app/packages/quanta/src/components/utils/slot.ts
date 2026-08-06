@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties } from "react";
 
 /**
  * The slot color system's TS half (the CSS half is src/css/tailwind/slot.css).
@@ -25,49 +25,49 @@ import type { CSSProperties } from 'react'
  * transparent. See quanta-core-plan.md §5.4 / §5.4.1.
  */
 
-export type SlotColor = 'brand' | 'neutral' | 'success' | 'error' | 'warning' | 'info'
+export type SlotColor = "brand" | "neutral" | "success" | "error" | "warning" | "info";
 
 /** Guaranteed-present token used as the universal degrade target. */
-const FALLBACK = 'var(--hf-color-brand-primary)'
+const FALLBACK = "var(--hf-color-brand-primary)";
 
 type SlotVars = {
-  '--q-tint': string
-  '--q-tint-fg': string
+  "--q-tint": string;
+  "--q-tint-fg": string;
   /** Only set when it must differ from `--q-tint` (the utility defaults it to `--q-tint`). */
-  '--q-tint-bg'?: string
+  "--q-tint-bg"?: string;
   /** Only set when it must differ from `--q-tint` (the utility defaults it to `--q-tint`). */
-  '--q-tint-border'?: string
-}
+  "--q-tint-border"?: string;
+};
 
 /** color → the four `--q-tint*` properties (all sourced from `--hf-color-*`). */
 export const SLOT: Record<SlotColor, SlotVars> = {
   brand: {
-    '--q-tint': 'var(--hf-color-brand-primary)',
-    '--q-tint-fg': 'var(--hf-color-text-inverse)',
+    "--q-tint": "var(--hf-color-brand-primary)",
+    "--q-tint-fg": "var(--hf-color-text-inverse)",
   },
   neutral: {
-    '--q-tint': `var(--hf-color-text-primary, ${FALLBACK})`,
-    '--q-tint-bg': `var(--hf-color-background-secondary-strong, ${FALLBACK})`,
-    '--q-tint-fg': 'var(--hf-color-text-primary)',
-    '--q-tint-border': `var(--hf-color-border-strong, ${FALLBACK})`,
+    "--q-tint": `var(--hf-color-text-primary, ${FALLBACK})`,
+    "--q-tint-bg": `var(--hf-color-background-secondary-strong, ${FALLBACK})`,
+    "--q-tint-fg": "var(--hf-color-text-primary)",
+    "--q-tint-border": `var(--hf-color-border-strong, ${FALLBACK})`,
   },
   success: {
-    '--q-tint': `var(--hf-color-state-success-fg, ${FALLBACK})`,
-    '--q-tint-fg': 'var(--hf-color-text-inverse)',
+    "--q-tint": `var(--hf-color-state-success-fg, ${FALLBACK})`,
+    "--q-tint-fg": "var(--hf-color-text-inverse)",
   },
   error: {
-    '--q-tint': `var(--hf-color-state-error-fg, ${FALLBACK})`,
-    '--q-tint-fg': 'var(--hf-color-text-inverse)',
+    "--q-tint": `var(--hf-color-state-error-fg, ${FALLBACK})`,
+    "--q-tint-fg": "var(--hf-color-text-inverse)",
   },
   warning: {
-    '--q-tint': `var(--hf-color-state-warning-fg, ${FALLBACK})`,
-    '--q-tint-fg': 'var(--hf-color-text-inverse)',
+    "--q-tint": `var(--hf-color-state-warning-fg, ${FALLBACK})`,
+    "--q-tint-fg": "var(--hf-color-text-inverse)",
   },
   info: {
-    '--q-tint': `var(--hf-color-state-info-fg, ${FALLBACK})`,
-    '--q-tint-fg': 'var(--hf-color-text-inverse)',
+    "--q-tint": `var(--hf-color-state-info-fg, ${FALLBACK})`,
+    "--q-tint-fg": "var(--hf-color-text-inverse)",
   },
-}
+};
 
 /**
  * Inline style object that wires a `color` prop into the slot custom properties.
@@ -76,5 +76,5 @@ export const SLOT: Record<SlotColor, SlotVars> = {
  *   style={{ ...slotStyle(color), ...style }}
  */
 export function slotStyle(color: SlotColor): CSSProperties {
-  return SLOT[color] as CSSProperties
+  return SLOT[color] as CSSProperties;
 }

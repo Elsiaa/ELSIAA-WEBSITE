@@ -108,7 +108,7 @@ function uploadSupportFileWithProgress(
   threadId: string,
   messageId: string,
   file: File,
-  onProgress: (pct: number) => void
+  onProgress: (pct: number) => void,
 ): Promise<ChatAttachment> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -245,7 +245,7 @@ function MessageAttachments({
     (a) =>
       !(a.type === "image" || isImageMime(a.mimeType)) &&
       a.type !== "voice" &&
-      isPdfMime(a.mimeType || "", a.filename)
+      isPdfMime(a.mimeType || "", a.filename),
   );
   const others = attachments.filter((a) => {
     if (a.type === "image" || isImageMime(a.mimeType)) return false;
@@ -290,7 +290,9 @@ function MessageAttachments({
 
       {pdfs.length > 0 && (
         <div>
-          <p className="mb-2 text-xs font-medium uppercase tracking-wide text-[#111]/55">Documents</p>
+          <p className="mb-2 text-xs font-medium uppercase tracking-wide text-[#111]/55">
+            Documents
+          </p>
           <div className="grid gap-3 sm:grid-cols-2">
             {pdfs.map((att, idx) => (
               <button
@@ -379,7 +381,7 @@ function MessageAttachments({
                     </a>
                   </div>
                 </div>
-              )
+              ),
             )}
           </div>
         </div>
@@ -406,7 +408,7 @@ export default function SupportDesk({
   const sessionName = session?.user?.name || session?.user?.email || "You";
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>(
-    fixedCompanyId || (companies[0]?.id ?? "")
+    fixedCompanyId || (companies[0]?.id ?? ""),
   );
 
   useEffect(() => {
@@ -538,7 +540,7 @@ export default function SupportDesk({
                       msg.id === newMessage.id ||
                       (msg.userId === newMessage.userId &&
                         msg.message === newMessage.message &&
-                        Math.abs(msg.timestamp - newMessage.timestamp) < 1000)
+                        Math.abs(msg.timestamp - newMessage.timestamp) < 1000),
                   );
                   if (isDuplicate) return prev;
                   return [...prev, newMessage].sort((a, b) => a.timestamp - b.timestamp);
@@ -551,7 +553,7 @@ export default function SupportDesk({
                 const deletedId = (payload.old as { id?: string }).id;
                 if (deletedId) setMessages((prev) => prev.filter((m) => m.id !== deletedId));
               }
-            }
+            },
           )
           .subscribe((status) => {
             if (status === "SUBSCRIBED" && pollFallback) {
@@ -609,7 +611,7 @@ export default function SupportDesk({
         },
         () => {
           void loadThreads();
-        }
+        },
       )
       .subscribe();
 
@@ -631,7 +633,7 @@ export default function SupportDesk({
           table: "support_threads",
           filter: `company_id=eq.${effectiveCompanyId}`,
         },
-        () => void loadThreads()
+        () => void loadThreads(),
       )
       .subscribe();
     return () => {
@@ -652,7 +654,7 @@ export default function SupportDesk({
           table: "support_thread_participants",
           filter: `user_id=eq.${appUserId}`,
         },
-        () => void loadThreads()
+        () => void loadThreads(),
       )
       .subscribe();
     return () => {
@@ -722,7 +724,7 @@ export default function SupportDesk({
       const attachments: ChatAttachment[] = [];
       for (const item of stagedAttachments) {
         setStagedAttachments((prev) =>
-          prev.map((s) => (s.clientId === item.clientId ? { ...s, uploadProgress: 0 } : s))
+          prev.map((s) => (s.clientId === item.clientId ? { ...s, uploadProgress: 0 } : s)),
         );
         const att = await uploadSupportFileWithProgress(
           activeThreadId,
@@ -730,9 +732,9 @@ export default function SupportDesk({
           item.file,
           (pct) => {
             setStagedAttachments((prev) =>
-              prev.map((s) => (s.clientId === item.clientId ? { ...s, uploadProgress: pct } : s))
+              prev.map((s) => (s.clientId === item.clientId ? { ...s, uploadProgress: pct } : s)),
             );
-          }
+          },
         );
         attachments.push(att);
       }
@@ -762,9 +764,7 @@ export default function SupportDesk({
       requestAnimationFrame(() => adjustDraftHeight());
       setTimeout(scrollToBottom, 100);
     } catch (err) {
-      setStagedAttachments((prev) =>
-        prev.map((s) => ({ ...s, uploadProgress: null }))
-      );
+      setStagedAttachments((prev) => prev.map((s) => ({ ...s, uploadProgress: null })));
       toast.error(err instanceof Error ? err.message : "Failed to send");
     } finally {
       setUploadingFiles(false);
@@ -777,7 +777,7 @@ export default function SupportDesk({
     try {
       const res = await fetch(
         `/api/support/threads/${encodeURIComponent(activeThreadId)}/messages/${encodeURIComponent(messageId)}`,
-        { method: "DELETE" }
+        { method: "DELETE" },
       );
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -815,416 +815,432 @@ export default function SupportDesk({
 
   return (
     <>
-    <div className="flex min-h-[min(88vh,920px)] max-h-[min(92vh,960px)] rounded-xl border border-black/[0.08]/70 bg-white/70 shadow-sm overflow-hidden">
-      {/* Ticket list */}
-      <aside className="flex w-80 shrink-0 flex-col border-r border-black/[0.08]/70 bg-[#F5F5F3]/80">
-        <div className="shrink-0 space-y-2 border-b border-black/[0.08]/70 p-2.5">
-          {multiCompanySupport && companies.length > 0 && (
-            <div className="space-y-1">
-              <label className="block text-[11px] font-medium text-[#111]/55">Company</label>
-              <select
-                className="w-full rounded-lg border border-black/[0.08] bg-[#F5F5F3] px-2 py-1.5 text-sm"
-                value={selectedCompanyId}
-                onChange={(e) => {
-                  setSelectedCompanyId(e.target.value);
-                  setActiveThreadId(null);
-                }}
-              >
-                {companies.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-          <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-[#111]/55">
-            <Ticket className="h-3 w-3" />
-            Tickets
-          </div>
-          {canManageSubjects && (
-            <button
-              type="button"
-              onClick={openNewSubject}
-              className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#1e6b3c] py-2 text-sm font-medium text-white hover:bg-[#2e9e58]"
-            >
-              <Plus className="h-4 w-4" />
-              New ticket
-            </button>
-          )}
-        </div>
-        <div className="min-h-0 flex-1 space-y-1 overflow-y-auto p-2">
-          {loadingThreads ? (
-            <p className="p-2 text-sm text-[#111]/55">Loading…</p>
-          ) : threads.length === 0 ? (
-            <p className="p-2 text-sm text-[#111]/55">No tickets yet.</p>
-          ) : (
-            threads.map((t, i) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setActiveThreadId(t.id)}
-                className={`w-full rounded-lg border px-2.5 py-2 text-left text-sm transition-colors ${
-                  activeThreadId === t.id
-                    ? "border-[#1e6b3c]/60 bg-[#1e6b3c] text-white shadow-sm"
-                    : "border-transparent bg-transparent hover:bg-black/[0.06]/70"
-                }`}
-              >
-                <span className="line-clamp-2 font-medium">{t.title}</span>
-                <span
-                  className={`mt-0.5 block text-[11px] ${activeThreadId === t.id ? "text-white/80" : "text-[#111]/55"}`}
+      <div className="flex min-h-[min(88vh,920px)] max-h-[min(92vh,960px)] rounded-xl border border-black/[0.08]/70 bg-white/70 shadow-sm overflow-hidden">
+        {/* Ticket list */}
+        <aside className="flex w-80 shrink-0 flex-col border-r border-black/[0.08]/70 bg-[#F5F5F3]/80">
+          <div className="shrink-0 space-y-2 border-b border-black/[0.08]/70 p-2.5">
+            {multiCompanySupport && companies.length > 0 && (
+              <div className="space-y-1">
+                <label className="block text-[11px] font-medium text-[#111]/55">Company</label>
+                <select
+                  className="w-full rounded-lg border border-black/[0.08] bg-[#F5F5F3] px-2 py-1.5 text-sm"
+                  value={selectedCompanyId}
+                  onChange={(e) => {
+                    setSelectedCompanyId(e.target.value);
+                    setActiveThreadId(null);
+                  }}
                 >
-                  #{threads.length - i} · {formatTicketDate(t.updated_at)}
-                </span>
-              </button>
-            ))
-          )}
-        </div>
-        {activeThreadId && canManageSubjects && (
-          <div className="shrink-0 border-t border-black/[0.08]/70 bg-black/[0.04]/15 p-2.5">
-            <p className="mb-1.5 flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-[#111]/55">
-              <Users className="h-3 w-3" />
-              Participants
-            </p>
-            <div className="max-h-36 overflow-y-auto rounded-md border border-black/[0.08]/60 bg-[#F5F5F3]/60 p-1.5">
-              <div className="flex flex-col gap-0.5">
-                {companyUsers.map((u) => (
-                  <label
-                    key={u.id}
-                    className="flex cursor-pointer items-center gap-1.5 rounded px-1.5 py-1 text-xs hover:bg-black/[0.05]"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={participantIds.has(u.id)}
-                      onChange={() => toggleParticipant(u.id, false)}
-                      className="shrink-0"
-                    />
-                    <span className="min-w-0 truncate">
-                      {[u.first_name, u.last_name].filter(Boolean).join(" ") || u.email}
-                    </span>
-                  </label>
-                ))}
+                  {companies.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
               </div>
+            )}
+            <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-[#111]/55">
+              <Ticket className="h-3 w-3" />
+              Tickets
             </div>
-            <button
-              type="button"
-              onClick={() => void saveParticipants()}
-              className="mt-1.5 w-full rounded-md bg-black/[0.06] py-1.5 text-[11px] font-medium hover:bg-black/[0.06]"
-            >
-              Save participants
-            </button>
+            {canManageSubjects && (
+              <button
+                type="button"
+                onClick={openNewSubject}
+                className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#1e6b3c] py-2 text-sm font-medium text-white hover:bg-[#2e9e58]"
+              >
+                <Plus className="h-4 w-4" />
+                New ticket
+              </button>
+            )}
           </div>
-        )}
-      </aside>
-
-      {/* Ticket workspace */}
-      <div className="flex min-w-0 flex-1 flex-col">
-        {showNewForm && canManageSubjects && (
-          <div className="shrink-0 space-y-3 border-b border-black/[0.08]/70 bg-black/[0.04]/25 p-4">
-            <h3 className="flex items-center gap-2 font-semibold">
-              <MessageCircle className="h-4 w-4" />
-              New ticket
-            </h3>
-            <input
-              className="w-full rounded-lg border border-black/[0.08] bg-[#F5F5F3] px-3 py-2.5 text-sm"
-              placeholder="Ticket subject"
-              value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
-            />
-            <div>
-              <p className="mb-2 flex items-center gap-1 text-xs font-medium text-[#111]/55">
+          <div className="min-h-0 flex-1 space-y-1 overflow-y-auto p-2">
+            {loadingThreads ? (
+              <p className="p-2 text-sm text-[#111]/55">Loading…</p>
+            ) : threads.length === 0 ? (
+              <p className="p-2 text-sm text-[#111]/55">No tickets yet.</p>
+            ) : (
+              threads.map((t, i) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setActiveThreadId(t.id)}
+                  className={`w-full rounded-lg border px-2.5 py-2 text-left text-sm transition-colors ${
+                    activeThreadId === t.id
+                      ? "border-[#1e6b3c]/60 bg-[#1e6b3c] text-white shadow-sm"
+                      : "border-transparent bg-transparent hover:bg-black/[0.06]/70"
+                  }`}
+                >
+                  <span className="line-clamp-2 font-medium">{t.title}</span>
+                  <span
+                    className={`mt-0.5 block text-[11px] ${activeThreadId === t.id ? "text-white/80" : "text-[#111]/55"}`}
+                  >
+                    #{threads.length - i} · {formatTicketDate(t.updated_at)}
+                  </span>
+                </button>
+              ))
+            )}
+          </div>
+          {activeThreadId && canManageSubjects && (
+            <div className="shrink-0 border-t border-black/[0.08]/70 bg-black/[0.04]/15 p-2.5">
+              <p className="mb-1.5 flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-[#111]/55">
                 <Users className="h-3 w-3" />
                 Participants
               </p>
-              <div className="max-h-40 space-y-1 overflow-y-auto rounded-lg border border-black/[0.08]/70 p-2">
-                {companyUsers.map((u) => (
-                  <label key={u.id} className="flex cursor-pointer items-center gap-2 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={newParticipantIds.has(u.id)}
-                      onChange={() => toggleParticipant(u.id, true)}
-                    />
-                    <span className="truncate">{[u.first_name, u.last_name].filter(Boolean).join(" ") || u.email}</span>
-                  </label>
-                ))}
-              </div>
-              <div className="mt-2 flex gap-3 text-xs">
-                <button type="button" className="underline" onClick={() => setNewParticipantIds(new Set(companyUsers.map((u) => u.id)))}>
-                  Select all
-                </button>
-                <button type="button" className="underline" onClick={() => setNewParticipantIds(new Set())}>
-                  Clear
-                </button>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                disabled={creatingThread || !newTitle.trim()}
-                onClick={() => void createThread()}
-                className="rounded-lg bg-[#1e6b3c] px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-              >
-                {creatingThread ? "Creating…" : "Create ticket"}
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowNewForm(false)}
-                className="rounded-lg border border-black/[0.08] px-4 py-2 text-sm"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        )}
-
-        {!activeThreadId && !showNewForm && (
-          <div className="flex flex-1 items-center justify-center p-8 text-sm text-[#111]/55">
-            Select a ticket or create a new one.
-          </div>
-        )}
-
-        {activeThreadId && (
-          <>
-            {/* Ticket header — single compact row */}
-            <header className="shrink-0 border-b border-black/[0.08]/70 bg-black/[0.04]/15 px-3 py-2 sm:px-4">
-              <div className="flex min-w-0 items-baseline gap-2 sm:gap-3">
-                <h2 className="min-w-0 flex-1 truncate text-base font-semibold leading-tight sm:text-[17px]">
-                  {activeThread?.title}
-                </h2>
-                <p className="shrink-0 whitespace-nowrap text-[11px] text-[#111]/55 tabular-nums sm:text-xs">
-                  #{ticketIndex >= 0 ? threads.length - ticketIndex : "—"} ·{" "}
-                  {activeThread ? formatTicketDate(activeThread.updated_at) : ""}
-                </p>
-              </div>
-            </header>
-
-            {/* Conversation — ticket-style entries */}
-            <div className="min-h-0 flex-1 overflow-y-auto bg-black/[0.04]/10 px-3 py-3 sm:px-5 sm:py-4">
-              {loadingMessages ? (
-                <p className="text-sm text-[#111]/55">Loading conversation…</p>
-              ) : (
-                <div className="mx-auto flex w-full max-w-4xl flex-col gap-6">
-                  {messages.map((msg) => {
-                    const mine = msg.userId === sessionAuthUserId;
-                    return (
-                      <article
-                        key={msg.id}
-                        className={`w-[calc(100%-1.75rem)] max-w-[min(100%,40rem)] rounded-xl border shadow-sm sm:w-[calc(100%-2.75rem)] ${
-                          mine
-                            ? "self-end border-[#1e6b3c]/40 bg-[#1e6b3c]/10"
-                            : "self-start border-black/[0.08] bg-black/[0.04]"
-                        }`}
-                      >
-                        <div
-                          className={`flex flex-wrap items-baseline justify-between gap-2 border-b px-4 py-3 sm:px-5 ${
-                            mine
-                              ? "border-[#1e6b3c]/25 bg-[#1e6b3c]/15"
-                              : "border-black/[0.08]/80 bg-black/[0.06]"
-                          }`}
-                        >
-                          <span className="font-semibold">{supportSenderLabel(msg, mine)}</span>
-                          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                            <time className="text-xs text-[#111]/55">
-                              {new Date(msg.timestamp).toLocaleString(undefined, {
-                                dateStyle: "medium",
-                                timeStyle: "short",
-                              })}
-                            </time>
-                            {mine && (
-                              <button
-                                type="button"
-                                aria-label="Delete message"
-                                disabled={deletingMessageId === msg.id}
-                                onClick={() => void deleteOwnMessage(msg.id)}
-                                className="rounded-md p-1 text-[#111]/55 transition hover:bg-destructive/10 hover:text-destructive disabled:pointer-events-none disabled:opacity-50"
-                              >
-                                {deletingMessageId === msg.id ? (
-                                  <span
-                                    className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
-                                    aria-hidden
-                                  />
-                                ) : (
-                                  <Trash2 className="h-4 w-4" aria-hidden />
-                                )}
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                        <div className="px-4 py-4 sm:px-5 sm:py-5">
-                          {msg.message?.trim() ? (
-                            <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-[#111] sm:text-base sm:leading-relaxed">
-                              {msg.message}
-                            </p>
-                          ) : msg.attachments && msg.attachments.length > 0 ? null : (
-                            <p className="text-sm italic text-[#111]/55">(No message text)</p>
-                          )}
-                          {msg.attachments && msg.attachments.length > 0 && (
-                            <MessageAttachments
-                              attachments={msg.attachments}
-                              onOpenPreview={setPreviewDoc}
-                            />
-                          )}
-                        </div>
-                      </article>
-                    );
-                  })}
-                  <div ref={messagesEndRef} />
-                </div>
-              )}
-            </div>
-
-            {/* Reply composer — long-form + big pending files */}
-            <form
-              onSubmit={(e) => void handleSend(e)}
-              className="shrink-0 border-t border-black/[0.08]/70 bg-white px-3 py-4 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.12)] sm:px-5"
-            >
-              <div className="mx-auto max-w-4xl">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-                  <div className="flex shrink-0">
+              <div className="max-h-36 overflow-y-auto rounded-md border border-black/[0.08]/60 bg-[#F5F5F3]/60 p-1.5">
+                <div className="flex flex-col gap-0.5">
+                  {companyUsers.map((u) => (
                     <label
-                      className="relative flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-black/[0.08] bg-[#F5F5F3] hover:bg-black/[0.06]"
-                      title="Attach files"
+                      key={u.id}
+                      className="flex cursor-pointer items-center gap-1.5 rounded px-1.5 py-1 text-xs hover:bg-black/[0.05]"
                     >
                       <input
-                        type="file"
-                        multiple
-                        className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
-                        onChange={(e) => {
-                          const list = e.target.files;
-                          if (list?.length) {
-                            const picked = Array.from(list);
-                            setStagedAttachments((prev) => {
-                              const next = [...prev];
-                              for (const file of picked) {
-                                next.push({
-                                  clientId: newStagedAttachmentId(),
-                                  file,
-                                  previewUrl: URL.createObjectURL(file),
-                                  uploadProgress: null,
-                                });
-                              }
-                              return next;
-                            });
-                          }
-                          e.target.value = "";
-                        }}
+                        type="checkbox"
+                        checked={participantIds.has(u.id)}
+                        onChange={() => toggleParticipant(u.id, false)}
+                        className="shrink-0"
                       />
-                      <span className="pointer-events-none flex items-center justify-center" aria-hidden>
-                        <Paperclip className="h-5 w-5" />
+                      <span className="min-w-0 truncate">
+                        {[u.first_name, u.last_name].filter(Boolean).join(" ") || u.email}
                       </span>
-                      <span className="sr-only">Attach files</span>
                     </label>
-                  </div>
-                  <div className="min-w-0 flex-1 flex flex-col">
-                    <PendingAttachmentStrip
-                      items={stagedAttachments}
-                      uploadLocked={uploadingFiles}
-                      onRemove={(clientId) => {
-                        setStagedAttachments((prev) => {
-                          const next: StagedAttachment[] = [];
-                          for (const s of prev) {
-                            if (s.clientId === clientId) URL.revokeObjectURL(s.previewUrl);
-                            else next.push(s);
-                          }
-                          return next;
-                        });
-                      }}
-                      onOpenPreview={setPreviewDoc}
-                    />
-                    <label htmlFor="support-reply-draft" className="sr-only">
-                      Your reply
+                  ))}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => void saveParticipants()}
+                className="mt-1.5 w-full rounded-md bg-black/[0.06] py-1.5 text-[11px] font-medium hover:bg-black/[0.06]"
+              >
+                Save participants
+              </button>
+            </div>
+          )}
+        </aside>
+
+        {/* Ticket workspace */}
+        <div className="flex min-w-0 flex-1 flex-col">
+          {showNewForm && canManageSubjects && (
+            <div className="shrink-0 space-y-3 border-b border-black/[0.08]/70 bg-black/[0.04]/25 p-4">
+              <h3 className="flex items-center gap-2 font-semibold">
+                <MessageCircle className="h-4 w-4" />
+                New ticket
+              </h3>
+              <input
+                className="w-full rounded-lg border border-black/[0.08] bg-[#F5F5F3] px-3 py-2.5 text-sm"
+                placeholder="Ticket subject"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+              />
+              <div>
+                <p className="mb-2 flex items-center gap-1 text-xs font-medium text-[#111]/55">
+                  <Users className="h-3 w-3" />
+                  Participants
+                </p>
+                <div className="max-h-40 space-y-1 overflow-y-auto rounded-lg border border-black/[0.08]/70 p-2">
+                  {companyUsers.map((u) => (
+                    <label key={u.id} className="flex cursor-pointer items-center gap-2 text-sm">
+                      <input
+                        type="checkbox"
+                        checked={newParticipantIds.has(u.id)}
+                        onChange={() => toggleParticipant(u.id, true)}
+                      />
+                      <span className="truncate">
+                        {[u.first_name, u.last_name].filter(Boolean).join(" ") || u.email}
+                      </span>
                     </label>
-                    <textarea
-                      id="support-reply-draft"
-                      ref={messageDraftRef}
-                      name="message"
-                      rows={3}
-                      className="max-h-[36vh] min-h-[4.75rem] w-full resize-none overflow-y-auto rounded-lg border border-black/[0.08] bg-[#F5F5F3] px-4 py-2.5 text-[15px] leading-relaxed text-[#111] placeholder:text-[#111]/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 sm:text-base"
-                      placeholder="Shift+Enter to send · Enter for a new line"
-                      autoComplete="off"
-                      onInput={adjustDraftHeight}
-                      onKeyDown={(e) => {
-                        if (e.key !== "Enter" || !e.shiftKey || e.nativeEvent.isComposing) return;
-                        e.preventDefault();
-                        const form = e.currentTarget.form;
-                        if (form && !uploadingFiles) form.requestSubmit();
-                      }}
-                    />
-                  </div>
+                  ))}
+                </div>
+                <div className="mt-2 flex gap-3 text-xs">
                   <button
-                    type="submit"
-                    disabled={uploadingFiles}
-                    className="flex h-10 shrink-0 items-center justify-center gap-1.5 self-start rounded-lg bg-[#1e6b3c] px-4 font-medium text-white hover:bg-[#2e9e58] disabled:opacity-50 sm:self-start"
+                    type="button"
+                    className="underline"
+                    onClick={() => setNewParticipantIds(new Set(companyUsers.map((u) => u.id)))}
                   >
-                    {uploadingFiles ? (
-                      <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                    ) : (
-                      <>
-                        <Send className="h-4 w-4" />
-                        <span className="text-sm">Send</span>
-                      </>
-                    )}
+                    Select all
+                  </button>
+                  <button
+                    type="button"
+                    className="underline"
+                    onClick={() => setNewParticipantIds(new Set())}
+                  >
+                    Clear
                   </button>
                 </div>
               </div>
-            </form>
-          </>
-        )}
-      </div>
-    </div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  disabled={creatingThread || !newTitle.trim()}
+                  onClick={() => void createThread()}
+                  className="rounded-lg bg-[#1e6b3c] px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+                >
+                  {creatingThread ? "Creating…" : "Create ticket"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowNewForm(false)}
+                  className="rounded-lg border border-black/[0.08] px-4 py-2 text-sm"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
 
-    <Dialog
-      open={Boolean(previewDoc)}
-      onOpenChange={(open) => {
-        if (!open) setPreviewDoc(null);
-      }}
-    >
-      <DialogContent className="flex max-h-[min(92vh,900px)] w-[min(96vw,960px)] max-w-[min(96vw,960px)] flex-col gap-0 overflow-hidden p-0 sm:max-w-[min(96vw,960px)]">
-        {previewDoc ? (
-          <>
-            <DialogHeader className="shrink-0 space-y-0 border-b border-black/[0.08]/60 px-5 pb-3 pt-5 pr-14">
-              <DialogTitle className="line-clamp-2 text-left text-base">{previewDoc.filename}</DialogTitle>
-              <DialogDescription className="sr-only">
-                Attachment preview. Use Open in new tab for the full file in your browser.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="min-h-0 flex-1 overflow-auto bg-black/[0.04]/20 p-4">
-              {isImageMime(previewDoc.mimeType) ? (
-                <img
-                  src={previewDoc.url}
-                  alt={previewDoc.filename}
-                  className="mx-auto max-h-[min(78vh,800px)] w-auto max-w-full rounded-lg object-contain shadow-md"
-                />
-              ) : isPdfMime(previewDoc.mimeType, previewDoc.filename) ? (
-                <iframe
-                  title={previewDoc.filename}
-                  src={pdfIframeSrcForEmbed(previewDoc.url)}
-                  className="h-[min(76vh,760px)] w-full rounded-lg border border-black/[0.08] bg-[#F5F5F3]"
-                />
-              ) : (
-                <div className="flex flex-col items-center justify-center gap-4 py-10 text-center">
-                  <FileIcon className="h-16 w-16 text-[#111]/55" />
-                  <p className="max-w-md text-sm text-[#111]/55">
-                    There is no built-in preview for this file type. Use Open in new tab to view or download it.
+          {!activeThreadId && !showNewForm && (
+            <div className="flex flex-1 items-center justify-center p-8 text-sm text-[#111]/55">
+              Select a ticket or create a new one.
+            </div>
+          )}
+
+          {activeThreadId && (
+            <>
+              {/* Ticket header — single compact row */}
+              <header className="shrink-0 border-b border-black/[0.08]/70 bg-black/[0.04]/15 px-3 py-2 sm:px-4">
+                <div className="flex min-w-0 items-baseline gap-2 sm:gap-3">
+                  <h2 className="min-w-0 flex-1 truncate text-base font-semibold leading-tight sm:text-[17px]">
+                    {activeThread?.title}
+                  </h2>
+                  <p className="shrink-0 whitespace-nowrap text-[11px] text-[#111]/55 tabular-nums sm:text-xs">
+                    #{ticketIndex >= 0 ? threads.length - ticketIndex : "—"} ·{" "}
+                    {activeThread ? formatTicketDate(activeThread.updated_at) : ""}
                   </p>
                 </div>
-              )}
-            </div>
-            <DialogFooter className="shrink-0 border-t border-black/[0.08]/60 px-5 py-3 sm:justify-end">
-              <a
-                href={previewDoc.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-md bg-[#1e6b3c] px-4 py-2 text-sm font-medium text-white hover:bg-[#2e9e58]"
+              </header>
+
+              {/* Conversation — ticket-style entries */}
+              <div className="min-h-0 flex-1 overflow-y-auto bg-black/[0.04]/10 px-3 py-3 sm:px-5 sm:py-4">
+                {loadingMessages ? (
+                  <p className="text-sm text-[#111]/55">Loading conversation…</p>
+                ) : (
+                  <div className="mx-auto flex w-full max-w-4xl flex-col gap-6">
+                    {messages.map((msg) => {
+                      const mine = msg.userId === sessionAuthUserId;
+                      return (
+                        <article
+                          key={msg.id}
+                          className={`w-[calc(100%-1.75rem)] max-w-[min(100%,40rem)] rounded-xl border shadow-sm sm:w-[calc(100%-2.75rem)] ${
+                            mine
+                              ? "self-end border-[#1e6b3c]/40 bg-[#1e6b3c]/10"
+                              : "self-start border-black/[0.08] bg-black/[0.04]"
+                          }`}
+                        >
+                          <div
+                            className={`flex flex-wrap items-baseline justify-between gap-2 border-b px-4 py-3 sm:px-5 ${
+                              mine
+                                ? "border-[#1e6b3c]/25 bg-[#1e6b3c]/15"
+                                : "border-black/[0.08]/80 bg-black/[0.06]"
+                            }`}
+                          >
+                            <span className="font-semibold">{supportSenderLabel(msg, mine)}</span>
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                              <time className="text-xs text-[#111]/55">
+                                {new Date(msg.timestamp).toLocaleString(undefined, {
+                                  dateStyle: "medium",
+                                  timeStyle: "short",
+                                })}
+                              </time>
+                              {mine && (
+                                <button
+                                  type="button"
+                                  aria-label="Delete message"
+                                  disabled={deletingMessageId === msg.id}
+                                  onClick={() => void deleteOwnMessage(msg.id)}
+                                  className="rounded-md p-1 text-[#111]/55 transition hover:bg-destructive/10 hover:text-destructive disabled:pointer-events-none disabled:opacity-50"
+                                >
+                                  {deletingMessageId === msg.id ? (
+                                    <span
+                                      className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+                                      aria-hidden
+                                    />
+                                  ) : (
+                                    <Trash2 className="h-4 w-4" aria-hidden />
+                                  )}
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                          <div className="px-4 py-4 sm:px-5 sm:py-5">
+                            {msg.message?.trim() ? (
+                              <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-[#111] sm:text-base sm:leading-relaxed">
+                                {msg.message}
+                              </p>
+                            ) : msg.attachments && msg.attachments.length > 0 ? null : (
+                              <p className="text-sm italic text-[#111]/55">(No message text)</p>
+                            )}
+                            {msg.attachments && msg.attachments.length > 0 && (
+                              <MessageAttachments
+                                attachments={msg.attachments}
+                                onOpenPreview={setPreviewDoc}
+                              />
+                            )}
+                          </div>
+                        </article>
+                      );
+                    })}
+                    <div ref={messagesEndRef} />
+                  </div>
+                )}
+              </div>
+
+              {/* Reply composer — long-form + big pending files */}
+              <form
+                onSubmit={(e) => void handleSend(e)}
+                className="shrink-0 border-t border-black/[0.08]/70 bg-white px-3 py-4 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.12)] sm:px-5"
               >
-                <ExternalLink className="h-4 w-4" />
-                Open in new tab
-              </a>
-            </DialogFooter>
-          </>
-        ) : null}
-      </DialogContent>
-    </Dialog>
+                <div className="mx-auto max-w-4xl">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+                    <div className="flex shrink-0">
+                      <label
+                        className="relative flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-black/[0.08] bg-[#F5F5F3] hover:bg-black/[0.06]"
+                        title="Attach files"
+                      >
+                        <input
+                          type="file"
+                          multiple
+                          className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
+                          onChange={(e) => {
+                            const list = e.target.files;
+                            if (list?.length) {
+                              const picked = Array.from(list);
+                              setStagedAttachments((prev) => {
+                                const next = [...prev];
+                                for (const file of picked) {
+                                  next.push({
+                                    clientId: newStagedAttachmentId(),
+                                    file,
+                                    previewUrl: URL.createObjectURL(file),
+                                    uploadProgress: null,
+                                  });
+                                }
+                                return next;
+                              });
+                            }
+                            e.target.value = "";
+                          }}
+                        />
+                        <span
+                          className="pointer-events-none flex items-center justify-center"
+                          aria-hidden
+                        >
+                          <Paperclip className="h-5 w-5" />
+                        </span>
+                        <span className="sr-only">Attach files</span>
+                      </label>
+                    </div>
+                    <div className="min-w-0 flex-1 flex flex-col">
+                      <PendingAttachmentStrip
+                        items={stagedAttachments}
+                        uploadLocked={uploadingFiles}
+                        onRemove={(clientId) => {
+                          setStagedAttachments((prev) => {
+                            const next: StagedAttachment[] = [];
+                            for (const s of prev) {
+                              if (s.clientId === clientId) URL.revokeObjectURL(s.previewUrl);
+                              else next.push(s);
+                            }
+                            return next;
+                          });
+                        }}
+                        onOpenPreview={setPreviewDoc}
+                      />
+                      <label htmlFor="support-reply-draft" className="sr-only">
+                        Your reply
+                      </label>
+                      <textarea
+                        id="support-reply-draft"
+                        ref={messageDraftRef}
+                        name="message"
+                        rows={3}
+                        className="max-h-[36vh] min-h-[4.75rem] w-full resize-none overflow-y-auto rounded-lg border border-black/[0.08] bg-[#F5F5F3] px-4 py-2.5 text-[15px] leading-relaxed text-[#111] placeholder:text-[#111]/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1e6b3c]/40 sm:text-base"
+                        placeholder="Shift+Enter to send · Enter for a new line"
+                        autoComplete="off"
+                        onInput={adjustDraftHeight}
+                        onKeyDown={(e) => {
+                          if (e.key !== "Enter" || !e.shiftKey || e.nativeEvent.isComposing) return;
+                          e.preventDefault();
+                          const form = e.currentTarget.form;
+                          if (form && !uploadingFiles) form.requestSubmit();
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={uploadingFiles}
+                      className="flex h-10 shrink-0 items-center justify-center gap-1.5 self-start rounded-lg bg-[#1e6b3c] px-4 font-medium text-white hover:bg-[#2e9e58] disabled:opacity-50 sm:self-start"
+                    >
+                      {uploadingFiles ? (
+                        <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4" />
+                          <span className="text-sm">Send</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </>
+          )}
+        </div>
+      </div>
+
+      <Dialog
+        open={Boolean(previewDoc)}
+        onOpenChange={(open) => {
+          if (!open) setPreviewDoc(null);
+        }}
+      >
+        <DialogContent className="flex max-h-[min(92vh,900px)] w-[min(96vw,960px)] max-w-[min(96vw,960px)] flex-col gap-0 overflow-hidden p-0 sm:max-w-[min(96vw,960px)]">
+          {previewDoc ? (
+            <>
+              <DialogHeader className="shrink-0 space-y-0 border-b border-black/[0.08]/60 px-5 pb-3 pt-5 pr-14">
+                <DialogTitle className="line-clamp-2 text-left text-base">
+                  {previewDoc.filename}
+                </DialogTitle>
+                <DialogDescription className="sr-only">
+                  Attachment preview. Use Open in new tab for the full file in your browser.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="min-h-0 flex-1 overflow-auto bg-black/[0.04]/20 p-4">
+                {isImageMime(previewDoc.mimeType) ? (
+                  <img
+                    src={previewDoc.url}
+                    alt={previewDoc.filename}
+                    className="mx-auto max-h-[min(78vh,800px)] w-auto max-w-full rounded-lg object-contain shadow-md"
+                  />
+                ) : isPdfMime(previewDoc.mimeType, previewDoc.filename) ? (
+                  <iframe
+                    title={previewDoc.filename}
+                    src={pdfIframeSrcForEmbed(previewDoc.url)}
+                    className="h-[min(76vh,760px)] w-full rounded-lg border border-black/[0.08] bg-[#F5F5F3]"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center gap-4 py-10 text-center">
+                    <FileIcon className="h-16 w-16 text-[#111]/55" />
+                    <p className="max-w-md text-sm text-[#111]/55">
+                      There is no built-in preview for this file type. Use Open in new tab to view
+                      or download it.
+                    </p>
+                  </div>
+                )}
+              </div>
+              <DialogFooter className="shrink-0 border-t border-black/[0.08]/60 px-5 py-3 sm:justify-end">
+                <a
+                  href={previewDoc.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-md bg-[#1e6b3c] px-4 py-2 text-sm font-medium text-white hover:bg-[#2e9e58]"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Open in new tab
+                </a>
+              </DialogFooter>
+            </>
+          ) : null}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

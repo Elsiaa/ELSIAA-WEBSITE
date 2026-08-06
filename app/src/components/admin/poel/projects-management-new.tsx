@@ -1,7 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Edit2, Trash2, X, ExternalLink, FolderOpen, Building2, ChevronDown, ChevronRight, Key, Copy, Eye, EyeOff, RefreshCw } from "lucide-react";
+import {
+  Plus,
+  Edit2,
+  Trash2,
+  X,
+  ExternalLink,
+  FolderOpen,
+  Building2,
+  ChevronDown,
+  ChevronRight,
+  Key,
+  Copy,
+  Eye,
+  EyeOff,
+  RefreshCw,
+} from "lucide-react";
 import type { Company } from "@/types/company";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
@@ -38,7 +53,9 @@ export default function ProjectsManagementNew({
   const [showModal, setShowModal] = useState(false);
   const [editingProject, setEditingProject] = useState<ProjectWithCompany | null>(null);
   const [loading, setLoading] = useState(false);
-  const [expandedCompanies, setExpandedCompanies] = useState<Set<string>>(new Set(companies.map(c => c.id)));
+  const [expandedCompanies, setExpandedCompanies] = useState<Set<string>>(
+    new Set(companies.map((c) => c.id)),
+  );
   const [projectApiKeyReveal, setProjectApiKeyReveal] = useState<Record<string, string>>({});
   const [apiKeyLoading, setApiKeyLoading] = useState<Record<string, boolean>>({});
   const [formData, setFormData] = useState({
@@ -49,17 +66,20 @@ export default function ProjectsManagementNew({
   });
 
   // Group projects by company
-  const projectsByCompany = projects.reduce((acc, project) => {
-    const companyId = project.companyId;
-    if (!acc[companyId]) {
-      acc[companyId] = [];
-    }
-    acc[companyId].push(project);
-    return acc;
-  }, {} as Record<string, ProjectWithCompany[]>);
+  const projectsByCompany = projects.reduce(
+    (acc, project) => {
+      const companyId = project.companyId;
+      if (!acc[companyId]) {
+        acc[companyId] = [];
+      }
+      acc[companyId].push(project);
+      return acc;
+    },
+    {} as Record<string, ProjectWithCompany[]>,
+  );
 
   const toggleCompany = (companyId: string) => {
-    setExpandedCompanies(prev => {
+    setExpandedCompanies((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(companyId)) {
         newSet.delete(companyId);
@@ -112,8 +132,10 @@ export default function ProjectsManagementNew({
 
         if (res.ok) {
           const { project } = await res.json();
-          const company = companies.find(c => c.id === project.companyId);
-          setProjects(prev => prev.map(p => p.id === project.id ? { ...project, company } : p));
+          const company = companies.find((c) => c.id === project.companyId);
+          setProjects((prev) =>
+            prev.map((p) => (p.id === project.id ? { ...project, company } : p)),
+          );
           onDataChange?.();
         } else {
           alert("Failed to update project");
@@ -131,8 +153,8 @@ export default function ProjectsManagementNew({
 
         if (res.ok) {
           const { project } = await res.json();
-          const company = companies.find(c => c.id === project.companyId);
-          setProjects(prev => [...prev, { ...project, company }]);
+          const company = companies.find((c) => c.id === project.companyId);
+          setProjects((prev) => [...prev, { ...project, company }]);
           onDataChange?.();
         } else {
           alert("Failed to create project");
@@ -161,7 +183,7 @@ export default function ProjectsManagementNew({
       });
 
       if (res.ok) {
-        setProjects(prev => prev.filter(p => p.id !== projectId));
+        setProjects((prev) => prev.filter((p) => p.id !== projectId));
         onDataChange?.();
       } else {
         alert("Failed to delete project");
@@ -176,26 +198,26 @@ export default function ProjectsManagementNew({
 
   const revealApiKey = async (projectId: string) => {
     if (projectApiKeyReveal[projectId] !== undefined) {
-      setProjectApiKeyReveal(prev => {
+      setProjectApiKeyReveal((prev) => {
         const next = { ...prev };
         delete next[projectId];
         return next;
       });
       return;
     }
-    setApiKeyLoading(prev => ({ ...prev, [projectId]: true }));
+    setApiKeyLoading((prev) => ({ ...prev, [projectId]: true }));
     try {
       const res = await fetch(`/api/projects/${projectId}/api-key`);
       const data = await res.json();
       if (res.ok) {
-        setProjectApiKeyReveal(prev => ({ ...prev, [projectId]: data.apiKey ?? "(not set)" }));
+        setProjectApiKeyReveal((prev) => ({ ...prev, [projectId]: data.apiKey ?? "(not set)" }));
       } else {
-        setProjectApiKeyReveal(prev => ({ ...prev, [projectId]: "(error)" }));
+        setProjectApiKeyReveal((prev) => ({ ...prev, [projectId]: "(error)" }));
       }
     } catch {
-      setProjectApiKeyReveal(prev => ({ ...prev, [projectId]: "(error)" }));
+      setProjectApiKeyReveal((prev) => ({ ...prev, [projectId]: "(error)" }));
     } finally {
-      setApiKeyLoading(prev => ({ ...prev, [projectId]: false }));
+      setApiKeyLoading((prev) => ({ ...prev, [projectId]: false }));
     }
   };
 
@@ -210,15 +232,15 @@ export default function ProjectsManagementNew({
   };
 
   const regenerateApiKey = async (projectId: string) => {
-    setApiKeyLoading(prev => ({ ...prev, [projectId]: true }));
+    setApiKeyLoading((prev) => ({ ...prev, [projectId]: true }));
     try {
       const res = await fetch(`/api/projects/${projectId}/api-key`, { method: "POST" });
       const data = await res.json();
       if (res.ok && data.apiKey) {
-        setProjectApiKeyReveal(prev => ({ ...prev, [projectId]: data.apiKey }));
+        setProjectApiKeyReveal((prev) => ({ ...prev, [projectId]: data.apiKey }));
       }
     } finally {
-      setApiKeyLoading(prev => ({ ...prev, [projectId]: false }));
+      setApiKeyLoading((prev) => ({ ...prev, [projectId]: false }));
     }
   };
 
@@ -261,7 +283,8 @@ export default function ProjectsManagementNew({
                       <div>
                         <h3 className="font-semibold text-lg text-left">{company.name}</h3>
                         <p className="text-sm text-muted-foreground">
-                          {companyProjects.length} {companyProjects.length === 1 ? 'project' : 'projects'}
+                          {companyProjects.length}{" "}
+                          {companyProjects.length === 1 ? "project" : "projects"}
                         </p>
                       </div>
                     </div>
@@ -303,7 +326,9 @@ export default function ProjectsManagementNew({
                             </div>
 
                             {project.description && (
-                              <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{project.description}</p>
+                              <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                                {project.description}
+                              </p>
                             )}
 
                             <div className="mt-auto space-y-3">
@@ -338,7 +363,11 @@ export default function ProjectsManagementNew({
                                       onClick={() => revealApiKey(project.id)}
                                       disabled={apiKeyLoading[project.id]}
                                       className="p-1.5 hover:bg-secondary/60 rounded transition-colors text-muted-foreground hover:text-foreground disabled:opacity-50"
-                                      title={projectApiKeyReveal[project.id] !== undefined ? "Hide" : "Reveal"}
+                                      title={
+                                        projectApiKeyReveal[project.id] !== undefined
+                                          ? "Hide"
+                                          : "Reveal"
+                                      }
                                     >
                                       {projectApiKeyReveal[project.id] !== undefined ? (
                                         <EyeOff className="w-4 h-4" />
@@ -347,17 +376,17 @@ export default function ProjectsManagementNew({
                                       )}
                                     </button>
                                     {projectApiKeyReveal[project.id] !== undefined &&
-                                     projectApiKeyReveal[project.id] !== "(not set)" &&
-                                     projectApiKeyReveal[project.id] !== "(error)" && (
-                                      <button
-                                        type="button"
-                                        onClick={() => copyApiKey(project.id)}
-                                        className="p-1.5 hover:bg-secondary/60 rounded transition-colors text-muted-foreground hover:text-foreground"
-                                        title="Copy"
-                                      >
-                                        <Copy className="w-4 h-4" />
-                                      </button>
-                                    )}
+                                      projectApiKeyReveal[project.id] !== "(not set)" &&
+                                      projectApiKeyReveal[project.id] !== "(error)" && (
+                                        <button
+                                          type="button"
+                                          onClick={() => copyApiKey(project.id)}
+                                          className="p-1.5 hover:bg-secondary/60 rounded transition-colors text-muted-foreground hover:text-foreground"
+                                          title="Copy"
+                                        >
+                                          <Copy className="w-4 h-4" />
+                                        </button>
+                                      )}
                                     <button
                                       type="button"
                                       onClick={() => regenerateApiKey(project.id)}

@@ -1,17 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "../auth";
-import {
-  getCurrentUser,
-  getUserPermissions,
-  isSuperAdmin,
-} from "./permissions";
+import { getCurrentUser, getUserPermissions, isSuperAdmin } from "./permissions";
 import { canEnterCompanyAdminPortal } from "./company-user-modules";
 import { getAllCompanies, getCompanyById, getCompanyStats } from "./companies";
-import {
-  filterOutSuperAdminUsers,
-  getAllUsers,
-  getUsersByCompany,
-} from "./users";
+import { filterOutSuperAdminUsers, getAllUsers, getUsersByCompany } from "./users";
 import { getAllProjects, getCompanyProjects } from "./projects";
 import { getGrantsForUser, summarizeGrants } from "./support-agent-grants";
 import type { Company, User, UserWithCompany } from "../types/company";
@@ -35,8 +27,7 @@ export const bootstrapAdminDashboard = createServerFn({ method: "GET" }).handler
     const superAdmin = await isSuperAdmin();
     const currentUser = await getCurrentUser();
     const session = await auth();
-    const userEmail =
-      currentUser?.email || session?.user?.email || "Admin";
+    const userEmail = currentUser?.email || session?.user?.email || "Admin";
 
     if (!superAdmin && !currentUser) {
       return {

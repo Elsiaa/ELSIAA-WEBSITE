@@ -4,11 +4,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { getSupabaseServiceClient } from "../portal/supabase";
 import { mailDatabaseReady } from "./schema.server";
-import type {
-  MailSendLogRecord,
-  MailSendSource,
-  MailSendStatus,
-} from "./types";
+import type { MailSendLogRecord, MailSendSource, MailSendStatus } from "./types";
 
 type LogRow = {
   id: string;
@@ -37,9 +33,7 @@ function asList(v: string | string[] | undefined | null): string[] {
 
 function mapLog(row: LogRow): MailSendLogRecord {
   const keyRel = row.mail_api_keys;
-  const apiKeyName = Array.isArray(keyRel)
-    ? (keyRel[0]?.name ?? null)
-    : (keyRel?.name ?? null);
+  const apiKeyName = Array.isArray(keyRel) ? (keyRel[0]?.name ?? null) : (keyRel?.name ?? null);
   return {
     id: row.id,
     createdAt: row.created_at,

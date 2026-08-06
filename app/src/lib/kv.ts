@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase } from "./supabase";
 
 export interface AvailabilityRequest {
   id: string;
@@ -7,7 +7,7 @@ export interface AvailabilityRequest {
   company?: string;
   phone: string;
   message?: string;
-  status: 'pending' | 'available' | 'unavailable' | 'timeout';
+  status: "pending" | "available" | "unavailable" | "timeout";
   createdAt: string;
   respondedAt?: string;
 }
@@ -20,7 +20,7 @@ type AvailabilityRequestRow = {
   company: string | null;
   phone: string;
   message: string | null;
-  status: 'pending' | 'available' | 'unavailable' | 'timeout';
+  status: "pending" | "available" | "unavailable" | "timeout";
   created_at: string;
   responded_at: string | null;
 };
@@ -64,17 +64,19 @@ function requestToRow(request: Partial<AvailabilityRequest>): Partial<Availabili
 /**
  * Save an availability request to the database
  */
-export async function saveAvailabilityRequest(request: AvailabilityRequest): Promise<AvailabilityRequest> {
+export async function saveAvailabilityRequest(
+  request: AvailabilityRequest,
+): Promise<AvailabilityRequest> {
   const row = requestToRow(request);
 
   const { data, error } = await supabase
-    .from('availability_requests')
+    .from("availability_requests")
     .insert(row)
     .select()
     .single();
 
   if (error) {
-    console.error('Error saving availability request:', error);
+    console.error("Error saving availability request:", error);
     throw new Error(`Failed to save availability request: ${error.message}`);
   }
 
@@ -86,16 +88,16 @@ export async function saveAvailabilityRequest(request: AvailabilityRequest): Pro
  */
 export async function getAvailabilityRequest(id: string): Promise<AvailabilityRequest | null> {
   const { data, error } = await supabase
-    .from('availability_requests')
-    .select('*')
-    .eq('id', id)
+    .from("availability_requests")
+    .select("*")
+    .eq("id", id)
     .single();
 
   if (error) {
-    if (error.code === 'PGRST116') {
+    if (error.code === "PGRST116") {
       return null; // Not found
     }
-    console.error('Error getting availability request:', error);
+    console.error("Error getting availability request:", error);
     return null;
   }
 
@@ -107,7 +109,7 @@ export async function getAvailabilityRequest(id: string): Promise<AvailabilityRe
  */
 export async function updateAvailabilityStatus(
   id: string,
-  status: 'available' | 'unavailable' | 'timeout'
+  status: "available" | "unavailable" | "timeout",
 ): Promise<AvailabilityRequest | null> {
   const updates: Partial<AvailabilityRequestRow> = {
     status,
@@ -115,14 +117,14 @@ export async function updateAvailabilityStatus(
   };
 
   const { data, error } = await supabase
-    .from('availability_requests')
+    .from("availability_requests")
     .update(updates)
-    .eq('id', id)
+    .eq("id", id)
     .select()
     .single();
 
   if (error) {
-    console.error('Error updating availability status:', error);
+    console.error("Error updating availability status:", error);
     return null;
   }
 

@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { getProjectMessages, deleteChatFile } from '@/lib/chat';
-import { getServerSupabaseClient } from '@/lib/supabase';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { getProjectMessages, deleteChatFile } from "@/lib/chat";
+import { getServerSupabaseClient } from "@/lib/supabase";
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: Promise<{ projectId: string }> }
+  context: { params: Promise<{ projectId: string }> },
 ) {
   try {
     const session = await auth();
@@ -13,7 +13,7 @@ export async function DELETE(
 
     // Check if user is admin (you'll need to implement your admin check logic)
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { projectId } = await context.params;
@@ -28,10 +28,10 @@ export async function DELETE(
         for (const attachment of message.attachments) {
           if (attachment.url) {
             deletionPromises.push(
-              deleteChatFile(attachment.url).catch(error => {
-                console.error('Error deleting attachment from R2:', error);
+              deleteChatFile(attachment.url).catch((error) => {
+                console.error("Error deleting attachment from R2:", error);
                 // Don't throw - continue deleting other files
-              })
+              }),
             );
           }
         }
@@ -43,25 +43,19 @@ export async function DELETE(
 
     // Delete all messages from the database
     const supabase = getServerSupabaseClient();
-    const { error } = await supabase
-      .from('chat_messages')
-      .delete()
-      .eq('project_id', projectId);
+    const { error } = await supabase.from("chat_messages").delete().eq("project_id", projectId);
 
     if (error) {
-      console.error('Error deleting messages from database:', error);
+      console.error("Error deleting messages from database:", error);
       return NextResponse.json(
-        { error: 'Failed to delete messages from database' },
-        { status: 500 }
+        { error: "Failed to delete messages from database" },
+        { status: 500 },
       );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Delete chat error:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete chat' },
-      { status: 500 }
-    );
+    console.error("Delete chat error:", error);
+    return NextResponse.json({ error: "Failed to delete chat" }, { status: 500 });
   }
 }

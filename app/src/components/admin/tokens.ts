@@ -1,11 +1,9 @@
 export const adminFonts = {
   mono: {
-    fontFamily:
-      "var(--font-sans)",
+    fontFamily: "var(--font-sans)",
   },
   sans: {
-    fontFamily:
-      "var(--font-sans)",
+    fontFamily: "var(--font-sans)",
   },
 } as const;
 
@@ -66,13 +64,7 @@ export type AdminNavEntry =
 
 /** @deprecated Prefer building role-specific trees in AdminPoelDashboard. */
 export type AdminNavId =
-  | "overview"
-  | "companies"
-  | "users"
-  | "projects"
-  | "billing"
-  | "mail"
-  | "settings";
+  "overview" | "companies" | "users" | "projects" | "billing" | "mail" | "settings";
 
 export const adminNav: Array<{
   id: AdminNavId;

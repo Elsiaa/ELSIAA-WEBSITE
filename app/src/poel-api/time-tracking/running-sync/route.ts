@@ -1,6 +1,6 @@
-import { auth } from '@/auth';
-import { NextResponse } from 'next/server';
-import { getClosedSecondsPerTask, getRunningEntries, sumSecondsToday } from '@/lib/time-tracking';
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+import { getClosedSecondsPerTask, getRunningEntries, sumSecondsToday } from "@/lib/time-tracking";
 
 /** Lightweight sync (open timers + today's closed total) — no clients/tasks payload. */
 export async function GET() {
@@ -8,7 +8,7 @@ export async function GET() {
     const session = await auth();
     const userId = session?.user?.id;
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const [runningEntries, todaySeconds, taskClosedSeconds] = await Promise.all([
@@ -19,7 +19,7 @@ export async function GET() {
 
     return NextResponse.json({ runningEntries, todaySeconds, taskClosedSeconds });
   } catch (e) {
-    console.error('time-tracking running-sync', e);
-    return NextResponse.json({ error: 'Failed to sync' }, { status: 500 });
+    console.error("time-tracking running-sync", e);
+    return NextResponse.json({ error: "Failed to sync" }, { status: 500 });
   }
 }

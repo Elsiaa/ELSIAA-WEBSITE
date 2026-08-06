@@ -1,18 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import JitsiMeetClient from "../../../components/meetings/join-meeting";
-import {
-  bootstrapJoinMeeting,
-  type JoinMeetingResult,
-} from "../../../lib/join-meeting.functions";
+import { bootstrapJoinMeeting, type JoinMeetingResult } from "../../../lib/join-meeting.functions";
 import { absoluteUrl } from "../../../lib/site-url";
 
 export const Route = createFileRoute("/meetings/$meetingId/join")({
   head: () => ({
-    meta: [
-      { title: "Join meeting — ELSIAA" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Join meeting — ELSIAA" }, { name: "robots", content: "noindex" }],
     links: [{ rel: "canonical", href: absoluteUrl("/meetings") }],
   }),
   component: JoinMeetingRoute,

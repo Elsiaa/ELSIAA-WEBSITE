@@ -21,7 +21,10 @@
   border-radius: var(--hf-radius-200);
   box-sizing: border-box;
   color: var(--hf-color-text-inverse);
-  max-width: var(--q-tooltip-max-width, calc(var(--hf-space-2400) * 3)); /* 288px — keep tooltips tight */
+  max-width: var(
+    --q-tooltip-max-width,
+    calc(var(--hf-space-2400) * 3)
+  ); /* 288px — keep tooltips tight */
   outline: none;
   padding: var(--hf-space-100) var(--hf-space-150); /* 4px 6px */
   width: max-content;

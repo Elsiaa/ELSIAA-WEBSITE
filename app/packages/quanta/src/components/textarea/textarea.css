@@ -12,7 +12,9 @@
 @source "./textarea.tsx";
 
 @utility q-field-multiline {
-  min-height: var(--q-textarea-min-height); /* default 10.25rem lives in generated component tier :root; Figma TextArea state frame 164px has no --hf-space-* equivalent (max is --hf-space-2400 = 96px) */
+  min-height: var(
+    --q-textarea-min-height
+  ); /* default 10.25rem lives in generated component tier :root; Figma TextArea state frame 164px has no --hf-space-* equivalent (max is --hf-space-2400 = 96px) */
 }
 
 @utility q-field-control-multiline {

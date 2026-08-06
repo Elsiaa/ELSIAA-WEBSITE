@@ -35,8 +35,8 @@ export default function SupportPortalClient({
           <h1 className="text-3xl font-bold">Support</h1>
         </div>
         <p className="text-sm text-[#111]/55 mb-6">
-          Open a ticket to write detailed replies and attach files with large previews. New messages email everyone on
-          the ticket.
+          Open a ticket to write detailed replies and attach files with large previews. New messages
+          email everyone on the ticket.
         </p>
         <SupportDesk
           mode="portal"

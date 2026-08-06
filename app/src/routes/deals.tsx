@@ -34,8 +34,7 @@ export const Route = createFileRoute("/deals")({
   component: DealsPage,
 });
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 
 type Deal = {
   art: string;
@@ -129,8 +128,8 @@ function DealsPage() {
             Good work, at the price a small business can actually start at.
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/65 md:mt-5 md:text-[17px]">
-            You don't need the whole thing on day one. Start with the cheapest piece that
-            makes you money, and add the rest when it has paid for itself.
+            You don't need the whole thing on day one. Start with the cheapest piece that makes you
+            money, and add the rest when it has paid for itself.
           </p>
           <a
             href="/consultation"
@@ -228,10 +227,10 @@ function DealsPage() {
               What "cheap" does and doesn't mean here.
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-[14.5px] leading-relaxed text-[#111111]/65 md:text-[16px]">
-              These are starting prices for a scoped piece of work, not a sale price cut
-              from a bigger number. A bigger site or a more involved system costs more, and
-              we tell you the figure before anything starts. What doesn't change at this
-              price: the same engineers, the same testing, and you own what we build.
+              These are starting prices for a scoped piece of work, not a sale price cut from a
+              bigger number. A bigger site or a more involved system costs more, and we tell you the
+              figure before anything starts. What doesn't change at this price: the same engineers,
+              the same testing, and you own what we build.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <a

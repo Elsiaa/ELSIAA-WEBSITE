@@ -23,7 +23,6 @@ export const ops = {
 
 export const opsFonts = {
   sans: {
-    fontFamily:
-      "var(--font-sans)",
+    fontFamily: "var(--font-sans)",
   },
 } as const;

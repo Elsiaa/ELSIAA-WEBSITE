@@ -15,7 +15,7 @@ export class GitHubRateLimitError extends Error {
 
   constructor(message: string, retryAfterSeconds = 3600) {
     super(message);
-    this.name = 'GitHubRateLimitError';
+    this.name = "GitHubRateLimitError";
     this.retryAfterSeconds = retryAfterSeconds;
   }
 }
@@ -27,7 +27,7 @@ export function isGitHubRateLimitError(err: unknown): err is GitHubRateLimitErro
 function githubAuthHeaders(accept: string): Record<string, string> {
   const headers: Record<string, string> = {
     Accept: accept,
-    'User-Agent': 'Vercatryx-App',
+    "User-Agent": "Vercatryx-App",
   };
   if (GITHUB_TOKEN) {
     headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
@@ -36,12 +36,12 @@ function githubAuthHeaders(accept: string): Record<string, string> {
 }
 
 function parseGitHubRetryAfter(res: Response): number {
-  const reset = res.headers.get('x-ratelimit-reset');
+  const reset = res.headers.get("x-ratelimit-reset");
   if (reset) {
     const secondsUntilReset = parseInt(reset, 10) - Math.floor(Date.now() / 1000);
     if (secondsUntilReset > 0) return Math.min(secondsUntilReset, 3600);
   }
-  const retryAfter = res.headers.get('retry-after');
+  const retryAfter = res.headers.get("retry-after");
   if (retryAfter) {
     const seconds = parseInt(retryAfter, 10);
     if (!Number.isNaN(seconds) && seconds > 0) return seconds;
@@ -60,14 +60,14 @@ function throwIfGitHubRateLimited(): void {
   const remainingMs = githubRateLimitUntilMs - Date.now();
   if (remainingMs > 0) {
     throw new GitHubRateLimitError(
-      'GitHub API rate limit exceeded (retry later)',
-      Math.ceil(remainingMs / 1000)
+      "GitHub API rate limit exceeded (retry later)",
+      Math.ceil(remainingMs / 1000),
     );
   }
 }
 
 function noteRateLimitFromResponse(res: Response): void {
-  if (res.headers.get('x-ratelimit-remaining') === '0') {
+  if (res.headers.get("x-ratelimit-remaining") === "0") {
     noteGitHubRateLimit(parseGitHubRetryAfter(res));
   }
 }
@@ -78,11 +78,11 @@ function throwGitHubApiError(res: Response, text: string, path?: string): never 
     noteGitHubRateLimit(retryAfterSeconds);
     throw new GitHubRateLimitError(
       `GitHub API rate limit exceeded: ${text.slice(0, 200)}`,
-      retryAfterSeconds
+      retryAfterSeconds,
     );
   }
   if (res.status === 404 && path) {
-    const hint = !GITHUB_TOKEN ? ' Private repo? Set GITHUB_TOKEN.' : '';
+    const hint = !GITHUB_TOKEN ? " Private repo? Set GITHUB_TOKEN." : "";
     throw new Error(`File not found: ${path}.${hint}`);
   }
   throw new Error(`GitHub API error ${res.status}: ${text.slice(0, 200)}`);
@@ -93,14 +93,14 @@ export async function fetchRepoFile(
   owner: string,
   repo: string,
   ref: string,
-  path: string
+  path: string,
 ): Promise<string> {
   throwIfGitHubRateLimited();
 
   const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${encodeURIComponent(ref)}`;
   const res = await fetch(url, {
-    headers: githubAuthHeaders('application/vnd.github.raw'),
-    cache: 'no-store',
+    headers: githubAuthHeaders("application/vnd.github.raw"),
+    cache: "no-store",
   });
   noteRateLimitFromResponse(res);
 
@@ -119,13 +119,16 @@ export async function fetchRepoFile(
 export async function fetchLatestCommitDate(
   owner: string,
   repo: string,
-  ref: string
+  ref: string,
 ): Promise<string | null> {
   const url = `https://api.github.com/repos/${owner}/${repo}/commits?sha=${encodeURIComponent(ref)}&per_page=1`;
 
   try {
     throwIfGitHubRateLimited();
-    const res = await fetch(url, { headers: githubAuthHeaders('application/vnd.github.v3+json'), cache: 'no-store' });
+    const res = await fetch(url, {
+      headers: githubAuthHeaders("application/vnd.github.v3+json"),
+      cache: "no-store",
+    });
     noteRateLimitFromResponse(res);
     if (!res.ok) return null;
 
@@ -136,7 +139,7 @@ export async function fetchLatestCommitDate(
     return null;
   } catch (error) {
     if (isGitHubRateLimitError(error)) throw error;
-    console.error('Error fetching latest commit date:', error);
+    console.error("Error fetching latest commit date:", error);
     return null;
   }
 }
@@ -149,14 +152,19 @@ export async function fetchRepoDefaultBranch(owner: string, repo: string): Promi
 
   try {
     throwIfGitHubRateLimited();
-    const res = await fetch(url, { headers: githubAuthHeaders('application/vnd.github.v3+json'), cache: 'no-store' });
+    const res = await fetch(url, {
+      headers: githubAuthHeaders("application/vnd.github.v3+json"),
+      cache: "no-store",
+    });
     noteRateLimitFromResponse(res);
     if (!res.ok) return null;
     const data = (await res.json()) as { default_branch?: string };
-    return typeof data.default_branch === 'string' && data.default_branch ? data.default_branch : null;
+    return typeof data.default_branch === "string" && data.default_branch
+      ? data.default_branch
+      : null;
   } catch (error) {
     if (isGitHubRateLimitError(error)) throw error;
-    console.error('Error fetching repo default branch:', error);
+    console.error("Error fetching repo default branch:", error);
     return null;
   }
 }
@@ -166,9 +174,9 @@ function mapCommitRow(item: {
   commit?: { message?: string; committer?: { date?: string }; author?: { date?: string } };
 }): { sha: string; message: string; date: string } {
   return {
-    sha: item.sha ?? '',
-    message: item.commit?.message?.split('\n')[0] || '',
-    date: item.commit?.committer?.date || item.commit?.author?.date || '',
+    sha: item.sha ?? "",
+    message: item.commit?.message?.split("\n")[0] || "",
+    date: item.commit?.committer?.date || item.commit?.author?.date || "",
   };
 }
 
@@ -190,9 +198,9 @@ export async function fetchRecentCommits(
   repo: string,
   limit: number = GITHUB_STATUS_COMMIT_LIMIT,
   branchOrSha?: string,
-  offset: number = 0
+  offset: number = 0,
 ): Promise<FetchRecentCommitsResult> {
-  const shaParam = branchOrSha ? `&sha=${encodeURIComponent(branchOrSha)}` : '';
+  const shaParam = branchOrSha ? `&sha=${encodeURIComponent(branchOrSha)}` : "";
   const fetchAll = limit === 0;
   const perPage = 100;
   const safeOffset = Math.max(0, offset);
@@ -206,8 +214,8 @@ export async function fetchRecentCommits(
     while (commits.length < targetCount) {
       const url = `https://api.github.com/repos/${owner}/${repo}/commits?per_page=${perPage}&page=${page}${shaParam}`;
       const res = await fetch(url, {
-        headers: githubAuthHeaders('application/vnd.github.v3+json'),
-        cache: 'no-store',
+        headers: githubAuthHeaders("application/vnd.github.v3+json"),
+        cache: "no-store",
       });
       noteRateLimitFromResponse(res);
       if (!res.ok) break;
@@ -226,7 +234,7 @@ export async function fetchRecentCommits(
     }
   } catch (error) {
     if (isGitHubRateLimitError(error)) throw error;
-    console.error('Error fetching recent commits:', error);
+    console.error("Error fetching recent commits:", error);
   }
 
   if (fetchAll) {

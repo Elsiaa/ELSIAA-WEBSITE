@@ -16,7 +16,6 @@ function loadPdfjs(): Promise<PdfjsModule> {
 import type { PdfSignatureRecord } from "@/lib/pdf-signatures";
 import { toast } from "sonner";
 
-
 interface PdfSignatureField {
   id: string;
   page_number: number;
@@ -25,7 +24,7 @@ interface PdfSignatureField {
   width: number;
   height: number;
   label: string | null;
-  field_type?: 'signature' | 'data_entry';
+  field_type?: "signature" | "data_entry";
 }
 
 interface PdfSignatureRequest {
@@ -53,16 +52,16 @@ interface PdfViewerProps {
   defaultHeight: number;
 }
 
-function PdfViewer({ 
-  requestId, 
-  fields, 
+function PdfViewer({
+  requestId,
+  fields,
   selectedFieldId,
-  onFieldAdd, 
+  onFieldAdd,
   onFieldSelect,
   onFieldUpdate,
   onFieldDelete,
   defaultWidth,
-  defaultHeight
+  defaultHeight,
 }: PdfViewerProps) {
   const [pdf, setPdf] = useState<any | null>(null);
   const [numPages, setNumPages] = useState(0);
@@ -122,7 +121,7 @@ function PdfViewer({
   const handleCanvasClick = (
     e: React.MouseEvent<HTMLCanvasElement>,
     pageNumber: number,
-    canvas: HTMLCanvasElement | null
+    canvas: HTMLCanvasElement | null,
   ) => {
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
@@ -143,7 +142,7 @@ function PdfViewer({
       width,
       height,
       label: null,
-      field_type: 'signature', // Default to signature, can be changed in the sidebar
+      field_type: "signature", // Default to signature, can be changed in the sidebar
     };
 
     onFieldAdd(newField);
@@ -184,19 +183,19 @@ interface PdfPageProps {
   onClick: (
     e: React.MouseEvent<HTMLCanvasElement>,
     pageNumber: number,
-    canvas: HTMLCanvasElement | null
+    canvas: HTMLCanvasElement | null,
   ) => void;
 }
 
-function PdfPage({ 
-  pdf, 
-  pageNumber, 
-  fields, 
+function PdfPage({
+  pdf,
+  pageNumber,
+  fields,
   selectedFieldId,
   onFieldSelect,
   onFieldUpdate,
   onFieldDelete,
-  onClick 
+  onClick,
 }: PdfPageProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -245,8 +244,8 @@ function PdfPage({
           onSelect={() => onFieldSelect(field.id)}
           onUpdate={(updated) => onFieldUpdate(updated)}
           onDelete={() => {
-            const isDataEntry = field.field_type === 'data_entry';
-            if (confirm(`Delete ${isDataEntry ? 'data entry' : 'signature'} field?`)) {
+            const isDataEntry = field.field_type === "data_entry";
+            if (confirm(`Delete ${isDataEntry ? "data entry" : "signature"} field?`)) {
               onFieldDelete(field.id);
             }
           }}
@@ -283,13 +282,21 @@ function DraggableResizableField({
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [fieldStart, setFieldStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
 
-  const isDataEntry = field.field_type === 'data_entry';
-  const borderColor = isDataEntry 
-    ? (isSelected ? "border-primary" : "border-primary/70")
-    : (isSelected ? "border-flame" : "border-steel");
+  const isDataEntry = field.field_type === "data_entry";
+  const borderColor = isDataEntry
+    ? isSelected
+      ? "border-primary"
+      : "border-primary/70"
+    : isSelected
+      ? "border-flame"
+      : "border-steel";
   const bgColor = isDataEntry
-    ? (isSelected ? "bg-primary/30" : "bg-primary/15")
-    : (isSelected ? "bg-flame/25" : "bg-steel/20");
+    ? isSelected
+      ? "bg-primary/30"
+      : "bg-primary/15"
+    : isSelected
+      ? "bg-flame/25"
+      : "bg-steel/20";
   const labelBg = isDataEntry ? "bg-primary" : "bg-steel";
   const handleColor = isDataEntry ? "bg-primary" : "bg-steel";
 
@@ -311,14 +318,14 @@ function DraggableResizableField({
       return;
     }
     onSelect();
-    
+
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const rect = canvas.getBoundingClientRect();
     const startX = (e.clientX - rect.left) / rect.width;
     const startY = (e.clientY - rect.top) / rect.height;
-    
+
     setDragStart({ x: startX, y: startY });
     setFieldStart({ x: field.x, y: field.y, width: field.width, height: field.height });
     setIsDragging(true);
@@ -328,14 +335,14 @@ function DraggableResizableField({
     e.stopPropagation();
     e.preventDefault();
     onSelect();
-    
+
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const rect = canvas.getBoundingClientRect();
     const startX = (e.clientX - rect.left) / rect.width;
     const startY = (e.clientY - rect.top) / rect.height;
-    
+
     setDragStart({ x: startX, y: startY });
     setFieldStart({ x: field.x, y: field.y, width: field.width, height: field.height });
     setIsResizing(true);
@@ -348,11 +355,11 @@ function DraggableResizableField({
     const handleMouseMove = (e: MouseEvent) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      
+
       const rect = canvas.getBoundingClientRect();
       const currentX = (e.clientX - rect.left) / rect.width;
       const currentY = (e.clientY - rect.top) / rect.height;
-      
+
       const deltaX = currentX - dragStart.x;
       const deltaY = currentY - dragStart.y;
 
@@ -363,19 +370,19 @@ function DraggableResizableField({
         let newWidth = fieldStart.width;
         let newHeight = fieldStart.height;
 
-        if (resizeHandle.includes('n')) {
+        if (resizeHandle.includes("n")) {
           newHeight = Math.max(0.02, fieldStart.height - deltaY);
           newY = Math.max(0, fieldStart.y + fieldStart.height - newHeight);
         }
-        if (resizeHandle.includes('s')) {
+        if (resizeHandle.includes("s")) {
           newHeight = Math.max(0.02, fieldStart.height + deltaY);
           newY = fieldStart.y;
         }
-        if (resizeHandle.includes('w')) {
+        if (resizeHandle.includes("w")) {
           newWidth = Math.max(0.02, fieldStart.width - deltaX);
           newX = Math.max(0, fieldStart.x + fieldStart.width - newWidth);
         }
-        if (resizeHandle.includes('e')) {
+        if (resizeHandle.includes("e")) {
           newWidth = Math.max(0.02, fieldStart.width + deltaX);
           newX = fieldStart.x;
         }
@@ -418,31 +425,47 @@ function DraggableResizableField({
       setResizeHandle(null);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [isDragging, isResizing, resizeHandle, dragStart, fieldStart, field, onUpdate]);
 
   const resizeHandles = [
-    { position: 'nw', cursor: 'nw-resize', style: { top: '-4px', left: '-4px' } },
-    { position: 'n', cursor: 'n-resize', style: { top: '-4px', left: '50%', transform: 'translateX(-50%)' } },
-    { position: 'ne', cursor: 'ne-resize', style: { top: '-4px', right: '-4px' } },
-    { position: 'e', cursor: 'e-resize', style: { top: '50%', right: '-4px', transform: 'translateY(-50%)' } },
-    { position: 'se', cursor: 'se-resize', style: { bottom: '-4px', right: '-4px' } },
-    { position: 's', cursor: 's-resize', style: { bottom: '-4px', left: '50%', transform: 'translateX(-50%)' } },
-    { position: 'sw', cursor: 'sw-resize', style: { bottom: '-4px', left: '-4px' } },
-    { position: 'w', cursor: 'w-resize', style: { top: '50%', left: '-4px', transform: 'translateY(-50%)' } },
+    { position: "nw", cursor: "nw-resize", style: { top: "-4px", left: "-4px" } },
+    {
+      position: "n",
+      cursor: "n-resize",
+      style: { top: "-4px", left: "50%", transform: "translateX(-50%)" },
+    },
+    { position: "ne", cursor: "ne-resize", style: { top: "-4px", right: "-4px" } },
+    {
+      position: "e",
+      cursor: "e-resize",
+      style: { top: "50%", right: "-4px", transform: "translateY(-50%)" },
+    },
+    { position: "se", cursor: "se-resize", style: { bottom: "-4px", right: "-4px" } },
+    {
+      position: "s",
+      cursor: "s-resize",
+      style: { bottom: "-4px", left: "50%", transform: "translateX(-50%)" },
+    },
+    { position: "sw", cursor: "sw-resize", style: { bottom: "-4px", left: "-4px" } },
+    {
+      position: "w",
+      cursor: "w-resize",
+      style: { top: "50%", left: "-4px", transform: "translateY(-50%)" },
+    },
   ];
 
   return (
     <>
       <div
         ref={fieldRef}
-        className={`absolute border-2 rounded ${borderColor} ${bgColor} ${isSelected ? 'cursor-move' : 'cursor-pointer'}`}
+        className={`absolute border-2 rounded ${borderColor} ${bgColor} ${isSelected ? "cursor-move" : "cursor-pointer"}`}
         style={{
           left: `${field.x * 100}%`,
           top: `${field.y * 100}%`,
@@ -453,7 +476,9 @@ function DraggableResizableField({
       >
         {isSelected && (
           <>
-            <div className={`absolute -top-6 left-0 text-xs ${labelBg} text-white px-2 py-1 rounded z-10`}>
+            <div
+              className={`absolute -top-6 left-0 text-xs ${labelBg} text-white px-2 py-1 rounded z-10`}
+            >
               {isDataEntry ? "Data Entry" : "Signature"} - double-click to delete
             </div>
             {resizeHandles.map((handle) => (
@@ -521,9 +546,7 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
   };
 
   const handleFieldUpdate = (updatedField: PdfSignatureField) => {
-    setFields((prev) =>
-      prev.map((f) => (f.id === updatedField.id ? updatedField : f))
-    );
+    setFields((prev) => prev.map((f) => (f.id === updatedField.id ? updatedField : f)));
   };
 
   const handleFieldDelete = (fieldId: string) => {
@@ -553,7 +576,7 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
             width: f.width,
             height: f.height,
             label: null,
-            field_type: f.field_type || 'signature',
+            field_type: f.field_type || "signature",
           })),
         }),
       });
@@ -562,7 +585,7 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
         throw new Error(data.error || "Failed to save fields");
       }
       setFields(data.fields || []);
-      
+
       // Copy link to clipboard
       const publicLink = `${typeof window !== "undefined" ? window.location.origin : ""}/sign/${
         request?.public_token
@@ -614,14 +637,15 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
         <header className="space-y-1">
           <h1 className="text-3xl font-bold">Place signatures for PDF</h1>
           <p className="text-muted-foreground">
-            {request.title} &middot; Click on the preview to add signature fields. You can add multiple signatures.
+            {request.title} &middot; Click on the preview to add signature fields. You can add
+            multiple signatures.
           </p>
         </header>
 
         <section className="grid gap-6 md:grid-cols-[2fr,1fr] items-start">
           <div className="space-y-3">
-            <PdfViewer 
-              requestId={id} 
+            <PdfViewer
+              requestId={id}
               fields={fields}
               selectedFieldId={selectedFieldId}
               onFieldAdd={handleFieldAdd}
@@ -632,7 +656,8 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
               defaultHeight={defaultHeight}
             />
             <p className="text-xs text-muted-foreground">
-              Tip: Click anywhere on the PDF to add a signature field. Click a field to select it, double-click to delete it. Highlighted boxes show signature positions.
+              Tip: Click anywhere on the PDF to add a signature field. Click a field to select it,
+              double-click to delete it. Highlighted boxes show signature positions.
             </p>
           </div>
 
@@ -648,29 +673,27 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
                 />
                 <button
                   type="button"
-                    className="px-3 py-2 rounded bg-secondary text-xs disabled:opacity-60"
-                    disabled={copyingLink}
+                  className="px-3 py-2 rounded bg-secondary text-xs disabled:opacity-60"
+                  disabled={copyingLink}
                   onClick={() => {
-                      setCopyingLink(true);
-                      navigator.clipboard
-                        .writeText(publicLink)
-                        .catch(() => {
-                          window.prompt("Copy this link:", publicLink);
-                        })
-                        .finally(() => {
-                          setTimeout(() => setCopyingLink(false), 1500);
-                        });
+                    setCopyingLink(true);
+                    navigator.clipboard
+                      .writeText(publicLink)
+                      .catch(() => {
+                        window.prompt("Copy this link:", publicLink);
+                      })
+                      .finally(() => {
+                        setTimeout(() => setCopyingLink(false), 1500);
+                      });
                   }}
                 >
-                    {copyingLink ? "Copied" : "Copy"}
+                  {copyingLink ? "Copied" : "Copy"}
                 </button>
               </div>
             </div>
 
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>
-                1. Click anywhere on the PDF to add signature fields (you can add multiple).
-              </p>
+              <p>1. Click anywhere on the PDF to add signature fields (you can add multiple).</p>
               <p>2. Click a field to select it, then drag to move or use the handles to resize.</p>
               <p>3. Double-click a field to delete it.</p>
               <p>4. Click &quot;Save signature positions&quot; when done.</p>
@@ -689,7 +712,10 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
                     step="0.01"
                     value={defaultWidth}
                     onChange={(e) => {
-                      const newWidth = Math.max(0.05, Math.min(1, parseFloat(e.target.value) || 0.25));
+                      const newWidth = Math.max(
+                        0.05,
+                        Math.min(1, parseFloat(e.target.value) || 0.25),
+                      );
                       setDefaultWidth(newWidth);
                     }}
                     className="w-full px-2 py-1.5 rounded border border-border bg-background text-sm"
@@ -704,7 +730,10 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
                     step="0.01"
                     value={defaultHeight}
                     onChange={(e) => {
-                      const newHeight = Math.max(0.05, Math.min(1, parseFloat(e.target.value) || 0.06));
+                      const newHeight = Math.max(
+                        0.05,
+                        Math.min(1, parseFloat(e.target.value) || 0.06),
+                      );
                       setDefaultHeight(newHeight);
                     }}
                     className="w-full px-2 py-1.5 rounded border border-border bg-background text-sm"
@@ -712,7 +741,8 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">
-                Set the default size for new signature boxes. You can adjust individual boxes after selecting them.
+                Set the default size for new signature boxes. You can adjust individual boxes after
+                selecting them.
               </p>
             </div>
 
@@ -731,17 +761,20 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
                       onClick={() => setSelectedFieldId(field.id)}
                     >
                       <div className="font-medium flex items-center gap-2">
-                        {field.field_type === 'data_entry' ? "Data Entry" : "Signature"}
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                          field.field_type === 'data_entry'
-                            ? "bg-primary/15 text-primary" 
-                            : "bg-mist text-navy"
-                        }`}>
-                          {field.field_type === 'data_entry' ? "Data" : "Sign"}
+                        {field.field_type === "data_entry" ? "Data Entry" : "Signature"}
+                        <span
+                          className={`text-[10px] px-1.5 py-0.5 rounded ${
+                            field.field_type === "data_entry"
+                              ? "bg-primary/15 text-primary"
+                              : "bg-mist text-navy"
+                          }`}
+                        >
+                          {field.field_type === "data_entry" ? "Data" : "Sign"}
                         </span>
                       </div>
                       <div className="text-muted-foreground">
-                        Page {field.page_number} &middot; {Math.round(field.x * 100)}%, {Math.round(field.y * 100)}%
+                        Page {field.page_number} &middot; {Math.round(field.x * 100)}%,{" "}
+                        {Math.round(field.y * 100)}%
                       </div>
                     </div>
                   ))}
@@ -755,7 +788,9 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
               disabled={saving || fields.length === 0}
               className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-steel text-white text-sm font-medium hover:bg-navy disabled:opacity-60"
             >
-              {saving ? "Saving…" : `Save ${fields.length} signature field${fields.length !== 1 ? "s" : ""}`}
+              {saving
+                ? "Saving…"
+                : `Save ${fields.length} signature field${fields.length !== 1 ? "s" : ""}`}
             </button>
             {selectedFieldId && (
               <div className="space-y-3">
@@ -767,11 +802,11 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
                       onClick={() => {
                         const field = fields.find((f) => f.id === selectedFieldId);
                         if (field) {
-                          handleFieldUpdate({ ...field, field_type: 'signature' });
+                          handleFieldUpdate({ ...field, field_type: "signature" });
                         }
                       }}
                       className={`flex-1 px-3 py-2 rounded border text-sm font-medium ${
-                        fields.find((f) => f.id === selectedFieldId)?.field_type !== 'data_entry'
+                        fields.find((f) => f.id === selectedFieldId)?.field_type !== "data_entry"
                           ? "bg-steel text-white border-flame"
                           : "bg-background text-foreground border-border hover:bg-muted"
                       }`}
@@ -783,11 +818,11 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
                       onClick={() => {
                         const field = fields.find((f) => f.id === selectedFieldId);
                         if (field) {
-                          handleFieldUpdate({ ...field, field_type: 'data_entry' });
+                          handleFieldUpdate({ ...field, field_type: "data_entry" });
                         }
                       }}
                       className={`flex-1 px-3 py-2 rounded border text-sm font-medium ${
-                        fields.find((f) => f.id === selectedFieldId)?.field_type === 'data_entry'
+                        fields.find((f) => f.id === selectedFieldId)?.field_type === "data_entry"
                           ? "bg-primary text-primary-foreground border-primary"
                           : "bg-background text-foreground border-border hover:bg-muted"
                       }`}
@@ -796,14 +831,15 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
                     </button>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    {fields.find((f) => f.id === selectedFieldId)?.field_type === 'data_entry'
+                    {fields.find((f) => f.id === selectedFieldId)?.field_type === "data_entry"
                       ? "Data entry fields allow typing only (regular font)"
                       : "Signature fields allow drawing or typing (handwritten font)"}
                   </p>
                 </div>
                 <div className="space-y-2 pt-2 border-t border-border/60">
                   <p className="text-xs text-muted-foreground">
-                    <strong>Tip:</strong> Drag the box to move it, or drag the corner/edge handles to resize it.
+                    <strong>Tip:</strong> Drag the box to move it, or drag the corner/edge handles
+                    to resize it.
                   </p>
                 </div>
               </div>
@@ -843,9 +879,7 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
                       className="flex items-center justify-between gap-2 rounded border border-border/60 px-3 py-2"
                     >
                       <div className="space-y-0.5">
-                        <div className="font-medium">
-                          {sig.signer_name || "Anonymous signer"}
-                        </div>
+                        <div className="font-medium">{sig.signer_name || "Anonymous signer"}</div>
                         <div className="text-muted-foreground">
                           {sig.signer_email || "No email"} ·{" "}
                           {new Date(sig.signed_at).toLocaleString()}
@@ -877,5 +911,3 @@ export default function SignaturePlacementPage({ id }: SignaturePlacementPagePro
     </div>
   );
 }
-
-

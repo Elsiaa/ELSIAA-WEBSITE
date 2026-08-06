@@ -7,9 +7,7 @@ type SessionData = { user?: SessionUser } | null;
 
 export function useSession() {
   const [data, setData] = useState<SessionData>(null);
-  const [status, setStatus] = useState<
-    "authenticated" | "unauthenticated" | "loading"
-  >("loading");
+  const [status, setStatus] = useState<"authenticated" | "unauthenticated" | "loading">("loading");
 
   useEffect(() => {
     let cancelled = false;

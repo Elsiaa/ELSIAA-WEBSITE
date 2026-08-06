@@ -89,15 +89,15 @@ export default function AdminClientNew({
   softRefreshing = false,
   dataRevision = 0,
 }: AdminClientNewProps) {
-  const [activeTab, setActiveTab] = useState<TabType>(
-    () => readAdminTab(initialTab) as TabType,
-  );
+  const [activeTab, setActiveTab] = useState<TabType>(() => readAdminTab(initialTab) as TabType);
   const [refreshing, setRefreshing] = useState(false);
   const [creatingSignatureRequest, setCreatingSignatureRequest] = useState(false);
   const [signatureRequests, setSignatureRequests] = useState<SignatureRequest[]>([]);
   const [loadingSignatureRequests, setLoadingSignatureRequests] = useState(false);
   const [deletingRequestId, setDeletingRequestId] = useState<string | null>(null);
-  const [requestSignatures, setRequestSignatures] = useState<Record<string, { signed_pdf_url: string | null }[]>>({});
+  const [requestSignatures, setRequestSignatures] = useState<
+    Record<string, { signed_pdf_url: string | null }[]>
+  >({});
   const [copyingLinkId, setCopyingLinkId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -125,11 +125,11 @@ export default function AdminClientNew({
   const projectsArray: Project[] = Array.isArray(initialProjects)
     ? initialProjects
     : Object.entries(initialProjects).flatMap(([companyId, projects]) =>
-      projects.map((project) => ({
-        ...project,
-        company: companies.find((c) => c.id === companyId),
-      }))
-    );
+        projects.map((project) => ({
+          ...project,
+          company: companies.find((c) => c.id === companyId),
+        })),
+      );
 
   const supportDeskCompanies =
     isSupportAgent && supportAgentAccess
@@ -143,7 +143,9 @@ export default function AdminClientNew({
 
   const authorizationsProjects =
     isSupportAgent && supportAgentAccess
-      ? projectsArray.filter((p) => supportAgentAccess.authorizationsCompanyIds.includes(p.companyId))
+      ? projectsArray.filter((p) =>
+          supportAgentAccess.authorizationsCompanyIds.includes(p.companyId),
+        )
       : projectsArray;
 
   const programLogsCompanies =
@@ -156,8 +158,9 @@ export default function AdminClientNew({
       ? projectsArray.filter((p) => supportAgentAccess.programLogsCompanyIds.includes(p.companyId))
       : projectsArray;
 
-  const supportAgentAuthorizationsElevated =
-    Boolean(isSupportAgent && supportAgentAccess?.canAuthorizations);
+  const supportAgentAuthorizationsElevated = Boolean(
+    isSupportAgent && supportAgentAccess?.canAuthorizations,
+  );
 
   /** Companies where this agent has the Files grant (Support agents screen) — picker matches that permission only. */
   const supportAgentFilesGrantCompanies =
@@ -166,11 +169,10 @@ export default function AdminClientNew({
       : [];
 
   const supportAgentCompanyFilesMode = Boolean(
-    isSupportAgent && supportAgentAccess?.canFiles && supportAgentFilesGrantCompanies.length > 0
+    isSupportAgent && supportAgentAccess?.canFiles && supportAgentFilesGrantCompanies.length > 0,
   );
 
-  const isCompanyAdminUser =
-    Boolean(currentUser?.company_id) && currentUser?.role === "admin";
+  const isCompanyAdminUser = Boolean(currentUser?.company_id) && currentUser?.role === "admin";
 
   const companyCanAuthorizations =
     Boolean(currentUser?.company_id) && companyUserHasModule(currentUser, "authorizations");
@@ -182,8 +184,7 @@ export default function AdminClientNew({
     Boolean(currentUser?.company_id) && companyUserHasModule(currentUser, "support");
 
   const showFilesTabForUser =
-    isSuperAdmin ||
-    (isSupportAgent ? Boolean(supportAgentAccess?.canFiles) : companyCanFiles);
+    isSuperAdmin || (isSupportAgent ? Boolean(supportAgentAccess?.canFiles) : companyCanFiles);
 
   const roleLabel = isSuperAdmin
     ? "Super admin"
@@ -209,7 +210,12 @@ export default function AdminClientNew({
         items.push({ kind: "item", id: "logs", label: "Logs", blurb: "Program output." });
       }
       if (supportAgentAccess.canFiles) {
-        items.push({ kind: "item", id: "company-files", label: "Files", blurb: "Company storage." });
+        items.push({
+          kind: "item",
+          id: "company-files",
+          label: "Files",
+          blurb: "Company storage.",
+        });
       }
       return items;
     }
@@ -238,9 +244,24 @@ export default function AdminClientNew({
           label: "Structure",
           blurb: "Tenants & people.",
           children: [
-            { id: "companies" as const, label: "Companies", blurb: "Tenant accounts.", badge: companies.length },
-            { id: "users" as const, label: "Users", blurb: "People & roles.", badge: initialUsers.length },
-            { id: "projects" as const, label: "Projects", blurb: "Active builds.", badge: projectsArray.length },
+            {
+              id: "companies" as const,
+              label: "Companies",
+              blurb: "Tenant accounts.",
+              badge: companies.length,
+            },
+            {
+              id: "users" as const,
+              label: "Users",
+              blurb: "People & roles.",
+              badge: initialUsers.length,
+            },
+            {
+              id: "projects" as const,
+              label: "Projects",
+              blurb: "Active builds.",
+              badge: projectsArray.length,
+            },
             { id: "support-agents" as const, label: "Support agents", blurb: "Module grants." },
           ],
         },
@@ -256,8 +277,18 @@ export default function AdminClientNew({
           label: "Calendar",
           blurb: "Meeting requests.",
         },
-        { kind: "item" as const, id: "logs" as const, label: "Logs", blurb: "Program output by project." },
-        { kind: "item" as const, id: "support" as const, label: "Support", blurb: "Tickets & participants." },
+        {
+          kind: "item" as const,
+          id: "logs" as const,
+          label: "Logs",
+          blurb: "Program output by project.",
+        },
+        {
+          kind: "item" as const,
+          id: "support" as const,
+          label: "Support",
+          blurb: "Tickets & participants.",
+        },
       ];
     }
 
@@ -338,7 +369,7 @@ export default function AdminClientNew({
         const data = await res.json();
         if (!cancelled && Array.isArray(data.requests)) {
           setSignatureRequests(data.requests);
-          
+
           // Fetch signatures for each request
           const signaturesMap: Record<string, { signed_pdf_url: string | null }[]> = {};
           await Promise.all(
@@ -349,15 +380,15 @@ export default function AdminClientNew({
                 });
                 if (sigRes.ok && !cancelled) {
                   const sigData = await sigRes.json();
-                  signaturesMap[req.id] = Array.isArray(sigData.signatures) 
-                    ? sigData.signatures 
+                  signaturesMap[req.id] = Array.isArray(sigData.signatures)
+                    ? sigData.signatures
                     : [];
                 }
               } catch (err) {
                 console.error(`Error loading signatures for request ${req.id}:`, err);
                 signaturesMap[req.id] = [];
               }
-            })
+            }),
           );
           if (!cancelled) {
             setRequestSignatures(signaturesMap);
@@ -391,12 +422,12 @@ export default function AdminClientNew({
       {/* Tab Content — key remounts panels after soft refresh without losing activeTab */}
       <div className="pb-12" key={dataRevision}>
         {activeTab === "companies" && isSuperAdmin && (
-          <CompaniesManagement 
-            initialCompanies={companies} 
+          <CompaniesManagement
+            initialCompanies={companies}
             initialUsers={initialUsers}
             initialProjects={projectsArray}
             currentUser={currentUser}
-            onDataChange={handleDataChange} 
+            onDataChange={handleDataChange}
           />
         )}
 
@@ -414,31 +445,31 @@ export default function AdminClientNew({
           (isSuperAdmin ||
             (isSupportAgent && Boolean(supportAgentAccess?.canSupport)) ||
             companyCanSupport) && (
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-2xl font-semibold">Support tickets</h2>
-              <p className="text-sm text-[#111]/55 mt-1">
-                Tickets support long replies and large attachment previews. Add company users as participants;
-                everyone on the ticket and super-admins get email on new messages (super-admins are not copied on their
-                own sends).
-              </p>
+            <div className="space-y-4">
+              <div>
+                <h2 className="text-2xl font-semibold">Support tickets</h2>
+                <p className="text-sm text-[#111]/55 mt-1">
+                  Tickets support long replies and large attachment previews. Add company users as
+                  participants; everyone on the ticket and super-admins get email on new messages
+                  (super-admins are not copied on their own sends).
+                </p>
+              </div>
+              <SupportDesk
+                mode="admin"
+                isSuperAdmin={isSuperAdmin}
+                supportAgentMode={Boolean(
+                  isSupportAgent && (supportAgentAccess?.supportCompanyIds.length ?? 0) > 1,
+                )}
+                companies={supportDeskCompanies}
+                allUsers={initialUsers}
+                fixedCompanyId={
+                  isSupportAgent && supportAgentAccess?.supportCompanyIds.length === 1
+                    ? supportAgentAccess.supportCompanyIds[0]
+                    : (currentUser?.company_id ?? null)
+                }
+              />
             </div>
-            <SupportDesk
-              mode="admin"
-              isSuperAdmin={isSuperAdmin}
-              supportAgentMode={
-                Boolean(isSupportAgent && (supportAgentAccess?.supportCompanyIds.length ?? 0) > 1)
-              }
-              companies={supportDeskCompanies}
-              allUsers={initialUsers}
-              fixedCompanyId={
-                isSupportAgent && supportAgentAccess?.supportCompanyIds.length === 1
-                  ? supportAgentAccess.supportCompanyIds[0]
-                  : currentUser?.company_id ?? null
-              }
-            />
-          </div>
-        )}
+          )}
 
         {activeTab === "company-files" && showFilesTabForUser && (
           <CompanyFileStorage
@@ -484,23 +515,23 @@ export default function AdminClientNew({
 
                   if (!fileInput?.files || fileInput.files.length === 0) {
                     setCreatingSignatureRequest(false);
-                    alert('Please select a PDF file');
+                    alert("Please select a PDF file");
                     return;
                   }
 
                   const formData = new FormData();
-                  formData.append('title', titleInput?.value || 'Signature Request');
-                  formData.append('file', fileInput.files[0]);
+                  formData.append("title", titleInput?.value || "Signature Request");
+                  formData.append("file", fileInput.files[0]);
 
                   try {
-                    const res = await fetch('/api/pdf-signatures/requests', {
-                      method: 'POST',
+                    const res = await fetch("/api/pdf-signatures/requests", {
+                      method: "POST",
                       body: formData,
                     });
 
                     if (!res.ok) {
                       const data = await res.json().catch(() => ({}));
-                      throw new Error(data.error || 'Failed to create request');
+                      throw new Error(data.error || "Failed to create request");
                     }
 
                     const data = await res.json();
@@ -508,9 +539,9 @@ export default function AdminClientNew({
                     if (data.id) {
                       window.location.href = `/admin/signatures/${data.id}`;
                     } else {
-                      console.error('Request created, but ID was missing from response.');
+                      console.error("Request created, but ID was missing from response.");
                       setCreatingSignatureRequest(false);
-                      alert('Request created, but something went wrong. Please refresh the page.');
+                      alert("Request created, but something went wrong. Please refresh the page.");
                     }
                   } catch (error) {
                     console.error(error);
@@ -518,7 +549,7 @@ export default function AdminClientNew({
                     alert(
                       error instanceof Error
                         ? error.message
-                        : 'Failed to create PDF signature request'
+                        : "Failed to create PDF signature request",
                     );
                   }
                 }}
@@ -549,7 +580,7 @@ export default function AdminClientNew({
                   style={{ backgroundColor: ADMIN_GREEN }}
                 >
                   <FileSignature className="w-4 h-4" />
-                  {creatingSignatureRequest ? 'Creating request…' : 'Create request'}
+                  {creatingSignatureRequest ? "Creating request…" : "Create request"}
                 </button>
               </form>
             </div>
@@ -566,8 +597,8 @@ export default function AdminClientNew({
                 <div className="space-y-2">
                   {signatureRequests.map((req) => {
                     const signatures = requestSignatures[req.id] || [];
-                    const signedPdfs = signatures.filter(sig => sig.signed_pdf_url);
-                    
+                    const signedPdfs = signatures.filter((sig) => sig.signed_pdf_url);
+
                     return (
                       <div
                         key={req.id}
@@ -604,15 +635,15 @@ export default function AdminClientNew({
                               req.status === "completed"
                                 ? "bg-[#1e6b3c]/15 text-[#1e6b3c]"
                                 : req.status === "sent"
-                                ? "bg-black/[0.06] text-[#111]/55"
-                                : "bg-black/[0.04] text-[#111]/70"
+                                  ? "bg-black/[0.06] text-[#111]/55"
+                                  : "bg-black/[0.04] text-[#111]/70"
                             }`}
                           >
                             {req.status === "completed"
                               ? "Completed"
                               : req.status === "sent"
-                              ? "Sent"
-                              : "Draft"}
+                                ? "Sent"
+                                : "Draft"}
                           </span>
                           <button
                             type="button"
@@ -670,15 +701,13 @@ export default function AdminClientNew({
                                   const data = await res.json().catch(() => ({}));
                                   throw new Error(data.error || "Failed to delete request");
                                 }
-                                setSignatureRequests((prev) =>
-                                  prev.filter((r) => r.id !== req.id)
-                                );
+                                setSignatureRequests((prev) => prev.filter((r) => r.id !== req.id));
                               } catch (err) {
                                 console.error(err);
                                 alert(
                                   err instanceof Error
                                     ? err.message
-                                    : "Failed to delete signature request"
+                                    : "Failed to delete signature request",
                                 );
                               } finally {
                                 setDeletingRequestId(null);
@@ -706,29 +735,23 @@ export default function AdminClientNew({
           </div>
         )}
 
-        {activeTab === "email" && isSuperAdmin && (
-          <EmailTabContent />
-        )}
+        {activeTab === "email" && isSuperAdmin && <EmailTabContent />}
 
         {activeTab === "billing-payments" && !isSuperAdmin && isCompanyAdminUser && (
           <CompanyBillingPayments currentUser={currentUser} />
         )}
 
-        {activeTab === "authorizations" && !isSuperAdmin && !isSupportAgent && companyCanAuthorizations && (
-          <CompanyAuthorizedDevices currentUser={currentUser} />
-        )}
+        {activeTab === "authorizations" &&
+          !isSuperAdmin &&
+          !isSupportAgent &&
+          companyCanAuthorizations && <CompanyAuthorizedDevices currentUser={currentUser} />}
 
         {activeTab === "payment-methods" && !isSuperAdmin && (
-          <PaymentMethodsManagement
-            isSuperAdmin={isSuperAdmin}
-            currentUser={currentUser}
-          />
+          <PaymentMethodsManagement isSuperAdmin={isSuperAdmin} currentUser={currentUser} />
         )}
 
         {activeTab === "company-payments" && !isSuperAdmin && (
-          <CompanyPaymentsAttach
-            currentUser={currentUser}
-          />
+          <CompanyPaymentsAttach currentUser={currentUser} />
         )}
 
         {activeTab === "billing" && isSuperAdmin && (
@@ -743,26 +766,34 @@ export default function AdminClientNew({
 
         {activeTab === "authorizations" &&
           (isSuperAdmin || (isSupportAgent && Boolean(supportAgentAccess?.canAuthorizations))) && (
-          <PaymentsLicensing
-            companies={authorizationsCompanies}
-            projects={authorizationsProjects}
-            isSuperAdmin={isSuperAdmin}
-            authorizationsElevated={supportAgentAuthorizationsElevated}
-            currentUser={currentUser}
-            variant="authorizations"
-          />
-        )}
+            <PaymentsLicensing
+              companies={authorizationsCompanies}
+              projects={authorizationsProjects}
+              isSuperAdmin={isSuperAdmin}
+              authorizationsElevated={supportAgentAuthorizationsElevated}
+              currentUser={currentUser}
+              variant="authorizations"
+            />
+          )}
 
         {activeTab === "logs" &&
           (isSuperAdmin ||
             (isSupportAgent && Boolean(supportAgentAccess?.canProgramLogs)) ||
             companyCanLogs) && (
-          <ProjectProgramLogs
-            projects={isSupportAgent && supportAgentAccess?.canProgramLogs ? programLogsProjects : projectsArray}
-            companies={isSupportAgent && supportAgentAccess?.canProgramLogs ? programLogsCompanies : companies}
-            isSuperAdmin={isSuperAdmin}
-          />
-        )}
+            <ProjectProgramLogs
+              projects={
+                isSupportAgent && supportAgentAccess?.canProgramLogs
+                  ? programLogsProjects
+                  : projectsArray
+              }
+              companies={
+                isSupportAgent && supportAgentAccess?.canProgramLogs
+                  ? programLogsCompanies
+                  : companies
+              }
+              isSuperAdmin={isSuperAdmin}
+            />
+          )}
 
         {activeTab === "meetings" && isSuperAdmin && (
           <div className="space-y-4">
@@ -770,7 +801,7 @@ export default function AdminClientNew({
               <h2 className="text-2xl font-semibold">Calendar</h2>
               <button
                 onClick={() => {
-                  const newWindow = window.open('/admin/calendar', '_blank');
+                  const newWindow = window.open("/admin/calendar", "_blank");
                   if (newWindow) {
                     newWindow.focus();
                   }
@@ -782,7 +813,10 @@ export default function AdminClientNew({
                 Open in Full Screen
               </button>
             </div>
-            <div className="border border-black/[0.08] rounded-lg overflow-hidden bg-white" style={{ height: '800px' }}>
+            <div
+              className="border border-black/[0.08] rounded-lg overflow-hidden bg-white"
+              style={{ height: "800px" }}
+            >
               <iframe
                 src="/admin/calendar"
                 className="w-full h-full border-0"

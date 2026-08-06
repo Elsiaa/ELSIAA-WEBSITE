@@ -3,8 +3,7 @@
  */
 
 function read(name: string): string | undefined {
-  const fromProcess =
-    typeof process !== "undefined" ? process.env[name]?.trim() : undefined;
+  const fromProcess = typeof process !== "undefined" ? process.env[name]?.trim() : undefined;
   if (fromProcess) return fromProcess;
   return undefined;
 }

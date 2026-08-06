@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import type { ComponentProps, ReactNode } from 'react'
-import { createContext, useContext } from 'react'
-import { Tooltip as Primitive } from '@base-ui/react/tooltip'
-import { cx } from '../utils/cx.ts'
+import type { ComponentProps, ReactNode } from "react";
+import { createContext, useContext } from "react";
+import { Tooltip as Primitive } from "@base-ui/react/tooltip";
+import { cx } from "../utils/cx.ts";
 
 /**
  * Tooltip — a hover/focus popup on the Base UI `Tooltip` primitive (open timing,
@@ -30,32 +30,32 @@ import { cx } from '../utils/cx.ts'
  *   </Tooltip.Provider>
  */
 
-export type TooltipSide = NonNullable<ComponentProps<typeof Primitive.Positioner>['side']>
-export type TooltipAlign = NonNullable<ComponentProps<typeof Primitive.Positioner>['align']>
+export type TooltipSide = NonNullable<ComponentProps<typeof Primitive.Positioner>["side"]>;
+export type TooltipAlign = NonNullable<ComponentProps<typeof Primitive.Positioner>["align"]>;
 
 /* ── Provider (optional shared-delay grouping) ─────────────────────────────── */
 
-export type TooltipProviderProps = ComponentProps<typeof Primitive.Provider>
+export type TooltipProviderProps = ComponentProps<typeof Primitive.Provider>;
 
 function Provider(props: TooltipProviderProps) {
-  return <Primitive.Provider {...props} />
+  return <Primitive.Provider {...props} />;
 }
 
 /* Delay flows Root → Trigger via context so callers set it once on Root. */
-const DelayContext = createContext<{ delay?: number, closeDelay?: number }>({})
+const DelayContext = createContext<{ delay?: number; closeDelay?: number }>({});
 
 /* ── Root (open state + per-trigger delay convenience) ─────────────────────── */
 
-export type TooltipRootProps = Omit<ComponentProps<typeof Primitive.Root>, 'children'> & {
+export type TooltipRootProps = Omit<ComponentProps<typeof Primitive.Root>, "children"> & {
   /** Trigger + Content. */
-  children?: ReactNode
+  children?: ReactNode;
   /** Delay (ms) before opening on hover. Default 600 (Base UI). */
-  delay?: number
+  delay?: number;
   /** Delay (ms) before closing after the pointer leaves. Default 0. */
-  closeDelay?: number
+  closeDelay?: number;
   /** Allow hovering into the popup itself without closing. */
-  hoverable?: boolean
-}
+  hoverable?: boolean;
+};
 
 /**
  * Root groups the parts and owns open state. `delay` / `closeDelay` are forwarded
@@ -67,14 +67,14 @@ function Root({ delay, closeDelay, hoverable = false, children, ...props }: Tool
     <Primitive.Root disableHoverablePopup={!hoverable} {...props}>
       <DelayContext.Provider value={{ delay, closeDelay }}>{children}</DelayContext.Provider>
     </Primitive.Root>
-  )
+  );
 }
 
 /* ── Trigger ───────────────────────────────────────────────────────────────── */
 
-export type TooltipTriggerProps = Omit<ComponentProps<typeof Primitive.Trigger>, 'className'> & {
-  className?: string
-}
+export type TooltipTriggerProps = Omit<ComponentProps<typeof Primitive.Trigger>, "className"> & {
+  className?: string;
+};
 
 /**
  * Trigger is a pure anchor: Base UI renders the caller's element (via `render`),
@@ -82,7 +82,7 @@ export type TooltipTriggerProps = Omit<ComponentProps<typeof Primitive.Trigger>,
  * `className` is forwarded straight through.
  */
 function Trigger({ className, delay, closeDelay, ...props }: TooltipTriggerProps) {
-  const ctx = useContext(DelayContext)
+  const ctx = useContext(DelayContext);
   return (
     <Primitive.Trigger
       className={className}
@@ -90,31 +90,31 @@ function Trigger({ className, delay, closeDelay, ...props }: TooltipTriggerProps
       closeDelay={closeDelay ?? ctx.closeDelay}
       {...props}
     />
-  )
+  );
 }
 
 /* ── Content (Portal → Positioner → Popup, optional Arrow) ─────────────────── */
 
-export type TooltipContentProps = Omit<ComponentProps<typeof Primitive.Popup>, 'className'> & {
-  className?: string
-  positionerClassName?: string
-  side?: TooltipSide
-  align?: TooltipAlign
-  sideOffset?: ComponentProps<typeof Primitive.Positioner>['sideOffset']
-  alignOffset?: ComponentProps<typeof Primitive.Positioner>['alignOffset']
-  collisionPadding?: ComponentProps<typeof Primitive.Positioner>['collisionPadding']
-  container?: ComponentProps<typeof Primitive.Portal>['container']
+export type TooltipContentProps = Omit<ComponentProps<typeof Primitive.Popup>, "className"> & {
+  className?: string;
+  positionerClassName?: string;
+  side?: TooltipSide;
+  align?: TooltipAlign;
+  sideOffset?: ComponentProps<typeof Primitive.Positioner>["sideOffset"];
+  alignOffset?: ComponentProps<typeof Primitive.Positioner>["alignOffset"];
+  collisionPadding?: ComponentProps<typeof Primitive.Positioner>["collisionPadding"];
+  container?: ComponentProps<typeof Primitive.Portal>["container"];
   /** Render a pointing arrow on the anchored side. */
-  arrow?: boolean
+  arrow?: boolean;
   /** Keep the popup mounted while hidden (e.g. for exit animations). */
-  keepMounted?: boolean
-}
+  keepMounted?: boolean;
+};
 
 function Content({
   className,
   positionerClassName,
-  side = 'top',
-  align = 'center',
+  side = "top",
+  align = "center",
   sideOffset = 6,
   alignOffset,
   collisionPadding = 8,
@@ -127,20 +127,20 @@ function Content({
   return (
     <Primitive.Portal container={container} keepMounted={keepMounted}>
       <Primitive.Positioner
-        className={cx('q-tooltip-positioner', positionerClassName)}
+        className={cx("q-tooltip-positioner", positionerClassName)}
         side={side}
         align={align}
         sideOffset={sideOffset}
         alignOffset={alignOffset}
         collisionPadding={collisionPadding}
       >
-        <Primitive.Popup role="tooltip" className={cx('q-tooltip', className)} {...props}>
+        <Primitive.Popup role="tooltip" className={cx("q-tooltip", className)} {...props}>
           {children}
           {arrow ? <Primitive.Arrow className="q-tooltip-arrow" /> : null}
         </Primitive.Popup>
       </Primitive.Positioner>
     </Primitive.Portal>
-  )
+  );
 }
 
 export const Tooltip = {
@@ -148,4 +148,4 @@ export const Tooltip = {
   Root,
   Trigger,
   Content,
-}
+};

@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollText, Copy, Loader2, RefreshCw, Search, Trash2 } from 'lucide-react';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ScrollText, Copy, Loader2, RefreshCw, Search, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import type { Company } from '@/types/company';
+} from "@/components/ui/select";
+import type { Company } from "@/types/company";
 
 type Project = {
   id: string;
@@ -32,8 +32,8 @@ export type ProgramLogEntry = {
 function formatWhen(iso: string) {
   try {
     return new Date(iso).toLocaleString(undefined, {
-      dateStyle: 'medium',
-      timeStyle: 'medium',
+      dateStyle: "medium",
+      timeStyle: "medium",
     });
   } catch {
     return iso;
@@ -42,8 +42,8 @@ function formatWhen(iso: string) {
 
 function formatLocalYmd(d: Date): string {
   const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
 }
 
@@ -58,19 +58,19 @@ function logMatchesQuery(log: ProgramLogEntry, q: string): boolean {
   const needle = q.trim().toLowerCase();
   if (!needle) return true;
   const hay = [
-    log.level ?? '',
-    log.summary ?? '',
+    log.level ?? "",
+    log.summary ?? "",
     formatWhen(log.created_at),
     log.created_at,
     (() => {
       try {
         return JSON.stringify(log.payload).toLowerCase();
       } catch {
-        return '';
+        return "";
       }
     })(),
   ]
-    .join(' ')
+    .join(" ")
     .toLowerCase();
   return hay.includes(needle);
 }
@@ -81,32 +81,36 @@ interface ProjectProgramLogsProps {
   isSuperAdmin: boolean;
 }
 
-export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }: ProjectProgramLogsProps) {
+export default function ProjectProgramLogs({
+  projects,
+  companies,
+  isSuperAdmin,
+}: ProjectProgramLogsProps) {
   const companiesWithProjects = useMemo(() => {
     const ids = new Set(projects.map((p) => p.companyId));
     return companies
       .filter((c) => ids.has(c.id))
       .slice()
-      .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
   }, [companies, projects]);
 
-  const [companyId, setCompanyId] = useState<string>(() => companiesWithProjects[0]?.id ?? '');
+  const [companyId, setCompanyId] = useState<string>(() => companiesWithProjects[0]?.id ?? "");
   const [projectId, setProjectId] = useState<string>(() => {
     const co = companiesWithProjects[0]?.id;
-    if (!co) return '';
-    return projects.find((p) => p.companyId === co)?.id ?? '';
+    if (!co) return "";
+    return projects.find((p) => p.companyId === co)?.id ?? "";
   });
 
   const projectsInCompany = useMemo(
     () => projects.filter((p) => p.companyId === companyId),
-    [projects, companyId]
+    [projects, companyId],
   );
   const [logs, setLogs] = useState<ProgramLogEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [ingestUrl, setIngestUrl] = useState<string | null>(null);
   const [ingestLoading, setIngestLoading] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [dateFrom, setDateFrom] = useState(() => defaultLogDateRange().from);
   const [dateTo, setDateTo] = useState(() => defaultLogDateRange().to);
@@ -130,12 +134,12 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
       const nextCo = companiesWithProjects[0].id;
       setCompanyId(nextCo);
       const firstP = projects.find((p) => p.companyId === nextCo);
-      setProjectId(firstP?.id ?? '');
+      setProjectId(firstP?.id ?? "");
       return;
     }
     const inCo = projects.filter((p) => p.companyId === companyId);
     if (inCo.length === 0) {
-      setProjectId('');
+      setProjectId("");
       return;
     }
     if (!projectId || !inCo.some((p) => p.id === projectId)) {
@@ -150,14 +154,14 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
       const params = new URLSearchParams({
         from: dateFrom,
         to: dateTo,
-        limit: '200',
+        limit: "200",
       });
       const res = await fetch(`/api/projects/${projectId}/program-logs?${params}`, {
-        cache: 'no-store',
+        cache: "no-store",
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.error || 'Failed to load logs');
+        throw new Error(data.error || "Failed to load logs");
       }
       setLogs(Array.isArray(data.logs) ? data.logs : []);
       if (data.range?.from && data.range?.to) {
@@ -168,7 +172,7 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
       setHasLoaded(true);
     } catch (e) {
       console.error(e);
-      toast.error(e instanceof Error ? e.message : 'Failed to load logs');
+      toast.error(e instanceof Error ? e.message : "Failed to load logs");
       setLogs([]);
       setAppliedRange(null);
       setHasLoaded(false);
@@ -185,16 +189,16 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
     setIngestLoading(true);
     try {
       const res = await fetch(`/api/projects/${projectId}/program-log-ingest-url`, {
-        cache: 'no-store',
+        cache: "no-store",
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.error || 'Could not load ingest URL');
+        throw new Error(data.error || "Could not load ingest URL");
       }
-      setIngestUrl(typeof data.ingestUrl === 'string' ? data.ingestUrl : null);
+      setIngestUrl(typeof data.ingestUrl === "string" ? data.ingestUrl : null);
     } catch (e) {
       console.error(e);
-      toast.error(e instanceof Error ? e.message : 'Could not load ingest URL');
+      toast.error(e instanceof Error ? e.message : "Could not load ingest URL");
       setIngestUrl(null);
     } finally {
       setIngestLoading(false);
@@ -209,9 +213,9 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
     if (!ingestUrl) return;
     try {
       await navigator.clipboard.writeText(ingestUrl);
-      toast.success('Ingest URL copied to clipboard');
+      toast.success("Ingest URL copied to clipboard");
     } catch {
-      toast.error('Copy failed');
+      toast.error("Copy failed");
     }
   };
 
@@ -228,8 +232,8 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
           </p>
         </div>
         <div className="rounded-lg border border-black/[0.08] bg-white p-6 text-sm text-[#111]/55">
-          No projects available yet. Create a project under Structure → Projects, then return here to
-          load logs (or copy an ingest URL as super admin).
+          No projects available yet. Create a project under Structure → Projects, then return here
+          to load logs (or copy an ingest URL as super admin).
         </div>
       </div>
     );
@@ -244,7 +248,8 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
         </h2>
         {isSuperAdmin ? (
           <p className="text-sm text-muted-foreground mt-1 max-w-3xl">
-            Logs sent by your integrations and scripts. Use the ingest URL below to connect a program.
+            Logs sent by your integrations and scripts. Use the ingest URL below to connect a
+            program.
           </p>
         ) : null}
       </div>
@@ -257,8 +262,8 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
             onValueChange={(id) => {
               setCompanyId(id);
               const first = projects.find((p) => p.companyId === id);
-              setProjectId(first?.id ?? '');
-              setSearch('');
+              setProjectId(first?.id ?? "");
+              setSearch("");
               resetLogResults();
             }}
             disabled={companiesWithProjects.length === 0}
@@ -281,7 +286,7 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
             value={projectId || undefined}
             onValueChange={(v) => {
               setProjectId(v);
-              setSearch('');
+              setSearch("");
               resetLogResults();
             }}
             disabled={projectsInCompany.length === 0}
@@ -339,8 +344,12 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
           disabled={loading || !projectId}
           className="shrink-0"
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-          <span className="ml-2">{hasLoaded ? 'Refresh' : 'Load logs'}</span>
+          {loading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <RefreshCw className="w-4 h-4" />
+          )}
+          <span className="ml-2">{hasLoaded ? "Refresh" : "Load logs"}</span>
         </Button>
       </div>
 
@@ -354,16 +363,17 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
         <div className="rounded-lg border border-border/60 bg-muted/20 p-4 space-y-2">
           <div className="text-sm font-medium">Ingest URL (super admin)</div>
           <p className="text-xs text-muted-foreground">
-            Each project has a unique URL. Programs call it with POST; no session cookie is required.
-            Treat it like a secret webhook.
+            Each project has a unique URL. Programs call it with POST; no session cookie is
+            required. Treat it like a secret webhook.
           </p>
           <p className="text-xs text-muted-foreground">
-            In the JSON body, set <code className="rounded bg-background px-1 py-0.5">level</code> to a short string
-            (for example <code className="rounded bg-background px-1 py-0.5">info</code>,{' '}
-            <code className="rounded bg-background px-1 py-0.5">warn</code>, or{' '}
-            <code className="rounded bg-background px-1 py-0.5">error</code>) for the badge, and{' '}
-            <code className="rounded bg-background px-1 py-0.5">message</code> for the preview line. Anything else is
-            stored as payload.
+            In the JSON body, set <code className="rounded bg-background px-1 py-0.5">level</code>{" "}
+            to a short string (for example{" "}
+            <code className="rounded bg-background px-1 py-0.5">info</code>,{" "}
+            <code className="rounded bg-background px-1 py-0.5">warn</code>, or{" "}
+            <code className="rounded bg-background px-1 py-0.5">error</code>) for the badge, and{" "}
+            <code className="rounded bg-background px-1 py-0.5">message</code> for the preview line.
+            Anything else is stored as payload.
           </p>
           {ingestLoading ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -375,7 +385,12 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
               <code className="text-xs break-all flex-1 bg-background border border-border rounded px-2 py-2">
                 {ingestUrl}
               </code>
-              <Button type="button" variant="outline" size="sm" onClick={() => void copyIngestUrl()}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => void copyIngestUrl()}
+              >
                 <Copy className="w-4 h-4 mr-1" />
                 Copy
               </Button>
@@ -411,16 +426,15 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
           </div>
         ) : !hasLoaded ? (
           <div className="p-8 text-center text-sm text-[#111]/55">
-            Select company, project, and date range, then click <strong className="text-[#111]">Load logs</strong>.
+            Select company, project, and date range, then click{" "}
+            <strong className="text-[#111]">Load logs</strong>.
           </div>
         ) : logs.length === 0 ? (
           <div className="p-8 text-center text-sm text-[#111]/55">
             No logs for this project in the selected date range.
           </div>
         ) : filteredLogs.length === 0 ? (
-          <div className="p-8 text-center text-sm text-[#111]/55">
-            No logs match your search.
-          </div>
+          <div className="p-8 text-center text-sm text-[#111]/55">No logs match your search.</div>
         ) : (
           <ul className="divide-y divide-border/60">
             {filteredLogs.map((log) => (
@@ -442,7 +456,9 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
                       ) : null}
                     </div>
                     <div className="text-sm font-mono break-words">
-                      {log.summary || <span className="text-muted-foreground italic">(no summary)</span>}
+                      {log.summary || (
+                        <span className="text-muted-foreground italic">(no summary)</span>
+                      )}
                     </div>
                   </button>
                   <Button
@@ -456,21 +472,24 @@ export default function ProjectProgramLogs({ projects, companies, isSuperAdmin }
                       e.stopPropagation();
                       void (async () => {
                         if (!projectId) return;
-                        if (!confirm('Delete this log entry?')) return;
+                        if (!confirm("Delete this log entry?")) return;
                         setDeletingId(log.id);
                         try {
-                          const res = await fetch(`/api/projects/${projectId}/program-logs/${log.id}`, {
-                            method: 'DELETE',
-                          });
+                          const res = await fetch(
+                            `/api/projects/${projectId}/program-logs/${log.id}`,
+                            {
+                              method: "DELETE",
+                            },
+                          );
                           const data = await res.json().catch(() => ({}));
                           if (!res.ok) {
-                            throw new Error(data.error || 'Delete failed');
+                            throw new Error(data.error || "Delete failed");
                           }
                           setLogs((prev) => prev.filter((l) => l.id !== log.id));
                           setExpandedId((id) => (id === log.id ? null : id));
-                          toast.success('Log deleted');
+                          toast.success("Log deleted");
                         } catch (err) {
-                          toast.error(err instanceof Error ? err.message : 'Delete failed');
+                          toast.error(err instanceof Error ? err.message : "Delete failed");
                         } finally {
                           setDeletingId(null);
                         }

@@ -16,7 +16,7 @@ export {
   AutocompleteItemTrailing,
   AutocompleteList,
   AutocompleteRoot,
-} from './autocomplete.tsx'
+} from "./autocomplete.tsx";
 export type {
   AutocompleteClearProps,
   AutocompleteCollectionProps,
@@ -28,4 +28,4 @@ export type {
   AutocompleteItemProps,
   AutocompleteListProps,
   AutocompleteRootProps,
-} from './autocomplete.tsx'
+} from "./autocomplete.tsx";

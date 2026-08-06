@@ -10,24 +10,24 @@ export type DraftInvoiceLinePaste = {
 };
 
 export function parseDoubleSemicolonInvoiceLines(
-  raw: string
+  raw: string,
 ): { ok: true; lines: DraftInvoiceLinePaste[] } | { ok: false; error: string } {
   const text = raw.trim();
   if (!text) {
-    return { ok: false, error: 'Paste your lines first.' };
+    return { ok: false, error: "Paste your lines first." };
   }
-  if (!text.includes(';;')) {
+  if (!text.includes(";;")) {
     return {
       ok: false,
       error:
-        'Use double semicolons between fields, e.g. Implementation hours;; 1;; 100;; Support;; 2;; 50;;',
+        "Use double semicolons between fields, e.g. Implementation hours;; 1;; 100;; Support;; 2;; 50;;",
     };
   }
-  let parts = text.split(';;').map((p) => p.trim());
-  while (parts.length && parts[parts.length - 1] === '') parts.pop();
-  while (parts.length && parts[0] === '') parts.shift();
+  let parts = text.split(";;").map((p) => p.trim());
+  while (parts.length && parts[parts.length - 1] === "") parts.pop();
+  while (parts.length && parts[0] === "") parts.shift();
   if (parts.length === 0) {
-    return { ok: false, error: 'No line data found.' };
+    return { ok: false, error: "No line data found." };
   }
   if (parts.length % 3 !== 0) {
     return {
@@ -47,10 +47,16 @@ export function parseDoubleSemicolonInvoiceLines(
     const q = parseFloat(quantity);
     const u = parseFloat(unitPrice);
     if (!Number.isFinite(q) || q <= 0) {
-      return { ok: false, error: `Row ${rowNum}: quantity must be a number greater than zero (got "${quantity}").` };
+      return {
+        ok: false,
+        error: `Row ${rowNum}: quantity must be a number greater than zero (got "${quantity}").`,
+      };
     }
     if (!Number.isFinite(u) || u < 0) {
-      return { ok: false, error: `Row ${rowNum}: unit price must be a number ≥ 0 (got "${unitPrice}").` };
+      return {
+        ok: false,
+        error: `Row ${rowNum}: unit price must be a number ≥ 0 (got "${unitPrice}").`,
+      };
     }
     lines.push({
       id: crypto.randomUUID(),

@@ -1,13 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import {
-  requireSuperAdmin,
-  requireSuperAdminSupabase,
-} from "../admin/session.server";
-import {
-  supabasePublishableConfigured,
-  supabaseSecretConfigured,
-} from "../portal/supabase";
+import { requireSuperAdmin, requireSuperAdminSupabase } from "../admin/session.server";
+import { supabasePublishableConfigured, supabaseSecretConfigured } from "../portal/supabase";
 import {
   MailApiError,
   createAccount,
@@ -53,8 +47,7 @@ export const getMailControlStatus = createServerFn({ method: "GET" }).handler(
     await requireSuperAdmin();
     const masterConfigured = mailMasterConfigured();
     const databaseReady =
-      mailDatabaseReady() &&
-      (supabasePublishableConfigured() || supabaseSecretConfigured());
+      mailDatabaseReady() && (supabasePublishableConfigured() || supabaseSecretConfigured());
     let healthOk: boolean | null = null;
     let healthDetail: string | null = null;
     if (masterConfigured) {
@@ -66,16 +59,14 @@ export const getMailControlStatus = createServerFn({ method: "GET" }).handler(
   },
 );
 
-export const mailListAccounts = createServerFn({ method: "GET" }).handler(
-  async () => {
-    await requireSuperAdmin();
-    try {
-      return await listAccounts();
-    } catch (e) {
-      wrapMailError(e);
-    }
-  },
-);
+export const mailListAccounts = createServerFn({ method: "GET" }).handler(async () => {
+  await requireSuperAdmin();
+  try {
+    return await listAccounts();
+  } catch (e) {
+    wrapMailError(e);
+  }
+});
 
 export const mailCreateAccount = createServerFn({ method: "POST" })
   .inputValidator(
@@ -248,16 +239,14 @@ export const mailPatchSharedFolderMembers = createServerFn({ method: "POST" })
     }
   });
 
-export const mailListCompanyFolders = createServerFn({ method: "GET" }).handler(
-  async () => {
-    await requireSuperAdmin();
-    try {
-      return await listCompanyFolders();
-    } catch (e) {
-      wrapMailError(e);
-    }
-  },
-);
+export const mailListCompanyFolders = createServerFn({ method: "GET" }).handler(async () => {
+  await requireSuperAdmin();
+  try {
+    return await listCompanyFolders();
+  } catch (e) {
+    wrapMailError(e);
+  }
+});
 
 export const mailCreateCompanyFolder = createServerFn({ method: "POST" })
   .inputValidator(
@@ -334,12 +323,10 @@ export const mailAdminSend = createServerFn({ method: "POST" })
     return { ok: true as const };
   });
 
-export const mailListApiKeys = createServerFn({ method: "GET" }).handler(
-  async () => {
-    const { client } = await requireSuperAdminSupabase();
-    return listMailApiKeys(client);
-  },
-);
+export const mailListApiKeys = createServerFn({ method: "GET" }).handler(async () => {
+  const { client } = await requireSuperAdminSupabase();
+  return listMailApiKeys(client);
+});
 
 export const mailCreateApiKey = createServerFn({ method: "POST" })
   .inputValidator(

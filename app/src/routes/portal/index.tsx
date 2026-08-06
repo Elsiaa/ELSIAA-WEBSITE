@@ -1,10 +1,7 @@
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import ClientsPoelPortal from "../../components/poel-shell/ClientsPoelPortal";
-import {
-  bootstrapPortal,
-  type PortalBootstrap,
-} from "../../lib/portal-bootstrap.functions";
+import { bootstrapPortal, type PortalBootstrap } from "../../lib/portal-bootstrap.functions";
 import { getPortalAuthState } from "../../lib/portal/auth.functions";
 import { absoluteUrl } from "../../lib/site-url";
 
@@ -24,10 +21,7 @@ export const Route = createFileRoute("/portal/")({
     return { auth };
   },
   head: () => ({
-    meta: [
-      { title: "Client Portal — ELSIAA" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Client Portal — ELSIAA" }, { name: "robots", content: "noindex" }],
     links: [{ rel: "canonical", href: absoluteUrl("/portal") }],
   }),
   component: PortalHome,
@@ -35,9 +29,7 @@ export const Route = createFileRoute("/portal/")({
 
 function PortalHome() {
   const navigate = useNavigate();
-  const [data, setData] = useState<PortalBootstrap | null>(
-    () => portalBootstrapCache,
-  );
+  const [data, setData] = useState<PortalBootstrap | null>(() => portalBootstrapCache);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

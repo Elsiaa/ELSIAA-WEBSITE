@@ -7,10 +7,5 @@ import { LiveGraphic } from "./LiveGraphic";
   blended into the page.
 */
 export function WorkingRobot() {
-  return (
-    <LiveGraphic
-      src="/assets/robot_work_v5.mp4"
-      poster="/assets/robot_work_v5_poster.jpg"
-    />
-  );
+  return <LiveGraphic src="/assets/robot_work_v5.mp4" poster="/assets/robot_work_v5_poster.jpg" />;
 }

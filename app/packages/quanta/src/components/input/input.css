@@ -60,7 +60,11 @@
   color: var(--hf-color-icon-secondary); /* prefix/suffix glyph color */
 
   &:hover {
-    background-image: linear-gradient(90deg, var(--hf-color-overlay-hover), var(--hf-color-overlay-hover));
+    background-image: linear-gradient(
+      90deg,
+      var(--hf-color-overlay-hover),
+      var(--hf-color-overlay-hover)
+    );
   }
 
   &:focus-within {

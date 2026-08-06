@@ -13,8 +13,7 @@ export const Route = createFileRoute("/api/order")({
           return Response.json({ ok: false, code: "bad_json" }, { status: 400 });
         }
         const o = parseOrderInput(body);
-        if (!o)
-          return Response.json({ ok: false, code: "invalid_input" }, { status: 400 });
+        if (!o) return Response.json({ ok: false, code: "invalid_input" }, { status: 400 });
         try {
           const { id, total } = await storeOrder(o);
           return Response.json({ ok: true, id, total });

@@ -18,7 +18,7 @@ export {
   CommandLoading,
   CommandSeparator,
   CommandShortcut,
-} from './cmdk.tsx'
+} from "./cmdk.tsx";
 export type {
   CommandActionProps,
   CommandBodyProps,
@@ -33,4 +33,4 @@ export type {
   CommandListProps,
   CommandLoadingProps,
   CommandProps,
-} from './cmdk.tsx'
+} from "./cmdk.tsx";

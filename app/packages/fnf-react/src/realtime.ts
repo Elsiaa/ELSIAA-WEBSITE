@@ -1,5 +1,5 @@
-import type { Generation } from '@higgsfield/fnf/client'
-import { RefCountPool } from './pool'
+import type { Generation } from "@higgsfield/fnf/client";
+import { RefCountPool } from "./pool";
 
 /**
  * The connection port — inject whatever the app has. fnf-web today: SSE per
@@ -16,39 +16,38 @@ import { RefCountPool } from './pool'
 export type RealtimeTransport = (
   generation: Generation,
   emit: () => void,
-) => (() => void) | undefined
+) => (() => void) | undefined;
 
 /** One live channel (a job set): a single connection, N listeners. */
 class RealtimeChannel {
-  private readonly listeners = new Set<() => void>()
-  private close: (() => void) | undefined
+  private readonly listeners = new Set<() => void>();
+  private close: (() => void) | undefined;
 
   /** Whether the transport actually opened a connection for this channel. */
-  connected = false
+  connected = false;
 
   open(transport: RealtimeTransport, generation: Generation): void {
     // A throwing transport means "no channel", not a crash in the caller's
     // React effect — errors are state here too; the caller polls instead.
     try {
       this.close = transport(generation, () => {
-        for (const listener of this.listeners) listener()
-      })
+        for (const listener of this.listeners) listener();
+      });
+    } catch {
+      this.close = undefined;
     }
-    catch {
-      this.close = undefined
-    }
-    this.connected = this.close !== undefined
+    this.connected = this.close !== undefined;
   }
 
   subscribe(listener: () => void): () => void {
-    this.listeners.add(listener)
-    return () => this.listeners.delete(listener)
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
   }
 
   free(): void {
-    this.close?.()
-    this.close = undefined
-    this.listeners.clear()
+    this.close?.();
+    this.close = undefined;
+    this.listeners.clear();
   }
 }
 
@@ -60,18 +59,18 @@ class RealtimeChannel {
  * effect re-running) reuse the live connection instead of reconnecting.
  */
 export class Realtime {
-  private readonly channels: RefCountPool<Generation, RealtimeChannel>
+  private readonly channels: RefCountPool<Generation, RealtimeChannel>;
 
   constructor(transport: RealtimeTransport, options?: { freeGraceMs?: number }) {
     this.channels = new RefCountPool(
-      generation => generation.jobSetId ?? generation.id,
+      (generation) => generation.jobSetId ?? generation.id,
       (generation) => {
-        const channel = new RealtimeChannel()
-        channel.open(transport, generation)
-        return channel
+        const channel = new RealtimeChannel();
+        channel.open(transport, generation);
+        return channel;
       },
       { freeGraceMs: options?.freeGraceMs ?? 1000 },
-    )
+    );
   }
 
   /**
@@ -81,19 +80,18 @@ export class Realtime {
    * for it (poll instead).
    */
   subscribe(generation: Generation, listener: () => void): (() => void) | undefined {
-    const channel = this.channels.allocate(generation)
+    const channel = this.channels.allocate(generation);
     if (!channel.connected) {
-      this.channels.free(generation)
-      return undefined
+      this.channels.free(generation);
+      return undefined;
     }
-    const unsubscribe = channel.subscribe(listener)
-    let done = false
+    const unsubscribe = channel.subscribe(listener);
+    let done = false;
     return () => {
-      if (done)
-        return
-      done = true
-      unsubscribe()
-      this.channels.free(generation)
-    }
+      if (done) return;
+      done = true;
+      unsubscribe();
+      this.channels.free(generation);
+    };
   }
 }

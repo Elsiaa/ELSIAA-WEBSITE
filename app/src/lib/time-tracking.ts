@@ -1,6 +1,6 @@
-import { getServerSupabaseClient } from '@/lib/supabase';
+import { getServerSupabaseClient } from "@/lib/supabase";
 
-export type TimeTrackingTaskStatus = 'todo' | 'in_progress' | 'review' | 'done';
+export type TimeTrackingTaskStatus = "todo" | "in_progress" | "review" | "done";
 
 export interface TimeTrackingClient {
   id: string;
@@ -89,11 +89,11 @@ function mapEntry(row: {
 export async function listClientsForUser(authUserId: string): Promise<TimeTrackingClient[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('time_tracking_clients')
-    .select('id, name, color, sort_order, created_at')
-    .eq('auth_user_id', authUserId)
-    .order('sort_order', { ascending: true })
-    .order('created_at', { ascending: true });
+    .from("time_tracking_clients")
+    .select("id, name, color, sort_order, created_at")
+    .eq("auth_user_id", authUserId)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
 
   if (error) throw error;
   return (data ?? []).map(mapClient);
@@ -101,24 +101,24 @@ export async function listClientsForUser(authUserId: string): Promise<TimeTracki
 
 export async function createClient(
   authUserId: string,
-  input: { name: string; color?: string }
+  input: { name: string; color?: string },
 ): Promise<TimeTrackingClient> {
   const supabase = getServerSupabaseClient();
   const { count } = await supabase
-    .from('time_tracking_clients')
-    .select('*', { count: 'exact', head: true })
-    .eq('auth_user_id', authUserId);
+    .from("time_tracking_clients")
+    .select("*", { count: "exact", head: true })
+    .eq("auth_user_id", authUserId);
 
   const sortOrder = count ?? 0;
   const { data, error } = await supabase
-    .from('time_tracking_clients')
+    .from("time_tracking_clients")
     .insert({
       auth_user_id: authUserId,
       name: input.name.trim(),
-      color: input.color?.trim() || '#6366f1',
+      color: input.color?.trim() || "#6366f1",
       sort_order: sortOrder,
     })
-    .select('id, name, color, sort_order, created_at')
+    .select("id, name, color, sort_order, created_at")
     .single();
 
   if (error) throw error;
@@ -128,7 +128,7 @@ export async function createClient(
 export async function updateClient(
   authUserId: string,
   clientId: string,
-  patch: { name?: string; color?: string; sortOrder?: number }
+  patch: { name?: string; color?: string; sortOrder?: number },
 ): Promise<void> {
   const supabase = getServerSupabaseClient();
   const row: Record<string, unknown> = {};
@@ -139,10 +139,10 @@ export async function updateClient(
   if (Object.keys(row).length === 0) return;
 
   const { error } = await supabase
-    .from('time_tracking_clients')
+    .from("time_tracking_clients")
     .update(row)
-    .eq('id', clientId)
-    .eq('auth_user_id', authUserId);
+    .eq("id", clientId)
+    .eq("auth_user_id", authUserId);
 
   if (error) throw error;
 }
@@ -150,10 +150,10 @@ export async function updateClient(
 export async function deleteClient(authUserId: string, clientId: string): Promise<void> {
   const supabase = getServerSupabaseClient();
   const { error } = await supabase
-    .from('time_tracking_clients')
+    .from("time_tracking_clients")
     .delete()
-    .eq('id', clientId)
-    .eq('auth_user_id', authUserId);
+    .eq("id", clientId)
+    .eq("auth_user_id", authUserId);
 
   if (error) throw error;
 }
@@ -161,10 +161,10 @@ export async function deleteClient(authUserId: string, clientId: string): Promis
 export async function listTasksForUser(authUserId: string): Promise<TimeTrackingTask[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('time_tracking_tasks')
-    .select('id, client_id, title, status, billable, notes, created_at, updated_at')
-    .eq('auth_user_id', authUserId)
-    .order('created_at', { ascending: true });
+    .from("time_tracking_tasks")
+    .select("id, client_id, title, status, billable, notes, created_at, updated_at")
+    .eq("auth_user_id", authUserId)
+    .order("created_at", { ascending: true });
 
   if (error) throw error;
   return (data ?? []).map(mapTask);
@@ -172,30 +172,36 @@ export async function listTasksForUser(authUserId: string): Promise<TimeTracking
 
 export async function createTask(
   authUserId: string,
-  input: { clientId: string; title: string; status?: TimeTrackingTaskStatus; billable?: boolean; notes?: string | null }
+  input: {
+    clientId: string;
+    title: string;
+    status?: TimeTrackingTaskStatus;
+    billable?: boolean;
+    notes?: string | null;
+  },
 ): Promise<TimeTrackingTask> {
   const supabase = getServerSupabaseClient();
   const { data: client, error: clientErr } = await supabase
-    .from('time_tracking_clients')
-    .select('id')
-    .eq('id', input.clientId)
-    .eq('auth_user_id', authUserId)
+    .from("time_tracking_clients")
+    .select("id")
+    .eq("id", input.clientId)
+    .eq("auth_user_id", authUserId)
     .maybeSingle();
 
   if (clientErr) throw clientErr;
-  if (!client) throw new Error('Client not found');
+  if (!client) throw new Error("Client not found");
 
   const { data, error } = await supabase
-    .from('time_tracking_tasks')
+    .from("time_tracking_tasks")
     .insert({
       client_id: input.clientId,
       auth_user_id: authUserId,
       title: input.title.trim(),
-      status: input.status ?? 'todo',
+      status: input.status ?? "todo",
       billable: input.billable ?? true,
       notes: input.notes?.trim() || null,
     })
-    .select('id, client_id, title, status, billable, notes, created_at, updated_at')
+    .select("id, client_id, title, status, billable, notes, created_at, updated_at")
     .single();
 
   if (error) throw error;
@@ -211,18 +217,18 @@ export async function updateTask(
     billable: boolean;
     notes: string | null;
     clientId: string;
-  }>
+  }>,
 ): Promise<void> {
   const supabase = getServerSupabaseClient();
   if (patch.clientId) {
     const { data: client, error: clientErr } = await supabase
-      .from('time_tracking_clients')
-      .select('id')
-      .eq('id', patch.clientId)
-      .eq('auth_user_id', authUserId)
+      .from("time_tracking_clients")
+      .select("id")
+      .eq("id", patch.clientId)
+      .eq("auth_user_id", authUserId)
       .maybeSingle();
     if (clientErr) throw clientErr;
-    if (!client) throw new Error('Client not found');
+    if (!client) throw new Error("Client not found");
   }
 
   const row: Record<string, unknown> = {};
@@ -234,22 +240,26 @@ export async function updateTask(
 
   if (Object.keys(row).length === 0) return;
 
-  if (patch.status === 'done') {
+  if (patch.status === "done") {
     await stopOpenEntriesForTask(authUserId, taskId, new Date());
   }
 
   const { error } = await supabase
-    .from('time_tracking_tasks')
+    .from("time_tracking_tasks")
     .update(row)
-    .eq('id', taskId)
-    .eq('auth_user_id', authUserId);
+    .eq("id", taskId)
+    .eq("auth_user_id", authUserId);
 
   if (error) throw error;
 }
 
 export async function deleteTask(authUserId: string, taskId: string): Promise<void> {
   const supabase = getServerSupabaseClient();
-  const { error } = await supabase.from('time_tracking_tasks').delete().eq('id', taskId).eq('auth_user_id', authUserId);
+  const { error } = await supabase
+    .from("time_tracking_tasks")
+    .delete()
+    .eq("id", taskId)
+    .eq("auth_user_id", authUserId);
 
   if (error) throw error;
 }
@@ -258,24 +268,28 @@ export async function deleteTask(authUserId: string, taskId: string): Promise<vo
 export async function getRunningEntries(authUserId: string): Promise<TimeTrackingEntry[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('time_tracking_entries')
-    .select('id, task_id, started_at, ended_at, note, created_at')
-    .eq('auth_user_id', authUserId)
-    .is('ended_at', null)
-    .order('started_at', { ascending: true });
+    .from("time_tracking_entries")
+    .select("id, task_id, started_at, ended_at, note, created_at")
+    .eq("auth_user_id", authUserId)
+    .is("ended_at", null)
+    .order("started_at", { ascending: true });
 
   if (error) throw error;
   return (data ?? []).map(mapEntry);
 }
 
-async function stopOpenEntriesForTask(authUserId: string, taskId: string, endAt: Date): Promise<void> {
+async function stopOpenEntriesForTask(
+  authUserId: string,
+  taskId: string,
+  endAt: Date,
+): Promise<void> {
   const supabase = getServerSupabaseClient();
   const { error } = await supabase
-    .from('time_tracking_entries')
+    .from("time_tracking_entries")
     .update({ ended_at: endAt.toISOString() })
-    .eq('auth_user_id', authUserId)
-    .eq('task_id', taskId)
-    .is('ended_at', null);
+    .eq("auth_user_id", authUserId)
+    .eq("task_id", taskId)
+    .is("ended_at", null);
 
   if (error) throw error;
 }
@@ -283,28 +297,28 @@ async function stopOpenEntriesForTask(authUserId: string, taskId: string, endAt:
 export async function startTimer(authUserId: string, taskId: string): Promise<TimeTrackingEntry> {
   const supabase = getServerSupabaseClient();
   const { data: task, error: taskErr } = await supabase
-    .from('time_tracking_tasks')
-    .select('id, status')
-    .eq('id', taskId)
-    .eq('auth_user_id', authUserId)
+    .from("time_tracking_tasks")
+    .select("id, status")
+    .eq("id", taskId)
+    .eq("auth_user_id", authUserId)
     .maybeSingle();
 
   if (taskErr) throw taskErr;
-  if (!task) throw new Error('Task not found');
-  if (task.status === 'done') throw new Error('Cannot start timer on a completed task');
+  if (!task) throw new Error("Task not found");
+  if (task.status === "done") throw new Error("Cannot start timer on a completed task");
 
   const now = new Date();
   await stopOpenEntriesForTask(authUserId, taskId, now);
 
   const { data, error } = await supabase
-    .from('time_tracking_entries')
+    .from("time_tracking_entries")
     .insert({
       task_id: taskId,
       auth_user_id: authUserId,
       started_at: now.toISOString(),
       ended_at: null,
     })
-    .select('id, task_id, started_at, ended_at, note, created_at')
+    .select("id, task_id, started_at, ended_at, note, created_at")
     .single();
 
   if (error) throw error;
@@ -313,7 +327,7 @@ export async function startTimer(authUserId: string, taskId: string): Promise<Ti
 
 export async function stopTimerByEntryId(
   authUserId: string,
-  entryId: string
+  entryId: string,
 ): Promise<{
   entry: TimeTrackingEntry;
   todaySeconds: number;
@@ -322,12 +336,12 @@ export async function stopTimerByEntryId(
   const supabase = getServerSupabaseClient();
   const now = new Date().toISOString();
   const { data, error } = await supabase
-    .from('time_tracking_entries')
+    .from("time_tracking_entries")
     .update({ ended_at: now })
-    .eq('id', entryId)
-    .eq('auth_user_id', authUserId)
-    .is('ended_at', null)
-    .select('id, task_id, started_at, ended_at, note, created_at')
+    .eq("id", entryId)
+    .eq("auth_user_id", authUserId)
+    .is("ended_at", null)
+    .select("id, task_id, started_at, ended_at, note, created_at")
     .maybeSingle();
 
   if (error) throw error;
@@ -343,25 +357,25 @@ export async function stopTimerByEntryId(
 
 export async function addManualEntry(
   authUserId: string,
-  input: { taskId: string; startedAt: string; endedAt: string; note?: string | null }
+  input: { taskId: string; startedAt: string; endedAt: string; note?: string | null },
 ): Promise<TimeTrackingEntry> {
   const supabase = getServerSupabaseClient();
   const { data: task, error: taskErr } = await supabase
-    .from('time_tracking_tasks')
-    .select('id')
-    .eq('id', input.taskId)
-    .eq('auth_user_id', authUserId)
+    .from("time_tracking_tasks")
+    .select("id")
+    .eq("id", input.taskId)
+    .eq("auth_user_id", authUserId)
     .maybeSingle();
 
   if (taskErr) throw taskErr;
-  if (!task) throw new Error('Task not found');
+  if (!task) throw new Error("Task not found");
 
   const start = new Date(input.startedAt);
   const end = new Date(input.endedAt);
-  if (!(end.getTime() > start.getTime())) throw new Error('End time must be after start time');
+  if (!(end.getTime() > start.getTime())) throw new Error("End time must be after start time");
 
   const { data, error } = await supabase
-    .from('time_tracking_entries')
+    .from("time_tracking_entries")
     .insert({
       task_id: input.taskId,
       auth_user_id: authUserId,
@@ -369,7 +383,7 @@ export async function addManualEntry(
       ended_at: end.toISOString(),
       note: input.note?.trim() || null,
     })
-    .select('id, task_id, started_at, ended_at, note, created_at')
+    .select("id, task_id, started_at, ended_at, note, created_at")
     .single();
 
   if (error) throw error;
@@ -380,12 +394,12 @@ export async function addManualEntry(
 export async function deleteClosedEntryById(authUserId: string, entryId: string): Promise<boolean> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('time_tracking_entries')
+    .from("time_tracking_entries")
     .delete()
-    .eq('id', entryId)
-    .eq('auth_user_id', authUserId)
-    .not('ended_at', 'is', null)
-    .select('id')
+    .eq("id", entryId)
+    .eq("auth_user_id", authUserId)
+    .not("ended_at", "is", null)
+    .select("id")
     .maybeSingle();
 
   if (error) throw error;
@@ -395,36 +409,36 @@ export async function deleteClosedEntryById(authUserId: string, entryId: string)
 export async function listEntriesInRange(
   authUserId: string,
   fromIso: string,
-  toIso: string
+  toIso: string,
 ): Promise<(TimeTrackingEntry & { taskTitle: string; clientName: string; billable: boolean })[]> {
   const supabase = getServerSupabaseClient();
   const { data: entries, error } = await supabase
-    .from('time_tracking_entries')
-    .select('id, task_id, started_at, ended_at, note, created_at')
-    .eq('auth_user_id', authUserId)
-    .not('ended_at', 'is', null)
-    .gte('started_at', fromIso)
-    .lte('started_at', toIso)
-    .order('started_at', { ascending: false });
+    .from("time_tracking_entries")
+    .select("id, task_id, started_at, ended_at, note, created_at")
+    .eq("auth_user_id", authUserId)
+    .not("ended_at", "is", null)
+    .gte("started_at", fromIso)
+    .lte("started_at", toIso)
+    .order("started_at", { ascending: false });
 
   if (error) throw error;
   if (!entries?.length) return [];
 
   const taskIds = [...new Set(entries.map((e) => e.task_id))];
   const { data: tasks, error: taskErr } = await supabase
-    .from('time_tracking_tasks')
-    .select('id, title, billable, client_id')
-    .in('id', taskIds)
-    .eq('auth_user_id', authUserId);
+    .from("time_tracking_tasks")
+    .select("id, title, billable, client_id")
+    .in("id", taskIds)
+    .eq("auth_user_id", authUserId);
 
   if (taskErr) throw taskErr;
 
   const clientIds = [...new Set((tasks ?? []).map((t) => t.client_id))];
   const { data: clients, error: clientErr } = await supabase
-    .from('time_tracking_clients')
-    .select('id, name')
-    .in('id', clientIds)
-    .eq('auth_user_id', authUserId);
+    .from("time_tracking_clients")
+    .select("id, name")
+    .in("id", clientIds)
+    .eq("auth_user_id", authUserId);
 
   if (clientErr) throw clientErr;
 
@@ -433,10 +447,10 @@ export async function listEntriesInRange(
 
   return entries.map((row) => {
     const t = taskMap.get(row.task_id);
-    const clientName = t ? clientMap.get(t.client_id) ?? '—' : '—';
+    const clientName = t ? (clientMap.get(t.client_id) ?? "—") : "—";
     return {
       ...mapEntry(row),
-      taskTitle: t?.title ?? '—',
+      taskTitle: t?.title ?? "—",
       clientName,
       billable: t?.billable ?? true,
     };
@@ -453,10 +467,10 @@ export function secondsForEntry(entry: TimeTrackingEntry, nowMs: number): number
 export async function getClosedSecondsPerTask(authUserId: string): Promise<Record<string, number>> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('time_tracking_entries')
-    .select('task_id, started_at, ended_at')
-    .eq('auth_user_id', authUserId)
-    .not('ended_at', 'is', null);
+    .from("time_tracking_entries")
+    .select("task_id, started_at, ended_at")
+    .eq("auth_user_id", authUserId)
+    .not("ended_at", "is", null);
 
   if (error) throw error;
   const out: Record<string, number> = {};
@@ -477,11 +491,11 @@ export async function sumSecondsToday(authUserId: string): Promise<number> {
   const fromIso = startOfDay.toISOString();
 
   const { data, error } = await supabase
-    .from('time_tracking_entries')
-    .select('id, started_at, ended_at')
-    .eq('auth_user_id', authUserId)
-    .gte('started_at', fromIso)
-    .not('ended_at', 'is', null);
+    .from("time_tracking_entries")
+    .select("id, started_at, ended_at")
+    .eq("auth_user_id", authUserId)
+    .gte("started_at", fromIso)
+    .not("ended_at", "is", null);
 
   if (error) throw error;
 

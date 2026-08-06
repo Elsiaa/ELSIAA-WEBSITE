@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import type { CSSProperties, ReactNode } from 'react'
-import { useEffect, useState } from 'react'
-import { GAP_CLASS, GAP_PX, type GridGap } from './grid-gap.ts'
-import { useGridVirtualizer } from './use-grid-virtualizer.ts'
-import { cx } from '../utils/cx.ts'
+import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState } from "react";
+import { GAP_CLASS, GAP_PX, type GridGap } from "./grid-gap.ts";
+import { useGridVirtualizer } from "./use-grid-virtualizer.ts";
+import { cx } from "../utils/cx.ts";
 
 /**
  * VirtualGrid — a windowed, data-driven uniform grid for big feeds & galleries.
@@ -27,41 +27,41 @@ import { cx } from '../utils/cx.ts'
 /** Per-cell render context — lets a cell defer expensive work during fast scroll. */
 export type VirtualGridItemMeta = {
   /** True while the user is flinging fast enough to defer image/video/API loads. */
-  isScrolling: boolean
-}
+  isScrolling: boolean;
+};
 
 export type VirtualGridProps<Item> = {
   /** The full dataset. Only the visible window is rendered. */
-  items: readonly Item[]
+  items: readonly Item[];
   /**
    * Render one cell (wrapped in a `q-grid-item`). `meta.isScrolling` is true
    * during a fast fling — render a cheap placeholder then and load the real
    * image/video/fetch only when it is false (slow scroll or settled), so a fast
    * scroll fires no requests.
    */
-  renderItem: (item: Item, index: number, meta: VirtualGridItemMeta) => ReactNode
+  renderItem: (item: Item, index: number, meta: VirtualGridItemMeta) => ReactNode;
   /** Stable React key per item. Defaults to the index. */
-  getKey?: (item: Item, index: number) => string | number
+  getKey?: (item: Item, index: number) => string | number;
   /** Fixed column count. Omit and set `minColWidth` for responsive columns. */
-  cols?: number
+  cols?: number;
   /** Min column width in px — columns are derived from the measured width. */
-  minColWidth?: number
+  minColWidth?: number;
   /** Cell (row) height in px — drives `grid-auto-rows` and the scroll math. */
-  rowHeight: number
+  rowHeight: number;
   /** Gap on both axes (shared GridGap scale). Default 4. */
-  gap?: GridGap
+  gap?: GridGap;
   /** Extra rows rendered above/below the viewport. Default 3. */
-  overscan?: number
+  overscan?: number;
   /** Scroll speed (px/ms) above which `meta.isScrolling` defers loads. Default 1.5; `0` disables. */
-  velocityThreshold?: number
+  velocityThreshold?: number;
   /** Height of the scroll viewport (CSS length). Default `32rem`. */
-  height?: string
+  height?: string;
   /** Class for the inner grid track. */
-  className?: string
+  className?: string;
   /** Class for the scroll viewport. */
-  viewportClassName?: string
-  style?: CSSProperties
-}
+  viewportClassName?: string;
+  style?: CSSProperties;
+};
 
 export function VirtualGrid<Item>({
   items,
@@ -73,64 +73,73 @@ export function VirtualGrid<Item>({
   gap = 4,
   overscan = 3,
   velocityThreshold,
-  height = '32rem',
+  height = "32rem",
   className,
   viewportClassName,
   style,
 }: VirtualGridProps<Item>) {
-  const gapPx = GAP_PX[gap]
+  const gapPx = GAP_PX[gap];
 
   // Responsive column count derived from the measured viewport width when `cols`
   // isn't fixed — `floor((width + gap) / (minColWidth + gap))`.
-  const [width, setWidth] = useState(0)
-  const columns
-    = cols
-      ?? (minColWidth != null && width > 0 ? Math.max(1, Math.floor((width + gapPx) / (minColWidth + gapPx))) : 1)
+  const [width, setWidth] = useState(0);
+  const columns =
+    cols ??
+    (minColWidth != null && width > 0
+      ? Math.max(1, Math.floor((width + gapPx) / (minColWidth + gapPx)))
+      : 1);
 
-  const { scrollRef, totalHeight, start, end, offsetY, isScrolling } = useGridVirtualizer<HTMLDivElement>({
-    count: items.length,
-    columns,
-    rowHeight,
-    rowGap: gapPx,
-    overscan,
-    velocityThreshold,
-  })
+  const { scrollRef, totalHeight, start, end, offsetY, isScrolling } =
+    useGridVirtualizer<HTMLDivElement>({
+      count: items.length,
+      columns,
+      rowHeight,
+      rowGap: gapPx,
+      overscan,
+      velocityThreshold,
+    });
 
   useEffect(() => {
-    if (cols != null || minColWidth == null) return
-    const el = scrollRef.current
-    if (el == null || typeof ResizeObserver === 'undefined') return
-    const ro = new ResizeObserver(() => setWidth(el.clientWidth))
-    ro.observe(el)
-    setWidth(el.clientWidth)
-    return () => ro.disconnect()
-  }, [cols, minColWidth, scrollRef])
+    if (cols != null || minColWidth == null) return;
+    const el = scrollRef.current;
+    if (el == null || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setWidth(el.clientWidth));
+    ro.observe(el);
+    setWidth(el.clientWidth);
+    return () => ro.disconnect();
+  }, [cols, minColWidth, scrollRef]);
 
-  const cells: ReactNode[] = []
+  const cells: ReactNode[] = [];
   for (let i = start; i < end; i++) {
-    const item = items[i]
-    if (item === undefined) continue
+    const item = items[i];
+    if (item === undefined) continue;
     cells.push(
       <div key={getKey ? getKey(item, i) : i} className="q-grid-item">
         {renderItem(item, i, { isScrolling })}
       </div>,
-    )
+    );
   }
 
   return (
-    <div ref={scrollRef} className={cx('q-virtual-grid', viewportClassName)} style={{ height, ...style }}>
+    <div
+      ref={scrollRef}
+      className={cx("q-virtual-grid", viewportClassName)}
+      style={{ height, ...style }}
+    >
       <div className="q-virtual-grid-sizer" style={{ height: totalHeight }}>
         <div
-          className={cx('q-grid', 'q-virtual-grid-track', GAP_CLASS[gap], className)}
-          style={{
-            transform: `translateY(${offsetY}px)`,
-            gridAutoRows: `${rowHeight}px`,
-            '--q-grid-cols': columns,
-          } as CSSProperties}
+          className={cx("q-grid", "q-virtual-grid-track", GAP_CLASS[gap], className)}
+          style={
+            {
+              transform: `translateY(${offsetY}px)`,
+              gridAutoRows: `${rowHeight}px`,
+              "--q-grid-cols": columns,
+            } as CSSProperties
+          }
         >
           {cells}
         </div>
       </div>
     </div>
-  )
+  );
 }

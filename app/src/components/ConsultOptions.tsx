@@ -6,14 +6,19 @@
   official Apple Pay / Google Pay / Stripe marks.
 */
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 
 /* ── official payment marks (inline SVG, no external assets) ── */
 
 function ApplePayMark({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 10" className={className} role="img" aria-label="Apple Pay" fill="currentColor">
+    <svg
+      viewBox="0 0 24 10"
+      className={className}
+      role="img"
+      aria-label="Apple Pay"
+      fill="currentColor"
+    >
       {/* apple glyph */}
       <path d="M4.62 1.6c.27-.34.46-.8.41-1.27-.4.02-.89.27-1.17.6-.25.3-.47.77-.41 1.22.45.04.9-.22 1.17-.55zm.4.65c-.65-.04-1.2.37-1.51.37-.31 0-.79-.35-1.3-.34-.67.01-1.29.39-1.63.99-.7 1.21-.18 3 .5 3.98.33.48.73 1.02 1.25 1 .5-.02.69-.32 1.29-.32.6 0 .77.32 1.3.31.54-.01.88-.49 1.21-.97.38-.56.54-1.1.55-1.13-.01-.01-1.05-.4-1.06-1.6-.01-1 .82-1.48.86-1.51-.47-.69-1.2-.77-1.46-.78z" />
       {/* "Pay" */}
@@ -39,17 +44,35 @@ function GooglePayMark({ className = "" }: { className?: string }) {
         d="M41 4.92l-5.19 11.93h-1.61l1.93-4.17-3.42-7.76h1.7l2.47 5.95h.03l2.4-5.95H41z"
       />
       {/* Google G */}
-      <path fill="#4285F4" d="M13.29 7.2c0-.5-.04-.99-.13-1.45H6.78v2.75h3.65a3.13 3.13 0 01-1.35 2.05v1.7h2.18c1.28-1.18 2.03-2.92 2.03-5.05z" />
-      <path fill="#34A853" d="M6.78 13.94c1.83 0 3.37-.6 4.49-1.64l-2.18-1.7c-.61.41-1.39.65-2.31.65-1.77 0-3.27-1.19-3.81-2.8H.72v1.75a6.78 6.78 0 006.06 3.74z" />
-      <path fill="#FBBC04" d="M2.97 8.45a4.07 4.07 0 010-2.6V4.1H.72a6.78 6.78 0 000 6.1l2.25-1.75z" />
-      <path fill="#EA4335" d="M6.78 3.05c1 0 1.9.34 2.6 1.02l1.94-1.94A6.5 6.5 0 006.78.15 6.78 6.78 0 00.72 4.1l2.25 1.75c.54-1.61 2.04-2.8 3.81-2.8z" />
+      <path
+        fill="#4285F4"
+        d="M13.29 7.2c0-.5-.04-.99-.13-1.45H6.78v2.75h3.65a3.13 3.13 0 01-1.35 2.05v1.7h2.18c1.28-1.18 2.03-2.92 2.03-5.05z"
+      />
+      <path
+        fill="#34A853"
+        d="M6.78 13.94c1.83 0 3.37-.6 4.49-1.64l-2.18-1.7c-.61.41-1.39.65-2.31.65-1.77 0-3.27-1.19-3.81-2.8H.72v1.75a6.78 6.78 0 006.06 3.74z"
+      />
+      <path
+        fill="#FBBC04"
+        d="M2.97 8.45a4.07 4.07 0 010-2.6V4.1H.72a6.78 6.78 0 000 6.1l2.25-1.75z"
+      />
+      <path
+        fill="#EA4335"
+        d="M6.78 3.05c1 0 1.9.34 2.6 1.02l1.94-1.94A6.5 6.5 0 006.78.15 6.78 6.78 0 00.72 4.1l2.25 1.75c.54-1.61 2.04-2.8 3.81-2.8z"
+      />
     </svg>
   );
 }
 
 function StripeMark({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 60 25" className={className} role="img" aria-label="Stripe" fill="currentColor">
+    <svg
+      viewBox="0 0 60 25"
+      className={className}
+      role="img"
+      aria-label="Stripe"
+      fill="currentColor"
+    >
       <path d="M60 12.9c0-4.26-2.06-7.62-6-7.62-3.95 0-6.34 3.36-6.34 7.59 0 5.01 2.83 7.54 6.88 7.54 1.98 0 3.47-.45 4.6-1.08v-3.33c-1.13.57-2.43.92-4.08.92-1.62 0-3.05-.57-3.23-2.53h8.14c0-.22.03-1.09.03-1.49zm-8.22-1.58c0-1.88 1.15-2.66 2.2-2.66 1.01 0 2.1.78 2.1 2.66h-4.3zM41.6 5.28c-1.63 0-2.68.77-3.26 1.3l-.22-1.03h-3.66v19.4l4.16-.88.02-4.71c.6.44 1.48 1.05 2.95 1.05 2.98 0 5.7-2.4 5.7-7.69-.01-4.84-2.76-7.44-5.69-7.44zm-1 11.44c-.98 0-1.57-.35-1.97-.79l-.02-6.23c.44-.49 1.04-.83 1.99-.83 1.52 0 2.58 1.71 2.58 3.91 0 2.26-1.04 3.94-2.58 3.94zM28.9 4.29l4.18-.9V0l-4.18.89v3.4zM28.9 5.56h4.18v14.58H28.9V5.56zM24.42 6.79l-.27-1.23h-3.59v14.58h4.16v-9.88c.98-1.28 2.64-1.05 3.16-.87V5.56c-.54-.2-2.48-.57-3.46 1.23zM16.1 1.94l-4.06.86-.02 13.32c0 2.46 1.85 4.27 4.31 4.27 1.36 0 2.36-.25 2.91-.55v-3.38c-.53.21-3.16 .98-3.16-1.48V9.1h3.16V5.56h-3.16l.02-3.62zM4.21 9.83c0-.65.53-.9 1.42-.9 1.27 0 2.87.38 4.14 1.07V6.09c-1.38-.55-2.75-.77-4.14-.77C2.24 5.32 0 7.09 0 10.05c0 4.62 6.36 3.88 6.36 5.87 0 .77-.67 1.02-1.6 1.02-1.38 0-3.15-.57-4.55-1.33v3.96c1.55.67 3.12.95 4.55.95 3.48 0 5.85-1.72 5.85-4.72-.02-4.99-6.4-4.1-6.4-5.97z" />
     </svg>
   );
@@ -66,9 +89,7 @@ const OFFICE_TEL = `tel:+1${OFFICE_PHONE.replace(/\D/g, "").replace(/^1/, "")}`;
 export const CALL_HREF = PHONE_IS_PLACEHOLDER
   ? "/quote?option=Free%2020-Minute%20Call"
   : OFFICE_TEL;
-export const CALL_LABEL = PHONE_IS_PLACEHOLDER
-  ? "Request your free call"
-  : `Call ${OFFICE_PHONE}`;
+export const CALL_LABEL = PHONE_IS_PLACEHOLDER ? "Request your free call" : `Call ${OFFICE_PHONE}`;
 
 function BookBar() {
   return (
@@ -102,13 +123,22 @@ export function ConsultOptions({
       <div className="mx-auto grid max-w-4xl grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
         {/* 1 — free 20-minute call */}
         <div className="flex flex-col rounded-3xl border border-black/[0.08] bg-white p-7 shadow-[0_24px_60px_-50px_rgba(17,17,17,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 md:p-8">
-          <H className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]" style={{ fontFamily: SANS }}>
+          <H
+            className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]"
+            style={{ fontFamily: SANS }}
+          >
             20-Minute Call
           </H>
-          <p className="mt-5 text-[34px] font-semibold leading-none tracking-[-0.04em] text-[#111111] md:text-[40px]" style={{ fontFamily: SANS }}>
+          <p
+            className="mt-5 text-[34px] font-semibold leading-none tracking-[-0.04em] text-[#111111] md:text-[40px]"
+            style={{ fontFamily: SANS }}
+          >
             Free
           </p>
-          <p className="mt-5 mb-8 text-[15px] leading-relaxed text-[#111111]/60" style={{ fontFamily: SANS }}>
+          <p
+            className="mt-5 mb-8 text-[15px] leading-relaxed text-[#111111]/60"
+            style={{ fontFamily: SANS }}
+          >
             Tell us what you're dealing with. No pitch, no charge.
           </p>
           <a
@@ -116,7 +146,17 @@ export function ConsultOptions({
             className="mt-auto flex w-full items-center justify-center gap-2.5 rounded-full border border-[#111111]/15 bg-white px-6 py-4 text-[15px] font-semibold text-[#111111] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
             style={{ fontFamily: SANS }}
           >
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.9"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
               <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8.1 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z" />
             </svg>
             {CALL_LABEL}
@@ -129,17 +169,29 @@ export function ConsultOptions({
           className="group flex flex-col rounded-3xl border border-[#1e6b3c]/35 bg-white p-7 shadow-[0_30px_70px_-45px_rgba(30,107,60,0.45)] transition-all duration-300 hover:-translate-y-1 md:p-8"
         >
           <div className="flex items-start justify-between gap-3">
-            <H className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]" style={{ fontFamily: SANS }}>
+            <H
+              className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]"
+              style={{ fontFamily: SANS }}
+            >
               1-Hour Consult
             </H>
-            <span className="shrink-0 rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[12px] font-semibold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+            <span
+              className="shrink-0 rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[12px] font-semibold text-[#1e6b3c]"
+              style={{ fontFamily: SANS }}
+            >
               Most chosen
             </span>
           </div>
-          <p className="mt-5 text-[34px] font-semibold leading-none tracking-[-0.04em] text-[#111111] md:text-[40px]" style={{ fontFamily: SANS }}>
+          <p
+            className="mt-5 text-[34px] font-semibold leading-none tracking-[-0.04em] text-[#111111] md:text-[40px]"
+            style={{ fontFamily: SANS }}
+          >
             $120
           </p>
-          <p className="mt-5 mb-8 text-[15px] leading-relaxed text-[#111111]/60" style={{ fontFamily: SANS }}>
+          <p
+            className="mt-5 mb-8 text-[15px] leading-relaxed text-[#111111]/60"
+            style={{ fontFamily: SANS }}
+          >
             A full hour with a specialist. You leave with a clear plan of what to do next.
           </p>
           <BookBar />
@@ -148,10 +200,16 @@ export function ConsultOptions({
 
       {/* the promise, under the two offers */}
       <div className="mx-auto mt-10 max-w-2xl text-center">
-        <p className="text-[16px] leading-relaxed text-[#111111]/60 md:text-[17px]" style={{ fontFamily: SANS }}>
+        <p
+          className="text-[16px] leading-relaxed text-[#111111]/60 md:text-[17px]"
+          style={{ fontFamily: SANS }}
+        >
           We help businesses with every aspect of their tech — and anything related to it.
         </p>
-        <p className="mt-3 text-[17px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[19px]" style={{ fontFamily: SANS }}>
+        <p
+          className="mt-3 text-[17px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[19px]"
+          style={{ fontFamily: SANS }}
+        >
           Get paired today with an ELSIAA AI specialist to discuss your business.
         </p>
       </div>

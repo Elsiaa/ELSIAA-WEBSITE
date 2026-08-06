@@ -5,8 +5,7 @@ import { useState } from "react";
   Three required fields + one free-text brief + optional budget.
   Posts the same payload shape /api/quote already accepts.
 */
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 
 const TYPES = ["Automation", "Software", "Design", "Consultation"];
 const BUDGETS = ["Under $5k", "$5k–$15k", "$15k–$50k", "$50k+", "Not sure yet"];
@@ -37,9 +36,17 @@ export function QuoteWizard() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          name, company, email, phone: "",
+          name,
+          company,
+          email,
+          phone: "",
           projectTypes: projectTypes.length ? projectTypes : ["Not specified"],
-          description, features: "", audience: "", budget, timeline: "", notes: "",
+          description,
+          features: "",
+          audience: "",
+          budget,
+          timeline: "",
+          notes: "",
         }),
       });
       const data = (await res.json()) as { ok: boolean };
@@ -54,16 +61,24 @@ export function QuoteWizard() {
 
   if (done) {
     return (
-      <div className="rounded-3xl border border-black/[0.07] bg-white p-8 md:p-10" style={{ fontFamily: SANS }}>
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1e6b3c] text-xl text-white">✓</span>
+      <div
+        className="rounded-3xl border border-black/[0.07] bg-white p-8 md:p-10"
+        style={{ fontFamily: SANS }}
+      >
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1e6b3c] text-xl text-white">
+          ✓
+        </span>
         <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[#111111] md:text-3xl">
           Thank you, {name.split(" ")[0]}. We're on it.
         </h2>
         <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#111111]/60">
-          Your brief is with the team. Expect a personal response with a quote
-          within one business day.
+          Your brief is with the team. Expect a personal response with a quote within one business
+          day.
         </p>
-        <a href="/" className="mt-6 inline-block text-[14px] font-medium text-[#1e6b3c] hover:underline">
+        <a
+          href="/"
+          className="mt-6 inline-block text-[14px] font-medium text-[#1e6b3c] hover:underline"
+        >
           ← Back to the site
         </a>
       </div>
@@ -74,14 +89,39 @@ export function QuoteWizard() {
     "w-full rounded-xl border border-black/[0.12] bg-white px-4 py-3.5 text-[16px] text-[#111111] outline-none transition-colors placeholder:text-[#111111]/35 focus:border-[#1e6b3c]";
 
   return (
-    <div className="rounded-3xl border border-black/[0.07] bg-white p-6 md:p-10" style={{ fontFamily: SANS }}>
+    <div
+      className="rounded-3xl border border-black/[0.07] bg-white p-6 md:p-10"
+      style={{ fontFamily: SANS }}
+    >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <input className={field} placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
-        <input className={field} placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" inputMode="email" />
+        <input
+          className={field}
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          autoComplete="name"
+        />
+        <input
+          className={field}
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+          inputMode="email"
+        />
       </div>
-      <input className={`${field} mt-4`} placeholder="Company (optional)" value={company} onChange={(e) => setCompany(e.target.value)} autoComplete="organization" />
+      <input
+        className={`${field} mt-4`}
+        placeholder="Company (optional)"
+        value={company}
+        onChange={(e) => setCompany(e.target.value)}
+        autoComplete="organization"
+      />
 
-      <p className="mt-6 text-[14px] font-medium text-[#111111]/70">What do you need? <span className="font-normal text-[#111111]/40">(optional)</span></p>
+      <p className="mt-6 text-[14px] font-medium text-[#111111]/70">
+        What do you need? <span className="font-normal text-[#111111]/40">(optional)</span>
+      </p>
       <div className="mt-2.5 flex flex-wrap gap-2">
         {TYPES.map((t) => (
           <button
@@ -99,7 +139,9 @@ export function QuoteWizard() {
         ))}
       </div>
 
-      <p className="mt-6 text-[14px] font-medium text-[#111111]/70">What do you want automated or built?</p>
+      <p className="mt-6 text-[14px] font-medium text-[#111111]/70">
+        What do you want automated or built?
+      </p>
       <textarea
         className={`${field} mt-2.5 min-h-[120px] resize-y`}
         placeholder="e.g. Our front desk misses 40% of calls — we want an AI receptionist that books patients into the right doctor's calendar."
@@ -107,7 +149,9 @@ export function QuoteWizard() {
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <p className="mt-6 text-[14px] font-medium text-[#111111]/70">Budget <span className="font-normal text-[#111111]/40">(optional)</span></p>
+      <p className="mt-6 text-[14px] font-medium text-[#111111]/70">
+        Budget <span className="font-normal text-[#111111]/40">(optional)</span>
+      </p>
       <div className="mt-2.5 flex flex-wrap gap-2">
         {BUDGETS.map((b) => (
           <button
@@ -115,7 +159,9 @@ export function QuoteWizard() {
             type="button"
             onClick={() => setBudget(budget === b ? "" : b)}
             className={`min-h-[44px] rounded-full border px-4 text-[13.5px] font-medium transition-all ${
-              budget === b ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.08] text-[#1e6b3c]" : "border-black/[0.14] text-[#111111]/60 hover:border-black/35"
+              budget === b
+                ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.08] text-[#1e6b3c]"
+                : "border-black/[0.14] text-[#111111]/60 hover:border-black/35"
             }`}
           >
             {b}

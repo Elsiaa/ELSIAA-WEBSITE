@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
-import { getAllUsers, getUsersByCompany, filterOutSuperAdminUsers } from '@/lib/users';
-import { requireAuth, isSuperAdmin } from '@/lib/permissions';
+import { NextResponse } from "next/server";
+import { getAllUsers, getUsersByCompany, filterOutSuperAdminUsers } from "@/lib/users";
+import { requireAuth, isSuperAdmin } from "@/lib/permissions";
 
 export async function GET() {
   try {
@@ -15,23 +15,20 @@ export async function GET() {
     } else {
       // Company admin sees only their company's users
       if (!currentUser) {
-        return NextResponse.json(
-          { error: 'Unauthorized - user not found' },
-          { status: 403 }
-        );
+        return NextResponse.json({ error: "Unauthorized - user not found" }, { status: 403 });
       }
       if (!currentUser.company_id) {
-        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
       users = await getUsersByCompany(currentUser.company_id);
     }
 
     return NextResponse.json({ users });
   } catch (error) {
-    console.error('Error fetching users:', error);
+    console.error("Error fetching users:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to fetch users' },
-      { status: error instanceof Error && error.message.includes('Forbidden') ? 403 : 500 }
+      { error: error instanceof Error ? error.message : "Failed to fetch users" },
+      { status: error instanceof Error && error.message.includes("Forbidden") ? 403 : 500 },
     );
   }
 }

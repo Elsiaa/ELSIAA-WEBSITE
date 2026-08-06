@@ -1,5 +1,8 @@
 /** Poel-compatible super-admin helpers (Set API + ELSIAA allowlist). */
-import { isSuperAdminEmail as elsiaaIsSuperAdminEmail, parseSuperAdminEmails as elsiaaParse } from "./admin/super-admin";
+import {
+  isSuperAdminEmail as elsiaaIsSuperAdminEmail,
+  parseSuperAdminEmails as elsiaaParse,
+} from "./admin/super-admin";
 import { normalizeEmailForAuth } from "./email-normalize";
 
 export function parseSuperAdminEmails(): Set<string> {

@@ -1,5 +1,5 @@
-import { getPaymentCompanyName, getPaymentsOperationsEmail } from '@/lib/payment-branding';
-import { getTransactionalSenderEmail } from '@/lib/operational-brand';
+import { getPaymentCompanyName, getPaymentsOperationsEmail } from "@/lib/payment-branding";
+import { getTransactionalSenderEmail } from "@/lib/operational-brand";
 
 /** From header for ELSIAA payment transactional mail (uses SMTP_FROM_EMAIL / ELSIAA mail). */
 export function getPaymentTransactionalFrom(): string {

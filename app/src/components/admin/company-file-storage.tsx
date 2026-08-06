@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
-import { Input } from '@/components/ui/input';
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   ChevronRight,
   Copy,
@@ -26,13 +26,13 @@ import {
   Loader2,
   Trash2,
   Upload,
-} from 'lucide-react';
-import { toast } from 'sonner';
-import { getProxyUploadMaxBytes } from '@/lib/company-files-upload-constants';
-import { readApiJsonResponse } from '@/lib/read-api-json';
-import { cn } from '@/components/ui/utils';
-import { getFilesFromDataTransfer } from '@/lib/company-file-upload-folders';
-import type { Company, User } from '@/types/company';
+} from "lucide-react";
+import { toast } from "sonner";
+import { getProxyUploadMaxBytes } from "@/lib/company-files-upload-constants";
+import { readApiJsonResponse } from "@/lib/read-api-json";
+import { cn } from "@/components/ui/utils";
+import { getFilesFromDataTransfer } from "@/lib/company-file-upload-folders";
+import type { Company, User } from "@/types/company";
 
 interface BrowseFolder {
   name: string;
@@ -48,7 +48,7 @@ interface CompanyFileListItem {
 }
 
 function formatBytes(n: number | undefined): string {
-  if (n == null || Number.isNaN(n)) return '—';
+  if (n == null || Number.isNaN(n)) return "—";
   if (n < 1024) return `${n} B`;
   if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
   if (n < 1024 * 1024 * 1024) return `${(n / (1024 * 1024)).toFixed(1)} MB`;
@@ -59,11 +59,11 @@ function formatBytes(n: number | undefined): string {
 function xhrPostFormData(
   url: string,
   form: FormData,
-  onProgress: (percent: number) => void
+  onProgress: (percent: number) => void,
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', url);
+    xhr.open("POST", url);
     xhr.withCredentials = true;
     xhr.upload.onprogress = (ev) => {
       if (ev.lengthComputable && ev.total > 0) {
@@ -83,8 +83,8 @@ function xhrPostFormData(
         }
       }
     };
-    xhr.onerror = () => reject(new Error('Network error during upload'));
-    xhr.onabort = () => reject(new Error('Upload cancelled'));
+    xhr.onerror = () => reject(new Error("Network error during upload"));
+    xhr.onabort = () => reject(new Error("Upload cancelled"));
     xhr.send(form);
   });
 }
@@ -94,12 +94,12 @@ function xhrPutFile(
   url: string,
   file: File,
   contentType: string,
-  onProgress: (percent: number) => void
+  onProgress: (percent: number) => void,
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open('PUT', url);
-    xhr.setRequestHeader('Content-Type', contentType);
+    xhr.open("PUT", url);
+    xhr.setRequestHeader("Content-Type", contentType);
     xhr.upload.onprogress = (ev) => {
       if (ev.lengthComputable && ev.total > 0) {
         onProgress(Math.min(100, Math.round((ev.loaded / ev.total) * 100)));
@@ -113,8 +113,8 @@ function xhrPutFile(
         reject(
           new Error(
             xhr.responseText?.slice(0, 200) ||
-              `Direct upload failed (${xhr.status}). Check R2 CORS for PUT from this origin.`
-          )
+              `Direct upload failed (${xhr.status}). Check R2 CORS for PUT from this origin.`,
+          ),
         );
       }
     };
@@ -122,11 +122,11 @@ function xhrPutFile(
       reject(
         Object.assign(
           new Error(
-            'Network error uploading to R2. If this persists, the bucket CORS policy may need ' +
-              'AllowedMethods: PUT and AllowedHeaders: * for your site origin.'
+            "Network error uploading to R2. If this persists, the bucket CORS policy may need " +
+              "AllowedMethods: PUT and AllowedHeaders: * for your site origin.",
           ),
-          { isCorsLikelyError: true }
-        )
+          { isCorsLikelyError: true },
+        ),
       );
     xhr.send(file);
   });
@@ -147,49 +147,49 @@ interface ActiveUploadRow {
  * The normalised type is stored in R2 metadata; the actual file bytes are unchanged.
  */
 function normalizeContentTypeForUpload(browserType: string | undefined): string {
-  const t = browserType?.trim() ?? '';
-  if (!t) return 'application/octet-stream';
+  const t = browserType?.trim() ?? "";
+  if (!t) return "application/octet-stream";
   // Keep well-known text, image, audio, video, and document types as-is.
   if (
-    t.startsWith('image/') ||
-    t.startsWith('audio/') ||
-    t.startsWith('video/') ||
-    t.startsWith('text/') ||
-    t === 'application/pdf' ||
-    t === 'application/json' ||
-    t === 'application/zip' ||
-    t === 'application/gzip' ||
-    t === 'application/x-tar' ||
-    t === 'application/vnd.ms-excel' ||
-    t === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-    t === 'application/vnd.ms-powerpoint' ||
-    t === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
-    t === 'application/msword' ||
-    t === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    t.startsWith("image/") ||
+    t.startsWith("audio/") ||
+    t.startsWith("video/") ||
+    t.startsWith("text/") ||
+    t === "application/pdf" ||
+    t === "application/json" ||
+    t === "application/zip" ||
+    t === "application/gzip" ||
+    t === "application/x-tar" ||
+    t === "application/vnd.ms-excel" ||
+    t === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+    t === "application/vnd.ms-powerpoint" ||
+    t === "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
+    t === "application/msword" ||
+    t === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   ) {
     return t;
   }
-  return 'application/octet-stream';
+  return "application/octet-stream";
 }
 
 /** Custom data type so OS file drags are not confused with in-app file moves. */
-const FILE_DRAG_TYPE = 'application/x-vercatryx-company-file-key';
+const FILE_DRAG_TYPE = "application/x-vercatryx-company-file-key";
 
 function parentPrefixFromRelativePath(relativePath: string): string {
   const t = relativePath.trim();
-  if (!t.includes('/')) return '';
-  return t.slice(0, t.lastIndexOf('/'));
+  if (!t.includes("/")) return "";
+  return t.slice(0, t.lastIndexOf("/"));
 }
 
 /** Match server `storageBasenameFromClientFileName` — `File#name` can be a rel path in some cases. */
 function fileBasenameForUpload(name: string): string {
-  const t = name.replace(/\\/g, '/').trim();
-  if (!t) return 'file';
-  return t.split('/').filter(Boolean).pop() || t;
+  const t = name.replace(/\\/g, "/").trim();
+  if (!t) return "file";
+  return t.split("/").filter(Boolean).pop() || t;
 }
 
 function hasOsFilePayload(e: React.DragEvent): boolean {
-  return e.dataTransfer.types.includes('Files');
+  return e.dataTransfer.types.includes("Files");
 }
 
 function hasInternalFilePayload(e: React.DragEvent): boolean {
@@ -198,44 +198,46 @@ function hasInternalFilePayload(e: React.DragEvent): boolean {
 
 function readInternalFileKey(e: React.DragEvent): string {
   return (
-    e.dataTransfer.getData(FILE_DRAG_TYPE) || e.dataTransfer.getData('text/plain') || ''
+    e.dataTransfer.getData(FILE_DRAG_TYPE) ||
+    e.dataTransfer.getData("text/plain") ||
+    ""
   ).trim();
 }
 
 function buildBreadcrumbs(folderPath: string): { label: string; path: string }[] {
-  const root = { label: 'Company files', path: '' };
+  const root = { label: "Company files", path: "" };
   if (!folderPath.trim()) return [root];
-  const segments = folderPath.split('/').filter(Boolean);
+  const segments = folderPath.split("/").filter(Boolean);
   const crumbs = [root];
   segments.forEach((_, i) => {
-    const path = segments.slice(0, i + 1).join('/');
+    const path = segments.slice(0, i + 1).join("/");
     crumbs.push({ label: segments[i], path });
   });
   return crumbs;
 }
 
-const CRUMB_ALL_COMPANIES = '__all__';
-const CRUMB_COMPANY_ROOT = '__co_root__';
+const CRUMB_ALL_COMPANIES = "__all__";
+const CRUMB_COMPANY_ROOT = "__co_root__";
 
 function buildFileBreadcrumbs(
   multiCompanyPicker: boolean,
   selectedCompanyId: string,
   companies: Company[],
-  folderPath: string
+  folderPath: string,
 ): { label: string; path: string }[] {
   if (multiCompanyPicker && !selectedCompanyId) {
-    return [{ label: 'All companies', path: CRUMB_ALL_COMPANIES }];
+    return [{ label: "All companies", path: CRUMB_ALL_COMPANIES }];
   }
   if (multiCompanyPicker && selectedCompanyId) {
-    const name = companies.find((c) => c.id === selectedCompanyId)?.name ?? 'Company';
+    const name = companies.find((c) => c.id === selectedCompanyId)?.name ?? "Company";
     const out: { label: string; path: string }[] = [
-      { label: 'All companies', path: CRUMB_ALL_COMPANIES },
+      { label: "All companies", path: CRUMB_ALL_COMPANIES },
       { label: name, path: CRUMB_COMPANY_ROOT },
     ];
     if (folderPath.trim()) {
-      const segments = folderPath.split('/').filter(Boolean);
+      const segments = folderPath.split("/").filter(Boolean);
       segments.forEach((seg, i) => {
-        out.push({ label: seg, path: segments.slice(0, i + 1).join('/') });
+        out.push({ label: seg, path: segments.slice(0, i + 1).join("/") });
       });
     }
     return out;
@@ -246,7 +248,7 @@ function buildFileBreadcrumbs(
 /** `null` = not a valid drop target for moving a file (e.g. “All companies”). */
 function moveTargetFromCrumbPath(crumbPath: string): string | null {
   if (crumbPath === CRUMB_ALL_COMPANIES) return null;
-  if (crumbPath === CRUMB_COMPANY_ROOT) return '';
+  if (crumbPath === CRUMB_COMPANY_ROOT) return "";
   return crumbPath;
 }
 
@@ -267,10 +269,10 @@ export default function CompanyFileStorage({
   const passCompanyIdToApi = isSuperAdmin || supportAgentCompanyFiles;
   const multiCompanyPicker = isSuperAdmin || supportAgentCompanyFiles;
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>(
-    multiCompanyPicker ? '' : currentUser?.company_id ?? ''
+    multiCompanyPicker ? "" : (currentUser?.company_id ?? ""),
   );
   /** Path under company root, no leading slash (e.g. contracts/2025) */
-  const [folderPath, setFolderPath] = useState('');
+  const [folderPath, setFolderPath] = useState("");
   const [folders, setFolders] = useState<BrowseFolder[]>([]);
   const [files, setFiles] = useState<CompanyFileListItem[]>([]);
   const [listRefreshing, setListRefreshing] = useState(false);
@@ -289,13 +291,13 @@ export default function CompanyFileStorage({
   const [shareBusy, setShareBusy] = useState<string | null>(null);
   const [zipping, setZipping] = useState(false);
   const [newFolderOpen, setNewFolderOpen] = useState(false);
-  const [newFolderName, setNewFolderName] = useState('');
+  const [newFolderName, setNewFolderName] = useState("");
   const [creatingFolder, setCreatingFolder] = useState(false);
   const [uploadLinkOpen, setUploadLinkOpen] = useState(false);
   const [uploadLinkBusy, setUploadLinkBusy] = useState(false);
-  const [uploadLinkLabel, setUploadLinkLabel] = useState('');
-  const [uploadLinkExpiresInDays, setUploadLinkExpiresInDays] = useState<string>('30');
-  const [uploadLinkMaxUploads, setUploadLinkMaxUploads] = useState<string>('');
+  const [uploadLinkLabel, setUploadLinkLabel] = useState("");
+  const [uploadLinkExpiresInDays, setUploadLinkExpiresInDays] = useState<string>("30");
+  const [uploadLinkMaxUploads, setUploadLinkMaxUploads] = useState<string>("");
   const [isDragging, setIsDragging] = useState(false);
   /** Breadcrumb path or folder row path receiving a file move hover (`""` = root). */
   const [moveDragOverDest, setMoveDragOverDest] = useState<string | null>(null);
@@ -306,31 +308,33 @@ export default function CompanyFileStorage({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const folderInputRef = useRef<HTMLInputElement>(null);
 
-  const effectiveCompanyId = multiCompanyPicker ? selectedCompanyId : currentUser?.company_id ?? '';
+  const effectiveCompanyId = multiCompanyPicker
+    ? selectedCompanyId
+    : (currentUser?.company_id ?? "");
 
   /** Refresh list without clearing rows (no “Opening folder” spinner). */
   const refreshBrowseSilent = useCallback(async () => {
     if (!effectiveCompanyId) return;
     try {
       const params = new URLSearchParams();
-      if (passCompanyIdToApi && effectiveCompanyId) params.set('companyId', effectiveCompanyId);
-      if (folderPath.trim()) params.set('prefix', folderPath.trim());
+      if (passCompanyIdToApi && effectiveCompanyId) params.set("companyId", effectiveCompanyId);
+      if (folderPath.trim()) params.set("prefix", folderPath.trim());
       const url = params.toString()
         ? `/api/admin/company-files?${params}`
-        : '/api/admin/company-files';
-      const res = await fetch(url, { cache: 'no-store' });
+        : "/api/admin/company-files";
+      const res = await fetch(url, { cache: "no-store" });
       const data = await readApiJsonResponse<{
         folders?: unknown;
         files?: unknown;
         error?: string;
       }>(res);
       if (!res.ok) {
-        throw new Error(data.error || 'Failed to load files');
+        throw new Error(data.error || "Failed to load files");
       }
       setFolders(Array.isArray(data.folders) ? data.folders : []);
       setFiles(Array.isArray(data.files) ? data.files : []);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to load files');
+      toast.error(e instanceof Error ? e.message : "Failed to load files");
     }
   }, [effectiveCompanyId, folderPath, passCompanyIdToApi]);
 
@@ -339,25 +343,25 @@ export default function CompanyFileStorage({
       setMoveDragOverDest(null);
       setDraggingFileKey(null);
     };
-    window.addEventListener('dragend', clearMoveDragUi);
-    return () => window.removeEventListener('dragend', clearMoveDragUi);
+    window.addEventListener("dragend", clearMoveDragUi);
+    return () => window.removeEventListener("dragend", clearMoveDragUi);
   }, []);
 
   const performMove = useCallback(
     async (sourceKey: string, destinationPrefix: string) => {
       if (!effectiveCompanyId) return;
       const item = files.find((x) => x.key === sourceKey);
-      const parent = item ? parentPrefixFromRelativePath(item.relativePath) : '';
+      const parent = item ? parentPrefixFromRelativePath(item.relativePath) : "";
       const dest = destinationPrefix.trim();
       if (parent === dest) {
-        toast.info('Already in that folder');
+        toast.info("Already in that folder");
         return;
       }
       setMovingKey(sourceKey);
       try {
-        const res = await fetch('/api/admin/company-files/move', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const res = await fetch("/api/admin/company-files/move", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...(passCompanyIdToApi ? { companyId: effectiveCompanyId } : {}),
             key: sourceKey,
@@ -365,22 +369,22 @@ export default function CompanyFileStorage({
           }),
         });
         const data = await readApiJsonResponse<{ error?: string }>(res);
-        if (!res.ok) throw new Error(data.error || 'Move failed');
-        toast.success('Moved');
+        if (!res.ok) throw new Error(data.error || "Move failed");
+        toast.success("Moved");
         await refreshBrowseSilent();
       } catch (e) {
-        toast.error(e instanceof Error ? e.message : 'Move failed');
+        toast.error(e instanceof Error ? e.message : "Move failed");
       } finally {
         setMovingKey(null);
         setMoveDragOverDest(null);
         setDraggingFileKey(null);
       }
     },
-    [effectiveCompanyId, files, passCompanyIdToApi, refreshBrowseSilent]
+    [effectiveCompanyId, files, passCompanyIdToApi, refreshBrowseSilent],
   );
 
   useEffect(() => {
-    setFolderPath('');
+    setFolderPath("");
   }, [effectiveCompanyId]);
 
   useEffect(() => {
@@ -396,13 +400,13 @@ export default function CompanyFileStorage({
     setListRefreshing(true);
 
     const params = new URLSearchParams();
-    if (passCompanyIdToApi && effectiveCompanyId) params.set('companyId', effectiveCompanyId);
-    if (folderPath.trim()) params.set('prefix', folderPath.trim());
+    if (passCompanyIdToApi && effectiveCompanyId) params.set("companyId", effectiveCompanyId);
+    if (folderPath.trim()) params.set("prefix", folderPath.trim());
     const url = params.toString()
       ? `/api/admin/company-files?${params}`
-      : '/api/admin/company-files';
+      : "/api/admin/company-files";
 
-    void fetch(url, { cache: 'no-store', signal: ac.signal })
+    void fetch(url, { cache: "no-store", signal: ac.signal })
       .then(async (res) => {
         const data = await readApiJsonResponse<{
           folders?: unknown;
@@ -410,14 +414,14 @@ export default function CompanyFileStorage({
           error?: string;
         }>(res);
         if (!res.ok) {
-          throw new Error(data.error || 'Failed to load files');
+          throw new Error(data.error || "Failed to load files");
         }
         setFolders(Array.isArray(data.folders) ? data.folders : []);
         setFiles(Array.isArray(data.files) ? data.files : []);
       })
       .catch((e: unknown) => {
-        if (e instanceof Error && e.name === 'AbortError') return;
-        toast.error(e instanceof Error ? e.message : 'Failed to load files');
+        if (e instanceof Error && e.name === "AbortError") return;
+        toast.error(e instanceof Error ? e.message : "Failed to load files");
         setFolders([]);
         setFiles([]);
       })
@@ -436,17 +440,17 @@ export default function CompanyFileStorage({
   const postFileUploadViaApp = useCallback(
     async (file: File, relativeDir: string, onProgress: (pct: number) => void): Promise<void> => {
       const form = new FormData();
-      form.append('file', file);
+      form.append("file", file);
       if (relativeDir) {
-        form.append('relativeDir', relativeDir);
+        form.append("relativeDir", relativeDir);
       }
       if (passCompanyIdToApi) {
-        form.append('companyId', effectiveCompanyId);
+        form.append("companyId", effectiveCompanyId);
       }
       onProgress(0);
-      await xhrPostFormData('/api/admin/company-files', form, onProgress);
+      await xhrPostFormData("/api/admin/company-files", form, onProgress);
     },
-    [passCompanyIdToApi, effectiveCompanyId]
+    [passCompanyIdToApi, effectiveCompanyId],
   );
 
   /** Browser → R2 presigned PUT (no large body through Next.js / Vercel). */
@@ -456,9 +460,9 @@ export default function CompanyFileStorage({
       // types (e.g. application/x-msdownload for .exe). Content is unaffected.
       const contentType = normalizeContentTypeForUpload(file.type);
       onProgress(1);
-      const presignRes = await fetch('/api/admin/company-files/presign', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const presignRes = await fetch("/api/admin/company-files/presign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...(passCompanyIdToApi ? { companyId: effectiveCompanyId } : {}),
           fileName: fileBasenameForUpload(file.name),
@@ -473,14 +477,14 @@ export default function CompanyFileStorage({
       }
       const uploadUrl = presignData.uploadUrl as string | undefined;
       if (!uploadUrl) {
-        throw new Error('No upload URL returned');
+        throw new Error("No upload URL returned");
       }
       onProgress(5);
       await xhrPutFile(uploadUrl, file, contentType, (p) => {
         onProgress(5 + Math.round((p / 100) * 95));
       });
     },
-    [passCompanyIdToApi, effectiveCompanyId]
+    [passCompanyIdToApi, effectiveCompanyId],
   );
 
   const postFileUpload = useCallback(
@@ -502,7 +506,7 @@ export default function CompanyFileStorage({
         }
       }
     },
-    [postFileUploadViaApp, postFileUploadDirectToR2]
+    [postFileUploadViaApp, postFileUploadDirectToR2],
   );
 
   const dismissUploadRow = useCallback((id: string) => {
@@ -514,11 +518,11 @@ export default function CompanyFileStorage({
       const list = items instanceof FileList ? Array.from(items) : items;
       if (list.length === 0) return;
       if (!effectiveCompanyId) {
-        toast.error('Open a company folder first.');
+        toast.error("Open a company folder first.");
         return;
       }
       if (uploadBusyRef.current) {
-        toast.info('Finish the current upload batch first.');
+        toast.info("Finish the current upload batch first.");
         return;
       }
       uploadBusyRef.current = true;
@@ -527,30 +531,31 @@ export default function CompanyFileStorage({
         const CONCURRENCY_LIMIT = 20;
         let ok = 0;
         let failed = 0;
-        let lastError = '';
+        let lastError = "";
 
         // 1. Prepare all items and their paths
         const preparedItems = list.map((item) => {
-          const file = 'file' in item && !(item instanceof File) ? item.file : (item as File);
-          const customRelativePath = 'relativePath' in item && !(item instanceof File) ? item.relativePath : undefined;
-          
+          const file = "file" in item && !(item instanceof File) ? item.file : (item as File);
+          const customRelativePath =
+            "relativePath" in item && !(item instanceof File) ? item.relativePath : undefined;
+
           let fileRelativeDir = folderPath.trim();
           if (customRelativePath) {
-            const parts = customRelativePath.split('/');
+            const parts = customRelativePath.split("/");
             if (parts.length > 1) {
-              const subDir = parts.slice(0, -1).join('/');
+              const subDir = parts.slice(0, -1).join("/");
               fileRelativeDir = fileRelativeDir ? `${fileRelativeDir}/${subDir}` : subDir;
             }
-          } else if ('webkitRelativePath' in file && file.webkitRelativePath) {
-            const parts = file.webkitRelativePath.split('/');
+          } else if ("webkitRelativePath" in file && file.webkitRelativePath) {
+            const parts = file.webkitRelativePath.split("/");
             if (parts.length > 1) {
-              const subDir = parts.slice(0, -1).join('/');
+              const subDir = parts.slice(0, -1).join("/");
               fileRelativeDir = fileRelativeDir ? `${fileRelativeDir}/${subDir}` : subDir;
             }
           }
 
           const id =
-            typeof crypto !== 'undefined' && crypto.randomUUID
+            typeof crypto !== "undefined" && crypto.randomUUID
               ? crypto.randomUUID()
               : `up-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
@@ -561,7 +566,7 @@ export default function CompanyFileStorage({
           total: preparedItems.length,
           completed: 0,
           failed: 0,
-          active: true
+          active: true,
         });
 
         // Don't show individual file rows for batch uploads -- the global bar is enough
@@ -569,35 +574,35 @@ export default function CompanyFileStorage({
         // 2. Fetch presigned URLs in batches of 1000 to avoid request size limits
         const BATCH_SIZE = 1000;
         const uploadUrls = new Map<string, string>();
-        
+
         for (let i = 0; i < preparedItems.length; i += BATCH_SIZE) {
           const batch = preparedItems.slice(i, i + BATCH_SIZE);
-          
+
           const reqBody = {
             ...(passCompanyIdToApi ? { companyId: effectiveCompanyId } : {}),
-            files: batch.map(item => ({
+            files: batch.map((item) => ({
               id: item.id,
               fileName: fileBasenameForUpload(item.file.name),
               contentType: normalizeContentTypeForUpload(item.file.type),
               contentLength: item.file.size,
               relativeDir: item.fileRelativeDir || undefined,
-            }))
+            })),
           };
 
           try {
-            const presignRes = await fetch('/api/admin/company-files/presign-batch', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+            const presignRes = await fetch("/api/admin/company-files/presign-batch", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
               body: JSON.stringify(reqBody),
             });
             const presignData = await presignRes.json().catch(() => ({}));
-            
-            if (!presignRes.ok) throw new Error(presignData.error || 'Batch presign failed');
-            
+
+            if (!presignRes.ok) throw new Error(presignData.error || "Batch presign failed");
+
             for (const result of presignData.results || []) {
               if (result.error) {
                 failed++;
-                setBatchProgress(p => p ? { ...p, failed: p.failed + 1 } : p);
+                setBatchProgress((p) => (p ? { ...p, failed: p.failed + 1 } : p));
               } else if (result.uploadUrl) {
                 uploadUrls.set(result.id, result.uploadUrl);
               }
@@ -605,7 +610,7 @@ export default function CompanyFileStorage({
           } catch (err) {
             for (const item of batch) {
               failed++;
-              setBatchProgress(p => p ? { ...p, failed: p.failed + 1 } : p);
+              setBatchProgress((p) => (p ? { ...p, failed: p.failed + 1 } : p));
             }
           }
         }
@@ -617,25 +622,25 @@ export default function CompanyFileStorage({
             const index = currentIndex++;
             const item = preparedItems[index];
             const url = uploadUrls.get(item.id);
-            
+
             if (!url) continue; // Failed presign
 
             try {
               const contentType = normalizeContentTypeForUpload(item.file.type);
-              
+
               const maxProxy = getProxyUploadMaxBytes();
               if (item.file.size <= maxProxy) {
                 await postFileUploadViaApp(item.file, item.fileRelativeDir, () => {});
               } else {
                 await xhrPutFile(url, item.file, contentType, () => {});
               }
-              
+
               ok++;
-              setBatchProgress(p => p ? { ...p, completed: p.completed + 1 } : p);
+              setBatchProgress((p) => (p ? { ...p, completed: p.completed + 1 } : p));
             } catch (e) {
               failed++;
-              setBatchProgress(p => p ? { ...p, failed: p.failed + 1 } : p);
-              lastError = e instanceof Error ? e.message : 'Upload failed';
+              setBatchProgress((p) => (p ? { ...p, failed: p.failed + 1 } : p));
+              lastError = e instanceof Error ? e.message : "Upload failed";
             }
           }
         };
@@ -651,13 +656,13 @@ export default function CompanyFileStorage({
         if (ok > 0) {
           toast.success(
             failed > 0
-              ? `Uploaded ${ok} file(s); ${failed} failed${lastError ? `: ${lastError}` : ''}`
+              ? `Uploaded ${ok} file(s); ${failed} failed${lastError ? `: ${lastError}` : ""}`
               : ok === 1
-                ? 'File uploaded'
-                : `Uploaded ${ok} files`
+                ? "File uploaded"
+                : `Uploaded ${ok} files`,
           );
         } else if (failed > 0) {
-          toast.error(lastError || 'Upload failed');
+          toast.error(lastError || "Upload failed");
         }
         if (ok > 0) {
           await refreshBrowseSilent();
@@ -668,7 +673,7 @@ export default function CompanyFileStorage({
         uploadBusyRef.current = false;
       }
     },
-    [effectiveCompanyId, folderPath, postFileUpload, refreshBrowseSilent]
+    [effectiveCompanyId, folderPath, postFileUpload, refreshBrowseSilent],
   );
 
   const uploadBusy = activeUploads.some((u) => !u.error);
@@ -677,7 +682,7 @@ export default function CompanyFileStorage({
     const input = e.target;
     // Copy files before clearing input — `FileList` is live and empties when value is reset.
     const files = Array.from(input.files ?? []);
-    input.value = '';
+    input.value = "";
     if (files.length === 0) return;
     await uploadFileList(files);
   };
@@ -686,9 +691,9 @@ export default function CompanyFileStorage({
     if (!effectiveCompanyId || !newFolderName.trim()) return;
     setCreatingFolder(true);
     try {
-      const res = await fetch('/api/admin/company-files/folder', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/admin/company-files/folder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...(passCompanyIdToApi ? { companyId: effectiveCompanyId } : {}),
           parentPrefix: folderPath.trim(),
@@ -697,16 +702,16 @@ export default function CompanyFileStorage({
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.error || 'Could not create folder');
+        throw new Error(data.error || "Could not create folder");
       }
-      toast.success('Folder created');
+      toast.success("Folder created");
       setNewFolderOpen(false);
-      setNewFolderName('');
-      if (data.path && typeof data.path === 'string') {
+      setNewFolderName("");
+      if (data.path && typeof data.path === "string") {
         setFolderPath(data.path);
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Failed to create folder');
+      toast.error(err instanceof Error ? err.message : "Failed to create folder");
     } finally {
       setCreatingFolder(false);
     }
@@ -735,9 +740,9 @@ export default function CompanyFileStorage({
     e.preventDefault();
     e.stopPropagation();
     if (hasOsFilePayload(e)) {
-      e.dataTransfer.dropEffect = 'copy';
+      e.dataTransfer.dropEffect = "copy";
     } else if (hasInternalFilePayload(e)) {
-      e.dataTransfer.dropEffect = 'move';
+      e.dataTransfer.dropEffect = "move";
     }
   };
 
@@ -768,15 +773,15 @@ export default function CompanyFileStorage({
 
   const downloadHref = (key: string) => {
     const params = new URLSearchParams();
-    params.set('key', key);
-    if (passCompanyIdToApi && effectiveCompanyId) params.set('companyId', effectiveCompanyId);
+    params.set("key", key);
+    if (passCompanyIdToApi && effectiveCompanyId) params.set("companyId", effectiveCompanyId);
     return `/api/admin/company-files/download?${params.toString()}`;
   };
 
   const postShareLink = async (body: Record<string, unknown>) => {
-    const res = await fetch('/api/admin/company-files/share-link', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("/api/admin/company-files/share-link", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...(passCompanyIdToApi ? { companyId: effectiveCompanyId } : {}),
         ...body,
@@ -790,7 +795,7 @@ export default function CompanyFileStorage({
       hint?: string;
     }>(res);
     if (!res.ok) {
-      throw new Error(data.error || 'Could not create link');
+      throw new Error(data.error || "Could not create link");
     }
     return data as {
       publicUrl?: string | null;
@@ -807,14 +812,14 @@ export default function CompanyFileStorage({
       if (!data.publicUrl) {
         toast.error(
           data.hint ||
-            'Set R2_COMPANY_FILES_PUBLIC_URL (e.g. https://files.elsiaa.com) on the server to copy a CDN link.'
+            "Set R2_COMPANY_FILES_PUBLIC_URL (e.g. https://files.elsiaa.com) on the server to copy a CDN link.",
         );
         return;
       }
       await navigator.clipboard.writeText(data.publicUrl);
-      toast.success('Link copied');
+      toast.success("Link copied");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Copy failed');
+      toast.error(err instanceof Error ? err.message : "Copy failed");
     } finally {
       setShareBusy(null);
     }
@@ -825,19 +830,19 @@ export default function CompanyFileStorage({
     try {
       const data = await postShareLink({ folderPrefix: path });
       if (!data.siteShareUrl) {
-        throw new Error('No link returned');
+        throw new Error("No link returned");
       }
       await navigator.clipboard.writeText(data.siteShareUrl);
       if (data.hasFiles === false) {
-        toast.success('Link copied', {
+        toast.success("Link copied", {
           description:
-            'This folder is empty — the shared page will explain that there is nothing to ZIP yet.',
+            "This folder is empty — the shared page will explain that there is nothing to ZIP yet.",
         });
       } else {
-        toast.success('Link copied');
+        toast.success("Link copied");
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Copy failed');
+      toast.error(err instanceof Error ? err.message : "Copy failed");
     } finally {
       setShareBusy(null);
     }
@@ -845,29 +850,27 @@ export default function CompanyFileStorage({
 
   const createUploadLink = async () => {
     if (!effectiveCompanyId) {
-      toast.error('Open a company folder first.');
+      toast.error("Open a company folder first.");
       return;
     }
     setUploadLinkBusy(true);
     try {
       const expiresRaw = uploadLinkExpiresInDays.trim();
       const expiresInDays =
-        expiresRaw === '' || expiresRaw === 'never'
-          ? null
-          : Number.parseInt(expiresRaw, 10);
+        expiresRaw === "" || expiresRaw === "never" ? null : Number.parseInt(expiresRaw, 10);
       if (expiresInDays != null && (!Number.isFinite(expiresInDays) || expiresInDays < 1)) {
-        throw new Error('Expiry must be a positive number of days or “Never”.');
+        throw new Error("Expiry must be a positive number of days or “Never”.");
       }
 
       const maxRaw = uploadLinkMaxUploads.trim();
-      const maxUploads = maxRaw === '' ? null : Number.parseInt(maxRaw, 10);
+      const maxUploads = maxRaw === "" ? null : Number.parseInt(maxRaw, 10);
       if (maxUploads != null && (!Number.isFinite(maxUploads) || maxUploads < 1)) {
-        throw new Error('Max uploads must be a positive integer or left blank for unlimited.');
+        throw new Error("Max uploads must be a positive integer or left blank for unlimited.");
       }
 
-      const res = await fetch('/api/admin/company-files/upload-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/admin/company-files/upload-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...(passCompanyIdToApi ? { companyId: effectiveCompanyId } : {}),
           folderPrefix: folderPath.trim(),
@@ -878,39 +881,39 @@ export default function CompanyFileStorage({
       });
       const data = await readApiJsonResponse<{ error?: string; uploadUrl?: string }>(res);
       if (!res.ok || !data.uploadUrl) {
-        throw new Error(data.error || 'Could not create upload link');
+        throw new Error(data.error || "Could not create upload link");
       }
       await navigator.clipboard.writeText(data.uploadUrl);
-      toast.success('Upload link copied', {
-        description: 'Anyone with this link can upload files to this folder without signing in.',
+      toast.success("Upload link copied", {
+        description: "Anyone with this link can upload files to this folder without signing in.",
       });
       setUploadLinkOpen(false);
-      setUploadLinkLabel('');
-      setUploadLinkExpiresInDays('30');
-      setUploadLinkMaxUploads('');
+      setUploadLinkLabel("");
+      setUploadLinkExpiresInDays("30");
+      setUploadLinkMaxUploads("");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Could not create upload link');
+      toast.error(err instanceof Error ? err.message : "Could not create upload link");
     } finally {
       setUploadLinkBusy(false);
     }
   };
 
   const deleteFile = async (key: string) => {
-    if (!confirm('Delete this file permanently?')) return;
+    if (!confirm("Delete this file permanently?")) return;
     setDeletingKey(key);
     try {
       const params = new URLSearchParams();
-      params.set('key', key);
-      if (passCompanyIdToApi && effectiveCompanyId) params.set('companyId', effectiveCompanyId);
-      const res = await fetch(`/api/admin/company-files?${params}`, { method: 'DELETE' });
+      params.set("key", key);
+      if (passCompanyIdToApi && effectiveCompanyId) params.set("companyId", effectiveCompanyId);
+      const res = await fetch(`/api/admin/company-files?${params}`, { method: "DELETE" });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.error || 'Delete failed');
+        throw new Error(data.error || "Delete failed");
       }
-      toast.success('File deleted');
+      toast.success("File deleted");
       await refreshBrowseSilent();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Delete failed');
+      toast.error(err instanceof Error ? err.message : "Delete failed");
     } finally {
       setDeletingKey(null);
     }
@@ -922,40 +925,38 @@ export default function CompanyFileStorage({
       setZipping(true);
       try {
         const params = new URLSearchParams();
-        if (passCompanyIdToApi) params.set('companyId', effectiveCompanyId);
-        if (prefix.trim()) params.set('prefix', prefix.trim());
+        if (passCompanyIdToApi) params.set("companyId", effectiveCompanyId);
+        if (prefix.trim()) params.set("prefix", prefix.trim());
         const url = `/api/admin/company-files/zip?${params.toString()}`;
-        const res = await fetch(url, { method: 'GET' });
+        const res = await fetch(url, { method: "GET" });
         if (!res.ok) {
           const data = await readApiJsonResponse<{ error?: string }>(res);
-          throw new Error(
-            typeof data.error === 'string' ? data.error : 'Zip download failed'
-          );
+          throw new Error(typeof data.error === "string" ? data.error : "Zip download failed");
         }
         const blob = await res.blob();
-        const dispo = res.headers.get('Content-Disposition');
-        let filename = 'company-files.zip';
+        const dispo = res.headers.get("Content-Disposition");
+        let filename = "company-files.zip";
         const m = dispo?.match(/filename="([^"]+)"/);
         if (m?.[1]) filename = m[1];
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
         a.download = filename;
         a.click();
         URL.revokeObjectURL(a.href);
-        toast.success('ZIP download started');
+        toast.success("ZIP download started");
       } catch (err) {
-        toast.error(err instanceof Error ? err.message : 'Zip failed');
+        toast.error(err instanceof Error ? err.message : "Zip failed");
       } finally {
         setZipping(false);
       }
     },
-    [effectiveCompanyId, passCompanyIdToApi]
+    [effectiveCompanyId, passCompanyIdToApi],
   );
 
   const deleteFolderRecursive = async (path: string, displayName: string) => {
     if (
       !confirm(
-        `Delete folder “${displayName}” and everything inside it from storage? This cannot be undone.`
+        `Delete folder “${displayName}” and everything inside it from storage? This cannot be undone.`,
       )
     ) {
       return;
@@ -963,26 +964,25 @@ export default function CompanyFileStorage({
     setDeletingFolderPath(path);
     try {
       const params = new URLSearchParams();
-      params.set('recursive', '1');
-      params.set('prefix', path);
-      if (passCompanyIdToApi && effectiveCompanyId) params.set('companyId', effectiveCompanyId);
-      const res = await fetch(`/api/admin/company-files?${params}`, { method: 'DELETE' });
+      params.set("recursive", "1");
+      params.set("prefix", path);
+      if (passCompanyIdToApi && effectiveCompanyId) params.set("companyId", effectiveCompanyId);
+      const res = await fetch(`/api/admin/company-files?${params}`, { method: "DELETE" });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.error || 'Delete folder failed');
+        throw new Error(data.error || "Delete folder failed");
       }
-      const n = typeof data.deleted === 'number' ? data.deleted : 0;
-      toast.success(n > 0 ? `Folder removed (${n} object${n === 1 ? '' : 's'})` : 'Folder removed');
-      const wasInsideDeleted =
-        folderPath === path || folderPath.startsWith(`${path}/`);
+      const n = typeof data.deleted === "number" ? data.deleted : 0;
+      toast.success(n > 0 ? `Folder removed (${n} object${n === 1 ? "" : "s"})` : "Folder removed");
+      const wasInsideDeleted = folderPath === path || folderPath.startsWith(`${path}/`);
       if (wasInsideDeleted) {
-        setFolderPath('');
+        setFolderPath("");
         // Listing for '' is loaded by useEffect; avoid refresh with stale folderPath.
       } else {
         await refreshBrowseSilent();
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Delete folder failed');
+      toast.error(err instanceof Error ? err.message : "Delete folder failed");
     } finally {
       setDeletingFolderPath(null);
     }
@@ -990,15 +990,15 @@ export default function CompanyFileStorage({
 
   const crumbs = useMemo(
     () => buildFileBreadcrumbs(multiCompanyPicker, selectedCompanyId, companies, folderPath),
-    [multiCompanyPicker, selectedCompanyId, companies, folderPath]
+    [multiCompanyPicker, selectedCompanyId, companies, folderPath],
   );
 
   const navigateCrumb = (crumbPath: string) => {
     if (crumbPath === CRUMB_ALL_COMPANIES) {
-      setSelectedCompanyId('');
-      setFolderPath('');
+      setSelectedCompanyId("");
+      setFolderPath("");
     } else if (crumbPath === CRUMB_COMPANY_ROOT) {
-      setFolderPath('');
+      setFolderPath("");
     } else {
       setFolderPath(crumbPath);
     }
@@ -1014,14 +1014,14 @@ export default function CompanyFileStorage({
           </CardTitle>
           {isSuperAdmin ? (
             <CardDescription>
-              Super admin: open a <strong className="text-foreground">company folder</strong> below (each
-              company is its own storage root in R2). New companies get a root folder automatically; older ones
-              are backfilled when you open them.
+              Super admin: open a <strong className="text-foreground">company folder</strong> below
+              (each company is its own storage root in R2). New companies get a root folder
+              automatically; older ones are backfilled when you open them.
             </CardDescription>
           ) : supportAgentCompanyFiles ? (
             <CardDescription>
-              Companies where this workspace has allowed support access to file storage. Pick a company to
-              browse or upload files.
+              Companies where this workspace has allowed support access to file storage. Pick a
+              company to browse or upload files.
             </CardDescription>
           ) : null}
         </CardHeader>
@@ -1072,23 +1072,21 @@ export default function CompanyFileStorage({
                 <div className="flex flex-wrap items-center gap-1 text-sm min-h-8">
                   {crumbs.map((c, i) => (
                     <span key={`${i}-${c.path}`} className="flex items-center gap-1">
-                      {i > 0 && (
-                        <ChevronRight className="h-4 w-4 shrink-0 text-[#111]/55" />
-                      )}
+                      {i > 0 && <ChevronRight className="h-4 w-4 shrink-0 text-[#111]/55" />}
                       <span
                         className={cn(
-                          'rounded-md transition-colors',
+                          "rounded-md transition-colors",
                           moveTargetFromCrumbPath(c.path) !== null &&
                             moveDragOverDest === c.path &&
                             draggingFileKey &&
-                            'bg-primary/15 ring-2 ring-primary ring-offset-2 ring-offset-background'
+                            "bg-primary/15 ring-2 ring-primary ring-offset-2 ring-offset-background",
                         )}
                         onDragOver={(e) => {
                           if (!hasInternalFilePayload(e)) return;
                           if (moveTargetFromCrumbPath(c.path) === null) return;
                           e.preventDefault();
                           e.stopPropagation();
-                          e.dataTransfer.dropEffect = 'move';
+                          e.dataTransfer.dropEffect = "move";
                           setMoveDragOverDest(c.path);
                         }}
                         onDrop={(e) => {
@@ -1107,8 +1105,8 @@ export default function CompanyFileStorage({
                           onClick={() => navigateCrumb(c.path)}
                           className={`rounded-md px-2 py-1 transition-colors hover:bg-black/[0.04] ${
                             i === crumbs.length - 1
-                              ? 'font-medium text-foreground'
-                              : 'text-[#111]/55 hover:text-foreground'
+                              ? "font-medium text-foreground"
+                              : "text-[#111]/55 hover:text-foreground"
                           }`}
                         >
                           {c.label}
@@ -1208,7 +1206,7 @@ export default function CompanyFileStorage({
                     className="gap-2"
                   >
                     <Copy className="h-4 w-4" />
-                    {shareBusy === `link-folder:${folderPath}` ? '…' : 'Copy link'}
+                    {shareBusy === `link-folder:${folderPath}` ? "…" : "Copy link"}
                   </Button>
                   <Button
                     type="button"
@@ -1224,10 +1222,10 @@ export default function CompanyFileStorage({
 
               <div
                 className={cn(
-                  'rounded-xl border-2 border-dashed bg-white overflow-hidden transition-colors',
-                  isDragging && 'border-primary/80 bg-primary/5 ring-2 ring-primary/20',
-                  !isDragging && draggingFileKey && 'border-amber-500/40 bg-amber-500/[0.03]',
-                  !isDragging && !draggingFileKey && 'border-black/[0.08]/60'
+                  "rounded-xl border-2 border-dashed bg-white overflow-hidden transition-colors",
+                  isDragging && "border-primary/80 bg-primary/5 ring-2 ring-primary/20",
+                  !isDragging && draggingFileKey && "border-amber-500/40 bg-amber-500/[0.03]",
+                  !isDragging && !draggingFileKey && "border-black/[0.08]/60",
                 )}
                 onDragEnter={onDragEnter}
                 onDragLeave={onDragLeave}
@@ -1268,7 +1266,7 @@ export default function CompanyFileStorage({
                       if (hasInternalFilePayload(e)) {
                         e.preventDefault();
                         e.stopPropagation();
-                        e.dataTransfer.dropEffect = 'move';
+                        e.dataTransfer.dropEffect = "move";
                       }
                     }}
                     onDrop={(e) => {
@@ -1284,9 +1282,10 @@ export default function CompanyFileStorage({
                     <p>
                       <span className="text-foreground underline-offset-4 hover:underline">
                         Click here to choose files
-                      </span>{' '}
-                      or drag and drop into this area. Use <strong className="text-foreground">New folder</strong>{' '}
-                      above to add a subfolder.
+                      </span>{" "}
+                      or drag and drop into this area. Use{" "}
+                      <strong className="text-foreground">New folder</strong> above to add a
+                      subfolder.
                     </p>
                   </button>
                 ) : (
@@ -1297,18 +1296,23 @@ export default function CompanyFileStorage({
                           <Loader2 className="h-5 w-5 shrink-0 animate-spin text-primary" />
                           <span className="min-w-0">
                             <span className="block font-medium">
-                              Uploading {batchProgress.total} file{batchProgress.total === 1 ? '' : 's'}…
+                              Uploading {batchProgress.total} file
+                              {batchProgress.total === 1 ? "" : "s"}…
                             </span>
                             <span className="text-xs text-[#111]/55">
                               {batchProgress.completed} of {batchProgress.total} completed
-                              {batchProgress.failed > 0 ? ` · ${batchProgress.failed} failed` : ''}
+                              {batchProgress.failed > 0 ? ` · ${batchProgress.failed} failed` : ""}
                             </span>
                           </span>
                         </span>
                         <div className="pl-8 lg:pl-0 lg:pr-2 min-w-[200px]">
-                          <Progress 
-                            value={((batchProgress.completed + batchProgress.failed) / batchProgress.total) * 100} 
-                            className="h-2.5" 
+                          <Progress
+                            value={
+                              ((batchProgress.completed + batchProgress.failed) /
+                                batchProgress.total) *
+                              100
+                            }
+                            className="h-2.5"
                           />
                         </div>
                       </li>
@@ -1330,10 +1334,10 @@ export default function CompanyFileStorage({
                             </span>
                             <span className="text-xs text-[#111]/55">
                               {u.error
-                                ? 'Upload failed'
+                                ? "Upload failed"
                                 : u.progress >= 100
-                                  ? 'Finishing…'
-                                  : 'Uploading to this folder…'}
+                                  ? "Finishing…"
+                                  : "Uploading to this folder…"}
                             </span>
                           </span>
                         </span>
@@ -1341,7 +1345,7 @@ export default function CompanyFileStorage({
                           {formatBytes(u.size)}
                         </span>
                         <span className="text-sm text-[#111]/55 tabular-nums pl-8 lg:pl-0">
-                          {u.error ? '—' : `${u.progress}%`}
+                          {u.error ? "—" : `${u.progress}%`}
                         </span>
                         <div className="pl-8 lg:pl-0 lg:pr-2 space-y-2">
                           {!u.error ? (
@@ -1366,23 +1370,23 @@ export default function CompanyFileStorage({
                       <li
                         key={f.path}
                         className={cn(
-                          'flex flex-col gap-3 px-4 py-4 hover:bg-black/[0.04]/20 lg:grid lg:grid-cols-[minmax(0,1fr)_6rem_8.5rem_auto] lg:items-center lg:gap-2 lg:py-3',
+                          "flex flex-col gap-3 px-4 py-4 hover:bg-black/[0.04]/20 lg:grid lg:grid-cols-[minmax(0,1fr)_6rem_8.5rem_auto] lg:items-center lg:gap-2 lg:py-3",
                           moveDragOverDest === f.path &&
                             draggingFileKey &&
-                            'bg-primary/10 ring-2 ring-inset ring-primary'
+                            "bg-primary/10 ring-2 ring-inset ring-primary",
                         )}
                         onDragOver={(e) => {
                           if (!hasInternalFilePayload(e)) return;
                           e.preventDefault();
                           e.stopPropagation();
-                          e.dataTransfer.dropEffect = 'move';
+                          e.dataTransfer.dropEffect = "move";
                           setMoveDragOverDest(f.path);
                         }}
                         onDrop={(e) => {
                           if (!hasInternalFilePayload(e)) return;
                           e.preventDefault();
                           e.stopPropagation();
-                          if ((e.target as HTMLElement).closest('[data-folder-actions]')) return;
+                          if ((e.target as HTMLElement).closest("[data-folder-actions]")) return;
                           const key = readInternalFileKey(e);
                           if (key) void performMove(key, f.path);
                         }}
@@ -1441,7 +1445,7 @@ export default function CompanyFileStorage({
                               }}
                             >
                               <Copy className="h-3.5 w-3.5" />
-                              {shareBusy === `link-folder:${f.path}` ? '…' : 'Copy link'}
+                              {shareBusy === `link-folder:${f.path}` ? "…" : "Copy link"}
                             </Button>
                             <Button
                               type="button"
@@ -1472,22 +1476,22 @@ export default function CompanyFileStorage({
                         key={f.key}
                         draggable
                         onDragStart={(e) => {
-                          if ((e.target as HTMLElement).closest('a, button')) {
+                          if ((e.target as HTMLElement).closest("a, button")) {
                             e.preventDefault();
                             return;
                           }
                           setDraggingFileKey(f.key);
                           e.dataTransfer.setData(FILE_DRAG_TYPE, f.key);
-                          e.dataTransfer.setData('text/plain', f.key);
-                          e.dataTransfer.effectAllowed = 'move';
+                          e.dataTransfer.setData("text/plain", f.key);
+                          e.dataTransfer.effectAllowed = "move";
                         }}
                         onDragEnd={() => {
                           setDraggingFileKey(null);
                           setMoveDragOverDest(null);
                         }}
                         className={cn(
-                          'flex flex-col gap-3 px-4 py-4 hover:bg-black/[0.04]/20 lg:grid lg:grid-cols-[minmax(0,1fr)_6rem_8.5rem_auto] lg:items-center lg:gap-2 lg:py-3',
-                          (draggingFileKey === f.key || movingKey === f.key) && 'opacity-50'
+                          "flex flex-col gap-3 px-4 py-4 hover:bg-black/[0.04]/20 lg:grid lg:grid-cols-[minmax(0,1fr)_6rem_8.5rem_auto] lg:items-center lg:gap-2 lg:py-3",
+                          (draggingFileKey === f.key || movingKey === f.key) && "opacity-50",
                         )}
                       >
                         <span className="flex items-center gap-2 min-w-0 lg:min-w-0 cursor-grab active:cursor-grabbing">
@@ -1496,8 +1500,11 @@ export default function CompanyFileStorage({
                             aria-hidden
                           />
                           <File className="h-5 w-5 shrink-0 text-primary/90 pointer-events-none" />
-                          <span className="truncate font-medium pointer-events-none" title={f.relativePath}>
-                            {f.displayName ?? f.relativePath.split('/').pop() ?? f.relativePath}
+                          <span
+                            className="truncate font-medium pointer-events-none"
+                            title={f.relativePath}
+                          >
+                            {f.displayName ?? f.relativePath.split("/").pop() ?? f.relativePath}
                           </span>
                         </span>
                         <span className="text-sm text-[#111]/55 lg:whitespace-nowrap pl-8 lg:pl-0">
@@ -1506,10 +1513,10 @@ export default function CompanyFileStorage({
                         <span className="text-sm text-[#111]/55 lg:whitespace-nowrap pl-8 lg:pl-0">
                           {f.lastModified
                             ? new Date(f.lastModified).toLocaleString(undefined, {
-                                dateStyle: 'short',
-                                timeStyle: 'short',
+                                dateStyle: "short",
+                                timeStyle: "short",
                               })
-                            : '—'}
+                            : "—"}
                         </span>
                         <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end lg:justify-end pl-8 lg:pl-0">
                           <Button
@@ -1533,7 +1540,7 @@ export default function CompanyFileStorage({
                               className="gap-1 flex-1 sm:flex-none"
                             >
                               <Copy className="h-3.5 w-3.5" />
-                              {shareBusy === `link:${f.key}` ? '…' : 'Copy link'}
+                              {shareBusy === `link:${f.key}` ? "…" : "Copy link"}
                             </Button>
                             <Button
                               type="button"
@@ -1567,16 +1574,16 @@ export default function CompanyFileStorage({
         open={newFolderOpen}
         onOpenChange={(open) => {
           setNewFolderOpen(open);
-          if (!open) setNewFolderName('');
+          if (!open) setNewFolderName("");
         }}
       >
         <DialogContent className="sm:max-w-md" onOpenAutoFocus={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle>New folder</DialogTitle>
             <DialogDescription>
-              Creates a folder in{' '}
+              Creates a folder in{" "}
               <span className="font-medium text-foreground">
-                {folderPath.trim() ? folderPath : 'Company files (root)'}
+                {folderPath.trim() ? folderPath : "Company files (root)"}
               </span>
               . You can open it and upload files inside.
             </DialogDescription>
@@ -1589,7 +1596,7 @@ export default function CompanyFileStorage({
               onChange={(e) => setNewFolderName(e.target.value)}
               placeholder="e.g. Contracts"
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
+                if (e.key === "Enter") {
                   e.preventDefault();
                   void createFolder();
                 }
@@ -1611,7 +1618,7 @@ export default function CompanyFileStorage({
                   Creating…
                 </>
               ) : (
-                'Create folder'
+                "Create folder"
               )}
             </Button>
           </DialogFooter>
@@ -1623,9 +1630,9 @@ export default function CompanyFileStorage({
         onOpenChange={(open) => {
           setUploadLinkOpen(open);
           if (!open) {
-            setUploadLinkLabel('');
-            setUploadLinkExpiresInDays('30');
-            setUploadLinkMaxUploads('');
+            setUploadLinkLabel("");
+            setUploadLinkExpiresInDays("30");
+            setUploadLinkMaxUploads("");
           }
         }}
       >
@@ -1633,9 +1640,9 @@ export default function CompanyFileStorage({
           <DialogHeader>
             <DialogTitle>Public upload link</DialogTitle>
             <DialogDescription>
-              Create a link for{' '}
+              Create a link for{" "}
               <span className="font-medium text-foreground">
-                {folderPath.trim() ? folderPath : 'Company files (root)'}
+                {folderPath.trim() ? folderPath : "Company files (root)"}
               </span>
               . Recipients can upload files without signing in.
             </DialogDescription>
@@ -1680,7 +1687,7 @@ export default function CompanyFileStorage({
                   Creating…
                 </>
               ) : (
-                'Create & copy link'
+                "Create & copy link"
               )}
             </Button>
           </DialogFooter>

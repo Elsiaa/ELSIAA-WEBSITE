@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { isSuperAdmin as checkSuperAdmin } from '@/lib/permissions';
-import { processAllDueBillings, sendOverdueWarningEmails } from '@/lib/billing-cron';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { isSuperAdmin as checkSuperAdmin } from "@/lib/permissions";
+import { processAllDueBillings, sendOverdueWarningEmails } from "@/lib/billing-cron";
 
 /**
  * POST /api/admin/billing/run-today
@@ -12,12 +12,15 @@ export async function POST(request: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const isSuperAdmin = await checkSuperAdmin();
     if (!isSuperAdmin) {
-      return NextResponse.json({ error: 'Only super admins can run system billing' }, { status: 403 });
+      return NextResponse.json(
+        { error: "Only super admins can run system billing" },
+        { status: 403 },
+      );
     }
 
     const body = await request.json().catch(() => ({}));
@@ -33,22 +36,22 @@ export async function POST(request: NextRequest) {
       warnings = await sendOverdueWarningEmails(new Date());
     }
 
-    const asOfDate = new Date().toISOString().split('T')[0];
+    const asOfDate = new Date().toISOString().split("T")[0];
 
     return NextResponse.json({
       asOfDate,
       dryRun,
       message: dryRun
-        ? 'Dry run complete — nothing was charged or emailed.'
-        : 'Billing run complete (same as daily cron).',
+        ? "Dry run complete — nothing was charged or emailed."
+        : "Billing run complete (same as daily cron).",
       billing: billingResult,
       warnings,
     });
   } catch (error) {
-    console.error('[admin/billing/run-today]', error);
+    console.error("[admin/billing/run-today]", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Billing run failed' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Billing run failed" },
+      { status: 500 },
     );
   }
 }

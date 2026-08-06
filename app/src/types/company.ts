@@ -11,9 +11,9 @@ export interface Company {
   support_agent_company_files_allowed?: boolean;
 }
 
-export type UserRole = 'admin' | 'member';
-export type UserStatus = 'pending' | 'active' | 'inactive';
-export type PlatformRole = 'none' | 'support' | 'billing' | 'operator' | 'support_agent';
+export type UserRole = "admin" | "member";
+export type UserStatus = "pending" | "active" | "inactive";
+export type PlatformRole = "none" | "support" | "billing" | "operator" | "support_agent";
 
 export interface User {
   id: string;

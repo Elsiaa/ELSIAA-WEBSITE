@@ -1,20 +1,20 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getParsedProjectApiKeyFromRequest } from '@/lib/project-api-key';
-import { getProjectByApiKey } from '@/lib/projects';
-import { getCompanyPaymentStatusWithPreemptiveBilling } from '@/lib/preemptive-company-billing';
-import { findActiveDeviceByExternalId } from '@/lib/project-auth-device-lookup';
-import { activeAdminDeviceBypassesEntitlement } from '@/lib/project-auth-devices';
-import { overdueBillsCount } from '@/lib/company-payment-status-compat';
-import { resolveAppFeaturesForProjectRequest } from '@/lib/resolve-request-app-features';
-import type { AppFeatures } from '@/lib/app-features';
-import type { Project } from '@/lib/projects';
+import { NextRequest, NextResponse } from "next/server";
+import { getParsedProjectApiKeyFromRequest } from "@/lib/project-api-key";
+import { getProjectByApiKey } from "@/lib/projects";
+import { getCompanyPaymentStatusWithPreemptiveBilling } from "@/lib/preemptive-company-billing";
+import { findActiveDeviceByExternalId } from "@/lib/project-auth-device-lookup";
+import { activeAdminDeviceBypassesEntitlement } from "@/lib/project-auth-devices";
+import { overdueBillsCount } from "@/lib/company-payment-status-compat";
+import { resolveAppFeaturesForProjectRequest } from "@/lib/resolve-request-app-features";
+import type { AppFeatures } from "@/lib/app-features";
+import type { Project } from "@/lib/projects";
 
 const GRACE_PERIOD_DAYS = 3;
 
 function getExternalDeviceIdFromRequest(request: NextRequest): string {
-  const header = request.headers.get('x-device-id')?.trim();
+  const header = request.headers.get("x-device-id")?.trim();
   if (header) return header;
-  return request.nextUrl.searchParams.get('deviceId')?.trim() ?? '';
+  return request.nextUrl.searchParams.get("deviceId")?.trim() ?? "";
 }
 
 async function withFeatures(project: Project, request: NextRequest, body: Record<string, unknown>) {
@@ -51,12 +51,18 @@ export async function GET(request: NextRequest) {
   try {
     const parsedKey = getParsedProjectApiKeyFromRequest(request);
     if (!parsedKey) {
-      return NextResponse.json({ status: 'denied', allowed: false, reason: 'Missing project API key' }, { status: 401 });
+      return NextResponse.json(
+        { status: "denied", allowed: false, reason: "Missing project API key" },
+        { status: 401 },
+      );
     }
 
     const project = await getProjectByApiKey(parsedKey.lookupKey);
     if (!project) {
-      return NextResponse.json({ status: 'denied', allowed: false, reason: 'Invalid project API key' }, { status: 403 });
+      return NextResponse.json(
+        { status: "denied", allowed: false, reason: "Invalid project API key" },
+        { status: 403 },
+      );
     }
 
     const externalDeviceId = getExternalDeviceIdFromRequest(request);
@@ -67,34 +73,34 @@ export async function GET(request: NextRequest) {
     if (activeAdminDeviceBypassesEntitlement(device)) {
       return NextResponse.json(
         await withFeatures(project, request, {
-          status: 'allowed',
+          status: "allowed",
           allowed: true,
           pendingFees: 0,
           overdueSubscriptions: 0,
           overdueBills: 0,
           maxDaysOverdue: 0,
-        })
+        }),
       );
     }
 
     // Central override: allow/block overrides all payment-based rules
-    if (project.accessOverride === 'allowed') {
+    if (project.accessOverride === "allowed") {
       return NextResponse.json(
         await withFeatures(project, request, {
-          status: 'allowed',
+          status: "allowed",
           allowed: true,
           pendingFees: 0,
           overdueSubscriptions: 0,
           overdueBills: 0,
           maxDaysOverdue: 0,
-        })
+        }),
       );
     }
-    if (project.accessOverride === 'blocked') {
+    if (project.accessOverride === "blocked") {
       return NextResponse.json({
-        status: 'denied',
+        status: "denied",
         allowed: false,
-        reason: 'Access blocked by admin override',
+        reason: "Access blocked by admin override",
         pendingFees: 0,
         overdueSubscriptions: 0,
         overdueBills: 0,
@@ -109,9 +115,9 @@ export async function GET(request: NextRequest) {
       const withinGrace = paymentStatus.maxDaysOverdue <= GRACE_PERIOD_DAYS;
       if (!withinGrace) {
         return NextResponse.json({
-          status: 'denied',
+          status: "denied",
           allowed: false,
-          reason: 'Access suspended - overdue payments exceed grace period',
+          reason: "Access suspended - overdue payments exceed grace period",
           pendingFees: paymentStatus.pendingFees,
           overdueSubscriptions: paymentStatus.overdueSubscriptions,
           overdueBills,
@@ -125,16 +131,16 @@ export async function GET(request: NextRequest) {
       if (!device) {
         return NextResponse.json(
           {
-            status: 'denied',
+            status: "denied",
             allowed: false,
             reason:
-              'No active auth device matches this device id. Call POST /api/entitlement/request-device with the same deviceId, then wait for a super admin to approve. Use GET /api/entitlement/devices to list registered devices.',
+              "No active auth device matches this device id. Call POST /api/entitlement/request-device with the same deviceId, then wait for a super admin to approve. Use GET /api/entitlement/devices to list registered devices.",
             pendingFees: paymentStatus.pendingFees,
             overdueSubscriptions: paymentStatus.overdueSubscriptions,
             overdueBills,
             maxDaysOverdue: paymentStatus.maxDaysOverdue,
           },
-          { status: 403 }
+          { status: 403 },
         );
       }
     }
@@ -142,13 +148,13 @@ export async function GET(request: NextRequest) {
     if (paymentStatus.allUpToDate) {
       return NextResponse.json(
         await withFeatures(project, request, {
-          status: 'allowed',
+          status: "allowed",
           allowed: true,
           pendingFees: 0,
           overdueSubscriptions: 0,
           overdueBills: 0,
           maxDaysOverdue: 0,
-        })
+        }),
       );
     }
 
@@ -157,23 +163,23 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       await withFeatures(project, request, {
-        status: withinGrace ? 'warning' : 'denied',
+        status: withinGrace ? "warning" : "denied",
         allowed: withinGrace,
         ...(withinGrace ? { daysRemaining } : {}),
         reason: withinGrace
           ? `Payment overdue - ${daysRemaining} day(s) remaining before access is suspended`
-          : 'Access suspended - overdue payments exceed grace period',
+          : "Access suspended - overdue payments exceed grace period",
         pendingFees: paymentStatus.pendingFees,
         overdueSubscriptions: paymentStatus.overdueSubscriptions,
         overdueBills,
         maxDaysOverdue: paymentStatus.maxDaysOverdue,
-      })
+      }),
     );
   } catch (error) {
-    console.error('Entitlement check error:', error);
+    console.error("Entitlement check error:", error);
     return NextResponse.json(
-      { status: 'denied', allowed: false, reason: 'Server error' },
-      { status: 500 }
+      { status: "denied", allowed: false, reason: "Server error" },
+      { status: 500 },
     );
   }
 }

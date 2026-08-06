@@ -1,13 +1,13 @@
-import { getServerSupabaseClient } from './supabase';
-import type { AppFeatures } from './app-features';
-import { normalizeAppFeatures, parseAppFeaturesPartial } from './app-features';
+import { getServerSupabaseClient } from "./supabase";
+import type { AppFeatures } from "./app-features";
+import { normalizeAppFeatures, parseAppFeaturesPartial } from "./app-features";
 
 export interface ProjectAuthDevice {
   id: string;
   projectId: string;
   name: string;
   deviceId: string;
-  status: 'active' | 'paused' | 'pending';
+  status: "active" | "paused" | "pending";
   isAdminDevice: boolean;
   /** Open-ended feature overrides for this device; null = inherit project defaults. */
   features: AppFeatures | null;
@@ -43,7 +43,7 @@ function rowToDevice(row: Row): ProjectAuthDevice {
     projectId: row.project_id,
     name: row.name,
     deviceId: row.device_id,
-    status: row.status as 'active' | 'paused' | 'pending',
+    status: row.status as "active" | "paused" | "pending",
     isAdminDevice: Boolean(row.is_admin_device),
     features: rowFeatures(row.features),
     createdByClerkUserId: row.created_by_clerk_user_id,
@@ -53,31 +53,33 @@ function rowToDevice(row: Row): ProjectAuthDevice {
 }
 
 /** Active/paused devices that count toward device_limit (excludes admin devices). */
-export function deviceCountsTowardQuota(device: Pick<ProjectAuthDevice, 'status' | 'isAdminDevice'>): boolean {
-  return !device.isAdminDevice && (device.status === 'active' || device.status === 'paused');
+export function deviceCountsTowardQuota(
+  device: Pick<ProjectAuthDevice, "status" | "isAdminDevice">,
+): boolean {
+  return !device.isAdminDevice && (device.status === "active" || device.status === "paused");
 }
 
 /** Active admin devices bypass payment rules and project accessOverride blocked (must present deviceId on entitlement/extension calls). */
 export function activeAdminDeviceBypassesEntitlement(
-  device: Pick<ProjectAuthDevice, 'isAdminDevice' | 'status'> | null | undefined
+  device: Pick<ProjectAuthDevice, "isAdminDevice" | "status"> | null | undefined,
 ): boolean {
-  return Boolean(device?.isAdminDevice && device.status === 'active');
+  return Boolean(device?.isAdminDevice && device.status === "active");
 }
 
 export async function getProjectAuthDevices(
   projectId: string,
-  options?: { includeAdminDevices?: boolean }
+  options?: { includeAdminDevices?: boolean },
 ): Promise<ProjectAuthDevice[]> {
   const includeAdminDevices = options?.includeAdminDevices ?? false;
   const supabase = getServerSupabaseClient();
-  let query = supabase.from('project_auth_devices').select('*').eq('project_id', projectId);
+  let query = supabase.from("project_auth_devices").select("*").eq("project_id", projectId);
   if (!includeAdminDevices) {
-    query = query.eq('is_admin_device', false);
+    query = query.eq("is_admin_device", false);
   }
-  const { data, error } = await query.order('created_at', { ascending: false });
+  const { data, error } = await query.order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching project auth devices:', error);
+    console.error("Error fetching project auth devices:", error);
     return [];
   }
   return (data || []).map((r) => rowToDevice(r as Row));
@@ -86,19 +88,19 @@ export async function getProjectAuthDevices(
 /** One query for many projects (fallback when RPC is unavailable). */
 export async function getAuthDevicesGroupedByProjectId(
   projectIds: string[],
-  options?: { includeAdminDevices?: boolean }
+  options?: { includeAdminDevices?: boolean },
 ): Promise<Record<string, ProjectAuthDevice[]>> {
   if (projectIds.length === 0) return {};
   const includeAdminDevices = options?.includeAdminDevices ?? false;
   const supabase = getServerSupabaseClient();
-  let query = supabase.from('project_auth_devices').select('*').in('project_id', projectIds);
+  let query = supabase.from("project_auth_devices").select("*").in("project_id", projectIds);
   if (!includeAdminDevices) {
-    query = query.eq('is_admin_device', false);
+    query = query.eq("is_admin_device", false);
   }
-  const { data, error } = await query.order('created_at', { ascending: false });
+  const { data, error } = await query.order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error batch-fetching auth devices:', error);
+    console.error("Error batch-fetching auth devices:", error);
     return {};
   }
 
@@ -120,14 +122,14 @@ export async function getAuthDevicesGroupedByProjectId(
 export async function getProjectAuthDeviceCount(projectId: string): Promise<number> {
   const supabase = getServerSupabaseClient();
   const { count, error } = await supabase
-    .from('project_auth_devices')
-    .select('id', { count: 'exact', head: true })
-    .eq('project_id', projectId)
-    .eq('is_admin_device', false)
-    .in('status', ['active', 'paused']);
+    .from("project_auth_devices")
+    .select("id", { count: "exact", head: true })
+    .eq("project_id", projectId)
+    .eq("is_admin_device", false)
+    .in("status", ["active", "paused"]);
 
   if (error) {
-    console.error('Error counting project auth devices:', error);
+    console.error("Error counting project auth devices:", error);
     return 0;
   }
   return count || 0;
@@ -145,7 +147,7 @@ export async function createProjectAuthDevice(params: {
   const insert: Record<string, unknown> = {
     project_id: params.projectId,
     name: params.name,
-    status: 'active',
+    status: "active",
     is_admin_device: Boolean(params.isAdminDevice),
   };
   if (params.deviceId) insert.device_id = params.deviceId;
@@ -156,13 +158,13 @@ export async function createProjectAuthDevice(params: {
   }
 
   const { data, error } = await supabase
-    .from('project_auth_devices')
+    .from("project_auth_devices")
     .insert(insert)
     .select()
     .single();
 
   if (error) {
-    console.error('Error creating project auth device:', error);
+    console.error("Error creating project auth device:", error);
     return null;
   }
   return rowToDevice(data as Row);
@@ -170,41 +172,41 @@ export async function createProjectAuthDevice(params: {
 
 export async function updateProjectAuthDeviceStatus(
   deviceId: string,
-  status: 'active' | 'paused' | 'pending'
+  status: "active" | "paused" | "pending",
 ): Promise<boolean> {
   const supabase = getServerSupabaseClient();
   const { error } = await supabase
-    .from('project_auth_devices')
+    .from("project_auth_devices")
     .update({ status, updated_at: new Date().toISOString() })
-    .eq('id', deviceId);
+    .eq("id", deviceId);
 
   if (error) {
-    console.error('Error updating project auth device status:', error);
+    console.error("Error updating project auth device status:", error);
     return false;
   }
   return true;
 }
 
 async function randomDeviceIdValue(): Promise<string> {
-  const crypto = await import('crypto');
-  return crypto.randomBytes(24).toString('hex');
+  const crypto = await import("crypto");
+  return crypto.randomBytes(24).toString("hex");
 }
 
 /** Another row in the same project with this device_id (excluding excludeDeviceId). */
 export async function projectHasAuthDeviceWithExternalId(
   projectId: string,
   externalDeviceId: string,
-  excludeDeviceId?: string
+  excludeDeviceId?: string,
 ): Promise<boolean> {
   const supabase = getServerSupabaseClient();
   let q = supabase
-    .from('project_auth_devices')
-    .select('id')
-    .eq('project_id', projectId)
-    .eq('device_id', externalDeviceId.trim())
+    .from("project_auth_devices")
+    .select("id")
+    .eq("project_id", projectId)
+    .eq("device_id", externalDeviceId.trim())
     .limit(1);
   if (excludeDeviceId) {
-    q = q.neq('id', excludeDeviceId);
+    q = q.neq("id", excludeDeviceId);
   }
   const { data, error } = await q;
   if (error) return false;
@@ -215,7 +217,7 @@ export type UpdateProjectAuthDeviceInput = {
   name?: string;
   /** Trimmed value, or empty string to assign a new random device_id. Omit to leave unchanged. */
   deviceId?: string;
-  status?: 'active' | 'paused' | 'pending';
+  status?: "active" | "paused" | "pending";
   isAdminDevice?: boolean;
   /** Pass null to clear device overrides; omit to leave unchanged. */
   features?: AppFeatures | null;
@@ -223,7 +225,7 @@ export type UpdateProjectAuthDeviceInput = {
 
 export type UpdateProjectAuthDeviceResult =
   | { ok: true; device: ProjectAuthDevice }
-  | { ok: false; code: 'not_found' | 'duplicate_device_id' | 'db_error' | 'empty_name' };
+  | { ok: false; code: "not_found" | "duplicate_device_id" | "db_error" | "empty_name" };
 
 /**
  * Patch name, device_id, and/or status.
@@ -231,18 +233,18 @@ export type UpdateProjectAuthDeviceResult =
  */
 export async function updateProjectAuthDevice(
   deviceId: string,
-  updates: UpdateProjectAuthDeviceInput
+  updates: UpdateProjectAuthDeviceInput,
 ): Promise<UpdateProjectAuthDeviceResult> {
   const existing = await getProjectAuthDeviceById(deviceId);
   if (!existing) {
-    return { ok: false, code: 'not_found' };
+    return { ok: false, code: "not_found" };
   }
 
   let nextName = existing.name;
   if (updates.name !== undefined) {
     const trimmed = updates.name.trim();
     if (!trimmed) {
-      return { ok: false, code: 'empty_name' };
+      return { ok: false, code: "empty_name" };
     }
     nextName = trimmed;
   }
@@ -250,11 +252,15 @@ export async function updateProjectAuthDevice(
   let nextDeviceId = existing.deviceId;
   if (updates.deviceId !== undefined) {
     const trimmed = updates.deviceId.trim();
-    nextDeviceId = trimmed === '' ? await randomDeviceIdValue() : trimmed;
+    nextDeviceId = trimmed === "" ? await randomDeviceIdValue() : trimmed;
     if (nextDeviceId !== existing.deviceId) {
-      const taken = await projectHasAuthDeviceWithExternalId(existing.projectId, nextDeviceId, deviceId);
+      const taken = await projectHasAuthDeviceWithExternalId(
+        existing.projectId,
+        nextDeviceId,
+        deviceId,
+      );
       if (taken) {
-        return { ok: false, code: 'duplicate_device_id' };
+        return { ok: false, code: "duplicate_device_id" };
       }
     }
   }
@@ -277,7 +283,7 @@ export async function updateProjectAuthDevice(
 
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_auth_devices')
+    .from("project_auth_devices")
     .update({
       name: nextName,
       device_id: nextDeviceId,
@@ -286,16 +292,16 @@ export async function updateProjectAuthDevice(
       features: nextFeatures,
       updated_at: new Date().toISOString(),
     })
-    .eq('id', deviceId)
+    .eq("id", deviceId)
     .select()
     .single();
 
   if (error) {
-    if (error.code === '23505') {
-      return { ok: false, code: 'duplicate_device_id' };
+    if (error.code === "23505") {
+      return { ok: false, code: "duplicate_device_id" };
     }
-    console.error('Error updating project auth device:', error);
-    return { ok: false, code: 'db_error' };
+    console.error("Error updating project auth device:", error);
+    return { ok: false, code: "db_error" };
   }
 
   return { ok: true, device: rowToDevice(data as Row) };
@@ -303,10 +309,10 @@ export async function updateProjectAuthDevice(
 
 export async function deleteProjectAuthDevice(deviceId: string): Promise<boolean> {
   const supabase = getServerSupabaseClient();
-  const { error } = await supabase.from('project_auth_devices').delete().eq('id', deviceId);
+  const { error } = await supabase.from("project_auth_devices").delete().eq("id", deviceId);
 
   if (error) {
-    console.error('Error deleting project auth device:', error);
+    console.error("Error deleting project auth device:", error);
     return false;
   }
   return true;
@@ -321,29 +327,31 @@ export async function createPendingDeviceRequest(params: {
   const insert: Record<string, unknown> = {
     project_id: params.projectId,
     name: params.name,
-    status: 'pending',
+    status: "pending",
   };
   if (params.deviceId) insert.device_id = params.deviceId;
 
   const { data, error } = await supabase
-    .from('project_auth_devices')
+    .from("project_auth_devices")
     .insert(insert)
     .select()
     .single();
 
   if (error) {
-    console.error('Error creating pending device request:', error);
+    console.error("Error creating pending device request:", error);
     return null;
   }
   return rowToDevice(data as Row);
 }
 
-export async function getProjectAuthDeviceById(deviceId: string): Promise<ProjectAuthDevice | null> {
+export async function getProjectAuthDeviceById(
+  deviceId: string,
+): Promise<ProjectAuthDevice | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_auth_devices')
-    .select('*')
-    .eq('id', deviceId)
+    .from("project_auth_devices")
+    .select("*")
+    .eq("id", deviceId)
     .maybeSingle();
 
   if (error || !data) return null;

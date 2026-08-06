@@ -24,7 +24,8 @@ const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string
   {
     title: "Company",
     links: [
-      { label: "Why ELSIAA", href: "/why-elsiaa" }, { label: "Overview", href: "/overview" },
+      { label: "Why ELSIAA", href: "/why-elsiaa" },
+      { label: "Overview", href: "/overview" },
       { label: "Team", href: "/team" },
       { label: "Careers", href: "/careers" },
       { label: "Locations", href: "/locations" },
@@ -48,17 +49,20 @@ const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string
 
 export function SiteFooter() {
   return (
- <footer className="bg-white text-[#111111]">
+    <footer className="bg-white text-[#111111]">
       <div className="mx-auto max-w-6xl px-6 py-10 md:py-16">
         <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-[minmax(0,1fr)_auto_auto_auto] md:gap-16">
           {/* brand + direct */}
           <div className="col-span-2 md:col-span-1">
             <a href="/" className="group flex items-center gap-3" aria-label="ELSIAA — home">
-              <img src="/assets/elsiaa-lion-192.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
-              <span
-                className="text-[15px] font-bold text-[#111111]"
-                style={inter}
-              >
+              <img
+                src="/assets/elsiaa-lion-192.png"
+                alt=""
+                width={40}
+                height={40}
+                className="h-10 w-10 object-contain"
+              />
+              <span className="text-[15px] font-bold text-[#111111]" style={inter}>
                 ELSIAA
               </span>
             </a>
@@ -79,8 +83,7 @@ export function SiteFooter() {
             {/* The four divisions, alphabetical — no division is ranked above
                 another by being named first. */}
             <p className="mt-3 max-w-xs text-[13px] leading-snug text-[#111111]/60" style={inter}>
-              Automation, consultation, design, and software — four divisions,
-              one standard.
+              Automation, consultation, design, and software — four divisions, one standard.
             </p>
             <a
               href="mailto:info@elsiaa.com"

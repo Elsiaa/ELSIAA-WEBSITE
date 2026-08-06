@@ -11,8 +11,7 @@ import { useEffect, useRef } from "react";
   crosses the viewport. Pure ink-on-white, green accents, reduced-motion aware.
 */
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -52,10 +51,19 @@ function LinkedInMark({ className = "" }: { className?: string }) {
 function GoogleG({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
-      <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 01-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z" />
-      <path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1A12 12 0 0012 24z" />
+      <path
+        fill="#4285F4"
+        d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 01-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1A12 12 0 0012 24z"
+      />
       <path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 010-4.6V6.7H1.4a12 12 0 000 10.8l4-3.1z" />
-      <path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.5 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0A12 12 0 001.4 6.7l4 3.1C6.3 6.9 8.9 4.8 12 4.8z" />
+      <path
+        fill="#EA4335"
+        d="M12 4.8c1.8 0 3.3.6 4.5 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0A12 12 0 001.4 6.7l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"
+      />
     </svg>
   );
 }
@@ -73,48 +81,187 @@ const HEADER: Record<FeedKind, string> = {
 const VIEW_H = 300; // px — the phone's visible screen height
 
 function Bar({ w = "100%", o = 0.14 }: { w?: string; o?: number }) {
-  return <span className="block h-1.5 rounded-full" style={{ width: w, background: `rgba(17,17,17,${o})` }} />;
+  return (
+    <span
+      className="block h-1.5 rounded-full"
+      style={{ width: w, background: `rgba(17,17,17,${o})` }}
+    />
+  );
 }
 
 /* Illustrative content for the interface mockups. These are example client
    businesses, not ELSIAA's own accounts, and no quote here is attributed to a
    real reviewer — the surrounding caption says so on the page. */
 const CLIPS = [
-  { handle: "@northside.cafe", caption: "The 6am prep nobody sees ☕", audio: "original sound — northside.cafe", likes: "128.4k", comments: "1,204", shares: "3,981" },
-  { handle: "@meridian.studio", caption: "Behind every launch: three weeks of this", audio: "Lo-Fi Morning — Aster", likes: "42.1k", comments: "618", shares: "1,102" },
-  { handle: "@northside.cafe", caption: "POV: your regular walks in and you already started it", audio: "original sound — northside.cafe", likes: "301.7k", comments: "4,338", shares: "12.6k" },
-  { handle: "@hartley.home", caption: "Restock day. Everything has a place.", audio: "Slow Sunday — Vela", likes: "76.9k", comments: "902", shares: "2,410" },
+  {
+    handle: "@northside.cafe",
+    caption: "The 6am prep nobody sees ☕",
+    audio: "original sound — northside.cafe",
+    likes: "128.4k",
+    comments: "1,204",
+    shares: "3,981",
+  },
+  {
+    handle: "@meridian.studio",
+    caption: "Behind every launch: three weeks of this",
+    audio: "Lo-Fi Morning — Aster",
+    likes: "42.1k",
+    comments: "618",
+    shares: "1,102",
+  },
+  {
+    handle: "@northside.cafe",
+    caption: "POV: your regular walks in and you already started it",
+    audio: "original sound — northside.cafe",
+    likes: "301.7k",
+    comments: "4,338",
+    shares: "12.6k",
+  },
+  {
+    handle: "@hartley.home",
+    caption: "Restock day. Everything has a place.",
+    audio: "Slow Sunday — Vela",
+    likes: "76.9k",
+    comments: "902",
+    shares: "2,410",
+  },
 ];
 
 const POSTS = [
-  { name: "Danielle Roth", role: "Founder, Northside Cafe", when: "2h", copy: "We stopped guessing what to post. Three months in, the morning rush is our slowest hour to staff and our busiest to serve.", reactions: "214", comments: "18" },
-  { name: "Marcus Bell", role: "Operations Director, Hartley Home", when: "6h", copy: "Took our whole catalogue from spreadsheets to a live storefront. The team hasn't touched a CSV since.", reactions: "88", comments: "4" },
-  { name: "Priya Nair", role: "Managing Partner, Meridian Studio", when: "1d", copy: "The thing nobody tells you about content: consistency beats production value. We post four times a week now, every week.", reactions: "512", comments: "63" },
-  { name: "Tom Aldridge", role: "GM, Fairline Services", when: "2d", copy: "Our intake line answers at 2am now. First month, eleven jobs booked overnight that used to go to voicemail.", reactions: "31", comments: "2" },
-  { name: "Elena Vasquez", role: "Director, Cedar Clinic", when: "4d", copy: "Patients get routed to the right specialist without a receptionist playing traffic cop. That was the whole ask.", reactions: "140", comments: "20" },
+  {
+    name: "Danielle Roth",
+    role: "Founder, Northside Cafe",
+    when: "2h",
+    copy: "We stopped guessing what to post. Three months in, the morning rush is our slowest hour to staff and our busiest to serve.",
+    reactions: "214",
+    comments: "18",
+  },
+  {
+    name: "Marcus Bell",
+    role: "Operations Director, Hartley Home",
+    when: "6h",
+    copy: "Took our whole catalogue from spreadsheets to a live storefront. The team hasn't touched a CSV since.",
+    reactions: "88",
+    comments: "4",
+  },
+  {
+    name: "Priya Nair",
+    role: "Managing Partner, Meridian Studio",
+    when: "1d",
+    copy: "The thing nobody tells you about content: consistency beats production value. We post four times a week now, every week.",
+    reactions: "512",
+    comments: "63",
+  },
+  {
+    name: "Tom Aldridge",
+    role: "GM, Fairline Services",
+    when: "2d",
+    copy: "Our intake line answers at 2am now. First month, eleven jobs booked overnight that used to go to voicemail.",
+    reactions: "31",
+    comments: "2",
+  },
+  {
+    name: "Elena Vasquez",
+    role: "Director, Cedar Clinic",
+    when: "4d",
+    copy: "Patients get routed to the right specialist without a receptionist playing traffic cop. That was the whole ask.",
+    reactions: "140",
+    comments: "20",
+  },
 ];
 
 const REVIEWS_FEED = [
-  { name: "Sarah M.", initial: "S", when: "2 weeks ago", stars: 5, text: "Booked online in under a minute and they were early. Genuinely the smoothest experience I've had with a local business.", reply: "Thanks Sarah — glad the new booking flow worked for you." },
-  { name: "James O.", initial: "J", when: "1 month ago", stars: 5, text: "Called after hours expecting voicemail and got a straight answer. Sorted the same week.", reply: null },
-  { name: "Ana P.", initial: "A", when: "1 month ago", stars: 5, text: "Clear pricing up front, no surprises on the invoice. Rare.", reply: "Appreciate it, Ana. See you next service." },
-  { name: "Daniel K.", initial: "D", when: "2 months ago", stars: 4, text: "Great work overall. Only note is parking was tricky on the day.", reply: null },
+  {
+    name: "Sarah M.",
+    initial: "S",
+    when: "2 weeks ago",
+    stars: 5,
+    text: "Booked online in under a minute and they were early. Genuinely the smoothest experience I've had with a local business.",
+    reply: "Thanks Sarah — glad the new booking flow worked for you.",
+  },
+  {
+    name: "James O.",
+    initial: "J",
+    when: "1 month ago",
+    stars: 5,
+    text: "Called after hours expecting voicemail and got a straight answer. Sorted the same week.",
+    reply: null,
+  },
+  {
+    name: "Ana P.",
+    initial: "A",
+    when: "1 month ago",
+    stars: 5,
+    text: "Clear pricing up front, no surprises on the invoice. Rare.",
+    reply: "Appreciate it, Ana. See you next service.",
+  },
+  {
+    name: "Daniel K.",
+    initial: "D",
+    when: "2 months ago",
+    stars: 4,
+    text: "Great work overall. Only note is parking was tricky on the day.",
+    reply: null,
+  },
 ];
 
 const IG_POSTS = [
-  { user: "northside.cafe", when: "2h", caption: "New single-origin landed this morning. Limited bags.", likes: "2,481" },
-  { user: "hartley.home", when: "5h", caption: "Restock day — the shelf everyone asks about.", likes: "1,097" },
+  {
+    user: "northside.cafe",
+    when: "2h",
+    caption: "New single-origin landed this morning. Limited bags.",
+    likes: "2,481",
+  },
+  {
+    user: "hartley.home",
+    when: "5h",
+    caption: "Restock day — the shelf everyone asks about.",
+    likes: "1,097",
+  },
   { user: "meridian.studio", when: "1d", caption: "Six weeks of work, one frame.", likes: "4,332" },
-  { user: "cedar.clinic", when: "2d", caption: "New wing opens Monday. Booking is live.", likes: "861" },
+  {
+    user: "cedar.clinic",
+    when: "2d",
+    caption: "New wing opens Monday. Booking is live.",
+    likes: "861",
+  },
 ];
 
 const IG_STORIES = ["Menu", "Team", "Hours", "New", "FAQ"];
 
 const FB_POSTS = [
-  { page: "Northside Cafe", when: "3h", copy: "We're open until 4 today — the patio is finally back.", likes: "312", comments: "24", shares: "8" },
-  { page: "Hartley Home", when: "8h", copy: "Autumn range is in store now. Same prices as last season.", likes: "148", comments: "11", shares: "3" },
-  { page: "Fairline Services", when: "1d", copy: "Emergency line now answers 24/7 — no more voicemail after six.", likes: "96", comments: "7", shares: "14" },
-  { page: "Cedar Clinic", when: "3d", copy: "Flu clinic starts next week. Walk-ins welcome Tuesday and Thursday.", likes: "204", comments: "31", shares: "22" },
+  {
+    page: "Northside Cafe",
+    when: "3h",
+    copy: "We're open until 4 today — the patio is finally back.",
+    likes: "312",
+    comments: "24",
+    shares: "8",
+  },
+  {
+    page: "Hartley Home",
+    when: "8h",
+    copy: "Autumn range is in store now. Same prices as last season.",
+    likes: "148",
+    comments: "11",
+    shares: "3",
+  },
+  {
+    page: "Fairline Services",
+    when: "1d",
+    copy: "Emergency line now answers 24/7 — no more voicemail after six.",
+    likes: "96",
+    comments: "7",
+    shares: "14",
+  },
+  {
+    page: "Cedar Clinic",
+    when: "3d",
+    copy: "Flu clinic starts next week. Walk-ins welcome Tuesday and Thursday.",
+    likes: "204",
+    comments: "31",
+    shares: "22",
+  },
 ];
 
 /** Instagram's gradient camera glyph */
@@ -130,7 +277,16 @@ function InstagramMark({ className = "" }: { className?: string }) {
         </linearGradient>
       </defs>
       <rect width="24" height="24" rx="6" fill="url(#igg)" />
-      <rect x="5.5" y="5.5" width="13" height="13" rx="4" fill="none" stroke="#fff" strokeWidth="1.6" />
+      <rect
+        x="5.5"
+        y="5.5"
+        width="13"
+        height="13"
+        rx="4"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="1.6"
+      />
       <circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" strokeWidth="1.6" />
       <circle cx="16.4" cy="7.6" r="1" fill="#fff" />
     </svg>
@@ -142,7 +298,10 @@ function FacebookMark({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
       <rect width="24" height="24" rx="5" fill="#1877F2" />
-      <path fill="#fff" d="M15.4 12.6l.4-2.6h-2.5V8.3c0-.7.35-1.4 1.5-1.4h1.15V4.7s-1.05-.18-2-.18c-2.05 0-3.4 1.24-3.4 3.5V10H8.3v2.6h2.25V19h2.75v-6.4h2.1z" />
+      <path
+        fill="#fff"
+        d="M15.4 12.6l.4-2.6h-2.5V8.3c0-.7.35-1.4 1.5-1.4h1.15V4.7s-1.05-.18-2-.18c-2.05 0-3.4 1.24-3.4 3.5V10H8.3v2.6h2.25V19h2.75v-6.4h2.1z"
+      />
     </svg>
   );
 }
@@ -166,28 +325,52 @@ function FeedCards({ kind }: { kind: FeedKind }) {
               className="absolute inset-0 h-full w-full object-cover"
               style={{ transform: "scale(1.02)" }}
             />
-            <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/25" />
+            <span
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/25"
+            />
             <div className="absolute inset-x-0 top-0 flex gap-1 p-2">
               {[0, 1, 2, 3].map((s) => (
-                <span key={s} className={`h-[3px] flex-1 rounded-full ${s <= i ? "bg-white" : "bg-white/40"}`} />
+                <span
+                  key={s}
+                  className={`h-[3px] flex-1 rounded-full ${s <= i ? "bg-white" : "bg-white/40"}`}
+                />
               ))}
             </div>
             {/* action rail */}
             <div className="absolute right-1.5 bottom-3 flex flex-col items-center gap-2">
-              <span className="mb-0.5 grid h-7 w-7 place-items-center rounded-full border-[1.5px] border-white bg-[#1e6b3c] text-[9px] font-bold text-white" style={{ fontFamily: SANS }}>
+              <span
+                className="mb-0.5 grid h-7 w-7 place-items-center rounded-full border-[1.5px] border-white bg-[#1e6b3c] text-[9px] font-bold text-white"
+                style={{ fontFamily: SANS }}
+              >
                 {CLIPS[i].handle[1].toUpperCase()}
               </span>
-              {([["♥", CLIPS[i].likes], ["💬", CLIPS[i].comments], ["↗", CLIPS[i].shares]] as const).map(([g, n], k) => (
+              {(
+                [
+                  ["♥", CLIPS[i].likes],
+                  ["💬", CLIPS[i].comments],
+                  ["↗", CLIPS[i].shares],
+                ] as const
+              ).map(([g, n], k) => (
                 <span key={k} className="flex flex-col items-center gap-0.5">
-                  <span className="grid h-7 w-7 place-items-center rounded-full bg-white/25 text-[12px] text-white">{g}</span>
-                  <span className="text-[7.5px] font-bold text-white drop-shadow" style={{ fontFamily: SANS }}>{n}</span>
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-white/25 text-[12px] text-white">
+                    {g}
+                  </span>
+                  <span
+                    className="text-[7.5px] font-bold text-white drop-shadow"
+                    style={{ fontFamily: SANS }}
+                  >
+                    {n}
+                  </span>
                 </span>
               ))}
             </div>
             {/* caption block */}
             <div className="absolute bottom-2.5 left-2 max-w-[70%]" style={{ fontFamily: SANS }}>
               <p className="text-[9.5px] font-bold text-white drop-shadow">{CLIPS[i].handle}</p>
-              <p className="mt-0.5 text-[8.5px] leading-snug text-white/90 drop-shadow">{CLIPS[i].caption}</p>
+              <p className="mt-0.5 text-[8.5px] leading-snug text-white/90 drop-shadow">
+                {CLIPS[i].caption}
+              </p>
               <p className="mt-1 flex items-center gap-1 text-[7.5px] text-white/75">
                 <span aria-hidden>♪</span>
                 <span className="truncate">{CLIPS[i].audio}</span>
@@ -202,7 +385,10 @@ function FeedCards({ kind }: { kind: FeedKind }) {
     // stories row + square photo posts with the action row
     return (
       <div>
-        <div className="flex items-center gap-1.5 border-b border-black/[0.06] px-2.5 py-1.5" style={{ fontFamily: SANS }}>
+        <div
+          className="flex items-center gap-1.5 border-b border-black/[0.06] px-2.5 py-1.5"
+          style={{ fontFamily: SANS }}
+        >
           <InstagramMark className="h-4 w-4 shrink-0" />
           <span className="text-[9px] font-bold text-[#111111]">Instagram</span>
           <span className="ml-auto text-[7.5px] text-[#111111]/45">8,204 followers</span>
@@ -212,11 +398,15 @@ function FeedCards({ kind }: { kind: FeedKind }) {
             <span key={label} className="flex w-8 shrink-0 flex-col items-center gap-0.5">
               <span
                 className="h-8 w-8 rounded-full p-[2px]"
-                style={{ background: "conic-gradient(from 210deg, #FEDA75, #D62976, #4F5BD5, #FEDA75)" }}
+                style={{
+                  background: "conic-gradient(from 210deg, #FEDA75, #D62976, #4F5BD5, #FEDA75)",
+                }}
               >
                 <span className="block h-full w-full rounded-full border-2 border-white bg-[#e9ebed]" />
               </span>
-              <span className="text-[6px] text-[#111111]/55" style={{ fontFamily: SANS }}>{label}</span>
+              <span className="text-[6px] text-[#111111]/55" style={{ fontFamily: SANS }}>
+                {label}
+              </span>
             </span>
           ))}
         </div>
@@ -263,13 +453,18 @@ function FeedCards({ kind }: { kind: FeedKind }) {
             LinkedIn
           </span>
           <span className="ml-auto flex items-center gap-1">
-            <span className="text-[7.5px] text-[#111111]/45" style={{ fontFamily: SANS }}>2,481 followers</span>
+            <span className="text-[7.5px] text-[#111111]/45" style={{ fontFamily: SANS }}>
+              2,481 followers
+            </span>
           </span>
         </div>
         {[0, 1, 2, 3, 4].map((i) => (
           <div key={i} className="rounded-xl border border-black/[0.06] bg-white p-2.5">
             <div className="flex items-start gap-1.5">
-              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#0A66C2]/12 text-[8px] font-bold text-[#0A66C2]" style={{ fontFamily: SANS }}>
+              <span
+                className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#0A66C2]/12 text-[8px] font-bold text-[#0A66C2]"
+                style={{ fontFamily: SANS }}
+              >
                 {POSTS[i].name[0]}
               </span>
               <div className="min-w-0 flex-1" style={{ fontFamily: SANS }}>
@@ -277,11 +472,17 @@ function FeedCards({ kind }: { kind: FeedKind }) {
                 <p className="truncate text-[7px] text-[#111111]/50">{POSTS[i].role}</p>
                 <p className="text-[7px] text-[#111111]/40">{POSTS[i].when} · 🌐</p>
               </div>
-              <span className="shrink-0 rounded-full border border-[#0A66C2]/45 px-2 py-0.5 text-[8px] font-bold text-[#0A66C2]" style={{ fontFamily: SANS }}>
+              <span
+                className="shrink-0 rounded-full border border-[#0A66C2]/45 px-2 py-0.5 text-[8px] font-bold text-[#0A66C2]"
+                style={{ fontFamily: SANS }}
+              >
                 + Follow
               </span>
             </div>
-            <p className="mt-1.5 text-[7.5px] leading-[1.45] text-[#111111]/75" style={{ fontFamily: SANS }}>
+            <p
+              className="mt-1.5 text-[7.5px] leading-[1.45] text-[#111111]/75"
+              style={{ fontFamily: SANS }}
+            >
               {POSTS[i].copy}
             </p>
             {i % 2 === 0 && (
@@ -293,7 +494,9 @@ function FeedCards({ kind }: { kind: FeedKind }) {
               />
             )}
             <div className="mt-2 flex items-center gap-1.5 border-t border-black/[0.05] pt-1.5">
-              <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#0A66C2] text-[7px] text-white">👍</span>
+              <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#0A66C2] text-[7px] text-white">
+                👍
+              </span>
               <span className="text-[8px] text-[#111111]/45" style={{ fontFamily: SANS }}>
                 {POSTS[i].reactions} · {POSTS[i].comments} comments
               </span>
@@ -306,7 +509,10 @@ function FeedCards({ kind }: { kind: FeedKind }) {
   if (kind === "facebook") {
     return (
       <div className="space-y-2 p-2">
-        <div className="flex items-center gap-1.5 rounded-xl border border-black/[0.07] bg-white px-2.5 py-2" style={{ fontFamily: SANS }}>
+        <div
+          className="flex items-center gap-1.5 rounded-xl border border-black/[0.07] bg-white px-2.5 py-2"
+          style={{ fontFamily: SANS }}
+        >
           <FacebookMark className="h-4 w-4 shrink-0 rounded-[3px]" />
           <span className="text-[9px] font-bold text-[#1877F2]">Facebook</span>
           <span className="ml-auto text-[7.5px] text-[#111111]/45">5,612 page likes</span>
@@ -314,7 +520,10 @@ function FeedCards({ kind }: { kind: FeedKind }) {
         {FB_POSTS.map((post, i) => (
           <div key={i} className="rounded-xl border border-black/[0.06] bg-white p-2.5">
             <div className="flex items-center gap-1.5">
-              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#1877F2]/12 text-[8px] font-bold text-[#1877F2]" style={{ fontFamily: SANS }}>
+              <span
+                className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#1877F2]/12 text-[8px] font-bold text-[#1877F2]"
+                style={{ fontFamily: SANS }}
+              >
                 {post.page[0]}
               </span>
               <div className="min-w-0 flex-1" style={{ fontFamily: SANS }}>
@@ -322,7 +531,10 @@ function FeedCards({ kind }: { kind: FeedKind }) {
                 <p className="text-[7px] text-[#111111]/40">{post.when} · 🌐</p>
               </div>
             </div>
-            <p className="mt-1.5 text-[7.5px] leading-[1.45] text-[#111111]/75" style={{ fontFamily: SANS }}>
+            <p
+              className="mt-1.5 text-[7.5px] leading-[1.45] text-[#111111]/75"
+              style={{ fontFamily: SANS }}
+            >
               {post.copy}
             </p>
             <img
@@ -331,14 +543,22 @@ function FeedCards({ kind }: { kind: FeedKind }) {
               loading="lazy"
               className="mt-1.5 h-20 w-full rounded-lg object-cover"
             />
-            <div className="mt-1.5 flex items-center gap-1 border-b border-black/[0.05] pb-1.5" style={{ fontFamily: SANS }}>
-              <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#1877F2] text-[7px] text-white">👍</span>
+            <div
+              className="mt-1.5 flex items-center gap-1 border-b border-black/[0.05] pb-1.5"
+              style={{ fontFamily: SANS }}
+            >
+              <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#1877F2] text-[7px] text-white">
+                👍
+              </span>
               <span className="text-[7.5px] text-[#111111]/45">{post.likes}</span>
               <span className="ml-auto text-[7.5px] text-[#111111]/45">
                 {post.comments} comments · {post.shares} shares
               </span>
             </div>
-            <div className="mt-1.5 grid grid-cols-3 text-center text-[8px] font-semibold text-[#111111]/45" style={{ fontFamily: SANS }}>
+            <div
+              className="mt-1.5 grid grid-cols-3 text-center text-[8px] font-semibold text-[#111111]/45"
+              style={{ fontFamily: SANS }}
+            >
               <span>👍 Like</span>
               <span>💬 Comment</span>
               <span>↗ Share</span>
@@ -357,17 +577,25 @@ function FeedCards({ kind }: { kind: FeedKind }) {
       <div className="rounded-xl border border-black/[0.07] bg-white p-2.5">
         <div className="flex items-center gap-1.5">
           <GoogleG className="h-4 w-4 shrink-0" />
-          <span className="text-[9px] font-bold tracking-[0.02em] text-[#111111]/75" style={{ fontFamily: SANS }}>
+          <span
+            className="text-[9px] font-bold tracking-[0.02em] text-[#111111]/75"
+            style={{ fontFamily: SANS }}
+          >
             Google Business Profile
           </span>
         </div>
         <div className="mt-2 flex items-end gap-2">
-          <span className="text-[22px] leading-none font-semibold tracking-[-0.03em] text-[#111111]" style={{ fontFamily: SANS }}>
+          <span
+            className="text-[22px] leading-none font-semibold tracking-[-0.03em] text-[#111111]"
+            style={{ fontFamily: SANS }}
+          >
             4.9
           </span>
           <span className="flex gap-0.5 pb-0.5">
             {Array.from({ length: 5 }).map((_, s2) => (
-              <span key={s2} className="text-[10px] leading-none text-[#FBBC05]">★</span>
+              <span key={s2} className="text-[10px] leading-none text-[#FBBC05]">
+                ★
+              </span>
             ))}
           </span>
         </div>
@@ -375,9 +603,14 @@ function FeedCards({ kind }: { kind: FeedKind }) {
         <div className="mt-2 space-y-[3px]">
           {[92, 6, 1, 0, 1].map((w, r) => (
             <div key={r} className="flex items-center gap-1.5">
-              <span className="w-[5px] text-[7px] text-[#111111]/40" style={{ fontFamily: SANS }}>{5 - r}</span>
+              <span className="w-[5px] text-[7px] text-[#111111]/40" style={{ fontFamily: SANS }}>
+                {5 - r}
+              </span>
               <span className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-black/[0.07]">
-                <span className="absolute inset-y-0 left-0 rounded-full bg-[#FBBC05]" style={{ width: `${w}%` }} />
+                <span
+                  className="absolute inset-y-0 left-0 rounded-full bg-[#FBBC05]"
+                  style={{ width: `${w}%` }}
+                />
               </span>
             </div>
           ))}
@@ -386,7 +619,10 @@ function FeedCards({ kind }: { kind: FeedKind }) {
 
       {/* local SEO panel */}
       <div className="rounded-xl border border-black/[0.07] bg-white p-2.5">
-        <span className="text-[8px] font-bold tracking-[0.12em] text-[#1e6b3c] uppercase" style={{ fontFamily: SANS }}>
+        <span
+          className="text-[8px] font-bold tracking-[0.12em] text-[#1e6b3c] uppercase"
+          style={{ fontFamily: SANS }}
+        >
           Local SEO
         </span>
         <div className="mt-2 grid grid-cols-2 gap-1.5">
@@ -397,14 +633,28 @@ function FeedCards({ kind }: { kind: FeedKind }) {
             ["Calls", "203"],
           ].map(([l, v]) => (
             <div key={l} className="rounded-lg bg-black/[0.03] px-2 py-1.5">
-              <p className="text-[11px] leading-none font-semibold text-[#111111]" style={{ fontFamily: SANS }}>{v}</p>
-              <p className="mt-1 text-[7.5px] leading-none text-[#111111]/50" style={{ fontFamily: SANS }}>{l}</p>
+              <p
+                className="text-[11px] leading-none font-semibold text-[#111111]"
+                style={{ fontFamily: SANS }}
+              >
+                {v}
+              </p>
+              <p
+                className="mt-1 text-[7.5px] leading-none text-[#111111]/50"
+                style={{ fontFamily: SANS }}
+              >
+                {l}
+              </p>
             </div>
           ))}
         </div>
         <div className="mt-2 flex items-center gap-1.5">
-          <span className="text-[8px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>↑ 38%</span>
-          <span className="text-[7.5px] text-[#111111]/45" style={{ fontFamily: SANS }}>discovery searches, 90 days</span>
+          <span className="text-[8px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+            ↑ 38%
+          </span>
+          <span className="text-[7.5px] text-[#111111]/45" style={{ fontFamily: SANS }}>
+            discovery searches, 90 days
+          </span>
         </div>
       </div>
 
@@ -412,7 +662,10 @@ function FeedCards({ kind }: { kind: FeedKind }) {
       {REVIEWS_FEED.map((r, i) => (
         <div key={i} className="rounded-xl border border-black/[0.06] bg-white p-2.5">
           <div className="flex items-center gap-1.5">
-            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#1e6b3c]/12 text-[8px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+            <span
+              className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#1e6b3c]/12 text-[8px] font-bold text-[#1e6b3c]"
+              style={{ fontFamily: SANS }}
+            >
               {r.initial}
             </span>
             <div className="min-w-0 flex-1" style={{ fontFamily: SANS }}>
@@ -423,10 +676,18 @@ function FeedCards({ kind }: { kind: FeedKind }) {
           </div>
           <div className="mt-1.5 flex gap-0.5">
             {Array.from({ length: 5 }).map((_, s2) => (
-              <span key={s2} className={`text-[11px] leading-none ${s2 < r.stars ? "text-[#FBBC05]" : "text-[#111111]/15"}`}>★</span>
+              <span
+                key={s2}
+                className={`text-[11px] leading-none ${s2 < r.stars ? "text-[#FBBC05]" : "text-[#111111]/15"}`}
+              >
+                ★
+              </span>
             ))}
           </div>
-          <p className="mt-1.5 text-[7.5px] leading-[1.45] text-[#111111]/70" style={{ fontFamily: SANS }}>
+          <p
+            className="mt-1.5 text-[7.5px] leading-[1.45] text-[#111111]/70"
+            style={{ fontFamily: SANS }}
+          >
             {r.text}
           </p>
           {r.reply && (
@@ -532,18 +793,29 @@ export function SocialHomeSection() {
   }, []);
 
   return (
- <section ref={trackRef} id="social" className="relative bg-white [--track:118svh] md:[--track:130vh]" style={{ height: "var(--track)" }}>
+    <section
+      ref={trackRef}
+      id="social"
+      className="relative bg-white [--track:118svh] md:[--track:130vh]"
+      style={{ height: "var(--track)" }}
+    >
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center gap-7 overflow-hidden px-6 text-center">
         <div>
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
             Social Media
           </p>
-          <h2 className="mt-2 text-4xl font-semibold tracking-[-0.045em] text-[#111111] md:text-6xl" style={{ fontFamily: SANS }}>
+          <h2
+            className="mt-2 text-4xl font-semibold tracking-[-0.045em] text-[#111111] md:text-6xl"
+            style={{ fontFamily: SANS }}
+          >
             Where attention already lives.
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]" style={{ fontFamily: SANS }}>
-            Every age, every feed — thumbs already scrolling. Keep scrolling: the
-            feeds move with you.
+          <p
+            className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]"
+            style={{ fontFamily: SANS }}
+          >
+            Every age, every feed — thumbs already scrolling. Keep scrolling: the feeds move with
+            you.
           </p>
         </div>
 
@@ -553,12 +825,22 @@ export function SocialHomeSection() {
           {CROWD.map((item, i) => (
             <div
               key={i}
-              className={i === 1 ? "z-30 -mx-3 scale-[1.02] md:-mx-1" : i === 0 ? "z-10 scale-[0.86]" : "z-20 scale-[0.86]"}
+              className={
+                i === 1
+                  ? "z-30 -mx-3 scale-[1.02] md:-mx-1"
+                  : i === 0
+                    ? "z-10 scale-[0.86]"
+                    : "z-20 scale-[0.86]"
+              }
             >
               <PhoneFrame
                 item={item}
-                viewRef={(el) => { views.current[i] = el; }}
-                stripRef={(el) => { strips.current[i] = el; }}
+                viewRef={(el) => {
+                  views.current[i] = el;
+                }}
+                stripRef={(el) => {
+                  strips.current[i] = el;
+                }}
               />
             </div>
           ))}
@@ -579,9 +861,24 @@ export function SocialHomeSection() {
 }
 
 const ROW: PhoneItem[] = [
-  { kind: "video", title: "The For-You Page", blurb: "Native, thumb-stopping video built for the algorithm that already owns your customer's attention." },
-  { kind: "linkedin", title: "LinkedIn", blurb: "Authority in the feed buyers actually trust — founder voice, company presence, inbound that closes." },
-  { kind: "reviews", title: "Google Reviews", blurb: "Reputation on autopilot — the five-star proof that closes the customer before they ever call." },
+  {
+    kind: "video",
+    title: "The For-You Page",
+    blurb:
+      "Native, thumb-stopping video built for the algorithm that already owns your customer's attention.",
+  },
+  {
+    kind: "linkedin",
+    title: "LinkedIn",
+    blurb:
+      "Authority in the feed buyers actually trust — founder voice, company presence, inbound that closes.",
+  },
+  {
+    kind: "reviews",
+    title: "Google Reviews",
+    blurb:
+      "Reputation on autopilot — the five-star proof that closes the customer before they ever call.",
+  },
 ];
 
 /* /social page — the three titled phones scrub as the row crosses the viewport. */
@@ -618,16 +915,29 @@ export function SocialPhoneRow() {
       className="-mx-6 flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:gap-12 sm:overflow-visible sm:px-0 sm:grid-cols-2 lg:grid-cols-3"
     >
       {ROW.map((item, i) => (
-        <div key={i} className="flex w-[78vw] max-w-[300px] shrink-0 snap-center flex-col items-center text-center sm:w-auto sm:max-w-none sm:shrink">
+        <div
+          key={i}
+          className="flex w-[78vw] max-w-[300px] shrink-0 snap-center flex-col items-center text-center sm:w-auto sm:max-w-none sm:shrink"
+        >
           <PhoneFrame
             item={item}
-            viewRef={(el) => { views.current[i] = el; }}
-            stripRef={(el) => { strips.current[i] = el; }}
+            viewRef={(el) => {
+              views.current[i] = el;
+            }}
+            stripRef={(el) => {
+              strips.current[i] = el;
+            }}
           />
-          <h3 className="mt-5 text-xl font-semibold tracking-[-0.03em] text-[#111111] sm:mt-8" style={{ fontFamily: SANS }}>
+          <h3
+            className="mt-5 text-xl font-semibold tracking-[-0.03em] text-[#111111] sm:mt-8"
+            style={{ fontFamily: SANS }}
+          >
             {item.title}
           </h3>
-          <p className="mt-2 max-w-[240px] text-[14px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
+          <p
+            className="mt-2 max-w-[240px] text-[14px] leading-relaxed text-[#111111]/55"
+            style={{ fontFamily: SANS }}
+          >
             {item.blurb}
           </p>
         </div>

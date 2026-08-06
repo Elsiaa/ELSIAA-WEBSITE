@@ -23,8 +23,7 @@ export const Route = createFileRoute("/locations")({
 });
 
 const sans = {
-  fontFamily:
-    "var(--font-sans)",
+  fontFamily: "var(--font-sans)",
 } as const;
 
 type Office = {
@@ -122,9 +121,24 @@ const REGIONS = [
 
 // Regional U.S. offices with public street addresses (all Eastern time).
 const US_OFFICES: Array<{ city: string; state: string; address: string; tz: string }> = [
-  { city: "Baltimore", state: "Maryland", address: "2901 Fallstaff Rd, Suite 304", tz: "America/New_York" },
-  { city: "Montvale", state: "New Jersey", address: "50 Chestnut Ridge Rd, Suite 130", tz: "America/New_York" },
-  { city: "Hackensack", state: "New Jersey", address: "1 University Plaza", tz: "America/New_York" },
+  {
+    city: "Baltimore",
+    state: "Maryland",
+    address: "2901 Fallstaff Rd, Suite 304",
+    tz: "America/New_York",
+  },
+  {
+    city: "Montvale",
+    state: "New Jersey",
+    address: "50 Chestnut Ridge Rd, Suite 130",
+    tz: "America/New_York",
+  },
+  {
+    city: "Hackensack",
+    state: "New Jersey",
+    address: "1 University Plaza",
+    tz: "America/New_York",
+  },
   { city: "Kingston", state: "Pennsylvania", address: "150 James St", tz: "America/New_York" },
 ];
 
@@ -195,12 +209,10 @@ function LocationsPage() {
               Our own people in each.
             </h1>
             <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-[#111111]/65 md:text-[17px]">
-              New York, Los Angeles, London, Geneva, Antwerp and Tel Aviv. Each one has
-              ELSIAA clients and ELSIAA staff you can sit down with, by appointment. If
-              you are somewhere else, we work your hours remotely and fly out when the
-              job needs someone in the room.
+              New York, Los Angeles, London, Geneva, Antwerp and Tel Aviv. Each one has ELSIAA
+              clients and ELSIAA staff you can sit down with, by appointment. If you are somewhere
+              else, we work your hours remotely and fly out when the job needs someone in the room.
             </p>
-            
           </Reveal>
 
           <Reveal delay={0.1}>
@@ -212,7 +224,7 @@ function LocationsPage() {
       </section>
 
       {/* ── proof bar ── */}
- <section className="">
+      <section className="">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid grid-cols-2 gap-y-8 py-10 md:grid-cols-4 md:py-12">
             {[
@@ -286,7 +298,10 @@ function LocationsPage() {
                     </p>
                     {o.phone ? (
                       <p>
-                        <a href={`tel:${o.phone.replace(/[^+\d]/g, "")}`} className="transition-colors hover:text-[#1e6b3c]">
+                        <a
+                          href={`tel:${o.phone.replace(/[^+\d]/g, "")}`}
+                          className="transition-colors hover:text-[#1e6b3c]"
+                        >
                           {o.phone}
                         </a>
                       </p>
@@ -294,7 +309,10 @@ function LocationsPage() {
                       <p className="text-[#111111]/35 italic">Phone number to be confirmed</p>
                     )}
                     <p>
-                      <a href={`mailto:${o.email ?? "info@elsiaa.com"}`} className="transition-colors hover:text-[#1e6b3c]">
+                      <a
+                        href={`mailto:${o.email ?? "info@elsiaa.com"}`}
+                        className="transition-colors hover:text-[#1e6b3c]"
+                      >
                         {o.email ?? "info@elsiaa.com"}
                       </a>
                     </p>
@@ -307,7 +325,7 @@ function LocationsPage() {
       </section>
 
       {/* ── U.S. offices — the regional footprint, with public addresses ── */}
- <section className="bg-[#F5F5F3] px-6 py-10 md:py-16">
+      <section className="bg-[#F5F5F3] px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-[13px] font-semibold text-[#1e6b3c]">U.S. offices</p>
@@ -315,8 +333,8 @@ function LocationsPage() {
               And a regional footprint across the U.S.
             </h2>
             <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
-              Beyond the flagship cities, working offices you can visit by appointment —
-              real addresses, an ELSIAA team at each.
+              Beyond the flagship cities, working offices you can visit by appointment — real
+              addresses, an ELSIAA team at each.
             </p>
           </Reveal>
 
@@ -340,7 +358,14 @@ function LocationsPage() {
                       </p>
                     </div>
                     <span className="mt-1 text-[#1e6b3c]" aria-hidden>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                      >
                         <path d="M12 21s7-6.5 7-11a7 7 0 10-14 0c0 4.5 7 11 7 11z" />
                         <circle cx="12" cy="10" r="2.5" />
                       </svg>
@@ -369,7 +394,7 @@ function LocationsPage() {
       </section>
 
       {/* ── follow the sun — one clean coverage strip, full city names ── */}
- <section className="bg-[#F5F5F3]">
+      <section className="bg-[#F5F5F3]">
         <div className="mx-auto max-w-6xl px-6 py-10 md:py-16">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] md:items-center md:gap-16">
             <Reveal>
@@ -378,14 +403,17 @@ function LocationsPage() {
                 Someone is working at any hour.
               </h2>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#111111]/60">
-                From Tel Aviv opening the day to Los Angeles closing it, our six cities
-                cover the clock end to end. Something urgent at 3 a.m. your time is
-                business hours for one of our desks — so it gets answered.
+                From Tel Aviv opening the day to Los Angeles closing it, our six cities cover the
+                clock end to end. Something urgent at 3 a.m. your time is business hours for one of
+                our desks — so it gets answered.
               </p>
               {/* the regional ledger, compact */}
               <div className="mt-8 space-y-4">
                 {REGIONS.map((r) => (
-                  <div key={r.region} className="border-t border-black/[0.08] pt-3 first:border-0 first:pt-0">
+                  <div
+                    key={r.region}
+                    className="border-t border-black/[0.08] pt-3 first:border-0 first:pt-0"
+                  >
                     <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#111111]/40">
                       {r.region}
                     </p>
@@ -401,7 +429,11 @@ function LocationsPage() {
                             />
                             {c.name}
                           </span>
-                          <LiveTime now={now} tz={c.tz} className="text-[14px] tabular-nums text-[#111111]/55" />
+                          <LiveTime
+                            now={now}
+                            tz={c.tz}
+                            className="text-[14px] tabular-nums text-[#111111]/55"
+                          />
                         </div>
                       ))}
                     </div>
@@ -425,20 +457,20 @@ function LocationsPage() {
             Working outside these cities
           </h2>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
-            Our people deploy and work anywhere on earth. If your business is outside these
-            six cities, we come to you — on-site when it matters, and fully remote the rest
-            of the time, in your timezone, around the clock.
+            Our people deploy and work anywhere on earth. If your business is outside these six
+            cities, we come to you — on-site when it matters, and fully remote the rest of the time,
+            in your timezone, around the clock.
           </p>
         </Reveal>
       </section>
 
       {/* ── insured strip ── */}
- <section className="bg-white">
+      <section className="bg-white">
         <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 px-6 py-10 md:flex-row md:items-center md:justify-between">
           <p className="flex items-center gap-3 text-[15px] font-medium text-[#111111]/80">
             <span className="inline-block h-2 w-2 rounded-full bg-[#1e6b3c]" />
-            Every engagement is fully insured — the same standard in all six cities and
-            anywhere we travel.
+            Every engagement is fully insured — the same standard in all six cities and anywhere we
+            travel.
           </p>
           <a href="/clients" className="text-[13px] font-medium text-[#1e6b3c] hover:underline">
             How we work ↗
@@ -447,7 +479,7 @@ function LocationsPage() {
       </section>
 
       {/* ── closing ── */}
- <section className="mx-auto max-w-6xl px-6 py-9 text-center md:py-16">
+      <section className="mx-auto max-w-6xl px-6 py-9 text-center md:py-16">
         <Reveal>
           <h2 className="mx-auto max-w-3xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
             Tell us where you are. We'll be there — or already awake for you.
@@ -496,9 +528,22 @@ function CoverageArc({ now }: { now: Date | null }) {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-black/[0.07] bg-white p-4 md:p-8">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Timezone coverage across six cities">
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="w-full"
+        role="img"
+        aria-label="Timezone coverage across six cities"
+      >
         {/* baseline */}
-        <line x1={padX} y1={baseY} x2={W - padX} y2={baseY} stroke="#1e6b3c" strokeOpacity="0.25" strokeWidth="1" />
+        <line
+          x1={padX}
+          y1={baseY}
+          x2={W - padX}
+          y2={baseY}
+          stroke="#1e6b3c"
+          strokeOpacity="0.25"
+          strokeWidth="1"
+        />
 
         {/* daylight arc */}
         <path
@@ -512,13 +557,33 @@ function CoverageArc({ now }: { now: Date | null }) {
         {/* faint hour ticks */}
         {Array.from({ length: 25 }).map((_, i) => {
           const x = padX + (i / 24) * (W - padX * 2);
-          return <line key={i} x1={x} y1={baseY} x2={x} y2={baseY + 7} stroke="#111111" strokeOpacity="0.1" strokeWidth="1" />;
+          return (
+            <line
+              key={i}
+              x1={x}
+              y1={baseY}
+              x2={x}
+              y2={baseY + 7}
+              stroke="#111111"
+              strokeOpacity="0.1"
+              strokeWidth="1"
+            />
+          );
         })}
 
         {/* sun marker */}
         {sunLon !== null && (
           <g>
-            <line x1={xFor(sunLon)} y1={arcTop + 8} x2={xFor(sunLon)} y2={baseY} stroke="#1e6b3c" strokeOpacity="0.2" strokeWidth="1" strokeDasharray="2 4" />
+            <line
+              x1={xFor(sunLon)}
+              y1={arcTop + 8}
+              x2={xFor(sunLon)}
+              y2={baseY}
+              stroke="#1e6b3c"
+              strokeOpacity="0.2"
+              strokeWidth="1"
+              strokeDasharray="2 4"
+            />
             <circle cx={xFor(sunLon)} cy={arcTop + 8} r="6" fill="#1e6b3c" fillOpacity="0.12" />
             <circle cx={xFor(sunLon)} cy={arcTop + 8} r="2.5" fill="#1e6b3c" />
           </g>
@@ -529,12 +594,37 @@ function CoverageArc({ now }: { now: Date | null }) {
           const x = cityX(i);
           return (
             <g key={o.name}>
-              <line x1={x} y1={baseY - 5} x2={x} y2={baseY + 5} stroke="#1e6b3c" strokeWidth="1.5" />
+              <line
+                x1={x}
+                y1={baseY - 5}
+                x2={x}
+                y2={baseY + 5}
+                stroke="#1e6b3c"
+                strokeWidth="1.5"
+              />
               <circle cx={x} cy={baseY} r="3.5" fill="#fff" stroke="#1e6b3c" strokeWidth="1.5" />
-              <text x={x} y={baseY + 28} textAnchor="middle" fontSize="14" fontWeight="600" fill="#111111" fillOpacity="0.7" style={sans} suppressHydrationWarning>
+              <text
+                x={x}
+                y={baseY + 28}
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="600"
+                fill="#111111"
+                fillOpacity="0.7"
+                style={sans}
+                suppressHydrationWarning
+              >
                 {fmtTime(now, o.tz)}
               </text>
-              <text x={x} y={baseY + 47} textAnchor="middle" fontSize="12" fill="#111111" fillOpacity="0.45" style={sans}>
+              <text
+                x={x}
+                y={baseY + 47}
+                textAnchor="middle"
+                fontSize="12"
+                fill="#111111"
+                fillOpacity="0.45"
+                style={sans}
+              >
                 {o.short}
               </text>
             </g>

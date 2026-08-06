@@ -1,38 +1,29 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { uploadMeetingDocument, deleteMeetingDocument, getMeeting } from '@/lib/meetings';
-import { getUserByAuthUserId } from '@/lib/users';
-import { isSuperAdmin } from '@/lib/permissions';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { uploadMeetingDocument, deleteMeetingDocument, getMeeting } from "@/lib/meetings";
+import { getUserByAuthUserId } from "@/lib/users";
+import { isSuperAdmin } from "@/lib/permissions";
 
-export async function POST(
-  req: NextRequest,
-  context: { params: Promise<{ meetingId: string }> }
-) {
+export async function POST(req: NextRequest, context: { params: Promise<{ meetingId: string }> }) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { meetingId } = await context.params;
     const formData = await req.formData();
-    const file = formData.get('file') as File;
+    const file = formData.get("file") as File;
 
     if (!file) {
-      return NextResponse.json(
-        { error: 'No file provided' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
     // Check if user has access to the meeting
     const meeting = await getMeeting(meetingId);
     if (!meeting) {
-      return NextResponse.json(
-        { error: 'Meeting not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Meeting not found" }, { status: 404 });
     }
 
     // Map Clerk user ID to database user ID
@@ -45,17 +36,14 @@ export async function POST(
 
     if (dbUserId !== null) {
       // Host or explicitly invited user
-      if (
-        meeting.hostUserId === dbUserId ||
-        meeting.participantUserIds.includes(dbUserId)
-      ) {
+      if (meeting.hostUserId === dbUserId || meeting.participantUserIds.includes(dbUserId)) {
         hasAccess = true;
       }
 
       // Company-wide meeting
       if (
         !hasAccess &&
-        meeting.accessType === 'company' &&
+        meeting.accessType === "company" &&
         userCompanyId &&
         meeting.participantCompanyIds.includes(userCompanyId)
       ) {
@@ -64,7 +52,7 @@ export async function POST(
     }
 
     // Public meetings
-    if (!hasAccess && meeting.accessType === 'public') {
+    if (!hasAccess && meeting.accessType === "public") {
       hasAccess = true;
     }
 
@@ -73,53 +61,44 @@ export async function POST(
     }
 
     if (!hasAccess) {
-      return NextResponse.json(
-        { error: 'Access denied' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: "Access denied" }, { status: 403 });
     }
 
     const document = await uploadMeetingDocument(meetingId, file, userId);
 
     return NextResponse.json(document, { status: 201 });
   } catch (error) {
-    console.error('Document upload error:', error);
+    console.error("Document upload error:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Upload failed' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Upload failed" },
+      { status: 500 },
     );
   }
 }
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: Promise<{ meetingId: string }> }
+  context: { params: Promise<{ meetingId: string }> },
 ) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { meetingId } = await context.params;
     const { searchParams } = new URL(req.url);
-    const documentId = searchParams.get('documentId');
+    const documentId = searchParams.get("documentId");
 
     if (!documentId) {
-      return NextResponse.json(
-        { error: 'Document ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Document ID is required" }, { status: 400 });
     }
 
     // Check if user has access to the meeting
     const meeting = await getMeeting(meetingId);
     if (!meeting) {
-      return NextResponse.json(
-        { error: 'Meeting not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Meeting not found" }, { status: 404 });
     }
 
     // Map Clerk user ID to database user ID
@@ -129,10 +108,7 @@ export async function DELETE(
     // Check if user is host or the one who uploaded the document
     const document = meeting.documents?.find((doc: any) => doc.id === documentId);
     if (!document) {
-      return NextResponse.json(
-        { error: 'Document not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Document not found" }, { status: 404 });
     }
 
     const isHost = dbUserId !== null && meeting.hostUserId === dbUserId;
@@ -141,28 +117,21 @@ export async function DELETE(
     const superUser = await isSuperAdmin();
 
     if (!isHost && !isUploader && !superUser) {
-      return NextResponse.json(
-        { error: 'Access denied' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: "Access denied" }, { status: 403 });
     }
 
     const success = await deleteMeetingDocument(meetingId, documentId);
 
     if (!success) {
-      return NextResponse.json(
-        { error: 'Failed to delete document' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Failed to delete document" }, { status: 500 });
     }
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    console.error('Document deletion error:', error);
+    console.error("Document deletion error:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Deletion failed' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Deletion failed" },
+      { status: 500 },
     );
   }
 }
-

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   useCallback,
@@ -11,13 +11,13 @@ import {
   type Dispatch,
   type ReactNode,
   type SetStateAction,
-} from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -25,16 +25,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { toast } from 'sonner';
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
 import {
   Copy,
   Mail,
@@ -55,14 +55,14 @@ import {
   History,
   Download,
   CheckCircle,
-} from 'lucide-react';
-import { totalFromLineItems } from '@/lib/invoice-line-items';
-import type { InvoiceLineItem } from '@/lib/invoice-line-items';
-import { parseDoubleSemicolonInvoiceLines } from '@/lib/invoice-line-paste';
-import type { BillRecurrenceInterval } from '@/lib/bills';
-import type { ProjectFee, ProjectSubscription } from '@/lib/project-payments';
-import InvoiceLineItemsTable from '@/components/admin/invoice-line-items-table';
-import HistoryRowLineItems from '@/components/admin/history-row-line-items';
+} from "lucide-react";
+import { totalFromLineItems } from "@/lib/invoice-line-items";
+import type { InvoiceLineItem } from "@/lib/invoice-line-items";
+import { parseDoubleSemicolonInvoiceLines } from "@/lib/invoice-line-paste";
+import type { BillRecurrenceInterval } from "@/lib/bills";
+import type { ProjectFee, ProjectSubscription } from "@/lib/project-payments";
+import InvoiceLineItemsTable from "@/components/admin/invoice-line-items-table";
+import HistoryRowLineItems from "@/components/admin/history-row-line-items";
 
 type DraftLine = { id: string; description: string; quantity: string; unitPrice: string };
 
@@ -72,8 +72,8 @@ interface BillRow {
   recipientName: string;
   userId: string | null;
   companyId: string | null;
-  scheduleType: 'one_time' | 'recurring';
-  collectionMode: 'auto_charge' | 'invoice_link';
+  scheduleType: "one_time" | "recurring";
+  collectionMode: "auto_charge" | "invoice_link";
   amount: number;
   status: string;
   nextBillingDate: string | null;
@@ -100,7 +100,7 @@ interface BillChargeRow {
 
 type UnifiedHistoryRow = {
   id: string;
-  type: 'fee' | 'subscription' | 'bill' | 'payment';
+  type: "fee" | "subscription" | "bill" | "payment";
   feeName: string | null;
   subscriptionName: string | null;
   billDescription: string | null;
@@ -122,7 +122,7 @@ type UnifiedHistoryRow = {
 };
 
 function newDraftLine(): DraftLine {
-  return { id: crypto.randomUUID(), description: '', quantity: '1', unitPrice: '' };
+  return { id: crypto.randomUUID(), description: "", quantity: "1", unitPrice: "" };
 }
 
 function BtnIcon({ loading, children }: { loading: boolean; children: ReactNode }) {
@@ -148,7 +148,7 @@ function draftToLineItems(lines: DraftLine[]): InvoiceLineItem[] {
         Number.isFinite(r.quantity) &&
         r.quantity > 0 &&
         Number.isFinite(r.unit_amount) &&
-        r.unit_amount >= 0
+        r.unit_amount >= 0,
     );
 }
 
@@ -169,8 +169,20 @@ type BillingCronRunResult = {
     errors: number;
     paymentRequestErrors: number;
     billErrors?: Array<{ billId: string; error: string }>;
-    subscriptionDebug?: Array<{ id: string; name: string; company_id: string; next_billing_date: string | null; reason: string }>;
-    paymentRequestDebug?: Array<{ id: string; amount: number; payment_type: string; next_billing_date: string | null; reason: string }>;
+    subscriptionDebug?: Array<{
+      id: string;
+      name: string;
+      company_id: string;
+      next_billing_date: string | null;
+      reason: string;
+    }>;
+    paymentRequestDebug?: Array<{
+      id: string;
+      amount: number;
+      payment_type: string;
+      next_billing_date: string | null;
+      reason: string;
+    }>;
     billDebug?: Array<{
       id: string;
       recipientName: string;
@@ -180,20 +192,35 @@ type BillingCronRunResult = {
       reason: string;
       companyName: string | null;
     }>;
-    billReminderDebug?: Array<{ id: string; recipientEmail: string; amount: number; reason: string }>;
+    billReminderDebug?: Array<{
+      id: string;
+      recipientEmail: string;
+      amount: number;
+      reason: string;
+    }>;
     dryRunDebug?: {
-      allPaymentRequestsBreakdown?: Array<{ company_name: string; id: string; payment_type: string; amount: number; reason: string }>;
+      allPaymentRequestsBreakdown?: Array<{
+        company_name: string;
+        id: string;
+        payment_type: string;
+        amount: number;
+        reason: string;
+      }>;
     };
   };
   warnings?: { sent: number; details?: unknown[] };
 };
 
-export default function BillingManagement({ companies, projects, isSuperAdmin }: BillingManagementProps) {
+export default function BillingManagement({
+  companies,
+  projects,
+  isSuperAdmin,
+}: BillingManagementProps) {
   const [bills, setBills] = useState<BillRow[]>([]);
   const [chargesByBill, setChargesByBill] = useState<Record<string, BillChargeRow[]>>({});
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState<'all' | 'action' | 'history' | 'subscriptions'>('all');
-  const [selectedCompanyId, setSelectedCompanyId] = useState('');
+  const [view, setView] = useState<"all" | "action" | "history" | "subscriptions">("all");
+  const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [legacyFees, setLegacyFees] = useState<ProjectFee[]>([]);
   const [legacySubscriptions, setLegacySubscriptions] = useState<ProjectSubscription[]>([]);
   const [loadingLegacy, setLoadingLegacy] = useState(false);
@@ -203,78 +230,98 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
   const [expandedChargeId, setExpandedChargeId] = useState<string | null>(null);
   const [expandedHistoryRowId, setExpandedHistoryRowId] = useState<string | null>(null);
 
-  const [recipientMode, setRecipientMode] = useState<'manual' | 'user'>('manual');
-  const [selectedUserId, setSelectedUserId] = useState('');
-  const [recipientName, setRecipientName] = useState('');
-  const [recipientEmail, setRecipientEmail] = useState('');
-  const [companyId, setCompanyId] = useState('');
-  const [scheduleType, setScheduleType] = useState<'one_time' | 'recurring'>('one_time');
-  const [collectionMode, setCollectionMode] = useState<'invoice_link' | 'auto_charge'>('invoice_link');
-  const [recurrenceInterval, setRecurrenceInterval] = useState<BillRecurrenceInterval>('monthly');
+  const [recipientMode, setRecipientMode] = useState<"manual" | "user">("manual");
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const [recipientName, setRecipientName] = useState("");
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [companyId, setCompanyId] = useState("");
+  const [scheduleType, setScheduleType] = useState<"one_time" | "recurring">("one_time");
+  const [collectionMode, setCollectionMode] = useState<"invoice_link" | "auto_charge">(
+    "invoice_link",
+  );
+  const [recurrenceInterval, setRecurrenceInterval] = useState<BillRecurrenceInterval>("monthly");
   const [recurrenceDayOfMonth, setRecurrenceDayOfMonth] = useState(String(new Date().getDate()));
   const [recurrenceDayOfWeek, setRecurrenceDayOfWeek] = useState(String(new Date().getDay()));
-  const [dueDate, setDueDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const [dueDate, setDueDate] = useState(() => new Date().toISOString().split("T")[0]);
   const [attachCompanyPm, setAttachCompanyPm] = useState(true);
   const [sendInvoiceEmail, setSendInvoiceEmail] = useState(true);
   const [saveAsDraft, setSaveAsDraft] = useState(false);
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
   const [lines, setLines] = useState<DraftLine[]>([newDraftLine()]);
-  const [users, setUsers] = useState<Array<{ id: string; email: string; first_name?: string; last_name?: string; company_id?: string }>>([]);
+  const [users, setUsers] = useState<
+    Array<{
+      id: string;
+      email: string;
+      first_name?: string;
+      last_name?: string;
+      company_id?: string;
+    }>
+  >([]);
   const usersLoadedRef = useRef(false);
   const [creating, setCreating] = useState(false);
   const [editingBill, setEditingBill] = useState<BillRow | null>(null);
-  const [editRecipientName, setEditRecipientName] = useState('');
-  const [editRecipientEmail, setEditRecipientEmail] = useState('');
-  const [editDescription, setEditDescription] = useState('');
-  const [editDueDate, setEditDueDate] = useState('');
+  const [editRecipientName, setEditRecipientName] = useState("");
+  const [editRecipientEmail, setEditRecipientEmail] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editDueDate, setEditDueDate] = useState("");
   const [editLines, setEditLines] = useState<DraftLine[]>([newDraftLine()]);
   const [savingEdit, setSavingEdit] = useState(false);
-  const [cronRunningJob, setCronRunningJob] = useState<'preview' | 'dryRun' | 'live' | null>(null);
+  const [cronRunningJob, setCronRunningJob] = useState<"preview" | "dryRun" | "live" | null>(null);
   const [cronResult, setCronResult] = useState<BillingCronRunResult | null>(null);
-  const [cronResultView, setCronResultView] = useState<'preview' | 'dryRun' | 'live' | null>(null);
+  const [cronResultView, setCronResultView] = useState<"preview" | "dryRun" | "live" | null>(null);
   const [pendingBillAction, setPendingBillAction] = useState<string | null>(null);
   const [unifiedHistory, setUnifiedHistory] = useState<UnifiedHistoryRow[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
-  const [historyTypeFilter, setHistoryTypeFilter] = useState<'all' | UnifiedHistoryRow['type']>('all');
+  const [historyTypeFilter, setHistoryTypeFilter] = useState<"all" | UnifiedHistoryRow["type"]>(
+    "all",
+  );
 
   const billActionKey = (billId: string, path: string) => `${billId}:${path}`;
-  const isBillActionPending = (billId: string, path: string) => pendingBillAction === billActionKey(billId, path);
+  const isBillActionPending = (billId: string, path: string) =>
+    pendingBillAction === billActionKey(billId, path);
 
-  const runBillingCron = async (dryRun: boolean, cronView: 'preview' | 'dryRun' | 'live') => {
-    if (!dryRun && cronView === 'live') {
+  const runBillingCron = async (dryRun: boolean, cronView: "preview" | "dryRun" | "live") => {
+    if (!dryRun && cronView === "live") {
       const ok = confirm(
-        'Run billing for today? This runs the same job as the daily cron: charges, invoice emails, and overdue warnings. This cannot be undone.'
+        "Run billing for today? This runs the same job as the daily cron: charges, invoice emails, and overdue warnings. This cannot be undone.",
       );
       if (!ok) return;
     }
     setCronRunningJob(cronView);
     const toastId = toast.loading(
-      cronView === 'preview' ? 'Building preview…' : cronView === 'dryRun' ? 'Running dry run…' : 'Running billing…'
+      cronView === "preview"
+        ? "Building preview…"
+        : cronView === "dryRun"
+          ? "Running dry run…"
+          : "Running billing…",
     );
     try {
-      const res = await fetch('/api/admin/billing/run-today', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/admin/billing/run-today", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ dryRun }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Billing run failed');
+      if (!res.ok) throw new Error(data.error || "Billing run failed");
       setCronResult(data);
       setCronResultView(cronView);
       if (!dryRun) {
         toast.success(
           `Billing complete: ${data.billing?.processed ?? 0} subs, ${data.billing?.processedPaymentRequests ?? 0} payment requests, ${data.billing?.processedBills ?? 0} bills`,
-          { id: toastId }
+          { id: toastId },
         );
         await loadBills();
-        if (view === 'history') await loadUnifiedHistory();
+        if (view === "history") await loadUnifiedHistory();
       } else {
-        toast.success(cronView === 'preview' ? 'Preview ready' : 'Dry run complete — nothing was charged', {
-          id: toastId,
-        });
+        toast.success(
+          cronView === "preview" ? "Preview ready" : "Dry run complete — nothing was charged",
+          {
+            id: toastId,
+          },
+        );
       }
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Billing run failed', { id: toastId });
+      toast.error(e instanceof Error ? e.message : "Billing run failed", { id: toastId });
     } finally {
       setCronRunningJob(null);
     }
@@ -284,33 +331,36 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
     return new Map(projects.map((p) => [p.id, p.title]));
   }, [projects]);
 
-  const loadBills = useCallback(async (companyId?: string) => {
-    setLoading(true);
-    try {
-      const qs = new URLSearchParams({ includeCharges: '1' });
-      const filterId = companyId ?? selectedCompanyId;
-      if (filterId) qs.set('companyId', filterId);
-      const res = await fetch(`/api/admin/bills?${qs.toString()}`);
-      if (!res.ok) throw new Error('Failed to load bills');
-      const data = await res.json();
-      setBills(data.bills || []);
-      if (data.chargesByBillId && typeof data.chargesByBillId === 'object') {
-        setChargesByBill(data.chargesByBillId);
+  const loadBills = useCallback(
+    async (companyId?: string) => {
+      setLoading(true);
+      try {
+        const qs = new URLSearchParams({ includeCharges: "1" });
+        const filterId = companyId ?? selectedCompanyId;
+        if (filterId) qs.set("companyId", filterId);
+        const res = await fetch(`/api/admin/bills?${qs.toString()}`);
+        if (!res.ok) throw new Error("Failed to load bills");
+        const data = await res.json();
+        setBills(data.bills || []);
+        if (data.chargesByBillId && typeof data.chargesByBillId === "object") {
+          setChargesByBill(data.chargesByBillId);
+        }
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : "Failed to load bills");
+      } finally {
+        setLoading(false);
       }
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to load bills');
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedCompanyId]);
+    },
+    [selectedCompanyId],
+  );
 
   const loadLegacyBilling = useCallback(async (companyId: string) => {
     setLoadingLegacy(true);
     try {
       const res = await fetch(
-        `/api/admin/billing/subscriptions-batch?companyIds=${encodeURIComponent(companyId)}`
+        `/api/admin/billing/subscriptions-batch?companyIds=${encodeURIComponent(companyId)}`,
       );
-      if (!res.ok) throw new Error('Failed to load subscriptions');
+      if (!res.ok) throw new Error("Failed to load subscriptions");
       const data = await res.json();
       const row = data.byCompany?.[companyId];
       const fees: ProjectFee[] = [];
@@ -326,7 +376,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
       setLegacyFees(fees);
       setLegacySubscriptions(subs);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to load subscriptions');
+      toast.error(e instanceof Error ? e.message : "Failed to load subscriptions");
       setLegacyFees([]);
       setLegacySubscriptions([]);
     } finally {
@@ -338,7 +388,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
     if (!isSuperAdmin || usersLoadedRef.current) return;
     usersLoadedRef.current = true;
     try {
-      const res = await fetch('/api/admin/users');
+      const res = await fetch("/api/admin/users");
       if (res.ok) {
         const d = await res.json();
         setUsers(d.users || []);
@@ -369,12 +419,12 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
   const loadUnifiedHistory = useCallback(async () => {
     setLoadingHistory(true);
     try {
-      const res = await fetch('/api/admin/billing/history?limit=500');
-      if (!res.ok) throw new Error('Failed to load billing history');
+      const res = await fetch("/api/admin/billing/history?limit=500");
+      if (!res.ok) throw new Error("Failed to load billing history");
       const data = await res.json();
       setUnifiedHistory(Array.isArray(data.transactions) ? data.transactions : []);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to load billing history');
+      toast.error(e instanceof Error ? e.message : "Failed to load billing history");
     } finally {
       setLoadingHistory(false);
     }
@@ -385,16 +435,16 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
   }, [loadBills]);
 
   useEffect(() => {
-    if (view === 'subscriptions' && selectedCompanyId) {
+    if (view === "subscriptions" && selectedCompanyId) {
       void loadLegacyBilling(selectedCompanyId);
-    } else if (view === 'subscriptions') {
+    } else if (view === "subscriptions") {
       setLegacyFees([]);
       setLegacySubscriptions([]);
     }
   }, [view, selectedCompanyId, loadLegacyBilling]);
 
   useEffect(() => {
-    if (view === 'history') {
+    if (view === "history") {
       void loadUnifiedHistory();
     }
   }, [view, loadUnifiedHistory]);
@@ -405,19 +455,22 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
   }, [lines]);
 
   const filteredBills = useMemo(() => {
-    const today = new Date().toISOString().split('T')[0];
-    if (view === 'action') {
+    const today = new Date().toISOString().split("T")[0];
+    if (view === "action") {
       return bills.filter(
         (b) =>
-          b.status === 'active' &&
-          ((b.scheduleType === 'recurring' && b.nextBillingDate && b.nextBillingDate <= today) ||
-            (b.collectionMode === 'invoice_link' && !b.stripePaymentMethodId))
+          b.status === "active" &&
+          ((b.scheduleType === "recurring" && b.nextBillingDate && b.nextBillingDate <= today) ||
+            (b.collectionMode === "invoice_link" && !b.stripePaymentMethodId)),
       );
     }
-    return bills.filter((b) => b.status !== 'cancelled');
+    return bills.filter((b) => b.status !== "cancelled");
   }, [bills, view]);
 
-  const activeBillCount = useMemo(() => bills.filter((b) => b.status !== 'cancelled').length, [bills]);
+  const activeBillCount = useMemo(
+    () => bills.filter((b) => b.status !== "cancelled").length,
+    [bills],
+  );
   const historyEntryCount = unifiedHistory.length;
 
   const filteredHistory = useMemo(() => {
@@ -428,41 +481,41 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
         rows = rows.filter((row) => row.companyName === companyName);
       }
     }
-    if (historyTypeFilter === 'all') return rows;
+    if (historyTypeFilter === "all") return rows;
     return rows.filter((row) => row.type === historyTypeFilter);
   }, [unifiedHistory, historyTypeFilter, selectedCompanyId, companies]);
 
-  const historyTypeLabel = (type: UnifiedHistoryRow['type']) => {
+  const historyTypeLabel = (type: UnifiedHistoryRow["type"]) => {
     switch (type) {
-      case 'bill':
-        return 'Bill';
-      case 'payment':
-        return 'Payment';
-      case 'fee':
-        return 'Project fee';
-      case 'subscription':
-        return 'Subscription';
+      case "bill":
+        return "Bill";
+      case "payment":
+        return "Payment";
+      case "fee":
+        return "Project fee";
+      case "subscription":
+        return "Subscription";
     }
   };
 
   const historyDescription = (row: UnifiedHistoryRow) => {
-    if (row.type === 'bill') {
-      const label = row.billDescription?.trim() || 'Bill';
+    if (row.type === "bill") {
+      const label = row.billDescription?.trim() || "Bill";
       return row.billRecipientName ? `${label} · ${row.billRecipientName}` : label;
     }
-    if (row.type === 'payment') {
-      const name = row.paymentRecipientName || row.billRecipientName || 'Payment';
+    if (row.type === "payment") {
+      const name = row.paymentRecipientName || row.billRecipientName || "Payment";
       const email = row.paymentRecipientEmail;
       return email ? `${name} · ${email}` : name;
     }
-    if (row.type === 'fee') {
-      return [row.feeName, row.projectTitle].filter(Boolean).join(' · ') || 'Fee';
+    if (row.type === "fee") {
+      return [row.feeName, row.projectTitle].filter(Boolean).join(" · ") || "Fee";
     }
-    return [row.subscriptionName, row.projectTitle].filter(Boolean).join(' · ') || 'Subscription';
+    return [row.subscriptionName, row.projectTitle].filter(Boolean).join(" · ") || "Subscription";
   };
 
   const historyReceiptUrl = (row: UnifiedHistoryRow): string | null => {
-    if (row.type === 'bill' && row.billId && row.chargeId) {
+    if (row.type === "bill" && row.billId && row.chargeId) {
       return `/api/admin/bills/${row.billId}/receipt?chargeId=${encodeURIComponent(row.chargeId)}&format=pdf`;
     }
     if (!row.paymentRequestId) return null;
@@ -474,30 +527,30 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
   };
 
   const resetCreateForm = () => {
-    setRecipientMode('manual');
-    setSelectedUserId('');
-    setRecipientName('');
-    setRecipientEmail('');
-    setCompanyId('');
-    setScheduleType('one_time');
-    setCollectionMode('invoice_link');
-    setRecurrenceInterval('monthly');
+    setRecipientMode("manual");
+    setSelectedUserId("");
+    setRecipientName("");
+    setRecipientEmail("");
+    setCompanyId("");
+    setScheduleType("one_time");
+    setCollectionMode("invoice_link");
+    setRecurrenceInterval("monthly");
     setRecurrenceDayOfMonth(String(new Date().getDate()));
     setRecurrenceDayOfWeek(String(new Date().getDay()));
-    setDueDate(new Date().toISOString().split('T')[0]);
+    setDueDate(new Date().toISOString().split("T")[0]);
     setAttachCompanyPm(true);
     setSendInvoiceEmail(true);
     setSaveAsDraft(false);
-    setDescription('');
+    setDescription("");
     setLines([newDraftLine()]);
   };
 
   const handleLineDescriptionPaste = (
     e: ClipboardEvent<HTMLInputElement>,
-    setLineRows: Dispatch<SetStateAction<DraftLine[]>>
+    setLineRows: Dispatch<SetStateAction<DraftLine[]>>,
   ) => {
-    const text = e.clipboardData.getData('text/plain');
-    if (!text || !text.includes(';;')) return;
+    const text = e.clipboardData.getData("text/plain");
+    if (!text || !text.includes(";;")) return;
     const parsed = parseDoubleSemicolonInvoiceLines(text);
     if (!parsed.ok) {
       e.preventDefault();
@@ -514,7 +567,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
     const u = users.find((x) => x.id === userId);
     if (u) {
       setRecipientEmail(u.email);
-      setRecipientName(`${u.first_name || ''} ${u.last_name || ''}`.trim() || u.email);
+      setRecipientName(`${u.first_name || ""} ${u.last_name || ""}`.trim() || u.email);
       if (u.company_id) setCompanyId(u.company_id);
     }
   };
@@ -522,14 +575,14 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
   const openEditBill = async (bill: BillRow) => {
     try {
       const res = await fetch(`/api/admin/bills/${bill.id}`);
-      if (!res.ok) throw new Error('Failed to load bill');
+      if (!res.ok) throw new Error("Failed to load bill");
       const data = await res.json();
       const full = data.bill as BillRow & { lineItems: InvoiceLineItem[] };
       setEditingBill(full);
       setEditRecipientName(full.recipientName);
       setEditRecipientEmail(full.recipientEmail);
-      setEditDescription(full.description || '');
-      setEditDueDate(full.nextBillingDate || new Date().toISOString().split('T')[0]);
+      setEditDescription(full.description || "");
+      setEditDueDate(full.nextBillingDate || new Date().toISOString().split("T")[0]);
       const items = full.lineItems?.length
         ? full.lineItems.map((row) => ({
             id: crypto.randomUUID(),
@@ -540,27 +593,27 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
         : [newDraftLine()];
       setEditLines(items);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to load bill');
+      toast.error(e instanceof Error ? e.message : "Failed to load bill");
     }
   };
 
   const handleSaveEdit = async () => {
     if (!editingBill) return;
     if (!editRecipientEmail.trim() || !editRecipientName.trim()) {
-      toast.error('Recipient name and email are required');
+      toast.error("Recipient name and email are required");
       return;
     }
     const lineItems = draftToLineItems(editLines);
     const total = lineItems.length ? totalFromLineItems(lineItems) : 0;
     if (!lineItems.length || total <= 0) {
-      toast.error('Add at least one valid line item');
+      toast.error("Add at least one valid line item");
       return;
     }
     setSavingEdit(true);
     try {
       const res = await fetch(`/api/admin/bills/${editingBill.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           recipientEmail: editRecipientEmail.trim(),
           recipientName: editRecipientName.trim(),
@@ -570,12 +623,12 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to update');
-      toast.success('Bill updated');
+      if (!res.ok) throw new Error(data.error || "Failed to update");
+      toast.success("Bill updated");
       setEditingBill(null);
       await loadBills();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to update');
+      toast.error(e instanceof Error ? e.message : "Failed to update");
     } finally {
       setSavingEdit(false);
     }
@@ -583,28 +636,28 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
 
   const handleCreate = async () => {
     if (!recipientEmail.trim() || !recipientName.trim()) {
-      toast.error('Recipient name and email are required');
+      toast.error("Recipient name and email are required");
       return;
     }
     const lineItems = draftToLineItems(lines);
     if (!lineItems.length || lineTotal <= 0) {
-      toast.error('Add at least one valid line item');
+      toast.error("Add at least one valid line item");
       return;
     }
     if (attachCompanyPm && !selectedUserId && !companyId) {
-      toast.error('Select a company when attaching company payment method');
+      toast.error("Select a company when attaching company payment method");
       return;
     }
 
     setCreating(true);
     try {
-      const res = await fetch('/api/admin/bills', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/admin/bills", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           recipientEmail: recipientEmail.trim(),
           recipientName: recipientName.trim(),
-          userId: recipientMode === 'user' ? selectedUserId || undefined : undefined,
+          userId: recipientMode === "user" ? selectedUserId || undefined : undefined,
           companyId: companyId || undefined,
           scheduleType,
           collectionMode,
@@ -612,11 +665,11 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
           lineItems,
           recurrenceInterval,
           recurrenceDayOfMonth:
-            scheduleType === 'recurring' && recurrenceInterval === 'monthly'
+            scheduleType === "recurring" && recurrenceInterval === "monthly"
               ? Number(recurrenceDayOfMonth)
               : undefined,
           recurrenceDayOfWeek:
-            scheduleType === 'recurring' && recurrenceInterval === 'weekly'
+            scheduleType === "recurring" && recurrenceInterval === "weekly"
               ? Number(recurrenceDayOfWeek)
               : undefined,
           dueDate,
@@ -626,23 +679,21 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to create bill');
+      if (!res.ok) throw new Error(data.error || "Failed to create bill");
       if (saveAsDraft) {
-        toast.success('Draft bill created');
+        toast.success("Draft bill created");
       } else if (data.activation?.charged) {
-        toast.success(
-          'Bill created and charged in Stripe. Status should show completed.'
-        );
+        toast.success("Bill created and charged in Stripe. Status should show completed.");
       } else if (data.activation?.emailed) {
-        toast.success('Bill created — notification email sent.');
+        toast.success("Bill created — notification email sent.");
       } else {
-        toast.success('Bill created');
+        toast.success("Bill created");
       }
       setShowCreate(false);
       resetCreateForm();
       await loadBills();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to create');
+      toast.error(e instanceof Error ? e.message : "Failed to create");
     } finally {
       setCreating(false);
     }
@@ -653,24 +704,24 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
     setPendingBillAction(key);
     try {
       const res = await fetch(`/api/admin/bills/${billId}/${path}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: '{}',
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: "{}",
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'Action failed');
+      if (!res.ok) throw new Error(data.error || "Action failed");
 
-      if (path === 'charge-now') {
+      if (path === "charge-now") {
         if (data.charged) {
           toast.success(
             data.processing
-              ? 'Charge submitted in Stripe (processing). Bill will show as completed.'
-              : 'Bill charged successfully in Stripe.'
+              ? "Charge submitted in Stripe (processing). Bill will show as completed."
+              : "Bill charged successfully in Stripe.",
           );
         } else if (data.emailed) {
-          toast.success('Invoice email sent (no charge).');
+          toast.success("Invoice email sent (no charge).");
         } else {
-          throw new Error(data.error || 'No charge was made');
+          throw new Error(data.error || "No charge was made");
         }
       } else {
         toast.success(successMsg);
@@ -682,28 +733,28 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
   };
 
   const copyLink = (token: string) => {
-    const base = typeof window !== 'undefined' ? window.location.origin : '';
+    const base = typeof window !== "undefined" ? window.location.origin : "";
     navigator.clipboard.writeText(`${base}/payments?token=${encodeURIComponent(token)}`);
-    toast.success('Payment link copied');
+    toast.success("Payment link copied");
   };
 
   const statusBadge = (status: string) => {
     const variants: Record<string, string> = {
-      active: 'bg-green-500/15 text-green-700 dark:text-green-400',
-      draft: 'bg-muted text-muted-foreground',
-      paused: 'bg-amber-500/15 text-amber-800 dark:text-amber-300',
-      completed: 'bg-blue-500/15 text-blue-700 dark:text-blue-400',
-      cancelled: 'bg-red-500/15 text-red-700 dark:text-red-400',
-      pending: 'bg-amber-500/15 text-amber-800 dark:text-amber-300',
-      stopped: 'bg-red-500/15 text-red-700 dark:text-red-400',
+      active: "bg-green-500/15 text-green-700 dark:text-green-400",
+      draft: "bg-muted text-muted-foreground",
+      paused: "bg-amber-500/15 text-amber-800 dark:text-amber-300",
+      completed: "bg-blue-500/15 text-blue-700 dark:text-blue-400",
+      cancelled: "bg-red-500/15 text-red-700 dark:text-red-400",
+      pending: "bg-amber-500/15 text-amber-800 dark:text-amber-300",
+      stopped: "bg-red-500/15 text-red-700 dark:text-red-400",
     };
-    return <Badge className={variants[status] || ''}>{status}</Badge>;
+    return <Badge className={variants[status] || ""}>{status}</Badge>;
   };
 
   const handleMarkSubscriptionPaid = async (sub: ProjectSubscription) => {
     if (
       !confirm(
-        `Mark "${sub.name}" ($${sub.amount.toFixed(2)}) as paid? This records payment outside Stripe and advances the next billing date.`
+        `Mark "${sub.name}" ($${sub.amount.toFixed(2)}) as paid? This records payment outside Stripe and advances the next billing date.`,
       )
     ) {
       return;
@@ -712,14 +763,14 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
     try {
       const res = await fetch(
         `/api/projects/${sub.projectId}/subscriptions/${sub.id}/mark-completed`,
-        { method: 'POST' }
+        { method: "POST" },
       );
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to mark as paid');
-      toast.success(data.message || 'Subscription marked as paid');
+      if (!res.ok) throw new Error(data.error || "Failed to mark as paid");
+      toast.success(data.message || "Subscription marked as paid");
       if (selectedCompanyId) await loadLegacyBilling(selectedCompanyId);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to mark as paid');
+      toast.error(e instanceof Error ? e.message : "Failed to mark as paid");
     } finally {
       setMarkingPaidId(null);
     }
@@ -728,7 +779,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
   const handleMarkFeePaid = async (fee: ProjectFee) => {
     if (
       !confirm(
-        `Mark "${fee.name}" ($${fee.amount.toFixed(2)}) as paid? This records payment outside Stripe.`
+        `Mark "${fee.name}" ($${fee.amount.toFixed(2)}) as paid? This records payment outside Stripe.`,
       )
     ) {
       return;
@@ -736,14 +787,14 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
     setMarkingPaidId(`fee-${fee.id}`);
     try {
       const res = await fetch(`/api/projects/${fee.projectId}/fees/${fee.id}/mark-completed`, {
-        method: 'POST',
+        method: "POST",
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to mark as paid');
-      toast.success(data.message || 'Fee marked as paid');
+      if (!res.ok) throw new Error(data.error || "Failed to mark as paid");
+      toast.success(data.message || "Fee marked as paid");
       if (selectedCompanyId) await loadLegacyBilling(selectedCompanyId);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to mark as paid');
+      toast.error(e instanceof Error ? e.message : "Failed to mark as paid");
     } finally {
       setMarkingPaidId(null);
     }
@@ -752,20 +803,20 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
   const handleMarkBillPaid = async (bill: BillRow) => {
     if (
       !confirm(
-        `Mark bill for ${bill.recipientName} ($${bill.amount.toFixed(2)}) as paid? This records payment outside Stripe.`
+        `Mark bill for ${bill.recipientName} ($${bill.amount.toFixed(2)}) as paid? This records payment outside Stripe.`,
       )
     ) {
       return;
     }
     setMarkingPaidId(`bill-${bill.id}`);
     try {
-      const res = await fetch(`/api/admin/bills/${bill.id}/mark-paid`, { method: 'POST' });
+      const res = await fetch(`/api/admin/bills/${bill.id}/mark-paid`, { method: "POST" });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to mark as paid');
-      toast.success(data.message || 'Bill marked as paid');
+      if (!res.ok) throw new Error(data.error || "Failed to mark as paid");
+      toast.success(data.message || "Bill marked as paid");
       await loadBills();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to mark as paid');
+      toast.error(e instanceof Error ? e.message : "Failed to mark as paid");
     } finally {
       setMarkingPaidId(null);
     }
@@ -781,7 +832,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
           </p>
           {isSuperAdmin && (
             <p className="text-xs text-muted-foreground mt-1">
-              Daily cron: <strong>14:00 UTC</strong> (9:00 AM US Eastern standard time) —{' '}
+              Daily cron: <strong>14:00 UTC</strong> (9:00 AM US Eastern standard time) —{" "}
               <code className="text-[11px]">GET /api/cron/billing</code>
             </p>
           )}
@@ -793,38 +844,38 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                 variant="outline"
                 size="sm"
                 disabled={cronRunningJob !== null}
-                onClick={() => runBillingCron(true, 'preview')}
+                onClick={() => runBillingCron(true, "preview")}
               >
-                <BtnIcon loading={cronRunningJob === 'preview'}>
+                <BtnIcon loading={cronRunningJob === "preview"}>
                   <Eye className="w-4 h-4 mr-2" />
                 </BtnIcon>
-                {cronRunningJob === 'preview' ? 'Loading…' : 'Preview today'}
+                {cronRunningJob === "preview" ? "Loading…" : "Preview today"}
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 disabled={cronRunningJob !== null}
-                onClick={() => runBillingCron(true, 'dryRun')}
+                onClick={() => runBillingCron(true, "dryRun")}
               >
-                <BtnIcon loading={cronRunningJob === 'dryRun'}>
+                <BtnIcon loading={cronRunningJob === "dryRun"}>
                   <FlaskConical className="w-4 h-4 mr-2" />
                 </BtnIcon>
-                {cronRunningJob === 'dryRun' ? 'Loading…' : 'Dry run'}
+                {cronRunningJob === "dryRun" ? "Loading…" : "Dry run"}
               </Button>
               <Button
                 size="sm"
                 disabled={cronRunningJob !== null}
-                onClick={() => runBillingCron(false, 'live')}
+                onClick={() => runBillingCron(false, "live")}
               >
-                <BtnIcon loading={cronRunningJob === 'live'}>
+                <BtnIcon loading={cronRunningJob === "live"}>
                   <ZapIcon className="w-4 h-4 mr-2" />
                 </BtnIcon>
-                {cronRunningJob === 'live' ? 'Running…' : 'Bill today'}
+                {cronRunningJob === "live" ? "Running…" : "Bill today"}
               </Button>
             </>
           )}
           <Button variant="outline" size="sm" onClick={() => loadBills()} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} />
             Refresh
           </Button>
           {isSuperAdmin && (
@@ -846,8 +897,8 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">Company</Label>
           <Select
-            value={selectedCompanyId || '__all__'}
-            onValueChange={(v) => setSelectedCompanyId(v === '__all__' ? '' : v)}
+            value={selectedCompanyId || "__all__"}
+            onValueChange={(v) => setSelectedCompanyId(v === "__all__" ? "" : v)}
           >
             <SelectTrigger className="w-[240px]">
               <SelectValue placeholder="All companies" />
@@ -862,8 +913,10 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
             </SelectContent>
           </Select>
         </div>
-        {view === 'subscriptions' && !selectedCompanyId ? (
-          <p className="text-sm text-muted-foreground pb-2">Select a company to view project subscriptions and fees.</p>
+        {view === "subscriptions" && !selectedCompanyId ? (
+          <p className="text-sm text-muted-foreground pb-2">
+            Select a company to view project subscriptions and fees.
+          </p>
         ) : null}
       </div>
 
@@ -873,12 +926,12 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
           <TabsTrigger value="action">Due &amp; action</TabsTrigger>
           <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
           <TabsTrigger value="history">
-            History ({historyEntryCount > 0 ? historyEntryCount : '…'})
+            History ({historyEntryCount > 0 ? historyEntryCount : "…"})
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value={view} className="mt-4">
-          {view === 'subscriptions' ? (
+          {view === "subscriptions" ? (
             !selectedCompanyId ? (
               <Card>
                 <CardContent className="py-10 text-center text-muted-foreground">
@@ -904,7 +957,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     <div className="space-y-2">
                       {legacySubscriptions.map((sub) => {
                         const isDue =
-                          sub.status === 'active' &&
+                          sub.status === "active" &&
                           sub.nextBillingDate &&
                           new Date(sub.nextBillingDate) <= new Date();
                         return (
@@ -917,14 +970,15 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                                   {isDue ? <Badge variant="destructive">Due</Badge> : null}
                                 </div>
                                 <p className="text-sm text-muted-foreground mt-1">
-                                  ${sub.amount.toFixed(2)}/{sub.billingInterval || 'month'}
+                                  ${sub.amount.toFixed(2)}/{sub.billingInterval || "month"}
                                   {projectTitleById.get(sub.projectId)
                                     ? ` · ${projectTitleById.get(sub.projectId)}`
-                                    : ''}
+                                    : ""}
                                 </p>
                                 {sub.nextBillingDate ? (
                                   <p className="text-xs text-muted-foreground mt-1">
-                                    Next billing: {new Date(sub.nextBillingDate).toLocaleDateString()}
+                                    Next billing:{" "}
+                                    {new Date(sub.nextBillingDate).toLocaleDateString()}
                                   </p>
                                 ) : null}
                                 {sub.lastBilledDate ? (
@@ -933,7 +987,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                                   </p>
                                 ) : null}
                               </div>
-                              {sub.status === 'active' ? (
+                              {sub.status === "active" ? (
                                 <Button
                                   size="sm"
                                   variant="outline"
@@ -978,10 +1032,10 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                                 ${fee.amount.toFixed(2)}
                                 {projectTitleById.get(fee.projectId)
                                   ? ` · ${projectTitleById.get(fee.projectId)}`
-                                  : ''}
+                                  : ""}
                               </p>
                             </div>
-                            {fee.status === 'pending' ? (
+                            {fee.status === "pending" ? (
                               <Button
                                 size="sm"
                                 variant="outline"
@@ -1004,7 +1058,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                 </div>
               </div>
             )
-          ) : view === 'history' ? (
+          ) : view === "history" ? (
             <div className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <p className="text-sm text-muted-foreground flex items-center gap-2">
@@ -1033,7 +1087,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     onClick={() => loadUnifiedHistory()}
                     disabled={loadingHistory}
                   >
-                    <RefreshCw className={`w-4 h-4 mr-2 ${loadingHistory ? 'animate-spin' : ''}`} />
+                    <RefreshCw className={`w-4 h-4 mr-2 ${loadingHistory ? "animate-spin" : ""}`} />
                     Refresh
                   </Button>
                 </div>
@@ -1068,84 +1122,93 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                       {filteredHistory.map((row) => {
                         const receiptUrl = historyReceiptUrl(row);
                         const rowKey = `${row.type}-${row.id}`;
-                        const canShowLineItems = row.type === 'payment' || row.type === 'bill';
+                        const canShowLineItems = row.type === "payment" || row.type === "bill";
                         const isExpanded = expandedHistoryRowId === rowKey;
                         return (
                           <Fragment key={rowKey}>
-                          <tr className="border-b border-border/40 hover:bg-muted/20">
-                            <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
-                              {new Date(row.transactionDate).toLocaleString(undefined, {
-                                dateStyle: 'medium',
-                                timeStyle: 'short',
-                              })}
-                            </td>
-                            <td className="px-4 py-3">
-                              <Badge variant="outline">{historyTypeLabel(row.type)}</Badge>
-                              {row.type === 'payment' && row.paymentType ? (
-                                <span className="block text-xs text-muted-foreground mt-1">
-                                  {row.paymentType === 'one_time'
-                                    ? 'One-time'
-                                    : row.paymentType === 'monthly'
-                                      ? 'Monthly'
-                                      : 'Interval'}
-                                </span>
-                              ) : null}
-                            </td>
-                            <td className="px-4 py-3">{historyDescription(row)}</td>
-                            <td className="px-4 py-3 text-muted-foreground">{row.companyName || '—'}</td>
-                            <td className="px-4 py-3 text-right font-medium">${row.amount.toFixed(2)}</td>
-                            <td className="px-4 py-3 text-center text-muted-foreground">
-                              {row.invoiceNumber ?? '—'}
-                            </td>
-                            <td className="px-4 py-3 text-center">
-                              {canShowLineItems ? (
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-8 px-2"
-                                  onClick={() =>
-                                    setExpandedHistoryRowId((prev) => (prev === rowKey ? null : rowKey))
-                                  }
-                                >
-                                  <Eye className="w-4 h-4 mr-1" />
-                                  {isExpanded ? 'Hide' : 'View'}
-                                </Button>
-                              ) : (
-                                <span className="text-muted-foreground">—</span>
-                              )}
-                            </td>
-                            <td className="px-4 py-3 text-center">
-                              {receiptUrl ? (
-                                <a
-                                  href={receiptUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1.5 text-primary hover:text-primary/80 hover:underline"
-                                >
-                                  <Download className="w-4 h-4" />
-                                  Download
-                                </a>
-                              ) : (
-                                <span className="text-muted-foreground">—</span>
-                              )}
-                            </td>
-                          </tr>
-                          {canShowLineItems && isExpanded && (
-                            <tr key={`${rowKey}-lines`} className="border-b border-border/40 bg-muted/10">
-                              <td colSpan={8} className="px-4 py-3">
-                                <HistoryRowLineItems
-                                  row={{
-                                    type: row.type,
-                                    paymentRequestId: row.paymentRequestId,
-                                    billId: row.billId,
-                                    chargeId: row.chargeId,
-                                  }}
-                                  active={isExpanded}
-                                />
+                            <tr className="border-b border-border/40 hover:bg-muted/20">
+                              <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
+                                {new Date(row.transactionDate).toLocaleString(undefined, {
+                                  dateStyle: "medium",
+                                  timeStyle: "short",
+                                })}
+                              </td>
+                              <td className="px-4 py-3">
+                                <Badge variant="outline">{historyTypeLabel(row.type)}</Badge>
+                                {row.type === "payment" && row.paymentType ? (
+                                  <span className="block text-xs text-muted-foreground mt-1">
+                                    {row.paymentType === "one_time"
+                                      ? "One-time"
+                                      : row.paymentType === "monthly"
+                                        ? "Monthly"
+                                        : "Interval"}
+                                  </span>
+                                ) : null}
+                              </td>
+                              <td className="px-4 py-3">{historyDescription(row)}</td>
+                              <td className="px-4 py-3 text-muted-foreground">
+                                {row.companyName || "—"}
+                              </td>
+                              <td className="px-4 py-3 text-right font-medium">
+                                ${row.amount.toFixed(2)}
+                              </td>
+                              <td className="px-4 py-3 text-center text-muted-foreground">
+                                {row.invoiceNumber ?? "—"}
+                              </td>
+                              <td className="px-4 py-3 text-center">
+                                {canShowLineItems ? (
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 px-2"
+                                    onClick={() =>
+                                      setExpandedHistoryRowId((prev) =>
+                                        prev === rowKey ? null : rowKey,
+                                      )
+                                    }
+                                  >
+                                    <Eye className="w-4 h-4 mr-1" />
+                                    {isExpanded ? "Hide" : "View"}
+                                  </Button>
+                                ) : (
+                                  <span className="text-muted-foreground">—</span>
+                                )}
+                              </td>
+                              <td className="px-4 py-3 text-center">
+                                {receiptUrl ? (
+                                  <a
+                                    href={receiptUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1.5 text-primary hover:text-primary/80 hover:underline"
+                                  >
+                                    <Download className="w-4 h-4" />
+                                    Download
+                                  </a>
+                                ) : (
+                                  <span className="text-muted-foreground">—</span>
+                                )}
                               </td>
                             </tr>
-                          )}
+                            {canShowLineItems && isExpanded && (
+                              <tr
+                                key={`${rowKey}-lines`}
+                                className="border-b border-border/40 bg-muted/10"
+                              >
+                                <td colSpan={8} className="px-4 py-3">
+                                  <HistoryRowLineItems
+                                    row={{
+                                      type: row.type,
+                                      paymentRequestId: row.paymentRequestId,
+                                      billId: row.billId,
+                                      chargeId: row.chargeId,
+                                    }}
+                                    active={isExpanded}
+                                  />
+                                </td>
+                              </tr>
+                            )}
                           </Fragment>
                         );
                       })}
@@ -1158,7 +1221,9 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
             <p className="text-sm text-muted-foreground">Loading…</p>
           ) : filteredBills.length === 0 ? (
             <Card>
-              <CardContent className="py-10 text-center text-muted-foreground">No bills in this view.</CardContent>
+              <CardContent className="py-10 text-center text-muted-foreground">
+                No bills in this view.
+              </CardContent>
             </Card>
           ) : (
             <div className="space-y-3">
@@ -1168,14 +1233,17 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
                         <CardTitle className="text-base font-medium">
-                          {bill.recipientName}{' '}
-                          <span className="text-muted-foreground font-normal">({bill.recipientEmail})</span>
+                          {bill.recipientName}{" "}
+                          <span className="text-muted-foreground font-normal">
+                            ({bill.recipientEmail})
+                          </span>
                         </CardTitle>
                         <p className="text-sm text-muted-foreground mt-1">
-                          ${bill.amount.toFixed(2)} · {bill.scheduleType === 'recurring' ? 'Repeating' : 'One-time'} ·{' '}
-                          {bill.collectionMode === 'auto_charge' ? 'Auto-charge' : 'Invoice link'}
-                          {bill.nextBillingDate ? ` · Due ${bill.nextBillingDate}` : ''}
-                          {bill.companies?.name ? ` · ${bill.companies.name}` : ''}
+                          ${bill.amount.toFixed(2)} ·{" "}
+                          {bill.scheduleType === "recurring" ? "Repeating" : "One-time"} ·{" "}
+                          {bill.collectionMode === "auto_charge" ? "Auto-charge" : "Invoice link"}
+                          {bill.nextBillingDate ? ` · Due ${bill.nextBillingDate}` : ""}
+                          {bill.companies?.name ? ` · ${bill.companies.name}` : ""}
                         </p>
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
@@ -1186,8 +1254,12 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-2 mt-3">
-                      {bill.collectionMode === 'invoice_link' && (
-                        <Button variant="outline" size="sm" onClick={() => copyLink(bill.publicToken)}>
+                      {bill.collectionMode === "invoice_link" && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => copyLink(bill.publicToken)}
+                        >
                           <Copy className="w-3.5 h-3.5 mr-1" />
                           Copy link
                         </Button>
@@ -1199,166 +1271,200 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                           const next = expandedBill === bill.id ? null : bill.id;
                           setExpandedBill(next);
                           setExpandedChargeId(null);
-                          if (next && !(chargesByBill[bill.id]?.length)) loadCharges(bill.id);
+                          if (next && !chargesByBill[bill.id]?.length) loadCharges(bill.id);
                         }}
                       >
                         <FileText className="w-3.5 h-3.5 mr-1" />
                         Charges
                       </Button>
-                      {bill.collectionMode === 'invoice_link' && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          disabled={!!pendingBillAction}
-                          onClick={() => billAction(bill.id, 'send-invoice', 'Invoice sent').catch((e) => toast.error(e.message))}
-                        >
-                          <BtnIconSm loading={isBillActionPending(bill.id, 'send-invoice')}>
-                            <Mail className="w-3.5 h-3.5 mr-1" />
-                          </BtnIconSm>
-                          {isBillActionPending(bill.id, 'send-invoice') ? 'Sending…' : 'Send invoice'}
-                        </Button>
-                      )}
-                      {bill.collectionMode === 'auto_charge' && !bill.stripePaymentMethodId && (
+                      {bill.collectionMode === "invoice_link" && (
                         <Button
                           variant="outline"
                           size="sm"
                           disabled={!!pendingBillAction}
                           onClick={() =>
-                            billAction(bill.id, 'send-invoice', 'Instructions sent').catch((e) => toast.error(e.message))
+                            billAction(bill.id, "send-invoice", "Invoice sent").catch((e) =>
+                              toast.error(e.message),
+                            )
                           }
                         >
-                          <BtnIconSm loading={isBillActionPending(bill.id, 'send-invoice')}>
+                          <BtnIconSm loading={isBillActionPending(bill.id, "send-invoice")}>
                             <Mail className="w-3.5 h-3.5 mr-1" />
                           </BtnIconSm>
-                          {isBillActionPending(bill.id, 'send-invoice') ? 'Sending…' : 'Email add payment method'}
+                          {isBillActionPending(bill.id, "send-invoice")
+                            ? "Sending…"
+                            : "Send invoice"}
                         </Button>
                       )}
-                      {bill.status === 'active' && (
+                      {bill.collectionMode === "auto_charge" && !bill.stripePaymentMethodId && (
                         <Button
                           variant="outline"
                           size="sm"
                           disabled={!!pendingBillAction}
-                          onClick={() => billAction(bill.id, 'charge-now', 'Bill charged').catch((e) => toast.error(e.message))}
+                          onClick={() =>
+                            billAction(bill.id, "send-invoice", "Instructions sent").catch((e) =>
+                              toast.error(e.message),
+                            )
+                          }
                         >
-                          <BtnIconSm loading={isBillActionPending(bill.id, 'charge-now')}>
+                          <BtnIconSm loading={isBillActionPending(bill.id, "send-invoice")}>
+                            <Mail className="w-3.5 h-3.5 mr-1" />
+                          </BtnIconSm>
+                          {isBillActionPending(bill.id, "send-invoice")
+                            ? "Sending…"
+                            : "Email add payment method"}
+                        </Button>
+                      )}
+                      {bill.status === "active" && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled={!!pendingBillAction}
+                          onClick={() =>
+                            billAction(bill.id, "charge-now", "Bill charged").catch((e) =>
+                              toast.error(e.message),
+                            )
+                          }
+                        >
+                          <BtnIconSm loading={isBillActionPending(bill.id, "charge-now")}>
                             <Zap className="w-3.5 h-3.5 mr-1" />
                           </BtnIconSm>
-                          {isBillActionPending(bill.id, 'charge-now') ? 'Running…' : 'Charge now'}
+                          {isBillActionPending(bill.id, "charge-now") ? "Running…" : "Charge now"}
                         </Button>
                       )}
-                      {isSuperAdmin && bill.status !== 'completed' && bill.status !== 'cancelled' && (
+                      {isSuperAdmin &&
+                        bill.status !== "completed" &&
+                        bill.status !== "cancelled" && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={markingPaidId === `bill-${bill.id}`}
+                            onClick={() => handleMarkBillPaid(bill)}
+                          >
+                            {markingPaidId === `bill-${bill.id}` ? (
+                              <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
+                            ) : (
+                              <CheckCircle className="w-3.5 h-3.5 mr-1" />
+                            )}
+                            Mark as paid
+                          </Button>
+                        )}
+                      {bill.status === "draft" && (
+                        <Button
+                          size="sm"
+                          disabled={!!pendingBillAction}
+                          onClick={() =>
+                            billAction(bill.id, "activate", "Bill activated").catch((e) =>
+                              toast.error(e.message),
+                            )
+                          }
+                        >
+                          {isBillActionPending(bill.id, "activate") && (
+                            <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
+                          )}
+                          {isBillActionPending(bill.id, "activate") ? "Activating…" : "Activate"}
+                        </Button>
+                      )}
+                      {bill.status === "active" && bill.scheduleType === "recurring" && (
                         <Button
                           variant="outline"
                           size="sm"
-                          disabled={markingPaidId === `bill-${bill.id}`}
-                          onClick={() => handleMarkBillPaid(bill)}
-                        >
-                          {markingPaidId === `bill-${bill.id}` ? (
-                            <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
-                          ) : (
-                            <CheckCircle className="w-3.5 h-3.5 mr-1" />
-                          )}
-                          Mark as paid
-                        </Button>
-                      )}
-                      {bill.status === 'draft' && (
-                        <Button
-                          size="sm"
                           disabled={!!pendingBillAction}
-                          onClick={() => billAction(bill.id, 'activate', 'Bill activated').catch((e) => toast.error(e.message))}
+                          onClick={() =>
+                            billAction(bill.id, "pause", "Bill paused").catch((e) =>
+                              toast.error(e.message),
+                            )
+                          }
                         >
-                          {isBillActionPending(bill.id, 'activate') && (
-                            <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
-                          )}
-                          {isBillActionPending(bill.id, 'activate') ? 'Activating…' : 'Activate'}
-                        </Button>
-                      )}
-                      {bill.status === 'active' && bill.scheduleType === 'recurring' && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          disabled={!!pendingBillAction}
-                          onClick={() => billAction(bill.id, 'pause', 'Bill paused').catch((e) => toast.error(e.message))}
-                        >
-                          <BtnIconSm loading={isBillActionPending(bill.id, 'pause')}>
+                          <BtnIconSm loading={isBillActionPending(bill.id, "pause")}>
                             <Pause className="w-3.5 h-3.5 mr-1" />
                           </BtnIconSm>
-                          {isBillActionPending(bill.id, 'pause') ? 'Pausing…' : 'Pause'}
+                          {isBillActionPending(bill.id, "pause") ? "Pausing…" : "Pause"}
                         </Button>
                       )}
-                      {bill.status === 'paused' && (
+                      {bill.status === "paused" && (
                         <Button
                           variant="outline"
                           size="sm"
                           disabled={!!pendingBillAction}
-                          onClick={() => billAction(bill.id, 'resume', 'Bill resumed').catch((e) => toast.error(e.message))}
+                          onClick={() =>
+                            billAction(bill.id, "resume", "Bill resumed").catch((e) =>
+                              toast.error(e.message),
+                            )
+                          }
                         >
-                          <BtnIconSm loading={isBillActionPending(bill.id, 'resume')}>
+                          <BtnIconSm loading={isBillActionPending(bill.id, "resume")}>
                             <Play className="w-3.5 h-3.5 mr-1" />
                           </BtnIconSm>
-                          {isBillActionPending(bill.id, 'resume') ? 'Resuming…' : 'Resume'}
+                          {isBillActionPending(bill.id, "resume") ? "Resuming…" : "Resume"}
                         </Button>
                       )}
-                      {isSuperAdmin && bill.status !== 'cancelled' && (
+                      {isSuperAdmin && bill.status !== "cancelled" && (
                         <Button
                           variant="ghost"
                           size="sm"
                           disabled={!!pendingBillAction}
                           onClick={async () => {
-                            if (!confirm('Cancel this bill?')) return;
-                            const key = billActionKey(bill.id, 'cancel');
+                            if (!confirm("Cancel this bill?")) return;
+                            const key = billActionKey(bill.id, "cancel");
                             setPendingBillAction(key);
                             try {
-                              const r = await fetch(`/api/admin/bills/${bill.id}`, { method: 'DELETE' });
-                              if (!r.ok) throw new Error('Cancel failed');
-                              toast.success('Bill cancelled');
+                              const r = await fetch(`/api/admin/bills/${bill.id}`, {
+                                method: "DELETE",
+                              });
+                              if (!r.ok) throw new Error("Cancel failed");
+                              toast.success("Bill cancelled");
                               await loadBills();
                             } catch (e) {
-                              toast.error(e instanceof Error ? e.message : 'Cancel failed');
+                              toast.error(e instanceof Error ? e.message : "Cancel failed");
                             } finally {
                               setPendingBillAction((c) => (c === key ? null : c));
                             }
                           }}
                         >
-                          <BtnIconSm loading={isBillActionPending(bill.id, 'cancel')}>
+                          <BtnIconSm loading={isBillActionPending(bill.id, "cancel")}>
                             <Ban className="w-3.5 h-3.5 mr-1" />
                           </BtnIconSm>
-                          {isBillActionPending(bill.id, 'cancel') ? 'Cancelling…' : 'Cancel'}
+                          {isBillActionPending(bill.id, "cancel") ? "Cancelling…" : "Cancel"}
                         </Button>
                       )}
-                      {isSuperAdmin && bill.status !== 'cancelled' && bill.status !== 'completed' && (
-                        <Button variant="outline" size="sm" onClick={() => openEditBill(bill)}>
-                          <Pencil className="w-3.5 h-3.5 mr-1" />
-                          Edit
-                        </Button>
-                      )}
+                      {isSuperAdmin &&
+                        bill.status !== "cancelled" &&
+                        bill.status !== "completed" && (
+                          <Button variant="outline" size="sm" onClick={() => openEditBill(bill)}>
+                            <Pencil className="w-3.5 h-3.5 mr-1" />
+                            Edit
+                          </Button>
+                        )}
                       {isSuperAdmin && (
                         <Button
                           variant="ghost"
                           size="sm"
                           disabled={!!pendingBillAction}
                           onClick={async () => {
-                            const key = billActionKey(bill.id, 'duplicate');
+                            const key = billActionKey(bill.id, "duplicate");
                             setPendingBillAction(key);
                             try {
-                              const r = await fetch(`/api/admin/bills/${bill.id}/duplicate`, { method: 'POST' });
-                              if (!r.ok) throw new Error('Duplicate failed');
-                              toast.success('Duplicated as draft');
+                              const r = await fetch(`/api/admin/bills/${bill.id}/duplicate`, {
+                                method: "POST",
+                              });
+                              if (!r.ok) throw new Error("Duplicate failed");
+                              toast.success("Duplicated as draft");
                               await loadBills();
                             } catch (e) {
-                              toast.error(e instanceof Error ? e.message : 'Duplicate failed');
+                              toast.error(e instanceof Error ? e.message : "Duplicate failed");
                             } finally {
                               setPendingBillAction((c) => (c === key ? null : c));
                             }
                           }}
                         >
-                          {isBillActionPending(bill.id, 'duplicate') ? (
+                          {isBillActionPending(bill.id, "duplicate") ? (
                             <>
                               <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
                               Duplicating…
                             </>
                           ) : (
-                            'Duplicate'
+                            "Duplicate"
                           )}
                         </Button>
                       )}
@@ -1369,7 +1475,10 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                           <p className="text-sm text-muted-foreground">No charges yet.</p>
                         ) : (
                           (chargesByBill[bill.id] || []).map((c) => (
-                            <div key={c.id} className="border-b border-border/50 last:border-0 py-2">
+                            <div
+                              key={c.id}
+                              className="border-b border-border/50 last:border-0 py-2"
+                            >
                               <div className="flex justify-between items-center text-sm">
                                 <button
                                   type="button"
@@ -1378,20 +1487,25 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                                     setExpandedChargeId((prev) => (prev === c.id ? null : c.id))
                                   }
                                 >
-                                  #{c.invoiceNumber ?? '—'} · {c.status} ·{' '}
+                                  #{c.invoiceNumber ?? "—"} · {c.status} ·{" "}
                                   {new Date(c.createdAt).toLocaleDateString()}
                                   {(c.lineItemsSnapshot?.length ?? 0) > 0 && (
                                     <span className="ml-2 text-xs text-muted-foreground">
                                       ({c.lineItemsSnapshot!.length} line item
-                                      {c.lineItemsSnapshot!.length === 1 ? '' : 's'})
+                                      {c.lineItemsSnapshot!.length === 1 ? "" : "s"})
                                     </span>
                                   )}
                                 </button>
                                 <span className="font-medium">${c.amount.toFixed(2)}</span>
                               </div>
-                              {expandedChargeId === c.id && c.lineItemsSnapshot && c.lineItemsSnapshot.length > 0 && (
-                                <InvoiceLineItemsTable items={c.lineItemsSnapshot} className="mt-2" />
-                              )}
+                              {expandedChargeId === c.id &&
+                                c.lineItemsSnapshot &&
+                                c.lineItemsSnapshot.length > 0 && (
+                                  <InvoiceLineItemsTable
+                                    items={c.lineItemsSnapshot}
+                                    className="mt-2"
+                                  />
+                                )}
                             </div>
                           ))
                         )}
@@ -1424,21 +1538,21 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="radio"
-                  checked={recipientMode === 'manual'}
-                  onChange={() => setRecipientMode('manual')}
+                  checked={recipientMode === "manual"}
+                  onChange={() => setRecipientMode("manual")}
                 />
                 Manual email
               </label>
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="radio"
-                  checked={recipientMode === 'user'}
-                  onChange={() => setRecipientMode('user')}
+                  checked={recipientMode === "user"}
+                  onChange={() => setRecipientMode("user")}
                 />
                 Link user
               </label>
             </div>
-            {recipientMode === 'user' ? (
+            {recipientMode === "user" ? (
               <div className="space-y-2">
                 <Label>User</Label>
                 <Select value={selectedUserId} onValueChange={onUserSelect}>
@@ -1448,7 +1562,9 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                   <SelectContent>
                     {users.map((u) => (
                       <SelectItem key={u.id} value={u.id}>
-                        {u.first_name || u.last_name ? `${u.first_name || ''} ${u.last_name || ''}`.trim() : u.email}
+                        {u.first_name || u.last_name
+                          ? `${u.first_name || ""} ${u.last_name || ""}`.trim()
+                          : u.email}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1462,12 +1578,19 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
               </div>
               <div className="space-y-2">
                 <Label>Email</Label>
-                <Input type="email" value={recipientEmail} onChange={(e) => setRecipientEmail(e.target.value)} />
+                <Input
+                  type="email"
+                  value={recipientEmail}
+                  onChange={(e) => setRecipientEmail(e.target.value)}
+                />
               </div>
             </div>
             <div className="space-y-2">
               <Label>Company (optional)</Label>
-              <Select value={companyId || '_none'} onValueChange={(v) => setCompanyId(v === '_none' ? '' : v)}>
+              <Select
+                value={companyId || "_none"}
+                onValueChange={(v) => setCompanyId(v === "_none" ? "" : v)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="None" />
                 </SelectTrigger>
@@ -1484,7 +1607,10 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
                 <Label>Schedule</Label>
-                <Select value={scheduleType} onValueChange={(v) => setScheduleType(v as typeof scheduleType)}>
+                <Select
+                  value={scheduleType}
+                  onValueChange={(v) => setScheduleType(v as typeof scheduleType)}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -1496,7 +1622,10 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
               </div>
               <div className="space-y-2">
                 <Label>Collection</Label>
-                <Select value={collectionMode} onValueChange={(v) => setCollectionMode(v as typeof collectionMode)}>
+                <Select
+                  value={collectionMode}
+                  onValueChange={(v) => setCollectionMode(v as typeof collectionMode)}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -1508,10 +1637,10 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
               </div>
             </div>
             <div className="space-y-2">
-              <Label>{scheduleType === 'recurring' ? 'First due date' : 'Due date'}</Label>
+              <Label>{scheduleType === "recurring" ? "First due date" : "Due date"}</Label>
               <Input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
             </div>
-            {scheduleType === 'recurring' && (
+            {scheduleType === "recurring" && (
               <>
                 <div className="space-y-2">
                   <Label>Repeat every</Label>
@@ -1529,7 +1658,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     </SelectContent>
                   </Select>
                 </div>
-                {recurrenceInterval === 'weekly' ? (
+                {recurrenceInterval === "weekly" ? (
                   <div className="space-y-2">
                     <Label>Due day of week</Label>
                     <Select value={recurrenceDayOfWeek} onValueChange={setRecurrenceDayOfWeek}>
@@ -1537,17 +1666,23 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(
-                          (label, i) => (
-                            <SelectItem key={label} value={String(i)}>
-                              {label}
-                            </SelectItem>
-                          )
-                        )}
+                        {[
+                          "Sunday",
+                          "Monday",
+                          "Tuesday",
+                          "Wednesday",
+                          "Thursday",
+                          "Friday",
+                          "Saturday",
+                        ].map((label, i) => (
+                          <SelectItem key={label} value={String(i)}>
+                            {label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
-                ) : recurrenceInterval === 'monthly' ? (
+                ) : recurrenceInterval === "monthly" ? (
                   <div className="space-y-2">
                     <Label>Due day of month</Label>
                     <Select value={recurrenceDayOfMonth} onValueChange={setRecurrenceDayOfMonth}>
@@ -1568,12 +1703,21 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
             )}
             <div className="space-y-2">
               <Label>Description (on invoice)</Label>
-              <Input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Optional" />
+              <Input
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Optional"
+              />
             </div>
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <Label>Line items</Label>
-                <Button type="button" variant="outline" size="sm" onClick={() => setLines((l) => [...l, newDraftLine()])}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setLines((l) => [...l, newDraftLine()])}
+                >
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
@@ -1585,7 +1729,11 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     value={row.description}
                     onPaste={(e) => handleLineDescriptionPaste(e, setLines)}
                     onChange={(e) =>
-                      setLines((ls) => ls.map((l) => (l.id === row.id ? { ...l, description: e.target.value } : l)))
+                      setLines((ls) =>
+                        ls.map((l) =>
+                          l.id === row.id ? { ...l, description: e.target.value } : l,
+                        ),
+                      )
                     }
                   />
                   <Input
@@ -1595,7 +1743,9 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     step="any"
                     value={row.quantity}
                     onChange={(e) =>
-                      setLines((ls) => ls.map((l) => (l.id === row.id ? { ...l, quantity: e.target.value } : l)))
+                      setLines((ls) =>
+                        ls.map((l) => (l.id === row.id ? { ...l, quantity: e.target.value } : l)),
+                      )
                     }
                   />
                   <Input
@@ -1606,7 +1756,9 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     placeholder="Unit $"
                     value={row.unitPrice}
                     onChange={(e) =>
-                      setLines((ls) => ls.map((l) => (l.id === row.id ? { ...l, unitPrice: e.target.value } : l)))
+                      setLines((ls) =>
+                        ls.map((l) => (l.id === row.id ? { ...l, unitPrice: e.target.value } : l)),
+                      )
                     }
                   />
                   <Button
@@ -1625,19 +1777,28 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
             </div>
             <div className="space-y-3">
               <label className="flex items-center gap-2 text-sm">
-                <Checkbox checked={attachCompanyPm} onCheckedChange={(c) => setAttachCompanyPm(c === true)} />
+                <Checkbox
+                  checked={attachCompanyPm}
+                  onCheckedChange={(c) => setAttachCompanyPm(c === true)}
+                />
                 Attach company payment method if available
               </label>
               {!saveAsDraft && (
                 <label className="flex items-center gap-2 text-sm">
-                  <Checkbox checked={sendInvoiceEmail} onCheckedChange={(c) => setSendInvoiceEmail(c === true)} />
-                  {collectionMode === 'auto_charge'
-                    ? 'Email recipient to add a payment method in their account'
-                    : 'Send invoice email now'}
+                  <Checkbox
+                    checked={sendInvoiceEmail}
+                    onCheckedChange={(c) => setSendInvoiceEmail(c === true)}
+                  />
+                  {collectionMode === "auto_charge"
+                    ? "Email recipient to add a payment method in their account"
+                    : "Send invoice email now"}
                 </label>
               )}
               <label className="flex items-center gap-2 text-sm">
-                <Checkbox checked={saveAsDraft} onCheckedChange={(c) => setSaveAsDraft(c === true)} />
+                <Checkbox
+                  checked={saveAsDraft}
+                  onCheckedChange={(c) => setSaveAsDraft(c === true)}
+                />
                 Save as draft
               </label>
             </div>
@@ -1647,8 +1808,12 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
               Cancel
             </Button>
             <Button onClick={handleCreate} disabled={creating}>
-              {creating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
-              {creating ? 'Creating…' : 'Create bill'}
+              {creating ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Send className="w-4 h-4 mr-2" />
+              )}
+              {creating ? "Creating…" : "Create bill"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1659,23 +1824,37 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
           <DialogHeader>
             <DialogTitle>Edit bill</DialogTitle>
             <DialogDescription>
-              Update recipient, due date, and line items. Changes apply to the open charge if one exists.
+              Update recipient, due date, and line items. Changes apply to the open charge if one
+              exists.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
                 <Label>Name</Label>
-                <Input value={editRecipientName} onChange={(e) => setEditRecipientName(e.target.value)} />
+                <Input
+                  value={editRecipientName}
+                  onChange={(e) => setEditRecipientName(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Email</Label>
-                <Input type="email" value={editRecipientEmail} onChange={(e) => setEditRecipientEmail(e.target.value)} />
+                <Input
+                  type="email"
+                  value={editRecipientEmail}
+                  onChange={(e) => setEditRecipientEmail(e.target.value)}
+                />
               </div>
             </div>
             <div className="space-y-2">
-              <Label>{editingBill?.scheduleType === 'recurring' ? 'Next due date' : 'Due date'}</Label>
-              <Input type="date" value={editDueDate} onChange={(e) => setEditDueDate(e.target.value)} />
+              <Label>
+                {editingBill?.scheduleType === "recurring" ? "Next due date" : "Due date"}
+              </Label>
+              <Input
+                type="date"
+                value={editDueDate}
+                onChange={(e) => setEditDueDate(e.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label>Description (on invoice)</Label>
@@ -1684,7 +1863,12 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <Label>Line items</Label>
-                <Button type="button" variant="outline" size="sm" onClick={() => setEditLines((l) => [...l, newDraftLine()])}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEditLines((l) => [...l, newDraftLine()])}
+                >
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
@@ -1696,7 +1880,11 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     value={row.description}
                     onPaste={(e) => handleLineDescriptionPaste(e, setEditLines)}
                     onChange={(e) =>
-                      setEditLines((ls) => ls.map((l) => (l.id === row.id ? { ...l, description: e.target.value } : l)))
+                      setEditLines((ls) =>
+                        ls.map((l) =>
+                          l.id === row.id ? { ...l, description: e.target.value } : l,
+                        ),
+                      )
                     }
                   />
                   <Input
@@ -1706,7 +1894,9 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     step="any"
                     value={row.quantity}
                     onChange={(e) =>
-                      setEditLines((ls) => ls.map((l) => (l.id === row.id ? { ...l, quantity: e.target.value } : l)))
+                      setEditLines((ls) =>
+                        ls.map((l) => (l.id === row.id ? { ...l, quantity: e.target.value } : l)),
+                      )
                     }
                   />
                   <Input
@@ -1717,7 +1907,9 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     placeholder="Unit $"
                     value={row.unitPrice}
                     onChange={(e) =>
-                      setEditLines((ls) => ls.map((l) => (l.id === row.id ? { ...l, unitPrice: e.target.value } : l)))
+                      setEditLines((ls) =>
+                        ls.map((l) => (l.id === row.id ? { ...l, unitPrice: e.target.value } : l)),
+                      )
                     }
                   />
                   <Button
@@ -1736,7 +1928,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                 Total: $
                 {(() => {
                   const items = draftToLineItems(editLines);
-                  return items.length ? totalFromLineItems(items).toFixed(2) : '0.00';
+                  return items.length ? totalFromLineItems(items).toFixed(2) : "0.00";
                 })()}
               </p>
             </div>
@@ -1747,7 +1939,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
             </Button>
             <Button onClick={handleSaveEdit} disabled={savingEdit}>
               {savingEdit ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-              {savingEdit ? 'Saving…' : 'Save changes'}
+              {savingEdit ? "Saving…" : "Save changes"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1765,11 +1957,11 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
         <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
-              {cronResultView === 'live'
-                ? 'Billing run results'
-                : cronResultView === 'preview'
-                  ? 'Would bill today'
-                  : 'Dry run (full detail)'}
+              {cronResultView === "live"
+                ? "Billing run results"
+                : cronResultView === "preview"
+                  ? "Would bill today"
+                  : "Dry run (full detail)"}
             </DialogTitle>
             <DialogDescription>
               As of {cronResult?.asOfDate}. {cronResult?.message}
@@ -1777,7 +1969,7 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
           </DialogHeader>
           {cronResult && (
             <div className="space-y-4 text-sm">
-              {cronResultView === 'live' ? (
+              {cronResultView === "live" ? (
                 <div className="grid grid-cols-2 gap-3">
                   <Card>
                     <CardContent className="pt-4">
@@ -1788,13 +1980,17 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                   <Card>
                     <CardContent className="pt-4">
                       <p className="text-muted-foreground">Payment requests</p>
-                      <p className="text-2xl font-semibold">{cronResult.billing.processedPaymentRequests}</p>
+                      <p className="text-2xl font-semibold">
+                        {cronResult.billing.processedPaymentRequests}
+                      </p>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-4">
                       <p className="text-muted-foreground">Bills processed</p>
-                      <p className="text-2xl font-semibold">{cronResult.billing.processedBills ?? 0}</p>
+                      <p className="text-2xl font-semibold">
+                        {cronResult.billing.processedBills ?? 0}
+                      </p>
                     </CardContent>
                   </Card>
                   <Card>
@@ -1807,8 +2003,8 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     cronResult.billing.paymentRequestErrors > 0 ||
                     (cronResult.billing.billErrors?.length ?? 0) > 0) && (
                     <div className="col-span-2 rounded-md border border-destructive/30 bg-destructive/5 p-3 text-destructive">
-                      Errors: {cronResult.billing.errors} subscription(s),{' '}
-                      {cronResult.billing.paymentRequestErrors} payment request(s),{' '}
+                      Errors: {cronResult.billing.errors} subscription(s),{" "}
+                      {cronResult.billing.paymentRequestErrors} payment request(s),{" "}
                       {cronResult.billing.billErrors?.length ?? 0} bill(s)
                     </div>
                   )}
@@ -1820,9 +2016,11 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                       <CardContent className="pt-4">
                         <p className="text-muted-foreground text-xs">Subscriptions</p>
                         <p className="text-xl font-semibold">
-                          {(cronResult.billing.subscriptionDebug || []).filter((s) =>
-                            s.reason.includes('would_process')
-                          ).length}
+                          {
+                            (cronResult.billing.subscriptionDebug || []).filter((s) =>
+                              s.reason.includes("would_process"),
+                            ).length
+                          }
                         </p>
                       </CardContent>
                     </Card>
@@ -1837,7 +2035,9 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                     <Card>
                       <CardContent className="pt-4">
                         <p className="text-muted-foreground text-xs">Bills (new)</p>
-                        <p className="text-xl font-semibold">{(cronResult.billing.billDebug || []).length}</p>
+                        <p className="text-xl font-semibold">
+                          {(cronResult.billing.billDebug || []).length}
+                        </p>
                       </CardContent>
                     </Card>
                   </div>
@@ -1851,14 +2051,16 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                             <span>
                               {b.recipientName} ({b.recipientEmail}) — ${b.amount.toFixed(2)}
                             </span>
-                            <span className="text-muted-foreground shrink-0">{b.reason.replace(/_/g, ' ')}</span>
+                            <span className="text-muted-foreground shrink-0">
+                              {b.reason.replace(/_/g, " ")}
+                            </span>
                           </li>
                         ))}
                       </ul>
                     </div>
                   )}
 
-                  {cronResultView === 'dryRun' && (
+                  {cronResultView === "dryRun" && (
                     <>
                       {(cronResult.billing.subscriptionDebug?.length ?? 0) > 0 && (
                         <div>
@@ -1884,15 +2086,18 @@ export default function BillingManagement({ companies, projects, isSuperAdmin }:
                           </ul>
                         </div>
                       )}
-                      {(cronResult.billing.dryRunDebug?.allPaymentRequestsBreakdown?.length ?? 0) > 0 && (
+                      {(cronResult.billing.dryRunDebug?.allPaymentRequestsBreakdown?.length ?? 0) >
+                        0 && (
                         <div>
                           <p className="font-medium mb-2">All payment requests by company</p>
                           <ul className="space-y-1 border rounded-md p-3 max-h-56 overflow-y-auto font-mono text-xs">
-                            {cronResult.billing.dryRunDebug!.allPaymentRequestsBreakdown!.map((row) => (
-                              <li key={row.id}>
-                                {row.company_name}: ${row.amount.toFixed(2)} — {row.reason}
-                              </li>
-                            ))}
+                            {cronResult.billing.dryRunDebug!.allPaymentRequestsBreakdown!.map(
+                              (row) => (
+                                <li key={row.id}>
+                                  {row.company_name}: ${row.amount.toFixed(2)} — {row.reason}
+                                </li>
+                              ),
+                            )}
                           </ul>
                         </div>
                       )}

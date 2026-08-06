@@ -1,18 +1,23 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { isSuperAdmin as checkSuperAdmin } from '@/lib/permissions';
-import { getCurrentUser } from '@/lib/permissions';
-import { createPaymentRequest, getAllPaymentRequests, getCompanyPaymentRequests, deletePaymentRequest } from '@/lib/payments';
-import { validateLineItemsForCreate } from '@/lib/invoice-line-items';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { isSuperAdmin as checkSuperAdmin } from "@/lib/permissions";
+import { getCurrentUser } from "@/lib/permissions";
+import {
+  createPaymentRequest,
+  getAllPaymentRequests,
+  getCompanyPaymentRequests,
+  deletePaymentRequest,
+} from "@/lib/payments";
+import { validateLineItemsForCreate } from "@/lib/invoice-line-items";
 
 export async function GET(request: NextRequest) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
-    console.log('API GET /admin/payments - userId:', userId); // Debug log
+    console.log("API GET /admin/payments - userId:", userId); // Debug log
     if (!userId) {
-      console.log('No userId, returning 401');
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      console.log("No userId, returning 401");
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const isSuperAdmin = await checkSuperAdmin();
@@ -21,20 +26,20 @@ export async function GET(request: NextRequest) {
 
     let requests;
     if (isSuperAdmin) {
-      console.log('Super admin access - fetching all');
+      console.log("Super admin access - fetching all");
       requests = await getAllPaymentRequests();
-    } else if (dbUser && dbUser.company_id && dbUser.role === 'admin') {
-      console.log('Company admin access - fetching company requests');
+    } else if (dbUser && dbUser.company_id && dbUser.role === "admin") {
+      console.log("Company admin access - fetching company requests");
       requests = await getCompanyPaymentRequests(dbUser.company_id);
     } else {
-      console.log('Access denied - not super or company admin');
-      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
+      console.log("Access denied - not super or company admin");
+      return NextResponse.json({ error: "Access denied" }, { status: 403 });
     }
 
     return NextResponse.json({ requests });
   } catch (error) {
-    console.error('Error fetching payment requests:', error);
-    return NextResponse.json({ error: 'Failed to fetch payment requests' }, { status: 500 });
+    console.error("Error fetching payment requests:", error);
+    return NextResponse.json({ error: "Failed to fetch payment requests" }, { status: 500 });
   }
 }
 
@@ -42,10 +47,10 @@ export async function POST(request: NextRequest) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
-    console.log('API POST /admin/payments - userId:', userId); // Debug log
+    console.log("API POST /admin/payments - userId:", userId); // Debug log
     if (!userId) {
-      console.log('No userId, returning 401');
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      console.log("No userId, returning 401");
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const isSuperAdmin = await checkSuperAdmin();
@@ -53,29 +58,41 @@ export async function POST(request: NextRequest) {
     const dbUser = await getCurrentUser();
 
     if (!isSuperAdmin) {
-      return NextResponse.json({ error: 'Only super users can create payment requests' }, { status: 403 });
+      return NextResponse.json(
+        { error: "Only super users can create payment requests" },
+        { status: 403 },
+      );
     }
 
-    console.log('Access granted, processing POST'); // Debug
+    console.log("Access granted, processing POST"); // Debug
 
     const body = await request.json();
-    console.log('POST body:', body); // Debug
-    const { userId: targetUserId, recipientEmail, recipientName, amount, paymentType, nextBillingDate, lineItems } = body;
+    console.log("POST body:", body); // Debug
+    const {
+      userId: targetUserId,
+      recipientEmail,
+      recipientName,
+      amount,
+      paymentType,
+      nextBillingDate,
+      lineItems,
+    } = body;
 
     if (!recipientEmail || !recipientName) {
-      console.log('Invalid input:', { recipientEmail, recipientName });
-      return NextResponse.json({ error: 'Invalid recipient email or name' }, { status: 400 });
+      console.log("Invalid input:", { recipientEmail, recipientName });
+      return NextResponse.json({ error: "Invalid recipient email or name" }, { status: 400 });
     }
 
     // Super-admin Payments tab: only standalone one-time invoices. Recurring billing uses Subscriptions + linked payment requests.
-    const requestedType = paymentType === 'monthly' || paymentType === 'interval_billing' ? paymentType : 'one_time';
-    if (requestedType !== 'one_time') {
+    const requestedType =
+      paymentType === "monthly" || paymentType === "interval_billing" ? paymentType : "one_time";
+    if (requestedType !== "one_time") {
       return NextResponse.json(
         {
           error:
-            'Use the Subscriptions tab for recurring charges. This tab only creates one-time payment invoices.',
+            "Use the Subscriptions tab for recurring charges. This tab only creates one-time payment invoices.",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -90,17 +107,17 @@ export async function POST(request: NextRequest) {
       recipientName,
       amount: 0,
       createdByClerkUserId: userId,
-      paymentType: 'one_time',
+      paymentType: "one_time",
       nextBillingDate: nextBillingDate || undefined,
       lineItems: validated.items,
     });
 
-    console.log('Payment request created:', requestData); // Debug
+    console.log("Payment request created:", requestData); // Debug
 
     return NextResponse.json({ request: requestData }, { status: 201 });
   } catch (error) {
-    console.error('Error creating payment request:', error);
-    const message = error instanceof Error ? error.message : 'Failed to create payment request';
+    console.error("Error creating payment request:", error);
+    const message = error instanceof Error ? error.message : "Failed to create payment request";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
@@ -110,29 +127,32 @@ export async function DELETE(request: NextRequest) {
     const session = await auth();
     const userId = session?.user?.id;
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const isSuperAdmin = await checkSuperAdmin();
 
     const dbUser = await getCurrentUser();
 
-    if (!isSuperAdmin && !(dbUser && dbUser.role === 'admin')) {
-      return NextResponse.json({ error: 'Only admins can delete payment requests' }, { status: 403 });
+    if (!isSuperAdmin && !(dbUser && dbUser.role === "admin")) {
+      return NextResponse.json(
+        { error: "Only admins can delete payment requests" },
+        { status: 403 },
+      );
     }
 
     const body = await request.json();
     const { id } = body;
 
     if (!id) {
-      return NextResponse.json({ error: 'Payment request ID is required' }, { status: 400 });
+      return NextResponse.json({ error: "Payment request ID is required" }, { status: 400 });
     }
 
     await deletePaymentRequest(id);
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    console.error('Error deleting payment request:', error);
-    return NextResponse.json({ error: 'Failed to delete payment request' }, { status: 500 });
+    console.error("Error deleting payment request:", error);
+    return NextResponse.json({ error: "Failed to delete payment request" }, { status: 500 });
   }
 }

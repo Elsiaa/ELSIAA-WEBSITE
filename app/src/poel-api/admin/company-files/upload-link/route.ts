@@ -1,15 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { guardAdminCompanyFilesAccess } from '@/lib/admin-company-files-guard';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { guardAdminCompanyFilesAccess } from "@/lib/admin-company-files-guard";
 import {
   createPublicUploadLink,
   listPublicUploadLinksForCompany,
   revokePublicUploadLink,
-} from '@/lib/public-upload-links';
+} from "@/lib/public-upload-links";
 
 function requestOrigin(req: NextRequest): string {
-  const forwardedHost = req.headers.get('x-forwarded-host');
-  const forwardedProto = req.headers.get('x-forwarded-proto') || 'https';
+  const forwardedHost = req.headers.get("x-forwarded-host");
+  const forwardedProto = req.headers.get("x-forwarded-proto") || "https";
   if (forwardedHost) {
     return `${forwardedProto}://${forwardedHost}`;
   }
@@ -18,8 +18,8 @@ function requestOrigin(req: NextRequest): string {
 
 export async function GET(req: NextRequest) {
   try {
-    const companyIdParam = req.nextUrl.searchParams.get('companyId');
-    const folderPrefix = req.nextUrl.searchParams.get('folderPrefix') ?? '';
+    const companyIdParam = req.nextUrl.searchParams.get("companyId");
+    const folderPrefix = req.nextUrl.searchParams.get("folderPrefix") ?? "";
 
     const guard = await guardAdminCompanyFilesAccess(companyIdParam);
     if (!guard.ok) return guard.response;
@@ -42,10 +42,10 @@ export async function GET(req: NextRequest) {
       })),
     });
   } catch (error) {
-    console.error('upload-link GET:', error);
+    console.error("upload-link GET:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to list upload links' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Failed to list upload links" },
+      { status: 500 },
     );
   }
 }
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     const session = await auth();
     const authUserId = session?.user?.id;
     if (!authUserId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = (await req.json()) as {
@@ -71,22 +71,25 @@ export async function POST(req: NextRequest) {
     if (!guard.ok) return guard.response;
 
     let expiresAt: Date | null = null;
-    if (typeof body.expiresInDays === 'number' && Number.isFinite(body.expiresInDays)) {
+    if (typeof body.expiresInDays === "number" && Number.isFinite(body.expiresInDays)) {
       if (body.expiresInDays <= 0) {
-        return NextResponse.json({ error: 'expiresInDays must be positive' }, { status: 400 });
+        return NextResponse.json({ error: "expiresInDays must be positive" }, { status: 400 });
       }
       expiresAt = new Date(Date.now() + body.expiresInDays * 24 * 60 * 60 * 1000);
     }
 
     if (body.maxUploads != null) {
       if (!Number.isInteger(body.maxUploads) || body.maxUploads < 1) {
-        return NextResponse.json({ error: 'maxUploads must be a positive integer' }, { status: 400 });
+        return NextResponse.json(
+          { error: "maxUploads must be a positive integer" },
+          { status: 400 },
+        );
       }
     }
 
     if (body.maxBytes != null) {
       if (!Number.isFinite(body.maxBytes) || body.maxBytes < 1) {
-        return NextResponse.json({ error: 'maxBytes must be a positive number' }, { status: 400 });
+        return NextResponse.json({ error: "maxBytes must be a positive number" }, { status: 400 });
       }
     }
 
@@ -114,18 +117,18 @@ export async function POST(req: NextRequest) {
         expiresAt: link.expires_at,
         createdAt: link.created_at,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
-    console.error('upload-link POST:', error);
-    const msg = error instanceof Error ? error.message : 'Failed to create upload link';
-    if (msg.includes('public_upload_links') || msg.includes('does not exist')) {
+    console.error("upload-link POST:", error);
+    const msg = error instanceof Error ? error.message : "Failed to create upload link";
+    if (msg.includes("public_upload_links") || msg.includes("does not exist")) {
       return NextResponse.json(
         {
           error:
-            'Upload links table is missing. Apply supabase/migrations/create_public_upload_links.sql to your database.',
+            "Upload links table is missing. Apply supabase/migrations/create_public_upload_links.sql to your database.",
         },
-        { status: 503 }
+        { status: 503 },
       );
     }
     return NextResponse.json({ error: msg }, { status: 500 });
@@ -140,20 +143,20 @@ export async function DELETE(req: NextRequest) {
 
     const token = body.token?.trim();
     if (!token) {
-      return NextResponse.json({ error: 'token is required' }, { status: 400 });
+      return NextResponse.json({ error: "token is required" }, { status: 400 });
     }
 
     const revoked = await revokePublicUploadLink(token, guard.data.companyId);
     if (!revoked) {
-      return NextResponse.json({ error: 'Link not found or already revoked' }, { status: 404 });
+      return NextResponse.json({ error: "Link not found or already revoked" }, { status: 404 });
     }
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error('upload-link DELETE:', error);
+    console.error("upload-link DELETE:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to revoke upload link' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Failed to revoke upload link" },
+      { status: 500 },
     );
   }
 }

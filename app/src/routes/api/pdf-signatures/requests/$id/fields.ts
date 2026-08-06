@@ -6,7 +6,8 @@ type Ctx = { request: Request; params: Record<string, string> };
 
 function method(name: "GET" | "POST" | "PUT" | "PATCH" | "DELETE") {
   return async ({ request, params }: Ctx) => {
-    const handlers = await import("../../../../../poel-api/pdf-signatures/requests/[id]/fields/route");
+    const handlers =
+      await import("../../../../../poel-api/pdf-signatures/requests/[id]/fields/route");
     const fn = (handlers as Record<string, unknown>)[name];
     if (typeof fn !== "function") {
       return new Response("Method Not Allowed", { status: 405 });

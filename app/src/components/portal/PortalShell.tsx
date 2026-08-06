@@ -149,7 +149,10 @@ export function PortalShell({
                 Backend not connected yet
               </p>
               <p className="mt-1 text-[14px] leading-relaxed text-[#111111]/65" style={sans}>
-                Set <code className="rounded bg-black/[0.04] px-1.5 py-0.5 text-[12px]">SUPABASE_URL</code>{" "}
+                Set{" "}
+                <code className="rounded bg-black/[0.04] px-1.5 py-0.5 text-[12px]">
+                  SUPABASE_URL
+                </code>{" "}
                 and{" "}
                 <code className="rounded bg-black/[0.04] px-1.5 py-0.5 text-[12px]">
                   SUPABASE_PUBLISHABLE_KEY

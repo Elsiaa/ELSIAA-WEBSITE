@@ -1,10 +1,10 @@
 /** Read dropped files/folders from a DataTransfer (preserves folder structure). */
 export async function getFilesFromDataTransfer(
-  items: DataTransferItemList
+  items: DataTransferItemList,
 ): Promise<Array<{ file: File; relativePath: string }>> {
   const result: Array<{ file: File; relativePath: string }> = [];
 
-  async function readEntry(entry: FileSystemEntry, path = '') {
+  async function readEntry(entry: FileSystemEntry, path = "") {
     if (entry.isFile) {
       const file = await new Promise<File>((resolve, reject) => {
         (entry as FileSystemFileEntry).file(resolve, reject);
@@ -31,8 +31,8 @@ export async function getFilesFromDataTransfer(
   const promises: Promise<void>[] = [];
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
-    if (item.kind === 'file') {
-      const entry = typeof item.webkitGetAsEntry === 'function' ? item.webkitGetAsEntry() : null;
+    if (item.kind === "file") {
+      const entry = typeof item.webkitGetAsEntry === "function" ? item.webkitGetAsEntry() : null;
       if (entry) {
         promises.push(readEntry(entry));
       } else {
@@ -50,20 +50,20 @@ export async function getFilesFromDataTransfer(
 export function resolveFileRelativeDir(
   baseFolderPath: string,
   file: File,
-  customRelativePath?: string
+  customRelativePath?: string,
 ): string {
-  let fileRelativeDir = baseFolderPath.trim().replace(/^\/+|\/+$/g, '');
+  let fileRelativeDir = baseFolderPath.trim().replace(/^\/+|\/+$/g, "");
   const pathSource =
     customRelativePath ??
-    ('webkitRelativePath' in file && file.webkitRelativePath ? file.webkitRelativePath : undefined);
+    ("webkitRelativePath" in file && file.webkitRelativePath ? file.webkitRelativePath : undefined);
 
   if (pathSource) {
-    const parts = pathSource.replace(/\\/g, '/').split('/').filter(Boolean);
+    const parts = pathSource.replace(/\\/g, "/").split("/").filter(Boolean);
     if (parts.length > 1) {
-      const subDir = parts.slice(0, -1).join('/');
+      const subDir = parts.slice(0, -1).join("/");
       fileRelativeDir = fileRelativeDir ? `${fileRelativeDir}/${subDir}` : subDir;
     }
   }
 
-  return fileRelativeDir.replace(/\/+$/, '');
+  return fileRelativeDir.replace(/\/+$/, "");
 }
