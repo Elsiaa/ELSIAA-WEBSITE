@@ -1276,7 +1276,11 @@ const TEAM = [
     role: "Co-Founder & Chief Technology Officer",
     short: "Co-Founder & CTO",
     init: "DH",
-    photo: "/assets/team/dh.jpg",
+    /* Photo intentionally absent. The file that used to be here was a stock
+       portrait of a different man, published under David's name. Drop the real
+       headshot at public/assets/team/dh.jpg and restore:
+           photo: "/assets/team/dh.jpg",
+       The same one line on /team turns it on there too. */
   },
   {
     name: "Jacob Rubelow",
@@ -1340,12 +1344,29 @@ function Team() {
           {TEAM.slice(0, 6).map((m, i) => (
             <Reveal key={m.name} delay={i * 0.05} className="h-full">
               <div className="group flex h-full flex-col items-center gap-1.5 rounded-xl border-0 p-0 text-center transition-all duration-300 sm:flex-row sm:gap-3.5 sm:border sm:border-black/[0.07] sm:bg-white sm:p-4 sm:text-left sm:hover:-translate-y-0.5 sm:hover:border-[#1e6b3c]/35">
-                <img
-                  src={m.photo}
-                  alt={m.name}
-                  loading="lazy"
-                  className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover sm:h-[52px] sm:w-[52px]"
-                />
+                {/* No photo yet → the monogram, same as /team. Never a stand-in
+                    face: a stock portrait under a real person's name is a
+                    misrepresentation, not a placeholder. */}
+                {m.photo ? (
+                  <img
+                    src={m.photo}
+                    alt={m.name}
+                    loading="lazy"
+                    className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover sm:h-[52px] sm:w-[52px]"
+                  />
+                ) : (
+                  <span
+                    aria-hidden
+                    className="flex h-14 w-14 flex-none items-center justify-center rounded-full border border-black/[0.06] bg-[#0d0f0e] text-[15px] font-semibold tracking-[-0.02em] text-white/85 sm:h-[52px] sm:w-[52px] sm:text-[14px]"
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      background:
+                        "radial-gradient(120% 90% at 62% 38%, rgba(30,107,60,0.30), rgba(13,15,14,0) 62%), #0d0f0e",
+                    }}
+                  >
+                    {m.init}
+                  </span>
+                )}
                 <div className="min-w-0">
                   <h3
                     className="text-[11.5px] leading-tight font-semibold tracking-[-0.01em] text-[#111111] sm:text-[15px] sm:tracking-normal"
