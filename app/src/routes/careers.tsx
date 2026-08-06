@@ -31,7 +31,6 @@ const ROLES: Array<[string, string]> = [
   ["Design", "Websites, apps, and brand work for our clients."],
   ["Engineering", "The software and AI systems we build and keep running."],
   ["Client & Sales", "Talking to new clients and scoping their projects."],
-  ["Legal & Ops", "Contracts, billing, and keeping the company organized."],
 ];
 
 function Careers() {
@@ -331,12 +330,12 @@ function ApplyForm() {
               aria-labelledby="apply-positions-label"
               className="mt-2 flex flex-wrap gap-2"
             >
+              {/* Mirrors the ROLES list above — an applicant should not be able
+                  to apply for an area the page does not advertise. */}
               {[
                 "Design",
                 "Engineering",
                 "Client Engagement & Sales",
-                "Legal",
-                "Business Operations",
               ].map((p) => {
                 const on = positions.includes(p);
                 return (
