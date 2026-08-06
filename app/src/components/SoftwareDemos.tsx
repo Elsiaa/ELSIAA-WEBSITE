@@ -792,7 +792,7 @@ export function SoftwareDemos() {
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div className="max-w-3xl">
               <p className="text-[13px] text-[#1e6b3c] " style={mono}>
-                01 · Division · Automation & Software
+                1 · Division · Automation & Software
               </p>
               <h2
                 className="mt-2 text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-4xl"

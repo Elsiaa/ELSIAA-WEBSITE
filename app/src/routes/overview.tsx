@@ -37,7 +37,7 @@ const SHIP: Array<{
   href: string;
 }> = [
   {
-    num: "01",
+    num: "1",
     title: "Automation",
     blurb:
       "Work that used to require people now runs without them. Sales, operations, finance, support — end to end.",
@@ -45,14 +45,14 @@ const SHIP: Array<{
     href: "/automate",
   },
   {
-    num: "02",
+    num: "2",
     title: "Design",
     blurb: "Every surface your brand touches. Built to convert, not just look good.",
     cta: "Explore design",
     href: "/designs",
   },
   {
-    num: "03",
+    num: "3",
     title: "Strategy",
     blurb: "Clear plans. Fixed scope. Measured results.",
     cta: "Book consultation",

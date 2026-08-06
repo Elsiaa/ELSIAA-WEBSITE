@@ -602,7 +602,7 @@ export function AbaOperations() {
           className="text-center text-[13px] font-semibold tracking-[0.02em]"
           style={{ color: GREEN }}
         >
-          02 · ABA Operations Automation
+          2 · ABA Operations Automation
         </p>
         <h2 className="mt-1.5 text-center text-[15px] font-semibold tracking-[-0.01em] md:text-[16px]">
           <span className="text-[#111111]/50">Manual compliance &amp; lost revenue</span>

@@ -171,10 +171,10 @@ function ContactPage() {
         </Reveal>
         <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            ["01", "We talk", "Twenty minutes to understand the problem."],
-            ["02", "Scoped plan", "A clear plan and price within three days."],
-            ["03", "We build", "Designed and built, reviewed as we go."],
-            ["04", "It ships", "Live in your business — and we keep it running."],
+            ["1", "We talk", "Twenty minutes to understand the problem."],
+            ["2", "Scoped plan", "A clear plan and price within three days."],
+            ["3", "We build", "Designed and built, reviewed as we go."],
+            ["4", "It ships", "Live in your business — and we keep it running."],
           ].map(([n, t, d], i) => (
             <Reveal key={n} delay={i * 0.05}>
               <div className="border-t border-black/10 pt-4">
