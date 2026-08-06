@@ -800,24 +800,14 @@ export function SocialHomeSection() {
       style={{ height: "var(--track)" }}
     >
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center gap-7 overflow-hidden px-6 text-center">
-        <div>
-          <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
-            Social Media
-          </p>
-          <h2
-            className="mt-2 text-4xl font-semibold tracking-[-0.045em] text-[#111111] md:text-6xl"
-            style={{ fontFamily: SANS }}
-          >
-            Where attention already lives.
-          </h2>
-          <p
-            className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-[#111111]/55 md:text-[16px]"
-            style={{ fontFamily: SANS }}
-          >
-            Every age, every feed — thumbs already scrolling. Keep scrolling: the feeds move with
-            you.
-          </p>
-        </div>
+        {/* One word, same as Automations and Design — the division title carries
+            the section; the phones below make the argument. */}
+        <h2
+          className="text-4xl font-semibold tracking-[-0.04em] text-[#111111] md:text-6xl"
+          style={{ fontFamily: SANS }}
+        >
+          Social Media
+        </h2>
 
         {/* the trio is ~500px wide at full size; scale it down on phones so all
             three fit on screen (like desktop), stepping back up as width allows */}

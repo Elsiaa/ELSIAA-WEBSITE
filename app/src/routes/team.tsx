@@ -88,6 +88,16 @@ const DIRECTORS: Person[] = [
     hrefLabel: "izzy@elsiaa.com",
   },
   {
+    name: "David Spivak",
+    init: "DS",
+    /* add photo: "/assets/team/ds.jpg" once a headshot is supplied */
+    role: "Director of Social Media",
+    line: "Runs ELSIAA's social output end to end — strategy, production, and the accounts themselves.",
+    loc: "New York",
+    href: "mailto:info@elsiaa.com",
+    hrefLabel: "info@elsiaa.com",
+  },
+  {
     name: "Ynon Azulai",
     init: "YA",
     photo: "/assets/team/ya.jpg",
