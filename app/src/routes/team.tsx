@@ -51,7 +51,7 @@ const LEADERSHIP: Person[] = [
     /* add photo: "/assets/team/dh.jpg" once the real headshot is in place */
     role: "Co-Founder & CTO",
     line: "Owns the engineering. If it ships from ELSIAA it ships hardened, tested, and insured — no excuses.",
-    loc: "New York",
+    loc: "New Jersey",
     href: "mailto:davidh@elsiaa.com",
     hrefLabel: "davidh@elsiaa.com",
   },
