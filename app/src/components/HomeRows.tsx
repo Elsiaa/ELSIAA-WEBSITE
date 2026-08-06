@@ -4,6 +4,7 @@ import { AssemblingArtist } from "./AssemblingArtist";
 import { WorkingRobot } from "./WorkingRobot";
 import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 import { Reveal } from "./Reveal";
+import { LionGlobe } from "./LionGlobe";
 import { SocialLinks } from "./SocialLinks";
 import { ConsultOptions } from "./ConsultOptions";
 import { SocialHomeSection } from "./SocialMedia";
@@ -1074,29 +1075,16 @@ function Locations() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* skyline backdrop — bright, anchored bottom-right, crossfading */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[68%] md:block">
-        {CITIES.map((c, i) => (
-          <img
-            key={c.name}
-            src={c.art}
-            alt=""
-            loading={i === 0 ? "eager" : "lazy"}
-            className={`absolute inset-0 h-full w-full object-contain object-right-bottom transition-opacity duration-[1400ms] ${
-              i === idx ? "opacity-100" : "opacity-0"
-            }`}
-          />
-        ))}
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/25 to-transparent" />
+      {/* The globe replaces the crossfading skylines: one mark that says
+          "everywhere" rather than six photographs competing with the copy. */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] items-center justify-center md:flex">
+        <LionGlobe className="h-auto w-[min(88%,420px)] opacity-95" />
       </div>
 
       <div className="relative mx-auto max-w-6xl px-6">
         <Reveal>
-          <p className="text-[12px] text-[#1e6b3c] sm:text-[13px]" style={mono}>
-            5 · Locations
-          </p>
           <h2
-            className="mt-1.5 text-xl font-semibold tracking-[-0.035em] sm:mt-3 sm:text-2xl md:text-4xl"
+            className="text-xl font-semibold tracking-[-0.035em] sm:text-2xl md:text-4xl"
             style={inter}
           >
             We are located in the following locations.
@@ -1221,6 +1209,13 @@ function Locations() {
         {/* map on demand — never blocks the art */}
         <Reveal delay={0.14}>
           <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 sm:mt-8">
+            <a
+              href="/locations"
+              className="inline-flex min-h-[44px] items-center rounded-full bg-[#1e6b3c] px-6 text-[13px] font-bold text-white transition-all hover:bg-[#111111]"
+              style={mono}
+            >
+              All locations →
+            </a>
             <button
               onClick={() => setShowMap((v) => !v)}
               className="rounded-full border border-black/12 bg-white/80 px-6 py-2.5 text-[10.5px] font-bold text-[#111111]  backdrop-blur transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
