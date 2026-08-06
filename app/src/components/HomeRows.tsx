@@ -6,8 +6,6 @@ import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 import { Reveal } from "./Reveal";
 import { SocialLinks } from "./SocialLinks";
 import { ConsultOptions } from "./ConsultOptions";
-import { WhyBrandsChose } from "./BrandLogos";
-import { SoftwareDemos } from "./SoftwareDemos";
 import { SocialHomeSection } from "./SocialMedia";
 
 /* ============================================================
@@ -763,97 +761,6 @@ function GlobeReveal() {
     >
       <ScrollGlobe size={300} />
     </div>
-  );
-}
-
-function HeroCards() {
-  const items = [
-    {
-      icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#1e6b3c"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <circle cx="12" cy="12" r="9" />
-          <path d="M8.5 12.5 11 15l4.5-6" />
-        </svg>
-      ),
-      title: "Any process, automated.",
-      body: "If your team can run it — sales, operations, clinical intake, legal — we can teach a model to run it faster, and around the clock.",
-    },
-    {
-      icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#1e6b3c"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10Z" />
-          <path d="m9 12 2 2 4-4" />
-        </svg>
-      ),
-      title: "Fixed scope. Fixed price.",
-      body: "Scoped plans and measured results — automation built to pay for itself, not an open-ended research project.",
-    },
-    {
-      icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#1e6b3c"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M3 17l6-6 4 4 8-8" />
-          <path d="M14 7h7v7" />
-        </svg>
-      ),
-      title: "One partner, four divisions.",
-      body: "Design, automation, software, and consultation under one roof — no relay race between a design shop, a dev agency, and a consultant.",
-    },
-  ];
-  return (
-    <section className="bg-white py-9 md:py-16">
-      <div className="mx-auto w-full max-w-6xl px-6">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-          {items.map((it, i) => (
-            <Reveal key={it.title} delay={0.05 + i * 0.05}>
-              <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1e6b3c]/35">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1e6b3c]/10">
-                  {it.icon}
-                </span>
-                <h2
-                  className="mt-4 text-[17px] font-semibold tracking-[-0.02em] text-[#111111]"
-                  style={{ fontFamily: "var(--font-sans)" }}
-                >
-                  {it.title}
-                </h2>
-                <p
-                  className="mt-2 text-[14px] leading-relaxed text-[#111111]/55"
-                  style={{ fontFamily: "var(--font-sans)" }}
-                >
-                  {it.body}
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -2158,14 +2065,6 @@ export function HomeRows() {
         cta="Book Consultation"
         extra={<ConsultPricing />}
       />
-      <ExpandSection
-        title="Proof — live systems and results"
-        blurb="Real deployments, real numbers, why brands chose ELSIAA."
-      >
-        <HeroCards />
-        <WhyBrandsChose />
-        <SoftwareDemos />
-      </ExpandSection>
       <ExpandSection title="The team" blurb="Who builds it, who stands behind it.">
         <Team />
       </ExpandSection>
