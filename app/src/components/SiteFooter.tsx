@@ -5,29 +5,10 @@
   mono microcopy — same voice as the rest of the site.
 */
 
-import { INSTAGRAM_URL } from "../lib/social";
+import { SocialLinks } from "./SocialLinks";
 
 const mono = { fontFamily: "var(--font-sans)" } as const;
 const inter = { fontFamily: "var(--font-sans)" } as const;
-
-/* Instagram's glyph, drawn rather than imported — no icon dependency and it
-   inherits the link's colour on hover. */
-function InstagramGlyph() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden
-      className="h-[15px] w-[15px] flex-none"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.9"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="5.2" />
-      <circle cx="12" cy="12" r="4.1" />
-      <circle cx="17.2" cy="6.8" r="1.15" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
 
 const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string }> }> = [
   {
@@ -95,8 +76,10 @@ export function SiteFooter() {
               <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
               <b className="font-semibold text-[#1e6b3c]">A</b>lliance
             </p>
+            {/* The four divisions, alphabetical — no division is ranked above
+                another by being named first. */}
             <p className="mt-3 max-w-xs text-[13px] leading-snug text-[#111111]/60" style={inter}>
-              Design, automation, software, and consultation — four divisions,
+              Automation, consultation, design, and software — four divisions,
               one standard.
             </p>
             <a
@@ -106,20 +89,7 @@ export function SiteFooter() {
             >
               info@elsiaa.com
             </a>
-            {/* The QR tracking params the link was shared with (igsh, utm_source)
-                are stripped — they identify the scan that produced it, not the
-                profile, and would follow every visitor from the site. */}
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="me noreferrer"
-              aria-label="ELSIAA on Instagram (opens in a new tab)"
-              className="mt-3 flex min-h-[44px] w-fit items-center gap-2 rounded-full border border-black/[0.12] px-4 text-[13px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
-              style={inter}
-            >
-              <InstagramGlyph />
-              @elsiaa_ai
-            </a>
+            <SocialLinks className="mt-3" />
             <p className="mt-2.5 text-[12.5px] leading-snug text-[#111111]/50" style={mono}>
               New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv
             </p>
