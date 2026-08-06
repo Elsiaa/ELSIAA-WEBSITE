@@ -118,42 +118,42 @@ const AI_TOOLS: Array<{ kind: "openai" | "claude" | "gemini" | "meta" | "grok"; 
 /* Corporate reason icons — restrained line art, emerald on dark. */
 const REASONS: Array<{ num: string; art: string; title: string; body: string; solo: string }> = [
   {
-    num: "01",
+    num: "1",
     art: "/assets/why/data.png",
     title: "Your data stays yours",
     body: "Isolated, encrypted, never used to train a model. We decide exactly what the AI can see.",
     solo: "Going solo: an employee pastes your customer list into a public chatbot. It is now outside your control and possibly in the next training run.",
   },
   {
-    num: "02",
+    num: "2",
     art: "/assets/why/bugs.png",
     title: "Protected against bugs",
     body: "Engineers test and monitor every system. Failures surface in staging, not in front of your customers.",
     solo: "Going solo: AI-generated code with a silent bug quietly corrupts three months of invoices before anyone notices.",
   },
   {
-    num: "03",
+    num: "3",
     art: "/assets/why/hacks.png",
     title: "Hardened against hacks",
     body: "Keys, permissions, and infrastructure locked to professional standards and kept patched.",
     solo: "Going solo: one exposed API key in a script and an attacker runs up your accounts — or walks through your systems.",
   },
   {
-    num: "04",
+    num: "4",
     art: "/assets/why/hipaa.png",
     title: "HIPAA & compliance ready",
     body: "Built to regulatory standards — audit trails, retention rules, and a signed BAA where one is required.",
     solo: "Going solo: an untracked AI tool touches patient data. That is a reportable breach, federal fines, and a headline.",
   },
   {
-    num: "05",
+    num: "5",
     art: "/assets/why/insured.png",
     title: "Fully insured",
     body: "ELSIAA carries professional liability and cyber cover on every engagement.",
     solo: "Going solo: when a DIY automation makes a costly mistake, there is no coverage and no one accountable. The loss is yours alone.",
   },
   {
-    num: "06",
+    num: "6",
     art: "/assets/why/team.png",
     title: "AI maximised by a professional team",
     body: "Operators who know the work plus engineers who know the tools, applied to your process.",

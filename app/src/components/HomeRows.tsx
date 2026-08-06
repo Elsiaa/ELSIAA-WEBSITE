@@ -1109,7 +1109,7 @@ function Locations() {
       <div className="relative mx-auto max-w-6xl px-6">
         <Reveal>
           <p className="text-[12px] text-[#1e6b3c] sm:text-[13px]" style={mono}>
-            05 · Locations
+            5 · Locations
           </p>
           <h2
             className="mt-1.5 text-xl font-semibold tracking-[-0.035em] sm:mt-3 sm:text-2xl md:text-4xl"
@@ -1301,7 +1301,7 @@ function Team() {
             className="text-[12px] text-[#1e6b3c] sm:text-[13px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            04 · Who we are
+            4 · Who we are
           </p>
           <h2
             className="mt-1.5 text-xl font-semibold tracking-[-0.035em] text-[#111111] sm:mt-3 sm:text-2xl md:text-4xl"
@@ -1387,7 +1387,7 @@ function MerchStrip() {
       <div className="mx-auto w-full max-w-6xl px-6">
         <Reveal>
           <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: "var(--font-sans)" }}>
-            06 · The Store
+            6 · The Store
           </p>
           <h2
             className="mt-2 max-w-2xl text-2xl font-semibold tracking-[-0.035em] text-[#111111] md:text-3xl"
@@ -1469,7 +1469,7 @@ function FinalCTA() {
       <div className="mx-auto max-w-4xl px-6 text-center">
         <Reveal>
           <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: "var(--font-sans)" }}>
-            07 · Next
+            7 · Next
           </p>
           <h2
             className="mx-auto mt-4 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"

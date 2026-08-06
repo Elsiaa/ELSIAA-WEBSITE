@@ -183,7 +183,7 @@ function AutomatePage() {
       <section id="secretary" className="scroll-mt-[136px] px-4 pt-6 md:px-6">
         <div className="mx-auto max-w-6xl">
           <p className="text-center text-[13px] font-semibold tracking-[0.02em] text-[#1e6b3c]">
-            01 · ELSIAA Secretary
+            1 · ELSIAA Secretary
           </p>
           <h1 className="mx-auto mt-2 max-w-2xl text-center text-[1.9rem] leading-[1.08] font-semibold tracking-[-0.04em] text-[#111111] md:text-[2.9rem]">
             Talk to a system we built. It answers.
