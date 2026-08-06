@@ -4,7 +4,6 @@ import { AssemblingArtist } from "./AssemblingArtist";
 import { WorkingRobot } from "./WorkingRobot";
 import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 import { Reveal } from "./Reveal";
-import { LionGlobe } from "./LionGlobe";
 import { SocialLinks } from "./SocialLinks";
 import { ConsultOptions } from "./ConsultOptions";
 import { SocialHomeSection } from "./SocialMedia";
@@ -1076,8 +1075,18 @@ function Locations() {
     >
       {/* The globe replaces the crossfading skylines: one mark that says
           "everywhere" rather than six photographs competing with the copy. */}
+      {/* Rendered globe rather than the hand-drawn SVG: dark glass, green
+          dot-matrix continents, lit office nodes, and the lion at the centre. */}
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] items-center justify-center md:flex">
-        <LionGlobe className="h-auto w-[min(88%,420px)] opacity-95" />
+        <img
+          src="/assets/locations_globe.png"
+          alt=""
+          aria-hidden
+          width={1024}
+          height={1024}
+          loading="lazy"
+          className="h-auto w-[min(90%,440px)] select-none"
+        />
       </div>
 
       <div className="relative mx-auto max-w-6xl px-6">
@@ -1094,8 +1103,14 @@ function Locations() {
           >
             The bulk of our work is virtual, and we are{" "}
             <span className="font-semibold text-[#111111]">available around the clock</span> for
-            emergencies and questions. We operate on site and take office visits in the cities
-            below — right now it's{" "}
+            emergencies and questions —{" "}
+            <a
+              href="tel:+14436519097"
+              className="font-semibold text-[#1e6b3c] underline-offset-2 hover:underline"
+            >
+              443&nbsp;651&nbsp;9097
+            </a>
+            . We operate on site and take office visits in the cities below — right now it's{" "}
             <span className="font-semibold text-[#1e6b3c]">
               {cityTime(now, active.tz).slice(0, 5)}
             </span>{" "}
@@ -1470,9 +1485,6 @@ function FinalCTA() {
     <section className="bg-[#F5F5F3] py-10 text-[#111111] md:py-14">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <Reveal>
-          <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: "var(--font-sans)" }}>
-            7 · Next
-          </p>
           <h2
             className="mx-auto mt-4 max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl"
             style={{ fontFamily: "var(--font-sans)" }}

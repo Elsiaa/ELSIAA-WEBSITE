@@ -93,10 +93,12 @@ function Hero() {
         alt=""
         className="absolute inset-0 h-full w-full object-cover opacity-40"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-[#0c0c0c]/40 to-[#0c0c0c]/60" />
+      {/* light scrim, not the old #0c0c0c one — this hero is on #F5F5F3 now
+          and the copy over it is #111, so the wash has to lift the photo, not
+          darken it */}
+      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/70 to-white/40" />
       <div className="relative mx-auto w-full max-w-5xl px-6 pt-36 pb-10 text-center md:pb-14">
-        <p className="text-[13px] font-bold text-[#1e6b3c]">Careers</p>
-        <h1 className="mx-auto mt-3 max-w-2xl text-4xl leading-[1.03] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl">
+        <h1 className="mx-auto max-w-2xl text-4xl leading-[1.03] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl">
           Careers at ELSIAA
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-[#111111]/70 md:text-[17px]">

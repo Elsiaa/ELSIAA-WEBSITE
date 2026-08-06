@@ -1576,6 +1576,7 @@ const LIVE_SITES: Array<{ name: string; kind: string; url?: string }> = [
   { name: "Michael Elbaz Law", kind: "Legal practice" },
   { name: "PSI Construction", kind: "Construction", url: "https://www.psiconstructionpa.com" },
   { name: "Dialog Healthcare", kind: "Healthcare", url: "https://dialoghealthcare.com" },
+  { name: "Mitzva App", kind: "Non-profit", url: "https://mitzva-app.elsiaa.com" },
 ];
 
 function DesignEverything() {
