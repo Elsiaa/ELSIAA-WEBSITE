@@ -1,11 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getProjectMessages, addMessage } from '@/lib/chat';
-import { isUserIdSuperAdmin } from '@/lib/permissions';
+import { NextRequest, NextResponse } from "next/server";
+import { getProjectMessages, addMessage } from "@/lib/chat";
+import { isUserIdSuperAdmin } from "@/lib/permissions";
 
-export async function GET(
-  req: NextRequest,
-  context: { params: Promise<{ projectId: string }> }
-) {
+export async function GET(req: NextRequest, context: { params: Promise<{ projectId: string }> }) {
   const { projectId } = await context.params;
   const messages = await getProjectMessages(projectId);
 
@@ -14,16 +11,13 @@ export async function GET(
 
   return NextResponse.json(messagesWithFreshUrls, {
     headers: {
-      'Cache-Control': 'no-store, no-cache, must-revalidate',
-      'Pragma': 'no-cache',
+      "Cache-Control": "no-store, no-cache, must-revalidate",
+      Pragma: "no-cache",
     },
   });
 }
 
-export async function POST(
-  req: NextRequest,
-  context: { params: Promise<{ projectId: string }> }
-) {
+export async function POST(req: NextRequest, context: { params: Promise<{ projectId: string }> }) {
   const { projectId } = await context.params;
   const { message, userId, userName, attachments } = await req.json();
 
@@ -32,22 +26,22 @@ export async function POST(
   const hasAttachments = attachments && attachments.length > 0;
 
   if (!hasMessage && !hasAttachments) {
-    return new Response('Message or attachments required', { status: 400 });
+    return new Response("Message or attachments required", { status: 400 });
   }
 
   // Check if the sender is a superuser - if so, use "Vercatryx" as the name
-  let displayName = userName || 'Anonymous';
+  let displayName = userName || "Anonymous";
   if (userId) {
     const isSuperUser = await isUserIdSuperAdmin(userId);
     if (isSuperUser) {
-      displayName = 'Vercatryx';
+      displayName = "Vercatryx";
     }
   }
 
   const newMessage = await addMessage(projectId, {
-    userId: userId || 'anonymous',
+    userId: userId || "anonymous",
     userName: displayName,
-    message: message || '',
+    message: message || "",
     ...(hasAttachments && { attachments }),
   });
 

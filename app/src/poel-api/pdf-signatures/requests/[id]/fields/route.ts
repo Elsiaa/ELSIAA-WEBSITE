@@ -1,11 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { requireSuperAdmin } from '@/lib/permissions';
-import { savePdfSignatureFields } from '@/lib/pdf-signatures';
+import { NextRequest, NextResponse } from "next/server";
+import { requireSuperAdmin } from "@/lib/permissions";
+import { savePdfSignatureFields } from "@/lib/pdf-signatures";
 
-export async function PATCH(
-  req: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     await requireSuperAdmin();
     const { id } = await context.params;
@@ -21,19 +18,17 @@ export async function PATCH(
         y: Number(f.y),
         width: Number(f.width),
         height: Number(f.height),
-        label: typeof f.label === 'string' ? f.label : null,
-        field_type: f.field_type === 'data_entry' ? 'data_entry' : 'signature',
+        label: typeof f.label === "string" ? f.label : null,
+        field_type: f.field_type === "data_entry" ? "data_entry" : "signature",
       })),
     });
 
     return NextResponse.json({ fields: saved }, { status: 200 });
   } catch (error) {
-    console.error('Error saving PDF signature fields:', error);
+    console.error("Error saving PDF signature fields:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to save fields' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Failed to save fields" },
+      { status: 500 },
     );
   }
 }
-
-

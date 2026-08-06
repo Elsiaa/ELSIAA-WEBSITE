@@ -63,8 +63,13 @@ function Stat({ label, value, tone }: { label: string; value: string; tone?: "gr
   const color = tone === "green" ? GREEN : tone === "amber" ? "#d7a13b" : "#111111";
   return (
     <div className="min-w-0 rounded-[5px] border border-black/[0.08] bg-black/[0.02] px-2 py-1.5">
-      <p className="truncate text-[8.5px] tracking-[0.06em] text-[#111111]/45 uppercase md:text-[9px]">{label}</p>
-      <p className="mt-0.5 truncate text-[12px] font-semibold tabular-nums md:text-[14px]" style={{ color }}>
+      <p className="truncate text-[8.5px] tracking-[0.06em] text-[#111111]/45 uppercase md:text-[9px]">
+        {label}
+      </p>
+      <p
+        className="mt-0.5 truncate text-[12px] font-semibold tabular-nums md:text-[14px]"
+        style={{ color }}
+      >
         {value}
       </p>
     </div>
@@ -92,13 +97,23 @@ function Row({
     <div
       className={`${hideOnMobile ? "hidden md:flex" : "flex"} items-start gap-2 border-t border-black/[0.06] py-[5px] first:border-t-0 md:py-[7px]`}
     >
-      <span className="mt-[3px] h-[11px] w-[2px] shrink-0 rounded-full md:h-[13px]" style={{ background: bar }} />
+      <span
+        className="mt-[3px] h-[11px] w-[2px] shrink-0 rounded-full md:h-[13px]"
+        style={{ background: bar }}
+      />
       <div className="min-w-0 flex-1">
-        <p className="truncate text-[9.5px] leading-tight font-medium text-[#111111]/85 md:text-[11.5px]">{title}</p>
-        <p className="mt-[1px] truncate text-[8.5px] leading-tight text-[#111111]/45 md:text-[10px]">{meta}</p>
+        <p className="truncate text-[9.5px] leading-tight font-medium text-[#111111]/85 md:text-[11.5px]">
+          {title}
+        </p>
+        <p className="mt-[1px] truncate text-[8.5px] leading-tight text-[#111111]/45 md:text-[10px]">
+          {meta}
+        </p>
       </div>
       {right && (
-        <span className="shrink-0 pt-[1px] text-[9px] font-semibold tabular-nums md:text-[11px]" style={{ color: GREEN }}>
+        <span
+          className="shrink-0 pt-[1px] text-[9px] font-semibold tabular-nums md:text-[11px]"
+          style={{ color: GREEN }}
+        >
           {right}
         </span>
       )}
@@ -109,7 +124,9 @@ function Row({
 function PanelHead({ title, note }: { title: string; note: string }) {
   return (
     <div className="mb-1.5 flex items-baseline justify-between gap-2">
-      <p className="truncate text-[10px] font-semibold tracking-[-0.01em] text-[#111111] md:text-[12px]">{title}</p>
+      <p className="truncate text-[10px] font-semibold tracking-[-0.01em] text-[#111111] md:text-[12px]">
+        {title}
+      </p>
       <p className="shrink-0 text-[8px] text-[#111111]/40 md:text-[9.5px]">{note}</p>
     </div>
   );
@@ -241,7 +258,9 @@ function Audit({ verifiedAgo }: { verifiedAgo: string }) {
         <p className="text-[10.5px] font-semibold md:text-[12.5px]" style={{ color: GREEN }}>
           Audit-ready
         </p>
-        <p className="ml-auto truncate text-[8.5px] text-[#111111]/45 md:text-[10px]">continuously verified</p>
+        <p className="ml-auto truncate text-[8.5px] text-[#111111]/45 md:text-[10px]">
+          continuously verified
+        </p>
       </div>
       <div className="mt-1.5 min-h-0 flex-1 overflow-hidden">
         {CHECKS.map(([k, v, mdOnly]) => (
@@ -249,7 +268,11 @@ function Audit({ verifiedAgo }: { verifiedAgo: string }) {
             key={k}
             className={`${mdOnly ? "hidden md:flex" : "flex"} items-center gap-2 border-t border-black/[0.06] py-[5px] first:border-t-0 md:py-[6px]`}
           >
-            <svg viewBox="0 0 12 12" className="h-[9px] w-[9px] shrink-0 md:h-[11px] md:w-[11px]" aria-hidden>
+            <svg
+              viewBox="0 0 12 12"
+              className="h-[9px] w-[9px] shrink-0 md:h-[11px] md:w-[11px]"
+              aria-hidden
+            >
               <path
                 d="M2.5 6.4l2.3 2.3 4.7-5"
                 fill="none"
@@ -259,8 +282,12 @@ function Audit({ verifiedAgo }: { verifiedAgo: string }) {
                 strokeLinejoin="round"
               />
             </svg>
-            <p className="min-w-0 flex-1 truncate text-[9.5px] text-[#111111]/80 md:text-[11.5px]">{k}</p>
-            <p className="shrink-0 text-[8.5px] tabular-nums text-[#111111]/45 md:text-[10px]">{v}</p>
+            <p className="min-w-0 flex-1 truncate text-[9.5px] text-[#111111]/80 md:text-[11.5px]">
+              {k}
+            </p>
+            <p className="shrink-0 text-[8.5px] tabular-nums text-[#111111]/45 md:text-[10px]">
+              {v}
+            </p>
           </div>
         ))}
       </div>
@@ -277,7 +304,11 @@ function DataFixes() {
           <p className="mb-1 text-[8px] tracking-[0.08em] text-[#111111]/40 uppercase md:text-[9px]">
             Corrected automatically
           </p>
-          <Row title="Timesheet overlap — J. Alvarez 04/11" meta="trimmed to scheduled window" tone="green" />
+          <Row
+            title="Timesheet overlap — J. Alvarez 04/11"
+            meta="trimmed to scheduled window"
+            tone="green"
+          />
           <Row title="Service location standardized" meta="14 records → 03 (School)" tone="green" />
           <Row title="Invalid NPI format" meta="2 records reformatted" tone="green" />
         </div>
@@ -293,7 +324,9 @@ function DataFixes() {
             <p className="mt-[2px] text-[8.5px] leading-tight text-[#111111]/45 md:text-[10px]">
               Recommend code change. Confidence 71% — below the 90% auto-apply bar, so it waits.
             </p>
-            <p className="mt-1 text-[8.5px] text-[#111111]/40 md:text-[9.5px]">Routed to Billing Lead · 2 pending</p>
+            <p className="mt-1 text-[8.5px] text-[#111111]/40 md:text-[9.5px]">
+              Routed to Billing Lead · 2 pending
+            </p>
             <div className="mt-1.5 flex gap-1">
               <span
                 className="rounded-[3px] px-2 py-[3px] text-[8.5px] font-semibold text-white md:text-[10px]"
@@ -315,7 +348,10 @@ function DataFixes() {
 function Assistant() {
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <PanelHead title="Company-trained assistant" note="84 policies · 31 templates · 12 payer manuals" />
+      <PanelHead
+        title="Company-trained assistant"
+        note="84 policies · 31 templates · 12 payer manuals"
+      />
       <div className="min-h-0 flex-1 space-y-1.5 overflow-hidden">
         <div className="ml-auto w-fit max-w-[82%] rounded-[6px] rounded-br-[2px] bg-black/[0.04] px-2 py-1.5">
           <p className="text-[9.5px] leading-snug text-[#111111]/80 md:text-[11px]">
@@ -354,14 +390,18 @@ function BeforePanel({ dense = false }: { dense?: boolean }) {
     <div className="flex h-full min-h-0 flex-col">
       <div className="mb-1.5 flex items-center gap-1.5">
         <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-black/20" />
-        <p className="text-[10px] font-semibold text-[#111111]/55 md:text-[12px]">Before — manual</p>
+        <p className="text-[10px] font-semibold text-[#111111]/55 md:text-[12px]">
+          Before — manual
+        </p>
       </div>
 
       {/* a spreadsheet, mid-edit, standing in for the whole manual stack */}
       <div className="overflow-hidden rounded-[4px] border border-black/[0.08] bg-black/[0.015]">
         <div className="flex items-center gap-1 border-b border-black/[0.06] px-1.5 py-1">
           <span className="h-[4px] w-[4px] rounded-full bg-black/18" />
-          <p className="truncate text-[8px] text-[#111111]/40 md:text-[9px]">auth_tracking_APRIL_final_v3.xlsx</p>
+          <p className="truncate text-[8px] text-[#111111]/40 md:text-[9px]">
+            auth_tracking_APRIL_final_v3.xlsx
+          </p>
         </div>
         {[
           ["#4471", "480", "?", "check CR"],
@@ -376,7 +416,10 @@ function BeforePanel({ dense = false }: { dense?: boolean }) {
           >
             <span className="truncate text-[#111111]/55">{r[0]}</span>
             <span className="truncate text-[#111111]/45">{r[1]}</span>
-            <span className="truncate" style={{ color: r[2] === "?" ? "#d7a13b" : "rgba(255,255,255,0.4)" }}>
+            <span
+              className="truncate"
+              style={{ color: r[2] === "?" ? "#d7a13b" : "rgba(255,255,255,0.4)" }}
+            >
               {r[2]}
             </span>
             <span className="truncate text-[#111111]/35 italic">{r[3]}</span>
@@ -390,8 +433,12 @@ function BeforePanel({ dense = false }: { dense?: boolean }) {
             key={k}
             className={`${mdOnly ? "hidden md:block" : "block"} border-t border-black/[0.06] py-[5px] first:border-t-0 md:py-[6px]`}
           >
-            <p className="truncate text-[9.5px] leading-tight text-[#111111]/65 md:text-[11px]">{k}</p>
-            <p className="mt-[1px] truncate text-[8.5px] leading-tight text-[#111111]/40 md:text-[10px]">{v}</p>
+            <p className="truncate text-[9.5px] leading-tight text-[#111111]/65 md:text-[11px]">
+              {k}
+            </p>
+            <p className="mt-[1px] truncate text-[8.5px] leading-tight text-[#111111]/40 md:text-[10px]">
+              {v}
+            </p>
           </div>
         ))}
       </div>
@@ -400,7 +447,10 @@ function BeforePanel({ dense = false }: { dense?: boolean }) {
         <p className="text-[8px] tracking-[0.06em] text-[#111111]/45 uppercase md:text-[9px]">
           Unbilled — authorizations expiring
         </p>
-        <p className="mt-0.5 text-[12px] font-semibold tabular-nums md:text-[15px]" style={{ color: "#d7a13b" }}>
+        <p
+          className="mt-0.5 text-[12px] font-semibold tabular-nums md:text-[15px]"
+          style={{ color: "#d7a13b" }}
+        >
           $18,400
         </p>
       </div>
@@ -417,7 +467,9 @@ function ChromeBar({ pending }: { pending: number }) {
       <p className="truncate text-[9px] font-semibold tracking-[-0.01em] text-[#111111] md:text-[11px]">
         ELSIAA Operations
       </p>
-      <p className="hidden truncate text-[9px] text-[#111111]/40 sm:block md:text-[10px]">CentralReach · connected</p>
+      <p className="hidden truncate text-[9px] text-[#111111]/40 sm:block md:text-[10px]">
+        CentralReach · connected
+      </p>
       <p className="ml-auto shrink-0 text-[8.5px] text-[#111111]/50 md:text-[10px]">
         <span style={{ color: "#d7a13b" }}>{pending}</span> awaiting approval
       </p>
@@ -428,7 +480,9 @@ function ChromeBar({ pending }: { pending: number }) {
 function IntegrationStrip() {
   return (
     <div className="flex items-center gap-1 overflow-hidden border-t border-black/[0.08] px-2 py-[4px] md:px-3 md:py-[5px]">
-      <p className="shrink-0 text-[7.5px] tracking-[0.06em] text-[#111111]/35 uppercase md:text-[8.5px]">Connected</p>
+      <p className="shrink-0 text-[7.5px] tracking-[0.06em] text-[#111111]/35 uppercase md:text-[8.5px]">
+        Connected
+      </p>
       <div className="flex min-w-0 flex-1 items-center gap-1 overflow-hidden">
         {INTEGRATIONS.map((n) => (
           <span
@@ -443,7 +497,15 @@ function IntegrationStrip() {
   );
 }
 
-function ModulePanel({ mod, scanned, verifiedAgo }: { mod: ModKey; scanned: number; verifiedAgo: string }) {
+function ModulePanel({
+  mod,
+  scanned,
+  verifiedAgo,
+}: {
+  mod: ModKey;
+  scanned: number;
+  verifiedAgo: string;
+}) {
   if (mod === "compliance") return <Compliance scanned={scanned} />;
   if (mod === "auth") return <Authorizations />;
   if (mod === "audit") return <Audit verifiedAgo={verifiedAgo} />;
@@ -475,7 +537,9 @@ function Display({ children }: { children: React.ReactNode }) {
               stronger washes the content underneath it. */}
           <div
             className="pointer-events-none absolute inset-0"
-            style={{ background: "linear-gradient(118deg, rgba(255,255,255,0.5), transparent 16%)" }}
+            style={{
+              background: "linear-gradient(118deg, rgba(255,255,255,0.5), transparent 16%)",
+            }}
           />
         </div>
       </div>
@@ -525,7 +589,8 @@ export function AbaOperations() {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
     e.preventDefault();
     const i = MODULES.findIndex((m) => m.key === mod);
-    const next = e.key === "ArrowRight" ? (i + 1) % MODULES.length : (i - 1 + MODULES.length) % MODULES.length;
+    const next =
+      e.key === "ArrowRight" ? (i + 1) % MODULES.length : (i - 1 + MODULES.length) % MODULES.length;
     setMod(MODULES[next]!.key);
     railRef.current?.querySelectorAll<HTMLButtonElement>("[role=tab]")[next]?.focus();
   };
@@ -533,7 +598,10 @@ export function AbaOperations() {
   return (
     <section id="aba-operations" className="scroll-mt-[136px] px-4 pt-7 md:px-6 md:pt-10">
       <div className="mx-auto max-w-6xl">
-        <p className="text-center text-[13px] font-semibold tracking-[0.02em]" style={{ color: GREEN }}>
+        <p
+          className="text-center text-[13px] font-semibold tracking-[0.02em]"
+          style={{ color: GREEN }}
+        >
           02 · ABA Operations Automation
         </p>
         <h2 className="mt-1.5 text-center text-[15px] font-semibold tracking-[-0.01em] md:text-[16px]">
@@ -620,7 +688,10 @@ export function AbaOperations() {
                 aria-pressed={on}
                 onClick={() => setView(v)}
                 className="min-h-[40px] flex-1 rounded-full text-[13px] font-semibold transition-colors"
-                style={{ background: on ? GREEN : "transparent", color: on ? "#fff" : "rgba(17,17,17,0.55)" }}
+                style={{
+                  background: on ? GREEN : "transparent",
+                  color: on ? "#fff" : "rgba(17,17,17,0.55)",
+                }}
               >
                 {v === "before" ? "Before — manual" : "ELSIAA system"}
               </button>

@@ -62,9 +62,7 @@ export function readOperationalLogoBase64ForPdf(): string | undefined {
 }
 
 export function getSmtpFromDisplayName(): string {
-  return (
-    sanitizeBrandName(process.env.SMTP_FROM_NAME) || getOperationalBrandName()
-  );
+  return sanitizeBrandName(process.env.SMTP_FROM_NAME) || getOperationalBrandName();
 }
 
 function sanitizeSenderEmail(raw: string | undefined): string | undefined {

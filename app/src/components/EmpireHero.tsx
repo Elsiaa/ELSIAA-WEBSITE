@@ -57,11 +57,7 @@ export function EmpireHero() {
     // guarded seek loop — never issue a new seek while one is in flight
     let seekRaf = 0;
     const seekLoop = () => {
-      if (
-        turn.readyState >= 2 &&
-        !turn.seeking &&
-        Number.isFinite(turn.duration)
-      ) {
+      if (turn.readyState >= 2 && !turn.seeking && Number.isFinite(turn.duration)) {
         const cur = turn.currentTime;
         const diff = targetTime - cur;
         if (Math.abs(diff) > 0.034) {
@@ -81,7 +77,11 @@ export function EmpireHero() {
   }, []);
 
   return (
-    <div ref={trackRef} style={{ height: `calc(100svh + ${TURN_VH}vh)` }} className="relative bg-[#070907]">
+    <div
+      ref={trackRef}
+      style={{ height: `calc(100svh + ${TURN_VH}vh)` }}
+      className="relative bg-[#070907]"
+    >
       <section className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden bg-[#070907] text-[#F5F5F3]">
         {/* idle breathing lion */}
         <video
@@ -152,9 +152,7 @@ export function EmpireHero() {
             }}
           >
             Begin
-            <span className="transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </a>
         </div>
 

@@ -66,16 +66,10 @@ export async function getProgramLogIngestTokenForProject(
     .maybeSingle();
 
   if (error || !data) return null;
-  return (
-    (data as { program_log_ingest_token: string | null }).program_log_ingest_token ??
-    null
-  );
+  return (data as { program_log_ingest_token: string | null }).program_log_ingest_token ?? null;
 }
 
-export async function verifyProgramLogIngest(
-  projectId: string,
-  token: string,
-): Promise<boolean> {
+export async function verifyProgramLogIngest(projectId: string, token: string): Promise<boolean> {
   if (!token || token.length > 200) return false;
   const expected = await getProgramLogIngestTokenForProject(projectId);
   if (!expected) return false;
@@ -151,11 +145,7 @@ function parseYmd(value: string | undefined): string | null {
   if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
   const [y, m, d] = value.split("-").map(Number);
   const dt = new Date(Date.UTC(y, m - 1, d));
-  if (
-    dt.getUTCFullYear() !== y ||
-    dt.getUTCMonth() !== m - 1 ||
-    dt.getUTCDate() !== d
-  ) {
+  if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== m - 1 || dt.getUTCDate() !== d) {
     return null;
   }
   return value;
@@ -202,10 +192,12 @@ function defaultProgramLogToYmd(): string {
   return formatLocalYmd(new Date());
 }
 
-export function resolveProgramLogDateRange(opts: {
-  fromYmd?: string;
-  toYmd?: string;
-}): { fromYmd: string; toYmd: string; fromIso: string; toInclusiveIso: string } {
+export function resolveProgramLogDateRange(opts: { fromYmd?: string; toYmd?: string }): {
+  fromYmd: string;
+  toYmd: string;
+  fromIso: string;
+  toInclusiveIso: string;
+} {
   let fromYmd = parseYmd(opts.fromYmd) ?? defaultProgramLogFromYmd();
   let toYmd = parseYmd(opts.toYmd) ?? defaultProgramLogToYmd();
 
@@ -296,17 +288,13 @@ export async function listProjectProgramLogs(
   if (queryError || !rows) {
     if (queryError) console.error("listProjectProgramLogs:", queryError);
     throw new Error(
-      queryError?.message ||
-        "Failed to list program logs (check project_program_logs columns)",
+      queryError?.message || "Failed to list program logs (check project_program_logs columns)",
     );
   }
   return rows.map(mapDbRow);
 }
 
-export async function deleteProjectProgramLog(
-  projectId: string,
-  logId: string,
-): Promise<boolean> {
+export async function deleteProjectProgramLog(projectId: string, logId: string): Promise<boolean> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
     .from("project_program_logs")

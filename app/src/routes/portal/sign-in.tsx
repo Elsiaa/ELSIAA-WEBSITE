@@ -22,10 +22,7 @@ export const Route = createFileRoute("/portal/sign-in")({
     return { auth };
   },
   head: () => ({
-    meta: [
-      { title: "Sign in — ELSIAA" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Sign in — ELSIAA" }, { name: "robots", content: "noindex" }],
     links: [{ rel: "canonical", href: absoluteUrl("/portal/sign-in") }],
   }),
   component: PortalSignInPage,
@@ -34,7 +31,5 @@ export const Route = createFileRoute("/portal/sign-in")({
 function PortalSignInPage() {
   const { auth } = Route.useRouteContext();
   const { email, next } = Route.useSearch();
-  return (
-    <PortalSignInForm initial={auth} initialEmail={email} next={next} />
-  );
+  return <PortalSignInForm initial={auth} initialEmail={email} next={next} />;
 }

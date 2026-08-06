@@ -1,48 +1,48 @@
-import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
-import { resolveCheckoutByToken } from '@/lib/bill-checkout';
-import { getLatestPaidBillCharge, getBillDisplayInfo } from '@/lib/bills';
-import { getRequestDisplayInfo } from '@/lib/payments';
-import { generateInvoicePdfBuffer } from '@/lib/invoice-pdf';
-import { generatePaymentReceiptPdfBuffer } from '@/lib/payment-receipt-pdf';
-import type { InvoiceLineItem } from '@/lib/invoice-line-items';
-import { resolvePaymentIntentRail } from '@/lib/stripe-payment-rail';
+import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
+import { resolveCheckoutByToken } from "@/lib/bill-checkout";
+import { getLatestPaidBillCharge, getBillDisplayInfo } from "@/lib/bills";
+import { getRequestDisplayInfo } from "@/lib/payments";
+import { generateInvoicePdfBuffer } from "@/lib/invoice-pdf";
+import { generatePaymentReceiptPdfBuffer } from "@/lib/payment-receipt-pdf";
+import type { InvoiceLineItem } from "@/lib/invoice-line-items";
+import { resolvePaymentIntentRail } from "@/lib/stripe-payment-rail";
 
-export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 function formatLongDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return new Date(iso).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 }
 
 function formatReceiptDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
+  return new Date(iso).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }
 
 function invoiceStatusLabel(status: string): string {
   switch (status) {
-    case 'pending':
-    case 'draft':
-    case 'active':
-      return 'Pending';
-    case 'invoiced':
-      return 'Invoiced';
-    case 'completed':
-      return 'Paid';
-    case 'cancelled':
-      return 'Cancelled';
+    case "pending":
+    case "draft":
+    case "active":
+      return "Pending";
+    case "invoiced":
+      return "Invoiced";
+    case "completed":
+      return "Paid";
+    case "cancelled":
+      return "Cancelled";
     default:
       return status;
   }
@@ -56,46 +56,47 @@ function invoiceStatusLabel(status: string): string {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const token = searchParams.get('token')?.trim();
+    const token = searchParams.get("token")?.trim();
     if (!token) {
-      return NextResponse.json({ error: 'Token is required' }, { status: 400 });
+      return NextResponse.json({ error: "Token is required" }, { status: 400 });
     }
 
     const checkout = await resolveCheckoutByToken(token);
     if (!checkout) {
-      return NextResponse.json({ error: 'Payment request not found' }, { status: 404 });
+      return NextResponse.json({ error: "Payment request not found" }, { status: 404 });
     }
 
-    const paid = checkout.completed || checkout.status === 'completed';
-    const requestedKind = searchParams.get('kind');
-    let kind: 'invoice' | 'receipt' =
-      requestedKind === 'receipt' || requestedKind === 'invoice'
+    const paid = checkout.completed || checkout.status === "completed";
+    const requestedKind = searchParams.get("kind");
+    let kind: "invoice" | "receipt" =
+      requestedKind === "receipt" || requestedKind === "invoice"
         ? requestedKind
         : paid
-          ? 'receipt'
-          : 'invoice';
+          ? "receipt"
+          : "invoice";
 
-    if (kind === 'receipt' && !paid) {
-      return NextResponse.json({ error: 'Payment is not completed yet' }, { status: 400 });
+    if (kind === "receipt" && !paid) {
+      return NextResponse.json({ error: "Payment is not completed yet" }, { status: 400 });
     }
 
-    const publicBase = (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
+    const publicBase = (process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000").replace(
+      /\/$/,
+      "",
+    );
     const payUrl = `${publicBase}/payments?token=${encodeURIComponent(token)}`;
 
-    if (checkout.source === 'bill' && checkout.bill) {
+    if (checkout.source === "bill" && checkout.bill) {
       const bill = checkout.bill;
       const { name: recipientName, email: recipientEmail } = getBillDisplayInfo(bill);
 
-      if (kind === 'invoice') {
+      if (kind === "invoice") {
         const charge = checkout.billCharge;
-        const lineItems: InvoiceLineItem[] =
-          charge?.lineItemsSnapshot?.length
-            ? charge.lineItemsSnapshot
-            : bill.lineItems;
+        const lineItems: InvoiceLineItem[] = charge?.lineItemsSnapshot?.length
+          ? charge.lineItemsSnapshot
+          : bill.lineItems;
         const amount = charge?.amount ?? bill.amount;
         const invoiceNumber =
-          charge?.invoiceNumber?.toString() ??
-          `INV-${bill.id.slice(0, 8).toUpperCase()}`;
+          charge?.invoiceNumber?.toString() ?? `INV-${bill.id.slice(0, 8).toUpperCase()}`;
         const invoiceDate = formatLongDate(charge?.createdAt || bill.createdAt);
 
         const pdfBuffer = await generateInvoicePdfBuffer({
@@ -111,15 +112,15 @@ export async function GET(request: NextRequest) {
         return new NextResponse(new Uint8Array(pdfBuffer), {
           status: 200,
           headers: {
-            'Content-Type': 'application/pdf',
-            'Content-Disposition': `attachment; filename="Invoice_${invoiceNumber}.pdf"`,
+            "Content-Type": "application/pdf",
+            "Content-Disposition": `attachment; filename="Invoice_${invoiceNumber}.pdf"`,
           },
         });
       }
 
       const paidCharge = await getLatestPaidBillCharge(bill.id);
       if (!paidCharge) {
-        return NextResponse.json({ error: 'Receipt not available' }, { status: 404 });
+        return NextResponse.json({ error: "Receipt not available" }, { status: 404 });
       }
       const invoiceNumber =
         paidCharge.invoiceNumber?.toString() ?? paidCharge.id.slice(0, 8).toUpperCase();
@@ -135,20 +136,20 @@ export async function GET(request: NextRequest) {
         amount: paidCharge.amount,
         lineItems: paidCharge.lineItemsSnapshot,
         payUrl: `${publicBase}/payments?token=${encodeURIComponent(token)}`,
-        statusLabel: 'Paid',
+        statusLabel: "Paid",
       });
       return new NextResponse(new Uint8Array(pdfBuffer), {
         status: 200,
         headers: {
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': `attachment; filename="Receipt_${invoiceNumber}.pdf"`,
+          "Content-Type": "application/pdf",
+          "Content-Disposition": `attachment; filename="Receipt_${invoiceNumber}.pdf"`,
         },
       });
     }
 
     const paymentRequest = checkout.paymentRequest;
     if (!paymentRequest) {
-      return NextResponse.json({ error: 'Payment request not found' }, { status: 404 });
+      return NextResponse.json({ error: "Payment request not found" }, { status: 404 });
     }
 
     const { name: recipientName, email: recipientEmail } = getRequestDisplayInfo(paymentRequest);
@@ -157,7 +158,7 @@ export async function GET(request: NextRequest) {
         ? paymentRequest.invoice_line_items
         : [];
 
-    if (kind === 'invoice') {
+    if (kind === "invoice") {
       const invoiceNumber =
         paymentRequest.invoice_number?.toString() ??
         `INV-${paymentRequest.id.slice(0, 8).toUpperCase()}`;
@@ -176,8 +177,8 @@ export async function GET(request: NextRequest) {
       return new NextResponse(new Uint8Array(pdfBuffer), {
         status: 200,
         headers: {
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': `attachment; filename="Invoice_${invoiceNumber}.pdf"`,
+          "Content-Type": "application/pdf",
+          "Content-Disposition": `attachment; filename="Invoice_${invoiceNumber}.pdf"`,
         },
       });
     }
@@ -188,7 +189,7 @@ export async function GET(request: NextRequest) {
       amount: paymentRequest.amount,
       fee: 0,
       total: paymentRequest.amount,
-      paymentMethod: 'unknown',
+      paymentMethod: "unknown",
       date: paymentRequest.updated_at || paymentRequest.created_at,
     };
 
@@ -201,18 +202,19 @@ export async function GET(request: NextRequest) {
         const matchingIntent =
           paymentIntents.data.find(
             (pi) =>
-              pi.metadata?.public_token === paymentRequest.public_token && pi.status === 'succeeded'
-          ) || paymentIntents.data.find((pi) => pi.status === 'succeeded');
+              pi.metadata?.public_token === paymentRequest.public_token &&
+              pi.status === "succeeded",
+          ) || paymentIntents.data.find((pi) => pi.status === "succeeded");
 
-        if (matchingIntent?.status === 'succeeded') {
-          const originalAmount = parseFloat(matchingIntent.metadata?.originalAmount || '0');
-          const fee = parseFloat(matchingIntent.metadata?.fee || '0');
+        if (matchingIntent?.status === "succeeded") {
+          const originalAmount = parseFloat(matchingIntent.metadata?.originalAmount || "0");
+          const fee = parseFloat(matchingIntent.metadata?.fee || "0");
           const total = matchingIntent.amount / 100;
           const method = await resolvePaymentIntentRail(stripe, matchingIntent);
           receiptDetails = {
             invoiceNumber: matchingIntent.metadata?.invoice_number
               ? parseInt(matchingIntent.metadata.invoice_number, 10)
-              : paymentRequest.invoice_number ?? null,
+              : (paymentRequest.invoice_number ?? null),
             amount: originalAmount || paymentRequest.amount,
             fee,
             total,
@@ -221,13 +223,12 @@ export async function GET(request: NextRequest) {
           };
         }
       } catch (err) {
-        console.error('[payments document] Stripe receipt lookup failed', err);
+        console.error("[payments document] Stripe receipt lookup failed", err);
       }
     }
 
     const invoiceNum =
-      receiptDetails.invoiceNumber ??
-      `REC-${paymentRequest.id.slice(0, 8).toUpperCase()}`;
+      receiptDetails.invoiceNumber ?? `REC-${paymentRequest.id.slice(0, 8).toUpperCase()}`;
     const pdfBuffer = await generatePaymentReceiptPdfBuffer({
       invoiceNumber: invoiceNum,
       receiptDate: formatReceiptDate(receiptDetails.date),
@@ -243,12 +244,12 @@ export async function GET(request: NextRequest) {
     return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
       headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="Receipt_${invoiceNum}.pdf"`,
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="Receipt_${invoiceNum}.pdf"`,
       },
     });
   } catch (error) {
-    console.error('[payments document] GET', error);
-    return NextResponse.json({ error: 'Failed to generate document' }, { status: 500 });
+    console.error("[payments document] GET", error);
+    return NextResponse.json({ error: "Failed to generate document" }, { status: 500 });
   }
 }

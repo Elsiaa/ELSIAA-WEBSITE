@@ -9,9 +9,6 @@ import { LiveGraphic } from "./LiveGraphic";
 */
 export function AssemblingArtist() {
   return (
-    <LiveGraphic
-      src="/assets/artist_work_v6.mp4"
-      poster="/assets/artist_work_v6_poster.jpg"
-    />
+    <LiveGraphic src="/assets/artist_work_v6.mp4" poster="/assets/artist_work_v6_poster.jpg" />
   );
 }

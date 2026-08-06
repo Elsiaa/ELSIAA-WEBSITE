@@ -1,4 +1,4 @@
-export { Tabs } from './tabs.tsx'
+export { Tabs } from "./tabs.tsx";
 export type {
   ListProps,
   PanelProps,
@@ -10,4 +10,4 @@ export type {
   TabsSurface,
   TabsTone,
   TabsVariant,
-} from './tabs.tsx'
+} from "./tabs.tsx";

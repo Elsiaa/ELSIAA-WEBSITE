@@ -2,8 +2,8 @@
  * Project payments management - fees and subscriptions
  */
 
-import { getServerSupabaseClient } from './supabase';
-import { getPaymentRequestById, getCompanyPaymentRequests } from './payments';
+import { getServerSupabaseClient } from "./supabase";
+import { getPaymentRequestById, getCompanyPaymentRequests } from "./payments";
 
 export interface ProjectFee {
   id: string;
@@ -11,7 +11,7 @@ export interface ProjectFee {
   companyId: string;
   name: string;
   amount: number;
-  status: 'pending' | 'completed' | 'cancelled';
+  status: "pending" | "completed" | "cancelled";
   paymentRequestId: string | null;
   createdByClerkUserId: string;
   createdAt: string;
@@ -24,12 +24,12 @@ export interface ProjectSubscription {
   companyId: string;
   name: string;
   amount: number;
-  status: 'active' | 'cancelled' | 'stopped';
+  status: "active" | "cancelled" | "stopped";
   paymentRequestId: string | null;
   stripeSubscriptionId: string | null;
   lastBilledDate: string | null;
   nextBillingDate: string | null;
-  billingInterval: 'daily' | 'weekly' | 'monthly';
+  billingInterval: "daily" | "weekly" | "monthly";
   /** Day of month for monthly billing (1-31). Null = use from-date day. */
   billingDayOfMonth: number | null;
   /** Day of week for weekly billing (0=Sunday .. 6=Saturday). Null = use from-date day. */
@@ -72,7 +72,7 @@ type ProjectFeeRow = {
   company_id: string;
   name: string;
   amount: number;
-  status: 'pending' | 'completed' | 'cancelled';
+  status: "pending" | "completed" | "cancelled";
   payment_request_id: string | null;
   created_by_clerk_user_id: string;
   created_at: string;
@@ -85,12 +85,12 @@ type ProjectSubscriptionRow = {
   company_id: string;
   name: string;
   amount: number;
-  status: 'active' | 'cancelled' | 'stopped';
+  status: "active" | "cancelled" | "stopped";
   payment_request_id: string | null;
   stripe_subscription_id: string | null;
   last_billed_date: string | null;
   next_billing_date: string | null;
-  billing_interval: 'daily' | 'weekly' | 'monthly';
+  billing_interval: "daily" | "weekly" | "monthly";
   billing_day_of_month: number | null;
   billing_day_of_week: number | null;
   created_by_clerk_user_id: string;
@@ -152,7 +152,7 @@ function rowToProjectSubscription(row: ProjectSubscriptionRow): ProjectSubscript
     stripeSubscriptionId: row.stripe_subscription_id,
     lastBilledDate: row.last_billed_date,
     nextBillingDate: row.next_billing_date,
-    billingInterval: row.billing_interval || 'monthly',
+    billingInterval: row.billing_interval || "monthly",
     billingDayOfMonth: row.billing_day_of_month ?? null,
     billingDayOfWeek: row.billing_day_of_week ?? null,
     createdByClerkUserId: row.created_by_clerk_user_id,
@@ -176,7 +176,9 @@ function rowToProjectFeeTransaction(row: ProjectFeeTransactionRow): ProjectFeeTr
   };
 }
 
-function rowToProjectSubscriptionTransaction(row: ProjectSubscriptionTransactionRow): ProjectSubscriptionTransaction {
+function rowToProjectSubscriptionTransaction(
+  row: ProjectSubscriptionTransactionRow,
+): ProjectSubscriptionTransaction {
   return {
     id: row.id,
     projectSubscriptionId: row.project_subscription_id,
@@ -197,14 +199,14 @@ function rowToProjectSubscriptionTransaction(row: ProjectSubscriptionTransaction
 export async function getProjectFees(projectId: string): Promise<ProjectFee[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_fees')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: false });
+    .from("project_fees")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching project fees:', error);
-    throw new Error('Failed to fetch project fees');
+    console.error("Error fetching project fees:", error);
+    throw new Error("Failed to fetch project fees");
   }
 
   return (data || []).map(rowToProjectFee);
@@ -216,14 +218,14 @@ export async function getProjectFees(projectId: string): Promise<ProjectFee[]> {
 export async function getProjectSubscriptions(projectId: string): Promise<ProjectSubscription[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_subscriptions')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: false });
+    .from("project_subscriptions")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching project subscriptions:', error);
-    throw new Error('Failed to fetch project subscriptions');
+    console.error("Error fetching project subscriptions:", error);
+    throw new Error("Failed to fetch project subscriptions");
   }
 
   return (data || []).map(rowToProjectSubscription);
@@ -235,14 +237,14 @@ export async function getProjectSubscriptions(projectId: string): Promise<Projec
 export async function getCompanyFees(companyId: string): Promise<ProjectFee[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_fees')
-    .select('*')
-    .eq('company_id', companyId)
-    .order('created_at', { ascending: false });
+    .from("project_fees")
+    .select("*")
+    .eq("company_id", companyId)
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching company fees:', error);
-    throw new Error('Failed to fetch company fees');
+    console.error("Error fetching company fees:", error);
+    throw new Error("Failed to fetch company fees");
   }
 
   return (data || []).map(rowToProjectFee);
@@ -251,20 +253,22 @@ export async function getCompanyFees(companyId: string): Promise<ProjectFee[]> {
 /**
  * Get a single project subscription by ID
  */
-export async function getProjectSubscriptionById(subscriptionId: string): Promise<ProjectSubscription | null> {
+export async function getProjectSubscriptionById(
+  subscriptionId: string,
+): Promise<ProjectSubscription | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_subscriptions')
-    .select('*')
-    .eq('id', subscriptionId)
+    .from("project_subscriptions")
+    .select("*")
+    .eq("id", subscriptionId)
     .single();
 
   if (error) {
-    if (error.code === 'PGRST116') {
+    if (error.code === "PGRST116") {
       return null; // Not found
     }
-    console.error('Error fetching project subscription:', error);
-    throw new Error('Failed to fetch project subscription');
+    console.error("Error fetching project subscription:", error);
+    throw new Error("Failed to fetch project subscription");
   }
 
   return data ? rowToProjectSubscription(data as ProjectSubscriptionRow) : null;
@@ -276,14 +280,14 @@ export async function getProjectSubscriptionById(subscriptionId: string): Promis
 export async function getCompanySubscriptions(companyId: string): Promise<ProjectSubscription[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_subscriptions')
-    .select('*')
-    .eq('company_id', companyId)
-    .order('created_at', { ascending: false });
+    .from("project_subscriptions")
+    .select("*")
+    .eq("company_id", companyId)
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching company subscriptions:', error);
-    throw new Error('Failed to fetch company subscriptions');
+    console.error("Error fetching company subscriptions:", error);
+    throw new Error("Failed to fetch company subscriptions");
   }
 
   return (data || []).map(rowToProjectSubscription);
@@ -301,21 +305,21 @@ export async function createProjectFee(params: {
 }): Promise<ProjectFee> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_fees')
+    .from("project_fees")
     .insert({
       project_id: params.projectId,
       company_id: params.companyId,
       name: params.name,
       amount: params.amount,
-      status: 'pending',
+      status: "pending",
       created_by_clerk_user_id: params.createdByClerkUserId,
     })
     .select()
     .single();
 
   if (error) {
-    console.error('Error creating project fee:', error);
-    throw new Error('Failed to create project fee');
+    console.error("Error creating project fee:", error);
+    throw new Error("Failed to create project fee");
   }
 
   return rowToProjectFee(data as ProjectFeeRow);
@@ -332,18 +336,18 @@ export interface NextBillingDateOptions {
  * Calculate next billing date based on interval and optional schedule (e.g. monthly on 16th, weekly on Tuesday).
  */
 export function calculateNextBillingDate(
-  interval: 'daily' | 'weekly' | 'monthly',
+  interval: "daily" | "weekly" | "monthly",
   fromDate?: Date,
-  options?: NextBillingDateOptions
+  options?: NextBillingDateOptions,
 ): Date {
   const from = fromDate || new Date();
   const next = new Date(from);
 
   switch (interval) {
-    case 'daily':
+    case "daily":
       next.setDate(next.getDate() + 1);
       break;
-    case 'weekly': {
+    case "weekly": {
       if (options?.dayOfWeek != null && options.dayOfWeek >= 0 && options.dayOfWeek <= 6) {
         // Next occurrence of this weekday (if today is that day, go to next week)
         const currentDay = next.getDay();
@@ -355,7 +359,7 @@ export function calculateNextBillingDate(
       }
       break;
     }
-    case 'monthly': {
+    case "monthly": {
       const month = from.getMonth();
       const year = from.getFullYear();
       const daysInCurrentMonth = new Date(year, month + 1, 0).getDate();
@@ -397,14 +401,14 @@ export async function createProjectSubscription(params: {
   companyId: string;
   name: string;
   amount: number;
-  billingInterval?: 'daily' | 'weekly' | 'monthly';
+  billingInterval?: "daily" | "weekly" | "monthly";
   billingDayOfMonth?: number | null;
   billingDayOfWeek?: number | null;
   createdByClerkUserId: string;
 }): Promise<ProjectSubscription> {
   const supabase = getServerSupabaseClient();
 
-  const billingInterval = params.billingInterval || 'monthly';
+  const billingInterval = params.billingInterval || "monthly";
   const nextBillingDate = calculateNextBillingDate(billingInterval, undefined, {
     dayOfMonth: params.billingDayOfMonth ?? undefined,
     dayOfWeek: params.billingDayOfWeek ?? undefined,
@@ -415,7 +419,7 @@ export async function createProjectSubscription(params: {
     company_id: params.companyId,
     name: params.name,
     amount: params.amount,
-    status: 'active',
+    status: "active",
     billing_interval: billingInterval,
     next_billing_date: nextBillingDate.toISOString(),
     created_by_clerk_user_id: params.createdByClerkUserId,
@@ -424,14 +428,14 @@ export async function createProjectSubscription(params: {
   if (params.billingDayOfWeek != null) insertRow.billing_day_of_week = params.billingDayOfWeek;
 
   const { data, error } = await supabase
-    .from('project_subscriptions')
+    .from("project_subscriptions")
     .insert(insertRow)
     .select()
     .single();
 
   if (error) {
-    console.error('Error creating project subscription:', error);
-    throw new Error('Failed to create project subscription');
+    console.error("Error creating project subscription:", error);
+    throw new Error("Failed to create project subscription");
   }
 
   return rowToProjectSubscription(data as ProjectSubscriptionRow);
@@ -442,18 +446,14 @@ export async function createProjectSubscription(params: {
  */
 export async function getProjectFeeById(feeId: string): Promise<ProjectFee | null> {
   const supabase = getServerSupabaseClient();
-  const { data, error } = await supabase
-    .from('project_fees')
-    .select('*')
-    .eq('id', feeId)
-    .single();
+  const { data, error } = await supabase.from("project_fees").select("*").eq("id", feeId).single();
 
   if (error) {
-    if (error.code === 'PGRST116') {
+    if (error.code === "PGRST116") {
       return null; // Not found
     }
-    console.error('Error fetching project fee:', error);
-    throw new Error('Failed to fetch project fee');
+    console.error("Error fetching project fee:", error);
+    throw new Error("Failed to fetch project fee");
   }
 
   return data ? rowToProjectFee(data as ProjectFeeRow) : null;
@@ -464,8 +464,8 @@ export async function getProjectFeeById(feeId: string): Promise<ProjectFee | nul
  */
 export async function updateProjectFeeStatus(
   feeId: string,
-  status: 'pending' | 'completed' | 'cancelled',
-  paymentRequestId?: string | null
+  status: "pending" | "completed" | "cancelled",
+  paymentRequestId?: string | null,
 ): Promise<void> {
   const supabase = getServerSupabaseClient();
   const updateData: any = {
@@ -477,14 +477,11 @@ export async function updateProjectFeeStatus(
     updateData.payment_request_id = paymentRequestId;
   }
 
-  const { error } = await supabase
-    .from('project_fees')
-    .update(updateData)
-    .eq('id', feeId);
+  const { error } = await supabase.from("project_fees").update(updateData).eq("id", feeId);
 
   if (error) {
-    console.error('Error updating project fee status:', error);
-    throw new Error('Failed to update project fee status');
+    console.error("Error updating project fee status:", error);
+    throw new Error("Failed to update project fee status");
   }
 }
 
@@ -495,15 +492,15 @@ export async function linkPaymentToFee(
   feeId: string,
   paymentRequestId: string,
   invoiceNumber: number | null,
-  stripePaymentIntentId?: string | null
+  stripePaymentIntentId?: string | null,
 ): Promise<void> {
   const fee = await getProjectFeeById(feeId);
   if (!fee) {
-    throw new Error('Fee not found');
+    throw new Error("Fee not found");
   }
 
   // Update fee status to completed
-  await updateProjectFeeStatus(feeId, 'completed', paymentRequestId);
+  await updateProjectFeeStatus(feeId, "completed", paymentRequestId);
 
   // Create transaction record
   await createProjectFeeTransaction({
@@ -522,58 +519,62 @@ export async function linkPaymentToFee(
  */
 export async function stopProjectSubscription(
   subscriptionId: string,
-  stoppedByClerkUserId: string
+  stoppedByClerkUserId: string,
 ): Promise<void> {
   const supabase = getServerSupabaseClient();
-  
+
   // Get subscription to check for Stripe subscription ID and payment status
   const subscription = await getProjectSubscriptionById(subscriptionId);
   if (!subscription) {
-    throw new Error('Subscription not found');
+    throw new Error("Subscription not found");
   }
 
   // Check if there's a pending payment request (payment in progress)
   if (subscription.paymentRequestId) {
-    const { getPaymentRequestById } = await import('./payments');
+    const { getPaymentRequestById } = await import("./payments");
     const paymentRequest = await getPaymentRequestById(subscription.paymentRequestId);
-    
+
     // If payment request exists and is still pending/invoiced, payment hasn't completed yet
-    if (paymentRequest && (paymentRequest.status === 'pending' || paymentRequest.status === 'invoiced')) {
-      throw new Error('Cannot stop subscription while payment is in progress. Please wait for payment to complete or cancel the payment first.');
+    if (
+      paymentRequest &&
+      (paymentRequest.status === "pending" || paymentRequest.status === "invoiced")
+    ) {
+      throw new Error(
+        "Cannot stop subscription while payment is in progress. Please wait for payment to complete or cancel the payment first.",
+      );
     }
   }
 
   // Cancel Stripe subscription if it exists
   if (subscription.stripeSubscriptionId) {
     try {
-      const Stripe = (await import('stripe')).default;
+      const Stripe = (await import("stripe")).default;
       const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-      
+
       // Cancel the subscription at period end (don't cancel immediately to avoid refunding)
       await stripe.subscriptions.update(subscription.stripeSubscriptionId, {
         cancel_at_period_end: true,
       });
-      
     } catch (stripeError: any) {
-      console.error('Error cancelling Stripe subscription:', stripeError);
+      console.error("Error cancelling Stripe subscription:", stripeError);
       // Continue with database update even if Stripe cancellation fails
     }
   }
 
   // Update database
   const { error } = await supabase
-    .from('project_subscriptions')
+    .from("project_subscriptions")
     .update({
-      status: 'stopped',
+      status: "stopped",
       stopped_by_clerk_user_id: stoppedByClerkUserId,
       stopped_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     })
-    .eq('id', subscriptionId);
+    .eq("id", subscriptionId);
 
   if (error) {
-    console.error('Error stopping project subscription:', error);
-    throw new Error('Failed to stop project subscription');
+    console.error("Error stopping project subscription:", error);
+    throw new Error("Failed to stop project subscription");
   }
 }
 
@@ -583,14 +584,14 @@ export async function stopProjectSubscription(
 export async function getProjectFeeTransactions(feeId: string): Promise<ProjectFeeTransaction[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_fee_transactions')
-    .select('*')
-    .eq('project_fee_id', feeId)
-    .order('transaction_date', { ascending: false });
+    .from("project_fee_transactions")
+    .select("*")
+    .eq("project_fee_id", feeId)
+    .order("transaction_date", { ascending: false });
 
   if (error) {
-    console.error('Error fetching fee transactions:', error);
-    throw new Error('Failed to fetch fee transactions');
+    console.error("Error fetching fee transactions:", error);
+    throw new Error("Failed to fetch fee transactions");
   }
 
   return (data || []).map(rowToProjectFeeTransaction);
@@ -600,18 +601,18 @@ export async function getProjectFeeTransactions(feeId: string): Promise<ProjectF
  * Get subscription transactions (billing history)
  */
 export async function getProjectSubscriptionTransactions(
-  subscriptionId: string
+  subscriptionId: string,
 ): Promise<ProjectSubscriptionTransaction[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_subscription_transactions')
-    .select('*')
-    .eq('project_subscription_id', subscriptionId)
-    .order('transaction_date', { ascending: false });
+    .from("project_subscription_transactions")
+    .select("*")
+    .eq("project_subscription_id", subscriptionId)
+    .order("transaction_date", { ascending: false });
 
   if (error) {
-    console.error('Error fetching subscription transactions:', error);
-    throw new Error('Failed to fetch subscription transactions');
+    console.error("Error fetching subscription transactions:", error);
+    throw new Error("Failed to fetch subscription transactions");
   }
 
   return (data || []).map(rowToProjectSubscriptionTransaction);
@@ -629,7 +630,7 @@ export async function createProjectFeeTransaction(params: {
 }): Promise<ProjectFeeTransaction> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_fee_transactions')
+    .from("project_fee_transactions")
     .insert({
       project_fee_id: params.projectFeeId,
       payment_request_id: params.paymentRequestId || null,
@@ -642,8 +643,8 @@ export async function createProjectFeeTransaction(params: {
     .single();
 
   if (error) {
-    console.error('Error creating fee transaction:', error);
-    throw new Error('Failed to create fee transaction');
+    console.error("Error creating fee transaction:", error);
+    throw new Error("Failed to create fee transaction");
   }
 
   return rowToProjectFeeTransaction(data as ProjectFeeTransactionRow);
@@ -663,7 +664,7 @@ export async function createProjectSubscriptionTransaction(params: {
 }): Promise<ProjectSubscriptionTransaction> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_subscription_transactions')
+    .from("project_subscription_transactions")
     .insert({
       project_subscription_id: params.projectSubscriptionId,
       payment_request_id: params.paymentRequestId || null,
@@ -678,8 +679,8 @@ export async function createProjectSubscriptionTransaction(params: {
     .single();
 
   if (error) {
-    console.error('Error creating subscription transaction:', error);
-    throw new Error('Failed to create subscription transaction');
+    console.error("Error creating subscription transaction:", error);
+    throw new Error("Failed to create subscription transaction");
   }
 
   return rowToProjectSubscriptionTransaction(data as ProjectSubscriptionTransactionRow);
@@ -691,10 +692,10 @@ export async function createProjectSubscriptionTransaction(params: {
 export async function updateSubscriptionBillingDates(
   subscriptionId: string,
   lastBilledDate: string,
-  nextBillingDate?: string
+  nextBillingDate?: string,
 ): Promise<void> {
   const supabase = getServerSupabaseClient();
-  
+
   // If nextBillingDate not provided, calculate it based on subscription's billing interval
   let calculatedNextBillingDate = nextBillingDate;
   if (!calculatedNextBillingDate) {
@@ -703,27 +704,30 @@ export async function updateSubscriptionBillingDates(
       const nextDate = calculateNextBillingDate(
         subscription.billingInterval,
         new Date(lastBilledDate),
-        { dayOfMonth: subscription.billingDayOfMonth ?? undefined, dayOfWeek: subscription.billingDayOfWeek ?? undefined }
+        {
+          dayOfMonth: subscription.billingDayOfMonth ?? undefined,
+          dayOfWeek: subscription.billingDayOfWeek ?? undefined,
+        },
       );
       calculatedNextBillingDate = nextDate.toISOString();
     } else {
-      const nextDate = calculateNextBillingDate('monthly', new Date(lastBilledDate));
+      const nextDate = calculateNextBillingDate("monthly", new Date(lastBilledDate));
       calculatedNextBillingDate = nextDate.toISOString();
     }
   }
-  
+
   const { error } = await supabase
-    .from('project_subscriptions')
+    .from("project_subscriptions")
     .update({
       last_billed_date: lastBilledDate,
       next_billing_date: calculatedNextBillingDate,
       updated_at: new Date().toISOString(),
     })
-    .eq('id', subscriptionId);
+    .eq("id", subscriptionId);
 
   if (error) {
-    console.error('Error updating subscription billing dates:', error);
-    throw new Error('Failed to update subscription billing dates');
+    console.error("Error updating subscription billing dates:", error);
+    throw new Error("Failed to update subscription billing dates");
   }
 }
 
@@ -736,53 +740,57 @@ export async function linkPaymentToSubscription(
   subscriptionId: string,
   paymentRequestId: string,
   invoiceNumber: number | null,
-  stripePaymentIntentId?: string | null
+  stripePaymentIntentId?: string | null,
 ): Promise<void> {
   const subscription = await getProjectSubscriptionById(subscriptionId);
   if (!subscription) {
-    throw new Error('Subscription not found');
+    throw new Error("Subscription not found");
   }
 
   // Verify payment actually completed - must have invoice number and payment request must be completed
-  const { getPaymentRequestById } = await import('./payments');
+  const { getPaymentRequestById } = await import("./payments");
   const paymentRequest = await getPaymentRequestById(paymentRequestId);
-  
+
   if (!paymentRequest) {
-    throw new Error('Payment request not found');
+    throw new Error("Payment request not found");
   }
 
   // Only proceed if payment is actually completed with an invoice
-  if (paymentRequest.status !== 'completed' || !invoiceNumber) {
+  if (paymentRequest.status !== "completed" || !invoiceNumber) {
     return; // Don't throw error, just skip - payment might be in progress
   }
 
   // Check if subscription already has a Stripe subscription (don't create duplicate)
   if (subscription.stripeSubscriptionId) {
-    
     // Check if transaction already exists for this payment request
     const supabase = getServerSupabaseClient();
     const { data: existingTransaction } = await supabase
-      .from('project_subscription_transactions')
-      .select('id')
-      .eq('project_subscription_id', subscriptionId)
-      .eq('payment_request_id', paymentRequestId)
+      .from("project_subscription_transactions")
+      .select("id")
+      .eq("project_subscription_id", subscriptionId)
+      .eq("payment_request_id", paymentRequestId)
       .maybeSingle();
 
     // Only create transaction if it doesn't already exist
     if (!existingTransaction) {
       const now = new Date();
       // Set billing start to start of today (midnight UTC) for consistency with Stripe
-      const todayStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0));
+      const todayStart = new Date(
+        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0),
+      );
       const nextBillingDate = calculateNextBillingDate(
-        subscription.billingInterval || 'monthly',
+        subscription.billingInterval || "monthly",
         todayStart,
-        { dayOfMonth: subscription.billingDayOfMonth ?? undefined, dayOfWeek: subscription.billingDayOfWeek ?? undefined }
+        {
+          dayOfMonth: subscription.billingDayOfMonth ?? undefined,
+          dayOfWeek: subscription.billingDayOfWeek ?? undefined,
+        },
       );
 
       await updateSubscriptionBillingDates(
         subscriptionId,
         todayStart.toISOString(),
-        nextBillingDate.toISOString()
+        nextBillingDate.toISOString(),
       );
 
       await createProjectSubscriptionTransaction({
@@ -802,17 +810,17 @@ export async function linkPaymentToSubscription(
   // If missing, try to get from payment intent or saved payment methods
   let customerId = paymentRequest.stripe_customer_id;
   let paymentMethodId = paymentRequest.stripe_payment_method_id;
-  
+
   // If missing and this is an account-based payment, try saved payment methods
   if ((!customerId || !paymentMethodId) && paymentRequest.user_id) {
-    const { getDefaultPaymentMethod } = await import('./payments');
+    const { getDefaultPaymentMethod } = await import("./payments");
     const defaultMethod = await getDefaultPaymentMethod({ userId: paymentRequest.user_id });
     if (defaultMethod) {
       customerId = defaultMethod.stripeCustomerId;
       paymentMethodId = defaultMethod.stripePaymentMethodId;
     }
   }
-  
+
   if (!customerId || !paymentMethodId) {
     // First, try refreshing the payment request in case it was just updated
     const refreshedPaymentRequest = await getPaymentRequestById(paymentRequestId);
@@ -820,74 +828,87 @@ export async function linkPaymentToSubscription(
       customerId = refreshedPaymentRequest.stripe_customer_id || customerId;
       paymentMethodId = refreshedPaymentRequest.stripe_payment_method_id || paymentMethodId;
     }
-    
+
     // If still missing, try to get from payment intent
     if ((!customerId || !paymentMethodId) && stripePaymentIntentId) {
       try {
-        const Stripe = (await import('stripe')).default;
+        const Stripe = (await import("stripe")).default;
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
         const paymentIntent = await stripe.paymentIntents.retrieve(stripePaymentIntentId);
-        
+
         if (!customerId && paymentIntent.customer) {
           customerId = paymentIntent.customer as string;
         }
         if (!paymentMethodId && paymentIntent.payment_method) {
           paymentMethodId = paymentIntent.payment_method as string;
         }
-        
+
         // Update the payment request with the Stripe info if we found it
         if (customerId && paymentMethodId) {
-          const { updatePaymentRequestStripeInfo } = await import('./payments');
+          const { updatePaymentRequestStripeInfo } = await import("./payments");
           await updatePaymentRequestStripeInfo(paymentRequest.id, customerId, paymentMethodId);
         }
       } catch (err) {
-        console.error('Error retrieving payment intent:', err);
+        console.error("Error retrieving payment intent:", err);
       }
     }
-    
+
     if (!customerId || !paymentMethodId) {
-      throw new Error('Payment request missing Stripe customer or payment method - payment may not be complete');
+      throw new Error(
+        "Payment request missing Stripe customer or payment method - payment may not be complete",
+      );
     }
   }
 
   // Create Stripe Subscription for automatic monthly billing
   // Set billing_cycle_anchor to today so subscription starts immediately
-  const Stripe = (await import('stripe')).default;
+  const Stripe = (await import("stripe")).default;
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
   // Calculate next billing date based on subscription's billing interval
   const now = new Date();
   // Set billing cycle anchor to start of today (midnight UTC) for consistency with Stripe
-  const todayStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0));
+  const todayStart = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0),
+  );
   const nextBillingDate = calculateNextBillingDate(
-    subscription.billingInterval || 'monthly',
+    subscription.billingInterval || "monthly",
     todayStart,
-    { dayOfMonth: subscription.billingDayOfMonth ?? undefined, dayOfWeek: subscription.billingDayOfWeek ?? undefined }
+    {
+      dayOfMonth: subscription.billingDayOfMonth ?? undefined,
+      dayOfWeek: subscription.billingDayOfWeek ?? undefined,
+    },
   );
 
   // Create or get price for this subscription amount (in cents)
   const amountInCents = Math.round(subscription.amount * 100);
-  
+
   // Create a Stripe Subscription with monthly billing
   // Set billing_cycle_anchor to start of today so the subscription starts immediately
   // Map billing interval to Stripe interval
-  const stripeInterval = subscription.billingInterval === 'daily' ? 'day' : 
-                        subscription.billingInterval === 'weekly' ? 'week' : 'month';
+  const stripeInterval =
+    subscription.billingInterval === "daily"
+      ? "day"
+      : subscription.billingInterval === "weekly"
+        ? "week"
+        : "month";
 
   const stripeSubscription = await stripe.subscriptions.create({
     customer: customerId,
-    items: [{
-      price_data: {
-        currency: 'usd',
-        product_data: {
-          name: subscription.name,
-        },
-        unit_amount: amountInCents,
-        recurring: {
-          interval: stripeInterval,
-        },
-      } as any,
-    }],
+    items: [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: subscription.name,
+          },
+          unit_amount: amountInCents,
+          recurring: {
+            interval: stripeInterval,
+          },
+        } as any,
+      },
+    ],
     default_payment_method: paymentMethodId,
     billing_cycle_anchor: Math.floor(todayStart.getTime() / 1000), // Unix timestamp - start today at midnight
     metadata: {
@@ -896,24 +917,24 @@ export async function linkPaymentToSubscription(
       company_id: subscription.companyId,
     },
   });
-  
+
   // Update subscription billing dates (first payment was just completed, billing starts today)
   await updateSubscriptionBillingDates(
     subscriptionId,
     todayStart.toISOString(),
-    nextBillingDate.toISOString()
+    nextBillingDate.toISOString(),
   );
 
   // Update subscription with Stripe subscription ID and payment request ID
   const supabase = getServerSupabaseClient();
   await supabase
-    .from('project_subscriptions')
+    .from("project_subscriptions")
     .update({
       payment_request_id: paymentRequestId,
       stripe_subscription_id: stripeSubscription.id,
       updated_at: new Date().toISOString(),
     })
-    .eq('id', subscriptionId);
+    .eq("id", subscriptionId);
 
   // Create transaction record for first payment
   await createProjectSubscriptionTransaction({
@@ -930,16 +951,18 @@ export async function linkPaymentToSubscription(
 /**
  * Get fee by payment request ID
  */
-export async function getFeeByPaymentRequestId(paymentRequestId: string): Promise<ProjectFee | null> {
+export async function getFeeByPaymentRequestId(
+  paymentRequestId: string,
+): Promise<ProjectFee | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_fees')
-    .select('*')
-    .eq('payment_request_id', paymentRequestId)
+    .from("project_fees")
+    .select("*")
+    .eq("payment_request_id", paymentRequestId)
     .maybeSingle();
 
   if (error) {
-    console.error('Error fetching fee by payment request ID:', error);
+    console.error("Error fetching fee by payment request ID:", error);
     return null;
   }
 
@@ -952,42 +975,45 @@ export async function getFeeByPaymentRequestId(paymentRequestId: string): Promis
  */
 export async function syncProjectSubscriptionFromPaymentRequestUpdate(
   paymentRequestId: string,
-  updates: { amount?: number; next_billing_date?: string | null }
+  updates: { amount?: number; next_billing_date?: string | null },
 ): Promise<void> {
   const subscription = await getSubscriptionByPaymentRequestId(paymentRequestId);
   if (!subscription) return;
 
   const payload: Record<string, unknown> = { updated_at: new Date().toISOString() };
   if (updates.amount !== undefined) payload.amount = updates.amount;
-  if (updates.next_billing_date !== undefined) payload.next_billing_date = updates.next_billing_date;
+  if (updates.next_billing_date !== undefined)
+    payload.next_billing_date = updates.next_billing_date;
 
   if (Object.keys(payload).length <= 1) return;
 
   const supabase = getServerSupabaseClient();
   const { error } = await supabase
-    .from('project_subscriptions')
+    .from("project_subscriptions")
     .update(payload)
-    .eq('id', subscription.id);
+    .eq("id", subscription.id);
 
   if (error) {
-    console.error('Error syncing subscription from payment request update:', error);
-    throw new Error('Failed to sync subscription');
+    console.error("Error syncing subscription from payment request update:", error);
+    throw new Error("Failed to sync subscription");
   }
 }
 
 /**
  * Get subscription by payment request ID
  */
-export async function getSubscriptionByPaymentRequestId(paymentRequestId: string): Promise<ProjectSubscription | null> {
+export async function getSubscriptionByPaymentRequestId(
+  paymentRequestId: string,
+): Promise<ProjectSubscription | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_subscriptions')
-    .select('*')
-    .eq('payment_request_id', paymentRequestId)
+    .from("project_subscriptions")
+    .select("*")
+    .eq("payment_request_id", paymentRequestId)
     .maybeSingle();
 
   if (error) {
-    console.error('Error fetching subscription by payment request ID:', error);
+    console.error("Error fetching subscription by payment request ID:", error);
     return null;
   }
 
@@ -997,16 +1023,18 @@ export async function getSubscriptionByPaymentRequestId(paymentRequestId: string
 /**
  * Get subscription by Stripe subscription ID
  */
-export async function getProjectSubscriptionByStripeSubscriptionId(stripeSubscriptionId: string): Promise<ProjectSubscription | null> {
+export async function getProjectSubscriptionByStripeSubscriptionId(
+  stripeSubscriptionId: string,
+): Promise<ProjectSubscription | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_subscriptions')
-    .select('*')
-    .eq('stripe_subscription_id', stripeSubscriptionId)
+    .from("project_subscriptions")
+    .select("*")
+    .eq("stripe_subscription_id", stripeSubscriptionId)
     .maybeSingle();
 
   if (error) {
-    console.error('Error fetching subscription by Stripe subscription ID:', error);
+    console.error("Error fetching subscription by Stripe subscription ID:", error);
     return null;
   }
 
@@ -1018,14 +1046,11 @@ export async function getProjectSubscriptionByStripeSubscriptionId(stripeSubscri
  */
 export async function deleteProjectFee(feeId: string): Promise<void> {
   const supabase = getServerSupabaseClient();
-  const { error } = await supabase
-    .from('project_fees')
-    .delete()
-    .eq('id', feeId);
+  const { error } = await supabase.from("project_fees").delete().eq("id", feeId);
 
   if (error) {
-    console.error('Error deleting project fee:', error);
-    throw new Error('Failed to delete project fee');
+    console.error("Error deleting project fee:", error);
+    throw new Error("Failed to delete project fee");
   }
 }
 
@@ -1034,14 +1059,11 @@ export async function deleteProjectFee(feeId: string): Promise<void> {
  */
 export async function deleteProjectSubscription(subscriptionId: string): Promise<void> {
   const supabase = getServerSupabaseClient();
-  const { error } = await supabase
-    .from('project_subscriptions')
-    .delete()
-    .eq('id', subscriptionId);
+  const { error } = await supabase.from("project_subscriptions").delete().eq("id", subscriptionId);
 
   if (error) {
-    console.error('Error deleting project subscription:', error);
-    throw new Error('Failed to delete project subscription');
+    console.error("Error deleting project subscription:", error);
+    throw new Error("Failed to delete project subscription");
   }
 }
 
@@ -1059,7 +1081,7 @@ export type CompanyPaymentStatus = {
  * maxDaysOverdue = the highest number of days any single fee/subscription/bill has been overdue (0 if none).
  */
 export async function getCompanyPaymentStatus(companyId: string): Promise<CompanyPaymentStatus> {
-  const { fetchCompanyPaymentStatusFast } = await import('@/lib/admin-db-rpc');
+  const { fetchCompanyPaymentStatusFast } = await import("@/lib/admin-db-rpc");
   const fast = await fetchCompanyPaymentStatusFast(companyId);
   if (fast) return fast;
 
@@ -1069,15 +1091,15 @@ export async function getCompanyPaymentStatus(companyId: string): Promise<Compan
   const now = new Date();
   const msPerDay = 86_400_000;
 
-  const pendingFeesWithPr = fees.filter((f) => f.status === 'pending' && f.paymentRequestId);
+  const pendingFeesWithPr = fees.filter((f) => f.status === "pending" && f.paymentRequestId);
   const prIds = [...new Set(pendingFeesWithPr.map((f) => f.paymentRequestId!))];
   const prById = new Map<string, { status: string; next_billing_date?: string | null }>();
   if (prIds.length > 0) {
-    const supabase = (await import('@/lib/supabase')).getServerSupabaseClient();
+    const supabase = (await import("@/lib/supabase")).getServerSupabaseClient();
     const { data: prRows } = await supabase
-      .from('payments_requests')
-      .select('id, status, next_billing_date')
-      .in('id', prIds);
+      .from("payments_requests")
+      .select("id, status, next_billing_date")
+      .in("id", prIds);
     for (const pr of prRows || []) {
       prById.set(pr.id as string, {
         status: pr.status as string,
@@ -1086,12 +1108,12 @@ export async function getCompanyPaymentStatus(companyId: string): Promise<Compan
     }
   }
 
-  let pendingFeesList = fees.filter((f) => f.status === 'pending');
+  let pendingFeesList = fees.filter((f) => f.status === "pending");
   for (const fee of pendingFeesList) {
     if (fee.paymentRequestId) {
       const pr = prById.get(fee.paymentRequestId);
-      if (pr?.status === 'completed') {
-        await updateProjectFeeStatus(fee.id, 'completed', fee.paymentRequestId);
+      if (pr?.status === "completed") {
+        await updateProjectFeeStatus(fee.id, "completed", fee.paymentRequestId);
         pendingFeesList = pendingFeesList.filter((f) => f.id !== fee.id);
       }
     }
@@ -1102,11 +1124,11 @@ export async function getCompanyPaymentStatus(companyId: string): Promise<Compan
   // subscriptions are skipped by run billing, so counting them as overdue would show
   // "1 overdue" but "Run billing" would say "No due items to charge".
   const overdueSubsList = subscriptions.filter(
-    sub =>
-      sub.status === 'active' &&
+    (sub) =>
+      sub.status === "active" &&
       !sub.stripeSubscriptionId &&
       sub.nextBillingDate &&
-      new Date(sub.nextBillingDate) < now
+      new Date(sub.nextBillingDate) < now,
   );
   const overdueSubscriptions = overdueSubsList.length;
 
@@ -1137,7 +1159,7 @@ export async function getCompanyPaymentStatus(companyId: string): Promise<Compan
   // Standalone one-time payment requests (Admin → Payments): respect due date for days overdue
   const companyPaymentRequests = await getCompanyPaymentRequests(companyId);
   const pendingOneTime = companyPaymentRequests.filter(
-    (pr) => pr.payment_type === 'one_time' && (pr.status === 'pending' || pr.status === 'invoiced')
+    (pr) => pr.payment_type === "one_time" && (pr.status === "pending" || pr.status === "invoiced"),
   );
   for (const pr of pendingOneTime) {
     const dueTime = pr.next_billing_date
@@ -1155,22 +1177,19 @@ export async function getCompanyPaymentStatus(companyId: string): Promise<Compan
     return dueTime <= now.getTime();
   });
 
-  const { getCompanyBillPaymentContribution } = await import('@/lib/bills');
-  const { overdueBills, maxDaysOverdueFromBills } = await getCompanyBillPaymentContribution(companyId);
+  const { getCompanyBillPaymentContribution } = await import("@/lib/bills");
+  const { overdueBills, maxDaysOverdueFromBills } =
+    await getCompanyBillPaymentContribution(companyId);
   if (maxDaysOverdueFromBills > maxDaysOverdue) {
     maxDaysOverdue = maxDaysOverdueFromBills;
   }
 
   return {
     allUpToDate:
-      pendingFees === 0 &&
-      overdueSubscriptions === 0 &&
-      !hasOverdueOneTime &&
-      overdueBills === 0,
+      pendingFees === 0 && overdueSubscriptions === 0 && !hasOverdueOneTime && overdueBills === 0,
     pendingFees,
     overdueSubscriptions,
     overdueBills,
     maxDaysOverdue,
   };
 }
-

@@ -57,7 +57,10 @@ export function CheckoutPanel({ bill, token }: Props) {
           style={{ borderColor: ops.mist }}
         >
           <div className="border-b px-6 py-5" style={{ borderColor: ops.mist }}>
-            <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: ops.slate }}>
+            <p
+              className="text-xs font-semibold uppercase tracking-wide"
+              style={{ color: ops.slate }}
+            >
               Invoice
             </p>
             <h1 className="mt-1 text-xl font-semibold" style={{ color: ops.navy }}>

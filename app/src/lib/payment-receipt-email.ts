@@ -1,11 +1,15 @@
-import { getPaymentRequestByToken, getRequestDisplayInfo } from '@/lib/payments';
-import { getPaymentCompanyName, getPaymentContactEmail, getPaymentContactPhone } from '@/lib/payment-branding';
-import { getPaymentOperationsBcc, getPaymentTransactionalFrom } from '@/lib/payment-mail';
-import { getOperationalLogoUrl } from '@/lib/operational-brand';
-import { poelLightInvoiceEmailStyles, poelPaidReceiptEmailStyles } from '@/lib/poel-theme';
-import { sendTransactionalMail } from '@/lib/transactional-mail';
-import { emailSvgCheckWhite16 } from '@/lib/transactional-visuals';
-import { paymentRailDisplayLabel } from '@/lib/payment-method-labels';
+import { getPaymentRequestByToken, getRequestDisplayInfo } from "@/lib/payments";
+import {
+  getPaymentCompanyName,
+  getPaymentContactEmail,
+  getPaymentContactPhone,
+} from "@/lib/payment-branding";
+import { getPaymentOperationsBcc, getPaymentTransactionalFrom } from "@/lib/payment-mail";
+import { getOperationalLogoUrl } from "@/lib/operational-brand";
+import { poelLightInvoiceEmailStyles, poelPaidReceiptEmailStyles } from "@/lib/poel-theme";
+import { sendTransactionalMail } from "@/lib/transactional-mail";
+import { emailSvgCheckWhite16 } from "@/lib/transactional-visuals";
+import { paymentRailDisplayLabel } from "@/lib/payment-method-labels";
 
 export interface SendPaymentReceiptEmailParams {
   publicToken?: string | null;
@@ -22,13 +26,15 @@ export interface SendPaymentReceiptEmailParams {
 
 /** Send paid receipt to customer (bills and legacy payment requests). */
 export async function sendPaymentReceiptEmail(
-  params: SendPaymentReceiptEmailParams
+  params: SendPaymentReceiptEmailParams,
 ): Promise<boolean> {
   const displayChargeName =
-    params.chargeName && String(params.chargeName).trim() ? String(params.chargeName).trim() : 'Payment';
+    params.chargeName && String(params.chargeName).trim()
+      ? String(params.chargeName).trim()
+      : "Payment";
 
   if (!params.recipientEmail?.trim()) {
-    console.error('[sendPaymentReceiptEmail] missing recipientEmail');
+    console.error("[sendPaymentReceiptEmail] missing recipientEmail");
     return false;
   }
 
@@ -44,30 +50,32 @@ export async function sendPaymentReceiptEmail(
         displayEmail = info.email || displayEmail;
       }
     } catch (err) {
-      console.error('[sendPaymentReceiptEmail] token lookup', err);
+      console.error("[sendPaymentReceiptEmail] token lookup", err);
     }
   }
 
   const fee = params.fee ?? 0;
-  const paymentIntentId = params.paymentIntentId ?? '';
+  const paymentIntentId = params.paymentIntentId ?? "";
   const invoiceNum =
     params.invoiceNumber ??
-    (paymentIntentId ? `REC-${paymentIntentId.slice(-12).toUpperCase()}` : `REC-${Date.now().toString().slice(-10)}`);
-  const receiptDate = new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
+    (paymentIntentId
+      ? `REC-${paymentIntentId.slice(-12).toUpperCase()}`
+      : `REC-${Date.now().toString().slice(-10)}`);
+  const receiptDate = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
   const methodDisplay = paymentRailDisplayLabel(params.paymentMethod);
   const publicBase = (
     process.env.NEXT_PUBLIC_BASE_URL ||
     process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '') ||
-    'http://localhost:3000'
-  ).replace(/\/$/, '');
-  const logoFullUrl = getOperationalLogoUrl(publicBase, 'full');
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
+    "http://localhost:3000"
+  ).replace(/\/$/, "");
+  const logoFullUrl = getOperationalLogoUrl(publicBase, "full");
 
   const htmlBody = `
       <!DOCTYPE html>
@@ -96,7 +104,7 @@ export async function sendPaymentReceiptEmail(
 
           <p class="receipt-lead">
             <strong>Your payment has been received and processed.</strong>
-            Keep this email for your records. The amount below reflects what was charged${fee > 0 ? ', including any card processing fee' : ''}.
+            Keep this email for your records. The amount below reflects what was charged${fee > 0 ? ", including any card processing fee" : ""}.
           </p>
 
           <div class="company-info">
@@ -116,7 +124,7 @@ export async function sendPaymentReceiptEmail(
               <p class="receipt-ref-note">Use this number if you contact us about this payment.</p>
               <p><strong>Payment date:</strong> ${receiptDate}</p>
               <p><strong>Payment method:</strong> ${methodDisplay}</p>
-              <p><strong>Stripe payment ID:</strong> ${paymentIntentId || '—'}</p>
+              <p><strong>Stripe payment ID:</strong> ${paymentIntentId || "—"}</p>
             </div>
           </div>
 
@@ -127,11 +135,7 @@ export async function sendPaymentReceiptEmail(
                 <th>Service / subtotal</th>
                 <td>$${params.amount.toFixed(2)}</td>
               </tr>
-              ${
-                fee > 0
-                  ? `<tr><th>Processing fee (3%)</th><td>$${fee.toFixed(2)}</td></tr>`
-                  : ''
-              }
+              ${fee > 0 ? `<tr><th>Processing fee (3%)</th><td>$${fee.toFixed(2)}</td></tr>` : ""}
               <tr class="total">
                 <th>Total paid</th>
                 <td>$${params.total.toFixed(2)}</td>

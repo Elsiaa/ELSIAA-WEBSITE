@@ -1,4 +1,4 @@
-import { getServerSupabaseClient } from '@/lib/supabase';
+import { getServerSupabaseClient } from "@/lib/supabase";
 
 export type SupportAgentCompanyGrantRow = {
   id: string;
@@ -22,13 +22,13 @@ export type SupportAgentGrantInput = {
 export async function getGrantsForUser(userId: string): Promise<SupportAgentCompanyGrantRow[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('support_agent_company_grants')
-    .select('*')
-    .eq('user_id', userId)
-    .order('company_id');
+    .from("support_agent_company_grants")
+    .select("*")
+    .eq("user_id", userId)
+    .order("company_id");
 
   if (error) {
-    console.error('getGrantsForUser', error);
+    console.error("getGrantsForUser", error);
     return [];
   }
   return (data || []).map((r) => {
@@ -45,23 +45,26 @@ export async function getGrantsForUser(userId: string): Promise<SupportAgentComp
 export async function listSupportDeskAgentUserIdsForCompany(companyId: string): Promise<string[]> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('support_agent_company_grants')
-    .select('user_id')
-    .eq('company_id', companyId)
-    .eq('support_allowed', true);
+    .from("support_agent_company_grants")
+    .select("user_id")
+    .eq("company_id", companyId)
+    .eq("support_allowed", true);
 
   if (error || !data?.length) return [];
   return [...new Set(data.map((r) => (r as { user_id: string }).user_id))];
 }
 
 /** Invitation emails embed a company id; support agents have no `users.company_id`, so sign-up checks grants instead. */
-export async function supportAgentHasGrantRowForCompany(userId: string, companyId: string): Promise<boolean> {
+export async function supportAgentHasGrantRowForCompany(
+  userId: string,
+  companyId: string,
+): Promise<boolean> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('support_agent_company_grants')
-    .select('id')
-    .eq('user_id', userId)
-    .eq('company_id', companyId)
+    .from("support_agent_company_grants")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("company_id", companyId)
     .maybeSingle();
 
   if (error) return false;
@@ -71,22 +74,22 @@ export async function supportAgentHasGrantRowForCompany(userId: string, companyI
 export async function supportAgentHasCompanyGrant(
   userId: string,
   companyId: string,
-  kind: 'support' | 'authorizations' | 'program_logs' | 'files'
+  kind: "support" | "authorizations" | "program_logs" | "files",
 ): Promise<boolean> {
   const supabase = getServerSupabaseClient();
   const col =
-    kind === 'support'
-      ? 'support_allowed'
-      : kind === 'authorizations'
-        ? 'authorizations_allowed'
-        : kind === 'program_logs'
-          ? 'program_logs_allowed'
-          : 'files_allowed';
+    kind === "support"
+      ? "support_allowed"
+      : kind === "authorizations"
+        ? "authorizations_allowed"
+        : kind === "program_logs"
+          ? "program_logs_allowed"
+          : "files_allowed";
   const { data, error } = await supabase
-    .from('support_agent_company_grants')
-    .select('id')
-    .eq('user_id', userId)
-    .eq('company_id', companyId)
+    .from("support_agent_company_grants")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("company_id", companyId)
     .eq(col, true)
     .maybeSingle();
 
@@ -95,9 +98,15 @@ export async function supportAgentHasCompanyGrant(
 }
 
 /** Replace all grants for a user (super-admin UI). Rows must have at least one flag true each. */
-export async function replaceGrantsForUser(userId: string, grants: SupportAgentGrantInput[]): Promise<void> {
+export async function replaceGrantsForUser(
+  userId: string,
+  grants: SupportAgentGrantInput[],
+): Promise<void> {
   const supabase = getServerSupabaseClient();
-  const { error: delErr } = await supabase.from('support_agent_company_grants').delete().eq('user_id', userId);
+  const { error: delErr } = await supabase
+    .from("support_agent_company_grants")
+    .delete()
+    .eq("user_id", userId);
   if (delErr) {
     throw new Error(delErr.message);
   }
@@ -105,10 +114,7 @@ export async function replaceGrantsForUser(userId: string, grants: SupportAgentG
   const rows = grants
     .filter(
       (g) =>
-        g.support_allowed ||
-        g.authorizations_allowed ||
-        g.program_logs_allowed ||
-        g.files_allowed
+        g.support_allowed || g.authorizations_allowed || g.program_logs_allowed || g.files_allowed,
     )
     .map((g) => ({
       user_id: userId,
@@ -121,21 +127,25 @@ export async function replaceGrantsForUser(userId: string, grants: SupportAgentG
 
   if (rows.length === 0) return;
 
-  const { error: insErr } = await supabase.from('support_agent_company_grants').insert(rows);
+  const { error: insErr } = await supabase.from("support_agent_company_grants").insert(rows);
   if (insErr) {
     throw new Error(insErr.message);
   }
 }
 
 export function summarizeGrants(rows: SupportAgentCompanyGrantRow[]) {
-  const supportCompanyIds = [...new Set(rows.filter((r) => r.support_allowed).map((r) => r.company_id))];
+  const supportCompanyIds = [
+    ...new Set(rows.filter((r) => r.support_allowed).map((r) => r.company_id)),
+  ];
   const authorizationsCompanyIds = [
     ...new Set(rows.filter((r) => r.authorizations_allowed).map((r) => r.company_id)),
   ];
   const programLogsCompanyIds = [
     ...new Set(rows.filter((r) => r.program_logs_allowed).map((r) => r.company_id)),
   ];
-  const filesCompanyIds = [...new Set(rows.filter((r) => r.files_allowed).map((r) => r.company_id))];
+  const filesCompanyIds = [
+    ...new Set(rows.filter((r) => r.files_allowed).map((r) => r.company_id)),
+  ];
   return {
     supportCompanyIds,
     authorizationsCompanyIds,

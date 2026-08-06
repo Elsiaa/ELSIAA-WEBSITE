@@ -220,11 +220,18 @@
   color: var(--hf-color-text-primary);
   cursor: pointer;
   /* `ease` is a standard CSS keyword timing-function, not a tokenized cubic-bezier. */
-  transition: background-color var(--hf-duration-150) ease, opacity var(--hf-duration-150) ease;
+  transition:
+    background-color var(--hf-duration-150) ease,
+    opacity var(--hf-duration-150) ease;
   @apply text-q-body-sm-medium;
 
-  &:hover { background-color: var(--hf-color-overlay-hover); }
-  &:disabled { opacity: var(--hf-opacity-muted); cursor: not-allowed; }
+  &:hover {
+    background-color: var(--hf-color-overlay-hover);
+  }
+  &:disabled {
+    opacity: var(--hf-opacity-muted);
+    cursor: not-allowed;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

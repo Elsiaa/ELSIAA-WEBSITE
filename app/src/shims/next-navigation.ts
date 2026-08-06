@@ -42,7 +42,10 @@ export function usePathname() {
 }
 
 export function useSearchParams() {
-  const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : new URLSearchParams();
+  const params =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search)
+      : new URLSearchParams();
   return {
     get: (k: string) => params.get(k),
     getAll: (k: string) => params.getAll(k),

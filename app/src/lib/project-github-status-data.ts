@@ -1,16 +1,16 @@
-import type { ProjectExtensionSource } from '@/lib/project-extension-sources';
-import { getExtensionSource } from '@/lib/project-extension-sources';
+import type { ProjectExtensionSource } from "@/lib/project-extension-sources";
+import { getExtensionSource } from "@/lib/project-extension-sources";
 import {
   fetchLatestCommitDate,
   fetchRecentCommits,
   fetchRepoDefaultBranch,
   GITHUB_STATUS_COMMIT_LIMIT,
   type GithubCommitRow,
-} from '@/lib/github-dynamic-repo';
+} from "@/lib/github-dynamic-repo";
 import {
   commitVisibleToCompanyAdmins,
   deploymentCutoffUtc,
-} from '@/lib/extension-commit-visibility';
+} from "@/lib/extension-commit-visibility";
 
 export type GithubStatusCommit = {
   sha: string;
@@ -37,7 +37,7 @@ function filterCommitsForViewer(
   rawCommits: GithubCommitRow[],
   source: ProjectExtensionSource,
   viewerIsSuperAdmin: boolean,
-  options?: { ensureRefVisible?: string | null }
+  options?: { ensureRefVisible?: string | null },
 ): GithubStatusCommit[] {
   const cutoff = deploymentCutoffUtc(source.deploymentVisibleFrom);
 
@@ -51,7 +51,7 @@ function filterCommitsForViewer(
   const visible = rawCommits.filter((c) => commitVisibleToCompanyAdmins(c.date, cutoff));
   const ref = options?.ensureRefVisible ?? source.githubRef;
   const current = rawCommits.find(
-    (c) => c.sha === ref || (ref && ref.length < 40 && c.sha.startsWith(ref))
+    (c) => c.sha === ref || (ref && ref.length < 40 && c.sha.startsWith(ref)),
   );
   if (current && !visible.some((c) => c.sha === current.sha)) {
     return [current, ...visible];
@@ -64,7 +64,7 @@ function filterCommitsForViewer(
  */
 export async function computeGithubStatusFromSource(
   source: ProjectExtensionSource | null,
-  viewerIsSuperAdmin: boolean
+  viewerIsSuperAdmin: boolean,
 ): Promise<GithubStatusJson> {
   if (!source) {
     return {
@@ -80,7 +80,7 @@ export async function computeGithubStatusFromSource(
   }
 
   const defaultBranch =
-    (await fetchRepoDefaultBranch(source.githubOwner, source.githubRepo)) ?? 'main';
+    (await fetchRepoDefaultBranch(source.githubOwner, source.githubRepo)) ?? "main";
 
   const [latestDate, { commits: rawCommits, hasMore: hasMoreCommits }] = await Promise.all([
     fetchLatestCommitDate(source.githubOwner, source.githubRepo, source.githubRef),
@@ -89,7 +89,7 @@ export async function computeGithubStatusFromSource(
       source.githubRepo,
       GITHUB_STATUS_COMMIT_LIMIT,
       defaultBranch,
-      0
+      0,
     ),
   ]);
 
@@ -116,7 +116,7 @@ export async function getGithubCommitsPage(
   projectId: string,
   viewerIsSuperAdmin: boolean,
   offset: number,
-  limit: number = GITHUB_STATUS_COMMIT_LIMIT
+  limit: number = GITHUB_STATUS_COMMIT_LIMIT,
 ): Promise<{ commits: GithubStatusCommit[]; hasMore: boolean; rawCount: number }> {
   const source = await getExtensionSource(projectId);
   if (!source) {
@@ -124,14 +124,14 @@ export async function getGithubCommitsPage(
   }
 
   const defaultBranch =
-    (await fetchRepoDefaultBranch(source.githubOwner, source.githubRepo)) ?? 'main';
+    (await fetchRepoDefaultBranch(source.githubOwner, source.githubRepo)) ?? "main";
 
   const { commits: rawCommits, hasMore } = await fetchRecentCommits(
     source.githubOwner,
     source.githubRepo,
     limit,
     defaultBranch,
-    offset
+    offset,
   );
 
   const commits = filterCommitsForViewer(rawCommits, source, viewerIsSuperAdmin);
@@ -140,7 +140,7 @@ export async function getGithubCommitsPage(
 
 export async function getGithubStatusForProject(
   projectId: string,
-  viewerIsSuperAdmin: boolean
+  viewerIsSuperAdmin: boolean,
 ): Promise<GithubStatusJson> {
   const source = await getExtensionSource(projectId);
   return computeGithubStatusFromSource(source, viewerIsSuperAdmin);

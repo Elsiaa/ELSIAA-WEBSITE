@@ -4,60 +4,63 @@
  * This file should ONLY be imported in server components or API routes
  */
 
-import { generateInvitationToken } from './invitations';
+import { generateInvitationToken } from "./invitations";
 import {
-    getOperationalBrandName,
-    getOperationalLogoUrl,
-    getOperationalPlatformName,
-    getOperationalTeamLine,
-    getSmtpFromDisplayName,
-    getTransactionalSenderEmail,
-} from '@/lib/operational-brand';
-import { sendTransactionalMail } from '@/lib/transactional-mail';
-import { escapeHtml, escapeHtmlAttr, renderPoelLightTransactionalEmailHtml } from '@/lib/poel-theme';
+  getOperationalBrandName,
+  getOperationalLogoUrl,
+  getOperationalPlatformName,
+  getOperationalTeamLine,
+  getSmtpFromDisplayName,
+  getTransactionalSenderEmail,
+} from "@/lib/operational-brand";
+import { sendTransactionalMail } from "@/lib/transactional-mail";
+import {
+  escapeHtml,
+  escapeHtmlAttr,
+  renderPoelLightTransactionalEmailHtml,
+} from "@/lib/poel-theme";
 
 interface SendInvitationParams {
-    email: string;
-    firstName?: string;
-    lastName?: string;
-    companyName: string;
-    companyId: string;
-    inviterName?: string;
-    projectName?: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  companyName: string;
+  companyId: string;
+  inviterName?: string;
+  projectName?: string;
 }
 
 /**
  * Send invitation email to a new user
  */
 export async function sendInvitationEmail(params: SendInvitationParams): Promise<boolean> {
-    const { email, firstName, lastName, companyName, companyId, inviterName } = params;
+  const { email, firstName, lastName, companyName, companyId, inviterName } = params;
 
-    // Generate invitation token
-    const token = generateInvitationToken(email, companyId);
+  // Generate invitation token
+  const token = generateInvitationToken(email, companyId);
 
-    const baseUrl = (
-        process.env.NEXT_PUBLIC_BASE_URL ||
-        process.env.AUTH_URL ||
-        process.env.VITE_SITE_URL ||
-        'http://localhost:3000'
-    ).replace(/\/$/, '');
-    const signupUrl = `${baseUrl}/sign-up?invitation=${encodeURIComponent(token)}`;
-    const brand = getOperationalBrandName();
-    const platform = getOperationalPlatformName();
-    const logoUrl = getOperationalLogoUrl(baseUrl, 'full');
+  const baseUrl = (
+    process.env.NEXT_PUBLIC_BASE_URL ||
+    process.env.AUTH_URL ||
+    process.env.VITE_SITE_URL ||
+    "http://localhost:3000"
+  ).replace(/\/$/, "");
+  const signupUrl = `${baseUrl}/sign-up?invitation=${encodeURIComponent(token)}`;
+  const brand = getOperationalBrandName();
+  const platform = getOperationalPlatformName();
+  const logoUrl = getOperationalLogoUrl(baseUrl, "full");
 
-    const userName = firstName && lastName
-        ? `${firstName} ${lastName}`
-        : firstName || lastName || email.split('@')[0];
+  const userName =
+    firstName && lastName
+      ? `${firstName} ${lastName}`
+      : firstName || lastName || email.split("@")[0];
 
-    const subject = `You've been invited to join ${companyName}`;
+  const subject = `You've been invited to join ${companyName}`;
 
-    const inviteLead = inviterName
-        ? `${escapeHtml(inviterName)} has`
-        : 'You have been';
-    const safeSignupAttr = escapeHtmlAttr(signupUrl);
+  const inviteLead = inviterName ? `${escapeHtml(inviterName)} has` : "You have been";
+  const safeSignupAttr = escapeHtmlAttr(signupUrl);
 
-    const contentHtml = `
+  const contentHtml = `
       <p>Hi ${escapeHtml(userName)},</p>
       <p>${inviteLead} invited to collaborate on <strong>${escapeHtml(companyName)}</strong> projects on the ${escapeHtml(platform)}.</p>
       <p>To begin, open the link below and <strong>choose a password</strong> for this email. You will then sign in with that password (or with Google or Microsoft if you prefer).</p>
@@ -70,18 +73,18 @@ export async function sendInvitationEmail(params: SendInvitationParams): Promise
       <p>If you have any questions, contact your administrator.</p>
       <p>Best regards,<br>${escapeHtml(getOperationalTeamLine())}</p>`;
 
-    const htmlBody = renderPoelLightTransactionalEmailHtml({
-        logoUrl,
-        brandName: brand,
-        title: `Welcome to ${brand}`,
-        contentHtml,
-        footerInnerHtml: `<p style="margin:0;">This invitation was sent to ${escapeHtml(email)}</p><p style="margin:8px 0 0;">If you did not expect this email, you can ignore it.</p>`,
-    });
+  const htmlBody = renderPoelLightTransactionalEmailHtml({
+    logoUrl,
+    brandName: brand,
+    title: `Welcome to ${brand}`,
+    contentHtml,
+    footerInnerHtml: `<p style="margin:0;">This invitation was sent to ${escapeHtml(email)}</p><p style="margin:8px 0 0;">If you did not expect this email, you can ignore it.</p>`,
+  });
 
-    const textBody = `
+  const textBody = `
 Hi ${userName},
 
-${inviterName ? `${inviterName} has` : 'You have been'} invited to collaborate on ${companyName} projects on the ${platform}.
+${inviterName ? `${inviterName} has` : "You have been"} invited to collaborate on ${companyName} projects on the ${platform}.
 
 Open this link to choose your password and activate your account: ${signupUrl}
 
@@ -99,11 +102,11 @@ This invitation was sent to ${email}
 If you didn't expect this email, you can safely ignore it.
 `;
 
-    return sendTransactionalMail({
-        to: email,
-        subject,
-        html: htmlBody,
-        text: textBody,
-        from: `"${getSmtpFromDisplayName()}" <${getTransactionalSenderEmail()}>`,
-    });
+  return sendTransactionalMail({
+    to: email,
+    subject,
+    html: htmlBody,
+    text: textBody,
+    from: `"${getSmtpFromDisplayName()}" <${getTransactionalSenderEmail()}>`,
+  });
 }

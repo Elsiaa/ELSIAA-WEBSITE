@@ -13,8 +13,7 @@ export const Route = createFileRoute("/api/meeting")({
           return Response.json({ ok: false, code: "bad_json" }, { status: 400 });
         }
         const m = parseMeetingInput(body);
-        if (!m)
-          return Response.json({ ok: false, code: "invalid_input" }, { status: 400 });
+        if (!m) return Response.json({ ok: false, code: "invalid_input" }, { status: 400 });
         try {
           const { id } = await storeMeeting(m);
           return Response.json({ ok: true, id });

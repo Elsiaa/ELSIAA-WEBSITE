@@ -32,11 +32,13 @@ function toVec(lat: number, lon: number): V3 {
   };
 }
 function rotY(v: V3, a: number): V3 {
-  const c = Math.cos(a), s = Math.sin(a);
+  const c = Math.cos(a),
+    s = Math.sin(a);
   return { x: v.x * c + v.z * s, y: v.y, z: -v.x * s + v.z * c };
 }
 function rotX(v: V3, a: number): V3 {
-  const c = Math.cos(a), s = Math.sin(a);
+  const c = Math.cos(a),
+    s = Math.sin(a);
   return { x: v.x, y: v.y * c - v.z * s, z: v.y * s + v.z * c };
 }
 
@@ -55,15 +57,20 @@ export function ScrollGlobe({ size = 440 }: { size?: number }) {
     // fixed side light (view space) → a stable day/night terminator: the right
     // hemisphere (Atlantic / Europe / Africa) sits in bright daylight, the left
     // limb falls into night. normalised.
-    let Lx = 0.47, Ly = -0.14, Lz = 0.73;
+    let Lx = 0.47,
+      Ly = -0.14,
+      Lz = 0.73;
     {
       const m = Math.hypot(Lx, Ly, Lz);
-      Lx /= m; Ly /= m; Lz /= m;
+      Lx /= m;
+      Ly /= m;
+      Lz /= m;
     }
 
     // ── texture (sampled via an offscreen buffer) ──
     let ready = false;
-    let TW = 0, TH = 0;
+    let TW = 0,
+      TH = 0;
     let tdata: Uint8ClampedArray | null = null;
     const img = new Image();
     img.decoding = "async";
@@ -107,12 +114,14 @@ export function ScrollGlobe({ size = 440 }: { size?: number }) {
     resize();
     requestAnimationFrame(resize);
     window.addEventListener("resize", resize);
-    const ro =
-      typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => resize()) : null;
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => resize()) : null;
     if (ro && canvas.parentElement) ro.observe(canvas.parentElement);
 
     // ── interaction ──
-    let dragYaw = 0, vel = 0, dragging = false, lastX = 0;
+    let dragYaw = 0,
+      vel = 0,
+      dragging = false,
+      lastX = 0;
     const onDown = (e: PointerEvent) => {
       dragging = true;
       lastX = e.clientX;
@@ -183,8 +192,10 @@ export function ScrollGlobe({ size = 440 }: { size?: number }) {
       if (moved) {
         lastYaw = yaw;
         const d = buf.data;
-        const cyaw = Math.cos(-yaw), syaw = Math.sin(-yaw);
-        const ctl = Math.cos(-tilt), stl = Math.sin(-tilt);
+        const cyaw = Math.cos(-yaw),
+          syaw = Math.sin(-yaw);
+        const ctl = Math.cos(-tilt),
+          stl = Math.sin(-tilt);
         const invR = 1 / R;
 
         for (let py = 0; py < intPx; py++) {
@@ -199,7 +210,9 @@ export function ScrollGlobe({ size = 440 }: { size?: number }) {
             }
             const nz = Math.sqrt(1 - d2);
             // view-space surface normal (screen-y down → world-y up)
-            const vx = nx, vy = -nyRow, vz = nz;
+            const vx = nx,
+              vy = -nyRow,
+              vz = nz;
             // undo tilt (rotX by −tilt), then yaw (rotY by −yaw) → world point
             const y1 = vy * ctl - vz * stl;
             const z1 = vy * stl + vz * ctl;
@@ -211,20 +224,26 @@ export function ScrollGlobe({ size = 440 }: { size?: number }) {
             const v = (Math.PI / 2 - Math.asin(wy < -1 ? -1 : wy > 1 ? 1 : wy)) * (1 / Math.PI);
             let tx = (u * TW) | 0;
             let ty = (v * TH) | 0;
-            if (tx >= TW) tx = TW - 1; else if (tx < 0) tx = 0;
-            if (ty >= TH) ty = TH - 1; else if (ty < 0) ty = 0;
+            if (tx >= TW) tx = TW - 1;
+            else if (tx < 0) tx = 0;
+            if (ty >= TH) ty = TH - 1;
+            else if (ty < 0) ty = 0;
             const ti = (ty * TW + tx) * 4;
-            let r = tdata[ti], g = tdata[ti + 1], b = tdata[ti + 2];
+            let r = tdata[ti],
+              g = tdata[ti + 1],
+              b = tdata[ti + 2];
 
             // day/night: fixed side light → half lit, half dark
             const shade = vx * Lx + vy * Ly + vz * Lz;
             const lit = smooth(-0.18, 0.12, shade); // 0 night · 1 day
             const dayB = 1.16 + 0.36 * (shade > 0 ? shade : 0); // brighter day so land pops
             const bf = 0.07 + (dayB - 0.07) * lit;
-            r *= bf; g *= bf; b *= bf;
+            r *= bf;
+            g *= bf;
+            b *= bf;
             // cool the night side toward deep blue-black
             if (lit < 1) {
-              const nightAmt = (1 - lit);
+              const nightAmt = 1 - lit;
               b += (30 - b) * nightAmt * 0.45;
               r *= 1 - nightAmt * 0.25;
               g *= 1 - nightAmt * 0.12;
@@ -232,7 +251,9 @@ export function ScrollGlobe({ size = 440 }: { size?: number }) {
             const rr = Math.sqrt(d2);
             // spherical volume: darken toward the limb
             const rim = 1 - 0.42 * d2 * d2;
-            r *= rim; g *= rim; b *= rim;
+            r *= rim;
+            g *= rim;
+            b *= rim;
             // atmospheric limb — a bright blue halo on the sunlit edge (the
             // single biggest "this is a real planet" cue)
             const limb = smooth(0.86, 1.0, rr);

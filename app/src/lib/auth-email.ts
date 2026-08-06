@@ -8,13 +8,13 @@ import {
   getOperationalLogoUrl,
   getSmtpFromDisplayName,
   getTransactionalSenderEmail,
-} from '@/lib/operational-brand';
+} from "@/lib/operational-brand";
 import {
   escapeHtml,
   escapeHtmlAttr,
   renderPoelLightTransactionalEmailHtml,
-} from '@/lib/poel-theme';
-import { sendTransactionalMail } from '@/lib/transactional-mail';
+} from "@/lib/poel-theme";
+import { sendTransactionalMail } from "@/lib/transactional-mail";
 
 export async function sendPasswordResetEmail(to: string, resetUrl: string): Promise<boolean> {
   const brand = getOperationalBrandName();
@@ -25,9 +25,9 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
     process.env.AUTH_URL ||
     process.env.NEXTAUTH_URL ||
     process.env.NEXT_PUBLIC_SITE_URL ||
-    'http://localhost:3000'
-  ).replace(/\/$/, '');
-  const logoUrl = getOperationalLogoUrl(baseUrl, 'full');
+    "http://localhost:3000"
+  ).replace(/\/$/, "");
+  const logoUrl = getOperationalLogoUrl(baseUrl, "full");
   const safeBrand = escapeHtml(brand);
   const safeUrlAttr = escapeHtmlAttr(resetUrl);
 
@@ -48,7 +48,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
   const htmlBody = renderPoelLightTransactionalEmailHtml({
     logoUrl,
     brandName: brand,
-    title: 'Reset your password',
+    title: "Reset your password",
     contentHtml,
   });
 
@@ -64,7 +64,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string): Prom
 
   if (!ok) {
     console.error(
-      'Password reset email not sent: configure ELSSIA_MAIL_API_KEY, or ZOHO_APP_PASSWORD (+ ZOHO_EMAIL), or EMAIL_USER + EMAIL_PASS (Gmail app password).'
+      "Password reset email not sent: configure ELSSIA_MAIL_API_KEY, or ZOHO_APP_PASSWORD (+ ZOHO_EMAIL), or EMAIL_USER + EMAIL_PASS (Gmail app password).",
     );
   }
   return ok;

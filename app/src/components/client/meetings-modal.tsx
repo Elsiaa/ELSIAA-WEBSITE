@@ -2,10 +2,30 @@
 
 import { useState, useEffect } from "react";
 import { Meeting } from "@/lib/meetings";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, Users, Video, Plus, Trash2, X, Link2, Copy, Loader2, Pencil, ChevronDown } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  Users,
+  Video,
+  Plus,
+  Trash2,
+  X,
+  Link2,
+  Copy,
+  Loader2,
+  Pencil,
+  ChevronDown,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -50,7 +70,15 @@ interface MeetingsModalProps {
   companies?: Company[];
 }
 
-export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, userId, users: propUsers, companies: propCompanies }: MeetingsModalProps) {
+export default function MeetingsModal({
+  isOpen,
+  onClose,
+  isAdmin,
+  userName,
+  userId,
+  users: propUsers,
+  companies: propCompanies,
+}: MeetingsModalProps) {
   const [meetings, setMeetings] = useState<Meeting[]>([]);
   const [users, setUsers] = useState<SerializableUser[]>(propUsers || []);
   const [companies, setCompanies] = useState<Company[]>(propCompanies || []);
@@ -77,13 +105,13 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
     setLoading(true);
     try {
       // Fetch all meetings (not just upcoming) to match MeetingsClient
-      const response = await fetch('/api/meetings');
+      const response = await fetch("/api/meetings");
       if (response.ok) {
         const data = await response.json();
         setMeetings(data.meetings || []);
       }
     } catch (error) {
-      console.error('Error refreshing meetings:', error);
+      console.error("Error refreshing meetings:", error);
     } finally {
       setLoading(false);
     }
@@ -93,26 +121,26 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
     try {
       // Fetch Clerk users if admin
       if (isAdmin) {
-        const usersResponse = await fetch('/api/clerk/users');
+        const usersResponse = await fetch("/api/clerk/users");
         if (usersResponse.ok) {
           const usersData = await usersResponse.json();
           setUsers(usersData.users || []);
         } else {
-          console.error('Failed to fetch users:', await usersResponse.text());
+          console.error("Failed to fetch users:", await usersResponse.text());
         }
 
         // Fetch companies
-        const companiesResponse = await fetch('/api/companies');
+        const companiesResponse = await fetch("/api/companies");
         if (companiesResponse.ok) {
           const companiesData = await companiesResponse.json();
           // API returns array directly, not wrapped in { companies: [] }
           setCompanies(Array.isArray(companiesData) ? companiesData : []);
         } else {
-          console.error('Failed to fetch companies:', await companiesResponse.text());
+          console.error("Failed to fetch companies:", await companiesResponse.text());
         }
       }
     } catch (error) {
-      console.error('Error fetching users/companies:', error);
+      console.error("Error fetching users/companies:", error);
     }
   };
 
@@ -125,25 +153,25 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
       hour12: true,
     });
   };
 
-  const getStatusBadge = (status: Meeting['status']) => {
-    const variants: Record<Meeting['status'], { className: string; label: string }> = {
+  const getStatusBadge = (status: Meeting["status"]) => {
+    const variants: Record<Meeting["status"], { className: string; label: string }> = {
       scheduled: { className: "bg-[#1e6b3c]/25 text-primary", label: "Scheduled" },
       "in-progress": { className: "bg-[#1e6b3c]/20 text-primary", label: "In Progress" },
       completed: { className: "bg-gray-700/60 text-gray-300", label: "Completed" },
@@ -163,7 +191,7 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
     const joinableTime = new Date(scheduledDate.getTime() - 2 * 60 * 60 * 1000);
 
     return (
-      (meeting.status === 'scheduled' || meeting.status === 'in-progress') &&
+      (meeting.status === "scheduled" || meeting.status === "in-progress") &&
       now >= joinableTime &&
       now <= endTime
     );
@@ -179,9 +207,9 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
       // Convert datetime-local to ISO string with proper timezone
       const scheduledAtISO = new Date(formData.scheduledAt).toISOString();
 
-      const response = await fetch('/api/meetings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/meetings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
           scheduledAt: scheduledAtISO,
@@ -195,22 +223,22 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
         closeCreateModal();
 
         // Show meeting link for public meetings
-        if (formData.accessType === 'public') {
+        if (formData.accessType === "public") {
           const meetingUrl = `${window.location.origin}/meetings/${data.meeting.id}/join`;
           const message = `Meeting created successfully!\n\nMeeting Link:\n${meetingUrl}\n\nShare this link with anyone you want to invite.`;
 
           // Show alert with link
-          if (confirm(message + '\n\nClick OK to copy the link to clipboard.')) {
+          if (confirm(message + "\n\nClick OK to copy the link to clipboard.")) {
             navigator.clipboard.writeText(meetingUrl);
           }
         }
       } else {
         const error = await response.json();
-        alert(error.error || 'Failed to create meeting');
+        alert(error.error || "Failed to create meeting");
       }
     } catch (error) {
-      console.error('Error creating meeting:', error);
-      alert('Failed to create meeting');
+      console.error("Error creating meeting:", error);
+      alert("Failed to create meeting");
     } finally {
       setIsCreating(false);
     }
@@ -219,24 +247,24 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
   const handleDeleteMeeting = async (meetingId: string) => {
     if (deletingMeetingId === meetingId) return; // Already deleting
 
-    if (!confirm('Are you sure you want to delete this meeting?')) {
+    if (!confirm("Are you sure you want to delete this meeting?")) {
       return;
     }
 
     setDeletingMeetingId(meetingId);
     try {
       const response = await fetch(`/api/meetings/${meetingId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (response.ok) {
         await refreshMeetings();
       } else {
-        alert('Failed to delete meeting');
+        alert("Failed to delete meeting");
       }
     } catch (error) {
-      console.error('Error deleting meeting:', error);
-      alert('Failed to delete meeting');
+      console.error("Error deleting meeting:", error);
+      alert("Failed to delete meeting");
     } finally {
       setDeletingMeetingId(null);
     }
@@ -274,7 +302,7 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
       // Fetch the meeting details
       const response = await fetch(`/api/meetings/${meeting.id}`);
       if (!response.ok) {
-        alert('Failed to load meeting details');
+        alert("Failed to load meeting details");
         return;
       }
       const data = await response.json();
@@ -282,7 +310,9 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
 
       // Format scheduledAt for datetime-local input (remove timezone info)
       const scheduledDate = new Date(fullMeeting.scheduledAt);
-      const localDateTime = new Date(scheduledDate.getTime() - scheduledDate.getTimezoneOffset() * 60000)
+      const localDateTime = new Date(
+        scheduledDate.getTime() - scheduledDate.getTimezoneOffset() * 60000,
+      )
         .toISOString()
         .slice(0, 16);
 
@@ -298,8 +328,8 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
       setEditingMeeting(fullMeeting);
       setShowCreateModal(true);
     } catch (error) {
-      console.error('Error loading meeting:', error);
-      alert('Failed to load meeting details');
+      console.error("Error loading meeting:", error);
+      alert("Failed to load meeting details");
     }
   };
 
@@ -312,8 +342,8 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
       const scheduledAtISO = new Date(formData.scheduledAt).toISOString();
 
       const response = await fetch(`/api/meetings/${editingMeeting.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: formData.title,
           description: formData.description,
@@ -330,11 +360,11 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
         closeCreateModal();
       } else {
         const error = await response.json();
-        alert(error.error || 'Failed to update meeting');
+        alert(error.error || "Failed to update meeting");
       }
     } catch (error) {
-      console.error('Error updating meeting:', error);
-      alert('Failed to update meeting');
+      console.error("Error updating meeting:", error);
+      alert("Failed to update meeting");
     } finally {
       setIsUpdating(false);
     }
@@ -365,11 +395,11 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
     const allParticipantIds = [meeting.hostUserId, ...meeting.participantUserIds];
 
     return allParticipantIds
-      .map(id => {
-        const user = users.find(u => u.id === id);
+      .map((id) => {
+        const user = users.find((u) => u.id === id);
         if (user) {
-          const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
-          return fullName || user.emailAddresses[0]?.emailAddress || 'Unknown';
+          const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+          return fullName || user.emailAddresses[0]?.emailAddress || "Unknown";
         }
         // Check if it's the current user
         if (id === userId) {
@@ -383,8 +413,8 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
   const getCompanyNames = (meeting: Meeting) => {
     if (!companies || !isAdmin) return [];
     return meeting.participantCompanyIds
-      .map(id => {
-        const company = companies.find(c => c.id === id);
+      .map((id) => {
+        const company = companies.find((c) => c.id === id);
         return company?.name || null;
       })
       .filter(Boolean) as string[];
@@ -392,9 +422,9 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
 
   // Separate meetings into upcoming and past
   // Filter out public meetings for non-superusers
-  const filteredMeetings = isAdmin 
-    ? meetings 
-    : meetings.filter(meeting => meeting.accessType !== 'public');
+  const filteredMeetings = isAdmin
+    ? meetings
+    : meetings.filter((meeting) => meeting.accessType !== "public");
 
   const now = new Date();
   const upcomingMeetings = filteredMeetings
@@ -433,7 +463,7 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
             <div className="flex items-center justify-between">
               <div>
                 <DialogTitle className="text-2xl text-[#111]">
-                  {isAdmin ? 'Manage Meetings' : 'My Meetings'}
+                  {isAdmin ? "Manage Meetings" : "My Meetings"}
                 </DialogTitle>
                 <DialogDescription className="text-[#111]/55 mt-1">
                   Welcome back, {userName}
@@ -447,7 +477,7 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                   </Button>
                 )}
                 <Button onClick={refreshMeetings} disabled={loading} variant="outline" size="sm">
-                  {loading ? 'Refreshing...' : 'Refresh'}
+                  {loading ? "Refreshing..." : "Refresh"}
                 </Button>
               </div>
             </div>
@@ -482,130 +512,150 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                     <h2 className="text-xl font-semibold text-[#111] mb-4">Upcoming Meetings</h2>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
                       {upcomingMeetings.map((meeting) => (
-                  <Card key={meeting.id} className="bg-white/80 border-black/[0.08]/50">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <CardTitle className="text-lg text-[#111]">{meeting.title}</CardTitle>
-                        {getStatusBadge(meeting.status)}
-                      </div>
-                      {meeting.description && (
-                        <CardDescription className="text-[#111]/55 text-sm">
-                          {meeting.description}
-                        </CardDescription>
-                      )}
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div className="flex items-center gap-2 text-sm text-[#111]/55">
-                        <Calendar className="h-4 w-4 text-[#111]/55" />
-                        <span>{formatDate(meeting.scheduledAt)}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-[#111]/55">
-                        <Clock className="h-4 w-4 text-[#111]/55" />
-                        <span>
-                          {formatTime(meeting.scheduledAt)} ({meeting.duration} min)
-                        </span>
-                      </div>
-                      <div className="flex items-start gap-2 text-sm text-[#111]/55">
-                        <Users className="h-4 w-4 text-[#111]/55 mt-0.5" />
-                        <div className="flex-1">
-                          {meeting.accessType === 'public' ? (
-                            <Badge className="bg-[#1e6b3c]/20 text-primary">Public - Anyone with link</Badge>
-                          ) : meeting.accessType === 'company' ? (
-                            isAdmin && getCompanyNames(meeting).length > 0 ? (
-                              <div className="flex flex-wrap gap-1">
-                                {getCompanyNames(meeting).map((name, idx) => (
-                                  <Badge key={idx} className="bg-black/[0.06] text-secondary-foreground">
-                                    {name}
-                                  </Badge>
-                                ))}
-                              </div>
-                            ) : (
-                              <Badge className="bg-black/[0.06] text-secondary-foreground">Company meeting</Badge>
-                            )
-                          ) : (meeting as any)._participantNames && (meeting as any)._participantNames.length > 0 ? (
-                            <div className="flex flex-wrap gap-1">
-                              {(meeting as any)._participantNames.map((name: string, idx: number) => (
-                                <span key={idx} className="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-black/[0.06] text-secondary-foreground">
-                                  {name}
-                                </span>
-                              ))}
+                        <Card key={meeting.id} className="bg-white/80 border-black/[0.08]/50">
+                          <CardHeader>
+                            <div className="flex items-start justify-between">
+                              <CardTitle className="text-lg text-[#111]">{meeting.title}</CardTitle>
+                              {getStatusBadge(meeting.status)}
                             </div>
-                          ) : (
-                            <span>{meeting.participantUserIds.length + 1} participants</span>
-                          )}
-                        </div>
-                      </div>
-                      {meeting.accessType === 'public' && (
-                        <div className="flex items-center gap-2 text-sm">
-                          <Link2 className="h-4 w-4 text-[#111]/55" />
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-auto p-0 text-brand-blue hover:text-brand-blue-hover hover:bg-transparent"
-                            onClick={() => {
-                              const url = `${window.location.origin}/meetings/${meeting.id}/join`;
-                              navigator.clipboard.writeText(url);
-                              alert('Meeting link copied to clipboard!');
-                            }}
-                          >
-                            <Copy className="mr-1 h-3 w-3" />
-                            Copy Meeting Link
-                          </Button>
-                        </div>
-                      )}
-                    </CardContent>
-                    <CardFooter className={isAdmin ? "flex flex-wrap gap-2" : ""}>
-                      {canJoinMeeting(meeting) ? (
-                        <a
-                          href={`/meetings/${meeting.id}/join`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={isAdmin ? "flex-1 min-w-[120px]" : "w-full"}
-                        >
-                          <Button className="w-full bg-[#1e6b3c] hover:bg-[#1e6b3c]-hover text-white" size="sm">
-                            <Video className="mr-2 h-4 w-4" />
-                            Join Meeting
-                          </Button>
-                        </a>
-                      ) : (
-                        <Button className={isAdmin ? "flex-1 min-w-[120px]" : "w-full"} disabled size="sm">
-                          Not Yet Available
-                        </Button>
-                      )}
-                      {isAdmin && (
-                        <>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleEditMeeting(meeting)}
-                            disabled={isUpdating || deletingMeetingId === meeting.id}
-                            title="Edit Meeting"
-                            className="flex-shrink-0"
-                          >
-                            <Pencil className="h-4 w-4 mr-2" />
-                            Edit
-                          </Button>
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => handleDeleteMeeting(meeting.id)}
-                            className="bg-red-500/80 hover:bg-red-500 flex-shrink-0"
-                            disabled={deletingMeetingId === meeting.id || isUpdating}
-                            title="Delete Meeting"
-                          >
-                            {deletingMeetingId === meeting.id ? (
-                              <Loader2 className="h-4 w-4 animate-spin" />
+                            {meeting.description && (
+                              <CardDescription className="text-[#111]/55 text-sm">
+                                {meeting.description}
+                              </CardDescription>
+                            )}
+                          </CardHeader>
+                          <CardContent className="space-y-3">
+                            <div className="flex items-center gap-2 text-sm text-[#111]/55">
+                              <Calendar className="h-4 w-4 text-[#111]/55" />
+                              <span>{formatDate(meeting.scheduledAt)}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-[#111]/55">
+                              <Clock className="h-4 w-4 text-[#111]/55" />
+                              <span>
+                                {formatTime(meeting.scheduledAt)} ({meeting.duration} min)
+                              </span>
+                            </div>
+                            <div className="flex items-start gap-2 text-sm text-[#111]/55">
+                              <Users className="h-4 w-4 text-[#111]/55 mt-0.5" />
+                              <div className="flex-1">
+                                {meeting.accessType === "public" ? (
+                                  <Badge className="bg-[#1e6b3c]/20 text-primary">
+                                    Public - Anyone with link
+                                  </Badge>
+                                ) : meeting.accessType === "company" ? (
+                                  isAdmin && getCompanyNames(meeting).length > 0 ? (
+                                    <div className="flex flex-wrap gap-1">
+                                      {getCompanyNames(meeting).map((name, idx) => (
+                                        <Badge
+                                          key={idx}
+                                          className="bg-black/[0.06] text-secondary-foreground"
+                                        >
+                                          {name}
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                  ) : (
+                                    <Badge className="bg-black/[0.06] text-secondary-foreground">
+                                      Company meeting
+                                    </Badge>
+                                  )
+                                ) : (meeting as any)._participantNames &&
+                                  (meeting as any)._participantNames.length > 0 ? (
+                                  <div className="flex flex-wrap gap-1">
+                                    {(meeting as any)._participantNames.map(
+                                      (name: string, idx: number) => (
+                                        <span
+                                          key={idx}
+                                          className="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-black/[0.06] text-secondary-foreground"
+                                        >
+                                          {name}
+                                        </span>
+                                      ),
+                                    )}
+                                  </div>
+                                ) : (
+                                  <span>{meeting.participantUserIds.length + 1} participants</span>
+                                )}
+                              </div>
+                            </div>
+                            {meeting.accessType === "public" && (
+                              <div className="flex items-center gap-2 text-sm">
+                                <Link2 className="h-4 w-4 text-[#111]/55" />
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-auto p-0 text-brand-blue hover:text-brand-blue-hover hover:bg-transparent"
+                                  onClick={() => {
+                                    const url = `${window.location.origin}/meetings/${meeting.id}/join`;
+                                    navigator.clipboard.writeText(url);
+                                    alert("Meeting link copied to clipboard!");
+                                  }}
+                                >
+                                  <Copy className="mr-1 h-3 w-3" />
+                                  Copy Meeting Link
+                                </Button>
+                              </div>
+                            )}
+                          </CardContent>
+                          <CardFooter className={isAdmin ? "flex flex-wrap gap-2" : ""}>
+                            {canJoinMeeting(meeting) ? (
+                              <a
+                                href={`/meetings/${meeting.id}/join`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={isAdmin ? "flex-1 min-w-[120px]" : "w-full"}
+                              >
+                                <Button
+                                  className="w-full bg-[#1e6b3c] hover:bg-[#1e6b3c]-hover text-white"
+                                  size="sm"
+                                >
+                                  <Video className="mr-2 h-4 w-4" />
+                                  Join Meeting
+                                </Button>
+                              </a>
                             ) : (
+                              <Button
+                                className={isAdmin ? "flex-1 min-w-[120px]" : "w-full"}
+                                disabled
+                                size="sm"
+                              >
+                                Not Yet Available
+                              </Button>
+                            )}
+                            {isAdmin && (
                               <>
-                                <Trash2 className="h-4 w-4 mr-2" />
-                                Delete
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleEditMeeting(meeting)}
+                                  disabled={isUpdating || deletingMeetingId === meeting.id}
+                                  title="Edit Meeting"
+                                  className="flex-shrink-0"
+                                >
+                                  <Pencil className="h-4 w-4 mr-2" />
+                                  Edit
+                                </Button>
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  onClick={() => handleDeleteMeeting(meeting.id)}
+                                  className="bg-red-500/80 hover:bg-red-500 flex-shrink-0"
+                                  disabled={deletingMeetingId === meeting.id || isUpdating}
+                                  title="Delete Meeting"
+                                >
+                                  {deletingMeetingId === meeting.id ? (
+                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                  ) : (
+                                    <>
+                                      <Trash2 className="h-4 w-4 mr-2" />
+                                      Delete
+                                    </>
+                                  )}
+                                </Button>
                               </>
                             )}
-                          </Button>
-                        </>
-                      )}
-                    </CardFooter>
-                  </Card>
+                          </CardFooter>
+                        </Card>
                       ))}
                     </div>
                   </div>
@@ -621,7 +671,9 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                             {pastMeetings.length}
                           </Badge>
                         </div>
-                        <ChevronDown className={`h-4 w-4 text-[#111]/55 transition-transform ${pastMeetingsOpen ? 'rotate-180' : ''}`} />
+                        <ChevronDown
+                          className={`h-4 w-4 text-[#111]/55 transition-transform ${pastMeetingsOpen ? "rotate-180" : ""}`}
+                        />
                       </CollapsibleTrigger>
                       <CollapsibleContent>
                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 mt-4">
@@ -629,7 +681,9 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                             <Card key={meeting.id} className="bg-white/80 border-black/[0.08]/50">
                               <CardHeader>
                                 <div className="flex items-start justify-between">
-                                  <CardTitle className="text-lg text-[#111]">{meeting.title}</CardTitle>
+                                  <CardTitle className="text-lg text-[#111]">
+                                    {meeting.title}
+                                  </CardTitle>
                                   {getStatusBadge(meeting.status)}
                                 </div>
                                 {meeting.description && (
@@ -652,30 +706,45 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                                 <div className="flex items-start gap-2 text-sm text-[#111]/55">
                                   <Users className="h-4 w-4 text-[#111]/55 mt-0.5" />
                                   <div className="flex-1">
-                                    {meeting.accessType === 'public' ? (
-                                      <Badge className="bg-[#1e6b3c]/20 text-primary">Public - Anyone with link</Badge>
-                                    ) : meeting.accessType === 'company' ? (
+                                    {meeting.accessType === "public" ? (
+                                      <Badge className="bg-[#1e6b3c]/20 text-primary">
+                                        Public - Anyone with link
+                                      </Badge>
+                                    ) : meeting.accessType === "company" ? (
                                       isAdmin && getCompanyNames(meeting).length > 0 ? (
                                         <div className="flex flex-wrap gap-1">
                                           {getCompanyNames(meeting).map((name, idx) => (
-                                            <Badge key={idx} className="bg-black/[0.06] text-secondary-foreground">
+                                            <Badge
+                                              key={idx}
+                                              className="bg-black/[0.06] text-secondary-foreground"
+                                            >
                                               {name}
                                             </Badge>
                                           ))}
                                         </div>
                                       ) : (
-                                        <Badge className="bg-black/[0.06] text-secondary-foreground">Company meeting</Badge>
+                                        <Badge className="bg-black/[0.06] text-secondary-foreground">
+                                          Company meeting
+                                        </Badge>
                                       )
-                                    ) : (meeting as any)._participantNames && (meeting as any)._participantNames.length > 0 ? (
+                                    ) : (meeting as any)._participantNames &&
+                                      (meeting as any)._participantNames.length > 0 ? (
                                       <div className="flex flex-wrap gap-1">
-                                        {(meeting as any)._participantNames.map((name: string, idx: number) => (
-                                          <span key={idx} className="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-black/[0.06] text-secondary-foreground">
-                                            {name}
-                                          </span>
-                                        ))}
+                                        {(meeting as any)._participantNames.map(
+                                          (name: string, idx: number) => (
+                                            <span
+                                              key={idx}
+                                              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-black/[0.06] text-secondary-foreground"
+                                            >
+                                              {name}
+                                            </span>
+                                          ),
+                                        )}
                                       </div>
                                     ) : (
-                                      <span>{meeting.participantUserIds.length + 1} participants</span>
+                                      <span>
+                                        {meeting.participantUserIds.length + 1} participants
+                                      </span>
                                     )}
                                   </div>
                                 </div>
@@ -688,13 +757,22 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                                     rel="noopener noreferrer"
                                     className={isAdmin ? "flex-1 min-w-[120px]" : "w-full"}
                                   >
-                                    <Button className="w-full bg-[#1e6b3c] hover:bg-[#1e6b3c]-hover text-white" size="sm" variant="outline">
+                                    <Button
+                                      className="w-full bg-[#1e6b3c] hover:bg-[#1e6b3c]-hover text-white"
+                                      size="sm"
+                                      variant="outline"
+                                    >
                                       <Video className="mr-2 h-4 w-4" />
                                       Join Meeting
                                     </Button>
                                   </a>
                                 ) : (
-                                  <Button className={isAdmin ? "flex-1 min-w-[120px]" : "w-full"} disabled size="sm" variant="outline">
+                                  <Button
+                                    className={isAdmin ? "flex-1 min-w-[120px]" : "w-full"}
+                                    disabled
+                                    size="sm"
+                                    variant="outline"
+                                  >
                                     Meeting Ended
                                   </Button>
                                 )}
@@ -749,15 +827,24 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
         <Dialog open={showCreateModal} onOpenChange={closeCreateModal}>
           <DialogContent className="bg-white border-black/[0.08] text-[#111] max-w-2xl max-h-[90vh] overflow-y-auto p-6">
             <DialogHeader>
-              <DialogTitle className="text-[#111]">{editingMeeting ? 'Edit Meeting' : 'Create New Meeting'}</DialogTitle>
+              <DialogTitle className="text-[#111]">
+                {editingMeeting ? "Edit Meeting" : "Create New Meeting"}
+              </DialogTitle>
               <DialogDescription className="text-[#111]/55">
-                {editingMeeting ? 'Update meeting details' : 'Schedule a meeting with one or more users'}
+                {editingMeeting
+                  ? "Update meeting details"
+                  : "Schedule a meeting with one or more users"}
               </DialogDescription>
             </DialogHeader>
 
-            <form onSubmit={editingMeeting ? handleUpdateMeeting : handleCreateMeeting} className="space-y-4">
+            <form
+              onSubmit={editingMeeting ? handleUpdateMeeting : handleCreateMeeting}
+              className="space-y-4"
+            >
               <div className="space-y-2">
-                <Label htmlFor="title" className="text-[#111]">Meeting Title</Label>
+                <Label htmlFor="title" className="text-[#111]">
+                  Meeting Title
+                </Label>
                 <Input
                   id="title"
                   value={formData.title}
@@ -769,7 +856,9 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description" className="text-[#111]">Description (Optional)</Label>
+                <Label htmlFor="description" className="text-[#111]">
+                  Description (Optional)
+                </Label>
                 <Textarea
                   id="description"
                   value={formData.description}
@@ -782,7 +871,9 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="scheduledAt" className="text-[#111]">Date & Time</Label>
+                  <Label htmlFor="scheduledAt" className="text-[#111]">
+                    Date & Time
+                  </Label>
                   <Input
                     id="scheduledAt"
                     type="datetime-local"
@@ -794,7 +885,9 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="duration" className="text-[#111]">Duration (minutes)</Label>
+                  <Label htmlFor="duration" className="text-[#111]">
+                    Duration (minutes)
+                  </Label>
                   <Select
                     value={formData.duration}
                     onValueChange={(value) => setFormData({ ...formData, duration: value })}
@@ -818,7 +911,9 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                 <Label className="text-[#111]">Access Type</Label>
                 <Select
                   value={formData.accessType}
-                  onValueChange={(value: "users" | "company" | "public") => setFormData({ ...formData, accessType: value })}
+                  onValueChange={(value: "users" | "company" | "public") =>
+                    setFormData({ ...formData, accessType: value })
+                  }
                 >
                   <SelectTrigger className="bg-black/[0.05] border-black/[0.08]/50 text-[#111]">
                     <SelectValue />
@@ -831,24 +926,33 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                 </Select>
               </div>
 
-              {formData.accessType === 'users' && users && (
+              {formData.accessType === "users" && users && (
                 <div className="space-y-2">
-                  <Label className="text-[#111]">Select Users ({formData.participantUserIds.length} selected)</Label>
+                  <Label className="text-[#111]">
+                    Select Users ({formData.participantUserIds.length} selected)
+                  </Label>
                   <div className="border border-black/[0.08]/50 rounded-lg p-4 max-h-60 overflow-y-auto space-y-2 bg-black/[0.06]/30">
                     {users && users.length > 0 ? (
                       users
-                        .filter(u => (u.publicMetadata as any)?.role !== 'superuser')
+                        .filter((u) => (u.publicMetadata as any)?.role !== "superuser")
                         .sort((a, b) => {
                           // Sort by name (first name + last name), then by email if no name
-                          const nameA = `${a.firstName || ''} ${a.lastName || ''}`.trim() || a.emailAddresses[0]?.emailAddress || '';
-                          const nameB = `${b.firstName || ''} ${b.lastName || ''}`.trim() || b.emailAddresses[0]?.emailAddress || '';
+                          const nameA =
+                            `${a.firstName || ""} ${a.lastName || ""}`.trim() ||
+                            a.emailAddresses[0]?.emailAddress ||
+                            "";
+                          const nameB =
+                            `${b.firstName || ""} ${b.lastName || ""}`.trim() ||
+                            b.emailAddresses[0]?.emailAddress ||
+                            "";
                           return nameA.localeCompare(nameB);
                         })
                         .map((user) => {
-                          const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
-                          const displayName = fullName || user.emailAddresses[0]?.emailAddress || 'Unknown User';
+                          const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+                          const displayName =
+                            fullName || user.emailAddresses[0]?.emailAddress || "Unknown User";
                           const email = user.emailAddresses[0]?.emailAddress;
-                          
+
                           return (
                             <div key={user.id} className="flex items-center space-x-2">
                               <Checkbox
@@ -877,9 +981,11 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                 </div>
               )}
 
-              {formData.accessType === 'company' && companies && (
+              {formData.accessType === "company" && companies && (
                 <div className="space-y-2">
-                  <Label className="text-[#111]">Select Companies ({formData.participantCompanyIds.length} selected)</Label>
+                  <Label className="text-[#111]">
+                    Select Companies ({formData.participantCompanyIds.length} selected)
+                  </Label>
                   <div className="border border-black/[0.08]/50 rounded-lg p-4 max-h-60 overflow-y-auto space-y-2 bg-black/[0.06]/30">
                     {companies.map((company) => (
                       <div key={company.id} className="flex items-center space-x-2">
@@ -900,16 +1006,22 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                 </div>
               )}
 
-              {formData.accessType === 'public' && (
+              {formData.accessType === "public" && (
                 <div className="bg-[#1e6b3c]/10 border border-brand-blue/20 rounded-lg p-4">
                   <p className="text-sm text-brand-blue">
-                    <strong>Public Meeting:</strong> Anyone with the meeting link will be able to join. The link will be provided after creation.
+                    <strong>Public Meeting:</strong> Anyone with the meeting link will be able to
+                    join. The link will be provided after creation.
                   </p>
                 </div>
               )}
 
               <DialogFooter>
-                <Button type="button" variant="outline" onClick={closeCreateModal} disabled={isCreating || isUpdating}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={closeCreateModal}
+                  disabled={isCreating || isUpdating}
+                >
                   Cancel
                 </Button>
                 <Button
@@ -917,26 +1029,31 @@ export default function MeetingsModal({ isOpen, onClose, isAdmin, userName, user
                   disabled={
                     isCreating ||
                     isUpdating ||
-                    (!editingMeeting && formData.accessType === 'users' && formData.participantUserIds.length === 0) ||
-                    (!editingMeeting && formData.accessType === 'company' && formData.participantCompanyIds.length === 0)
+                    (!editingMeeting &&
+                      formData.accessType === "users" &&
+                      formData.participantUserIds.length === 0) ||
+                    (!editingMeeting &&
+                      formData.accessType === "company" &&
+                      formData.participantCompanyIds.length === 0)
                   }
                   className="bg-[#1e6b3c] hover:bg-[#1e6b3c]-hover text-white"
                 >
-                  {(isCreating || isUpdating) ? (
+                  {isCreating || isUpdating ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      {editingMeeting ? 'Updating...' : 'Creating...'}
+                      {editingMeeting ? "Updating..." : "Creating..."}
                     </>
+                  ) : editingMeeting ? (
+                    "Update Meeting"
                   ) : (
-                    editingMeeting ? 'Update Meeting' : 'Create Meeting'
+                    "Create Meeting"
                   )}
                 </Button>
               </DialogFooter>
             </form>
           </DialogContent>
-        </Dialog >
-      )
-      }
+        </Dialog>
+      )}
     </>
   );
 }

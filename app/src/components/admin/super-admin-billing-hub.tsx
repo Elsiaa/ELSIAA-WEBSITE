@@ -84,11 +84,7 @@ export default function SuperAdminBillingHub({
       </div>
 
       {tab === "bills" && (
-        <BillingManagement
-          companies={companies}
-          projects={projects}
-          isSuperAdmin={isSuperAdmin}
-        />
+        <BillingManagement companies={companies} projects={projects} isSuperAdmin={isSuperAdmin} />
       )}
 
       {tab === "requests" && (

@@ -10,10 +10,7 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/sign-up")({
   validateSearch: searchSchema,
   head: () => ({
-    meta: [
-      { title: "Create account — ELSIAA" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Create account — ELSIAA" }, { name: "robots", content: "noindex" }],
     links: [{ rel: "canonical", href: absoluteUrl("/sign-up") }],
   }),
   component: SignUpPage,

@@ -36,10 +36,8 @@ export function BillingPortal({
   admin = false,
 }: Props) {
   const { sans } = opsFonts;
-  const isSuspended =
-    !status.allUpToDate && status.maxDaysOverdue > BILLING_GRACE_DAYS;
-  const isWarning =
-    !status.allUpToDate && status.maxDaysOverdue <= BILLING_GRACE_DAYS;
+  const isSuspended = !status.allUpToDate && status.maxDaysOverdue > BILLING_GRACE_DAYS;
+  const isWarning = !status.allUpToDate && status.maxDaysOverdue <= BILLING_GRACE_DAYS;
   const daysLeft = isWarning ? BILLING_GRACE_DAYS - status.maxDaysOverdue : 0;
 
   return (
@@ -122,8 +120,8 @@ export function BillingPortal({
             </h2>
           </div>
           <p className="mt-1 text-sm" style={{ color: ops.slate }}>
-            One-time invoices and recurring subscriptions. Pay with a saved method or an
-            invoice link — no account required for link payments.
+            One-time invoices and recurring subscriptions. Pay with a saved method or an invoice
+            link — no account required for link payments.
           </p>
         </header>
         <div className="p-5">

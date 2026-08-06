@@ -24,8 +24,7 @@ export const Route = createFileRoute("/services")({
   component: ServicesPage,
 });
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 
 type Service = {
   name: string;
@@ -105,8 +104,8 @@ function ServicesPage() {
         <Reveal>
           <h1 className="text-5xl font-semibold tracking-[-0.045em] md:text-7xl">Services</h1>
           <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-[#111111]/55 md:text-[17px]">
-            Built, secured, and fully insured. One team from the first sketch to the
-            software running your business.
+            Built, secured, and fully insured. One team from the first sketch to the software
+            running your business.
           </p>
         </Reveal>
       </section>
@@ -134,7 +133,9 @@ function ServicesPage() {
                 <p className="mt-5 mb-8 text-[15px] leading-relaxed text-[#111111]/60">{s.line}</p>
                 <span className="mt-auto inline-flex items-center gap-2 text-[15px] font-semibold text-[#1e6b3c] transition-colors group-hover:text-[#111111]">
                   Get a quote
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
                 </span>
               </a>
             ))}
@@ -148,8 +149,8 @@ function ServicesPage() {
           <Reveal>
             <p className="mx-auto max-w-2xl text-[17px] leading-relaxed text-[#111111]/70 md:text-[19px]">
               Every build is tested, maintained, and{" "}
-              <span className="font-semibold text-[#111111]">fully insured</span> — and you own
-              the finished system.
+              <span className="font-semibold text-[#111111]">fully insured</span> — and you own the
+              finished system.
             </p>
           </Reveal>
         </div>

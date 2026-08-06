@@ -13,37 +13,37 @@
  * socket errors, etc. — onto the typed error catalog).
  */
 
-import type { OutputType } from './types'
+import type { OutputType } from "./types";
 
 export interface JobListQuery {
   // Derive from OutputType (not a duplicated literal) so this port stays in sync
   // with the public `ListOptions.type` (also OutputType). Hardcoding the union
   // here drifts the moment OutputType grows (e.g. "audio"), breaking the
   // ListOptions -> JobListQuery assignment in client/list.ts with TS2322.
-  type?: OutputType
-  cursor?: string | number
-  size?: number
+  type?: OutputType;
+  cursor?: string | number;
+  size?: number;
   /** List only the derived children of this job set (e.g. its upscales). */
-  parentId?: string
+  parentId?: string;
   /** Only jobs in these wire statuses (e.g. 'queued', 'completed'). Repeatable. */
-  status?: string | string[]
+  status?: string | string[];
   /** Only these job set types (registry `jobSetType` strings). Repeatable. */
-  model?: string | string[]
+  model?: string | string[];
 }
 
 export interface MediaListQuery {
-  type: 'image' | 'video' | 'audio'
-  cursor?: string | number
-  size?: number
+  type: "image" | "video" | "audio";
+  cursor?: string | number;
+  size?: number;
 }
 
 export interface MediaGetQuery {
-  id: string
-  type: 'image' | 'video' | 'audio'
+  id: string;
+  type: "image" | "video" | "audio";
 }
 
 export interface SwitchWorkspaceRequest {
-  workspaceId: string
+  workspaceId: string;
 }
 
 /**
@@ -51,8 +51,8 @@ export interface SwitchWorkspaceRequest {
  * resolved job type and the final wire params (validation has already passed).
  */
 export interface ConfirmSubmitRequest {
-  jobSetType: string
-  params: Record<string, unknown>
+  jobSetType: string;
+  params: Record<string, unknown>;
 }
 
 /**
@@ -64,7 +64,7 @@ export interface ConfirmSubmitRequest {
  * `confirmation_rejected` error. A trivial implementation can wrap
  * `window.confirm`; a modal flow resolves the promise with its token.
  */
-export type ConfirmSubmit = (req: ConfirmSubmitRequest) => Promise<string | void>
+export type ConfirmSubmit = (req: ConfirmSubmitRequest) => Promise<string | void>;
 
 /**
  * THE combined adapter shape for a full fnf backend — one object that satisfies
@@ -76,8 +76,12 @@ export interface FnfAdapter extends GenerationBackend, MediaBackend, ProfileBack
 
 /** The jobs port: create/read/list generations and estimate cost. */
 export interface GenerationBackend {
-  createJobs: (req: { jobSetType: string, params: Record<string, unknown>, confirmationToken?: string }) => Promise<unknown>
-  getJob: (id: string) => Promise<unknown>
+  createJobs: (req: {
+    jobSetType: string;
+    params: Record<string, unknown>;
+    confirmationToken?: string;
+  }) => Promise<unknown>;
+  getJob: (id: string) => Promise<unknown>;
   /**
    * OPTIONAL — fetch ALL jobs of a job set in one request, normalized to the
    * same shape as `getJob`. When present, `wait`/`poll` group generations by
@@ -86,42 +90,42 @@ export interface GenerationBackend {
    * seen every tick even on adapters whose per-job read lacks them (the
    * fnf-web adapter carries the gate on both reads).
    */
-  getJobSet?: (id: string) => Promise<unknown>
-  listJobs: (query: JobListQuery) => Promise<unknown>
-  estimateCost: (req: { jobSetType: string, params: Record<string, unknown> }) => Promise<unknown>
+  getJobSet?: (id: string) => Promise<unknown>;
+  listJobs: (query: JobListQuery) => Promise<unknown>;
+  estimateCost: (req: { jobSetType: string; params: Record<string, unknown> }) => Promise<unknown>;
   /**
    * OPTIONAL — cancel a running job server-side (the client-side `signal` only
    * stops polling; the backend job keeps burning credits without this). Adapters
    * whose backend has no cancel route omit it; `cancelGeneration` then throws
    * `cancel_not_supported`.
    */
-  cancelJob?: (id: string) => Promise<unknown>
+  cancelJob?: (id: string) => Promise<unknown>;
   /**
    * OPTIONAL — the host-injected confirmation gate (see `ConfirmSubmit`).
    * Adapters don't implement this themselves; they surface the callback the
    * host passed at construction (`confirm` option). Absent → submits proceed
    * unconfirmed.
    */
-  confirm?: ConfirmSubmit
+  confirm?: ConfirmSubmit;
 }
 
 export interface UploadUrlRequest {
-  type: 'image' | 'video' | 'audio'
-  filename?: string
-  contentType?: string
-  extra?: Record<string, unknown>
+  type: "image" | "video" | "audio";
+  filename?: string;
+  contentType?: string;
+  extra?: Record<string, unknown>;
 }
 
 export interface ConfirmMediaRequest {
-  mediaId: string
-  type: 'image' | 'video' | 'audio'
-  filename?: string
-  jobId?: string
-  forceIpCheck?: boolean
-  forceNsfwCheck?: boolean
-  startSeconds?: number
-  endSeconds?: number
-  extra?: Record<string, unknown>
+  mediaId: string;
+  type: "image" | "video" | "audio";
+  filename?: string;
+  jobId?: string;
+  forceIpCheck?: boolean;
+  forceNsfwCheck?: boolean;
+  startSeconds?: number;
+  endSeconds?: number;
+  extra?: Record<string, unknown>;
 }
 
 /**
@@ -133,10 +137,10 @@ export interface ConfirmMediaRequest {
  * separate injected `BinaryUploader`.
  */
 export interface MediaBackend {
-  getMedia: (query: MediaGetQuery) => Promise<unknown>
-  listMedia: (query: MediaListQuery) => Promise<unknown>
-  getUploadUrl?: (req: UploadUrlRequest) => Promise<unknown>
-  confirmMedia?: (req: ConfirmMediaRequest) => Promise<unknown>
+  getMedia: (query: MediaGetQuery) => Promise<unknown>;
+  listMedia: (query: MediaListQuery) => Promise<unknown>;
+  getUploadUrl?: (req: UploadUrlRequest) => Promise<unknown>;
+  confirmMedia?: (req: ConfirmMediaRequest) => Promise<unknown>;
 }
 
 /**
@@ -146,9 +150,9 @@ export interface MediaBackend {
  * that outside this SDK port.
  */
 export interface ProfileBackend {
-  getUser: () => Promise<unknown>
-  listWorkspaces: () => Promise<unknown>
-  getCurrentWorkspace: () => Promise<unknown>
-  getWorkspaceWallet: () => Promise<unknown>
-  switchWorkspace: (req: SwitchWorkspaceRequest) => Promise<unknown>
+  getUser: () => Promise<unknown>;
+  listWorkspaces: () => Promise<unknown>;
+  getCurrentWorkspace: () => Promise<unknown>;
+  getWorkspaceWallet: () => Promise<unknown>;
+  switchWorkspace: (req: SwitchWorkspaceRequest) => Promise<unknown>;
 }

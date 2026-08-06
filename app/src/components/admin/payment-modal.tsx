@@ -1,25 +1,31 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
-import AnimatedPoelLogo from '@/components/AnimatedPoelLogo';
+import { useState, useEffect, useRef } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import AnimatedPoelLogo from "@/components/AnimatedPoelLogo";
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-function PaymentModalForm({ 
-  total, 
-  clientSecret, 
-  public_token, 
-  paymentRequest, 
+function PaymentModalForm({
+  total,
+  clientSecret,
+  public_token,
+  paymentRequest,
   isSetupIntent = false,
   onSuccess,
-  onClose 
-}: { 
-  total: number; 
-  clientSecret: string; 
+  onClose,
+}: {
+  total: number;
+  clientSecret: string;
   public_token?: string;
   paymentRequest?: any;
   isSetupIntent?: boolean;
@@ -29,7 +35,7 @@ function PaymentModalForm({
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isPaymentElementReady, setIsPaymentElementReady] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -39,11 +45,12 @@ function PaymentModalForm({
 
     const checkPaymentElement = () => {
       if (formRef.current) {
-        const stripeElement = formRef.current.querySelector('[data-testid="payment-element"]') ||
-                             formRef.current.querySelector('.InputElement') ||
-                             formRef.current.querySelector('input[data-elements-stable-field-name]') ||
-                             formRef.current.querySelector('iframe[src*="js.stripe.com"]');
-        
+        const stripeElement =
+          formRef.current.querySelector('[data-testid="payment-element"]') ||
+          formRef.current.querySelector(".InputElement") ||
+          formRef.current.querySelector("input[data-elements-stable-field-name]") ||
+          formRef.current.querySelector('iframe[src*="js.stripe.com"]');
+
         if (stripeElement) {
           setTimeout(() => {
             setIsPaymentElementReady(true);
@@ -89,11 +96,7 @@ function PaymentModalForm({
       <div className="space-y-4">
         <div className="flex items-center justify-center py-8">
           <div className="text-center">
-            <AnimatedPoelLogo
-              width="200px"
-              height="200px"
-              speed={3}
-            />
+            <AnimatedPoelLogo width="200px" height="200px" speed={3} />
             <p className="mt-6 text-sm text-muted-foreground">Loading secure payment form...</p>
           </div>
         </div>
@@ -105,17 +108,17 @@ function PaymentModalForm({
     event.preventDefault();
 
     setIsLoading(true);
-    setError('');
+    setError("");
 
     try {
       if (isSetupIntent) {
         const { error: confirmError } = await stripe.confirmSetup({
           elements,
-          redirect: 'if_required',
+          redirect: "if_required",
         });
 
         if (confirmError) {
-          setError(confirmError.message || 'Setup failed');
+          setError(confirmError.message || "Setup failed");
           setIsLoading(false);
           return;
         }
@@ -123,18 +126,21 @@ function PaymentModalForm({
         // Handle setup success
         if (public_token) {
           const setupIntent = await stripe.retrieveSetupIntent(clientSecret);
-          if (setupIntent.setupIntent?.status === 'succeeded' && setupIntent.setupIntent.payment_method) {
+          if (
+            setupIntent.setupIntent?.status === "succeeded" &&
+            setupIntent.setupIntent.payment_method
+          ) {
             // Save payment method
-            await fetch('/api/payments/save-payment-method', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+            await fetch("/api/payments/save-payment-method", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 public_token,
                 setup_intent_id: setupIntent.setupIntent.id,
               }),
             });
 
-            toast.success('Payment method saved successfully!');
+            toast.success("Payment method saved successfully!");
             onSuccess?.();
             onClose?.();
           }
@@ -142,24 +148,24 @@ function PaymentModalForm({
       } else {
         const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
           elements,
-          redirect: 'if_required',
+          redirect: "if_required",
         });
 
         if (confirmError) {
-          setError(confirmError.message || 'Payment failed');
+          setError(confirmError.message || "Payment failed");
           setIsLoading(false);
           return;
         }
 
         // Handle payment success
-        if (paymentIntent?.status === 'succeeded' || paymentIntent?.status === 'processing') {
+        if (paymentIntent?.status === "succeeded" || paymentIntent?.status === "processing") {
           if (public_token && paymentIntent.id) {
             // Save payment method first for recurring payments
             const paymentMethodId = (paymentIntent as any).payment_method;
             if (paymentMethodId) {
-              await fetch('/api/payments/save-payment-method', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+              await fetch("/api/payments/save-payment-method", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   public_token,
                   payment_intent_id: paymentIntent.id,
@@ -167,9 +173,9 @@ function PaymentModalForm({
               }).catch(() => {}); // Continue even if this fails
             }
 
-            const recordRes = await fetch('/api/payments/record-success', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+            const recordRes = await fetch("/api/payments/record-success", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 paymentIntentId: paymentIntent.id,
                 publicToken: public_token,
@@ -177,46 +183,52 @@ function PaymentModalForm({
             });
             if (!recordRes.ok) {
               const errBody = await recordRes.json().catch(() => ({}));
-              throw new Error((errBody as { error?: string }).error || 'Failed to record payment');
+              throw new Error((errBody as { error?: string }).error || "Failed to record payment");
             }
 
-            toast.success('Payment completed successfully!');
+            toast.success("Payment completed successfully!");
             onSuccess?.();
             onClose?.();
           } else {
-            toast.success('Payment completed successfully!');
+            toast.success("Payment completed successfully!");
             onSuccess?.();
             onClose?.();
           }
         }
       }
     } catch (err) {
-      console.error('Error confirming payment:', err);
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
+      console.error("Error confirming payment:", err);
+      setError(err instanceof Error ? err.message : "An unexpected error occurred");
       setIsLoading(false);
     }
   };
 
   return (
     <div className="relative min-h-[400px]">
-      <div 
+      <div
         className={`absolute inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center rounded-md min-h-[400px] w-full transition-opacity duration-200 ${
-          !isPaymentElementReady ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          !isPaymentElementReady
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
       >
         <div className="text-center">
-          <AnimatedPoelLogo
-            width="200px"
-            height="200px"
-            speed={3}
-          />
+          <AnimatedPoelLogo width="200px" height="200px" speed={3} />
           <p className="mt-6 text-sm text-muted-foreground">Loading secure payment form...</p>
         </div>
       </div>
       <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
         <PaymentElement />
-        <Button type="submit" disabled={!stripe || isLoading || !isPaymentElementReady} className="w-full">
-          {isLoading ? 'Processing...' : isSetupIntent ? 'Save Payment Method' : `Pay $${total.toFixed(2)}`}
+        <Button
+          type="submit"
+          disabled={!stripe || isLoading || !isPaymentElementReady}
+          className="w-full"
+        >
+          {isLoading
+            ? "Processing..."
+            : isSetupIntent
+              ? "Save Payment Method"
+              : `Pay $${total.toFixed(2)}`}
         </Button>
         {error && <p className="text-red-500 text-sm">{error}</p>}
       </form>
@@ -232,18 +244,18 @@ interface PaymentModalProps {
   onSuccess?: () => void;
 }
 
-export default function PaymentModal({ 
-  isOpen, 
-  onClose, 
+export default function PaymentModal({
+  isOpen,
+  onClose,
   public_token,
   paymentRequest,
-  onSuccess 
+  onSuccess,
 }: PaymentModalProps) {
-  const [clientSecret, setClientSecret] = useState<string>('');
+  const [clientSecret, setClientSecret] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const isSetupIntent = paymentRequest?.payment_type === 'interval_billing';
-  const amount = paymentRequest?.amount || 1.00;
+  const [error, setError] = useState("");
+  const isSetupIntent = paymentRequest?.payment_type === "interval_billing";
+  const amount = paymentRequest?.amount || 1.0;
   const total = amount;
 
   useEffect(() => {
@@ -254,48 +266,48 @@ export default function PaymentModal({
 
   const loadPaymentIntent = async () => {
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       if (isSetupIntent) {
         // Create setup intent for interval_billing
-        const response = await fetch('/api/payments/create-setup-intent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const response = await fetch("/api/payments/create-setup-intent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            method: 'card',
+            method: "card",
             public_token,
           }),
         });
 
         if (!response.ok) {
-          throw new Error('Failed to create setup intent');
+          throw new Error("Failed to create setup intent");
         }
 
         const { clientSecret: secret } = await response.json();
         setClientSecret(secret);
       } else {
         // Create payment intent
-        const response = await fetch('/api/payments/create-intent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const response = await fetch("/api/payments/create-intent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             amount: amount,
-            method: 'card',
+            method: "card",
             public_token,
           }),
         });
 
         if (!response.ok) {
-          throw new Error('Failed to create payment intent');
+          throw new Error("Failed to create payment intent");
         }
 
         const { clientSecret: secret } = await response.json();
         setClientSecret(secret);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to initialize payment');
-      toast.error(err instanceof Error ? err.message : 'Failed to initialize payment');
+      setError(err instanceof Error ? err.message : "Failed to initialize payment");
+      toast.error(err instanceof Error ? err.message : "Failed to initialize payment");
     } finally {
       setLoading(false);
     }
@@ -310,12 +322,12 @@ export default function PaymentModal({
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {isSetupIntent ? 'Save Payment Method' : `Pay $${total.toFixed(2)}`}
+            {isSetupIntent ? "Save Payment Method" : `Pay $${total.toFixed(2)}`}
           </DialogTitle>
           <DialogDescription>
-            {isSetupIntent 
-              ? 'Save your payment method for future billing. No charge will be made.'
-              : 'Complete your payment securely using the form below.'}
+            {isSetupIntent
+              ? "Save your payment method for future billing. No charge will be made."
+              : "Complete your payment securely using the form below."}
           </DialogDescription>
         </DialogHeader>
 
@@ -348,7 +360,3 @@ export default function PaymentModal({
     </Dialog>
   );
 }
-
-
-
-

@@ -1,18 +1,18 @@
-'use client'
+"use client";
 
-import type { FnfObservabilityOptions } from '@higgsfield/fnf/observability'
-import type { GenerationRunClient } from './generation-run'
-import type { FnfScopeOptions } from './keys'
-import { useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
-import { useStore } from './external-store-hook'
-import { applyGenerations } from './generation-cache'
-import { GenerationRun } from './generation-run'
-import { useOptionalFnfObservability } from './provider'
+import type { FnfObservabilityOptions } from "@higgsfield/fnf/observability";
+import type { GenerationRunClient } from "./generation-run";
+import type { FnfScopeOptions } from "./keys";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useStore } from "./external-store-hook";
+import { applyGenerations } from "./generation-cache";
+import { GenerationRun } from "./generation-run";
+import { useOptionalFnfObservability } from "./provider";
 
 export type GenerationRunHookOptions = FnfScopeOptions & {
-  observability?: FnfObservabilityOptions
-}
+  observability?: FnfObservabilityOptions;
+};
 
 /**
  * A submit-to-terminal lifecycle bound to the component (requires a
@@ -35,19 +35,22 @@ export type GenerationRunHookOptions = FnfScopeOptions & {
  *   <button onClick={() => run.start(input)} disabled={run.isRunning}>
  *   {run.error && <ErrorNote code={run.error.code} />}
  */
-export function useGenerationRun<Input>(client: GenerationRunClient<Input>, opts?: GenerationRunHookOptions): GenerationRun<Input> {
-  const providerObservability = useOptionalFnfObservability()
-  const observability = opts?.observability ?? providerObservability
+export function useGenerationRun<Input>(
+  client: GenerationRunClient<Input>,
+  opts?: GenerationRunHookOptions,
+): GenerationRun<Input> {
+  const providerObservability = useOptionalFnfObservability();
+  const observability = opts?.observability ?? providerObservability;
   // useState, not useMemo: a controller holds state, and useMemo is a cache
   // React may discard — recreation would silently wipe the run.
-  const [run] = useState(() => new GenerationRun(client, { observability }))
-  const queryClient = useQueryClient()
+  const [run] = useState(() => new GenerationRun(client, { observability }));
+  const queryClient = useQueryClient();
   useEffect(() => {
-    const unsubscribe = run.subscribe(() => applyGenerations(queryClient, run.generations, opts))
+    const unsubscribe = run.subscribe(() => applyGenerations(queryClient, run.generations, opts));
     return () => {
-      unsubscribe()
-      run.abort()
-    }
-  }, [run, queryClient, opts?.scopeKey])
-  return useStore(run)
+      unsubscribe();
+      run.abort();
+    };
+  }, [run, queryClient, opts?.scopeKey]);
+  return useStore(run);
 }

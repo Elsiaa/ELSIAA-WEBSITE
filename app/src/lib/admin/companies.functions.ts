@@ -193,14 +193,11 @@ export const listCompanyMembers = createServerFn({ method: "GET" })
         email: profile?.email ?? null,
         displayName: profile?.displayName ?? null,
         createdAt: r.created_at as string,
-        authorizationsAllowed:
-          (r.authorizations_allowed as boolean | undefined) ?? isElevated,
-        programLogsAllowed:
-          (r.program_logs_allowed as boolean | undefined) ?? isElevated,
+        authorizationsAllowed: (r.authorizations_allowed as boolean | undefined) ?? isElevated,
+        programLogsAllowed: (r.program_logs_allowed as boolean | undefined) ?? isElevated,
         filesAllowed: (r.files_allowed as boolean | undefined) ?? isElevated,
         supportAllowed: (r.support_allowed as boolean | undefined) ?? isElevated,
-        allProjectsAccess:
-          (r.all_projects_access as boolean | undefined) ?? isElevated,
+        allProjectsAccess: (r.all_projects_access as boolean | undefined) ?? isElevated,
       };
     });
   });
@@ -276,13 +273,10 @@ export const updateCompanyMemberAccess = createServerFn({ method: "POST" })
     if (data.role !== undefined) patch.role = data.role;
     if (data.authorizationsAllowed !== undefined)
       patch.authorizations_allowed = data.authorizationsAllowed;
-    if (data.programLogsAllowed !== undefined)
-      patch.program_logs_allowed = data.programLogsAllowed;
+    if (data.programLogsAllowed !== undefined) patch.program_logs_allowed = data.programLogsAllowed;
     if (data.filesAllowed !== undefined) patch.files_allowed = data.filesAllowed;
-    if (data.supportAllowed !== undefined)
-      patch.support_allowed = data.supportAllowed;
-    if (data.allProjectsAccess !== undefined)
-      patch.all_projects_access = data.allProjectsAccess;
+    if (data.supportAllowed !== undefined) patch.support_allowed = data.supportAllowed;
+    if (data.allProjectsAccess !== undefined) patch.all_projects_access = data.allProjectsAccess;
     const { error } = await client
       .from("company_members")
       .update(patch)

@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import type { ComponentProps, ReactNode, Ref } from 'react'
-import { IconChevronLeftMediumOutlined as ChevronLeftIcon } from '@higgsfield-ai/icons/IconChevronLeftMediumOutlined'
-import { IconMagnifyingGlass2Outlined as SearchIcon } from '@higgsfield-ai/icons/IconMagnifyingGlass2Outlined'
-import { Children, isValidElement, useRef } from 'react'
-import { Dialog as Primitive } from '@base-ui/react/dialog'
-import type { ClassValue } from '../utils/cx.ts'
-import { cx } from '../utils/cx.ts'
-import { CloseIcon, closeButton } from '../close-button/index.ts'
-import { Icon } from '../icon/index.ts'
+import type { ComponentProps, ReactNode, Ref } from "react";
+import { IconChevronLeftMediumOutlined as ChevronLeftIcon } from "@higgsfield-ai/icons/IconChevronLeftMediumOutlined";
+import { IconMagnifyingGlass2Outlined as SearchIcon } from "@higgsfield-ai/icons/IconMagnifyingGlass2Outlined";
+import { Children, isValidElement, useRef } from "react";
+import { Dialog as Primitive } from "@base-ui/react/dialog";
+import type { ClassValue } from "../utils/cx.ts";
+import { cx } from "../utils/cx.ts";
+import { CloseIcon, closeButton } from "../close-button/index.ts";
+import { Icon } from "../icon/index.ts";
 
 /**
  * Modal — Base UI Dialog (focus trap, scroll lock, escape, a11y, portal, and
@@ -45,106 +45,136 @@ import { Icon } from '../icon/index.ts'
  * `flush` to a header whose row/pill spans the full width (search / tabs).
  */
 
-export type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+export type ModalSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 const SIZE_CLASS = {
-  xs: 'q-modal-size-xs',
-  sm: 'q-modal-size-sm',
-  md: 'q-modal-size-md',
-  lg: 'q-modal-size-lg',
-  xl: 'q-modal-size-xl',
-  '2xl': 'q-modal-size-2xl',
-} satisfies Record<ModalSize, string>
+  xs: "q-modal-size-xs",
+  sm: "q-modal-size-sm",
+  md: "q-modal-size-md",
+  lg: "q-modal-size-lg",
+  xl: "q-modal-size-xl",
+  "2xl": "q-modal-size-2xl",
+} satisfies Record<ModalSize, string>;
 
 export interface ModalOptions {
-  size?: ModalSize
+  size?: ModalSize;
 }
 
 /** Build the modal popup class string. Also usable to style a non-popup element. */
 export function modal(options: ModalOptions = {}, ...extra: ClassValue[]): string {
-  const { size = 'md' } = options
-  return cx('q-modal', SIZE_CLASS[size], ...extra)
+  const { size = "md" } = options;
+  return cx("q-modal", SIZE_CLASS[size], ...extra);
 }
 
 /** Populate every ref in `refs` with the same node (object or callback refs). */
 function mergeRefs<T>(...refs: (Ref<T> | undefined)[]) {
   return (node: T | null) => {
     for (const ref of refs) {
-      if (typeof ref === 'function')
-        ref(node)
-      else if (ref)
-        (ref as { current: T | null }).current = node
+      if (typeof ref === "function") ref(node);
+      else if (ref) (ref as { current: T | null }).current = node;
     }
-  }
+  };
 }
 
 /* ── Passthrough parts (Base UI owns behavior; quanta only names them). ─────── */
-const Root = Primitive.Root
-const Trigger = Primitive.Trigger
+const Root = Primitive.Root;
+const Trigger = Primitive.Trigger;
 /** Raw dismiss trigger — wrap a Button via `render`, or pass your own children. */
-const Close = Primitive.Close
+const Close = Primitive.Close;
 
-type TitleProps = Omit<ComponentProps<typeof Primitive.Title>, 'className'> & { className?: string }
+type TitleProps = Omit<ComponentProps<typeof Primitive.Title>, "className"> & {
+  className?: string;
+};
 function Title({ className, ...props }: TitleProps) {
-  return <Primitive.Title className={cx('q-modal-title', className)} {...props} />
+  return <Primitive.Title className={cx("q-modal-title", className)} {...props} />;
 }
 
-type DescriptionProps = Omit<ComponentProps<typeof Primitive.Description>, 'className'> & { className?: string }
+type DescriptionProps = Omit<ComponentProps<typeof Primitive.Description>, "className"> & {
+  className?: string;
+};
 function Description({ className, ...props }: DescriptionProps) {
-  return <Primitive.Description className={cx('q-modal-description', className)} {...props} />
+  return <Primitive.Description className={cx("q-modal-description", className)} {...props} />;
 }
 
-type CloseButtonProps = Omit<ComponentProps<typeof Primitive.Close>, 'className'> & { className?: string }
+type CloseButtonProps = Omit<ComponentProps<typeof Primitive.Close>, "className"> & {
+  className?: string;
+};
 /** Styled round dismiss button (Figma disc) — sits at the trailing end of a header. */
 function CloseButton({ className, children, ...props }: CloseButtonProps) {
   return (
     <Primitive.Close aria-label="Close" className={closeButton({}, className)} {...props}>
       {children ?? <Icon as={CloseIcon} size="md" />}
     </Primitive.Close>
-  )
+  );
 }
 
-type BackButtonProps = Omit<ComponentProps<'button'>, 'className'> & { className?: string }
+type BackButtonProps = Omit<ComponentProps<"button">, "className"> & { className?: string };
 /** Styled round back button (Figma disc) for the "back" header. */
 function BackButton({ className, children, type, ...props }: BackButtonProps) {
   return (
-    <button type={type ?? 'button'} aria-label="Back" className={closeButton({}, className)} {...props}>
+    <button
+      type={type ?? "button"}
+      aria-label="Back"
+      className={closeButton({}, className)}
+      {...props}
+    >
       {children ?? <Icon as={ChevronLeftIcon} size="md" />}
     </button>
-  )
+  );
 }
 
-type SearchProps = Omit<ComponentProps<'input'>, 'className' | 'size'> & {
-  className?: string
-  inputClassName?: string
-  icon?: ReactNode
-}
+type SearchProps = Omit<ComponentProps<"input">, "className" | "size"> & {
+  className?: string;
+  inputClassName?: string;
+  icon?: ReactNode;
+};
 /** Search row for the "search" header (magnifier + input). */
-function Search({ className, inputClassName, icon, placeholder = 'Search', type, ...props }: SearchProps) {
+function Search({
+  className,
+  inputClassName,
+  icon,
+  placeholder = "Search",
+  type,
+  ...props
+}: SearchProps) {
   return (
-    <div className={cx('q-modal-search', className)}>
+    <div className={cx("q-modal-search", className)}>
       <span className="q-modal-search-icon">{icon ?? <Icon as={SearchIcon} size="md" />}</span>
-      <input className={cx('q-modal-search-input', inputClassName)} placeholder={placeholder} type={type ?? 'search'} {...props} />
+      <input
+        className={cx("q-modal-search-input", inputClassName)}
+        placeholder={placeholder}
+        type={type ?? "search"}
+        {...props}
+      />
     </div>
-  )
+  );
 }
 
 /* ── Content: Portal + Backdrop + the centered glass Popup ─────────────────── */
-type ContentProps = Omit<ComponentProps<typeof Primitive.Popup>, 'className'> & {
-  className?: string
+type ContentProps = Omit<ComponentProps<typeof Primitive.Popup>, "className"> & {
+  className?: string;
   /** Width preset (Figma sizes). Use className/style for one-off dimensions. */
-  size?: ModalSize
-  backdropClassName?: string
+  size?: ModalSize;
+  backdropClassName?: string;
   /** Portal mount node. Defaults to document.body. */
-  container?: ComponentProps<typeof Primitive.Portal>['container']
-}
+  container?: ComponentProps<typeof Primitive.Portal>["container"];
+};
 
-function Content({ size = 'md', backdropClassName, container, className, children, initialFocus, ref, ...props }: ContentProps) {
+function Content({
+  size = "md",
+  backdropClassName,
+  container,
+  className,
+  children,
+  initialFocus,
+  ref,
+  ...props
+}: ContentProps) {
   // Focus the popup itself (not the first tabbable) so opening doesn't ring the ✕.
-  const popupRef = useRef<HTMLDivElement>(null)
+  const popupRef = useRef<HTMLDivElement>(null);
   return (
     <Primitive.Portal container={container}>
-      <Primitive.Backdrop className={cx('q-modal-backdrop', backdropClassName)} />
+      <Primitive.Backdrop className={cx("q-modal-backdrop", backdropClassName)} />
       <Primitive.Popup
         ref={mergeRefs(popupRef, ref)}
         initialFocus={initialFocus ?? popupRef}
@@ -154,33 +184,35 @@ function Content({ size = 'md', backdropClassName, container, className, childre
         {children}
       </Primitive.Popup>
     </Primitive.Portal>
-  )
+  );
 }
 
 /* ── Header: a 40px row holding composed controls ──────────────────────────── */
-type HeaderProps = ComponentProps<'div'> & {
+type HeaderProps = ComponentProps<"div"> & {
   /** Run the header content flush to the card padding (Figma search / tabs headers). */
-  flush?: boolean
-}
+  flush?: boolean;
+};
 function Header({ flush = false, className, ...props }: HeaderProps) {
-  return <div className={cx('q-modal-header', flush && 'q-modal-header-flush', className)} {...props} />
+  return (
+    <div className={cx("q-modal-header", flush && "q-modal-header-flush", className)} {...props} />
+  );
 }
 
 /** Leading group inside a header (e.g. a BackButton + Title) for the "back" layout. */
-function HeaderLead({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-modal-header-lead', className)} {...props} />
+function HeaderLead({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-modal-header-lead", className)} {...props} />;
 }
 
 /** Flex spacer — pushes following controls to the trailing end (header or footer). */
-function Spacer({ className, ...props }: ComponentProps<'span'>) {
-  return <span aria-hidden className={cx('q-modal-spacer', className)} {...props} />
+function Spacer({ className, ...props }: ComponentProps<"span">) {
+  return <span aria-hidden className={cx("q-modal-spacer", className)} {...props} />;
 }
 
 /* ── Workspace + Body ──────────────────────────────────────────────────────── */
-type WorkspaceProps = ComponentProps<'div'> & {
+type WorkspaceProps = ComponentProps<"div"> & {
   /** Apply the default content padding. Set false for edge-to-edge content. */
-  padded?: boolean
-}
+  padded?: boolean;
+};
 
 /**
  * The inset "window" — a frosted, lighter pane inside the body. Place a single
@@ -188,13 +220,18 @@ type WorkspaceProps = ComponentProps<'div'> & {
  * column / grid) for split layouts like the Figma "Left sidebar" / "Selector".
  */
 function Workspace({ className, padded = true, ...props }: WorkspaceProps) {
-  return <div className={cx('q-modal-workspace', padded && 'q-modal-workspace-padded', className)} {...props} />
+  return (
+    <div
+      className={cx("q-modal-workspace", padded && "q-modal-workspace-padded", className)}
+      {...props}
+    />
+  );
 }
 
-type BodyProps = ComponentProps<'div'> & {
+type BodyProps = ComponentProps<"div"> & {
   /** Padding for the auto-wrapped single Workspace (ignored when you nest your own). */
-  padded?: boolean
-}
+  padded?: boolean;
+};
 
 /**
  * Body — the scrollable region between header and footer. It imposes NO layout:
@@ -204,37 +241,43 @@ type BodyProps = ComponentProps<'div'> & {
  */
 function Body({ className, padded = true, children, ...props }: BodyProps) {
   const hasWorkspace = (nodes: ReactNode): boolean =>
-    Children.toArray(nodes).some(c =>
-      isValidElement(c) && (c.type === Workspace || hasWorkspace((c.props as { children?: ReactNode }).children)),
-    )
+    Children.toArray(nodes).some(
+      (c) =>
+        isValidElement(c) &&
+        (c.type === Workspace || hasWorkspace((c.props as { children?: ReactNode }).children)),
+    );
   return (
-    <div className={cx('q-modal-body', className)} {...props}>
+    <div className={cx("q-modal-body", className)} {...props}>
       {hasWorkspace(children) ? children : <Workspace padded={padded}>{children}</Workspace>}
     </div>
-  )
+  );
 }
 
 /* ── Footer: a 48px row holding a caption + actions ────────────────────────── */
-type FooterProps = ComponentProps<'div'> & {
+type FooterProps = ComponentProps<"div"> & {
   /** Stretch the footer for full-width actions (Figma footer type=full). */
-  full?: boolean
-}
+  full?: boolean;
+};
 function Footer({ full = false, className, ...props }: FooterProps) {
-  return <div className={cx('q-modal-footer', full && 'q-modal-footer-full', className)} {...props} />
+  return (
+    <div className={cx("q-modal-footer", full && "q-modal-footer-full", className)} {...props} />
+  );
 }
 
 /** Leading footer caption (muted helper text). */
-function FooterCaption({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-modal-caption', className)} {...props} />
+function FooterCaption({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-modal-caption", className)} {...props} />;
 }
 
-type FooterActionsProps = ComponentProps<'div'> & {
+type FooterActionsProps = ComponentProps<"div"> & {
   /** Stretch the actions to fill the footer width (each child grows equally). */
-  full?: boolean
-}
+  full?: boolean;
+};
 /** Trailing footer actions (buttons), pushed to the right by default. */
 function FooterActions({ full = false, className, ...props }: FooterActionsProps) {
-  return <div className={cx('q-modal-actions', full && 'q-modal-actions-full', className)} {...props} />
+  return (
+    <div className={cx("q-modal-actions", full && "q-modal-actions-full", className)} {...props} />
+  );
 }
 
 export const Modal = {
@@ -255,4 +298,4 @@ export const Modal = {
   Footer,
   FooterCaption,
   FooterActions,
-}
+};

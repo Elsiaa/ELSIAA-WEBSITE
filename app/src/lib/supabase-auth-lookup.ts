@@ -5,9 +5,7 @@
 import { portalEnv } from "@/lib/portal/env";
 import { normalizeEmailForAuth } from "@/lib/email-normalize";
 
-export async function getSupabaseAuthUserIdForEmail(
-  email: string,
-): Promise<string | null> {
+export async function getSupabaseAuthUserIdForEmail(email: string): Promise<string | null> {
   const normalized = normalizeEmailForAuth(email);
   if (!normalized) return null;
 
@@ -37,9 +35,7 @@ export async function getSupabaseAuthUserIdForEmail(
         ? [{ id: body.id, email: body.email }]
         : [];
 
-    const match = users.find(
-      (u) => normalizeEmailForAuth(u.email) === normalized,
-    );
+    const match = users.find((u) => normalizeEmailForAuth(u.email) === normalized);
     return typeof match?.id === "string" ? match.id : null;
   } catch (e) {
     console.error("getSupabaseAuthUserIdForEmail:", e);

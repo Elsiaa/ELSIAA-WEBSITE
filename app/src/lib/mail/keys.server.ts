@@ -60,9 +60,7 @@ function generateRawKey(): { raw: string; prefix: string; hash: string } {
   return { raw, prefix, hash: hashKey(raw) };
 }
 
-export async function listMailApiKeys(
-  client: SupabaseClient,
-): Promise<MailApiKeyRecord[]> {
+export async function listMailApiKeys(client: SupabaseClient): Promise<MailApiKeyRecord[]> {
   const { data, error } = await client
     .from("mail_api_keys")
     .select(
@@ -86,9 +84,7 @@ export async function createMailApiKey(
     throw new Error("Supabase is required for mail API keys");
   }
   const allowAnyFrom = Boolean(input.allowAnyFrom);
-  const allowedFrom = (input.allowedFrom ?? [])
-    .map((e) => e.trim().toLowerCase())
-    .filter(Boolean);
+  const allowedFrom = (input.allowedFrom ?? []).map((e) => e.trim().toLowerCase()).filter(Boolean);
   for (const addr of allowedFrom) {
     if (!isAllowedMailFrom(addr)) {
       throw new Error(`From address not on allowed domains: ${addr}`);
@@ -153,10 +149,7 @@ export async function updateMailApiKey(
   return data ? mapKey(data as KeyRow) : null;
 }
 
-export async function revokeMailApiKey(
-  client: SupabaseClient,
-  id: string,
-): Promise<boolean> {
+export async function revokeMailApiKey(client: SupabaseClient, id: string): Promise<boolean> {
   const { data, error } = await client
     .from("mail_api_keys")
     .update({ revoked_at: new Date().toISOString(), enabled: false })

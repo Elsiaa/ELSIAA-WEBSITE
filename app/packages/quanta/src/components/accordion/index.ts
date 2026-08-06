@@ -1,4 +1,4 @@
-export { Accordion } from './accordion.tsx'
+export { Accordion } from "./accordion.tsx";
 export type {
   AccordionItemProps,
   AccordionPanelProps,
@@ -6,4 +6,4 @@ export type {
   AccordionSize,
   AccordionTriggerProps,
   AccordionVariant,
-} from './accordion.tsx'
+} from "./accordion.tsx";

@@ -61,8 +61,7 @@ export const bootstrapPortal = createServerFn({ method: "GET" }).handler(
     const sessionEmail = session.user?.email || "";
 
     if (superAdmin) {
-      const userName =
-        sessionName || sessionEmail.split("@")[0] || "Super Admin";
+      const userName = sessionName || sessionEmail.split("@")[0] || "Super Admin";
       return {
         userName,
         companyName: "All companies",
@@ -78,13 +77,9 @@ export const bootstrapPortal = createServerFn({ method: "GET" }).handler(
       };
     }
 
-    const userWithCompany = dbUser
-      ? await getUserWithCompany(dbUser.id)
-      : null;
+    const userWithCompany = dbUser ? await getUserWithCompany(dbUser.id) : null;
     const userName =
-      [userWithCompany?.first_name, userWithCompany?.last_name]
-        .filter(Boolean)
-        .join(" ") ||
+      [userWithCompany?.first_name, userWithCompany?.last_name].filter(Boolean).join(" ") ||
       sessionName ||
       sessionEmail.split("@")[0] ||
       "Client";
@@ -92,10 +87,7 @@ export const bootstrapPortal = createServerFn({ method: "GET" }).handler(
 
     let projects: PortalBootstrap["projects"] = [];
     if (userWithCompany?.company_id) {
-      const ids = await getUserAccessibleProjects(
-        userWithCompany.id,
-        userWithCompany.company_id,
-      );
+      const ids = await getUserAccessibleProjects(userWithCompany.id, userWithCompany.company_id);
       if (ids.length) {
         const list = await getCompanyProjects(userWithCompany.company_id);
         projects = list
@@ -103,8 +95,7 @@ export const bootstrapPortal = createServerFn({ method: "GET" }).handler(
           .map((p) => ({
             id: p.id,
             companyId:
-              (p as { companyId?: string }).companyId ??
-              (p as { company_id?: string }).company_id,
+              (p as { companyId?: string }).companyId ?? (p as { company_id?: string }).company_id,
             title: p.title,
             url: p.url,
             description: p.description,

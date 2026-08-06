@@ -18,7 +18,9 @@
 @source "./card.tsx";
 
 @utility q-card {
-  --q-card-radius: var(--hf-radius-600); /* 24px — the Modal surface radius; overridable per instance */
+  --q-card-radius: var(
+    --hf-radius-600
+  ); /* 24px — the Modal surface radius; overridable per instance */
 
   box-sizing: border-box;
   display: flex;

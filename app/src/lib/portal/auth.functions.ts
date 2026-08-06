@@ -1,9 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import {
-  computeIsSuperAdmin,
-  writeAppSession,
-} from "../app-session.server";
+import { computeIsSuperAdmin, writeAppSession } from "../app-session.server";
 import { isSuperAdminEmail } from "../admin/super-admin";
 import { portalConfigured, portalEnv } from "./env";
 import {
@@ -13,21 +10,14 @@ import {
   readPortalSession,
   writePortalSession,
 } from "./session.server";
-import {
-  getSupabaseAuthClient,
-  supabasePublishableConfigured,
-} from "./supabase";
+import { getSupabaseAuthClient, supabasePublishableConfigured } from "./supabase";
 
-function appMetadataFromAccessToken(
-  accessToken: string,
-): Record<string, unknown> | null {
+function appMetadataFromAccessToken(accessToken: string): Record<string, unknown> | null {
   try {
     const part = accessToken.split(".")[1];
     if (!part) return null;
     const json = JSON.parse(
-      Buffer.from(part.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString(
-        "utf8",
-      ),
+      Buffer.from(part.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString("utf8"),
     ) as { app_metadata?: Record<string, unknown> };
     return json.app_metadata ?? null;
   } catch {
@@ -35,44 +25,42 @@ function appMetadataFromAccessToken(
   }
 }
 
-export const getPortalAuthState = createServerFn({ method: "GET" }).handler(
-  async () => {
-    const session = await readPortalSession();
-    const configured = portalConfigured();
+export const getPortalAuthState = createServerFn({ method: "GET" }).handler(async () => {
+  const session = await readPortalSession();
+  const configured = portalConfigured();
 
-    let isSuperAdmin = Boolean(session?.isSuperAdmin);
-    if (session?.email && session.accessToken) {
-      const meta = appMetadataFromAccessToken(session.accessToken);
-      const next = computeIsSuperAdmin(session.email, meta);
-      if (next !== isSuperAdmin) {
-        isSuperAdmin = next;
-        try {
-          await writeAppSession({ ...session, isSuperAdmin: next });
-        } catch {
-          /* cookie write best-effort */
-        }
-      } else if (!isSuperAdmin && isSuperAdminEmail(session.email)) {
-        // Allowlist alone is enough for UI routing; JWT claim may lag a stale cookie.
-        isSuperAdmin = true;
+  let isSuperAdmin = Boolean(session?.isSuperAdmin);
+  if (session?.email && session.accessToken) {
+    const meta = appMetadataFromAccessToken(session.accessToken);
+    const next = computeIsSuperAdmin(session.email, meta);
+    if (next !== isSuperAdmin) {
+      isSuperAdmin = next;
+      try {
+        await writeAppSession({ ...session, isSuperAdmin: next });
+      } catch {
+        /* cookie write best-effort */
       }
-    } else if (session?.email && isSuperAdminEmail(session.email)) {
+    } else if (!isSuperAdmin && isSuperAdminEmail(session.email)) {
+      // Allowlist alone is enough for UI routing; JWT claim may lag a stale cookie.
       isSuperAdmin = true;
     }
+  } else if (session?.email && isSuperAdminEmail(session.email)) {
+    isSuperAdmin = true;
+  }
 
-    return {
-      authenticated: Boolean(session),
-      email: session?.email ?? null,
-      displayName: session?.displayName ?? null,
-      userId: session?.userId ?? null,
-      isSuperAdmin,
-      authReady: portalAuthReady(),
-      sessionReady: Boolean(portalSessionConfig()),
-      supabaseReady: supabasePublishableConfigured(),
-      backendReady: configured.database || configured.supabase,
-      services: configured,
-    };
-  },
-);
+  return {
+    authenticated: Boolean(session),
+    email: session?.email ?? null,
+    displayName: session?.displayName ?? null,
+    userId: session?.userId ?? null,
+    isSuperAdmin,
+    authReady: portalAuthReady(),
+    sessionReady: Boolean(portalSessionConfig()),
+    supabaseReady: supabasePublishableConfigured(),
+    backendReady: configured.database || configured.supabase,
+    services: configured,
+  };
+});
 
 export const portalSignIn = createServerFn({ method: "POST" })
   .inputValidator(
@@ -128,10 +116,8 @@ export const portalSignIn = createServerFn({ method: "POST" })
       await ensurePoelUserRow({
         authUserId: signed.user.id,
         email,
-        firstName:
-          (signed.user.user_metadata?.first_name as string | undefined) ?? null,
-        lastName:
-          (signed.user.user_metadata?.last_name as string | undefined) ?? null,
+        firstName: (signed.user.user_metadata?.first_name as string | undefined) ?? null,
+        lastName: (signed.user.user_metadata?.last_name as string | undefined) ?? null,
       });
     } catch {
       /* users table may not exist until migration 0005 */
@@ -155,23 +141,19 @@ export const portalSignIn = createServerFn({ method: "POST" })
     };
   });
 
-export const portalSignOut = createServerFn({ method: "POST" }).handler(
-  async () => {
-    await destroyPortalSession();
-    return { ok: true as const };
-  },
-);
+export const portalSignOut = createServerFn({ method: "POST" }).handler(async () => {
+  await destroyPortalSession();
+  return { ok: true as const };
+});
 
 /** Lightweight server status for UI banners (env is server-only). */
-export const getPortalBackendStatus = createServerFn({ method: "GET" }).handler(
-  async () => {
-    const configured = portalConfigured();
-    const e = portalEnv();
-    return {
-      backendReady: configured.database || configured.supabase,
-      supabase: configured.supabase,
-      hasUrl: Boolean(e.supabaseUrl),
-      hasPublishableKey: Boolean(e.supabaseAnonKey),
-    };
-  },
-);
+export const getPortalBackendStatus = createServerFn({ method: "GET" }).handler(async () => {
+  const configured = portalConfigured();
+  const e = portalEnv();
+  return {
+    backendReady: configured.database || configured.supabase,
+    supabase: configured.supabase,
+    hasUrl: Boolean(e.supabaseUrl),
+    hasPublishableKey: Boolean(e.supabaseAnonKey),
+  };
+});

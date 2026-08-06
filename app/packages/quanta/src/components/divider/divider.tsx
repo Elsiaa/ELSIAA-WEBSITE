@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import type { ComponentProps, ReactNode } from 'react'
-import { Typography } from '../typography/index.ts'
-import { cx } from '../utils/cx.ts'
+import type { ComponentProps, ReactNode } from "react";
+import { Typography } from "../typography/index.ts";
+import { cx } from "../utils/cx.ts";
 
 /**
  * Divider — a presentational separator matching the Figma divider (node
@@ -18,28 +18,28 @@ import { cx } from '../utils/cx.ts'
  *   <Divider>or</Divider>                 // labelled — text-q-text-tertiary caption
  */
 
-export type DividerOrientation = 'horizontal' | 'vertical'
+export type DividerOrientation = "horizontal" | "vertical";
 
-export type DividerProps = Omit<ComponentProps<'hr'>, 'children'> & {
-  orientation?: DividerOrientation
+export type DividerProps = Omit<ComponentProps<"hr">, "children"> & {
+  orientation?: DividerOrientation;
   /** Optional inline label rendered between two rules (horizontal only). */
-  children?: ReactNode
-}
+  children?: ReactNode;
+};
 
 export function Divider({
-  orientation = 'horizontal',
+  orientation = "horizontal",
   className,
   children,
   ...props
 }: DividerProps) {
   // Labelled — needs to contain text, so we can't use <hr>.
-  if (children != null && orientation === 'horizontal') {
+  if (children != null && orientation === "horizontal") {
     return (
       <div
         role="separator"
         aria-orientation="horizontal"
-        className={cx('flex w-full items-center gap-2 align-middle', className)}
-        {...(props as ComponentProps<'div'>)}
+        className={cx("flex w-full items-center gap-2 align-middle", className)}
+        {...(props as ComponentProps<"div">)}
       >
         <span className="q-divider flex-1" aria-hidden />
         <Typography as="span" variant="caption-sm-medium" color="tertiary">
@@ -47,23 +47,18 @@ export function Divider({
         </Typography>
         <span className="q-divider flex-1" aria-hidden />
       </div>
-    )
+    );
   }
 
-  if (orientation === 'vertical') {
+  if (orientation === "vertical") {
     return (
       <hr
         aria-orientation="vertical"
-        className={cx('q-divider-vertical m-0 inline-block self-stretch', className)}
+        className={cx("q-divider-vertical m-0 inline-block self-stretch", className)}
         {...props}
       />
-    )
+    );
   }
 
-  return (
-    <hr
-      className={cx('q-divider m-0 block w-full', className)}
-      {...props}
-    />
-  )
+  return <hr className={cx("q-divider m-0 block w-full", className)} {...props} />;
 }

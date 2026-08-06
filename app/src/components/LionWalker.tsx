@@ -91,10 +91,7 @@ function LionEngine() {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       if (mode === "walk") {
-        const bound = Math.max(
-          (wrap.parentElement?.clientWidth ?? 300) - wrap.clientWidth,
-          10
-        );
+        const bound = Math.max((wrap.parentElement?.clientWidth ?? 300) - wrap.clientWidth, 10);
         pos += dir * SPEED * dt;
         if (pos >= bound) {
           pos = bound;

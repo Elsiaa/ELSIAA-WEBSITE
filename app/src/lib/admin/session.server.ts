@@ -52,10 +52,7 @@ export async function writeAdminSession(input: {
 }): Promise<void> {
   if (!isSuperAdminEmail(input.email)) throw new Error("Not a super admin");
   const email = input.email.trim().toLowerCase();
-  const userId =
-    input.userId ||
-    jwtSubFromToken(input.accessToken) ||
-    email;
+  const userId = input.userId || jwtSubFromToken(input.accessToken) || email;
   await writeAppSession({
     email,
     userId,

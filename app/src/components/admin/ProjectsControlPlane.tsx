@@ -12,9 +12,7 @@ import { adminFonts } from "./tokens";
 export function ProjectsControlPlane() {
   const { mono, sans } = adminFonts;
   const [projects, setProjects] = useState<AdminProject[]>([]);
-  const [companies, setCompanies] = useState<Array<{ id: string; name: string }>>(
-    [],
-  );
+  const [companies, setCompanies] = useState<Array<{ id: string; name: string }>>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -37,10 +35,7 @@ export function ProjectsControlPlane() {
   }, []);
 
   const refresh = useCallback(async () => {
-    const [p, c] = await Promise.all([
-      listAdminProjects(),
-      listAdminCompanies(),
-    ]);
+    const [p, c] = await Promise.all([listAdminProjects(), listAdminCompanies()]);
     setProjects(p);
     setCompanies(c.map((x) => ({ id: x.id, name: x.name })));
   }, []);
@@ -62,12 +57,10 @@ export function ProjectsControlPlane() {
         <p className="text-[13px] text-[#1e6b3c]" style={mono}>
           Projects
         </p>
-        <h1 className="text-2xl font-semibold tracking-[-0.03em]">
-          Company projects
-        </h1>
+        <h1 className="text-2xl font-semibold tracking-[-0.03em]">Company projects</h1>
         <p className="max-w-2xl text-[14px] leading-relaxed text-[#111111]/55">
-          Create projects for a company. Portal users see them under Projects;
-          Authorizations control device limits and access.
+          Create projects for a company. Portal users see them under Projects; Authorizations
+          control device limits and access.
         </p>
 
         {error && (

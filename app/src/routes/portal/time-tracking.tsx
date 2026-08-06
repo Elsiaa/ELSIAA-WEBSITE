@@ -10,10 +10,7 @@ export const Route = createFileRoute("/portal/time-tracking")({
     return { auth };
   },
   head: () => ({
-    meta: [
-      { title: "Time tracking — ELSIAA" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Time tracking — ELSIAA" }, { name: "robots", content: "noindex" }],
     links: [{ rel: "canonical", href: absoluteUrl("/portal/time-tracking") }],
   }),
   component: () => (

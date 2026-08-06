@@ -1,4 +1,4 @@
-export { Checkbox, CheckboxLabel, checkbox } from './checkbox.tsx'
+export { Checkbox, CheckboxLabel, checkbox } from "./checkbox.tsx";
 export type {
   CheckboxColor,
   CheckboxLabelDirection,
@@ -7,4 +7,4 @@ export type {
   CheckboxOptions,
   CheckboxProps,
   CheckboxSize,
-} from './checkbox.tsx'
+} from "./checkbox.tsx";

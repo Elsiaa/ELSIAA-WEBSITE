@@ -34,7 +34,7 @@ export async function deleteChat(projectId: string) {
 
 export async function uploadFile(projectId: string, file: File) {
   // TODO: Implement this function
-  return '';
+  return "";
 }
 
 export async function deleteFile(fileUrl: string) {

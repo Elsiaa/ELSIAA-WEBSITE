@@ -133,7 +133,8 @@
   position: absolute;
   top: var(--active-tab-top);
   transition-duration: var(--q-tabs-transition-duration);
-  transition-property: background, background-color, border-color, border-radius, box-shadow, height, left, top, width;
+  transition-property:
+    background, background-color, border-color, border-radius, box-shadow, height, left, top, width;
   transition-timing-function: var(--q-tabs-transition-ease);
   will-change: height, left, top, width;
   z-index: 0;
@@ -401,16 +402,11 @@
 .q-tabs-segmented .q-tabs-tab[data-active] {
   background-color: transparent;
   transition-delay:
-    var(--q-tabs-hover-release-delay),
-    var(--hf-duration-instant),
-    var(--hf-duration-instant),
-    var(--hf-duration-instant),
-    var(--hf-duration-instant);
+    var(--q-tabs-hover-release-delay), var(--hf-duration-instant), var(--hf-duration-instant),
+    var(--hf-duration-instant), var(--hf-duration-instant);
   transition-duration:
-    var(--q-tabs-hover-release-duration),
-    var(--q-tabs-transition-duration),
-    var(--q-tabs-transition-duration),
-    var(--q-tabs-transition-duration),
+    var(--q-tabs-hover-release-duration), var(--q-tabs-transition-duration),
+    var(--q-tabs-transition-duration), var(--q-tabs-transition-duration),
     var(--q-tabs-transition-duration);
   transition-property: background-color, border-color, box-shadow, color, opacity;
 }
@@ -501,16 +497,11 @@
   background-color: transparent;
   color: var(--q-tabs-tab-selected-fg);
   transition-delay:
-    var(--q-tabs-hover-release-delay),
-    var(--hf-duration-instant),
-    var(--hf-duration-instant),
-    var(--hf-duration-instant),
-    var(--hf-duration-instant);
+    var(--q-tabs-hover-release-delay), var(--hf-duration-instant), var(--hf-duration-instant),
+    var(--hf-duration-instant), var(--hf-duration-instant);
   transition-duration:
-    var(--q-tabs-hover-release-duration),
-    var(--q-tabs-transition-duration),
-    var(--q-tabs-transition-duration),
-    var(--q-tabs-transition-duration),
+    var(--q-tabs-hover-release-duration), var(--q-tabs-transition-duration),
+    var(--q-tabs-transition-duration), var(--q-tabs-transition-duration),
     var(--q-tabs-transition-duration);
   transition-property: background-color, border-color, box-shadow, color, opacity;
   @apply text-q-caption-sm-medium;

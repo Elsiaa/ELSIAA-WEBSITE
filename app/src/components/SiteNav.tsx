@@ -10,8 +10,7 @@ import { LangSwitcher } from "./LangSwitcher";
   destinations, a dark action rail carrying the two CTAs and the direct
   contacts, and the live lion walking the footer rule.
 */
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 const GOLD = "#b0812a";
 const OFFICES = "New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv";
 
@@ -147,10 +146,7 @@ export function SiteNav() {
                 className="h-full w-full scale-[1.18] object-cover"
               />
             </span>
-            <span
-              className="text-[15px] font-semibold text-[#111111]"
-              style={{ fontFamily: SANS }}
-            >
+            <span className="text-[15px] font-semibold text-[#111111]" style={{ fontFamily: SANS }}>
               ELSIAA
             </span>
           </a>
@@ -172,15 +168,27 @@ export function SiteNav() {
             >
               Get a quote
             </a>
-            <div className={`hidden md:block ${open ? "pointer-events-none opacity-0" : ""} transition-opacity`}>
+            <div
+              className={`hidden md:block ${open ? "pointer-events-none opacity-0" : ""} transition-opacity`}
+            >
               <LangSwitcher />
             </div>
             <button
               aria-label="Search"
-              onClick={() => { window.location.href = "/search"; }}
+              onClick={() => {
+                window.location.href = "/search";
+              }}
               className={`hidden h-10 w-8 items-center justify-center transition-opacity hover:opacity-60 md:flex ${open ? "pointer-events-none opacity-0" : ""}`}
             >
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round">
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#111111"
+                strokeWidth="2"
+                strokeLinecap="round"
+              >
                 <circle cx="11" cy="11" r="7" />
                 <line x1="21" y1="21" x2="16.5" y2="16.5" />
               </svg>
@@ -199,9 +207,15 @@ export function SiteNav() {
               onClick={() => (open ? closeMenu() : setOpen(true))}
               className="group relative flex h-10 w-10 items-center justify-center"
             >
-              <span className={`absolute h-[1.5px] w-6 bg-[#111111] transition-all duration-300 ${open ? "rotate-45" : "-translate-y-[7px]"}`} />
-              <span className={`absolute h-[1.5px] w-6 bg-[#111111] transition-all duration-300 ${open ? "opacity-0" : "opacity-100"}`} />
-              <span className={`absolute h-[1.5px] w-6 bg-[#111111] transition-all duration-300 ${open ? "-rotate-45" : "translate-y-[7px]"}`} />
+              <span
+                className={`absolute h-[1.5px] w-6 bg-[#111111] transition-all duration-300 ${open ? "rotate-45" : "-translate-y-[7px]"}`}
+              />
+              <span
+                className={`absolute h-[1.5px] w-6 bg-[#111111] transition-all duration-300 ${open ? "opacity-0" : "opacity-100"}`}
+              />
+              <span
+                className={`absolute h-[1.5px] w-6 bg-[#111111] transition-all duration-300 ${open ? "-rotate-45" : "translate-y-[7px]"}`}
+              />
             </button>
           </nav>
         </div>
@@ -237,7 +251,10 @@ export function SiteNav() {
           <div className="mt-11 grid flex-1 grid-cols-1 items-start gap-x-10 gap-y-11 sm:grid-cols-2 lg:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,19rem)]">
             {GROUPS.map((g, gi) => (
               <nav key={g.title} aria-label={g.title} style={fade(open, 0.1 + gi * 0.05)}>
-                <p className="text-[11px] font-semibold tracking-[0.13em] uppercase" style={{ color: GOLD }}>
+                <p
+                  className="text-[11px] font-semibold tracking-[0.13em] uppercase"
+                  style={{ color: GOLD }}
+                >
                   {g.title}
                 </p>
                 <ul className="mt-4 flex flex-col">
@@ -297,7 +314,9 @@ export function SiteNav() {
                     className="flex min-h-[40px] items-center justify-between text-[14px] text-white/70 transition-colors hover:text-white"
                   >
                     {l.label}
-                    <span aria-hidden style={{ color: GOLD }}>→</span>
+                    <span aria-hidden style={{ color: GOLD }}>
+                      →
+                    </span>
                   </a>
                 ))}
               </div>
@@ -313,7 +332,6 @@ export function SiteNav() {
                   info@elsiaa.com
                 </a>
               </div>
-
             </div>
           </div>
 
@@ -354,7 +372,15 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div>
       <div className="flex items-center gap-3 rounded-2xl border border-black/[0.12] bg-black/[0.03] px-5 py-4 transition-all duration-200 focus-within:border-[#b0812a] focus-within:bg-white focus-within:shadow-[0_18px_50px_-34px_rgba(176,129,42,0.5)]">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b0812a" strokeWidth="2" strokeLinecap="round">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#b0812a"
+          strokeWidth="2"
+          strokeLinecap="round"
+        >
           <circle cx="11" cy="11" r="7" />
           <line x1="21" y1="21" x2="16.5" y2="16.5" />
         </svg>
@@ -391,7 +417,11 @@ function MenuSearch({ onNavigate }: { onNavigate: () => void }) {
           onClick={() => setQ(didYouMean)}
           className="mt-2 block text-[13px] text-[#111111]/60 hover:underline"
         >
-          Did you mean <span className="font-semibold" style={{ color: GOLD }}>{didYouMean}</span>?
+          Did you mean{" "}
+          <span className="font-semibold" style={{ color: GOLD }}>
+            {didYouMean}
+          </span>
+          ?
         </button>
       )}
       {q.trim() && (

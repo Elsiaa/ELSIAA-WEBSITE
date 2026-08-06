@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Download } from 'lucide-react';
-import { getRequestDisplayInfo } from '@/lib/payments-shared';
-import type { InvoiceLineItem } from '@/lib/invoice-line-items';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Download } from "lucide-react";
+import { getRequestDisplayInfo } from "@/lib/payments-shared";
+import type { InvoiceLineItem } from "@/lib/invoice-line-items";
+import { toast } from "sonner";
 
 type CheckoutRequest = {
   amount?: number | null;
@@ -32,19 +32,19 @@ function lineAmount(row: InvoiceLineItem): number {
 
 function statusBadge(status?: string): { label: string; className: string } {
   switch (status) {
-    case 'completed':
-      return { label: 'Paid', className: 'bg-[#ecfdf5] text-[#166534] border-transparent' };
-    case 'cancelled':
-      return { label: 'Cancelled', className: 'bg-red-50 text-red-700 border-transparent' };
-    case 'invoiced':
-      return { label: 'Invoiced', className: 'bg-mist/50 text-navy border-transparent' };
+    case "completed":
+      return { label: "Paid", className: "bg-[#ecfdf5] text-[#166534] border-transparent" };
+    case "cancelled":
+      return { label: "Cancelled", className: "bg-red-50 text-red-700 border-transparent" };
+    case "invoiced":
+      return { label: "Invoiced", className: "bg-mist/50 text-navy border-transparent" };
     default:
-      return { label: 'Due', className: 'bg-mist/50 text-navy border-transparent' };
+      return { label: "Due", className: "bg-mist/50 text-navy border-transparent" };
   }
 }
 
 export function isCheckoutPaid(request: CheckoutRequest | null | undefined): boolean {
-  return request?.status === 'completed';
+  return request?.status === "completed";
 }
 
 export function CheckoutInvoicePanel({
@@ -63,15 +63,15 @@ export function CheckoutInvoicePanel({
       : null;
   const amount = Number(paymentRequest.amount) || 0;
   const invoiceNumber =
-    paymentRequest.invoice_number != null && String(paymentRequest.invoice_number).trim() !== ''
+    paymentRequest.invoice_number != null && String(paymentRequest.invoice_number).trim() !== ""
       ? String(paymentRequest.invoice_number)
       : null;
   const dateIso = paymentRequest.created_at || paymentRequest.updated_at;
   const dateLabel = dateIso
-    ? new Date(dateIso).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
+    ? new Date(dateIso).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       })
     : null;
   const badge = statusBadge(paymentRequest.status);
@@ -80,20 +80,20 @@ export function CheckoutInvoicePanel({
     if (!publicToken) return;
     setDownloading(true);
     try {
-      const kind = paid ? 'receipt' : 'invoice';
+      const kind = paid ? "receipt" : "invoice";
       const res = await fetch(
-        `/api/payments/document?token=${encodeURIComponent(publicToken)}&kind=${kind}`
+        `/api/payments/document?token=${encodeURIComponent(publicToken)}&kind=${kind}`,
       );
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error || 'Failed to download');
+        throw new Error(body.error || "Failed to download");
       }
       const blob = await res.blob();
-      const disposition = res.headers.get('Content-Disposition') || '';
+      const disposition = res.headers.get("Content-Disposition") || "";
       const match = disposition.match(/filename="([^"]+)"/);
-      const filename = match?.[1] || (paid ? 'receipt.pdf' : 'invoice.pdf');
+      const filename = match?.[1] || (paid ? "receipt.pdf" : "invoice.pdf");
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
       a.download = filename;
       document.body.appendChild(a);
@@ -101,7 +101,7 @@ export function CheckoutInvoicePanel({
       a.remove();
       URL.revokeObjectURL(url);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Download failed');
+      toast.error(err instanceof Error ? err.message : "Download failed");
     } finally {
       setDownloading(false);
     }
@@ -112,7 +112,7 @@ export function CheckoutInvoicePanel({
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-sm text-muted-foreground">
-            {paid ? 'Receipt' : 'Invoice'}
+            {paid ? "Receipt" : "Invoice"}
             {invoiceNumber ? (
               <span className="text-foreground font-medium"> #{invoiceNumber}</span>
             ) : null}
@@ -122,13 +122,15 @@ export function CheckoutInvoicePanel({
         <Badge className={badge.className}>{badge.label}</Badge>
       </div>
 
-      {(name && name !== 'Unknown') || (email && email !== 'Unknown') ? (
+      {(name && name !== "Unknown") || (email && email !== "Unknown") ? (
         <div className="space-y-1">
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Bill to</p>
-          {name && name !== 'Unknown' ? (
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Bill to
+          </p>
+          {name && name !== "Unknown" ? (
             <p className="text-sm font-medium text-foreground">{name}</p>
           ) : null}
-          {email && email !== 'Unknown' ? (
+          {email && email !== "Unknown" ? (
             <p className="text-sm text-muted-foreground break-all">{email}</p>
           ) : null}
         </div>
@@ -140,7 +142,7 @@ export function CheckoutInvoicePanel({
 
       <div className="space-y-2">
         <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          {lineItems ? 'Items' : 'Amount due'}
+          {lineItems ? "Items" : "Amount due"}
         </p>
         {lineItems ? (
           <div className="border rounded-md overflow-hidden">
@@ -176,7 +178,7 @@ export function CheckoutInvoicePanel({
       </div>
 
       <div className="flex justify-between items-baseline border-t pt-4">
-        <span className="text-sm font-semibold">{paid ? 'Total paid' : 'Total due'}</span>
+        <span className="text-sm font-semibold">{paid ? "Total paid" : "Total due"}</span>
         <span className="text-2xl font-semibold tabular-nums tracking-tight">
           ${formatMoney(amount)}
         </span>
@@ -190,11 +192,7 @@ export function CheckoutInvoicePanel({
         disabled={downloading || !publicToken}
       >
         <Download className="size-4 mr-2" aria-hidden />
-        {downloading
-          ? 'Preparing…'
-          : paid
-            ? 'Download receipt'
-            : 'Download invoice'}
+        {downloading ? "Preparing…" : paid ? "Download receipt" : "Download invoice"}
       </Button>
     </div>
   );

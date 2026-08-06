@@ -1,13 +1,13 @@
-import { auth } from '@/auth';
-import { NextResponse } from 'next/server';
-import { addManualEntry, getClosedSecondsPerTask } from '@/lib/time-tracking';
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+import { addManualEntry, getClosedSecondsPerTask } from "@/lib/time-tracking";
 
 export async function POST(request: Request) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = (await request.json()) as {
@@ -18,7 +18,10 @@ export async function POST(request: Request) {
     };
 
     if (!body.taskId || !body.startedAt || !body.endedAt) {
-      return NextResponse.json({ error: 'taskId, startedAt, and endedAt are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: "taskId, startedAt, and endedAt are required" },
+        { status: 400 },
+      );
     }
 
     const entry = await addManualEntry(userId, {
@@ -30,8 +33,8 @@ export async function POST(request: Request) {
     const taskClosedSeconds = await getClosedSecondsPerTask(userId);
     return NextResponse.json({ entry, taskClosedSeconds });
   } catch (e) {
-    console.error('time-tracking entries POST', e);
-    const msg = e instanceof Error ? e.message : 'Failed to add entry';
+    console.error("time-tracking entries POST", e);
+    const msg = e instanceof Error ? e.message : "Failed to add entry";
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

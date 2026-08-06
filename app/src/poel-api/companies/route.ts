@@ -4,10 +4,10 @@
  * POST /api/companies - Create a new company (super admin only)
  */
 
-import { NextRequest, NextResponse } from 'next/server';
-import { ensureCompanyFilesRootExists } from '@/lib/company-admin-files';
-import { getAllCompanies, createCompany } from '@/lib/companies';
-import { requireSuperAdmin } from '@/lib/permissions';
+import { NextRequest, NextResponse } from "next/server";
+import { ensureCompanyFilesRootExists } from "@/lib/company-admin-files";
+import { getAllCompanies, createCompany } from "@/lib/companies";
+import { requireSuperAdmin } from "@/lib/permissions";
 
 export async function GET(req: NextRequest) {
   try {
@@ -15,10 +15,10 @@ export async function GET(req: NextRequest) {
     const companies = await getAllCompanies();
     return NextResponse.json(companies);
   } catch (error) {
-    console.error('Error fetching companies:', error);
+    console.error("Error fetching companies:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to fetch companies' },
-      { status: error instanceof Error && error.message.includes('Forbidden') ? 403 : 500 }
+      { error: error instanceof Error ? error.message : "Failed to fetch companies" },
+      { status: error instanceof Error && error.message.includes("Forbidden") ? 403 : 500 },
     );
   }
 }
@@ -28,25 +28,22 @@ export async function POST(req: NextRequest) {
     await requireSuperAdmin();
     const body = await req.json();
 
-    if (!body.name || typeof body.name !== 'string') {
-      return NextResponse.json(
-        { error: 'Company name is required' },
-        { status: 400 }
-      );
+    if (!body.name || typeof body.name !== "string") {
+      return NextResponse.json({ error: "Company name is required" }, { status: 400 });
     }
 
     const company = await createCompany({ name: body.name });
     try {
       await ensureCompanyFilesRootExists(company.id);
     } catch (e) {
-      console.error('Company created but file storage root init failed:', e);
+      console.error("Company created but file storage root init failed:", e);
     }
     return NextResponse.json(company, { status: 201 });
   } catch (error) {
-    console.error('Error creating company:', error);
+    console.error("Error creating company:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to create company' },
-      { status: error instanceof Error && error.message.includes('Forbidden') ? 403 : 500 }
+      { error: error instanceof Error ? error.message : "Failed to create company" },
+      { status: error instanceof Error && error.message.includes("Forbidden") ? 403 : 500 },
     );
   }
 }

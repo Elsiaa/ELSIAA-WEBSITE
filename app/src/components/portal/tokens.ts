@@ -4,12 +4,10 @@ import { portalNavMeta } from "../../lib/portal/modules";
 /** ELSIAA portal design tokens — shared by shell + sign-in. */
 export const portalFonts = {
   mono: {
-    fontFamily:
-      "var(--font-sans)",
+    fontFamily: "var(--font-sans)",
   },
   sans: {
-    fontFamily:
-      "var(--font-sans)",
+    fontFamily: "var(--font-sans)",
   },
 } as const;
 

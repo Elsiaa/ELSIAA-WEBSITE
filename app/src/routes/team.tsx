@@ -20,8 +20,7 @@ export const Route = createFileRoute("/team")({
   component: TeamPage,
 });
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 const MONO = "var(--font-sans)";
 
 type Person = {
@@ -149,7 +148,10 @@ function Card({ p, i }: { p: Person; i: number }) {
           >
             {p.name}
           </h3>
-          <p className="mt-1.5 text-[13px] font-semibold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
+          <p
+            className="mt-1.5 text-[13px] font-semibold text-[#1e6b3c]"
+            style={{ fontFamily: SANS }}
+          >
             {p.role}
           </p>
           <p
@@ -159,7 +161,10 @@ function Card({ p, i }: { p: Person; i: number }) {
             {p.line}
           </p>
           <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-black/[0.06] pt-4">
-            <span className="flex items-center gap-2 text-[13px] text-[#111111]/45" style={{ fontFamily: SANS }}>
+            <span
+              className="flex items-center gap-2 text-[13px] text-[#111111]/45"
+              style={{ fontFamily: SANS }}
+            >
               <span className="h-[5px] w-[5px] rotate-45 bg-[#1e6b3c]/50" />
               {p.loc}
             </span>
@@ -179,22 +184,17 @@ function Card({ p, i }: { p: Person; i: number }) {
   );
 }
 
-function Group({
-  label,
-  people,
-  border,
-}: {
-  label: string;
-  people: Person[];
-  border?: boolean;
-}) {
+function Group({ label, people, border }: { label: string; people: Person[]; border?: boolean }) {
   return (
     <section
       className={`mx-auto max-w-6xl px-6 py-12 md:py-14 ${border ? "border-t border-black/[0.06]" : ""}`}
     >
       <Reveal>
         <div className="flex items-center gap-4">
-          <h2 className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase" style={{ fontFamily: SANS }}>
+          <h2
+            className="text-[12px] font-semibold tracking-[0.14em] text-[#1e6b3c] uppercase"
+            style={{ fontFamily: SANS }}
+          >
             {label}
           </h2>
           <span className="h-px flex-1 bg-black/[0.08]" />
@@ -217,10 +217,7 @@ function TeamPage() {
       {/* hero */}
       <section className="mx-auto max-w-6xl px-6 pt-32 pb-6 md:pt-44">
         <Reveal>
-          <p
-            className="text-[13px] text-[#1e6b3c] "
-            style={{ fontFamily: MONO }}
-          >
+          <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: MONO }}>
             Meet the international team behind ELSIAA
           </p>
           <h1
@@ -229,9 +226,12 @@ function TeamPage() {
           >
             The people who build it.
           </h1>
-          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/55" style={{ fontFamily: SANS }}>
-            Operators, engineers, counsel, and advisors — the people responsible
-            for everything ELSIAA ships.
+          <p
+            className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/55"
+            style={{ fontFamily: SANS }}
+          >
+            Operators, engineers, counsel, and advisors — the people responsible for everything
+            ELSIAA ships.
           </p>
           <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-black/[0.06] pt-6">
             {[
@@ -247,10 +247,7 @@ function TeamPage() {
                 >
                   {n}
                 </p>
-                <p
-                  className="mt-1 text-[13px] text-[#111111]/55 "
-                  style={{ fontFamily: MONO }}
-                >
+                <p className="mt-1 text-[13px] text-[#111111]/55 " style={{ fontFamily: MONO }}>
                   {l}
                 </p>
               </div>
@@ -264,7 +261,7 @@ function TeamPage() {
       <Group label="Advisory" people={ADVISORS} border />
 
       {/* CTA */}
- <section className="mx-auto max-w-6xl px-6 py-10 md:py-16 text-center">
+      <section className="mx-auto max-w-6xl px-6 py-10 md:py-16 text-center">
         <Reveal>
           <p
             className="text-lg font-semibold tracking-[-0.02em] md:text-2xl"

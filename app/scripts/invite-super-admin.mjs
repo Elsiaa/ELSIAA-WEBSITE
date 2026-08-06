@@ -49,9 +49,7 @@ const sb = createClient(url, key, {
 });
 
 const { data: existingAuth } = await sb.auth.admin.listUsers({ perPage: 200 });
-const authHit = existingAuth?.users?.find(
-  (u) => (u.email || "").toLowerCase() === EMAIL,
-);
+const authHit = existingAuth?.users?.find((u) => (u.email || "").toLowerCase() === EMAIL);
 if (authHit) {
   console.log("Auth user already exists:", authHit.id, authHit.app_metadata);
   const { error: metaErr } = await sb.auth.admin.updateUserById(authHit.id, {
@@ -164,4 +162,6 @@ if (!mailRes.ok) {
 console.log("Invitation emailed to", EMAIL);
 console.log("Signup URL:", signupUrl);
 console.log("Mail API response:", mailBody.slice(0, 400));
-console.log("\nIMPORTANT: Add yisrael@elsiaa.com to SUPER_ADMIN_EMAILS on Vercel (production), then redeploy.");
+console.log(
+  "\nIMPORTANT: Add yisrael@elsiaa.com to SUPER_ADMIN_EMAILS on Vercel (production), then redeploy.",
+);

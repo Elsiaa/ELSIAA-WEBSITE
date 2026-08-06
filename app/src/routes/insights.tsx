@@ -25,8 +25,7 @@ const mono = {
   fontFamily: "var(--font-sans)",
 } as const;
 const inter = {
-  fontFamily:
-    "var(--font-sans)",
+  fontFamily: "var(--font-sans)",
 } as const;
 
 function CountUp({ target, suffix = "%" }: { target: number; suffix?: string }) {
@@ -37,7 +36,10 @@ function CountUp({ target, suffix = "%" }: { target: number; suffix?: string }) 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (typeof IntersectionObserver === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      typeof IntersectionObserver === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       setVal(target);
       return;
     }
@@ -53,13 +55,26 @@ function CountUp({ target, suffix = "%" }: { target: number; suffix?: string }) 
         if (p < 1) raf = requestAnimationFrame(tick);
       };
       raf = requestAnimationFrame(tick);
-      watchdog = window.setTimeout(() => { cancelAnimationFrame(raf); setVal(target); }, dur + 1500);
+      watchdog = window.setTimeout(() => {
+        cancelAnimationFrame(raf);
+        setVal(target);
+      }, dur + 1500);
     };
     const r = el.getBoundingClientRect();
-    if (r.top < window.innerHeight && r.bottom > 0) { run(); return () => { cancelAnimationFrame(raf); clearTimeout(watchdog); }; }
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      run();
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(watchdog);
+      };
+    }
     const io = new IntersectionObserver(
-      (e) => { if (!e[0].isIntersecting) return; io.disconnect(); run(); },
-      { threshold: 0.4 }
+      (e) => {
+        if (!e[0].isIntersecting) return;
+        io.disconnect();
+        run();
+      },
+      { threshold: 0.4 },
     );
     io.observe(el);
     return () => {
@@ -182,9 +197,9 @@ function InsightsPage() {
             The research behind the standard.
           </h1>
           <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-[#111111]/55" style={inter}>
-            Field notes, adoption data, and honest analysis on where AI actually
-            pays off — and where it quietly costs you. Written from live client
-            engagements, not from a press release.
+            Field notes, adoption data, and honest analysis on where AI actually pays off — and
+            where it quietly costs you. Written from live client engagements, not from a press
+            release.
           </p>
         </Reveal>
 
@@ -200,10 +215,7 @@ function InsightsPage() {
                     "repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 44px)",
                 }}
               />
-              <p
-                className="relative text-[13px] text-[#4fb37a] "
-                style={mono}
-              >
+              <p className="relative text-[13px] text-[#4fb37a] " style={mono}>
                 {FEATURED.kicker}
               </p>
               <div className="relative">
@@ -213,9 +225,12 @@ function InsightsPage() {
                 >
                   22<span className="text-[#4fb37a]">%</span>
                 </p>
-                <p className="mt-3 max-w-[15rem] text-[13px] leading-relaxed text-white/50" style={inter}>
-                  of organizations have not yet put AI into a single function — and
-                  the gap is widening every quarter.
+                <p
+                  className="mt-3 max-w-[15rem] text-[13px] leading-relaxed text-white/50"
+                  style={inter}
+                >
+                  of organizations have not yet put AI into a single function — and the gap is
+                  widening every quarter.
                 </p>
               </div>
             </div>
@@ -241,12 +256,18 @@ function InsightsPage() {
               <p className="mt-4 text-[15px] leading-relaxed text-[#111111]/60" style={inter}>
                 {FEATURED.dek}
               </p>
-              <p className="mt-4 line-clamp-4 text-[14px] leading-relaxed text-[#111111]/45" style={inter}>
+              <p
+                className="mt-4 line-clamp-4 text-[14px] leading-relaxed text-[#111111]/45"
+                style={inter}
+              >
                 {FEATURED.body}
               </p>
               <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-black/[0.06] pt-6">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1e6b3c]/10 text-[13px] font-semibold text-[#1e6b3c]" style={mono}>
+                  <span
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1e6b3c]/10 text-[13px] font-semibold text-[#1e6b3c]"
+                    style={mono}
+                  >
                     YK
                   </span>
                   <div>
@@ -296,10 +317,7 @@ function InsightsPage() {
             {STATS.map((s, i) => (
               <Reveal key={s.industry} delay={i * 0.05}>
                 <div className="border-t border-black/[0.12] pt-4">
-                  <p
-                    className="text-[13px] text-[#111111]/50 "
-                    style={mono}
-                  >
+                  <p className="text-[13px] text-[#111111]/50 " style={mono}>
                     {s.industry}
                   </p>
                   <p
@@ -319,26 +337,50 @@ function InsightsPage() {
             ))}
           </div>
           <Reveal delay={0.1}>
-            <p className="mt-10 max-w-2xl text-[13px] leading-relaxed text-[#111111]/50" style={inter}>
-              Read across: 78% of organizations already run AI in at least one
-              business function. The industry lines below it aren't outliers —
-              they're the baseline your customers now compare you against.
+            <p
+              className="mt-10 max-w-2xl text-[13px] leading-relaxed text-[#111111]/50"
+              style={inter}
+            >
+              Read across: 78% of organizations already run AI in at least one business function.
+              The industry lines below it aren't outliers — they're the baseline your customers now
+              compare you against.
             </p>
           </Reveal>
-        
+
           <div className="mt-10 border-t border-black/[0.08] pt-5" id="sources">
             <p className="text-[14px] font-medium text-[#111111]/70">Sources</p>
             <ul className="mt-2 space-y-1.5 text-[13.5px] leading-relaxed text-[#111111]/55">
-              <li>78% — McKinsey &amp; Company, <em>The State of AI</em>, global survey of organizations using AI in at least one business function.</li>
-              <li>66% — American Medical Association, <em>Augmented Intelligence Research</em>, physician AI use survey.</li>
-              <li>91% — NVIDIA, <em>State of AI in Financial Services</em>, firms deploying or assessing AI.</li>
-              <li>71% — Salesforce, <em>State of Marketing</em>, teams using generative AI in their workflow.</li>
-              <li>63% — NVIDIA, <em>State of AI in Retail &amp; CPG</em>, retailers attributing revenue to AI.</li>
-              <li>55% — Deloitte / MAPI manufacturing AI adoption studies, AI in production operations.</li>
+              <li>
+                78% — McKinsey &amp; Company, <em>The State of AI</em>, global survey of
+                organizations using AI in at least one business function.
+              </li>
+              <li>
+                66% — American Medical Association, <em>Augmented Intelligence Research</em>,
+                physician AI use survey.
+              </li>
+              <li>
+                91% — NVIDIA, <em>State of AI in Financial Services</em>, firms deploying or
+                assessing AI.
+              </li>
+              <li>
+                71% — Salesforce, <em>State of Marketing</em>, teams using generative AI in their
+                workflow.
+              </li>
+              <li>
+                63% — NVIDIA, <em>State of AI in Retail &amp; CPG</em>, retailers attributing
+                revenue to AI.
+              </li>
+              <li>
+                55% — Deloitte / MAPI manufacturing AI adoption studies, AI in production
+                operations.
+              </li>
             </ul>
-            <p className="mt-3 text-[13px] text-[#111111]/40">Figures are drawn from the most recent published editions of each survey; exact percentages vary by edition and cohort.</p>
+            <p className="mt-3 text-[13px] text-[#111111]/40">
+              Figures are drawn from the most recent published editions of each survey; exact
+              percentages vary by edition and cohort.
+            </p>
           </div>
-</div>
+        </div>
       </section>
 
       {/* article grid */}
@@ -349,7 +391,10 @@ function InsightsPage() {
               <p className="text-[13px] text-[#1e6b3c] " style={mono}>
                 From the Desk
               </p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl" style={inter}>
+              <h2
+                className="mt-3 text-2xl font-semibold tracking-[-0.035em] md:text-4xl"
+                style={inter}
+              >
                 Field notes &amp; analysis.
               </h2>
             </div>
@@ -439,8 +484,8 @@ function InsightsPage() {
               The next report, before it's public.
             </h2>
             <p className="mx-auto mt-4 max-w-md text-[15px] text-[#111111]/50" style={inter}>
-              We publish our field data and analysis to a short list first. No
-              noise — a few emails a quarter, each one worth reading.
+              We publish our field data and analysis to a short list first. No noise — a few emails
+              a quarter, each one worth reading.
             </p>
             <form
               action="/contact"

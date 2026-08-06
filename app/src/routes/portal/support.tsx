@@ -38,9 +38,7 @@ function PortalSupportPage() {
     );
   }
 
-  const companies: Company[] = user?.company
-    ? [user.company]
-    : [];
+  const companies: Company[] = user?.company ? [user.company] : [];
   const allUsers: User[] = user ? [user] : [];
 
   return (
@@ -50,9 +48,7 @@ function PortalSupportPage() {
           <div>
             <p className="text-[13px] font-bold text-[#1e6b3c]">ELSIAA</p>
             <h1 className="text-3xl font-semibold tracking-[-0.03em]">Support</h1>
-            <p className="mt-1 text-sm text-[#111]/50">
-              Tickets and help from the ELSIAA team
-            </p>
+            <p className="mt-1 text-sm text-[#111]/50">Tickets and help from the ELSIAA team</p>
           </div>
           <a
             href="/portal"

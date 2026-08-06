@@ -23,21 +23,26 @@ export function pdfMakePaymentSuccessRow(successBadgeStyleKey: string) {
   return {
     columnGap: 8,
     columns: [
-      { width: '*', text: '' },
+      { width: "*", text: "" },
       {
-        width: 'auto',
+        width: "auto",
         stack: [
           {
             canvas: [
-              { type: 'line', x1: 2, y1: 10, x2: 6, y2: 14, lineWidth: 2.4, lineColor: '#4CAF50' },
-              { type: 'line', x1: 6, y1: 14, x2: 14, y2: 6, lineWidth: 2.4, lineColor: '#4CAF50' },
+              { type: "line", x1: 2, y1: 10, x2: 6, y2: 14, lineWidth: 2.4, lineColor: "#4CAF50" },
+              { type: "line", x1: 6, y1: 14, x2: 14, y2: 6, lineWidth: 2.4, lineColor: "#4CAF50" },
             ],
           },
         ],
         margin: [0, 2, 0, 0],
       },
-      { width: 'auto', text: 'Payment successful', style: successBadgeStyleKey, margin: [0, 0, 0, 0] },
-      { width: '*', text: '' },
+      {
+        width: "auto",
+        text: "Payment successful",
+        style: successBadgeStyleKey,
+        margin: [0, 0, 0, 0],
+      },
+      { width: "*", text: "" },
     ],
     margin: [0, 0, 0, 30],
   };

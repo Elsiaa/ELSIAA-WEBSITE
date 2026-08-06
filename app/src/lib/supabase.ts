@@ -28,9 +28,7 @@ export function getServerSupabaseClient(): SupabaseClient {
     ""
   ).trim();
   if (!supabaseUrl || !supabaseServiceRoleKey) {
-    throw new Error(
-      "Missing SUPABASE_URL or SUPABASE_SECRET_KEY (service client)",
-    );
+    throw new Error("Missing SUPABASE_URL or SUPABASE_SECRET_KEY (service client)");
   }
   return createClient(supabaseUrl, supabaseServiceRoleKey, {
     auth: { autoRefreshToken: false, persistSession: false },
@@ -46,7 +44,4 @@ export function getClientSupabaseClient(): SupabaseClient {
 }
 
 const { url: _u, anon: _a } = urlAndAnon();
-export const supabase =
-  _u && _a
-    ? createClient(_u, _a)
-    : (null as unknown as SupabaseClient);
+export const supabase = _u && _a ? createClient(_u, _a) : (null as unknown as SupabaseClient);

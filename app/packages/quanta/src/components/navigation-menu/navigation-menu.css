@@ -71,14 +71,27 @@
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
-  transition: background-color var(--hf-duration-150) ease, color var(--hf-duration-150) ease; /* ease keyword not in --hf-ease-* */
+  transition:
+    background-color var(--hf-duration-150) ease,
+    color var(--hf-duration-150) ease; /* ease keyword not in --hf-ease-* */
 
-  &:hover { background-color: var(--hf-color-overlay-hover); color: var(--hf-color-text-primary); }
-  &[data-popup-open] { background-color: var(--hf-color-overlay-hover); color: var(--hf-color-text-primary); }
+  &:hover {
+    background-color: var(--hf-color-overlay-hover);
+    color: var(--hf-color-text-primary);
+  }
+  &[data-popup-open] {
+    background-color: var(--hf-color-overlay-hover);
+    color: var(--hf-color-text-primary);
+  }
   /* Current section — Base UI may set data-active; the `active` prop sets aria-current. */
   &[data-active],
-  &[aria-current="page"] { color: var(--hf-color-text-primary); }
-  &[data-disabled] { color: var(--hf-color-text-disabled); pointer-events: none; }
+  &[aria-current="page"] {
+    color: var(--hf-color-text-primary);
+  }
+  &[data-disabled] {
+    color: var(--hf-color-text-disabled);
+    pointer-events: none;
+  }
 }
 
 /* Leading icon slot inside a bar item (24px in Figma _HeaderNavItem). */
@@ -90,7 +103,10 @@
   width: var(--hf-space-600);
   height: var(--hf-space-600);
 
-  & svg { width: 100%; height: 100%; }
+  & svg {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 /* Accent treatment — the lime "Supercomputer" item. Pair with any
@@ -99,7 +115,9 @@
   color: var(--hf-color-brand-primary);
 
   &:hover,
-  &[data-popup-open] { color: var(--hf-color-brand-primary); }
+  &[data-popup-open] {
+    color: var(--hf-color-brand-primary);
+  }
 }
 
 /* ── Right-side actions cluster ─────────────────────────────────────────────
@@ -141,8 +159,13 @@
   user-select: none;
   transition: background-color var(--hf-duration-150) ease; /* ease keyword not in --hf-ease-* */
 
-  &:hover { background-color: var(--hf-color-overlay-hover); }
-  & svg { width: var(--hf-icon-sm); height: var(--hf-icon-sm); } /* 16px glyph */
+  &:hover {
+    background-color: var(--hf-color-overlay-hover);
+  }
+  & svg {
+    width: var(--hf-icon-sm);
+    height: var(--hf-icon-sm);
+  } /* 16px glyph */
 }
 
 @utility q-nav-action-label {
@@ -171,7 +194,10 @@
 @utility q-nav-positioner {
   z-index: var(--hf-z-index-popover);
   /* Hide while no item is active so a stale empty popup never flashes. */
-  &[data-anchor-hidden] { opacity: 0; pointer-events: none; }
+  &[data-anchor-hidden] {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 @utility q-nav-popup {
@@ -190,13 +216,19 @@
   transition:
     width var(--hf-duration-slow) var(--hf-ease-emphasized),
     height var(--hf-duration-slow) var(--hf-ease-emphasized),
-    opacity var(--hf-duration-normal) ease, /* no token: ease — no --hf-ease-* equals the keyword `ease` */
-    transform var(--hf-duration-normal) ease;
+    opacity var(--hf-duration-normal) ease,
+    /* no token: ease — no --hf-ease-* equals the keyword `ease` */ transform
+      var(--hf-duration-normal) ease;
 
   &[data-starting-style],
-  &[data-ending-style] { opacity: 0; transform: scale(0.97); } /* no token: 0.97 morph scale has no size/scale token */
+  &[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.97);
+  } /* no token: 0.97 morph scale has no size/scale token */
   /* First open snaps to size instead of growing from 0. */
-  &[data-instant] { transition-duration: var(--hf-duration-instant); }
+  &[data-instant] {
+    transition-duration: var(--hf-duration-instant);
+  }
 }
 
 .q-nav-popup:has(.q-nav-menu-size-plugins) {
@@ -215,14 +247,22 @@
 @utility q-nav-content {
   width: max-content;
   height: max-content;
-  transition: opacity var(--hf-duration-normal) ease, transform var(--hf-duration-normal) var(--hf-ease-emphasized); /* no token: ease keyword not in --hf-ease-* */
+  transition:
+    opacity var(--hf-duration-normal) ease,
+    transform var(--hf-duration-normal) var(--hf-ease-emphasized); /* no token: ease keyword not in --hf-ease-* */
 
   &[data-starting-style],
-  &[data-ending-style] { opacity: 0; }
+  &[data-ending-style] {
+    opacity: 0;
+  }
   &[data-starting-style][data-activation-direction="left"],
-  &[data-ending-style][data-activation-direction="right"] { transform: translateX(var(--hf-space-1000)); }
+  &[data-ending-style][data-activation-direction="right"] {
+    transform: translateX(var(--hf-space-1000));
+  }
   &[data-starting-style][data-activation-direction="right"],
-  &[data-ending-style][data-activation-direction="left"] { transform: translateX(calc(-1 * var(--hf-space-1000))); }
+  &[data-ending-style][data-activation-direction="left"] {
+    transform: translateX(calc(-1 * var(--hf-space-1000)));
+  }
 }
 
 /* ── The panel layout ──────────────────────────────────────────────────────── */
@@ -282,10 +322,18 @@
 }
 
 /* Rows per column before wrapping to the next column. */
-@utility q-nav-rows-1 { grid-template-rows: repeat(1, auto); }
-@utility q-nav-rows-2 { grid-template-rows: repeat(2, auto); }
-@utility q-nav-rows-3 { grid-template-rows: repeat(3, auto); }
-@utility q-nav-rows-4 { grid-template-rows: repeat(4, auto); }
+@utility q-nav-rows-1 {
+  grid-template-rows: repeat(1, auto);
+}
+@utility q-nav-rows-2 {
+  grid-template-rows: repeat(2, auto);
+}
+@utility q-nav-rows-3 {
+  grid-template-rows: repeat(3, auto);
+}
+@utility q-nav-rows-4 {
+  grid-template-rows: repeat(4, auto);
+}
 
 /* A group is its own full-height column (heading + stacked items). */
 @utility q-nav-group {
@@ -304,13 +352,27 @@
   @apply text-q-label-xs-medium;
 }
 
-.q-nav-menu-size-image .q-nav-group:first-child { --q-nav-col-width: 21.375rem; } /* 342px */
-.q-nav-menu-size-image .q-nav-group:nth-child(2) { --q-nav-col-width: 21.125rem; } /* 338px */
-.q-nav-menu-size-video .q-nav-group:first-child { --q-nav-col-width: 21.375rem; } /* 342px */
-.q-nav-menu-size-video .q-nav-group:nth-child(2) { --q-nav-col-width: 23.4375rem; } /* 375px */
-.q-nav-menu-size-audio .q-nav-group:first-child { --q-nav-col-width: 15.4375rem; } /* 247px */
-.q-nav-menu-size-audio .q-nav-group:nth-child(2) { --q-nav-col-width: 19.3125rem; } /* 309px */
-.q-nav-menu-size-plugins .q-nav-group:first-child { --q-nav-col-width: 17.5rem; } /* 280px */
+.q-nav-menu-size-image .q-nav-group:first-child {
+  --q-nav-col-width: 21.375rem;
+} /* 342px */
+.q-nav-menu-size-image .q-nav-group:nth-child(2) {
+  --q-nav-col-width: 21.125rem;
+} /* 338px */
+.q-nav-menu-size-video .q-nav-group:first-child {
+  --q-nav-col-width: 21.375rem;
+} /* 342px */
+.q-nav-menu-size-video .q-nav-group:nth-child(2) {
+  --q-nav-col-width: 23.4375rem;
+} /* 375px */
+.q-nav-menu-size-audio .q-nav-group:first-child {
+  --q-nav-col-width: 15.4375rem;
+} /* 247px */
+.q-nav-menu-size-audio .q-nav-group:nth-child(2) {
+  --q-nav-col-width: 19.3125rem;
+} /* 309px */
+.q-nav-menu-size-plugins .q-nav-group:first-child {
+  --q-nav-col-width: 17.5rem;
+} /* 280px */
 
 /* Panel row over the shared q-menu-item base — fills its grid/column cell. */
 @utility q-nav-menu-item {
@@ -395,5 +457,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .q-nav-popup,
-  .q-nav-content { transition-duration: var(--hf-duration-80); }
+  .q-nav-content {
+    transition-duration: var(--hf-duration-80);
+  }
 }

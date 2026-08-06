@@ -8,26 +8,17 @@ export const Route = createFileRoute("/api/quotes")({
     handlers: {
       GET: async ({ request }) => {
         if (!isAdmin(request))
-          return Response.json(
-            { ok: false, code: "unauthorized" },
-            { status: 401 },
-          );
+          return Response.json({ ok: false, code: "unauthorized" }, { status: 401 });
         try {
           const quotes = await listQuotes();
           return Response.json({ ok: true, quotes });
         } catch {
-          return Response.json(
-            { ok: false, code: "storage_error" },
-            { status: 500 },
-          );
+          return Response.json({ ok: false, code: "storage_error" }, { status: 500 });
         }
       },
       POST: async ({ request }) => {
         if (!isAdmin(request))
-          return Response.json(
-            { ok: false, code: "unauthorized" },
-            { status: 401 },
-          );
+          return Response.json({ ok: false, code: "unauthorized" }, { status: 401 });
         try {
           const body = (await request.json()) as { id?: string; status?: string };
           if (typeof body.id === "string" && typeof body.status === "string") {
@@ -35,10 +26,7 @@ export const Route = createFileRoute("/api/quotes")({
           }
           return Response.json({ ok: true });
         } catch {
-          return Response.json(
-            { ok: false, code: "storage_error" },
-            { status: 500 },
-          );
+          return Response.json({ ok: false, code: "storage_error" }, { status: 500 });
         }
       },
     },

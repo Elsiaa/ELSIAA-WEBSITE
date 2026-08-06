@@ -12,7 +12,12 @@ import { SOCIAL_PROFILES } from "../lib/social";
 function Glyph({ name }: { name: string }) {
   if (name === "LinkedIn") {
     return (
-      <svg viewBox="0 0 24 24" aria-hidden className="h-[15px] w-[15px] flex-none" fill="currentColor">
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden
+        className="h-[15px] w-[15px] flex-none"
+        fill="currentColor"
+      >
         <path d="M20.4 3H3.6C3 3 3 3 3 3.6v16.8c0 .6 0 .6.6.6h16.8c.6 0 .6 0 .6-.6V3.6c0-.6 0-.6-.6-.6zM8 18H5.5V9.5H8V18zM6.75 8.3a1.45 1.45 0 110-2.9 1.45 1.45 0 010 2.9zM18.5 18H16v-4.3c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V18H10.5V9.5h2.4v1.1h.03c.34-.64 1.16-1.3 2.4-1.3 2.56 0 3.03 1.7 3.03 3.9V18z" />
       </svg>
     );

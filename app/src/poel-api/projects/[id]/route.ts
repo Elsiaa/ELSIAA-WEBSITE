@@ -1,21 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { updateProject, deleteProject } from '@/lib/projects';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { updateProject, deleteProject } from "@/lib/projects";
 
 // Update a project
-export async function PATCH(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
 
     if (!userId) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: projectId } = await context.params;
@@ -31,36 +25,24 @@ export async function PATCH(
     });
 
     if (!project) {
-      return NextResponse.json(
-        { error: 'Project not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
     return NextResponse.json({ project });
   } catch (error) {
-    console.error('Error updating project:', error);
-    return NextResponse.json(
-      { error: 'Failed to update project' },
-      { status: 500 }
-    );
+    console.error("Error updating project:", error);
+    return NextResponse.json({ error: "Failed to update project" }, { status: 500 });
   }
 }
 
 // Delete a project
-export async function DELETE(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
 
     if (!userId) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: projectId } = await context.params;
@@ -68,18 +50,12 @@ export async function DELETE(
     const success = await deleteProject(projectId);
 
     if (!success) {
-      return NextResponse.json(
-        { error: 'Project not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting project:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete project' },
-      { status: 500 }
-    );
+    console.error("Error deleting project:", error);
+    return NextResponse.json({ error: "Failed to delete project" }, { status: 500 });
   }
 }

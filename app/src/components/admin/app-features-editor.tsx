@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Plus, X } from 'lucide-react';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Plus, X } from "lucide-react";
 import {
   EXAMPLE_APP_FEATURE_KEYS,
   collectAppFeatureKeys,
   formatAppFeatureLabel,
   isValidAppFeatureKey,
   type AppFeatures,
-} from '@/lib/app-features';
+} from "@/lib/app-features";
 
 type AppFeaturesEditorProps = {
   value: AppFeatures;
@@ -25,7 +25,7 @@ type AppFeaturesEditorProps = {
  * Free-form feature map editor: toggle existing keys, add/remove any key.
  */
 export function AppFeaturesEditor({ value, onChange, dense, disabled }: AppFeaturesEditorProps) {
-  const [newKey, setNewKey] = useState('');
+  const [newKey, setNewKey] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   const keys = collectAppFeatureKeys(value);
@@ -35,16 +35,16 @@ export function AppFeaturesEditor({ value, onChange, dense, disabled }: AppFeatu
     const key = raw.trim();
     if (!key) return;
     if (!isValidAppFeatureKey(key)) {
-      setError('Use a letter, then letters/numbers/underscores (max 64).');
+      setError("Use a letter, then letters/numbers/underscores (max 64).");
       return;
     }
     if (key in value) {
-      setError('That feature already exists.');
+      setError("That feature already exists.");
       return;
     }
     setError(null);
     onChange({ ...value, [key]: enabled });
-    setNewKey('');
+    setNewKey("");
   };
 
   const removeKey = (key: string) => {
@@ -54,11 +54,11 @@ export function AppFeaturesEditor({ value, onChange, dense, disabled }: AppFeatu
   };
 
   return (
-    <div className={dense ? 'space-y-2' : 'space-y-3'}>
+    <div className={dense ? "space-y-2" : "space-y-3"}>
       {keys.length === 0 ? (
         <p className="text-xs text-muted-foreground">No features yet. Add a key below.</p>
       ) : (
-        <div className={dense ? 'grid grid-cols-1 gap-2' : 'grid grid-cols-1 sm:grid-cols-2 gap-2'}>
+        <div className={dense ? "grid grid-cols-1 gap-2" : "grid grid-cols-1 sm:grid-cols-2 gap-2"}>
           {keys.map((key) => (
             <div
               key={key}
@@ -120,7 +120,7 @@ export function AppFeaturesEditor({ value, onChange, dense, disabled }: AppFeatu
             if (error) setError(null);
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               e.preventDefault();
               addKey(newKey, true);
             }

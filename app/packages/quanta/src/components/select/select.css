@@ -244,7 +244,7 @@
 
 @utility q-select-scroll-arrow-up {
   &::before {
-    content: '';
+    content: "";
     width: var(--hf-space-300);
     height: var(--hf-space-300);
     border-top: var(--hf-border-width-medium) solid currentColor;
@@ -256,7 +256,7 @@
 
 @utility q-select-scroll-arrow-down {
   &::before {
-    content: '';
+    content: "";
     width: var(--hf-space-300);
     height: var(--hf-space-300);
     border-bottom: var(--hf-border-width-medium) solid currentColor;

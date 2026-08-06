@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import type { ComponentProps, ReactElement, ReactNode, Ref } from 'react'
-import { useRender } from '@base-ui/react/use-render'
-import { Typography } from '../typography/index.ts'
-import type { ClassValue } from '../utils/cx.ts'
-import { cx } from '../utils/cx.ts'
+import type { ComponentProps, ReactElement, ReactNode, Ref } from "react";
+import { useRender } from "@base-ui/react/use-render";
+import { Typography } from "../typography/index.ts";
+import type { ClassValue } from "../utils/cx.ts";
+import { cx } from "../utils/cx.ts";
 
 /**
  * Card — the reusable glass/solid surface that the overlay components (Modal,
@@ -32,38 +32,39 @@ import { cx } from '../utils/cx.ts'
  *   <Card render={<a href="/p"/>}>…</Card>   ·   <Card render={<Link/>}>…</Card>
  */
 
-export type CardSurface = 'glass' | 'solid'
-export type CardElevation = 'flat' | 'raised'
+export type CardSurface = "glass" | "solid";
+export type CardElevation = "flat" | "raised";
 
 export interface CardOptions {
-  surface?: CardSurface
-  elevation?: CardElevation
+  surface?: CardSurface;
+  elevation?: CardElevation;
 }
 
 const SURFACE_CLASS = {
-  glass: '',
-  solid: 'q-card-solid',
-} satisfies Record<CardSurface, string>
+  glass: "",
+  solid: "q-card-solid",
+} satisfies Record<CardSurface, string>;
 
 const ELEVATION_CLASS = {
-  flat: '',
-  raised: 'q-card-raised',
-} satisfies Record<CardElevation, string>
+  flat: "",
+  raised: "q-card-raised",
+} satisfies Record<CardElevation, string>;
 
 /** Build the card surface class string — usable to skin any element as a card. */
 export function card(options: CardOptions = {}, ...extra: ClassValue[]): string {
-  const { surface = 'glass', elevation = 'flat' } = options
-  return cx('q-card', SURFACE_CLASS[surface], ELEVATION_CLASS[elevation], ...extra)
+  const { surface = "glass", elevation = "flat" } = options;
+  return cx("q-card", SURFACE_CLASS[surface], ELEVATION_CLASS[elevation], ...extra);
 }
 
-export type CardProps = Omit<ComponentProps<'div'>, keyof CardOptions> & CardOptions & {
-  /**
-   * Swap the root element/component while keeping the surface styling — a
-   * semantic `<article>` / `<section>`, or a clickable `<a>` / `<button>` /
-   * framework `<Link>`. Defaults to a `<div>`.
-   */
-  render?: ReactElement
-}
+export type CardProps = Omit<ComponentProps<"div">, keyof CardOptions> &
+  CardOptions & {
+    /**
+     * Swap the root element/component while keeping the surface styling — a
+     * semantic `<article>` / `<section>`, or a clickable `<a>` / `<button>` /
+     * framework `<Link>`. Defaults to a `<div>`.
+     */
+    render?: ReactElement;
+  };
 
 function Root({ surface, elevation, className, render, ref, ...props }: CardProps) {
   // `ref` must go to useRender's dedicated `ref` option — it is NOT picked up
@@ -71,65 +72,79 @@ function Root({ surface, elevation, className, render, ref, ...props }: CardProp
   // rendered root / `render` element).
   return useRender({
     render,
-    defaultTagName: 'div',
+    defaultTagName: "div",
     ref: ref as Ref<Element> | undefined,
     props: { className: card({ surface, elevation }, className), ...props },
-  })
+  });
 }
 
-export type CardHeaderProps = Omit<ComponentProps<'div'>, 'title'> & {
+export type CardHeaderProps = Omit<ComponentProps<"div">, "title"> & {
   /** Primary heading. Any node. */
-  title?: ReactNode
+  title?: ReactNode;
   /** Secondary line under the title. Any node. */
-  description?: ReactNode
+  description?: ReactNode;
   /** Trailing controls (buttons, close, etc.). Any node. */
-  actions?: ReactNode
-}
+  actions?: ReactNode;
+};
 
 function Header({ title, description, actions, children, className, ...props }: CardHeaderProps) {
   return (
-    <div className={cx('q-card-header', className)} {...props}>
+    <div className={cx("q-card-header", className)} {...props}>
       {children ?? (
         <>
-          {title != null || description != null
-            ? (
-                <div className="q-card-heading">
-                  {title != null ? <Title>{title}</Title> : null}
-                  {description != null ? <Description>{description}</Description> : null}
-                </div>
-              )
-            : null}
+          {title != null || description != null ? (
+            <div className="q-card-heading">
+              {title != null ? <Title>{title}</Title> : null}
+              {description != null ? <Description>{description}</Description> : null}
+            </div>
+          ) : null}
           {actions != null ? <div className="q-card-actions">{actions}</div> : null}
         </>
       )}
     </div>
-  )
+  );
 }
 
-type DivProps = ComponentProps<'div'>
+type DivProps = ComponentProps<"div">;
 // Title / Description render through Typography (exact-equivalent of the
 // composite + color the q-card-title / q-card-description CSS already applied):
 // `as="div"` preserves the original tag, the q-card-* class is kept (recipe /
 // external styling + sibling selectors), and className stays last so callers win.
 function Title({ className, color: _color, ...props }: DivProps) {
-  return <Typography as="div" variant="body-md-semi-bold" color="primary" className={cx('q-card-title', className)} {...props} />
+  return (
+    <Typography
+      as="div"
+      variant="body-md-semi-bold"
+      color="primary"
+      className={cx("q-card-title", className)}
+      {...props}
+    />
+  );
 }
 function Description({ className, color: _color, ...props }: DivProps) {
-  return <Typography as="div" variant="body-sm-regular" color="secondary" className={cx('q-card-description', className)} {...props} />
+  return (
+    <Typography
+      as="div"
+      variant="body-sm-regular"
+      color="secondary"
+      className={cx("q-card-description", className)}
+      {...props}
+    />
+  );
 }
 function Body({ className, ...props }: DivProps) {
-  return <div className={cx('q-card-body', className)} {...props} />
+  return <div className={cx("q-card-body", className)} {...props} />;
 }
 
-export type CardFooterProps = ComponentProps<'div'> & {
-  actions?: ReactNode
-}
+export type CardFooterProps = ComponentProps<"div"> & {
+  actions?: ReactNode;
+};
 function Footer({ actions, children, className, ...props }: CardFooterProps) {
   return (
-    <div className={cx('q-card-footer', className)} {...props}>
+    <div className={cx("q-card-footer", className)} {...props}>
       {children ?? (actions != null ? <div className="q-card-actions">{actions}</div> : null)}
     </div>
-  )
+  );
 }
 
 export const Card = Object.assign(Root, {
@@ -138,4 +153,4 @@ export const Card = Object.assign(Root, {
   Description,
   Body,
   Footer,
-})
+});

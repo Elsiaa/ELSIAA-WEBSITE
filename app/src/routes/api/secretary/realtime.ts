@@ -34,34 +34,25 @@ export const Route = createFileRoute("/api/secretary/realtime")({
       POST: async ({ request }) => {
         const key = (process.env.OPENAI_API_KEY || "").trim();
         if (!key) {
-          return Response.json(
-            { ok: false, code: "realtime_not_configured" },
-            { status: 503 },
-          );
+          return Response.json({ ok: false, code: "realtime_not_configured" }, { status: 503 });
         }
 
         if (!rateLimit(clientIp(request))) {
-          return Response.json(
-            { ok: false, code: "rate_limited" },
-            { status: 429 },
-          );
+          return Response.json({ ok: false, code: "rate_limited" }, { status: 429 });
         }
 
         const session = getSecretaryRealtimeSession();
 
         try {
-          const upstream = await fetch(
-            "https://api.openai.com/v1/realtime/client_secrets",
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${key}`,
-                "Content-Type": "application/json",
-                "OpenAI-Safety-Identifier": "elsiaa-secretary-demo",
-              },
-              body: JSON.stringify({ session }),
+          const upstream = await fetch("https://api.openai.com/v1/realtime/client_secrets", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${key}`,
+              "Content-Type": "application/json",
+              "OpenAI-Safety-Identifier": "elsiaa-secretary-demo",
             },
-          );
+            body: JSON.stringify({ session }),
+          });
 
           const data = (await upstream.json().catch(() => ({}))) as {
             value?: string;
@@ -70,11 +61,7 @@ export const Route = createFileRoute("/api/secretary/realtime")({
           };
 
           if (!upstream.ok) {
-            console.error(
-              "[secretary/realtime] client_secrets error",
-              upstream.status,
-              data,
-            );
+            console.error("[secretary/realtime] client_secrets error", upstream.status, data);
             return Response.json(
               {
                 ok: false,
@@ -102,10 +89,7 @@ export const Route = createFileRoute("/api/secretary/realtime")({
           );
         } catch (err) {
           console.error("[secretary/realtime] fetch failed", err);
-          return Response.json(
-            { ok: false, code: "realtime_failed" },
-            { status: 502 },
-          );
+          return Response.json({ ok: false, code: "realtime_failed" }, { status: 502 });
         }
       },
     },

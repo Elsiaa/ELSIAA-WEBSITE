@@ -74,7 +74,9 @@
   cursor: pointer;
   transition: background-color var(--hf-duration-150) ease;
 
-  &:hover { background-color: var(--hf-color-overlay-hover); }
+  &:hover {
+    background-color: var(--hf-color-overlay-hover);
+  }
   &:focus-visible {
     outline: none;
     box-shadow: inset 0 0 0 var(--hf-border-width-thick) var(--hf-color-border-focus);
@@ -134,7 +136,9 @@
   background-color: transparent;
   color: var(--hf-color-icon-secondary);
   cursor: pointer;
-  transition: color var(--hf-duration-150) ease, background-color var(--hf-duration-150) ease;
+  transition:
+    color var(--hf-duration-150) ease,
+    background-color var(--hf-duration-150) ease;
 
   &:hover {
     color: var(--hf-color-icon-primary);
@@ -257,7 +261,9 @@
   gap: var(--hf-space-200);
   transition: background-color var(--hf-duration-150) ease;
 
-  &:hover { background-color: var(--hf-color-overlay-hover); }
+  &:hover {
+    background-color: var(--hf-color-overlay-hover);
+  }
   &:focus-visible {
     outline: none;
     box-shadow: inset 0 0 0 var(--hf-border-width-thick) var(--hf-color-border-focus);
@@ -267,7 +273,9 @@
 @utility q-sidebar-selected {
   background-color: var(--hf-color-transparent-light-10);
 
-  &:hover { background-color: var(--hf-color-transparent-light-10); }
+  &:hover {
+    background-color: var(--hf-color-transparent-light-10);
+  }
 }
 
 .q-sidebar-item.q-sidebar-selected:not(.q-sidebar-projectitem) .q-sidebar-label {
@@ -377,7 +385,9 @@
   justify-content: center;
   opacity: 1;
   transform: translateY(-50%);
-  transition: opacity var(--hf-duration-150) ease, transform var(--hf-duration-150) ease;
+  transition:
+    opacity var(--hf-duration-150) ease,
+    transform var(--hf-duration-150) ease;
   will-change: opacity, transform;
 }
 
@@ -417,7 +427,10 @@
   background-color: transparent;
   color: var(--hf-color-icon-secondary);
   cursor: pointer;
-  transition: background-color var(--hf-duration-150) ease, color var(--hf-duration-150) ease, transform var(--hf-duration-150) ease;
+  transition:
+    background-color var(--hf-duration-150) ease,
+    color var(--hf-duration-150) ease,
+    transform var(--hf-duration-150) ease;
 
   &:hover,
   &[data-popup-open] {
@@ -455,7 +468,11 @@
   cursor: pointer;
   opacity: 0;
   transform: translateY(-50%) translateX(var(--hf-space-100)) scale(0.96);
-  transition: opacity var(--hf-duration-150) ease, color var(--hf-duration-150) ease, background-color var(--hf-duration-150) ease, transform var(--hf-duration-150) ease;
+  transition:
+    opacity var(--hf-duration-150) ease,
+    color var(--hf-duration-150) ease,
+    background-color var(--hf-duration-150) ease,
+    transform var(--hf-duration-150) ease;
   will-change: opacity, transform;
 
   &:hover {
@@ -503,7 +520,9 @@
 .q-sidebar-pinrow:focus-within .q-sidebar-meta,
 .q-sidebar-pinrow:focus-within .q-sidebar-end,
 .q-sidebar-pinned .q-sidebar-meta,
-.q-sidebar-pinned .q-sidebar-end { opacity: 0; }
+.q-sidebar-pinned .q-sidebar-end {
+  opacity: 0;
+}
 
 @utility q-sidebar-search {
   box-sizing: border-box;
@@ -554,7 +573,9 @@
   background: transparent;
   color: var(--hf-color-text-primary);
 
-  &::placeholder { color: var(--hf-color-text-secondary); }
+  &::placeholder {
+    color: var(--hf-color-text-secondary);
+  }
 }
 
 @utility q-sidebar-footer {
@@ -584,15 +605,21 @@
     color: var(--hf-color-brand-pink);
     letter-spacing: var(--hf-type-letter-spacing-none);
   }
-  & .q-sidebar-icon { color: var(--hf-color-brand-pink); }
-  &:hover { background-color: var(--hf-color-transparent-pink-10); }
+  & .q-sidebar-icon {
+    color: var(--hf-color-brand-pink);
+  }
+  &:hover {
+    background-color: var(--hf-color-transparent-pink-10);
+  }
 }
 
 @utility q-sidebar-footeritem-login {
   padding: var(--hf-space-100) var(--hf-space-150);
   background-color: var(--hf-color-button-secondary);
 
-  &:hover { background-color: var(--hf-color-button-secondary); }
+  &:hover {
+    background-color: var(--hf-color-button-secondary);
+  }
 }
 
 /* Composite row pieces. */
@@ -623,8 +650,10 @@
     object-fit: cover;
     /* no token: drop layer is blur border-width-medium 1.5px and spread space-050 -2px, which matches neither inset-tile (drop blur 2px) nor inset-tile-hairline (drop spread -0.5px); not byte-identical to any shadow role */
     box-shadow:
-      0 var(--hf-space-050) var(--hf-border-width-medium) calc(-1 * var(--hf-space-050)) var(--hf-color-shadow-sm),
-      inset 0 var(--hf-space-050) var(--hf-space-150) var(--hf-space-0) var(--hf-color-transparent-light-15);
+      0 var(--hf-space-050) var(--hf-border-width-medium) calc(-1 * var(--hf-space-050))
+        var(--hf-color-shadow-sm),
+      inset 0 var(--hf-space-050) var(--hf-space-150) var(--hf-space-0)
+        var(--hf-color-transparent-light-15);
     backdrop-filter: blur(var(--hf-space-300));
   }
 
@@ -703,7 +732,9 @@
 
 /* Collapsed icon rail. */
 @utility q-sidebar-collapsed {
-  --q-sidebar-width: var(--q-sidebar-width-collapsed); /* collapsed rail; default lives in generated component tier */
+  --q-sidebar-width: var(
+    --q-sidebar-width-collapsed
+  ); /* collapsed rail; default lives in generated component tier */
 }
 
 .q-sidebar-switcher-name,
@@ -737,7 +768,9 @@
   padding-inline: var(--hf-space-150);
 }
 
-.q-sidebar-collapsed .q-sidebar-section:not(:has(.q-sidebar-section-actions)) .q-sidebar-section-header {
+.q-sidebar-collapsed
+  .q-sidebar-section:not(:has(.q-sidebar-section-actions))
+  .q-sidebar-section-header {
   height: var(--hf-space-0);
   padding: var(--hf-space-0);
 }

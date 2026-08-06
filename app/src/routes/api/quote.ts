@@ -11,25 +11,15 @@ export const Route = createFileRoute("/api/quote")({
         try {
           body = await request.json();
         } catch {
-          return Response.json(
-            { ok: false, code: "bad_json" },
-            { status: 400 },
-          );
+          return Response.json({ ok: false, code: "bad_json" }, { status: 400 });
         }
         const q = parseQuoteInput(body);
-        if (!q)
-          return Response.json(
-            { ok: false, code: "invalid_input" },
-            { status: 400 },
-          );
+        if (!q) return Response.json({ ok: false, code: "invalid_input" }, { status: 400 });
         try {
           const { id, summary } = await storeQuote(q);
           return Response.json({ ok: true, id, summary });
         } catch {
-          return Response.json(
-            { ok: false, code: "storage_error" },
-            { status: 500 },
-          );
+          return Response.json({ ok: false, code: "storage_error" }, { status: 500 });
         }
       },
     },

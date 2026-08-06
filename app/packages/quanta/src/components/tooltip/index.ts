@@ -1,4 +1,4 @@
-export { Tooltip } from './tooltip.tsx'
+export { Tooltip } from "./tooltip.tsx";
 export type {
   TooltipAlign,
   TooltipContentProps,
@@ -6,4 +6,4 @@ export type {
   TooltipRootProps,
   TooltipSide,
   TooltipTriggerProps,
-} from './tooltip.tsx'
+} from "./tooltip.tsx";

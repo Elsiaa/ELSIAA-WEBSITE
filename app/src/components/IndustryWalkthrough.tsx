@@ -10,8 +10,7 @@ import { useEffect, useRef, useState } from "react";
   is replayable and clickable. Reduced motion → final states.
 */
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 const GREEN = "#1e6b3c";
 
 type Msg = { from: "user" | "ai"; text: string };
@@ -39,19 +38,40 @@ const INDUSTRIES: Industry[] = [
     tagline: "Answers every call. Books the right doctor. Writes the chart note.",
     msgs: [
       { from: "user", text: "Hi — my vision kind of splits into two when I'm reading at night." },
-      { from: "ai", text: "That sounds like double vision that shows up with near work — that's exactly what our neuro-ophthalmologist, Dr. Marsh, handles." },
+      {
+        from: "ai",
+        text: "That sounds like double vision that shows up with near work — that's exactly what our neuro-ophthalmologist, Dr. Marsh, handles.",
+      },
       { from: "ai", text: "She has Thursday 10:20 open. Want it?" },
       { from: "user", text: "Yes please." },
-      { from: "ai", text: "Booked — Thursday 10:20 with Dr. Marsh. Confirmation and prep instructions are on your phone." },
+      {
+        from: "ai",
+        text: "Booked — Thursday 10:20 with Dr. Marsh. Confirmation and prep instructions are on your phone.",
+      },
     ],
     stages: [
-      { name: "Listens", desc: "Live speech-to-text on the caller's own words — no phone tree, no hold music." },
-      { name: "Understands", desc: "\u201cSplits into two\u201d is mapped to the clinical concept: binocular diplopia." },
-      { name: "Decides", desc: "Deterministic rules match the symptom to the right specialist — never a guess." },
-      { name: "Acts", desc: "Holds the slot, writes the chart note, texts the patient. Done in one call." },
+      {
+        name: "Listens",
+        desc: "Live speech-to-text on the caller's own words — no phone tree, no hold music.",
+      },
+      {
+        name: "Understands",
+        desc: "\u201cSplits into two\u201d is mapped to the clinical concept: binocular diplopia.",
+      },
+      {
+        name: "Decides",
+        desc: "Deterministic rules match the symptom to the right specialist — never a guess.",
+      },
+      {
+        name: "Acts",
+        desc: "Holds the slot, writes the chart note, texts the patient. Done in one call.",
+      },
     ],
     backend: [
-      { sys: "ASR", text: "transcript: \u201cvision kind of splits into two … reading at night\u201d" },
+      {
+        sys: "ASR",
+        text: "transcript: \u201cvision kind of splits into two … reading at night\u201d",
+      },
       { sys: "NLU", text: "entity \u2192 Diplopia (binocular) · trigger: near work" },
       { sys: "Rules", text: "match: Dr. Marsh — neuro-ophthalmology · confidence 92%" },
       { sys: "Calendar", text: "hold Thu 10:20 · Dr. Marsh", ok: true },
@@ -69,15 +89,27 @@ const INDUSTRIES: Industry[] = [
     msgs: [
       { from: "user", text: "Forwarding this month's vendor invoices — 214 PDFs." },
       { from: "ai", text: "Received. Extracting line items and matching against open POs now." },
-      { from: "ai", text: "212 reconciled clean. 2 flagged: one duplicate, one 8% over contract rate." },
+      {
+        from: "ai",
+        text: "212 reconciled clean. 2 flagged: one duplicate, one 8% over contract rate.",
+      },
       { from: "user", text: "Show me the overage." },
-      { from: "ai", text: "Meridian Logistics — invoice #4471, $2,340 above the contracted rate. Draft dispute email is ready for your review." },
+      {
+        from: "ai",
+        text: "Meridian Logistics — invoice #4471, $2,340 above the contracted rate. Draft dispute email is ready for your review.",
+      },
     ],
     stages: [
       { name: "Ingests", desc: "Every invoice, statement, and PO — parsed the moment it arrives." },
       { name: "Matches", desc: "Three-way match against POs and receipts, line by line." },
-      { name: "Flags", desc: "Duplicates, overages, and anomalies surface — everything else clears silently." },
-      { name: "Posts", desc: "Clean entries post to the ledger. Exceptions wait for one human click." },
+      {
+        name: "Flags",
+        desc: "Duplicates, overages, and anomalies surface — everything else clears silently.",
+      },
+      {
+        name: "Posts",
+        desc: "Clean entries post to the ledger. Exceptions wait for one human click.",
+      },
     ],
     backend: [
       { sys: "OCR", text: "214 documents parsed · 3,187 line items extracted" },
@@ -97,16 +129,37 @@ const INDUSTRIES: Industry[] = [
     tagline: "One brief in. A month of on-brand content out — measured, not guessed.",
     msgs: [
       { from: "user", text: "We're launching the spring line next week. Need the full push." },
-      { from: "ai", text: "Pulling your brand system and last quarter's top performers. Building the campaign now." },
-      { from: "ai", text: "Ready: 12 ad variants, 30 social posts, 4 emails — all in your voice, sized per channel." },
+      {
+        from: "ai",
+        text: "Pulling your brand system and last quarter's top performers. Building the campaign now.",
+      },
+      {
+        from: "ai",
+        text: "Ready: 12 ad variants, 30 social posts, 4 emails — all in your voice, sized per channel.",
+      },
       { from: "user", text: "The second ad concept — make it bolder." },
-      { from: "ai", text: "Done. Three bolder takes generated. Variant B is closest to your best-performing creative from March." },
+      {
+        from: "ai",
+        text: "Done. Three bolder takes generated. Variant B is closest to your best-performing creative from March.",
+      },
     ],
     stages: [
-      { name: "Learns", desc: "Your brand voice, palette, and what actually converted — not generic output." },
-      { name: "Produces", desc: "Studio-grade creative across every channel, in hours instead of weeks." },
-      { name: "Adapts", desc: "Every asset resized, rewritten, and reformatted per platform automatically." },
-      { name: "Measures", desc: "Performance feeds back in — the next batch starts smarter than the last." },
+      {
+        name: "Learns",
+        desc: "Your brand voice, palette, and what actually converted — not generic output.",
+      },
+      {
+        name: "Produces",
+        desc: "Studio-grade creative across every channel, in hours instead of weeks.",
+      },
+      {
+        name: "Adapts",
+        desc: "Every asset resized, rewritten, and reformatted per platform automatically.",
+      },
+      {
+        name: "Measures",
+        desc: "Performance feeds back in — the next batch starts smarter than the last.",
+      },
     ],
     backend: [
       { sys: "Brand", text: "voice model loaded · palette + type system applied" },
@@ -126,16 +179,31 @@ const INDUSTRIES: Industry[] = [
     tagline: "Answers customers, tracks stock, and recovers abandoned carts — around the clock.",
     msgs: [
       { from: "user", text: "Do you have the leather weekender in tan? Need it before Friday." },
-      { from: "ai", text: "Yes — 3 left in tan. With express shipping it lands Thursday. Want me to hold one?" },
+      {
+        from: "ai",
+        text: "Yes — 3 left in tan. With express shipping it lands Thursday. Want me to hold one?",
+      },
       { from: "user", text: "Hold it. Actually — does it fit under an airline seat?" },
-      { from: "ai", text: "It's 21.5\u2033 — fits carry-on for all major US carriers. I've held yours; checkout link is in your messages." },
+      {
+        from: "ai",
+        text: "It's 21.5\u2033 — fits carry-on for all major US carriers. I've held yours; checkout link is in your messages.",
+      },
       { from: "ai", text: "Order confirmed. Tracking will follow tonight." },
     ],
     stages: [
       { name: "Answers", desc: "Real product answers from live inventory — not canned replies." },
-      { name: "Sells", desc: "Holds stock, applies the right shipping promise, closes the sale in-chat." },
-      { name: "Recovers", desc: "Abandoned carts get a perfectly-timed, personal nudge — not a blast." },
-      { name: "Restocks", desc: "Demand signals flow straight to purchasing before the shelf goes empty." },
+      {
+        name: "Sells",
+        desc: "Holds stock, applies the right shipping promise, closes the sale in-chat.",
+      },
+      {
+        name: "Recovers",
+        desc: "Abandoned carts get a perfectly-timed, personal nudge — not a blast.",
+      },
+      {
+        name: "Restocks",
+        desc: "Demand signals flow straight to purchasing before the shelf goes empty.",
+      },
     ],
     backend: [
       { sys: "Inv", text: "SKU WK-TAN · 3 on hand · ATL warehouse" },
@@ -155,16 +223,37 @@ const INDUSTRIES: Industry[] = [
     tagline: "Watches every line, predicts every failure, schedules the fix before the breakdown.",
     msgs: [
       { from: "user", text: "Line 3 sounded off during the night shift. Anything?" },
-      { from: "ai", text: "Caught it at 2:14 AM — bearing vibration on press 3B drifted 18% above baseline." },
-      { from: "ai", text: "Failure projected in 6–9 days. I've scheduled replacement for Sunday's planned downtime." },
+      {
+        from: "ai",
+        text: "Caught it at 2:14 AM — bearing vibration on press 3B drifted 18% above baseline.",
+      },
+      {
+        from: "ai",
+        text: "Failure projected in 6–9 days. I've scheduled replacement for Sunday's planned downtime.",
+      },
       { from: "user", text: "Parts?" },
-      { from: "ai", text: "Bearing kit is in stock at the Cleveland depot — transfer arrives Friday. Work order and lockout procedure are ready." },
+      {
+        from: "ai",
+        text: "Bearing kit is in stock at the Cleveland depot — transfer arrives Friday. Work order and lockout procedure are ready.",
+      },
     ],
     stages: [
-      { name: "Listens", desc: "Vibration, temperature, and current on every machine — sampled continuously." },
-      { name: "Predicts", desc: "Drift from baseline becomes a failure window, days before the breakdown." },
-      { name: "Schedules", desc: "The fix lands inside planned downtime — never as a 3 AM emergency." },
-      { name: "Supplies", desc: "Parts, work orders, and safety procedures staged before the wrench moves." },
+      {
+        name: "Listens",
+        desc: "Vibration, temperature, and current on every machine — sampled continuously.",
+      },
+      {
+        name: "Predicts",
+        desc: "Drift from baseline becomes a failure window, days before the breakdown.",
+      },
+      {
+        name: "Schedules",
+        desc: "The fix lands inside planned downtime — never as a 3 AM emergency.",
+      },
+      {
+        name: "Supplies",
+        desc: "Parts, work orders, and safety procedures staged before the wrench moves.",
+      },
     ],
     backend: [
       { sys: "Sensor", text: "press 3B · vibration 18% over baseline @ 02:14" },
@@ -202,7 +291,8 @@ export function IndustryWalkthrough() {
   const started = useRef(false);
   const data = INDUSTRIES[ind];
 
-  const stepLen = step === 0 ? data.msgs.length : step === 1 ? data.stages.length : data.backend.length;
+  const stepLen =
+    step === 0 ? data.msgs.length : step === 1 ? data.stages.length : data.backend.length;
 
   // start when scrolled into view
   useEffect(() => {
@@ -277,7 +367,11 @@ export function IndustryWalkthrough() {
             }`}
           >
             {it.tab}
-            <span className={`text-[13px] font-bold ${i === ind ? "text-white/80" : "text-[#1e6b3c]"}`}>{it.pct}%</span>
+            <span
+              className={`text-[13px] font-bold ${i === ind ? "text-white/80" : "text-[#1e6b3c]"}`}
+            >
+              {it.pct}%
+            </span>
           </button>
         ))}
       </div>
@@ -285,11 +379,18 @@ export function IndustryWalkthrough() {
       {/* product header */}
       <div className="mt-6 flex flex-wrap items-baseline justify-between gap-3">
         <div>
-          <h3 className="text-[24px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[28px]">{data.product}</h3>
-          <p className="mt-1 max-w-xl text-[15px] leading-relaxed text-[#111111]/60">{data.tagline}</p>
+          <h3 className="text-[24px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[28px]">
+            {data.product}
+          </h3>
+          <p className="mt-1 max-w-xl text-[15px] leading-relaxed text-[#111111]/60">
+            {data.tagline}
+          </p>
         </div>
         <div className="flex items-center gap-2">
-          <a href="/insights#sources" className="rounded-full border border-black/[0.1] px-3.5 py-1.5 text-[13px] font-medium text-[#111111]/50 transition-colors hover:border-black/30 hover:text-[#111111]/80">
+          <a
+            href="/insights#sources"
+            className="rounded-full border border-black/[0.1] px-3.5 py-1.5 text-[13px] font-medium text-[#111111]/50 transition-colors hover:border-black/30 hover:text-[#111111]/80"
+          >
             {data.pct}% adoption — source ↗
           </a>
           <button
@@ -304,11 +405,21 @@ export function IndustryWalkthrough() {
       {/* step rail */}
       <div className="mt-5 flex items-center gap-1">
         {STEPS.map((s, i) => (
-          <button key={s} onClick={() => goStep(i)} className="group flex flex-1 flex-col gap-2 text-left">
-            <span className={`flex items-center gap-2 text-[14px] font-medium transition-colors ${i === step ? "text-[#111111]" : "text-[#111111]/40 group-hover:text-[#111111]/70"}`}>
+          <button
+            key={s}
+            onClick={() => goStep(i)}
+            className="group flex flex-1 flex-col gap-2 text-left"
+          >
+            <span
+              className={`flex items-center gap-2 text-[14px] font-medium transition-colors ${i === step ? "text-[#111111]" : "text-[#111111]/40 group-hover:text-[#111111]/70"}`}
+            >
               <span
                 className={`flex h-6 w-6 items-center justify-center rounded-full text-[13px] font-bold transition-all ${
-                  i < step || done ? "bg-[#1e6b3c] text-white" : i === step ? "border-2 border-[#1e6b3c] text-[#1e6b3c]" : "border border-black/20 text-[#111111]/40"
+                  i < step || done
+                    ? "bg-[#1e6b3c] text-white"
+                    : i === step
+                      ? "border-2 border-[#1e6b3c] text-[#1e6b3c]"
+                      : "border border-black/20 text-[#111111]/40"
                 }`}
               >
                 {i < step || done ? "✓" : i + 1}
@@ -318,7 +429,10 @@ export function IndustryWalkthrough() {
             <span className="h-[3px] w-full overflow-hidden rounded-full bg-black/[0.07]">
               <span
                 className="block h-full rounded-full bg-[#1e6b3c] transition-all duration-500"
-                style={{ width: i < step || done ? "100%" : i === step ? `${(tick / stepLen) * 100}%` : "0%" }}
+                style={{
+                  width:
+                    i < step || done ? "100%" : i === step ? `${(tick / stepLen) * 100}%` : "0%",
+                }}
               />
             </span>
           </button>
@@ -363,14 +477,16 @@ function FrontStage({ data, tick }: { data: Industry; tick: number }) {
         <p className="text-[13px] font-bold text-[#1e6b3c]">1 · The front</p>
         <h4 className="text-[20px] font-semibold text-[#111111]">What your customer sees</h4>
         <p className="max-w-md text-[15px] leading-relaxed text-[#111111]/60">
-          Clean, instant, human. No menus, no hold music, no forms — a conversation that
-          simply gets the thing done.
+          Clean, instant, human. No menus, no hold music, no forms — a conversation that simply gets
+          the thing done.
         </p>
       </div>
       <div className="flex justify-center p-6 md:p-8">
         <div className="w-full max-w-[300px] overflow-hidden rounded-[28px] border border-black/[0.1] bg-white shadow-[0_20px_50px_-20px_rgba(0,0,0,0.25)]">
           <div className="flex items-center gap-2.5 border-b border-black/[0.06] px-4 py-3">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1e6b3c] text-[13px] font-bold text-white">E</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1e6b3c] text-[13px] font-bold text-white">
+              E
+            </span>
             <div className="leading-tight">
               <p className="text-[13px] font-semibold text-[#111111]">{data.product}</p>
               <p className="flex items-center gap-1 text-[11.5px] text-[#111111]/45">
@@ -395,7 +511,11 @@ function FrontStage({ data, tick }: { data: Industry; tick: number }) {
             {typing && (
               <div className="flex gap-1 self-start rounded-2xl rounded-bl-md bg-black/[0.05] px-4 py-3">
                 {[0, 1, 2].map((d) => (
-                  <span key={d} className="h-1.5 w-1.5 rounded-full bg-black/30" style={{ animation: `iwBlink 1s ${d * 0.18}s infinite` }} />
+                  <span
+                    key={d}
+                    className="h-1.5 w-1.5 rounded-full bg-black/30"
+                    style={{ animation: `iwBlink 1s ${d * 0.18}s infinite` }}
+                  />
                 ))}
               </div>
             )}
@@ -423,7 +543,9 @@ function SystemStage({ data, tick }: { data: Industry; tick: number }) {
             <div
               key={s.name}
               className={`relative rounded-2xl border p-5 transition-all duration-500 ${
-                on ? "border-[#1e6b3c]/40 bg-white shadow-[0_10px_30px_-15px_rgba(30,107,60,0.35)]" : "border-black/[0.06] bg-white/50 opacity-45"
+                on
+                  ? "border-[#1e6b3c]/40 bg-white shadow-[0_10px_30px_-15px_rgba(30,107,60,0.35)]"
+                  : "border-black/[0.06] bg-white/50 opacity-45"
               }`}
             >
               <span
@@ -469,10 +591,14 @@ function BackStage({ data, tick }: { data: Industry; tick: number }) {
             <span
               key={s}
               className={`inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1.5 text-[13px] font-medium transition-all duration-500 ${
-                fired.has(s) ? "border-[#1e6b3c]/40 bg-[#1e6b3c]/[0.07] text-[#1e6b3c]" : "border-black/[0.08] text-[#111111]/35"
+                fired.has(s)
+                  ? "border-[#1e6b3c]/40 bg-[#1e6b3c]/[0.07] text-[#1e6b3c]"
+                  : "border-black/[0.08] text-[#111111]/35"
               }`}
             >
-              <span className={`h-1.5 w-1.5 rounded-full ${fired.has(s) ? "bg-[#1e6b3c]" : "bg-black/20"}`} />
+              <span
+                className={`h-1.5 w-1.5 rounded-full ${fired.has(s) ? "bg-[#1e6b3c]" : "bg-black/20"}`}
+              />
               {s}
             </span>
           ))}
@@ -480,15 +606,27 @@ function BackStage({ data, tick }: { data: Industry; tick: number }) {
       </div>
       <div ref={boxRef} className="h-[320px] overflow-y-auto bg-[#111111] p-5 md:h-[360px]">
         {data.backend.slice(0, tick).map((e, i) => (
-          <div key={i} className="flex items-start gap-3 border-b border-white/[0.05] py-2.5" style={{ animation: "iwPop .3s ease" }}>
-            <span className={`mt-0.5 w-16 flex-none text-right text-[12.5px] font-bold ${e.ok ? "text-[#5cc884]" : "text-white/45"}`}>{e.sys}</span>
+          <div
+            key={i}
+            className="flex items-start gap-3 border-b border-white/[0.05] py-2.5"
+            style={{ animation: "iwPop .3s ease" }}
+          >
+            <span
+              className={`mt-0.5 w-16 flex-none text-right text-[12.5px] font-bold ${e.ok ? "text-[#5cc884]" : "text-white/45"}`}
+            >
+              {e.sys}
+            </span>
             <span className="text-[13.5px] leading-snug text-white/85">{e.text}</span>
             {e.ok && <span className="ml-auto text-[13px] text-[#5cc884]">✓</span>}
           </div>
         ))}
         {tick >= data.backend.length && (
-          <p className="pt-4 text-[13px] font-medium text-[#5cc884]" style={{ animation: "iwPop .4s ease" }}>
-            ● complete — {data.backend.filter((e) => e.ok).length} actions executed, zero humans interrupted
+          <p
+            className="pt-4 text-[13px] font-medium text-[#5cc884]"
+            style={{ animation: "iwPop .4s ease" }}
+          >
+            ● complete — {data.backend.filter((e) => e.ok).length} actions executed, zero humans
+            interrupted
           </p>
         )}
       </div>

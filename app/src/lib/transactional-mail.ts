@@ -8,10 +8,7 @@
 import nodemailer from "nodemailer";
 import type { SendMailOptions } from "nodemailer";
 import { getPaymentContactEmail } from "@/lib/payment-branding";
-import {
-  getSmtpFromDisplayName,
-  getTransactionalSenderEmail,
-} from "@/lib/operational-brand";
+import { getSmtpFromDisplayName, getTransactionalSenderEmail } from "@/lib/operational-brand";
 import { mailMasterConfigured } from "@/lib/mail/env";
 import { executeScopedOrAdminSend } from "@/lib/mail/send.server";
 import type { MailAttachment } from "@/lib/mail/types";
@@ -89,17 +86,13 @@ function toMailAttachments(
       else if (typeof c === "string") {
         // Assume already base64 if encoding says so; else encode utf8
         const enc = "encoding" in a ? a.encoding : undefined;
-        content =
-          enc === "base64" ? c : Buffer.from(c, "utf8").toString("base64");
+        content = enc === "base64" ? c : Buffer.from(c, "utf8").toString("base64");
       } else if (c instanceof Uint8Array) {
         content = Buffer.from(c).toString("base64");
       }
     }
     if (!content) {
-      console.warn(
-        "sendTransactionalMail: skipping attachment without inline content:",
-        name,
-      );
+      console.warn("sendTransactionalMail: skipping attachment without inline content:", name);
       continue;
     }
     out.push({ Name: name, Content: content, ContentType: contentType });
@@ -107,9 +100,7 @@ function toMailAttachments(
   return out.length ? out : undefined;
 }
 
-async function sendViaElsiaaMail(
-  payload: TransactionalMailPayload,
-): Promise<boolean> {
+async function sendViaElsiaaMail(payload: TransactionalMailPayload): Promise<boolean> {
   const html = payload.html.trim();
   if (!html) {
     throw new Error("Transactional mail requires a non-empty html body");
@@ -190,9 +181,7 @@ function buildMailOptions(payload: TransactionalMailPayload): SendMailOptions {
   };
 }
 
-async function sendViaSmtpFallback(
-  payload: TransactionalMailPayload,
-): Promise<boolean> {
+async function sendViaSmtpFallback(payload: TransactionalMailPayload): Promise<boolean> {
   const base = buildMailOptions(payload);
   const defaultFrom = formatFromHeader(payload.from);
 
@@ -226,9 +215,7 @@ async function sendViaSmtpFallback(
 /**
  * Send one transactional email through the ELSIAA Mail API.
  */
-export async function sendTransactionalMail(
-  payload: TransactionalMailPayload,
-): Promise<boolean> {
+export async function sendTransactionalMail(payload: TransactionalMailPayload): Promise<boolean> {
   if (mailMasterConfigured()) {
     const ok = await sendViaElsiaaMail(payload);
     if (ok) return true;
@@ -242,9 +229,7 @@ export async function sendTransactionalMail(
   }
 
   if (smtpFallbackEnabled()) {
-    console.warn(
-      "sendTransactionalMail: ELSSIA_MAIL_API_KEY not set; using SMTP fallback",
-    );
+    console.warn("sendTransactionalMail: ELSSIA_MAIL_API_KEY not set; using SMTP fallback");
     return sendViaSmtpFallback(payload);
   }
 
@@ -283,8 +268,6 @@ export async function verifyTransactionalMailTransport(): Promise<void> {
     }
   }
   throw new Error(
-    errs.length
-      ? errs.join(" | ")
-      : "Configure ELSSIA_MAIL_API_KEY or SMTP fallback credentials",
+    errs.length ? errs.join(" | ") : "Configure ELSSIA_MAIL_API_KEY or SMTP fallback credentials",
   );
 }

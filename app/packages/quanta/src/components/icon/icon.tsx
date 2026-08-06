@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import type { ComponentType, ReactElement, Ref, SVGProps } from 'react'
-import { cloneElement, isValidElement } from 'react'
-import type { ClassValue } from '../utils/cx.ts'
-import { cx } from '../utils/cx.ts'
+import type { ComponentType, ReactElement, Ref, SVGProps } from "react";
+import { cloneElement, isValidElement } from "react";
+import type { ClassValue } from "../utils/cx.ts";
+import { cx } from "../utils/cx.ts";
 
 /**
  * Icon — paints a glyph from `@higgsfield-ai/icons` (or any SVG component) with
@@ -35,87 +35,87 @@ import { cx } from '../utils/cx.ts'
  * forward ref, so for those the ref lands on the component, not the svg element.
  */
 
-export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+export type IconSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 /**
  * Quanta icon color tokens -> `text-q-icon-*` utilities. Default is `currentColor`
  * (the icon inherits the surrounding text color) — omit `color` for that.
  */
 export type IconColor =
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'brand'
-  | 'accent'
-  | 'inverse'
-  | 'disabled'
-  | 'error'
-  | 'success'
-  | 'warning'
-  | 'info'
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "brand"
+  | "accent"
+  | "inverse"
+  | "disabled"
+  | "error"
+  | "success"
+  | "warning"
+  | "info";
 
 const SIZE_CLASS = {
-  xs: 'q-icon-xs',
-  sm: 'q-icon-sm',
-  md: 'q-icon-md',
-  lg: 'q-icon-lg',
-  xl: 'q-icon-xl',
-} satisfies Record<IconSize, string>
+  xs: "q-icon-xs",
+  sm: "q-icon-sm",
+  md: "q-icon-md",
+  lg: "q-icon-lg",
+  xl: "q-icon-xl",
+} satisfies Record<IconSize, string>;
 
 const COLOR_CLASS = {
-  primary: 'text-q-icon-primary',
-  secondary: 'text-q-icon-secondary',
-  tertiary: 'text-q-icon-tertiary',
-  brand: 'text-q-icon-brand',
-  accent: 'text-q-icon-accent',
-  inverse: 'text-q-icon-inverse',
-  disabled: 'text-q-icon-disabled',
-  error: 'text-q-icon-error',
-  success: 'text-q-icon-success',
-  warning: 'text-q-icon-warning',
-  info: 'text-q-icon-info',
-} satisfies Record<IconColor, string>
+  primary: "text-q-icon-primary",
+  secondary: "text-q-icon-secondary",
+  tertiary: "text-q-icon-tertiary",
+  brand: "text-q-icon-brand",
+  accent: "text-q-icon-accent",
+  inverse: "text-q-icon-inverse",
+  disabled: "text-q-icon-disabled",
+  error: "text-q-icon-error",
+  success: "text-q-icon-success",
+  warning: "text-q-icon-warning",
+  info: "text-q-icon-info",
+} satisfies Record<IconColor, string>;
 
 export interface IconOptions {
-  size?: IconSize
-  color?: IconColor
+  size?: IconSize;
+  color?: IconColor;
 }
 
 /** A glyph component shape (matches every `@higgsfield-ai/icons/<Icon>` export). */
-export type IconGlyph = ComponentType<SVGProps<SVGSVGElement>>
+export type IconGlyph = ComponentType<SVGProps<SVGSVGElement>>;
 
 export type IconProps = {
   /** Token size (default `md` = 20px). Maps to `var(--hf-icon-<size>)`. */
-  size?: IconSize
+  size?: IconSize;
   /** Quanta icon color token. Omit to inherit `currentColor`. */
-  color?: IconColor
+  color?: IconColor;
   /**
    * Accessible name. When set, the icon is exposed as `role="img"` with this
    * label; otherwise it is decorative (`aria-hidden`).
    */
-  label?: string
+  label?: string;
   /** Extra classes appended after the recipe classes (caller wins ordering). */
-  className?: string
+  className?: string;
   /** Forwarded to the glyph (ref-as-prop). See the component JSDoc on ref. */
-  ref?: Ref<SVGSVGElement>
+  ref?: Ref<SVGSVGElement>;
   /**
    * Glyph component to render (e.g. `IconMagnifyingGlassOutlined`). Alternative
    * to passing the glyph element as `children`. Takes precedence when both are
    * given.
    */
-  as?: IconGlyph
+  as?: IconGlyph;
   /** The glyph element when not using `as` (e.g. `<IconMagnifyingGlassOutlined />`). */
-  children?: ReactElement<SVGProps<SVGSVGElement>>
-}
+  children?: ReactElement<SVGProps<SVGSVGElement>>;
+};
 
 /** Recipe — the composite icon class string, for styling a glyph element directly. */
 export function icon(options: IconOptions = {}, ...extra: ClassValue[]): string {
-  const { size = 'md', color } = options
-  return cx('q-icon', SIZE_CLASS[size], color && COLOR_CLASS[color], ...extra)
+  const { size = "md", color } = options;
+  return cx("q-icon", SIZE_CLASS[size], color && COLOR_CLASS[color], ...extra);
 }
 
 export function Icon({
-  size = 'md',
+  size = "md",
   color,
   as: As,
   children,
@@ -123,24 +123,24 @@ export function Icon({
   className,
   ref,
   role,
-  'aria-label': ariaLabel,
-  'aria-hidden': ariaHidden,
-}: IconProps & Pick<SVGProps<SVGSVGElement>, 'role' | 'aria-label' | 'aria-hidden'>) {
-  const accessibleLabel = ariaLabel ?? label
+  "aria-label": ariaLabel,
+  "aria-hidden": ariaHidden,
+}: IconProps & Pick<SVGProps<SVGSVGElement>, "role" | "aria-label" | "aria-hidden">) {
+  const accessibleLabel = ariaLabel ?? label;
   // Props painted DIRECTLY onto the glyph svg (no wrapper element). `q-icon`
   // sizes the svg via --hf-icon-*; color flows through `currentColor`.
   const glyphProps: SVGProps<SVGSVGElement> = {
     ref,
-    role: role ?? (accessibleLabel ? 'img' : undefined),
-    'aria-label': accessibleLabel,
-    'aria-hidden': ariaHidden ?? (accessibleLabel ? undefined : true),
+    role: role ?? (accessibleLabel ? "img" : undefined),
+    "aria-label": accessibleLabel,
+    "aria-hidden": ariaHidden ?? (accessibleLabel ? undefined : true),
     className: icon({ size, color }, className),
-  }
+  };
 
   // `as` wins over `children`: render the glyph component with our props.
-  if (As) return <As {...glyphProps} />
+  if (As) return <As {...glyphProps} />;
   // `children` is a single glyph element; clone it so the props (incl. our
   // className) merge onto its svg — the glyphs spread incoming props last.
-  if (isValidElement(children)) return cloneElement(children, glyphProps)
-  return null
+  if (isValidElement(children)) return cloneElement(children, glyphProps);
+  return null;
 }

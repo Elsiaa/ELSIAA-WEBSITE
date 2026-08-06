@@ -62,25 +62,32 @@ Existing keys are unchanged: `fnfKeys.job(id)` is still
 ## Queries — the pull side
 
 ```tsx
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { flattenFeedPages, generationQueryOptions, jobSetQueryOptions, jobsFeedQueryOptions } from '@higgsfield/fnf-react'
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+  flattenFeedPages,
+  generationQueryOptions,
+  jobSetQueryOptions,
+  jobsFeedQueryOptions,
+} from "@higgsfield/fnf-react";
 
 // One generation, live until it settles (5s cadence, stops at terminal,
 // then immutable). A deep link, a recreate flow, a single tile.
-const { data: generation } = useQuery(generationQueryOptions(client, jobId))
+const { data: generation } = useQuery(generationQueryOptions(client, jobId));
 
 // One batch, ONE request per tick for the whole set (client.getSet).
 // Realtime glue is one line: an event for the set is
 // queryClient.invalidateQueries({ queryKey: fnfKeys.jobSet(id) }).
-const { data: members } = useQuery(jobSetQueryOptions(client, jobSetId))
+const { data: members } = useQuery(jobSetQueryOptions(client, jobSetId));
 
 // The feed: cursor pagination, query verbatim to client.list.
 const feed = useInfiniteQuery({
-  ...jobsFeedQueryOptions(client, { type: 'video' }, { scopeKey }),
+  ...jobsFeedQueryOptions(client, { type: "video" }, { scopeKey }),
   select: flattenFeedPages, // pages → deduplicated list (MapPool semantics)
-})
-feed.data?.map(g => <Tile key={g.id} generation={g} />)
-feed.fetchNextPage(); feed.hasNextPage; feed.isFetchNextPageError
+});
+feed.data?.map((g) => <Tile key={g.id} generation={g} />);
+feed.fetchNextPage();
+feed.hasNextPage;
+feed.isFetchNextPageError;
 ```
 
 The feed is **door-driven**: pages are fresh forever by default
@@ -93,10 +100,10 @@ refetch-on-focus semantics instead.
 ## The cache door
 
 ```tsx
-import { applyGenerations, foldGeneration, prependGenerations } from '@higgsfield/fnf-react'
+import { applyGenerations, foldGeneration, prependGenerations } from "@higgsfield/fnf-react";
 
-applyGenerations(queryClient, generations, { scopeKey }) // fold into EVERY scoped entry that holds them
-prependGenerations(queryClient, { type: 'video' }, run.generations, { scopeKey }) // optimistic head insert, ONE named feed
+applyGenerations(queryClient, generations, { scopeKey }); // fold into EVERY scoped entry that holds them
+prependGenerations(queryClient, { type: "video" }, run.generations, { scopeKey }); // optimistic head insert, ONE named feed
 ```
 
 TanStack is a non-normalizing document cache — one generation lives as
@@ -111,20 +118,27 @@ policy — the fan-out stays your explicit call.
 ## Controllers — the push side
 
 ```tsx
-import { useAttachments, useGenerationRun } from '@higgsfield/fnf-react'
+import { useAttachments, useGenerationRun } from "@higgsfield/fnf-react";
 
 // Submit: idle → submitting → generating → completed | failed | aborted.
 // Starting again supersedes the previous run; every commit folds the live
 // snapshots into the query cache through the door (needs a QueryClientProvider).
-const run = useGenerationRun(client, { scopeKey })
-run.start({ model: 'seedance_2_0', prompt: { instruction }, media: { start_image: refs }, settings })
-run.generations; run.error?.code; run.isRunning
+const run = useGenerationRun(client, { scopeKey });
+run.start({
+  model: "seedance_2_0",
+  prompt: { instruction },
+  media: { start_image: refs },
+  settings,
+});
+run.generations;
+run.error?.code;
+run.isRunning;
 
 // Attachments: files in → previews now → submit-ready MediaRefs out.
 // Per-item lifecycle: uploading → ready | blocked (moderation as state) | failed (retryable).
-const attachments = useAttachments(media, { upload: { forceIpCheck: true } })
-attachments.add([...files], { role: 'start_image' })
-const refs = await attachments.settled() // waits out in-flight uploads
+const attachments = useAttachments(media, { upload: { forceIpCheck: true } });
+attachments.add([...files], { role: "start_image" });
+const refs = await attachments.settled(); // waits out in-flight uploads
 ```
 
 Attachments measure intrinsic size/duration into `MediaRef.meta` from the
@@ -137,23 +151,23 @@ queries above pick up the rest.
 ## Profile and workspace
 
 ```tsx
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   profileSnapshotQueryOptions,
   switchWorkspaceMutationOptions,
   useFnfProfileClient,
-} from '@higgsfield/fnf-react'
+} from "@higgsfield/fnf-react";
 
-const profile = useFnfProfileClient()
-const snapshot = useQuery(profileSnapshotQueryOptions(profile, { scopeKey }))
+const profile = useFnfProfileClient();
+const snapshot = useQuery(profileSnapshotQueryOptions(profile, { scopeKey }));
 
 const switchWorkspace = useMutation(
   switchWorkspaceMutationOptions(profile, queryClient, {
     scopeKey,
-    nextScopeKey: data => `${data.user?.id}:${data.currentWorkspace?.id}`,
-    onWorkspaceChanged: data => updateHostSession(data),
+    nextScopeKey: (data) => `${data.user?.id}:${data.currentWorkspace?.id}`,
+    onWorkspaceChanged: (data) => updateHostSession(data),
   }),
-)
+);
 ```
 
 `switchWorkspaceMutationOptions` calls the SDK profile client, writes the
@@ -164,10 +178,10 @@ headers, redirects, and product copy.
 ## Request helpers
 
 ```tsx
-import { costQueryOptions, getWirePreview } from '@higgsfield/fnf-react'
+import { costQueryOptions, getWirePreview } from "@higgsfield/fnf-react";
 
-const preview = getWirePreview(input, jobs) // local validation + built wire params
-const cost = useQuery(costQueryOptions(jobClient, input, { scopeKey, enabled: preview.ok }))
+const preview = getWirePreview(input, jobs); // local validation + built wire params
+const cost = useQuery(costQueryOptions(jobClient, input, { scopeKey, enabled: preview.ok }));
 ```
 
 Display `cost.data?.credits` directly for model previews. Profile wallet raw

@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
-import { finalizeCheckoutPaymentIntent } from '@/lib/payment-intent-finalize';
+import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
+import { finalizeCheckoutPaymentIntent } from "@/lib/payment-intent-finalize";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -13,12 +13,12 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const paymentIntentId = typeof body.paymentIntentId === 'string' ? body.paymentIntentId.trim() : '';
-    const publicToken =
-      typeof body.publicToken === 'string' ? body.publicToken.trim() : undefined;
+    const paymentIntentId =
+      typeof body.paymentIntentId === "string" ? body.paymentIntentId.trim() : "";
+    const publicToken = typeof body.publicToken === "string" ? body.publicToken.trim() : undefined;
 
-    if (!paymentIntentId || !paymentIntentId.startsWith('pi_')) {
-      return NextResponse.json({ error: 'Invalid paymentIntentId' }, { status: 400 });
+    if (!paymentIntentId || !paymentIntentId.startsWith("pi_")) {
+      return NextResponse.json({ error: "Invalid paymentIntentId" }, { status: 400 });
     }
 
     const result = await finalizeCheckoutPaymentIntent(paymentIntentId, {
@@ -36,10 +36,10 @@ export async function POST(request: NextRequest) {
       paymentIntentStatus: pi.status,
     });
   } catch (error) {
-    console.error('[record-success]', error);
+    console.error("[record-success]", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to record payment' },
-      { status: 400 }
+      { error: error instanceof Error ? error.message : "Failed to record payment" },
+      { status: 400 },
     );
   }
 }

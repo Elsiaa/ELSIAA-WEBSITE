@@ -4,8 +4,7 @@ import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
 import { absoluteUrl } from "../lib/site-url";
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -17,7 +16,10 @@ export const Route = createFileRoute("/careers")({
           "Build production-grade AI systems that set the standard. ELSIAA hires people who take ownership, think clearly, and deliver work that lasts.",
       },
       { property: "og:title", content: "Careers — ELSIAA" },
-      { property: "og:description", content: "Build production-grade AI systems that set the standard." },
+      {
+        property: "og:description",
+        content: "Build production-grade AI systems that set the standard.",
+      },
       { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
     links: [{ rel: "canonical", href: absoluteUrl("/careers") }],
@@ -25,18 +27,12 @@ export const Route = createFileRoute("/careers")({
   component: Careers,
 });
 
-
-
 const ROLES: Array<[string, string]> = [
   ["Design", "Websites, apps, and brand work for our clients."],
   ["Engineering", "The software and AI systems we build and keep running."],
   ["Client & Sales", "Talking to new clients and scoping their projects."],
   ["Legal & Ops", "Contracts, billing, and keeping the company organized."],
 ];
-
-
-
-
 
 function Careers() {
   const formRef = useRef<HTMLDivElement>(null);
@@ -47,7 +43,7 @@ function Careers() {
       <Hero />
 
       {/* Open roles */}
- <section className="mx-auto max-w-5xl px-6 py-8 text-center md:py-12">
+      <section className="mx-auto max-w-5xl px-6 py-8 text-center md:py-12">
         <Reveal>
           <p className="text-[13px] font-bold text-[#1e6b3c]">Open roles</p>
           <h2 className="mx-auto mt-2 max-w-2xl text-2xl font-semibold tracking-[-0.035em] md:text-3xl">
@@ -75,9 +71,10 @@ function Careers() {
       </div>
 
       {/* legal + offices */}
- <footer className="px-6 py-8 text-center">
+      <footer className="px-6 py-8 text-center">
         <p className="mx-auto max-w-2xl text-[13px] leading-relaxed text-[#111111]/55">
-          ELSIAA is an equal opportunity employer. We evaluate candidates on merit, capability, and alignment with our standards.
+          ELSIAA is an equal opportunity employer. We evaluate candidates on merit, capability, and
+          alignment with our standards.
         </p>
         <p className="mt-3 text-[12.5px] text-[#111111]/45">
           New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv
@@ -103,11 +100,10 @@ function Hero() {
           Careers at ELSIAA
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-[#111111]/70 md:text-[17px]">
-          We build websites, apps, and AI systems for businesses, and we look after
-          them once they're live. The company works out of six offices across three
-          continents, and we're hiring in four areas.
+          We build websites, apps, and AI systems for businesses, and we look after them once
+          they're live. The company works out of six offices across three continents, and we're
+          hiring in four areas.
         </p>
-
       </div>
     </section>
   );
@@ -138,10 +134,28 @@ function ApplyForm() {
   /* human-writing check — flags the obvious machine patterns */
   const looksAi = (t: string) => {
     const text = t.toLowerCase();
-    const tells = ["as an ai", "i am thrilled to", "i am excited to apply", "delve into", "in today's fast-paced", "leverage my skill", "passionate about leveraging", "utilize my expertise", "dynamic and results-driven", "proven track record of success", "esteemed organization", "furthermore, ", "moreover, ", "in conclusion,"];
+    const tells = [
+      "as an ai",
+      "i am thrilled to",
+      "i am excited to apply",
+      "delve into",
+      "in today's fast-paced",
+      "leverage my skill",
+      "passionate about leveraging",
+      "utilize my expertise",
+      "dynamic and results-driven",
+      "proven track record of success",
+      "esteemed organization",
+      "furthermore, ",
+      "moreover, ",
+      "in conclusion,",
+    ];
     let hits = 0;
     for (const p of tells) if (text.includes(p)) hits++;
-    const sentences = t.split(/[.!?]+/).map((x) => x.trim().split(/\s+/).length).filter((n) => n > 2);
+    const sentences = t
+      .split(/[.!?]+/)
+      .map((x) => x.trim().split(/\s+/).length)
+      .filter((n) => n > 2);
     if (sentences.length >= 6) {
       const mean = sentences.reduce((a, b) => a + b, 0) / sentences.length;
       const variance = sentences.reduce((a, b) => a + (b - mean) ** 2, 0) / sentences.length;
@@ -232,7 +246,9 @@ function ApplyForm() {
           tabIndex={-1}
           className="rounded-2xl border border-[#1e6b3c]/30 bg-[#1e6b3c]/[0.06] p-8 text-center focus:outline-none md:p-10"
         >
-          <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#1e6b3c] text-white">✓</span>
+          <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#1e6b3c] text-white">
+            ✓
+          </span>
           <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em]">Application submitted</h3>
           <p className="mt-2 text-[14px] text-[#111111]/55">
             Received. Every application is reviewed by the team — you'll hear from us at{" "}
@@ -244,23 +260,63 @@ function ApplyForm() {
   }
 
   return (
- <section className="mx-auto max-w-5xl px-6 pb-10 md:pb-16 pt-8 md:pt-12">
+    <section className="mx-auto max-w-5xl px-6 pb-10 md:pb-16 pt-8 md:pt-12">
       <div className="rounded-2xl border border-black/[0.07] bg-white p-6 md:p-12 lg:flex lg:gap-14">
         {/* identity rail */}
         <div className="lg:w-[240px] lg:flex-none">
           <span className="text-[13px] text-[#111111]/55">Application</span>
-          <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] md:text-3xl">Apply to ELSIAA</h3>
+          <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] md:text-3xl">
+            Apply to ELSIAA
+          </h3>
           <p className="mt-3 hidden text-[13px] leading-relaxed text-[#111111]/60 lg:block">
-            Areas of interest, a short statement in your own words, and your résumé. Every application is reviewed by the team.
+            Areas of interest, a short statement in your own words, and your résumé. Every
+            application is reviewed by the team.
           </p>
         </div>
 
-        <form ref={formRef} onSubmit={submit} noValidate className="mt-6 lg:mt-0 lg:min-w-0 lg:flex-1">
+        <form
+          ref={formRef}
+          onSubmit={submit}
+          noValidate
+          className="mt-6 lg:mt-0 lg:min-w-0 lg:flex-1"
+        >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field id="apply-first" label="First name" value={first} onChange={setFirst} autoComplete="given-name" error={errors.first} />
-            <Field id="apply-last" label="Last name" value={last} onChange={setLast} autoComplete="family-name" error={errors.last} />
-            <Field id="apply-phone" label="Phone" value={number} onChange={setNumber} type="tel" inputMode="tel" autoComplete="tel" error={errors.phone} />
-            <Field id="apply-email" label="Email" value={email} onChange={setEmail} type="email" inputMode="email" autoComplete="email" error={errors.email} />
+            <Field
+              id="apply-first"
+              label="First name"
+              value={first}
+              onChange={setFirst}
+              autoComplete="given-name"
+              error={errors.first}
+            />
+            <Field
+              id="apply-last"
+              label="Last name"
+              value={last}
+              onChange={setLast}
+              autoComplete="family-name"
+              error={errors.last}
+            />
+            <Field
+              id="apply-phone"
+              label="Phone"
+              value={number}
+              onChange={setNumber}
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+              error={errors.phone}
+            />
+            <Field
+              id="apply-email"
+              label="Email"
+              value={email}
+              onChange={setEmail}
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              error={errors.email}
+            />
           </div>
 
           {/* areas of interest */}
@@ -268,8 +324,18 @@ function ApplyForm() {
             <span id="apply-positions-label" className="text-[13px] text-[#111111]/55">
               Areas of interest — select all that apply
             </span>
-            <div role="group" aria-labelledby="apply-positions-label" className="mt-2 flex flex-wrap gap-2">
-              {["Design", "Engineering", "Client Engagement & Sales", "Legal", "Business Operations"].map((p) => {
+            <div
+              role="group"
+              aria-labelledby="apply-positions-label"
+              className="mt-2 flex flex-wrap gap-2"
+            >
+              {[
+                "Design",
+                "Engineering",
+                "Client Engagement & Sales",
+                "Legal",
+                "Business Operations",
+              ].map((p) => {
                 const on = positions.includes(p);
                 return (
                   <button
@@ -277,9 +343,13 @@ function ApplyForm() {
                     type="button"
                     aria-pressed={on}
                     data-field="positions"
-                    onClick={() => setPositions((cur) => (on ? cur.filter((x) => x !== p) : [...cur, p]))}
+                    onClick={() =>
+                      setPositions((cur) => (on ? cur.filter((x) => x !== p) : [...cur, p]))
+                    }
                     className={`min-h-[44px] rounded-full border px-4 py-2 text-[12.5px] font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] ${
-                      on ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/15 bg-white text-[#111111]/70 hover:border-black/35"
+                      on
+                        ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
+                        : "border-black/15 bg-white text-[#111111]/70 hover:border-black/35"
                     }`}
                   >
                     {p}
@@ -287,23 +357,47 @@ function ApplyForm() {
                 );
               })}
             </div>
-            {errors.positions && <p className="mt-1.5 text-[12.5px] text-[#E53E3E]">{errors.positions}</p>}
+            {errors.positions && (
+              <p className="mt-1.5 text-[12.5px] text-[#E53E3E]">{errors.positions}</p>
+            )}
           </div>
 
           {/* location + arrangement + commitment */}
           <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Field id="apply-country" label="Location" value={country} onChange={setCountry} autoComplete="country-name" error={errors.country} />
-            <Choice label="Work arrangement" value={arrangement} onChange={setArrangement} options={["Remote", "Hybrid", "On-site"]} error={errors.arrangement} />
-            <Choice label="Commitment" value={commitment} onChange={setCommitment} options={["Full-time", "Part-time"]} error={errors.commitment} />
+            <Field
+              id="apply-country"
+              label="Location"
+              value={country}
+              onChange={setCountry}
+              autoComplete="country-name"
+              error={errors.country}
+            />
+            <Choice
+              label="Work arrangement"
+              value={arrangement}
+              onChange={setArrangement}
+              options={["Remote", "Hybrid", "On-site"]}
+              error={errors.arrangement}
+            />
+            <Choice
+              label="Commitment"
+              value={commitment}
+              onChange={setCommitment}
+              options={["Full-time", "Part-time"]}
+              error={errors.commitment}
+            />
           </div>
 
           {/* statement */}
           <div className="mt-6">
             <div className="flex items-baseline justify-between gap-3">
               <span className="text-[13px] text-[#111111]/55">
-                In 250–400 words, why you want to join ELSIAA and the specific contribution you'd make.
+                In 250–400 words, why you want to join ELSIAA and the specific contribution you'd
+                make.
               </span>
-              <span className={`flex-none text-[13px] tabular-nums ${words >= 250 ? "text-[#1e6b3c]" : "text-[#111111]/55"}`}>
+              <span
+                className={`flex-none text-[13px] tabular-nums ${words >= 250 ? "text-[#1e6b3c]" : "text-[#111111]/55"}`}
+              >
                 {words} / 250
               </span>
             </div>
@@ -322,7 +416,8 @@ function ApplyForm() {
             </p>
             {aiFlag && (
               <p className="mt-2 rounded-lg border border-[#E53E3E]/30 bg-[#E53E3E]/[0.05] px-4 py-3 text-[13px] text-[#E53E3E]">
-                This reads machine-written to us. It won't stop you submitting, but a statement in your own voice lands far better.
+                This reads machine-written to us. It won't stop you submitting, but a statement in
+                your own voice lands far better.
               </p>
             )}
           </div>
@@ -338,14 +433,28 @@ function ApplyForm() {
             onDragLeave={() => setDrag(false)}
             onDrop={onDrop}
             className={`mt-4 rounded-xl border border-dashed p-5 transition-all duration-200 ${
-              drag ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.05]" : file ? "border-[#1e6b3c]/50 bg-[#1e6b3c]/[0.04]" : "border-black/15"
+              drag
+                ? "border-[#1e6b3c] bg-[#1e6b3c]/[0.05]"
+                : file
+                  ? "border-[#1e6b3c]/50 bg-[#1e6b3c]/[0.04]"
+                  : "border-black/15"
             }`}
           >
             <label
               htmlFor="apply-resume"
               className="flex min-h-[44px] cursor-pointer flex-wrap items-center justify-center gap-3 text-center"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={file ? "#1e6b3c" : "#666"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke={file ? "#1e6b3c" : "#666"}
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="17 8 12 3 7 8" />
                 <line x1="12" y1="3" x2="12" y2="15" />
@@ -391,7 +500,10 @@ function ApplyForm() {
           {state === "error" && (
             <p role="alert" className="mt-3 text-[13px] text-[#E53E3E]">
               Something broke on the way — try once more, or email{" "}
-              <a className="underline" href="mailto:info@elsiaa.com">info@elsiaa.com</a>.
+              <a className="underline" href="mailto:info@elsiaa.com">
+                info@elsiaa.com
+              </a>
+              .
             </p>
           )}
         </form>
@@ -425,7 +537,9 @@ function Choice({
             aria-checked={value === o}
             onClick={() => onChange(o)}
             className={`min-h-[44px] flex-1 rounded-xl border px-2 py-3 text-[12.5px] font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] ${
-              value === o ? "border-[#1e6b3c] bg-[#1e6b3c] text-white" : "border-black/10 bg-[#FBFBFA] text-[#111111]/65 hover:border-black/30"
+              value === o
+                ? "border-[#1e6b3c] bg-[#1e6b3c] text-white"
+                : "border-black/10 bg-[#FBFBFA] text-[#111111]/65 hover:border-black/30"
             }`}
           >
             {o}

@@ -1,19 +1,19 @@
-import type { Metadata, Viewport } from 'next';
+import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
-  title: 'Time tracking',
+  title: "Time tracking",
   description:
-    'Track hours by client and task — timers, statuses, manual entries, and CSV export. Install as an app for quick access.',
-  manifest: '/time-tracking.webmanifest',
+    "Track hours by client and task — timers, statuses, manual entries, and CSV export. Install as an app for quick access.",
+  manifest: "/time-tracking.webmanifest",
   appleWebApp: {
     capable: true,
-    title: 'Time tracking',
-    statusBarStyle: 'black-translucent',
+    title: "Time tracking",
+    statusBarStyle: "black-translucent",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#ffffff',
+  themeColor: "#ffffff",
 };
 
 export default function TimeTrackingLayout({ children }: { children: React.ReactNode }) {

@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { isSuperAdmin as checkSuperAdmin } from '@/lib/permissions';
-import { getCurrentUser } from '@/lib/permissions';
-import Stripe from 'stripe';
+import { NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { isSuperAdmin as checkSuperAdmin } from "@/lib/permissions";
+import { getCurrentUser } from "@/lib/permissions";
+import Stripe from "stripe";
 
 /**
  * GET /api/admin/payments/test-stripe-keys
@@ -14,27 +14,35 @@ export async function GET() {
     const session = await auth();
     const userId = session?.user?.id;
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const isSuperAdmin = await checkSuperAdmin();
     const dbUser = await getCurrentUser();
-    const isAdmin = dbUser?.role === 'admin';
+    const isAdmin = dbUser?.role === "admin";
     if (!isSuperAdmin && !isAdmin) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const sk = (process.env.STRIPE_SECRET_KEY || '').trim();
-    const pk = (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '').trim();
+    const sk = (process.env.STRIPE_SECRET_KEY || "").trim();
+    const pk = (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "").trim();
 
-    const secretKeyMode = sk.startsWith('sk_live_') ? 'live' : sk.startsWith('sk_test_') ? 'test' : 'unknown';
-    const publishableKeyMode = pk.startsWith('pk_live_') ? 'live' : pk.startsWith('pk_test_') ? 'test' : 'unknown';
+    const secretKeyMode = sk.startsWith("sk_live_")
+      ? "live"
+      : sk.startsWith("sk_test_")
+        ? "test"
+        : "unknown";
+    const publishableKeyMode = pk.startsWith("pk_live_")
+      ? "live"
+      : pk.startsWith("pk_test_")
+        ? "test"
+        : "unknown";
     const keysMatch = secretKeyMode === publishableKeyMode;
 
     if (!sk) {
       return NextResponse.json({
         ok: false,
-        error: 'STRIPE_SECRET_KEY is not set',
+        error: "STRIPE_SECRET_KEY is not set",
         secretKeyMode: null,
         publishableKeyMode: publishableKeyMode || null,
         keysMatch: false,
@@ -54,7 +62,7 @@ export async function GET() {
       customers: customerList,
       message: keysMatch
         ? `Keys are ${secretKeyMode}. Server can see ${customers.data.length} customer(s).`
-        : 'Secret and publishable key mode differ (test vs live).',
+        : "Secret and publishable key mode differ (test vs live).",
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
@@ -66,7 +74,7 @@ export async function GET() {
         publishableKeyMode: null,
         keysMatch: false,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

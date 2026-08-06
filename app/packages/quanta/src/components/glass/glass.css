@@ -44,8 +44,10 @@
    * left edge + a faint dark inset on the bottom/right, so the rim reads as glass.
    * (1px = --hf-border-width-thin; both offsets are hairline.) */
   box-shadow:
-    inset var(--hf-border-width-thin) var(--hf-border-width-thin) var(--hf-space-0) var(--hf-color-transparent-light-20),
-    inset calc(-1 * var(--hf-border-width-thin)) calc(-1 * var(--hf-border-width-thin)) var(--hf-space-0) var(--hf-color-transparent-dark-15);
+    inset var(--hf-border-width-thin) var(--hf-border-width-thin) var(--hf-space-0)
+      var(--hf-color-transparent-light-20),
+    inset calc(-1 * var(--hf-border-width-thin)) calc(-1 * var(--hf-border-width-thin))
+      var(--hf-space-0) var(--hf-color-transparent-dark-15);
 
   transition-property: box-shadow, transform, background-color;
   transition-duration: var(--hf-duration-normal); /* 200ms */
@@ -60,11 +62,7 @@
     height: var(--q-glass-sheen-height);
     pointer-events: none;
     z-index: -1; /* behind content, above the backdrop fill */
-    background-image: linear-gradient(
-      to bottom,
-      var(--q-glass-sheen-color),
-      transparent
-    );
+    background-image: linear-gradient(to bottom, var(--q-glass-sheen-color), transparent);
   }
 }
 
@@ -80,19 +78,33 @@
 }
 
 /* ── Corner radius — token-mapped steps. ─────────────────────────────────────── */
-@utility q-glass-rounded-200 { --q-glass-radius: var(--hf-radius-200); } /* 8px */
-@utility q-glass-rounded-300 { --q-glass-radius: var(--hf-radius-300); } /* 12px */
-@utility q-glass-rounded-400 { --q-glass-radius: var(--hf-radius-400); } /* 16px */
-@utility q-glass-rounded-500 { --q-glass-radius: var(--hf-radius-500); } /* 20px */
-@utility q-glass-rounded-600 { --q-glass-radius: var(--hf-radius-600); } /* 24px */
-@utility q-glass-rounded-full { --q-glass-radius: var(--hf-radius-full); }
+@utility q-glass-rounded-200 {
+  --q-glass-radius: var(--hf-radius-200);
+} /* 8px */
+@utility q-glass-rounded-300 {
+  --q-glass-radius: var(--hf-radius-300);
+} /* 12px */
+@utility q-glass-rounded-400 {
+  --q-glass-radius: var(--hf-radius-400);
+} /* 16px */
+@utility q-glass-rounded-500 {
+  --q-glass-radius: var(--hf-radius-500);
+} /* 20px */
+@utility q-glass-rounded-600 {
+  --q-glass-radius: var(--hf-radius-600);
+} /* 24px */
+@utility q-glass-rounded-full {
+  --q-glass-radius: var(--hf-radius-full);
+}
 
 /* ── (5) Elevation — float the pane with the shared raised drop shadow while
  * keeping the specular inset edge highlight. ─────────────────────────────────── */
 @utility q-glass-raised {
   box-shadow:
-    inset var(--hf-border-width-thin) var(--hf-border-width-thin) var(--hf-space-0) var(--hf-color-transparent-light-20),
-    inset calc(-1 * var(--hf-border-width-thin)) calc(-1 * var(--hf-border-width-thin)) var(--hf-space-0) var(--hf-color-transparent-dark-15),
+    inset var(--hf-border-width-thin) var(--hf-border-width-thin) var(--hf-space-0)
+      var(--hf-color-transparent-light-20),
+    inset calc(-1 * var(--hf-border-width-thin)) calc(-1 * var(--hf-border-width-thin))
+      var(--hf-space-0) var(--hf-color-transparent-dark-15),
     var(--hf-shadow-raised);
 }
 
@@ -115,7 +127,11 @@
   cursor: pointer;
 
   &:hover {
-    background-color: color-mix(in oklch, var(--hf-color-transparent-light-05), var(--hf-color-background-glass));
+    background-color: color-mix(
+      in oklch,
+      var(--hf-color-transparent-light-05),
+      var(--hf-color-background-glass)
+    );
     transform: translateY(calc(-1 * var(--hf-space-050))); /* lift 2px */
   }
 

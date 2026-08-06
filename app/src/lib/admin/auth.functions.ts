@@ -12,25 +12,19 @@ import {
   writeAdminSession,
   adminSessionConfig,
 } from "./session.server";
-import {
-  isSuperAdminEmail,
-  parseSuperAdminEmails,
-  superAdminConfigured,
-} from "./super-admin";
+import { isSuperAdminEmail, parseSuperAdminEmails, superAdminConfigured } from "./super-admin";
 
-export const getAdminAuthState = createServerFn({ method: "GET" }).handler(
-  async () => {
-    const session = await readAdminSession();
-    return {
-      authenticated: Boolean(session),
-      email: session?.email ?? null,
-      superAdminConfigured: superAdminConfigured(),
-      sessionReady: Boolean(adminSessionConfig()),
-      supabaseReady: supabasePublishableConfigured(),
-      allowlistCount: parseSuperAdminEmails().length,
-    };
-  },
-);
+export const getAdminAuthState = createServerFn({ method: "GET" }).handler(async () => {
+  const session = await readAdminSession();
+  return {
+    authenticated: Boolean(session),
+    email: session?.email ?? null,
+    superAdminConfigured: superAdminConfigured(),
+    sessionReady: Boolean(adminSessionConfig()),
+    supabaseReady: supabasePublishableConfigured(),
+    allowlistCount: parseSuperAdminEmails().length,
+  };
+});
 
 export const adminSignIn = createServerFn({ method: "POST" })
   .inputValidator(
@@ -107,9 +101,7 @@ export const adminSignIn = createServerFn({ method: "POST" })
     return { ok: true as const, email };
   });
 
-export const adminSignOut = createServerFn({ method: "POST" }).handler(
-  async () => {
-    await destroyAdminSession();
-    return { ok: true as const };
-  },
-);
+export const adminSignOut = createServerFn({ method: "POST" }).handler(async () => {
+  await destroyAdminSession();
+  return { ok: true as const };
+});

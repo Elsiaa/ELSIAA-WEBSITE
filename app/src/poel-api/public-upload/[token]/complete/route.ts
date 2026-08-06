@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 import {
   getPublicUploadLinkByToken,
   recordPublicUploadSuccess,
   validatePublicUploadLinkActive,
-} from '@/lib/public-upload-links';
+} from "@/lib/public-upload-links";
 
 type RouteContext = { params: Promise<{ token: string }> };
 
@@ -13,7 +13,7 @@ export async function POST(_req: NextRequest, context: RouteContext) {
     const { token } = await context.params;
     const link = await getPublicUploadLinkByToken(token);
     if (!link) {
-      return NextResponse.json({ error: 'Invalid upload link' }, { status: 404 });
+      return NextResponse.json({ error: "Invalid upload link" }, { status: 404 });
     }
 
     const active = validatePublicUploadLinkActive(link);
@@ -24,10 +24,10 @@ export async function POST(_req: NextRequest, context: RouteContext) {
     await recordPublicUploadSuccess(token);
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error('public-upload complete:', error);
+    console.error("public-upload complete:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Could not record upload' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Could not record upload" },
+      { status: 500 },
     );
   }
 }

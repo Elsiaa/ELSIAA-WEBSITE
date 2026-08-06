@@ -26,7 +26,7 @@ export function LiveGraphic({
         if (e[0].isIntersecting) v.play().catch(() => {});
         else v.pause();
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
     io.observe(v);
     return () => io.disconnect();

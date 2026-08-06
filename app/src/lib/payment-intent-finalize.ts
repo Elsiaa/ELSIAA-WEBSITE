@@ -1,13 +1,13 @@
-import Stripe from 'stripe';
-import { stripeProxy as stripe } from '@/lib/stripe-client';
+import Stripe from "stripe";
+import { stripeProxy as stripe } from "@/lib/stripe-client";
 import {
   getPaymentRequestByToken,
   getRequestDisplayInfo,
   updatePaymentRequestStatus,
-} from '@/lib/payments';
-import { resolvePaymentIntentRail } from '@/lib/stripe-payment-rail';
-import { sendPaymentReceiptEmail } from '@/lib/payment-receipt-email';
-import { sendPaymentAdminNotifyEmail } from '@/lib/payment-admin-notify';
+} from "@/lib/payments";
+import { resolvePaymentIntentRail } from "@/lib/stripe-payment-rail";
+import { sendPaymentReceiptEmail } from "@/lib/payment-receipt-email";
+import { sendPaymentAdminNotifyEmail } from "@/lib/payment-admin-notify";
 
 // stripe provided by stripeProxy import
 
@@ -29,20 +29,20 @@ export interface FinalizePaymentIntentResult {
  */
 export async function finalizeCheckoutPaymentIntent(
   paymentIntentId: string,
-  options: { publicToken?: string | null; sendEmails?: boolean } = {}
+  options: { publicToken?: string | null; sendEmails?: boolean } = {},
 ): Promise<FinalizePaymentIntentResult> {
   const sendEmails = options.sendEmails !== false;
 
   const pi = await stripe.paymentIntents.retrieve(paymentIntentId, {
-    expand: ['payment_method'],
+    expand: ["payment_method"],
   });
 
-  if (pi.status !== 'succeeded' && pi.status !== 'processing') {
+  if (pi.status !== "succeeded" && pi.status !== "processing") {
     throw new Error(`Payment not successful (status: ${pi.status})`);
   }
 
-  if (pi.metadata?.billing_source === 'bill' || pi.metadata?.bill_id) {
-    const { finalizeBillCheckoutPaymentIntent } = await import('@/lib/bill-finalize');
+  if (pi.metadata?.billing_source === "bill" || pi.metadata?.bill_id) {
+    const { finalizeBillCheckoutPaymentIntent } = await import("@/lib/bill-finalize");
     const billResult = await finalizeBillCheckoutPaymentIntent(paymentIntentId, {
       publicToken: options.publicToken,
       sendEmails,
@@ -54,25 +54,25 @@ export async function finalizeCheckoutPaymentIntent(
     };
   }
 
-  let publicToken = String(pi.metadata?.public_token || '').trim();
+  let publicToken = String(pi.metadata?.public_token || "").trim();
   const override = options.publicToken?.trim();
   if (override) {
     if (publicToken && publicToken !== override) {
-      throw new Error('Payment intent does not match this invoice link');
+      throw new Error("Payment intent does not match this invoice link");
     }
     publicToken = override;
   }
 
   if (!publicToken) {
-    throw new Error('Payment is not linked to an invoice (missing public_token metadata)');
+    throw new Error("Payment is not linked to an invoice (missing public_token metadata)");
   }
 
   let pr = await getPaymentRequestByToken(publicToken);
   if (!pr) {
-    const { getBillByToken } = await import('@/lib/bills');
+    const { getBillByToken } = await import("@/lib/bills");
     const bill = await getBillByToken(publicToken);
     if (bill) {
-      const { finalizeBillCheckoutPaymentIntent } = await import('@/lib/bill-finalize');
+      const { finalizeBillCheckoutPaymentIntent } = await import("@/lib/bill-finalize");
       const billResult = await finalizeBillCheckoutPaymentIntent(paymentIntentId, {
         publicToken,
         sendEmails,
@@ -83,10 +83,10 @@ export async function finalizeCheckoutPaymentIntent(
         publicToken: billResult.publicToken,
       };
     }
-    throw new Error('Payment request not found');
+    throw new Error("Payment request not found");
   }
 
-  if (pr.status === 'completed') {
+  if (pr.status === "completed") {
     return {
       invoiceNumber: pr.invoice_number ?? null,
       alreadyCompleted: true,
@@ -94,7 +94,7 @@ export async function finalizeCheckoutPaymentIntent(
     };
   }
 
-  const invoiceNumber = await updatePaymentRequestStatus(publicToken, 'completed', paymentIntentId);
+  const invoiceNumber = await updatePaymentRequestStatus(publicToken, "completed", paymentIntentId);
 
   if (!sendEmails) {
     return { invoiceNumber, alreadyCompleted: false, publicToken };
@@ -102,8 +102,8 @@ export async function finalizeCheckoutPaymentIntent(
 
   const info = getRequestDisplayInfo(pr);
   const total = pi.amount / 100;
-  let originalAmount = parseFloat(pi.metadata?.originalAmount || '0');
-  let fee = parseFloat(pi.metadata?.fee || '0');
+  let originalAmount = parseFloat(pi.metadata?.originalAmount || "0");
+  let fee = parseFloat(pi.metadata?.fee || "0");
   if (originalAmount === 0 && fee === 0 && total > 0) {
     originalAmount = Math.round((total / 1.03) * 100) / 100;
     fee = Math.round((total - originalAmount) * 100) / 100;
@@ -124,7 +124,7 @@ export async function finalizeCheckoutPaymentIntent(
       invoiceNumber: invoiceNumber ?? undefined,
     });
     if (!receiptSent) {
-      console.error('[finalizeCheckoutPaymentIntent] customer receipt email failed');
+      console.error("[finalizeCheckoutPaymentIntent] customer receipt email failed");
     }
   }
 
@@ -136,7 +136,7 @@ export async function finalizeCheckoutPaymentIntent(
     invoiceNumber: invoiceNumber ?? pr.invoice_number,
   });
   if (!notifySent) {
-    console.error('[finalizeCheckoutPaymentIntent] management notify email failed');
+    console.error("[finalizeCheckoutPaymentIntent] management notify email failed");
   }
 
   return { invoiceNumber, alreadyCompleted: false, publicToken };

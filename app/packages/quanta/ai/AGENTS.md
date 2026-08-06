@@ -13,9 +13,9 @@ tests, and generated CSS are the executable spec.
 
 1. **Import the CSS once at the app root.**
    ```ts
-   import '@higgsfield/quanta/theme.css'
-   import '@higgsfield/quanta/primitives.css'
-   import '@higgsfield/quanta/tailwind.css'
+   import "@higgsfield/quanta/theme.css";
+   import "@higgsfield/quanta/primitives.css";
+   import "@higgsfield/quanta/tailwind.css";
    ```
 2. **Use public subpath imports only.** Example:
    `import { Button } from '@higgsfield/quanta/button'`. Never import from
@@ -50,9 +50,9 @@ In a template or generated app, add Quanta CSS exactly once in the root CSS or
 root client entry:
 
 ```ts
-import '@higgsfield/quanta/theme.css'
-import '@higgsfield/quanta/primitives.css'
-import '@higgsfield/quanta/tailwind.css'
+import "@higgsfield/quanta/theme.css";
+import "@higgsfield/quanta/primitives.css";
+import "@higgsfield/quanta/tailwind.css";
 ```
 
 If components render without spacing, colors, or overlays, first check that
@@ -61,7 +61,7 @@ these CSS imports are present and loaded before app-specific overrides.
 Use the runtime only on the client:
 
 ```tsx
-import { ThemeController, bootstrapScript } from '@higgsfield/quanta/runtime'
+import { ThemeController, bootstrapScript } from "@higgsfield/quanta/runtime";
 ```
 
 Inject `bootstrapScript()` in the document head before first paint when the host
@@ -75,21 +75,21 @@ collisions, design-semantic utilities are prefixed with `q-`.
 
 Use `q-` for:
 
-| Category | Examples |
-|---|---|
-| Color | `bg-q-background-primary`, `text-q-text-secondary`, `border-q-border-subtle` |
-| Typography | `text-q-headline-md-semi-bold`, `text-q-body-md-regular` |
-| Z-index | `z-q-modal`, `z-q-toast` |
-| Border width | `border-q-hairline` (0.5px), `border-q-thin`, `border-q-medium`, `border-q-thick` |
-| Component internals | `q-button-*`, `q-menu-*`, `q-modal-*` |
+| Category            | Examples                                                                          |
+| ------------------- | --------------------------------------------------------------------------------- |
+| Color               | `bg-q-background-primary`, `text-q-text-secondary`, `border-q-border-subtle`      |
+| Typography          | `text-q-headline-md-semi-bold`, `text-q-body-md-regular`                          |
+| Z-index             | `z-q-modal`, `z-q-toast`                                                          |
+| Border width        | `border-q-hairline` (0.5px), `border-q-thin`, `border-q-medium`, `border-q-thick` |
+| Component internals | `q-button-*`, `q-menu-*`, `q-modal-*`                                             |
 
 Do not use `q-` for:
 
-| Category | Examples |
-|---|---|
-| Spacing/sizing | `p-4`, `gap-2`, `w-80`, `h-10`, `inset-0` |
-| Breakpoints | `md:`, `xl:` (or `q-tablet:`, `q-desktop:`, `q-wide:`) |
-| Layout | `grid`, `flex`, `min-h-dvh`, `overflow-hidden` |
+| Category       | Examples                                               |
+| -------------- | ------------------------------------------------------ |
+| Spacing/sizing | `p-4`, `gap-2`, `w-80`, `h-10`, `inset-0`              |
+| Breakpoints    | `md:`, `xl:` (or `q-tablet:`, `q-desktop:`, `q-wide:`) |
+| Layout         | `grid`, `flex`, `min-h-dvh`, `overflow-hidden`         |
 
 Rule of thumb: color, type, z-index, border-width, and component classes use
 `q-`; spacing, layout, sizing, and breakpoints use native Tailwind.
@@ -156,23 +156,23 @@ also work. There are no `tablet:`/`desktop:`/`wide:` variants.
 Import every component by subpath:
 
 ```tsx
-import { Button } from '@higgsfield/quanta/button'
-import { Input } from '@higgsfield/quanta/input'
-import { Textarea } from '@higgsfield/quanta/textarea'
-import { Modal } from '@higgsfield/quanta/modal'
+import { Button } from "@higgsfield/quanta/button";
+import { Input } from "@higgsfield/quanta/input";
+import { Textarea } from "@higgsfield/quanta/textarea";
+import { Modal } from "@higgsfield/quanta/modal";
 ```
 
 ### Actions and navigation
 
-| Component | Import | Use |
-|---|---|---|
-| `Button`, `button` | `@higgsfield/quanta/button` | Primary/secondary actions, links with `as="a"`, trigger composition with `asChild` |
-| `NavigationMenu` | `@higgsfield/quanta/navigation-menu` | Product nav, app top nav, grouped menus |
-| `Sidebar` | `@higgsfield/quanta/sidebar` | Product navigation rail — header switcher, sections, composite `Item` rows (`ItemIcon`/`ItemLabel`/`ItemMeta`/`ItemEnd`), built-in collapse (`Toggle`) |
-| `Tabs` | `@higgsfield/quanta/tabs` | View switching, segmented controls, modal header tabs |
-| `Dropdown` | `@higgsfield/quanta/dropdown` | Menus, model pickers, searchable selection, submenus |
-| `Command` | `@higgsfield/quanta/cmdk` | Command palette, quick switchers, keyboard-first search |
-| `ButtonGroup`, `buttonGroup` | `@higgsfield/quanta/button-group` | Segmented action clusters and icon toolbars — propagates `size`/`variant`, `attached` joins, `orientation` stacks |
+| Component                    | Import                               | Use                                                                                                                                                    |
+| ---------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Button`, `button`           | `@higgsfield/quanta/button`          | Primary/secondary actions, links with `as="a"`, trigger composition with `asChild`                                                                     |
+| `NavigationMenu`             | `@higgsfield/quanta/navigation-menu` | Product nav, app top nav, grouped menus                                                                                                                |
+| `Sidebar`                    | `@higgsfield/quanta/sidebar`         | Product navigation rail — header switcher, sections, composite `Item` rows (`ItemIcon`/`ItemLabel`/`ItemMeta`/`ItemEnd`), built-in collapse (`Toggle`) |
+| `Tabs`                       | `@higgsfield/quanta/tabs`            | View switching, segmented controls, modal header tabs                                                                                                  |
+| `Dropdown`                   | `@higgsfield/quanta/dropdown`        | Menus, model pickers, searchable selection, submenus                                                                                                   |
+| `Command`                    | `@higgsfield/quanta/cmdk`            | Command palette, quick switchers, keyboard-first search                                                                                                |
+| `ButtonGroup`, `buttonGroup` | `@higgsfield/quanta/button-group`    | Segmented action clusters and icon toolbars — propagates `size`/`variant`, `attached` joins, `orientation` stacks                                      |
 
 Button variants:
 
@@ -190,60 +190,60 @@ Use `iconOnly` only for true icon buttons with an accessible label.
 
 ### Forms and controls
 
-| Component | Import | Use |
-|---|---|---|
-| `Input` | `@higgsfield/quanta/input` | Labelled single-line fields, helper/error text, prefix/suffix icons |
-| `Textarea` | `@higgsfield/quanta/textarea` | Labelled multi-line fields, prompts, comments, notes |
-| `Select` | `@higgsfield/quanta/select` | Single/multiple choice from a known option set — field-styled trigger, grouped glass popup, leading icons/badges; selected row highlights; `connected` on `Root` nests the field inside a wider popup that overlaps behind it (min-width floored) |
-| `Autocomplete` | `@higgsfield/quanta/autocomplete` | Type-to-filter selection — search input + filtered glass list, rich item rows, clear affix, empty state; `connected` on `Root` nests the input inside a wider popup that overlaps behind it (input stays on top + typable) |
-| `Checkbox`, `CheckboxLabel` | `@higgsfield/quanta/checkbox` | Multi-select booleans and labelled checkbox rows |
-| `RadioGroup`, `Radio`, `RadioLabel` | `@higgsfield/quanta/radio` | Exclusive choices |
-| `Switch` | `@higgsfield/quanta/switch` | Binary settings that apply immediately |
-| `Slider` | `@higgsfield/quanta/slider` | Stepped or continuous numeric settings |
-| `Toggle` | `@higgsfield/quanta/toggle` | Pressed/unpressed toolbar controls |
-| `Chip` | `@higgsfield/quanta/chip` | Compact selectable/filter-like chips |
+| Component                           | Import                            | Use                                                                                                                                                                                                                                               |
+| ----------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Input`                             | `@higgsfield/quanta/input`        | Labelled single-line fields, helper/error text, prefix/suffix icons                                                                                                                                                                               |
+| `Textarea`                          | `@higgsfield/quanta/textarea`     | Labelled multi-line fields, prompts, comments, notes                                                                                                                                                                                              |
+| `Select`                            | `@higgsfield/quanta/select`       | Single/multiple choice from a known option set — field-styled trigger, grouped glass popup, leading icons/badges; selected row highlights; `connected` on `Root` nests the field inside a wider popup that overlaps behind it (min-width floored) |
+| `Autocomplete`                      | `@higgsfield/quanta/autocomplete` | Type-to-filter selection — search input + filtered glass list, rich item rows, clear affix, empty state; `connected` on `Root` nests the input inside a wider popup that overlaps behind it (input stays on top + typable)                        |
+| `Checkbox`, `CheckboxLabel`         | `@higgsfield/quanta/checkbox`     | Multi-select booleans and labelled checkbox rows                                                                                                                                                                                                  |
+| `RadioGroup`, `Radio`, `RadioLabel` | `@higgsfield/quanta/radio`        | Exclusive choices                                                                                                                                                                                                                                 |
+| `Switch`                            | `@higgsfield/quanta/switch`       | Binary settings that apply immediately                                                                                                                                                                                                            |
+| `Slider`                            | `@higgsfield/quanta/slider`       | Stepped or continuous numeric settings                                                                                                                                                                                                            |
+| `Toggle`                            | `@higgsfield/quanta/toggle`       | Pressed/unpressed toolbar controls                                                                                                                                                                                                                |
+| `Chip`                              | `@higgsfield/quanta/chip`         | Compact selectable/filter-like chips                                                                                                                                                                                                              |
 
 Use the dedicated control for the setting shape. Do not model binary settings
 as a `Button`; use `Switch`, `Checkbox`, or `Toggle`.
 
 ### Overlays and feedback
 
-| Component | Import | Use |
-|---|---|---|
-| `Modal` | `@higgsfield/quanta/modal` | Centered dialogs, confirmation, editors, complex panels |
-| `Vault` | `@higgsfield/quanta/vault` | Edge-docked drawer/sheet, especially mobile or tool panels |
-| `Toaster`, `toast` | `@higgsfield/quanta/sonner` | App-root toast viewport and imperative notifications |
-| `Progress` | `@higgsfield/quanta/progress` | Bar, line, dots, determinate/indeterminate progress |
-| `Loader` | `@higgsfield/quanta/loader` | Indeterminate spinner — dots/circle/stars/shine, slot-tinted |
-| `Tooltip` | `@higgsfield/quanta/tooltip` | Hover/focus hint popup — small inverted surface, optional arrow, `Provider` shares delay |
-| `CloseButton`, `closeButton` | `@higgsfield/quanta/close-button` | Round dismiss for overlays; recipe styles a framework close part |
+| Component                    | Import                            | Use                                                                                      |
+| ---------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------- |
+| `Modal`                      | `@higgsfield/quanta/modal`        | Centered dialogs, confirmation, editors, complex panels                                  |
+| `Vault`                      | `@higgsfield/quanta/vault`        | Edge-docked drawer/sheet, especially mobile or tool panels                               |
+| `Toaster`, `toast`           | `@higgsfield/quanta/sonner`       | App-root toast viewport and imperative notifications                                     |
+| `Progress`                   | `@higgsfield/quanta/progress`     | Bar, line, dots, determinate/indeterminate progress                                      |
+| `Loader`                     | `@higgsfield/quanta/loader`       | Indeterminate spinner — dots/circle/stars/shine, slot-tinted                             |
+| `Tooltip`                    | `@higgsfield/quanta/tooltip`      | Hover/focus hint popup — small inverted surface, optional arrow, `Provider` shares delay |
+| `CloseButton`, `closeButton` | `@higgsfield/quanta/close-button` | Round dismiss for overlays; recipe styles a framework close part                         |
 
 Mount one `Toaster` near the app root before calling `toast.*`.
 
 ### Display primitives
 
-| Component | Import | Use |
-|---|---|---|
-| `Avatar` | `@higgsfield/quanta/avatar` | User/workspace identity, presence |
-| `Badge`, `badge` | `@higgsfield/quanta/badge` | New/pro/status marker |
-| `Tag` | `@higgsfield/quanta/tag` | Removable categories or model metadata |
-| `Dot` | `@higgsfield/quanta/dot` | Presence/status point |
-| `Kbd`, `KbdSequence` | `@higgsfield/quanta/kbd` | Keyboard shortcuts |
-| `Divider` | `@higgsfield/quanta/divider` | Structural separators |
-| `NotFound` | `@higgsfield/quanta/not-found` | Empty/not-found states where available |
-| `Accordion` | `@higgsfield/quanta/accordion` | Expandable content sections — single/multiple open, `list`/`separated` surface, `sm`/`md`/`lg` size (scales padding, radius, type) |
-| `Icon`, `icon` | `@higgsfield/quanta/icon` | Render an icon glyph at a token `size`/`color` (`as={SomeIcon}`); `icon()` recipe styles a non-Icon element |
+| Component                  | Import                          | Use                                                                                                                                                                      |
+| -------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Avatar`                   | `@higgsfield/quanta/avatar`     | User/workspace identity, presence                                                                                                                                        |
+| `Badge`, `badge`           | `@higgsfield/quanta/badge`      | New/pro/status marker                                                                                                                                                    |
+| `Tag`                      | `@higgsfield/quanta/tag`        | Removable categories or model metadata                                                                                                                                   |
+| `Dot`                      | `@higgsfield/quanta/dot`        | Presence/status point                                                                                                                                                    |
+| `Kbd`, `KbdSequence`       | `@higgsfield/quanta/kbd`        | Keyboard shortcuts                                                                                                                                                       |
+| `Divider`                  | `@higgsfield/quanta/divider`    | Structural separators                                                                                                                                                    |
+| `NotFound`                 | `@higgsfield/quanta/not-found`  | Empty/not-found states where available                                                                                                                                   |
+| `Accordion`                | `@higgsfield/quanta/accordion`  | Expandable content sections — single/multiple open, `list`/`separated` surface, `sm`/`md`/`lg` size (scales padding, radius, type)                                       |
+| `Icon`, `icon`             | `@higgsfield/quanta/icon`       | Render an icon glyph at a token `size`/`color` (`as={SomeIcon}`); `icon()` recipe styles a non-Icon element                                                              |
 | `Typography`, `typography` | `@higgsfield/quanta/typography` | Semantic text as a component — `variant` (display/headline/title/body/label/caption/mono/accent + size/weight) + `color`; the component form of the `text-q-*` utilities |
 
 ### Layout and surfaces
 
-| Component | Import | Use |
-|---|---|---|
-| `Grid` | `@higgsfield/quanta/grid` | Responsive grids — fixed/`auto-fit`/`auto-fill` columns, `minColWidth`, `gap`, `Grid.Item` `colSpan`/`rowSpan`; `animate` FLIP-animates reflow/reorder/filter (per-cell `flipKey`) |
-| `VirtualGrid` | `@higgsfield/quanta/grid` | Windowed, data-driven grid for big feeds & galleries — `items`+`renderItem`, `overscan`, fixed `cols` or responsive `minColWidth`, uniform `rowHeight`. Pair with `Media.Video autoPlayInView`. Also exports `useInView`/`useGridVirtualizer` |
-| `Media` | `@higgsfield/quanta/media` | Fixed-ratio image/video tiles — `ratio`/`fit`/`rounded`, `Overlay`/`Caption`/`Fallback` parts, `useMediaFallback` onError flow; `Media.Video autoPlayInView` plays (muted) only while on screen |
-| `Glass`, `glass` | `@higgsfield/quanta/glass` | Real frosted-glass surface — backdrop blur+saturate, specular edge + top sheen; pin over colorful media |
-| `Card`, `card` | `@higgsfield/quanta/card` | Glass/solid content surface — `Header`/`Body`/`Footer` parts, `surface` glass\|solid, `elevation` flat\|raised; `card()` recipe |
+| Component        | Import                     | Use                                                                                                                                                                                                                                           |
+| ---------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Grid`           | `@higgsfield/quanta/grid`  | Responsive grids — fixed/`auto-fit`/`auto-fill` columns, `minColWidth`, `gap`, `Grid.Item` `colSpan`/`rowSpan`; `animate` FLIP-animates reflow/reorder/filter (per-cell `flipKey`)                                                            |
+| `VirtualGrid`    | `@higgsfield/quanta/grid`  | Windowed, data-driven grid for big feeds & galleries — `items`+`renderItem`, `overscan`, fixed `cols` or responsive `minColWidth`, uniform `rowHeight`. Pair with `Media.Video autoPlayInView`. Also exports `useInView`/`useGridVirtualizer` |
+| `Media`          | `@higgsfield/quanta/media` | Fixed-ratio image/video tiles — `ratio`/`fit`/`rounded`, `Overlay`/`Caption`/`Fallback` parts, `useMediaFallback` onError flow; `Media.Video autoPlayInView` plays (muted) only while on screen                                               |
+| `Glass`, `glass` | `@higgsfield/quanta/glass` | Real frosted-glass surface — backdrop blur+saturate, specular edge + top sheen; pin over colorful media                                                                                                                                       |
+| `Card`, `card`   | `@higgsfield/quanta/card`  | Glass/solid content surface — `Header`/`Body`/`Footer` parts, `surface` glass\|solid, `elevation` flat\|raised; `card()` recipe                                                                                                               |
 
 ## Component API reference
 
@@ -541,19 +541,19 @@ emitted by `scripts/tokens-emit/lib/emit/component.ts`). These are the
 single-value sizing defaults a consumer would set to resize a component — NOT
 per-variant color/state logic, which stays inline in each component's CSS.
 
-| Token | Default | Resizes |
-|---|---|---|
-| `--q-modal-width` | `40rem` | Modal popup width |
-| `--q-modal-width-{xs,sm,md,lg,xl,2xl}` | `21.8125rem`…`87rem` | Modal `size` variant widths |
-| `--q-menu-min-width` | `160px` | Dropdown/menu min width |
-| `--q-menu-max-width` | `400px` | Dropdown/menu max width |
-| `--q-sidebar-width` | `14.9375rem` | Sidebar rail width |
-| `--q-sidebar-width-collapsed` | `3.25rem` | Collapsed sidebar rail width |
-| `--q-nav-col-width` | `192px` | NavigationMenu legacy column width |
-| `--q-slider-width` | `11.5rem` | Slider track width |
-| `--q-sonner-width` | `22.5rem` | Toast viewport width |
-| `--q-vault-width` | `22rem` | Vault drawer width |
-| `--q-textarea-min-height` | `10.25rem` | Textarea min height |
+| Token                                  | Default              | Resizes                            |
+| -------------------------------------- | -------------------- | ---------------------------------- |
+| `--q-modal-width`                      | `40rem`              | Modal popup width                  |
+| `--q-modal-width-{xs,sm,md,lg,xl,2xl}` | `21.8125rem`…`87rem` | Modal `size` variant widths        |
+| `--q-menu-min-width`                   | `160px`              | Dropdown/menu min width            |
+| `--q-menu-max-width`                   | `400px`              | Dropdown/menu max width            |
+| `--q-sidebar-width`                    | `14.9375rem`         | Sidebar rail width                 |
+| `--q-sidebar-width-collapsed`          | `3.25rem`            | Collapsed sidebar rail width       |
+| `--q-nav-col-width`                    | `192px`              | NavigationMenu legacy column width |
+| `--q-slider-width`                     | `11.5rem`            | Slider track width                 |
+| `--q-sonner-width`                     | `22.5rem`            | Toast viewport width               |
+| `--q-vault-width`                      | `22rem`              | Vault drawer width                 |
+| `--q-textarea-min-height`              | `10.25rem`           | Textarea min height                |
 
 To resize component X, set its `--q-<comp>-<dim>` on an ancestor (or the
 component instance) — the closer scope wins the cascade, and that override IS
@@ -561,7 +561,7 @@ the mechanism. Example:
 
 ```tsx
 // Wider modal for one screen — no prop, no custom CSS, just override the knob.
-<div style={{ '--q-modal-width': '52rem' }}>
+<div style={{ "--q-modal-width": "52rem" }}>
   <Modal.Root>…</Modal.Root>
 </div>
 ```

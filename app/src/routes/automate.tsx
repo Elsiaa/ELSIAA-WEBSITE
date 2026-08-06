@@ -28,8 +28,7 @@ export const Route = createFileRoute("/automate")({
   component: AutomatePage,
 });
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 const OFFICES = "New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv";
 const HEBREW = "בעזרת ה׳ נעשה ונצליח";
 
@@ -59,7 +58,9 @@ function Monitor() {
         >
           <div
             className="pointer-events-none absolute inset-0"
-            style={{ background: "linear-gradient(118deg, rgba(255,255,255,0.85), transparent 42%)" }}
+            style={{
+              background: "linear-gradient(118deg, rgba(255,255,255,0.85), transparent 42%)",
+            }}
           />
         </div>
       </div>
@@ -143,7 +144,10 @@ function SystemIndex() {
             >
               {s.label}
               {s.note && (
-                <span className="text-[10.5px] font-medium" style={{ color: on ? "#1e6b3c" : "rgba(17,17,17,0.35)" }}>
+                <span
+                  className="text-[10.5px] font-medium"
+                  style={{ color: on ? "#1e6b3c" : "rgba(17,17,17,0.35)" }}
+                >
                   {s.note}
                 </span>
               )}
@@ -157,14 +161,19 @@ function SystemIndex() {
 
 function AutomatePage() {
   return (
-    <main style={{ background: "#ffffff", color: "#111111", fontFamily: SANS }} className="min-h-screen">
+    <main
+      style={{ background: "#ffffff", color: "#111111", fontFamily: SANS }}
+      className="min-h-screen"
+    >
       <SiteNav />
 
       {/* header meta — offices + the Hebrew line, tight under the nav */}
       <div className="border-b border-black/[0.06] pt-[68px]">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-6 py-2.5">
           <span className="text-[12px] tracking-[0.01em] text-[#111111]/45">{OFFICES}</span>
-          <span dir="rtl" className="text-[13px] text-[#111111]/55">{HEBREW}</span>
+          <span dir="rtl" className="text-[13px] text-[#111111]/55">
+            {HEBREW}
+          </span>
         </div>
       </div>
 
@@ -180,22 +189,34 @@ function AutomatePage() {
             Talk to a system we built. It answers.
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-center text-[14.5px] leading-relaxed text-[#111111]/60 md:text-[16px]">
-            This is the live agent, not a recording — call it or type to it. The systems
-            below are the same idea pointed at the other jobs that still wait on a person.
+            This is the live agent, not a recording — call it or type to it. The systems below are
+            the same idea pointed at the other jobs that still wait on a person.
           </p>
           <div className="mt-3 overflow-hidden rounded-[22px] border border-black/[0.08] bg-white shadow-[0_40px_90px_-60px_rgba(17,17,17,0.4)]">
             <iframe
               src="/elsiaa-secretary.html?embed=1"
               aria-label="ELSIAA Secretary — live voice & chat"
               allow="microphone; autoplay"
-              style={{ border: 0, width: "100%", height: "min(92vh, 900px)", display: "block", background: "#ffffff" }}
+              style={{
+                border: 0,
+                width: "100%",
+                height: "min(92vh, 900px)",
+                display: "block",
+                background: "#ffffff",
+              }}
             />
           </div>
           <div className="mt-4 flex items-center justify-center gap-3">
-            <a href="#systems" className="rounded-full border border-black/15 px-7 py-3 text-[14px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]">
+            <a
+              href="#systems"
+              className="rounded-full border border-black/15 px-7 py-3 text-[14px] font-semibold text-[#111111] transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+            >
               Unpack it
             </a>
-            <a href="/quote" className="rounded-full bg-[#1e6b3c] px-7 py-3 text-[14px] font-semibold text-white transition-all hover:bg-[#111111]">
+            <a
+              href="/quote"
+              className="rounded-full bg-[#1e6b3c] px-7 py-3 text-[14px] font-semibold text-white transition-all hover:bg-[#111111]"
+            >
               I want it
             </a>
           </div>
@@ -214,8 +235,8 @@ function AutomatePage() {
             In build — four more systems.
           </h2>
           <p className="mx-auto mt-2 max-w-lg text-center text-[13.5px] leading-relaxed text-[#111111]/55 md:text-[15px]">
-            Each one is a job that currently waits on a person. Screens are being filled
-            in as each build goes live.
+            Each one is a job that currently waits on a person. Screens are being filled in as each
+            build goes live.
           </p>
         </div>
         {/* Two-up rather than four stacked full-width frames. These screens are
@@ -240,10 +261,18 @@ function AutomatePage() {
       </section>
 
       {/* closing — two factual lines, one button */}
-      <section id="next" className="scroll-mt-[136px] px-6 pb-10 md:pb-16 pt-8 md:pt-12 text-center">
-        <p className="text-[14px] text-[#111111]/60">Fully insured · Fixed scope · You own the finished system.</p>
+      <section
+        id="next"
+        className="scroll-mt-[136px] px-6 pb-10 md:pb-16 pt-8 md:pt-12 text-center"
+      >
+        <p className="text-[14px] text-[#111111]/60">
+          Fully insured · Fixed scope · You own the finished system.
+        </p>
         <p className="mt-1 text-[14px] text-[#111111]/45">info@elsiaa.com</p>
-        <a href="/quote" className="mt-6 inline-flex items-center rounded-full bg-[#1e6b3c] px-9 py-3.5 text-[14px] font-semibold text-white transition-all hover:bg-[#111111]">
+        <a
+          href="/quote"
+          className="mt-6 inline-flex items-center rounded-full bg-[#1e6b3c] px-9 py-3.5 text-[14px] font-semibold text-white transition-all hover:bg-[#111111]"
+        >
           Get a quote →
         </a>
       </section>

@@ -44,8 +44,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
     if (!supabaseSecretConfigured() || !supabasePublishableConfigured()) {
       return {
         ok: false as const,
-        error:
-          "Sign-up is temporarily unavailable. Try again later or contact support.",
+        error: "Sign-up is temporarily unavailable. Try again later or contact support.",
       };
     }
     if (!portalSessionConfig()) {
@@ -69,8 +68,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
     if (!appUser) {
       return {
         ok: false as const,
-        error:
-          "No pending invitation matches this link. Ask your admin to resend the invite.",
+        error: "No pending invitation matches this link. Ask your admin to resend the invite.",
       };
     }
 
@@ -88,8 +86,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
     if (!invitationMatchesCompany) {
       return {
         ok: false as const,
-        error:
-          "No pending invitation matches this link. Ask your admin to resend the invite.",
+        error: "No pending invitation matches this link. Ask your admin to resend the invite.",
       };
     }
 
@@ -103,8 +100,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
     if (appUser.auth_user_id) {
       return {
         ok: false as const,
-        error:
-          "This invitation was already used. Sign in with your email and password.",
+        error: "This invitation was already used. Sign in with your email and password.",
       };
     }
 
@@ -118,8 +114,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
       email.split("@")[0] ||
       "User";
 
-    const promoteSuperAdmin =
-      isSuperAdminEmail(email) || Boolean(payload.superAdmin);
+    const promoteSuperAdmin = isSuperAdminEmail(email) || Boolean(payload.superAdmin);
     const { data: created, error: createErr } = await admin.auth.admin.createUser({
       email,
       password: data.password,
@@ -137,9 +132,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
     if (createErr || !authUserId) {
       const msg = (createErr?.message ?? "").toLowerCase();
       const already =
-        msg.includes("already") ||
-        msg.includes("registered") ||
-        msg.includes("exists");
+        msg.includes("already") || msg.includes("registered") || msg.includes("exists");
       if (!already) {
         return {
           ok: false as const,
@@ -148,9 +141,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
       }
 
       // Email already in Auth — only allow if not yet linked to a workspace user.
-      const { getSupabaseAuthUserIdForEmail } = await import(
-        "@/lib/supabase-auth-lookup"
-      );
+      const { getSupabaseAuthUserIdForEmail } = await import("@/lib/supabase-auth-lookup");
       const existingId = await getSupabaseAuthUserIdForEmail(email);
       if (!existingId) {
         return {
@@ -181,9 +172,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
       auth_user_id: authUserId,
       status: "active",
       is_active: true,
-      ...(!isPlatformSupportAgent(appUser.platform_role)
-        ? { all_projects_access: true }
-        : {}),
+      ...(!isPlatformSupportAgent(appUser.platform_role) ? { all_projects_access: true } : {}),
     };
 
     await updateUser(appUser.id, updates);
@@ -196,17 +185,11 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
           company_id: appUser.company_id,
           user_id: authUserId,
           role: elevated ? "admin" : "member",
-          authorizations_allowed: Boolean(
-            appUser.authorizations_allowed ?? elevated,
-          ),
-          program_logs_allowed: Boolean(
-            appUser.program_logs_allowed ?? elevated,
-          ),
+          authorizations_allowed: Boolean(appUser.authorizations_allowed ?? elevated),
+          program_logs_allowed: Boolean(appUser.program_logs_allowed ?? elevated),
           files_allowed: Boolean(appUser.files_allowed ?? elevated),
           support_allowed: Boolean(appUser.support_allowed ?? elevated),
-          all_projects_access: Boolean(
-            appUser.all_projects_access ?? elevated,
-          ),
+          all_projects_access: Boolean(appUser.all_projects_access ?? elevated),
         },
         { onConflict: "company_id,user_id" },
       );
@@ -252,9 +235,7 @@ export const completeInvitedSignUp = createServerFn({ method: "POST" })
         return {
           ok: true as const,
           email,
-          redirectTo: (promoteSuperAdmin ? "/admin" : "/portal") as
-            | "/admin"
-            | "/portal",
+          redirectTo: (promoteSuperAdmin ? "/admin" : "/portal") as "/admin" | "/portal",
         };
       }
     }

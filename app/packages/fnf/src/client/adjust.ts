@@ -1,13 +1,13 @@
-import type { AdjustKind, Adjustment } from '../normalize'
-import type { GenerationInput } from '../types'
-import type { GenerationContext } from './context'
-import { normalizeSettings } from '../normalize'
-import { entryFor } from './context'
+import type { AdjustKind, Adjustment } from "../normalize";
+import type { GenerationInput } from "../types";
+import type { GenerationContext } from "./context";
+import { normalizeSettings } from "../normalize";
+import { entryFor } from "./context";
 
 /** Result of the standalone `adjust()` step: a normalized input plus the changes made. */
 export interface AdjustResult<Input> {
-  input: Input
-  adjustments: Adjustment[]
+  input: Input;
+  adjustments: Adjustment[];
 }
 
 /**
@@ -19,12 +19,16 @@ export interface AdjustResult<Input> {
  *   const { input, adjustments } = adjust(ctx, raw, ['near-aspect-ratio'])
  *   await submit(ctx, input)
  */
-export function adjust(ctx: GenerationContext, input: GenerationInput, kinds: readonly AdjustKind[]): AdjustResult<GenerationInput> {
-  const entry = entryFor(ctx, input.model)
+export function adjust(
+  ctx: GenerationContext,
+  input: GenerationInput,
+  kinds: readonly AdjustKind[],
+): AdjustResult<GenerationInput> {
+  const entry = entryFor(ctx, input.model);
   const { settings, adjustments } = normalizeSettings(
     (input.settings ?? {}) as Record<string, unknown>,
     entry.normalizers,
     new Set(kinds),
-  )
-  return { input: { ...input, settings }, adjustments }
+  );
+  return { input: { ...input, settings }, adjustments };
 }

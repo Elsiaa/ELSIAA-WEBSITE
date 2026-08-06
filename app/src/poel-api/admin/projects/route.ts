@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
-import { getAllUserProjects, getCompanyProjects } from '@/lib/projects';
-import { requireAuth, isSuperAdmin } from '@/lib/permissions';
+import { NextResponse } from "next/server";
+import { getAllUserProjects, getCompanyProjects } from "@/lib/projects";
+import { requireAuth, isSuperAdmin } from "@/lib/permissions";
 
 export async function GET() {
   try {
@@ -15,13 +15,10 @@ export async function GET() {
     } else {
       // Company admin sees only their company's projects
       if (!currentUser) {
-        return NextResponse.json(
-          { error: 'Unauthorized - user not found' },
-          { status: 403 }
-        );
+        return NextResponse.json({ error: "Unauthorized - user not found" }, { status: 403 });
       }
       if (!currentUser.company_id) {
-        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
       const projectsList = await getCompanyProjects(currentUser.company_id);
       // Convert to legacy format for backward compatibility
@@ -30,10 +27,10 @@ export async function GET() {
 
     return NextResponse.json({ projects });
   } catch (error) {
-    console.error('Error fetching projects:', error);
+    console.error("Error fetching projects:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to fetch projects' },
-      { status: error instanceof Error && error.message.includes('Forbidden') ? 403 : 500 }
+      { error: error instanceof Error ? error.message : "Failed to fetch projects" },
+      { status: error instanceof Error && error.message.includes("Forbidden") ? 403 : 500 },
     );
   }
 }

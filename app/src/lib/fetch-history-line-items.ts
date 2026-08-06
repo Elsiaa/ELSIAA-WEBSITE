@@ -1,8 +1,8 @@
-import type { InvoiceLineItem } from '@/lib/invoice-line-items';
-import { normalizeInvoiceLineItems } from '@/lib/invoice-line-items';
+import type { InvoiceLineItem } from "@/lib/invoice-line-items";
+import { normalizeInvoiceLineItems } from "@/lib/invoice-line-items";
 
 export type HistoryLineItemsSource = {
-  type: 'fee' | 'subscription' | 'bill' | 'payment';
+  type: "fee" | "subscription" | "bill" | "payment";
   paymentRequestId?: string | null;
   billId?: string | null;
   chargeId?: string | null;
@@ -10,16 +10,16 @@ export type HistoryLineItemsSource = {
 
 /** Lazy-load line items for a billing history row (payment request or bill charge). */
 export async function fetchHistoryLineItems(
-  row: HistoryLineItemsSource
+  row: HistoryLineItemsSource,
 ): Promise<InvoiceLineItem[] | null> {
-  if (row.type === 'payment' && row.paymentRequestId) {
+  if (row.type === "payment" && row.paymentRequestId) {
     const res = await fetch(`/api/admin/payments/${row.paymentRequestId}/invoice`);
     if (!res.ok) return null;
     const data = await res.json();
     return normalizeInvoiceLineItems(data.invoice?.lineItems) ?? null;
   }
 
-  if (row.type === 'bill' && row.billId && row.chargeId) {
+  if (row.type === "bill" && row.billId && row.chargeId) {
     const res = await fetch(`/api/admin/bills/${row.billId}/charges`);
     if (!res.ok) return null;
     const data = await res.json();

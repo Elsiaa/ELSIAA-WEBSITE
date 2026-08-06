@@ -6,9 +6,9 @@
 export function resolveExtensionRefSelectValue(
   currentRef: string | null | undefined,
   defaultBranch: string,
-  commits: Array<{ sha: string }>
+  commits: Array<{ sha: string }>,
 ): string {
-  const br = defaultBranch || 'main';
+  const br = defaultBranch || "main";
   if (!currentRef) return br;
 
   if (currentRef === br) return br;

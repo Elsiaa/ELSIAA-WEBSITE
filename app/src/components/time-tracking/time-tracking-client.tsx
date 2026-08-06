@@ -25,11 +25,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { cn } from "@/components/ui/utils";
 import { CircularTaskTimer } from "@/components/time-tracking/circular-task-timer";
 
@@ -98,7 +94,7 @@ function taskCumulativeSeconds(
   taskId: string,
   closedByTask: Record<string, number>,
   openEntry: EntryRow | undefined,
-  nowMs: number
+  nowMs: number,
 ): number {
   const closed = closedByTask[taskId] ?? 0;
   if (!openEntry || openEntry.taskId !== taskId) return closed;
@@ -118,12 +114,7 @@ type ClosedSegmentRow = {
 };
 
 type ReportSortKey =
-  | "time_desc"
-  | "time_asc"
-  | "duration_desc"
-  | "duration_asc"
-  | "client_asc"
-  | "task_asc";
+  "time_desc" | "time_asc" | "duration_desc" | "duration_asc" | "client_asc" | "task_asc";
 
 function segmentDurationSec(row: ClosedSegmentRow): number {
   const start = new Date(row.startedAt).getTime();
@@ -150,7 +141,8 @@ function sortReportRowsForDay(rows: ClosedSegmentRow[], key: ReportSortKey): Clo
     case "client_asc":
       copy.sort(
         (a, b) =>
-          a.clientName.localeCompare(b.clientName, undefined, { sensitivity: "base" }) || t(b) - t(a),
+          a.clientName.localeCompare(b.clientName, undefined, { sensitivity: "base" }) ||
+          t(b) - t(a),
       );
       break;
     case "task_asc":
@@ -165,7 +157,9 @@ function sortReportRowsForDay(rows: ClosedSegmentRow[], key: ReportSortKey): Clo
   return copy;
 }
 
-function groupReportRowsByLocalDay(rows: ClosedSegmentRow[]): { dayKey: string; dayLabel: string; rows: ClosedSegmentRow[] }[] {
+function groupReportRowsByLocalDay(
+  rows: ClosedSegmentRow[],
+): { dayKey: string; dayLabel: string; rows: ClosedSegmentRow[] }[] {
   const map = new Map<string, ClosedSegmentRow[]>();
   for (const r of rows) {
     const d = new Date(r.startedAt);
@@ -337,7 +331,7 @@ export default function TimeTrackingClient({
     const nowMs = Date.now();
     const runningToday = runningEntries.reduce(
       (acc, e) => acc + secondsRunningContributionToday(e.startedAt, nowMs),
-      0
+      0,
     );
     return todaySeconds + runningToday;
   }, [todaySeconds, runningEntries, tick]);
@@ -442,16 +436,11 @@ export default function TimeTrackingClient({
 
   const sortedClientsForReport = useMemo(
     () =>
-      [...clients].sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
-      ),
+      [...clients].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })),
     [clients],
   );
 
-  const activeTasks = useMemo(
-    () => tasks.filter((t) => t.status !== "done"),
-    [tasks]
-  );
+  const activeTasks = useMemo(() => tasks.filter((t) => t.status !== "done"), [tasks]);
   const doneTasks = useMemo(() => tasks.filter((t) => t.status === "done"), [tasks]);
 
   async function handleInstallClick() {
@@ -592,7 +581,7 @@ export default function TimeTrackingClient({
       to.setHours(23, 59, 59, 999);
       const res = await fetch(
         `/api/time-tracking/report?from=${encodeURIComponent(from.toISOString())}&to=${encodeURIComponent(to.toISOString())}`,
-        { cache: "no-store" }
+        { cache: "no-store" },
       );
       if (!res.ok) throw new Error("Report failed");
       const data = (await res.json()) as { entries: ClosedSegmentRow[] };
@@ -748,17 +737,26 @@ export default function TimeTrackingClient({
 
             {clients.length === 0 ? (
               <p className="text-[#111]/55 text-center py-12 border border-dashed border-black/[0.08] rounded-xl">
-                Add a client to start tracking time. Each client can have multiple tasks with play / pause.
+                Add a client to start tracking time. Each client can have multiple tasks with play /
+                pause.
               </p>
             ) : (
               <div className="space-y-4">
                 {clients.map((client) => {
                   const cTasks = activeTasks.filter((t) => t.clientId === client.id);
                   return (
-                    <Collapsible key={client.id} defaultOpen className="rounded-xl border border-black/[0.08] bg-white shadow-sm">
+                    <Collapsible
+                      key={client.id}
+                      defaultOpen
+                      className="rounded-xl border border-black/[0.08] bg-white shadow-sm"
+                    >
                       <div
                         className="flex items-center gap-2 px-4 py-3 border-b border-black/[0.08]/60"
-                        style={{ borderLeftWidth: 4, borderLeftColor: client.color, borderLeftStyle: "solid" }}
+                        style={{
+                          borderLeftWidth: 4,
+                          borderLeftColor: client.color,
+                          borderLeftStyle: "solid",
+                        }}
                       >
                         <CollapsibleTrigger asChild>
                           <button
@@ -791,14 +789,14 @@ export default function TimeTrackingClient({
                               task.id,
                               taskClosedSeconds,
                               entry,
-                              nowMs
+                              nowMs,
                             );
                             return (
                               <div
                                 key={task.id}
                                 className={cn(
                                   "flex flex-col gap-3 rounded-lg border border-black/[0.08] bg-white p-3 sm:flex-row sm:items-center",
-                                  isRunning && "ring-2 ring-primary/30 shadow-sm"
+                                  isRunning && "ring-2 ring-primary/30 shadow-sm",
                                 )}
                               >
                                 <div className="flex-1 min-w-0 space-y-2">
@@ -867,7 +865,10 @@ export default function TimeTrackingClient({
                               placeholder="New task…"
                               value={newTaskByClient[client.id] ?? ""}
                               onChange={(e) =>
-                                setNewTaskByClient((prev) => ({ ...prev, [client.id]: e.target.value }))
+                                setNewTaskByClient((prev) => ({
+                                  ...prev,
+                                  [client.id]: e.target.value,
+                                }))
                               }
                               onKeyDown={(e) => {
                                 if (e.key === "Enter") {
@@ -876,7 +877,11 @@ export default function TimeTrackingClient({
                                 }
                               }}
                             />
-                            <Button type="button" variant="secondary" onClick={() => void addTask(client.id)}>
+                            <Button
+                              type="button"
+                              variant="secondary"
+                              onClick={() => void addTask(client.id)}
+                            >
                               <Plus className="w-4 h-4" />
                               Task
                             </Button>
@@ -893,7 +898,8 @@ export default function TimeTrackingClient({
           <TabsContent value="done" className="mt-4 space-y-3">
             {doneTasks.length === 0 ? (
               <p className="text-[#111]/55 text-center py-12 border border-dashed border-black/[0.08] rounded-xl">
-                Completed tasks are hidden from the active dashboard. Mark a task &quot;Done&quot; to move it here.
+                Completed tasks are hidden from the active dashboard. Mark a task &quot;Done&quot;
+                to move it here.
               </p>
             ) : (
               doneTasks.map((task) => {
@@ -932,13 +938,21 @@ export default function TimeTrackingClient({
             <div className="flex flex-col sm:flex-row gap-3 sm:items-end">
               <div className="space-y-1">
                 <label className="text-sm font-medium">From</label>
-                <Input type="date" value={reportFrom} onChange={(e) => setReportFrom(e.target.value)} />
+                <Input
+                  type="date"
+                  value={reportFrom}
+                  onChange={(e) => setReportFrom(e.target.value)}
+                />
               </div>
               <div className="space-y-1">
                 <label className="text-sm font-medium">To</label>
                 <Input type="date" value={reportTo} onChange={(e) => setReportTo(e.target.value)} />
               </div>
-              <Button variant="secondary" onClick={() => void loadReport()} disabled={reportLoading}>
+              <Button
+                variant="secondary"
+                onClick={() => void loadReport()}
+                disabled={reportLoading}
+              >
                 <CalendarRange className="w-4 h-4" />
                 {reportLoading ? "Loading…" : "Refresh"}
               </Button>
@@ -978,7 +992,10 @@ export default function TimeTrackingClient({
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 <div className="space-y-1 min-w-0">
-                  <label htmlFor="report-filter-client" className="text-xs font-medium text-[#111]/55">
+                  <label
+                    htmlFor="report-filter-client"
+                    className="text-xs font-medium text-[#111]/55"
+                  >
                     Client
                   </label>
                   <select
@@ -999,7 +1016,10 @@ export default function TimeTrackingClient({
                   </select>
                 </div>
                 <div className="space-y-1 min-w-0">
-                  <label htmlFor="report-filter-task" className="text-xs font-medium text-[#111]/55">
+                  <label
+                    htmlFor="report-filter-task"
+                    className="text-xs font-medium text-[#111]/55"
+                  >
                     Task / project
                   </label>
                   <select
@@ -1019,14 +1039,19 @@ export default function TimeTrackingClient({
                   </select>
                 </div>
                 <div className="space-y-1 min-w-0">
-                  <label htmlFor="report-filter-billable" className="text-xs font-medium text-[#111]/55">
+                  <label
+                    htmlFor="report-filter-billable"
+                    className="text-xs font-medium text-[#111]/55"
+                  >
                     Billable
                   </label>
                   <select
                     id="report-filter-billable"
                     className={REPORT_FILTER_SELECT_CLASS}
                     value={reportFilterBillable}
-                    onChange={(e) => setReportFilterBillable(e.target.value as "all" | "yes" | "no")}
+                    onChange={(e) =>
+                      setReportFilterBillable(e.target.value as "all" | "yes" | "no")
+                    }
                   >
                     <option value="all">All</option>
                     <option value="yes">Billable only</option>
@@ -1070,8 +1095,8 @@ export default function TimeTrackingClient({
                 <div className="border-b border-black/[0.08] bg-black/[0.06]/30 px-4 py-3">
                   <h2 className="text-base font-semibold text-[#111]">In progress</h2>
                   <p className="text-xs text-[#111]/55 mt-1">
-                    Timers still running. They stay here until you pause; completed segments appear in the day sections
-                    below.
+                    Timers still running. They stay here until you pause; completed segments appear
+                    in the day sections below.
                   </p>
                 </div>
                 <div className="overflow-x-auto">
@@ -1089,7 +1114,8 @@ export default function TimeTrackingClient({
                       {filteredRunningEntries.length === 0 && reportFiltersActive ? (
                         <tr className="border-t border-black/[0.08]/60 bg-white">
                           <td colSpan={5} className="p-4 text-center text-sm text-[#111]/55">
-                            No in-progress timers match your filters ({runningEntries.length} running).
+                            No in-progress timers match your filters ({runningEntries.length}{" "}
+                            running).
                           </td>
                         </tr>
                       ) : (
@@ -1102,7 +1128,7 @@ export default function TimeTrackingClient({
                             entry.taskId,
                             taskClosedSeconds,
                             entry,
-                            nowMs
+                            nowMs,
                           );
                           return (
                             <tr key={entry.id} className="border-t border-black/[0.08]/60 bg-white">
@@ -1146,7 +1172,10 @@ export default function TimeTrackingClient({
               reportRowsByDay.map(({ dayKey, dayLabel, rows }) => {
                 const dayTotal = rows.reduce((acc, row) => acc + segmentDurationSec(row), 0);
                 return (
-                  <section key={dayKey} className="rounded-xl border border-black/[0.08] bg-white shadow-sm overflow-hidden">
+                  <section
+                    key={dayKey}
+                    className="rounded-xl border border-black/[0.08] bg-white shadow-sm overflow-hidden"
+                  >
                     <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-black/[0.08] bg-black/[0.06]/40 px-4 py-3">
                       <h2 className="text-base font-semibold text-[#111]">{dayLabel}</h2>
                       <span className="text-sm text-[#111]/55">
@@ -1191,11 +1220,16 @@ export default function TimeTrackingClient({
                                       })
                                     : "—"}
                                 </td>
-                                <td className="p-3 font-mono tabular-nums text-[#111]">{formatDuration(sec)}</td>
+                                <td className="p-3 font-mono tabular-nums text-[#111]">
+                                  {formatDuration(sec)}
+                                </td>
                                 <td className="p-3">{row.clientName}</td>
                                 <td className="p-3">{row.taskTitle}</td>
                                 <td className="p-3">{row.billable ? "Yes" : "No"}</td>
-                                <td className="p-3 text-[#111]/55 max-w-[200px] truncate" title={row.note ?? ""}>
+                                <td
+                                  className="p-3 text-[#111]/55 max-w-[200px] truncate"
+                                  title={row.note ?? ""}
+                                >
                                   {row.note || "—"}
                                 </td>
                                 <td className="p-2 text-right align-middle">
@@ -1239,10 +1273,13 @@ export default function TimeTrackingClient({
                   <p className="text-xs">
                     Full range total (ignoring filters):{" "}
                     <span className="font-mono tabular-nums text-[#111]">
-                      {formatDuration(reportRows.reduce((acc, row) => acc + segmentDurationSec(row), 0))}
+                      {formatDuration(
+                        reportRows.reduce((acc, row) => acc + segmentDurationSec(row), 0),
+                      )}
                     </span>
                     {" · "}
-                    CSV export still includes every completed segment in the date range, not only what you see here.
+                    CSV export still includes every completed segment in the date range, not only
+                    what you see here.
                   </p>
                 )}
               </div>
@@ -1267,11 +1304,19 @@ export default function TimeTrackingClient({
             </div>
             <div className="space-y-1">
               <label className="text-sm font-medium">End</label>
-              <Input type="datetime-local" value={manualEnd} onChange={(e) => setManualEnd(e.target.value)} />
+              <Input
+                type="datetime-local"
+                value={manualEnd}
+                onChange={(e) => setManualEnd(e.target.value)}
+              />
             </div>
             <div className="space-y-1">
               <label className="text-sm font-medium">Note (optional)</label>
-              <Input value={manualNote} onChange={(e) => setManualNote(e.target.value)} placeholder="What did you do?" />
+              <Input
+                value={manualNote}
+                onChange={(e) => setManualNote(e.target.value)}
+                placeholder="What did you do?"
+              />
             </div>
           </div>
           <DialogFooter>

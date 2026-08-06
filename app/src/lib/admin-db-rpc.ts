@@ -2,8 +2,8 @@
  * Batched Postgres RPCs for admin dashboard performance.
  */
 
-import { getServerSupabaseClient } from '@/lib/supabase';
-import type { CompanyPaymentStatus } from '@/lib/project-payments';
+import { getServerSupabaseClient } from "@/lib/supabase";
+import type { CompanyPaymentStatus } from "@/lib/project-payments";
 
 export type CompanyAdminStats = {
   companyId: string;
@@ -14,7 +14,7 @@ export type CompanyAdminStats = {
 
 export type BillingHistoryRpcRow = {
   id: string;
-  type: 'fee' | 'subscription' | 'bill' | 'payment';
+  type: "fee" | "subscription" | "bill" | "payment";
   feeId: string | null;
   subscriptionId: string | null;
   billId: string | null;
@@ -52,22 +52,22 @@ export type BillChargeSummary = {
 
 function rpcAvailable(error: { code?: string; message?: string } | null): boolean {
   if (!error) return true;
-  const msg = (error.message || '').toLowerCase();
+  const msg = (error.message || "").toLowerCase();
   return !(
-    error.code === 'PGRST202' ||
-    msg.includes('could not find the function') ||
-    msg.includes('does not exist')
+    error.code === "PGRST202" ||
+    msg.includes("could not find the function") ||
+    msg.includes("does not exist")
   );
 }
 
 export async function fetchCompaniesAdminStats(
-  companyIds: string[]
+  companyIds: string[],
 ): Promise<Map<string, { users: number; projects: number; meetings: number }>> {
   const out = new Map<string, { users: number; projects: number; meetings: number }>();
   if (companyIds.length === 0) return out;
 
   const supabase = getServerSupabaseClient();
-  const { data, error } = await supabase.rpc('get_companies_admin_stats', {
+  const { data, error } = await supabase.rpc("get_companies_admin_stats", {
     p_company_ids: companyIds,
   });
 
@@ -86,14 +86,14 @@ export async function fetchCompaniesAdminStats(
 }
 
 export async function fetchCompanyPaymentStatusFast(
-  companyId: string
+  companyId: string,
 ): Promise<CompanyPaymentStatus | null> {
   const supabase = getServerSupabaseClient();
-  const { data, error } = await supabase.rpc('get_company_payment_status_fast', {
+  const { data, error } = await supabase.rpc("get_company_payment_status_fast", {
     p_company_id: companyId,
   });
 
-  if (!rpcAvailable(error) || data == null || typeof data !== 'object') {
+  if (!rpcAvailable(error) || data == null || typeof data !== "object") {
     return null;
   }
 
@@ -109,10 +109,10 @@ export async function fetchCompanyPaymentStatusFast(
 
 export async function fetchCompanyBillingHistoryRpc(
   companyId: string,
-  limit = 250
+  limit = 250,
 ): Promise<BillingHistoryRpcRow[] | null> {
   const supabase = getServerSupabaseClient();
-  const { data, error } = await supabase.rpc('get_company_billing_history', {
+  const { data, error } = await supabase.rpc("get_company_billing_history", {
     p_company_id: companyId,
     p_limit: limit,
   });
@@ -132,16 +132,16 @@ export type FeesSubscriptionsByCompany = Record<
 >;
 
 export async function fetchFeesSubscriptionsByCompanies(
-  companyIds: string[]
+  companyIds: string[],
 ): Promise<FeesSubscriptionsByCompany | null> {
   if (companyIds.length === 0) return {};
 
   const supabase = getServerSupabaseClient();
-  const { data, error } = await supabase.rpc('get_fees_subscriptions_by_companies', {
+  const { data, error } = await supabase.rpc("get_fees_subscriptions_by_companies", {
     p_company_ids: companyIds,
   });
 
-  if (!rpcAvailable(error) || data == null || typeof data !== 'object') {
+  if (!rpcAvailable(error) || data == null || typeof data !== "object") {
     return null;
   }
   return data as FeesSubscriptionsByCompany;
@@ -154,22 +154,22 @@ export type ListAdminBillsRpcResult = {
 
 export async function fetchListAdminBillsWithCharges(
   companyId: string | null,
-  chargeLimit = 12
+  chargeLimit = 12,
 ): Promise<ListAdminBillsRpcResult | null> {
   const supabase = getServerSupabaseClient();
-  const { data, error } = await supabase.rpc('list_admin_bills_with_charges', {
+  const { data, error } = await supabase.rpc("list_admin_bills_with_charges", {
     p_company_id: companyId,
     p_charge_limit: chargeLimit,
   });
 
-  if (!rpcAvailable(error) || data == null || typeof data !== 'object') {
+  if (!rpcAvailable(error) || data == null || typeof data !== "object") {
     return null;
   }
 
   const payload = data as { bills?: unknown; chargesByBillId?: unknown };
   const bills = Array.isArray(payload.bills) ? (payload.bills as Record<string, unknown>[]) : [];
   const chargesRaw =
-    payload.chargesByBillId && typeof payload.chargesByBillId === 'object'
+    payload.chargesByBillId && typeof payload.chargesByBillId === "object"
       ? (payload.chargesByBillId as Record<string, BillChargeSummary[]>)
       : {};
 
@@ -180,15 +180,15 @@ export async function fetchListAdminBillsWithCharges(
 export function dedupeBillingHistoryRows(rows: BillingHistoryRpcRow[]): BillingHistoryRpcRow[] {
   const subscriptionChargeKeys = new Set<string>();
   for (const tx of rows) {
-    if (tx.type !== 'subscription') continue;
+    if (tx.type !== "subscription") continue;
     if (tx.paymentRequestId && tx.stripePaymentIntentId) {
       subscriptionChargeKeys.add(
-        `${tx.paymentRequestId}:${tx.stripePaymentIntentId}:${tx.amount}:${tx.transactionDate}`
+        `${tx.paymentRequestId}:${tx.stripePaymentIntentId}:${tx.amount}:${tx.transactionDate}`,
       );
     }
   }
   const afterFeeSubDedupe = rows.filter((tx) => {
-    if (tx.type !== 'fee') return true;
+    if (tx.type !== "fee") return true;
     if (!tx.paymentRequestId || !tx.stripePaymentIntentId) return true;
     const key = `${tx.paymentRequestId}:${tx.stripePaymentIntentId}:${tx.amount}:${tx.transactionDate}`;
     return !subscriptionChargeKeys.has(key);
@@ -196,22 +196,22 @@ export function dedupeBillingHistoryRows(rows: BillingHistoryRpcRow[]): BillingH
 
   const projectChargePaymentIds = new Set<string>();
   for (const tx of afterFeeSubDedupe) {
-    if (tx.type === 'fee' || tx.type === 'subscription') {
+    if (tx.type === "fee" || tx.type === "subscription") {
       if (tx.paymentRequestId) projectChargePaymentIds.add(tx.paymentRequestId);
     }
   }
 
   return afterFeeSubDedupe.filter((tx) => {
-    if (tx.type !== 'payment' || !tx.paymentRequestId) return true;
+    if (tx.type !== "payment" || !tx.paymentRequestId) return true;
     return !projectChargePaymentIds.has(tx.paymentRequestId);
   });
 }
 
 export async function fetchAdminBillingHistoryRpc(
-  limit = 500
+  limit = 500,
 ): Promise<BillingHistoryRpcRow[] | null> {
   const supabase = getServerSupabaseClient();
-  const { data, error } = await supabase.rpc('get_admin_billing_history', {
+  const { data, error } = await supabase.rpc("get_admin_billing_history", {
     p_limit: limit,
   });
 

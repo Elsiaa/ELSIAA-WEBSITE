@@ -99,8 +99,7 @@ export const registerPortalFile = createServerFn({ method: "POST" })
     }),
   )
   .handler(async ({ data }) => {
-    const { session, client, companyId, role, flags } =
-      await requireCompanyContext();
+    const { session, client, companyId, role, flags } = await requireCompanyContext();
     if (!flags.filesAllowed && !isCompanyAdmin(role)) {
       throw new Error("Files module not enabled for your account");
     }
@@ -309,8 +308,7 @@ export const createSupportTicket = createServerFn({ method: "POST" })
     }),
   )
   .handler(async ({ data }) => {
-    const { session, client, companyId, role, flags } =
-      await requireCompanyContext();
+    const { session, client, companyId, role, flags } = await requireCompanyContext();
     if (!flags.supportAllowed && !isCompanyAdmin(role)) {
       throw new Error("Support module not enabled for your account");
     }
@@ -419,9 +417,7 @@ export const listAuthorizations = createServerFn({ method: "GET" }).handler(
     if (ids.length) {
       const { data: rows, error: dErr } = await client
         .from("project_auth_devices")
-        .select(
-          "id, project_id, name, device_id, status, is_admin_device, created_at",
-        )
+        .select("id, project_id, name, device_id, status, is_admin_device, created_at")
         .in("project_id", ids)
         .order("created_at", { ascending: false });
       if (dErr) throw new Error(dErr.message);
@@ -467,12 +463,8 @@ export const updateProjectAccess = createServerFn({ method: "POST" })
     }
     const patch: Record<string, unknown> = {};
     if (data.deviceLimit !== undefined) patch.device_limit = data.deviceLimit;
-    if (data.accessOverride !== undefined)
-      patch.access_override = data.accessOverride;
-    const { error } = await client
-      .from("projects")
-      .update(patch)
-      .eq("id", data.projectId);
+    if (data.accessOverride !== undefined) patch.access_override = data.accessOverride;
+    const { error } = await client.from("projects").update(patch).eq("id", data.projectId);
     if (error) throw new Error(error.message);
     return { ok: true as const };
   });
@@ -526,10 +518,7 @@ export const deleteAuthDevice = createServerFn({ method: "POST" })
     if (!flags.authorizationsAllowed && !isCompanyAdmin(role)) {
       throw new Error("Authorizations module not enabled for your account");
     }
-    const { error } = await client
-      .from("project_auth_devices")
-      .delete()
-      .eq("id", data.deviceId);
+    const { error } = await client.from("project_auth_devices").delete().eq("id", data.deviceId);
     if (error) throw new Error(error.message);
     return { ok: true as const };
   });
@@ -720,13 +709,10 @@ export const updatePortalMemberModules = createServerFn({ method: "POST" })
     if (data.role !== undefined) patch.role = data.role;
     if (data.authorizationsAllowed !== undefined)
       patch.authorizations_allowed = data.authorizationsAllowed;
-    if (data.programLogsAllowed !== undefined)
-      patch.program_logs_allowed = data.programLogsAllowed;
+    if (data.programLogsAllowed !== undefined) patch.program_logs_allowed = data.programLogsAllowed;
     if (data.filesAllowed !== undefined) patch.files_allowed = data.filesAllowed;
-    if (data.supportAllowed !== undefined)
-      patch.support_allowed = data.supportAllowed;
-    if (data.allProjectsAccess !== undefined)
-      patch.all_projects_access = data.allProjectsAccess;
+    if (data.supportAllowed !== undefined) patch.support_allowed = data.supportAllowed;
+    if (data.allProjectsAccess !== undefined) patch.all_projects_access = data.allProjectsAccess;
     const { error } = await client
       .from("company_members")
       .update(patch)

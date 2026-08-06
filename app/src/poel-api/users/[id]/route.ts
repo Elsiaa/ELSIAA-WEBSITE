@@ -5,131 +5,111 @@
  * DELETE /api/users/[id] - Delete user (soft delete)
  */
 
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { getUserById, updateUser, deleteUser } from '@/lib/users';
-import { canManageUser, isSuperAdmin, getCurrentUser } from '@/lib/permissions';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { getUserById, updateUser, deleteUser } from "@/lib/users";
+import { canManageUser, isSuperAdmin, getCurrentUser } from "@/lib/permissions";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
 
-    if (!await canManageUser(id)) {
-      return NextResponse.json(
-        { error: 'Forbidden - cannot access this user' },
-        { status: 403 }
-      );
+    if (!(await canManageUser(id))) {
+      return NextResponse.json({ error: "Forbidden - cannot access this user" }, { status: 403 });
     }
 
     const user = await getUserById(id);
     if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json(user);
   } catch (error) {
-    console.error('Error fetching user:', error);
+    console.error("Error fetching user:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to fetch user' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Failed to fetch user" },
+      { status: 500 },
     );
   }
 }
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
 
-    if (!await canManageUser(id)) {
-      return NextResponse.json(
-        { error: 'Forbidden - cannot update this user' },
-        { status: 403 }
-      );
+    if (!(await canManageUser(id))) {
+      return NextResponse.json({ error: "Forbidden - cannot update this user" }, { status: 403 });
     }
 
     const targetUser = await getUserById(id);
     if (!targetUser) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     // Prevent users from editing themselves (including admins)
     const currentUser = await getCurrentUser();
     const superAdmin = await isSuperAdmin();
-    
+
     // Check if trying to edit self (for users with DB entry)
     if (currentUser && currentUser.id === id) {
-      return NextResponse.json(
-        { error: 'Forbidden - cannot edit yourself' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: "Forbidden - cannot edit yourself" }, { status: 403 });
     }
-    
+
     if (superAdmin && !currentUser && targetUser.auth_user_id) {
       const session = await auth();
       const userId = session?.user?.id;
       if (userId === targetUser.auth_user_id) {
-        return NextResponse.json({ error: 'Forbidden - cannot edit yourself' }, { status: 403 });
+        return NextResponse.json({ error: "Forbidden - cannot edit yourself" }, { status: 403 });
       }
     }
 
     const body = await req.json();
 
     if (body.platform_role !== undefined && !superAdmin) {
-      return NextResponse.json({ error: 'Forbidden - only super admins can set platform role' }, { status: 403 });
+      return NextResponse.json(
+        { error: "Forbidden - only super admins can set platform role" },
+        { status: 403 },
+      );
     }
-    const allowedPlatformRoles = ['none', 'support', 'billing', 'operator', 'support_agent'];
+    const allowedPlatformRoles = ["none", "support", "billing", "operator", "support_agent"];
     if (body.platform_role !== undefined && !allowedPlatformRoles.includes(body.platform_role)) {
-      return NextResponse.json({ error: 'Invalid platform_role' }, { status: 400 });
+      return NextResponse.json({ error: "Invalid platform_role" }, { status: 400 });
     }
 
     // Validate role if provided
-    if (body.role && !['admin', 'member'].includes(body.role)) {
-      return NextResponse.json(
-        { error: 'Invalid role' },
-        { status: 400 }
-      );
+    if (body.role && !["admin", "member"].includes(body.role)) {
+      return NextResponse.json({ error: "Invalid role" }, { status: 400 });
     }
 
     // Validate status if provided
-    if (body.status && !['pending', 'active', 'inactive'].includes(body.status)) {
-      return NextResponse.json(
-        { error: 'Invalid status' },
-        { status: 400 }
-      );
+    if (body.status && !["pending", "active", "inactive"].includes(body.status)) {
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
     }
 
     // Company admins cannot modify other admins
     if (!superAdmin) {
-      if (currentUser && targetUser.role === 'admin' && targetUser.company_id === currentUser.company_id) {
+      if (
+        currentUser &&
+        targetUser.role === "admin" &&
+        targetUser.company_id === currentUser.company_id
+      ) {
         // Prevent company admins from changing other company admins
-        if (body.role && body.role !== 'admin') {
+        if (body.role && body.role !== "admin") {
           return NextResponse.json(
-            { error: 'Forbidden - cannot change role of another admin' },
-            { status: 403 }
+            { error: "Forbidden - cannot change role of another admin" },
+            { status: 403 },
           );
         }
       }
     }
 
     // Prevent admins from changing their own all_projects_access
-    if (body.all_projects_access !== undefined && targetUser.role === 'admin') {
+    if (body.all_projects_access !== undefined && targetUser.role === "admin") {
       // Check if trying to change own access
       if (currentUser && currentUser.id === id) {
         return NextResponse.json(
-          { error: 'Forbidden - admins cannot change their own project access' },
-          { status: 403 }
+          { error: "Forbidden - admins cannot change their own project access" },
+          { status: 403 },
         );
       }
       if (superAdmin && !currentUser && targetUser.auth_user_id) {
@@ -137,16 +117,16 @@ export async function PATCH(
         const userId = session?.user?.id;
         if (userId === targetUser.auth_user_id) {
           return NextResponse.json(
-            { error: 'Forbidden - admins cannot change their own project access' },
-            { status: 403 }
+            { error: "Forbidden - admins cannot change their own project access" },
+            { status: 403 },
           );
         }
       }
       // Admins must always have all_projects_access = true
       if (!body.all_projects_access) {
         return NextResponse.json(
-          { error: 'Forbidden - admins must have access to all projects' },
-          { status: 403 }
+          { error: "Forbidden - admins must have access to all projects" },
+          { status: 403 },
         );
       }
     }
@@ -179,20 +159,20 @@ export async function PATCH(
       if (!superAdmin) {
         // Company admins may resubmit the unchanged company_id from the edit form — ignore it.
         if (body.company_id !== targetUser.company_id) {
-          return NextResponse.json({ error: 'Forbidden - cannot change company' }, { status: 403 });
+          return NextResponse.json({ error: "Forbidden - cannot change company" }, { status: 403 });
         }
       } else {
-        if (typeof body.company_id !== 'string' || !body.company_id.trim()) {
-          return NextResponse.json({ error: 'Invalid company_id' }, { status: 400 });
+        if (typeof body.company_id !== "string" || !body.company_id.trim()) {
+          return NextResponse.json({ error: "Invalid company_id" }, { status: 400 });
         }
         updates.company_id = body.company_id;
       }
     }
-    
+
     // Force all_projects_access to true for admins
     // If role is being changed to admin, automatically set all_projects_access to true
     const newRole = body.role !== undefined ? body.role : targetUser.role;
-    if (newRole === 'admin') {
+    if (newRole === "admin") {
       updates.all_projects_access = true; // Always true for admins
     } else if (body.all_projects_access !== undefined) {
       // Only allow changing all_projects_access for non-admins
@@ -202,70 +182,59 @@ export async function PATCH(
     const user = await updateUser(id, updates);
 
     if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json(user);
   } catch (error) {
-    console.error('Error updating user:', error);
+    console.error("Error updating user:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to update user' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Failed to update user" },
+      { status: 500 },
     );
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
 
-    if (!await canManageUser(id)) {
-      return NextResponse.json(
-        { error: 'Forbidden - cannot delete this user' },
-        { status: 403 }
-      );
+    if (!(await canManageUser(id))) {
+      return NextResponse.json({ error: "Forbidden - cannot delete this user" }, { status: 403 });
     }
 
     const targetUser = await getUserById(id);
     if (!targetUser) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     // Prevent users from deleting themselves (including admins)
     const currentUser = await getCurrentUser();
     const superAdmin = await isSuperAdmin();
-    
+
     // Check if trying to delete self (for users with DB entry)
     if (currentUser && currentUser.id === id) {
-      return NextResponse.json(
-        { error: 'Forbidden - cannot delete yourself' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: "Forbidden - cannot delete yourself" }, { status: 403 });
     }
-    
+
     if (superAdmin && !currentUser && targetUser.auth_user_id) {
       const session = await auth();
       const userId = session?.user?.id;
       if (userId === targetUser.auth_user_id) {
-        return NextResponse.json({ error: 'Forbidden - cannot delete yourself' }, { status: 403 });
+        return NextResponse.json({ error: "Forbidden - cannot delete yourself" }, { status: 403 });
       }
     }
 
     // Company admins cannot delete other admins
     if (!superAdmin) {
-      if (currentUser && targetUser.role === 'admin' && targetUser.company_id === currentUser.company_id) {
+      if (
+        currentUser &&
+        targetUser.role === "admin" &&
+        targetUser.company_id === currentUser.company_id
+      ) {
         return NextResponse.json(
-          { error: 'Forbidden - cannot delete another admin' },
-          { status: 403 }
+          { error: "Forbidden - cannot delete another admin" },
+          { status: 403 },
         );
       }
     }
@@ -273,10 +242,10 @@ export async function DELETE(
     await deleteUser(id);
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting user:', error);
+    console.error("Error deleting user:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to delete user' },
-      { status: 500 }
+      { error: error instanceof Error ? error.message : "Failed to delete user" },
+      { status: 500 },
     );
   }
 }

@@ -36,11 +36,7 @@ function splitList(raw: string): string[] {
 
 function accountLabel(a: MailAccount): string {
   return (
-    a.email ||
-    a.username ||
-    a.name ||
-    (Array.isArray(a.emails) ? a.emails[0] : undefined) ||
-    "—"
+    a.email || a.username || a.name || (Array.isArray(a.emails) ? a.emails[0] : undefined) || "—"
   );
 }
 
@@ -64,9 +60,7 @@ export function MailControlPlane() {
   // Create forms
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [newType, setNewType] = useState<"regular" | "admin" | "transparent">(
-    "regular",
-  );
+  const [newType, setNewType] = useState<"regular" | "admin" | "transparent">("regular");
   const [folderName, setFolderName] = useState("");
   const [folderEmail, setFolderEmail] = useState("");
   const [folderMembers, setFolderMembers] = useState("");
@@ -137,8 +131,7 @@ export function MailControlPlane() {
     "rounded-lg bg-[#1e6b3c] px-3 py-2 text-[13px] font-medium text-white disabled:opacity-50";
   const btnGhost =
     "rounded-lg border border-black/[0.1] bg-white px-2.5 py-1.5 text-[12px] text-[#111] disabled:opacity-50";
-  const section =
-    "rounded-2xl border border-black/[0.07] bg-white p-5 md:p-6 space-y-4";
+  const section = "rounded-2xl border border-black/[0.07] bg-white p-5 md:p-6 space-y-4";
 
   return (
     <div className="space-y-5" style={sans}>
@@ -150,8 +143,8 @@ export function MailControlPlane() {
           Elssia Mail control plane
         </h1>
         <p className="max-w-2xl text-[14px] leading-relaxed text-[#111111]/55">
-          Manage Stalwart accounts and folders with the master key. Issue scoped
-          send API keys so integrations only use From addresses you authorize.
+          Manage Stalwart accounts and folders with the master key. Issue scoped send API keys so
+          integrations only use From addresses you authorize.
         </p>
 
         {status && !status.masterConfigured && (
@@ -161,8 +154,7 @@ export function MailControlPlane() {
         )}
         {status && status.masterConfigured && !status.databaseReady && (
           <div className="rounded-lg border border-amber-300/80 bg-amber-50 px-4 py-3 text-[13px] text-amber-950">
-            Mailboxes work now. Scoped keys and the send log need the database
-            connection finished.
+            Mailboxes work now. Scoped keys and the send log need the database connection finished.
           </div>
         )}
         {status && (
@@ -228,9 +220,7 @@ export function MailControlPlane() {
           <select
             className={inputClass}
             value={newType}
-            onChange={(e) =>
-              setNewType(e.target.value as "regular" | "admin" | "transparent")
-            }
+            onChange={(e) => setNewType(e.target.value as "regular" | "admin" | "transparent")}
           >
             <option value="regular">regular</option>
             <option value="admin">admin</option>
@@ -429,8 +419,8 @@ export function MailControlPlane() {
       <section className={section}>
         <h2 className="text-lg font-semibold">Company folders</h2>
         <p className="text-[13px] text-[#111]/50">
-          Free-text <code className="rounded bg-black/[0.04] px-1">company_id</code>{" "}
-          until companies DB exists (namespaced as <code className="rounded bg-black/[0.04] px-1">company-…</code>).
+          Free-text <code className="rounded bg-black/[0.04] px-1">company_id</code> until companies
+          DB exists (namespaced as <code className="rounded bg-black/[0.04] px-1">company-…</code>).
         </p>
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
           <input
@@ -454,9 +444,7 @@ export function MailControlPlane() {
           <button
             type="button"
             className={btnPrimary}
-            disabled={
-              busy || !companyId || !companyEmail || !status?.masterConfigured
-            }
+            disabled={busy || !companyId || !companyEmail || !status?.masterConfigured}
             onClick={() =>
               void run(async () => {
                 await mailCreateCompanyFolder({
@@ -552,8 +540,7 @@ export function MailControlPlane() {
       <section className={section}>
         <h2 className="text-lg font-semibold">Scoped send API keys</h2>
         <p className="text-[13px] text-[#111]/50">
-          Callers use{" "}
-          <code className="rounded bg-black/[0.04] px-1">POST /api/mail/v1/send</code>{" "}
+          Callers use <code className="rounded bg-black/[0.04] px-1">POST /api/mail/v1/send</code>{" "}
           with <code className="rounded bg-black/[0.04] px-1">Authorization: Bearer emk_…</code>.
           Restricted From by default — free-for-all only if you enable it (still @elsiaa.com).
         </p>
@@ -652,16 +639,10 @@ export function MailControlPlane() {
                           {k.keyPrefix}…
                         </td>
                         <td className="px-3 py-2 text-[#111]/55">
-                          {k.allowAnyFrom
-                            ? "any (@elsiaa.com)"
-                            : k.allowedFrom.join(", ") || "—"}
+                          {k.allowAnyFrom ? "any (@elsiaa.com)" : k.allowedFrom.join(", ") || "—"}
                         </td>
                         <td className="px-3 py-2">
-                          {k.revokedAt
-                            ? "revoked"
-                            : k.enabled
-                              ? "active"
-                              : "disabled"}
+                          {k.revokedAt ? "revoked" : k.enabled ? "active" : "disabled"}
                         </td>
                         <td className="px-3 py-2">
                           {!k.revokedAt && (
@@ -725,12 +706,7 @@ export function MailControlPlane() {
           type="button"
           className={btnPrimary}
           disabled={
-            busy ||
-            !status?.masterConfigured ||
-            !sendFrom ||
-            !sendTo ||
-            !sendSubject ||
-            !sendBody
+            busy || !status?.masterConfigured || !sendFrom || !sendTo || !sendSubject || !sendBody
           }
           onClick={() =>
             void run(async () => {
@@ -761,9 +737,7 @@ export function MailControlPlane() {
             className={`${inputClass} w-auto`}
             value={logSource}
             onChange={(e) =>
-              setLogSource(
-                e.target.value as "" | "admin_ui" | "scoped_api" | "transactional",
-              )
+              setLogSource(e.target.value as "" | "admin_ui" | "scoped_api" | "transactional")
             }
             disabled={!status?.databaseReady}
           >
@@ -806,20 +780,10 @@ export function MailControlPlane() {
                         {l.apiKeyName ? ` (${l.apiKeyName})` : ""}
                       </td>
                       <td className="px-3 py-2">{l.fromAddr}</td>
-                      <td className="max-w-[160px] truncate px-3 py-2">
-                        {l.toAddrs.join(", ")}
-                      </td>
-                      <td className="max-w-[200px] truncate px-3 py-2">
-                        {l.subject}
-                      </td>
+                      <td className="max-w-[160px] truncate px-3 py-2">{l.toAddrs.join(", ")}</td>
+                      <td className="max-w-[200px] truncate px-3 py-2">{l.subject}</td>
                       <td className="px-3 py-2">
-                        <span
-                          className={
-                            l.status === "sent"
-                              ? "text-[#1e6b3c]"
-                              : "text-red-700"
-                          }
-                        >
+                        <span className={l.status === "sent" ? "text-[#1e6b3c]" : "text-red-700"}>
                           {l.status}
                         </span>
                         {l.error ? (

@@ -11,7 +11,6 @@ tests are the executable spec.
 
 ## TL;DR rules
 
-
 1. **Use public subpath imports only**: `@higgsfield/fnf/client`, `/jobs`,
    `/media`, `/profile`, `/observability`, `/workflow-platform`, `/errors`.
    Never deep-import `src/` paths. `@higgsfield/fnf` ships the backend
@@ -65,14 +64,18 @@ tests are the executable spec.
 ## Public entry points
 
 ```ts
-import { createJobClient } from '@higgsfield/fnf/client'
-import { nanoBanana2, seedance2_0 } from '@higgsfield/fnf/jobs'
-import { createMediaClient } from '@higgsfield/fnf/media'
-import { createProfileClient } from '@higgsfield/fnf/profile'
-import { createConsoleObserver } from '@higgsfield/fnf/observability'
-import { createWorkflowPlatformAdapter } from '@higgsfield/fnf/workflow-platform'
-import { createAppsMarketplaceAdapter, createDevFnfWebAdapter, createFnfWebAdapter } from '@higgsfield/fnf-adapters'
-import { errorFromJSON } from '@higgsfield/fnf/errors'
+import { createJobClient } from "@higgsfield/fnf/client";
+import { nanoBanana2, seedance2_0 } from "@higgsfield/fnf/jobs";
+import { createMediaClient } from "@higgsfield/fnf/media";
+import { createProfileClient } from "@higgsfield/fnf/profile";
+import { createConsoleObserver } from "@higgsfield/fnf/observability";
+import { createWorkflowPlatformAdapter } from "@higgsfield/fnf/workflow-platform";
+import {
+  createAppsMarketplaceAdapter,
+  createDevFnfWebAdapter,
+  createFnfWebAdapter,
+} from "@higgsfield/fnf-adapters";
+import { errorFromJSON } from "@higgsfield/fnf/errors";
 ```
 
 The root barrel also exports these APIs, but subpaths are preferred because
@@ -91,32 +94,32 @@ integration, or custom endpoint, choose or implement the adapter for that host's
 backend contract. Do not force generated-app rules onto non-generated SDK
 consumers.
 
-| Adapter | Auth | Use |
-|---|---|---|
-| `createFnfWebAdapter({ baseUrl, getToken, workspaceId? })` | Clerk Bearer token plus optional `hf-workspace-id` | product/in-app flows |
-| `createDevFnfWebAdapter({ userId, workspaceId? })` | `hf-dev-user-id` plus optional `hf-workspace-id`; base URL defaults to dev | dev backend smoke tests and local sandboxes only |
-| `createAppsMarketplaceAdapter({ userId, workspaceId? })` | `fnf-apps-marketplace-secret` from `secret` or `FNF_APPS_MARKETPLACE_SECRET` + `hf-user-id`; base URL defaults to `https://dev-fnf.higgsfield.ai/apps-marketplace` | trusted server-side apps-marketplace proxy/sdk smoke tests; dev-only backend mount for now |
-| `createWorkflowPlatformAdapter({ baseUrl, observability? })` — BUNDLED in `@higgsfield/fnf/workflow-platform` | platform-attached server identity; no bearer token | generated apps and Supercomputer flows through `https://fnf.internal` |
-| `createMemoryBackend()` / `createMemoryMediaAdapter()` / `createMemoryProfileAdapter()` | none | tests, examples, offline demos |
+| Adapter                                                                                                       | Auth                                                                                                                                                               | Use                                                                                        |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `createFnfWebAdapter({ baseUrl, getToken, workspaceId? })`                                                    | Clerk Bearer token plus optional `hf-workspace-id`                                                                                                                 | product/in-app flows                                                                       |
+| `createDevFnfWebAdapter({ userId, workspaceId? })`                                                            | `hf-dev-user-id` plus optional `hf-workspace-id`; base URL defaults to dev                                                                                         | dev backend smoke tests and local sandboxes only                                           |
+| `createAppsMarketplaceAdapter({ userId, workspaceId? })`                                                      | `fnf-apps-marketplace-secret` from `secret` or `FNF_APPS_MARKETPLACE_SECRET` + `hf-user-id`; base URL defaults to `https://dev-fnf.higgsfield.ai/apps-marketplace` | trusted server-side apps-marketplace proxy/sdk smoke tests; dev-only backend mount for now |
+| `createWorkflowPlatformAdapter({ baseUrl, observability? })` — BUNDLED in `@higgsfield/fnf/workflow-platform` | platform-attached server identity; no bearer token                                                                                                                 | generated apps and Supercomputer flows through `https://fnf.internal`                      |
+| `createMemoryBackend()` / `createMemoryMediaAdapter()` / `createMemoryProfileAdapter()`                       | none                                                                                                                                                               | tests, examples, offline demos                                                             |
 
 Every generation adapter factory above also accepts a `confirm` option — the
 host's submission confirmation gate (see "Submission confirmation gate" under
 Job recipes). Hosts that submit generations for a user must pass it.
 
 ```ts
-import { createJobClient } from '@higgsfield/fnf/client'
-import { createMediaClient } from '@higgsfield/fnf/media'
-import { createProfileClient } from '@higgsfield/fnf/profile'
-import { createWorkflowPlatformAdapter } from '@higgsfield/fnf/workflow-platform'
-import { seedance2_0 } from '@higgsfield/fnf/jobs'
+import { createJobClient } from "@higgsfield/fnf/client";
+import { createMediaClient } from "@higgsfield/fnf/media";
+import { createProfileClient } from "@higgsfield/fnf/profile";
+import { createWorkflowPlatformAdapter } from "@higgsfield/fnf/workflow-platform";
+import { seedance2_0 } from "@higgsfield/fnf/jobs";
 
 const adapter = createWorkflowPlatformAdapter({
-  baseUrl: 'https://fnf.internal',
-})
+  baseUrl: "https://fnf.internal",
+});
 
-const jobs = createJobClient({ adapter, jobs: [seedance2_0] })
-const media = createMediaClient({ mediaAdapter: adapter })
-const profile = createProfileClient({ profileAdapter: adapter })
+const jobs = createJobClient({ adapter, jobs: [seedance2_0] });
+const media = createMediaClient({ mediaAdapter: adapter });
+const profile = createProfileClient({ profileAdapter: adapter });
 ```
 
 Generated apps must put this fnf.internal adapter server-side behind app-local
@@ -130,12 +133,12 @@ the service secret must never be shipped to browser code. This adapter is for
 SDK smoke tests and trusted service experiments, not generated apps:
 
 ```ts
-import { createAppsMarketplaceAdapter } from '@higgsfield/fnf-adapters'
+import { createAppsMarketplaceAdapter } from "@higgsfield/fnf-adapters";
 
 const adapter = createAppsMarketplaceAdapter({
   userId: actingUserId,
   workspaceId,
-})
+});
 ```
 
 By default, the adapter reads `FNF_APPS_MARKETPLACE_SECRET` from the server
@@ -155,12 +158,12 @@ validation, camelCase settings, `z.wire` serialization, media refs, profile
 mapping, costs, polling, and typed errors.
 
 ```ts
-import { createWorkflowPlatformAdapter } from '@higgsfield/fnf/workflow-platform'
+import { createWorkflowPlatformAdapter } from "@higgsfield/fnf/workflow-platform";
 
 const adapter = createWorkflowPlatformAdapter({
-  baseUrl: 'https://fnf.internal',
+  baseUrl: "https://fnf.internal",
   observability,
-})
+});
 ```
 
 In generated apps, do not use env-controlled backend URL selectors, public fnf
@@ -198,31 +201,31 @@ Register only the jobs the host can actually use. The `jobs: [...]` registry is
 what gives `model`, `settings`, and media roles their TypeScript narrowing.
 
 ```ts
-import { createJobClient } from '@higgsfield/fnf/client'
-import { seedance2_0 } from '@higgsfield/fnf/jobs'
+import { createJobClient } from "@higgsfield/fnf/client";
+import { seedance2_0 } from "@higgsfield/fnf/jobs";
 
-const client = createJobClient({ adapter, jobs: [seedance2_0] })
+const client = createJobClient({ adapter, jobs: [seedance2_0] });
 
 const { generations } = await client.submit({
-  model: 'seedance_2_0',
-  prompt: { instruction: 'cinematic lightning over the ocean' },
+  model: "seedance_2_0",
+  prompt: { instruction: "cinematic lightning over the ocean" },
   settings: {
-    mode: 'std',
+    mode: "std",
     duration: 5,
-    aspectRatio: '16:9',
-    resolution: '720p',
+    aspectRatio: "16:9",
+    resolution: "720p",
     batchSize: 1,
   },
-})
+});
 
 const [done] = await client.wait(generations, {
   signal,
-  onProgress: generation => {
-    console.log(generation.status)
+  onProgress: (generation) => {
+    console.log(generation.status);
   },
-})
+});
 
-console.log(done.results?.rawUrl)
+console.log(done.results?.rawUrl);
 ```
 
 Useful client calls:
@@ -245,26 +248,26 @@ A `Generation` (from `@higgsfield/fnf/client`) is what `submit`/`wait`/`get`/
 
 ```ts
 interface Generation {
-  id: string
-  model: string            // == jobSetType, e.g. 'gpt_image_2'
-  type: OutputType         // 'image' | 'video'
-  status: GenerationStatus
-  input: GenerationInput   // input.prompt?.instruction is the prompt text
-  results?: GenerationResults  // present ONLY once completed with an output
-  failReason?: string
-  createdAt?: number       // epoch; may be seconds OR ms
+  id: string;
+  model: string; // == jobSetType, e.g. 'gpt_image_2'
+  type: OutputType; // 'image' | 'video'
+  status: GenerationStatus;
+  input: GenerationInput; // input.prompt?.instruction is the prompt text
+  results?: GenerationResults; // present ONLY once completed with an output
+  failReason?: string;
+  createdAt?: number; // epoch; may be seconds OR ms
 }
 
 // results is a single object, NOT an array:
 interface GenerationResults {
-  rawUrl: string           // full-quality image or video
-  minUrl?: string          // downscaled still (images)
-  thumbnailUrl?: string    // poster / thumb
+  rawUrl: string; // full-quality image or video
+  minUrl?: string; // downscaled still (images)
+  thumbnailUrl?: string; // poster / thumb
 }
 ```
 
 - `GenerationStatus`: `'pending' | 'waiting' | 'queued' | 'in_progress' |
-  'ip_detect' | 'completed' | 'failed' | 'nsfw' | 'canceled' | 'ip_detected'`.
+'ip_detect' | 'completed' | 'failed' | 'nsfw' | 'canceled' | 'ip_detected'`.
   Terminal = `completed | failed | nsfw | canceled | ip_detected` (`isTerminal(status)`).
 - **Picking the display URL — do NOT hand-roll it.** Use the exported selectors:
   `getPreviewUrl(generation)` (precedence `minUrl → thumbnailUrl → rawUrl`) for
@@ -282,7 +285,7 @@ When regenerating, submit the parsed read-model input back through the same
 client and registry:
 
 ```ts
-await client.submit(done.input as Parameters<typeof client.submit>[0])
+await client.submit(done.input as Parameters<typeof client.submit>[0]);
 ```
 
 ### Submission confirmation gate
@@ -311,10 +314,9 @@ const adapter = createFnfWebAdapter({
   // Minimal gate. A real UI host opens its modal here and resolves the
   // promise with the modal's confirmation token.
   confirm: async ({ jobSetType }) => {
-    if (!window.confirm(`Submit ${jobSetType}?`))
-      throw new Error('declined')
+    if (!window.confirm(`Submit ${jobSetType}?`)) throw new Error("declined");
   },
-})
+});
 ```
 
 Do not auto-confirm (`confirm: async () => {}` in a real UI host defeats the
@@ -336,9 +338,9 @@ generation request should contain prompt/settings/`MediaRef` only.
 Bad patterns:
 
 ```ts
-await generate({ data: { file } })                 // bad: File through JSON
-await generate({ data: { bytes: Array.from(u8) } }) // bad: huge JSON
-String.fromCharCode(...u8)                         // bad: stack overflow
+await generate({ data: { file } }); // bad: File through JSON
+await generate({ data: { bytes: Array.from(u8) } }); // bad: huge JSON
+String.fromCharCode(...u8); // bad: stack overflow
 ```
 
 Good shape:
@@ -349,26 +351,30 @@ MediaRef + prompt/settings -> POST /api/generate -> jobs.submit
 ```
 
 ```ts
-import { createMediaClient, createDomMediaMetaResolver, resolveMediaMeta } from '@higgsfield/fnf/media'
+import {
+  createMediaClient,
+  createDomMediaMetaResolver,
+  resolveMediaMeta,
+} from "@higgsfield/fnf/media";
 
-const media = createMediaClient({ mediaAdapter: adapter })
+const media = createMediaClient({ mediaAdapter: adapter });
 
 const { ref } = await media.upload({
   source: fileBytes,
-  filename: 'frame.png',
-  type: 'image',
+  filename: "frame.png",
+  type: "image",
   forceIpCheck: true,
-})
+});
 
 const input = {
-  model: 'seedance_2_0' as const,
+  model: "seedance_2_0" as const,
   media: { start_image: [ref] },
-  prompt: { instruction: 'animate this frame' },
-  settings: { duration: 5, aspectRatio: 'auto' as const },
-}
+  prompt: { instruction: "animate this frame" },
+  settings: { duration: 5, aspectRatio: "auto" as const },
+};
 
-const measured = await resolveMediaMeta(input, createDomMediaMetaResolver())
-await jobs.submit(measured)
+const measured = await resolveMediaMeta(input, createDomMediaMetaResolver());
+await jobs.submit(measured);
 ```
 
 Notes:
@@ -390,18 +396,18 @@ The profile client is the SDK account/workspace domain. It is not the app's
 creator-profile entity.
 
 ```ts
-import { createProfileClient } from '@higgsfield/fnf/profile'
+import { createProfileClient } from "@higgsfield/fnf/profile";
 
-const profile = createProfileClient({ profileAdapter: adapter })
+const profile = createProfileClient({ profileAdapter: adapter });
 
-const user = await profile.getUser()
-const workspaces = await profile.listWorkspaces()
-const currentWorkspace = await profile.getCurrentWorkspace()
-const wallet = await profile.getWallet()
-const credits = await profile.getCredits({ includeOnDemand: true })
-const snapshot = await profile.getSnapshot()
+const user = await profile.getUser();
+const workspaces = await profile.listWorkspaces();
+const currentWorkspace = await profile.getCurrentWorkspace();
+const wallet = await profile.getWallet();
+const credits = await profile.getCredits({ includeOnDemand: true });
+const snapshot = await profile.getSnapshot();
 
-await profile.switchWorkspace({ workspaceId: workspaces[0].id })
+await profile.switchWorkspace({ workspaceId: workspaces[0].id });
 ```
 
 Public fields are camelCase:
@@ -415,9 +421,9 @@ Public fields are camelCase:
 Credit display rule:
 
 ```ts
-wallet?.subscriptionBalance          // raw backend credit-cents; not for UI
-credits?.totalAvailableCredits       // display credits; safe for UI
-credits?.raw.totalAvailableCredits   // raw value for debug/accounting only
+wallet?.subscriptionBalance; // raw backend credit-cents; not for UI
+credits?.totalAvailableCredits; // display credits; safe for UI
+credits?.raw.totalAvailableCredits; // raw value for debug/accounting only
 ```
 
 `profile.getCredits()` returns a `ProfileCredits` object, not a number. Never
@@ -433,10 +439,10 @@ Observability is a vendor-neutral observer callback. The SDK does not send
 telemetry anywhere by itself.
 
 ```ts
-import { createJobClient } from '@higgsfield/fnf/client'
-import { createConsoleObserver } from '@higgsfield/fnf/observability'
+import { createJobClient } from "@higgsfield/fnf/client";
+import { createConsoleObserver } from "@higgsfield/fnf/observability";
 
-const observer = createConsoleObserver()
+const observer = createConsoleObserver();
 
 const client = createJobClient({
   adapter,
@@ -444,9 +450,9 @@ const client = createJobClient({
   observability: {
     observer,
     traceId: requestId,
-    attributes: { surface: 'sandbox' },
+    attributes: { surface: "sandbox" },
   },
-})
+});
 ```
 
 Expected event names include:
@@ -527,10 +533,10 @@ a user choice, not a failure).
 For UI and worker/iframe boundaries, branch on `error.code`:
 
 ```ts
-const result = await client.safeSubmit(input)
+const result = await client.safeSubmit(input);
 
 if (!result.ok) {
-  if (result.error.code === 'out_of_credits') {
+  if (result.error.code === "out_of_credits") {
     // show billing/credits UI
   }
 }
@@ -540,9 +546,8 @@ Avoid:
 
 ```ts
 try {
-  await client.submit(input)
-}
-catch (error) {
+  await client.submit(input);
+} catch (error) {
   if (error instanceof OutOfCreditsError) {
     // fragile across postMessage/Comlink/JSON boundaries
   }
@@ -554,8 +559,8 @@ catch (error) {
 ### Do not fetch product job routes directly
 
 ```ts
-await fetch(`${baseUrl}/jobs/v2/seedance_2_0`, { body: JSON.stringify(params) }) // bad
-await client.submit({ model: 'seedance_2_0', prompt, settings })                 // good
+await fetch(`${baseUrl}/jobs/v2/seedance_2_0`, { body: JSON.stringify(params) }); // bad
+await client.submit({ model: "seedance_2_0", prompt, settings }); // good
 ```
 
 Direct fetches bypass validation, route/body special cases, typed errors,
@@ -578,17 +583,21 @@ extra: { experimental_backend_flag: true }        // good only when deliberate
 ### Do not display raw wallet balances
 
 ```ts
-wallet.subscriptionBalance                  // bad for UI; raw credit-cents
-snapshot.credits?.monthlyRemaining          // good display credits
-snapshot.credits?.raw.monthlyRemaining      // good only for debug/accounting
-await client.cost(seedanceInput)            // good model preview; 2250 cents -> 23 credits
+wallet.subscriptionBalance; // bad for UI; raw credit-cents
+snapshot.credits?.monthlyRemaining; // good display credits
+snapshot.credits?.raw.monthlyRemaining; // good only for debug/accounting
+await client.cost(seedanceInput); // good model preview; 2250 cents -> 23 credits
 ```
 
 ### Do not leak private payloads into observability
 
 ```ts
-attributes: { prompt: input.prompt.instruction } // bad
-attributes: { model: input.model }               // good
+attributes: {
+  prompt: input.prompt.instruction;
+} // bad
+attributes: {
+  model: input.model;
+} // good
 ```
 
 ### Do not assume all adapters support all optional calls

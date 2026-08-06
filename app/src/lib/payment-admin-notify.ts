@@ -1,12 +1,13 @@
+import { PAYMENT_METHOD_LABEL_ACH, PAYMENT_METHOD_LABEL_CARD } from "@/lib/payment-method-labels";
+import { getCurrentDateTimeInTimezone } from "@/lib/timezone";
 import {
-  PAYMENT_METHOD_LABEL_ACH,
-  PAYMENT_METHOD_LABEL_CARD,
-} from '@/lib/payment-method-labels';
-import { getCurrentDateTimeInTimezone } from '@/lib/timezone';
-import { getOperationalBrandName, getOperationalLogoUrl, getSmtpFromDisplayName } from '@/lib/operational-brand';
-import { getPaymentAdminNotifyEmail, getPaymentTransactionalFrom } from '@/lib/payment-mail';
-import { poelLightNotificationEmailStyles } from '@/lib/poel-theme';
-import { sendTransactionalMail } from '@/lib/transactional-mail';
+  getOperationalBrandName,
+  getOperationalLogoUrl,
+  getSmtpFromDisplayName,
+} from "@/lib/operational-brand";
+import { getPaymentAdminNotifyEmail, getPaymentTransactionalFrom } from "@/lib/payment-mail";
+import { poelLightNotificationEmailStyles } from "@/lib/poel-theme";
+import { sendTransactionalMail } from "@/lib/transactional-mail";
 
 export interface SendPaymentAdminNotifyParams {
   customerName: string;
@@ -18,26 +19,26 @@ export interface SendPaymentAdminNotifyParams {
 
 /** Notify management that a payment was received. */
 export async function sendPaymentAdminNotifyEmail(
-  params: SendPaymentAdminNotifyParams
+  params: SendPaymentAdminNotifyParams,
 ): Promise<boolean> {
   const amountNum = params.amount;
   if (!Number.isFinite(amountNum)) {
-    console.error('[sendPaymentAdminNotifyEmail] invalid amount');
+    console.error("[sendPaymentAdminNotifyEmail] invalid amount");
     return false;
   }
 
   const baseUrl = (
     process.env.NEXT_PUBLIC_BASE_URL ||
     process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '') ||
-    'http://localhost:3000'
-  ).replace(/\/$/, '');
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
+    "http://localhost:3000"
+  ).replace(/\/$/, "");
   const brand = getOperationalBrandName();
-  const logoUrl = getOperationalLogoUrl(baseUrl, 'full');
+  const logoUrl = getOperationalLogoUrl(baseUrl, "full");
   const methodLabel =
-    params.paymentMethod === 'card'
+    params.paymentMethod === "card"
       ? PAYMENT_METHOD_LABEL_CARD
-      : params.paymentMethod === 'ach'
+      : params.paymentMethod === "ach"
         ? PAYMENT_METHOD_LABEL_ACH
         : params.paymentMethod;
 
@@ -70,7 +71,7 @@ export async function sendPaymentAdminNotifyEmail(
         <div class="info-label">Invoice link:</div>
         <div class="info-value">Bill / payment (token …${String(params.publicToken).slice(-8)})</div>
       </div>`
-          : ''
+          : ""
       }
       ${
         params.invoiceNumber != null
@@ -79,7 +80,7 @@ export async function sendPaymentAdminNotifyEmail(
         <div class="info-label">Invoice #:</div>
         <div class="info-value">${params.invoiceNumber}</div>
       </div>`
-          : ''
+          : ""
       }
       <div class="amount-box">
         <div class="info-label" style="margin-bottom: 10px;">Amount Paid:</div>
@@ -102,7 +103,7 @@ export async function sendPaymentAdminNotifyEmail(
 New Payment Received - ${brand}
 
 Customer: ${params.customerName}
-${params.publicToken ? `Token: …${String(params.publicToken).slice(-8)}\n` : ''}${params.invoiceNumber != null ? `Invoice #: ${params.invoiceNumber}\n` : ''}Amount: $${amountNum.toFixed(2)}
+${params.publicToken ? `Token: …${String(params.publicToken).slice(-8)}\n` : ""}${params.invoiceNumber != null ? `Invoice #: ${params.invoiceNumber}\n` : ""}Amount: $${amountNum.toFixed(2)}
 Method: ${methodLabel}
 
 ${getCurrentDateTimeInTimezone()}

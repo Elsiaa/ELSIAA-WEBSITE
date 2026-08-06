@@ -4,18 +4,22 @@ import {
   GetObjectCommand,
   ListObjectsV2Command,
   PutObjectCommand,
-} from '@aws-sdk/client-s3';
-import { Upload } from '@aws-sdk/lib-storage';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { createRequire } from 'node:module';
-import { Readable } from 'node:stream';
-import { r2CompanyFilesClient, R2_COMPANY_FILES_BUCKET_NAME, R2_COMPANY_FILES_PUBLIC_URL } from './r2-company-files';
+} from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { createRequire } from "node:module";
+import { Readable } from "node:stream";
+import {
+  r2CompanyFilesClient,
+  R2_COMPANY_FILES_BUCKET_NAME,
+  R2_COMPANY_FILES_PUBLIC_URL,
+} from "./r2-company-files";
 
 const require = createRequire(import.meta.url);
 // archiver is CJS; Vite SSR rejects `import archiver from 'archiver'`.
-const archiver = require('archiver') as typeof import('archiver');
+const archiver = require("archiver") as typeof import("archiver");
 
-const ROOT = 'company-admin-files';
+const ROOT = "company-admin-files";
 
 /**
  * Default max upload size (bytes). Override with COMPANY_ADMIN_MAX_UPLOAD_BYTES.
@@ -48,7 +52,7 @@ export async function ensureCompanyFilesRootExists(companyId: string): Promise<v
       Bucket: R2_COMPANY_FILES_BUCKET_NAME,
       Prefix: root,
       MaxKeys: 1,
-    })
+    }),
   );
   if (
     (resp.Contents && resp.Contents.length > 0) ||
@@ -65,8 +69,8 @@ export async function ensureCompanyFilesRootExists(companyId: string): Promise<v
       Key: root,
       Body: new Uint8Array(0),
       ContentLength: 0,
-      ContentType: 'application/x-directory',
-    })
+      ContentType: "application/x-directory",
+    }),
   );
 }
 
@@ -74,33 +78,33 @@ export async function ensureCompanyFilesRootExists(companyId: string): Promise<v
  * Normalize optional relative path under company root (no .., no absolute).
  */
 export function normalizeRelativePrefix(relative: string | undefined | null): string {
-  if (!relative || relative.trim() === '') return '';
-  const trimmed = relative.replace(/^\/+/, '').replace(/\/+$/, '');
-  if (!trimmed) return '';
-  const segments = trimmed.split('/').filter(Boolean);
+  if (!relative || relative.trim() === "") return "";
+  const trimmed = relative.replace(/^\/+/, "").replace(/\/+$/, "");
+  if (!trimmed) return "";
+  const segments = trimmed.split("/").filter(Boolean);
   for (const seg of segments) {
-    if (seg === '..' || seg === '.' || seg.includes('..')) {
-      throw new Error('Invalid path');
+    if (seg === ".." || seg === "." || seg.includes("..")) {
+      throw new Error("Invalid path");
     }
   }
-  return segments.join('/') + '/';
+  return segments.join("/") + "/";
 }
 
 export function assertKeyBelongsToCompany(companyId: string, key: string): void {
   const prefix = companyFilesRootPrefix(companyId);
-  if (!key.startsWith(prefix) || key.slice(prefix.length).includes('..')) {
-    throw new Error('Invalid file key');
+  if (!key.startsWith(prefix) || key.slice(prefix.length).includes("..")) {
+    throw new Error("Invalid file key");
   }
 }
 
 export function assertPrefixUnderCompany(companyId: string, fullPrefix: string): void {
   const root = companyFilesRootPrefix(companyId);
   if (!fullPrefix.startsWith(root)) {
-    throw new Error('Invalid prefix');
+    throw new Error("Invalid prefix");
   }
   const rest = fullPrefix.slice(root.length);
-  if (rest.includes('..')) {
-    throw new Error('Invalid prefix');
+  if (rest.includes("..")) {
+    throw new Error("Invalid prefix");
   }
 }
 
@@ -110,24 +114,24 @@ export function assertPrefixUnderCompany(companyId: string, fullPrefix: string):
 export async function createCompanyFolder(
   companyId: string,
   parentRelativePath: string | undefined | null,
-  folderName: string
+  folderName: string,
 ): Promise<{ path: string }> {
   const root = companyFilesRootPrefix(companyId);
   const parentDir = normalizeRelativePrefix(parentRelativePath);
   const trimmed = folderName.trim();
   if (!trimmed) {
-    throw new Error('Folder name is required');
+    throw new Error("Folder name is required");
   }
-  if (/[/\\]/.test(trimmed) || trimmed === '.' || trimmed === '..') {
-    throw new Error('Folder name cannot be ., .., or contain slashes');
+  if (/[/\\]/.test(trimmed) || trimmed === "." || trimmed === "..") {
+    throw new Error("Folder name cannot be ., .., or contain slashes");
   }
-  const sanitized = trimmed.replace(/\s+/g, ' ').trim().slice(0, 200);
+  const sanitized = trimmed.replace(/\s+/g, " ").trim().slice(0, 200);
   if (!sanitized) {
-    throw new Error('Invalid folder name');
+    throw new Error("Invalid folder name");
   }
 
   const key = `${root}${parentDir}${sanitized}/`;
-  assertKeyBelongsToCompany(companyId, key.replace(/\/$/, ''));
+  assertKeyBelongsToCompany(companyId, key.replace(/\/$/, ""));
 
   await r2CompanyFilesClient.send(
     new PutObjectCommand({
@@ -135,11 +139,11 @@ export async function createCompanyFolder(
       Key: key,
       Body: new Uint8Array(0),
       ContentLength: 0,
-      ContentType: 'application/x-directory',
-    })
+      ContentType: "application/x-directory",
+    }),
   );
 
-  const parentTrim = parentRelativePath?.trim().replace(/\/+$/, '') ?? '';
+  const parentTrim = parentRelativePath?.trim().replace(/\/+$/, "") ?? "";
   const pathOut = parentTrim ? `${parentTrim}/${sanitized}` : sanitized;
   return { path: pathOut };
 }
@@ -149,10 +153,8 @@ export async function createCompanyFolder(
  * Aligned with the admin UI, which shows this — not a separate over-sanitized header.
  */
 function sanitizeUploadFileBaseName(basename: string): string {
-  const sanitized = basename
-    .replace(/[^a-zA-Z0-9.\-_()\[\]@%+\s]/g, '_')
-    .replace(/^\s+|\s+$/g, '');
-  return sanitized || 'file';
+  const sanitized = basename.replace(/[^a-zA-Z0-9.\-_()\[\]@%+\s]/g, "_").replace(/^\s+|\s+$/g, "");
+  return sanitized || "file";
 }
 
 /**
@@ -163,19 +165,15 @@ function sanitizeUploadFileBaseName(basename: string): string {
  * path segment of the client name.
  */
 function storageBasenameFromClientFileName(originalName: string): string {
-  const t = originalName.replace(/\\/g, '/').trim();
+  const t = originalName.replace(/\\/g, "/").trim();
   if (!t) {
-    return sanitizeUploadFileBaseName('file');
+    return sanitizeUploadFileBaseName("file");
   }
-  const seg = t.split('/').filter(Boolean).pop() || t;
+  const seg = t.split("/").filter(Boolean).pop() || t;
   return sanitizeUploadFileBaseName(seg);
 }
 
-function buildObjectKey(
-  companyId: string,
-  relativeDir: string,
-  originalName: string
-): string {
+function buildObjectKey(companyId: string, relativeDir: string, originalName: string): string {
   const root = companyFilesRootPrefix(companyId);
   const dir = normalizeRelativePrefix(relativeDir);
   const base = storageBasenameFromClientFileName(originalName);
@@ -192,20 +190,20 @@ export async function presignCompanyFileUpload(
   relativeDir: string | undefined,
   fileName: string,
   contentType: string,
-  contentLength: number
+  contentLength: number,
 ): Promise<{ uploadUrl: string; key: string; expiresInSeconds: number }> {
   const maxBytes = getMaxUploadBytes();
   if (contentLength > maxBytes) {
     throw new Error(`File exceeds maximum size of ${maxBytes} bytes`);
   }
   if (contentLength < 0) {
-    throw new Error('Invalid file size');
+    throw new Error("Invalid file size");
   }
 
-  const key = buildObjectKey(companyId, relativeDir ?? '', fileName);
+  const key = buildObjectKey(companyId, relativeDir ?? "", fileName);
   assertKeyBelongsToCompany(companyId, key);
 
-  const ct = contentType && contentType.length > 0 ? contentType : 'application/octet-stream';
+  const ct = contentType && contentType.length > 0 ? contentType : "application/octet-stream";
 
   // ContentLength is intentionally omitted from the presigned command — including it adds
   // content-length to X-Amz-SignedHeaders, which browsers treat as a forbidden header and
@@ -217,7 +215,9 @@ export async function presignCompanyFileUpload(
   });
 
   const expiresInSeconds = 15 * 60;
-  const uploadUrl = await getSignedUrl(r2CompanyFilesClient, command, { expiresIn: expiresInSeconds });
+  const uploadUrl = await getSignedUrl(r2CompanyFilesClient, command, {
+    expiresIn: expiresInSeconds,
+  });
 
   return { uploadUrl, key, expiresInSeconds };
 }
@@ -244,7 +244,7 @@ export interface BrowseFolder {
  */
 export async function listCompanyBrowse(
   companyId: string,
-  relativePrefix?: string
+  relativePrefix?: string,
 ): Promise<{ folders: BrowseFolder[]; files: CompanyFileListItem[] }> {
   const root = companyFilesRootPrefix(companyId);
   const dir = normalizeRelativePrefix(relativePrefix);
@@ -259,23 +259,23 @@ export async function listCompanyBrowse(
       new ListObjectsV2Command({
         Bucket: R2_COMPANY_FILES_BUCKET_NAME,
         Prefix: prefix,
-        Delimiter: '/',
+        Delimiter: "/",
         ContinuationToken: continuationToken,
-      })
+      }),
     );
 
     for (const cp of resp.CommonPrefixes ?? []) {
       if (!cp.Prefix || !cp.Prefix.startsWith(root)) continue;
-      const rel = cp.Prefix.slice(root.length).replace(/\/+$/, '');
+      const rel = cp.Prefix.slice(root.length).replace(/\/+$/, "");
       if (!rel) continue;
-      const name = rel.split('/').filter(Boolean).pop() ?? rel;
+      const name = rel.split("/").filter(Boolean).pop() ?? rel;
       folderMap.set(rel, { name, path: rel });
     }
 
     for (const obj of resp.Contents ?? []) {
-      if (!obj.Key || obj.Key.endsWith('/')) continue;
+      if (!obj.Key || obj.Key.endsWith("/")) continue;
       const tail = obj.Key.slice(prefix.length);
-      if (!tail || tail.includes('/')) continue;
+      if (!tail || tail.includes("/")) continue;
       const cleanName = stripTimestampPrefix(tail);
       fileMap.set(obj.Key, {
         key: obj.Key,
@@ -291,7 +291,7 @@ export async function listCompanyBrowse(
 
   const folders = [...folderMap.values()].sort((a, b) => a.name.localeCompare(b.name));
   const files = [...fileMap.values()].sort((a, b) =>
-    (a.displayName ?? '').localeCompare(b.displayName ?? '')
+    (a.displayName ?? "").localeCompare(b.displayName ?? ""),
   );
   return { folders, files };
 }
@@ -299,7 +299,7 @@ export async function listCompanyBrowse(
 /** Flat list (all descendants) — retained for scripts or future use */
 export async function listCompanyFiles(
   companyId: string,
-  relativePrefix?: string
+  relativePrefix?: string,
 ): Promise<CompanyFileListItem[]> {
   const root = companyFilesRootPrefix(companyId);
   const dir = normalizeRelativePrefix(relativePrefix);
@@ -314,13 +314,13 @@ export async function listCompanyFiles(
         Bucket: R2_COMPANY_FILES_BUCKET_NAME,
         Prefix: prefix,
         ContinuationToken: continuationToken,
-      })
+      }),
     );
 
     for (const obj of resp.Contents ?? []) {
-      if (!obj.Key || obj.Key.endsWith('/')) continue;
+      if (!obj.Key || obj.Key.endsWith("/")) continue;
       const rel = obj.Key.slice(root.length);
-      const rawName = rel.includes('/') ? rel.split('/').pop()! : rel;
+      const rawName = rel.includes("/") ? rel.split("/").pop()! : rel;
       const displayName = stripTimestampPrefix(rawName);
       items.push({
         key: obj.Key,
@@ -343,7 +343,7 @@ export async function listCompanyFiles(
  */
 export async function companyHasFilesUnderRelativePrefix(
   companyId: string,
-  relativePrefix?: string | null
+  relativePrefix?: string | null,
 ): Promise<boolean> {
   const root = companyFilesRootPrefix(companyId);
   const dir = normalizeRelativePrefix(relativePrefix);
@@ -358,10 +358,10 @@ export async function companyHasFilesUnderRelativePrefix(
         Prefix: fullPrefix,
         MaxKeys: 500,
         ContinuationToken: continuationToken,
-      })
+      }),
     );
     for (const obj of resp.Contents ?? []) {
-      if (obj.Key && !obj.Key.endsWith('/')) {
+      if (obj.Key && !obj.Key.endsWith("/")) {
         return true;
       }
     }
@@ -379,10 +379,10 @@ async function listAllKeysWithPrefix(fullPrefix: string): Promise<string[]> {
         Bucket: R2_COMPANY_FILES_BUCKET_NAME,
         Prefix: fullPrefix,
         ContinuationToken: continuationToken,
-      })
+      }),
     );
     for (const obj of resp.Contents ?? []) {
-      if (obj.Key && !obj.Key.endsWith('/')) keys.push(obj.Key);
+      if (obj.Key && !obj.Key.endsWith("/")) keys.push(obj.Key);
     }
     continuationToken = resp.IsTruncated ? resp.NextContinuationToken : undefined;
   } while (continuationToken);
@@ -399,7 +399,7 @@ async function listEveryObjectKeyUnderPrefix(fullPrefix: string): Promise<string
         Bucket: R2_COMPANY_FILES_BUCKET_NAME,
         Prefix: fullPrefix,
         ContinuationToken: continuationToken,
-      })
+      }),
     );
     for (const obj of resp.Contents ?? []) {
       if (obj.Key) keys.push(obj.Key);
@@ -414,11 +414,11 @@ async function listEveryObjectKeyUnderPrefix(fullPrefix: string): Promise<string
  */
 export async function deleteCompanyFolderRecursive(
   companyId: string,
-  relativePath: string
+  relativePath: string,
 ): Promise<{ deleted: number }> {
-  const trimmed = relativePath.trim().replace(/^\/+|\/+$/g, '');
+  const trimmed = relativePath.trim().replace(/^\/+|\/+$/g, "");
   if (!trimmed) {
-    throw new Error('Cannot delete the company root folder');
+    throw new Error("Cannot delete the company root folder");
   }
 
   const root = companyFilesRootPrefix(companyId);
@@ -440,18 +440,17 @@ export async function deleteCompanyFolderRecursive(
 export async function uploadCompanyFile(
   companyId: string,
   file: File,
-  relativeDir?: string
+  relativeDir?: string,
 ): Promise<CompanyFileListItem> {
   const maxBytes = getMaxUploadBytes();
   if (file.size > maxBytes) {
     throw new Error(`File exceeds maximum size of ${maxBytes} bytes`);
   }
 
-  const key = buildObjectKey(companyId, relativeDir ?? '', file.name);
+  const key = buildObjectKey(companyId, relativeDir ?? "", file.name);
   assertKeyBelongsToCompany(companyId, key);
 
-  const contentType =
-    file.type && file.type.length > 0 ? file.type : 'application/octet-stream';
+  const contentType = file.type && file.type.length > 0 ? file.type : "application/octet-stream";
 
   const metaName = storageBasenameFromClientFileName(file.name).slice(0, 200);
 
@@ -464,12 +463,12 @@ export async function uploadCompanyFile(
         Body: buf,
         ContentType: contentType,
         ContentLength: buf.length,
-        Metadata: { 'original-filename': metaName },
-      })
+        Metadata: { "original-filename": metaName },
+      }),
     );
   } else {
     const webStream = file.stream();
-    const nodeStream = Readable.fromWeb(webStream as import('stream/web').ReadableStream);
+    const nodeStream = Readable.fromWeb(webStream as import("stream/web").ReadableStream);
     const upload = new Upload({
       client: r2CompanyFilesClient,
       queueSize: 4,
@@ -480,7 +479,7 @@ export async function uploadCompanyFile(
         Body: nodeStream,
         ContentType: contentType,
         ContentLength: file.size,
-        Metadata: { 'original-filename': metaName },
+        Metadata: { "original-filename": metaName },
       },
     });
     await upload.done();
@@ -503,13 +502,13 @@ export async function deleteCompanyFile(companyId: string, key: string): Promise
     new DeleteObjectCommand({
       Bucket: R2_COMPANY_FILES_BUCKET_NAME,
       Key: key,
-    })
+    }),
   );
 }
 
 /** `bucket/key` with each key segment URL-encoded for CopySource. */
 function s3CopySourceValue(bucket: string, objectKey: string): string {
-  return `${bucket}/${objectKey.split('/').map(encodeURIComponent).join('/')}`;
+  return `${bucket}/${objectKey.split("/").map(encodeURIComponent).join("/")}`;
 }
 
 /**
@@ -519,29 +518,29 @@ function s3CopySourceValue(bucket: string, objectKey: string): string {
 export async function moveCompanyFile(
   companyId: string,
   sourceKey: string,
-  destinationRelativePrefix: string | undefined | null
+  destinationRelativePrefix: string | undefined | null,
 ): Promise<{ key: string }> {
   assertKeyBelongsToCompany(companyId, sourceKey);
-  if (sourceKey.endsWith('/')) {
-    throw new Error('Only files can be moved');
+  if (sourceKey.endsWith("/")) {
+    throw new Error("Only files can be moved");
   }
 
   const root = companyFilesRootPrefix(companyId);
   const sourceRelative = sourceKey.slice(root.length);
-  const sourceParent = sourceRelative.includes('/')
-    ? sourceRelative.slice(0, sourceRelative.lastIndexOf('/'))
-    : '';
+  const sourceParent = sourceRelative.includes("/")
+    ? sourceRelative.slice(0, sourceRelative.lastIndexOf("/"))
+    : "";
 
   const destDir = normalizeRelativePrefix(destinationRelativePrefix);
-  const destParentPath = destDir.replace(/\/+$/, '');
+  const destParentPath = destDir.replace(/\/+$/, "");
 
   if (sourceParent === destParentPath) {
     return { key: sourceKey };
   }
 
-  const tail = sourceKey.slice(sourceKey.lastIndexOf('/') + 1);
+  const tail = sourceKey.slice(sourceKey.lastIndexOf("/") + 1);
   if (!tail) {
-    throw new Error('Invalid source key');
+    throw new Error("Invalid source key");
   }
 
   const destKey = `${root}${destDir}${tail}`;
@@ -557,8 +556,8 @@ export async function moveCompanyFile(
       Bucket: bucket,
       Key: destKey,
       CopySource: s3CopySourceValue(bucket, sourceKey),
-      MetadataDirective: 'COPY',
-    })
+      MetadataDirective: "COPY",
+    }),
   );
 
   await deleteCompanyFile(companyId, sourceKey);
@@ -571,7 +570,7 @@ export async function getCompanyFileForDownload(companyId: string, key: string) 
     new GetObjectCommand({
       Bucket: R2_COMPANY_FILES_BUCKET_NAME,
       Key: key,
-    })
+    }),
   );
   return resp;
 }
@@ -579,7 +578,7 @@ export async function getCompanyFileForDownload(companyId: string, key: string) 
 export async function presignCompanyFileDownload(
   companyId: string,
   key: string,
-  expiresInSeconds: number
+  expiresInSeconds: number,
 ): Promise<string> {
   assertKeyBelongsToCompany(companyId, key);
   const clamped = Math.min(Math.max(expiresInSeconds, 60), 60 * 60 * 24 * 7); // 1 min .. 7 days
@@ -595,9 +594,9 @@ export async function presignCompanyFileDownload(
  * Set R2_COMPANY_FILES_PUBLIC_URL (e.g. https://files.elsiaa.com).
  */
 export function buildCompanyFilePublicReadUrl(objectKey: string): string | null {
-  const base = R2_COMPANY_FILES_PUBLIC_URL.trim().replace(/\/+$/, '');
+  const base = R2_COMPANY_FILES_PUBLIC_URL.trim().replace(/\/+$/, "");
   if (!base) return null;
-  const path = objectKey.split('/').map(encodeURIComponent).join('/');
+  const path = objectKey.split("/").map(encodeURIComponent).join("/");
   return `${base}/${path}`;
 }
 
@@ -605,7 +604,7 @@ export function buildCompanyFilePublicReadUrl(objectKey: string): string | null 
  * Strip the leading timestamp from a filename segment (e.g. "1711234567890-report.pdf" → "report.pdf").
  */
 function stripTimestampPrefix(name: string): string {
-  const dash = name.indexOf('-');
+  const dash = name.indexOf("-");
   if (dash > 0 && /^\d+$/.test(name.slice(0, dash))) {
     return name.slice(dash + 1) || name;
   }
@@ -618,14 +617,14 @@ function stripTimestampPrefix(name: string): string {
  * used to be over-sanitized with `\\w` and no longer match the key or the UI.
  */
 export function companyFileDisplayBasenameFromObjectKey(key: string): string {
-  const part = key.split('/').pop() || 'file';
+  const part = key.split("/").pop() || "file";
   return stripTimestampPrefix(part);
 }
 
 /** All files under a folder prefix (recursive), relative to company root. */
 export async function listCompanyFilesRecursive(
   companyId: string,
-  relativePrefix?: string
+  relativePrefix?: string,
 ): Promise<CompanyFileListItem[]> {
   const root = companyFilesRootPrefix(companyId);
   const dir = normalizeRelativePrefix(relativePrefix);
@@ -641,10 +640,10 @@ export async function listCompanyFilesRecursive(
         Bucket: R2_COMPANY_FILES_BUCKET_NAME,
         Prefix: fullPrefix,
         ContinuationToken: continuationToken,
-      })
+      }),
     );
     for (const obj of resp.Contents ?? []) {
-      if (!obj.Key || obj.Key.endsWith('/')) continue;
+      if (!obj.Key || obj.Key.endsWith("/")) continue;
       items.push({
         key: obj.Key,
         relativePath: obj.Key.slice(root.length),
@@ -666,7 +665,7 @@ export async function listCompanyFilesRecursive(
  */
 export async function createCompanyFilesZipReadable(
   companyId: string,
-  relativePrefix?: string
+  relativePrefix?: string,
 ): Promise<Readable> {
   const root = companyFilesRootPrefix(companyId);
   const dir = normalizeRelativePrefix(relativePrefix);
@@ -675,34 +674,34 @@ export async function createCompanyFilesZipReadable(
 
   const keys = await listAllKeysWithPrefix(fullPrefix);
   if (keys.length === 0) {
-    throw new Error('This folder is empty — there are no files to zip.');
+    throw new Error("This folder is empty — there are no files to zip.");
   }
 
-  const archive = archiver('zip', { zlib: { level: 1 } });
+  const archive = archiver("zip", { zlib: { level: 1 } });
 
   void (async () => {
     try {
       const CONCURRENCY = 20;
       for (let i = 0; i < keys.length; i += CONCURRENCY) {
         const batch = keys.slice(i, i + CONCURRENCY);
-        
+
         const gets = await Promise.all(
           batch.map(async (key) => {
             const get = await r2CompanyFilesClient.send(
               new GetObjectCommand({
                 Bucket: R2_COMPANY_FILES_BUCKET_NAME,
                 Key: key,
-              })
+              }),
             );
             return { key, body: get.Body };
-          })
+          }),
         );
 
         for (const { key, body } of gets) {
           if (!body) continue;
-          const rawPath = key.slice(fullPrefix.length) || key.split('/').pop() || 'file';
-          const lastSlash = rawPath.lastIndexOf('/');
-          const pathFromKey = lastSlash === -1 ? '' : rawPath.slice(0, lastSlash);
+          const rawPath = key.slice(fullPrefix.length) || key.split("/").pop() || "file";
+          const lastSlash = rawPath.lastIndexOf("/");
+          const pathFromKey = lastSlash === -1 ? "" : rawPath.slice(0, lastSlash);
           const keyFileSegment = lastSlash === -1 ? rawPath : rawPath.slice(lastSlash + 1);
           const baseName = stripTimestampPrefix(keyFileSegment);
           const entryName = pathFromKey ? `${pathFromKey}/${baseName}` : baseName;

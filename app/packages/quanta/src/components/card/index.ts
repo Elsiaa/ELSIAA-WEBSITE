@@ -1,4 +1,4 @@
-export { Card, card } from './card.tsx'
+export { Card, card } from "./card.tsx";
 export type {
   CardElevation,
   CardFooterProps,
@@ -6,4 +6,4 @@ export type {
   CardOptions,
   CardProps,
   CardSurface,
-} from './card.tsx'
+} from "./card.tsx";

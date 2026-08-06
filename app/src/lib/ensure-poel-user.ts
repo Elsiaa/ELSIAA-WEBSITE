@@ -32,10 +32,7 @@ export async function ensurePoelUserRow(input: {
     .limit(1)
     .maybeSingle();
 
-  const role =
-    membership?.role === "owner" || membership?.role === "admin"
-      ? "admin"
-      : "member";
+  const role = membership?.role === "owner" || membership?.role === "admin" ? "admin" : "member";
   const elevated = role === "admin";
 
   const row = {
@@ -47,15 +44,9 @@ export async function ensurePoelUserRow(input: {
     role,
     status: "active",
     platform_role: "none",
-    all_projects_access: Boolean(
-      membership?.all_projects_access ?? elevated,
-    ),
-    authorizations_allowed: Boolean(
-      membership?.authorizations_allowed ?? elevated,
-    ),
-    program_logs_allowed: Boolean(
-      membership?.program_logs_allowed ?? elevated,
-    ),
+    all_projects_access: Boolean(membership?.all_projects_access ?? elevated),
+    authorizations_allowed: Boolean(membership?.authorizations_allowed ?? elevated),
+    program_logs_allowed: Boolean(membership?.program_logs_allowed ?? elevated),
     files_allowed: Boolean(membership?.files_allowed ?? elevated),
     support_allowed: Boolean(membership?.support_allowed ?? elevated),
     is_active: true,

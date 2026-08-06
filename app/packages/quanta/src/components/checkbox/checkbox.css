@@ -108,7 +108,8 @@
   --q-checkbox-focus-ring: var(--hf-color-transparent-light-20);
 }
 
-.q-checkbox:not([data-checked]):not([data-indeterminate]):not([data-disabled]):hover .q-checkbox-box {
+.q-checkbox:not([data-checked]):not([data-indeterminate]):not([data-disabled]):hover
+  .q-checkbox-box {
   border-color: var(--q-checkbox-hover-border);
 }
 

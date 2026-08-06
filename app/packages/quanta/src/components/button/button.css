@@ -161,7 +161,10 @@
   @apply bg-q-button-brand text-q-text-inverse;
   &:hover,
   &:focus-visible {
-    background-image: linear-gradient(var(--hf-color-transparent-light-20), var(--hf-color-transparent-light-20));
+    background-image: linear-gradient(
+      var(--hf-color-transparent-light-20),
+      var(--hf-color-transparent-light-20)
+    );
   }
 }
 
@@ -171,7 +174,10 @@
   box-shadow: var(--hf-shadow-raised-sm);
   &:hover,
   &:focus-visible {
-    background-image: linear-gradient(var(--hf-color-transparent-dark-50), var(--hf-color-transparent-dark-50));
+    background-image: linear-gradient(
+      var(--hf-color-transparent-dark-50),
+      var(--hf-color-transparent-dark-50)
+    );
   }
   &:focus-visible {
     box-shadow:
@@ -189,7 +195,10 @@
   backdrop-filter: blur(var(--hf-space-1000));
   &:hover,
   &:focus-visible {
-    background-image: linear-gradient(var(--hf-color-transparent-light-20), var(--hf-color-transparent-light-20));
+    background-image: linear-gradient(
+      var(--hf-color-transparent-light-20),
+      var(--hf-color-transparent-light-20)
+    );
   }
 }
 
@@ -212,7 +221,10 @@
   @apply bg-q-button-destructive text-q-text-primary;
   &:hover,
   &:focus-visible {
-    background-image: linear-gradient(var(--hf-color-transparent-light-20), var(--hf-color-transparent-light-20));
+    background-image: linear-gradient(
+      var(--hf-color-transparent-light-20),
+      var(--hf-color-transparent-light-20)
+    );
   }
   @apply q-focus-ring-error;
 }
@@ -223,7 +235,10 @@
   @apply bg-q-state-error-bg text-q-state-error-fg;
   &:hover,
   &:focus-visible {
-    background-image: linear-gradient(var(--hf-color-transparent-light-20), var(--hf-color-transparent-light-20));
+    background-image: linear-gradient(
+      var(--hf-color-transparent-light-20),
+      var(--hf-color-transparent-light-20)
+    );
   }
   @apply q-focus-ring-error;
 }
@@ -235,7 +250,10 @@
   @apply bg-q-transparent-lime-10 text-q-text-link;
   &:hover,
   &:focus-visible {
-    background-image: linear-gradient(var(--hf-color-transparent-light-20), var(--hf-color-transparent-light-20));
+    background-image: linear-gradient(
+      var(--hf-color-transparent-light-20),
+      var(--hf-color-transparent-light-20)
+    );
   }
 }
 
@@ -244,7 +262,9 @@
  * 12 vs the size's radius/250 = 10). Compound selectors (specificity 0,2,0)
  * beat the size @utility (0,1,0). */
 .q-button-danger.q-button-sm,
-.q-button-danger-soft.q-button-sm { border-radius: var(--hf-radius-300); }
+.q-button-danger-soft.q-button-sm {
+  border-radius: var(--hf-radius-300);
+}
 
 .q-button-marketing-primary.q-button-xs,
 .q-button-marketing-secondary.q-button-xs,
@@ -314,8 +334,9 @@
   border: var(--hf-border-width-none) solid transparent;
   color: var(--hf-color-text-inverse);
   box-shadow:
-    inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0 #829b19, /* no token: Figma olive bevel color, no --hf-color-* equivalent */
-    0 var(--hf-space-150) var(--hf-space-100) var(--hf-space-0) var(--hf-color-transparent-dark-25),
+    inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0 #829b19,
+    /* no token: Figma olive bevel color, no --hf-color-* equivalent */ 0 var(--hf-space-150)
+      var(--hf-space-100) var(--hf-space-0) var(--hf-color-transparent-dark-25),
     0 var(--hf-space-800) var(--hf-space-600) var(--hf-space-0) var(--hf-color-transparent-dark-15);
 
   &:hover,
@@ -330,9 +351,11 @@
     box-shadow:
       0 0 0 var(--hf-border-width-thick) var(--hf-color-background-primary),
       0 0 0 var(--hf-space-100) var(--hf-color-border-focus),
-      inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0 #829b19, /* no token: Figma olive bevel color, no --hf-color-* equivalent */
-      0 var(--hf-space-150) var(--hf-space-100) var(--hf-space-0) var(--hf-color-transparent-dark-25),
-      0 var(--hf-space-800) var(--hf-space-600) var(--hf-space-0) var(--hf-color-transparent-dark-15);
+      inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0 #829b19,
+      /* no token: Figma olive bevel color, no --hf-color-* equivalent */ 0 var(--hf-space-150)
+        var(--hf-space-100) var(--hf-space-0) var(--hf-color-transparent-dark-25),
+      0 var(--hf-space-800) var(--hf-space-600) var(--hf-space-0)
+        var(--hf-color-transparent-dark-15);
   }
 }
 
@@ -343,22 +366,29 @@
   border: var(--hf-border-width-none) solid transparent;
   color: var(--hf-color-text-inverse);
   box-shadow:
-    inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0 var(--hf-color-transparent-dark-32),
+    inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0
+      var(--hf-color-transparent-dark-32),
     0 var(--hf-space-150) var(--hf-space-100) var(--hf-space-0) var(--hf-color-transparent-dark-25),
     0 var(--hf-space-800) var(--hf-space-600) var(--hf-space-0) var(--hf-color-transparent-dark-15);
 
   &:hover,
   &:focus-visible {
-    background-image: linear-gradient(var(--hf-color-transparent-dark-10), var(--hf-color-transparent-dark-10));
+    background-image: linear-gradient(
+      var(--hf-color-transparent-dark-10),
+      var(--hf-color-transparent-dark-10)
+    );
   }
 
   &:focus-visible {
     box-shadow:
       0 0 0 var(--hf-border-width-thick) var(--hf-color-background-primary),
       0 0 0 var(--hf-space-100) var(--hf-color-border-focus),
-      inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0 var(--hf-color-transparent-dark-32),
-      0 var(--hf-space-150) var(--hf-space-100) var(--hf-space-0) var(--hf-color-transparent-dark-25),
-      0 var(--hf-space-800) var(--hf-space-600) var(--hf-space-0) var(--hf-color-transparent-dark-15);
+      inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0
+        var(--hf-color-transparent-dark-32),
+      0 var(--hf-space-150) var(--hf-space-100) var(--hf-space-0)
+        var(--hf-color-transparent-dark-25),
+      0 var(--hf-space-800) var(--hf-space-600) var(--hf-space-0)
+        var(--hf-color-transparent-dark-15);
   }
 }
 
@@ -371,20 +401,26 @@
    * actually reads now the elevating drop shadow is gone. */
   border: var(--hf-border-width-thin) solid var(--hf-color-border-default);
   color: var(--hf-color-text-primary);
-  box-shadow:
-    inset 0 var(--hf-border-width-thick) calc(var(--hf-border-width-thick) + var(--hf-border-width-thin)) var(--hf-space-0) var(--hf-color-transparent-light-05);
+  box-shadow: inset 0 var(--hf-border-width-thick)
+    calc(var(--hf-border-width-thick) + var(--hf-border-width-thin)) var(--hf-space-0)
+    var(--hf-color-transparent-light-05);
   backdrop-filter: blur(var(--hf-space-300));
 
   &:hover,
   &:focus-visible {
-    background-image: linear-gradient(var(--hf-color-transparent-light-20), var(--hf-color-transparent-light-20));
+    background-image: linear-gradient(
+      var(--hf-color-transparent-light-20),
+      var(--hf-color-transparent-light-20)
+    );
   }
 
   &:focus-visible {
     box-shadow:
       0 0 0 var(--hf-border-width-thick) var(--hf-color-background-primary),
       0 0 0 var(--hf-space-100) var(--hf-color-border-focus),
-      inset 0 var(--hf-border-width-thick) calc(var(--hf-border-width-thick) + var(--hf-border-width-thin)) var(--hf-space-0) var(--hf-color-transparent-light-05);
+      inset 0 var(--hf-border-width-thick)
+        calc(var(--hf-border-width-thick) + var(--hf-border-width-thin)) var(--hf-space-0)
+        var(--hf-color-transparent-light-05);
   }
 }
 
@@ -393,20 +429,26 @@
   background-color: var(--hf-color-transparent-light-05);
   border: var(--hf-border-width-none) solid transparent;
   color: var(--hf-color-text-primary);
-  box-shadow:
-    inset 0 var(--hf-border-width-thick) calc(var(--hf-border-width-thick) + var(--hf-border-width-thin)) var(--hf-space-0) var(--hf-color-transparent-light-05);
+  box-shadow: inset 0 var(--hf-border-width-thick)
+    calc(var(--hf-border-width-thick) + var(--hf-border-width-thin)) var(--hf-space-0)
+    var(--hf-color-transparent-light-05);
   backdrop-filter: blur(var(--hf-space-300));
 
   &:hover,
   &:focus-visible {
-    background-image: linear-gradient(var(--hf-color-transparent-light-20), var(--hf-color-transparent-light-20));
+    background-image: linear-gradient(
+      var(--hf-color-transparent-light-20),
+      var(--hf-color-transparent-light-20)
+    );
   }
 
   &:focus-visible {
     box-shadow:
       0 0 0 var(--hf-border-width-thick) var(--hf-color-background-primary),
       0 0 0 var(--hf-space-100) var(--hf-color-border-focus),
-      inset 0 var(--hf-border-width-thick) calc(var(--hf-border-width-thick) + var(--hf-border-width-thin)) var(--hf-space-0) var(--hf-color-transparent-light-05);
+      inset 0 var(--hf-border-width-thick)
+        calc(var(--hf-border-width-thick) + var(--hf-border-width-thin)) var(--hf-space-0)
+        var(--hf-color-transparent-light-05);
   }
 }
 
@@ -453,7 +495,8 @@
   text-transform: none;
   /* Figma "Glossy": -3px inset bevel over two drops (-3px = -(thick + thin)) */
   box-shadow:
-    inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0 var(--hf-color-transparent-dark-32),
+    inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0
+      var(--hf-color-transparent-dark-32),
     0 var(--hf-space-150) var(--hf-space-100) var(--hf-space-0) var(--hf-color-transparent-dark-25),
     0 var(--hf-space-800) var(--hf-space-600) var(--hf-space-0) var(--hf-color-transparent-dark-15);
 
@@ -477,9 +520,12 @@
     box-shadow:
       0 0 0 var(--hf-border-width-thick) var(--hf-color-background-primary),
       0 0 0 var(--hf-space-100) var(--hf-color-border-focus),
-      inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0 var(--hf-color-transparent-dark-32),
-      0 var(--hf-space-150) var(--hf-space-100) var(--hf-space-0) var(--hf-color-transparent-dark-25),
-      0 var(--hf-space-800) var(--hf-space-600) var(--hf-space-0) var(--hf-color-transparent-dark-15);
+      inset 0 calc(-1 * (var(--hf-border-width-thick) + var(--hf-border-width-thin))) 0 0
+        var(--hf-color-transparent-dark-32),
+      0 var(--hf-space-150) var(--hf-space-100) var(--hf-space-0)
+        var(--hf-color-transparent-dark-25),
+      0 var(--hf-space-800) var(--hf-space-600) var(--hf-space-0)
+        var(--hf-color-transparent-dark-15);
   }
 }
 

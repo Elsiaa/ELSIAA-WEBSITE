@@ -13,7 +13,8 @@
   --q-badge-padding-left: var(--hf-space-100);
   --q-badge-padding-right: var(--hf-space-150);
   --q-badge-radius: var(--hf-radius-050);
-  --q-badge-font-family: "Space_Grotesk:Bold", var(--hf-type-family-grotesk); /* no token: Figma-exported font face literal; fallback uses the family token */
+  --q-badge-font-family:
+    "Space_Grotesk:Bold", var(--hf-type-family-grotesk); /* no token: Figma-exported font face literal; fallback uses the family token */
   --q-badge-font-size: var(--hf-type-size-100);
   --q-badge-letter-spacing: var(--hf-type-letter-spacing-none);
   --q-badge-skew: -10.89deg; /* no token: Figma badge skew angle */
@@ -54,7 +55,8 @@
   justify-content: center;
   min-width: var(--q-badge-min-width);
   overflow: hidden;
-  padding: var(--hf-space-0) var(--q-badge-padding-right) var(--hf-space-0) var(--q-badge-padding-left);
+  padding: var(--hf-space-0) var(--q-badge-padding-right) var(--hf-space-0)
+    var(--q-badge-padding-left);
   position: relative;
 }
 
@@ -127,7 +129,8 @@
       line to calc(100% - var(--q-badge-radius)) 0,
       arc to 100% var(--q-badge-radius) of var(--q-badge-radius) cw,
       line to calc(100% - var(--q-badge-slant)) calc(100% - var(--q-badge-radius)),
-      arc to calc(100% - var(--q-badge-slant) - var(--q-badge-radius)) 100% of var(--q-badge-radius) cw,
+      arc to calc(100% - var(--q-badge-slant) - var(--q-badge-radius)) 100% of var(--q-badge-radius)
+        cw,
       line to var(--q-badge-radius) 100%,
       arc to 0 calc(100% - var(--q-badge-radius)) of var(--q-badge-radius) cw,
       line to 0 var(--q-badge-radius),
@@ -138,7 +141,9 @@
 
   .q-badge-text {
     display: block;
-    letter-spacing: calc(var(--hf-type-letter-spacing-slight) * 1.5); /* no token: 1.5 is a unitless multiplier */
+    letter-spacing: calc(
+      var(--hf-type-letter-spacing-slight) * 1.5
+    ); /* no token: 1.5 is a unitless multiplier */
     line-height: 13px;
     text-align: start;
   }
@@ -193,7 +198,9 @@
   --q-badge-padding-left: var(--hf-space-100);
   --q-badge-padding-right: var(--hf-space-150);
   --q-badge-font-size: var(--hf-type-size-300);
-  --q-badge-letter-spacing: calc(var(--hf-type-letter-spacing-slight) * 2); /* no token: 2 unitless multiplier → -0.8px (Figma node 526:456 inspect) */
+  --q-badge-letter-spacing: calc(
+    var(--hf-type-letter-spacing-slight) * 2
+  ); /* no token: 2 unitless multiplier → -0.8px (Figma node 526:456 inspect) */
   --q-badge-skew-overhang: 1.8892px; /* no token: skew bounding-box overhang compensation */
 }
 
@@ -204,5 +211,7 @@
   --q-badge-slant: 2.5px; /* no token: taller tag keeps the same lean angle */
 }
 .q-badge-compact.q-badge-sm .q-badge-text {
-  letter-spacing: calc(var(--hf-type-letter-spacing-slight) * 2); /* no token: 2 is a unitless multiplier */
+  letter-spacing: calc(
+    var(--hf-type-letter-spacing-slight) * 2
+  ); /* no token: 2 is a unitless multiplier */
 }

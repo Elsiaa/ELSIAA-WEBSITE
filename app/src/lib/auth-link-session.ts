@@ -1,8 +1,8 @@
-import { isSuperAdminEmail } from '@/lib/super-admin';
-import { normalizeEmailForAuth } from '@/lib/email-normalize';
-import { getUserByEmailNormalized, updateUser } from '@/lib/users';
-import type { UpdateUserInput } from '@/types/company';
-import { isPlatformSupportAgent } from '@/lib/platform-role';
+import { isSuperAdminEmail } from "@/lib/super-admin";
+import { normalizeEmailForAuth } from "@/lib/email-normalize";
+import { getUserByEmailNormalized, updateUser } from "@/lib/users";
+import type { UpdateUserInput } from "@/types/company";
+import { isPlatformSupportAgent } from "@/lib/platform-role";
 
 /**
  * After successful Auth.js sign-in: link `public.users.auth_user_id` and activate pending invites.
@@ -12,7 +12,7 @@ export async function linkAppUserOnSignIn(params: {
   email: string | null | undefined;
   name?: string | null;
 }): Promise<void> {
-  const email = normalizeEmailForAuth(params.email ?? '');
+  const email = normalizeEmailForAuth(params.email ?? "");
   if (!email) return;
   if (isSuperAdminEmail(email)) return;
 
@@ -21,12 +21,12 @@ export async function linkAppUserOnSignIn(params: {
 
   const updates: UpdateUserInput = { auth_user_id: params.authUserId };
 
-  if (appUser.status === 'pending') {
-    updates.status = 'active';
+  if (appUser.status === "pending") {
+    updates.status = "active";
     if (params.name?.trim()) {
       const parts = params.name.trim().split(/\s+/);
       updates.first_name = parts[0] || appUser.first_name;
-      updates.last_name = parts.length > 1 ? parts.slice(1).join(' ') : appUser.last_name;
+      updates.last_name = parts.length > 1 ? parts.slice(1).join(" ") : appUser.last_name;
     }
     // Invited workspace users should see company projects unless explicitly scoped (support agents stay scoped in admin).
     if (!isPlatformSupportAgent(appUser.platform_role)) {

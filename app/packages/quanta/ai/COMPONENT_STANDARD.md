@@ -15,7 +15,7 @@ and behaves like the others.
 
 Every component change is held to **5 principles**. They are non-negotiable; a
 PR that breaks any one is not done. The rest of this doc is how you satisfy
-them — these are the *why*.
+them — these are the _why_.
 
 1. **PIXEL-PERFECT.** The rendered result stays byte-identical to the current
    Figma-aligned output. Every refactor below must be visually exact-equivalent.
@@ -54,8 +54,8 @@ Every component lives in `src/components/<name>/` with **exactly** these files:
 
 - `index.ts` re-exports the component and **all public types**:
   ```ts
-  export { Thing } from './thing.tsx'
-  export type { ThingProps, ThingSize, ThingColor } from './thing.tsx'
+  export { Thing } from "./thing.tsx";
+  export type { ThingProps, ThingSize, ThingColor } from "./thing.tsx";
   ```
 - Tests import through the barrel (`from './index.ts'`), never the raw `.tsx`,
   so they exercise the same surface consumers use.
@@ -69,34 +69,35 @@ Every component lives in `src/components/<name>/` with **exactly** these files:
 ## 2. One component shape
 
 ```tsx
-'use client'
+"use client";
 
-import type { ComponentProps, ReactNode } from 'react'
-import type { ClassValue } from '../utils/cx.ts'
-import { cx } from '../utils/cx.ts'
+import type { ComponentProps, ReactNode } from "react";
+import type { ClassValue } from "../utils/cx.ts";
+import { cx } from "../utils/cx.ts";
 
 /** One-paragraph JSDoc: what it is, what Figma node it maps to, key behavior. */
 
-export type ThingSize = 'sm' | 'md' | 'lg'
-export type ThingProps = ComponentProps<'div'> & {
-  size?: ThingSize
-}
+export type ThingSize = "sm" | "md" | "lg";
+export type ThingProps = ComponentProps<"div"> & {
+  size?: ThingSize;
+};
 
 // Union → literal class strings. `satisfies Record<Union, string>` makes the
 // union the single source of truth: adding a variant fails to compile until its
 // class is registered here. Tailwind extracts these literals (see §3).
 const SIZE_CLASS = {
-  sm: '…',
-  md: '…',
-  lg: '…',
-} satisfies Record<ThingSize, string>
+  sm: "…",
+  md: "…",
+  lg: "…",
+} satisfies Record<ThingSize, string>;
 
-export function Thing({ size = 'md', className, ...props }: ThingProps) {
-  return <div className={cx('q-thing', SIZE_CLASS[size], className)} {...props} />
+export function Thing({ size = "md", className, ...props }: ThingProps) {
+  return <div className={cx("q-thing", SIZE_CLASS[size], className)} {...props} />;
 }
 ```
 
 Rules:
+
 1. **`'use client'`** at the top of every component `.tsx`.
 2. **`ComponentProps<'element'>`** (or `ComponentProps<typeof Primitive.Root>`
    for Base UI wrappers) as the props base, intersected with the component's
@@ -129,8 +130,8 @@ recipe fn returning the class string (`button()`, `badge()`, `chip()`,
 
 ```ts
 export function thing(options: ThingOptions = {}, ...extra: ClassValue[]): string {
-  const { size = 'md' } = options
-  return cx('q-thing', SIZE_CLASS[size], ...extra)
+  const { size = "md" } = options;
+  return cx("q-thing", SIZE_CLASS[size], ...extra);
 }
 ```
 
@@ -190,10 +191,10 @@ the caller composes.** Parts make **no assumption about the caller's data shape*
 5. **Overlays compose the Base UI layer stack** on the `Content`/`Popup` part:
    `Portal > (Positioner | Backdrop) > Popup`. Anchored menus/popovers use a
    `Positioner` (surface `side`/`align`/`sideOffset`/`alignOffset`/`collisionPadding`
-   + a `container` portal-mount prop); centered dialogs use a `Backdrop` and no
-   Positioner. Never re-implement positioning.
+   - a `container` portal-mount prop); centered dialogs use a `Backdrop` and no
+     Positioner. Never re-implement positioning.
 6. **Preserve Base UI's change-event shape.** Forward `onValueChange(value,
-   eventDetails)` with its `reason` / `cancel()` intact — don't flatten it to
+eventDetails)` with its `reason` / `cancel()` intact — don't flatten it to
    `(value) => …` — and keep the `onValueChange` (live) vs `onValueCommitted`
    (settled) split wherever the primitive offers it.
 7. **Every part forwards `ref`** to its root DOM node (React 19 ref-as-prop via
@@ -201,8 +202,8 @@ the caller composes.** Parts make **no assumption about the caller's data shape*
    (precedent: the local `mergeRefs` in modal/slider/cmdk).
 8. **Reuse Base UI's part vocabulary** verbatim so parts read alike everywhere:
    `Root · Trigger · Portal · Positioner · Backdrop · Popup · Arrow · Viewport ·
-   Item · ItemIndicator · Group · GroupLabel · Separator · Title · Description ·
-   Close · Track · Thumb · List`. For Quanta's own structural sub-parts follow the
+Item · ItemIndicator · Group · GroupLabel · Separator · Title · Description ·
+Close · Track · Thumb · List`. For Quanta's own structural sub-parts follow the
    `Item*` slot pattern (`ItemIcon` / `ItemContent` / `ItemTitle` / `ItemTrailing`).
 
 ### 2d. Reuse components — never hand-roll what already exists
@@ -246,11 +247,13 @@ badge, input, kbd, modal, avatar, tabs, menu, slider.
 
 ```css
 @source "./thing.tsx";
-@utility q-thing { /* token-based declarations only */ }
+@utility q-thing {
+  /* token-based declarations only */
+}
 ```
 
 **Mode B — registration-only (simple presentational components):**
-compose emitted utilities inline in the `.tsx`; the `.css` contains *only* the
+compose emitted utilities inline in the `.tsx`; the `.css` contains _only_ the
 `@source` line + a header comment explaining why. Used by dot, divider, tag,
 toggle.
 
@@ -299,7 +302,7 @@ style={{ ...slotStyle(color), ...style }}   // → className "q-slot-bg-10 q-slo
 ```
 
 **Pattern 2 — Selection-control color table** (the component's own `.css`). For
-controls whose color is a richer *identity* than a tint — a fill, an inverse fg,
+controls whose color is a richer _identity_ than a tint — a fill, an inverse fg,
 a hover border, and a **bespoke glow ring that is NOT a `color-mix` of one
 color**. Author per-color `@utility q-<comp>-<color>` blocks that set the
 component's private `--q-<comp>-fill` / `-fg` / `-hover-border` / `-ring` vars
@@ -310,7 +313,7 @@ checkbox).
 ```css
 @utility q-chip-success {
   --q-chip-selected-bg: var(--hf-color-state-success-fg);
-  --q-chip-ring: var(--hf-color-state-success-glow);   /* a real glow token, not color-mix */
+  --q-chip-ring: var(--hf-color-state-success-glow); /* a real glow token, not color-mix */
 }
 ```
 

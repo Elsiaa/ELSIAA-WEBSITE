@@ -1,7 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Edit2, Trash2, X, Mail, Phone, User as UserIcon, Building2, Send, FolderOpen, ChevronDown, ChevronRight, CheckCircle2, Clock, UserX } from "lucide-react";
+import {
+  Plus,
+  Edit2,
+  Trash2,
+  X,
+  Mail,
+  Phone,
+  User as UserIcon,
+  Building2,
+  Send,
+  FolderOpen,
+  ChevronDown,
+  ChevronRight,
+  CheckCircle2,
+  Clock,
+  UserX,
+} from "lucide-react";
 import type { User, Company, UserWithCompany } from "@/types/company";
 import { defaultCompanyUserModuleFlags } from "@/lib/company-user-modules";
 import UserProjectAssignment from "./user-project-assignment";
@@ -28,13 +44,21 @@ type UserFormData = {
   support_allowed: boolean;
 };
 
-export default function UsersManagementNew({ initialUsers, companies, isSuperAdmin, currentUser, onDataChange }: UsersManagementProps) {
+export default function UsersManagementNew({
+  initialUsers,
+  companies,
+  isSuperAdmin,
+  currentUser,
+  onDataChange,
+}: UsersManagementProps) {
   const [users, setUsers] = useState<UserWithCompany[]>(initialUsers);
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState<UserWithCompany | null>(null);
   const [loading, setLoading] = useState(false);
   const [assigningProjectsUser, setAssigningProjectsUser] = useState<UserWithCompany | null>(null);
-  const [expandedCompanies, setExpandedCompanies] = useState<Set<string>>(new Set(companies.map(c => c.id)));
+  const [expandedCompanies, setExpandedCompanies] = useState<Set<string>>(
+    new Set(companies.map((c) => c.id)),
+  );
   const [formData, setFormData] = useState<UserFormData>({
     email: "",
     first_name: "",
@@ -46,18 +70,21 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
   });
 
   // Group users by company (platform users without a tenant company are omitted)
-  const usersByCompany = users.reduce((acc, user) => {
-    const companyId = user.company_id;
-    if (!companyId) return acc;
-    if (!acc[companyId]) {
-      acc[companyId] = [];
-    }
-    acc[companyId].push(user);
-    return acc;
-  }, {} as Record<string, UserWithCompany[]>);
+  const usersByCompany = users.reduce(
+    (acc, user) => {
+      const companyId = user.company_id;
+      if (!companyId) return acc;
+      if (!acc[companyId]) {
+        acc[companyId] = [];
+      }
+      acc[companyId].push(user);
+      return acc;
+    },
+    {} as Record<string, UserWithCompany[]>,
+  );
 
   const toggleCompany = (companyId: string) => {
-    setExpandedCompanies(prev => {
+    setExpandedCompanies((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(companyId)) {
         newSet.delete(companyId);
@@ -132,7 +159,7 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
           const companyRes = await fetch(`/api/companies/${updated.company_id}`);
           const company = await companyRes.json();
 
-          setUsers(prev => prev.map(u => u.id === updated.id ? { ...updated, company } : u));
+          setUsers((prev) => prev.map((u) => (u.id === updated.id ? { ...updated, company } : u)));
           onDataChange?.(); // Trigger page refresh
         } else {
           alert("Failed to update user");
@@ -147,8 +174,8 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
 
         if (res.ok) {
           const response = await res.json();
-          const company = companies.find(c => c.id === formData.company_id);
-          setUsers(prev => [...prev, { ...response, company: company! }]);
+          const company = companies.find((c) => c.id === formData.company_id);
+          setUsers((prev) => [...prev, { ...response, company: company! }]);
           onDataChange?.(); // Trigger page refresh
 
           // Show different message based on whether user was linked or invited
@@ -182,7 +209,7 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
       });
 
       if (res.ok) {
-        setUsers(prev => prev.filter(u => u.id !== userId));
+        setUsers((prev) => prev.filter((u) => u.id !== userId));
         onDataChange?.(); // Trigger page refresh
       } else {
         alert("Failed to delete user");
@@ -194,7 +221,6 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
       setLoading(false);
     }
   };
-
 
   const sendInvitation = async (userId: string) => {
     if (!confirm("Send invitation email to this user?")) {
@@ -221,9 +247,9 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
             const companyRes = await fetch(`/api/companies/${updatedUser.company_id}`);
             const company = await companyRes.json();
 
-            setUsers(prev => prev.map(u =>
-              u.id === userId ? { ...updatedUser, company } : u
-            ));
+            setUsers((prev) =>
+              prev.map((u) => (u.id === userId ? { ...updatedUser, company } : u)),
+            );
           }
         }
       } else {
@@ -255,7 +281,7 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
         {companies.map((company) => {
           const companyUsers = usersByCompany[company.id] || [];
           const isExpanded = expandedCompanies.has(company.id);
-          
+
           return (
             <Collapsible
               key={company.id}
@@ -275,13 +301,13 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
                       <div>
                         <h3 className="font-semibold text-lg text-left">{company.name}</h3>
                         <p className="text-sm text-muted-foreground">
-                          {companyUsers.length} {companyUsers.length === 1 ? 'user' : 'users'}
+                          {companyUsers.length} {companyUsers.length === 1 ? "user" : "users"}
                         </p>
                       </div>
                     </div>
                   </div>
                 </CollapsibleTrigger>
-                
+
                 <CollapsibleContent>
                   <div className="p-4 pt-0">
                     {companyUsers.length > 0 ? (
@@ -289,12 +315,24 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
                         <table className="w-full">
                           <thead className="bg-secondary/50 border-b border-border/50">
                             <tr>
-                              <th className="px-4 py-3 text-left text-sm font-medium text-foreground">Name</th>
-                              <th className="px-4 py-3 text-left text-sm font-medium text-foreground">Email</th>
-                              <th className="px-4 py-3 text-left text-sm font-medium text-foreground">Phone</th>
-                              <th className="px-4 py-3 text-left text-sm font-medium text-foreground">Role</th>
-                              <th className="px-4 py-3 text-left text-sm font-medium text-foreground">Status</th>
-                              <th className="px-4 py-3 text-right text-sm font-medium text-foreground">Actions</th>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
+                                Name
+                              </th>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
+                                Email
+                              </th>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
+                                Phone
+                              </th>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
+                                Role
+                              </th>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
+                                Status
+                              </th>
+                              <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
+                                Actions
+                              </th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-border/50">
@@ -305,8 +343,8 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
                                     <UserIcon className="w-4 h-4 text-muted-foreground" />
                                     <span className="font-medium">
                                       {user.first_name || user.last_name
-                                        ? `${user.first_name || ''} ${user.last_name || ''}`.trim()
-                                        : 'No name'}
+                                        ? `${user.first_name || ""} ${user.last_name || ""}`.trim()
+                                        : "No name"}
                                     </span>
                                   </div>
                                 </td>
@@ -319,41 +357,46 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
                                 <td className="px-4 py-3 text-foreground">
                                   <div className="flex items-center gap-2">
                                     <Phone className="w-4 h-4 text-muted-foreground" />
-                                    {user.phone || '—'}
+                                    {user.phone || "—"}
                                   </div>
                                 </td>
                                 <td className="px-4 py-3">
                                   <span
-                                    className={`px-2 py-1 rounded-full text-xs font-medium ${user.role === 'admin'
-                                      ? 'bg-secondary text-secondary-foreground'
-                                      : 'bg-secondary/60 text-foreground'
-                                      }`}
+                                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                      user.role === "admin"
+                                        ? "bg-secondary text-secondary-foreground"
+                                        : "bg-secondary/60 text-foreground"
+                                    }`}
                                   >
                                     {user.role}
                                   </span>
                                 </td>
                                 <td className="px-4 py-3">
                                   <span
-                                    className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${user.status === 'active'
-                                      ? 'bg-primary/20 text-primary'
-                                      : user.status === 'pending'
-                                        ? 'bg-muted text-muted-foreground'
-                                        : 'bg-destructive/15 text-destructive'
-                                      }`}
+                                    className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${
+                                      user.status === "active"
+                                        ? "bg-primary/20 text-primary"
+                                        : user.status === "pending"
+                                          ? "bg-muted text-muted-foreground"
+                                          : "bg-destructive/15 text-destructive"
+                                    }`}
                                   >
-                                    {user.status === 'active' && (
+                                    {user.status === "active" && (
                                       <>
-                                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden />
+                                        <CheckCircle2
+                                          className="w-3.5 h-3.5 shrink-0"
+                                          aria-hidden
+                                        />
                                         Active
                                       </>
                                     )}
-                                    {user.status === 'pending' && (
+                                    {user.status === "pending" && (
                                       <>
                                         <Clock className="w-3.5 h-3.5 shrink-0" aria-hidden />
                                         Pending
                                       </>
                                     )}
-                                    {user.status === 'inactive' && (
+                                    {user.status === "inactive" && (
                                       <>
                                         <UserX className="w-3.5 h-3.5 shrink-0" aria-hidden />
                                         Inactive
@@ -363,7 +406,7 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
                                 </td>
                                 <td className="px-4 py-3">
                                   <div className="flex gap-2 justify-end">
-                                    {user.status === 'pending' && (
+                                    {user.status === "pending" && (
                                       <button
                                         onClick={() => sendInvitation(user.id)}
                                         className="p-1.5 hover:bg-primary/15 rounded transition-colors text-primary"
@@ -374,9 +417,17 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
                                     )}
                                     <button
                                       onClick={() => setAssigningProjectsUser(user)}
-                                      disabled={currentUser?.id === user.id || user.role === 'admin'}
+                                      disabled={
+                                        currentUser?.id === user.id || user.role === "admin"
+                                      }
                                       className="p-1.5 hover:bg-primary/15 rounded transition-colors text-primary disabled:opacity-50 disabled:cursor-not-allowed"
-                                      title={currentUser?.id === user.id ? "Cannot change your own project access" : user.role === 'admin' ? "Admins have access to all projects" : "Assign projects"}
+                                      title={
+                                        currentUser?.id === user.id
+                                          ? "Cannot change your own project access"
+                                          : user.role === "admin"
+                                            ? "Admins have access to all projects"
+                                            : "Assign projects"
+                                      }
                                     >
                                       <FolderOpen className="w-4 h-4" />
                                     </button>
@@ -384,7 +435,11 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
                                       onClick={() => openEditModal(user)}
                                       disabled={currentUser?.id === user.id}
                                       className="p-1.5 hover:bg-secondary/60 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                      title={currentUser?.id === user.id ? "Cannot edit yourself" : "Edit user"}
+                                      title={
+                                        currentUser?.id === user.id
+                                          ? "Cannot edit yourself"
+                                          : "Edit user"
+                                      }
                                     >
                                       <Edit2 className="w-4 h-4" />
                                     </button>
@@ -392,7 +447,11 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
                                       onClick={() => handleDelete(user.id)}
                                       disabled={currentUser?.id === user.id}
                                       className="p-1.5 hover:bg-red-500/20/40 rounded transition-colors text-red-400 disabled:opacity-50 disabled:cursor-not-allowed"
-                                      title={currentUser?.id === user.id ? "Cannot delete yourself" : "Delete user"}
+                                      title={
+                                        currentUser?.id === user.id
+                                          ? "Cannot delete yourself"
+                                          : "Delete user"
+                                      }
                                     >
                                       <Trash2 className="w-4 h-4" />
                                     </button>
@@ -429,9 +488,7 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
         <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
           <div className="bg-card rounded-lg p-6 max-w-lg w-full border border-border/50">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold">
-                {editingUser ? "Edit User" : "Add User"}
-              </h3>
+              <h3 className="text-xl font-semibold">{editingUser ? "Edit User" : "Add User"}</h3>
               <button
                 onClick={closeModal}
                 className="p-1 hover:bg-secondary/60 rounded transition-colors text-foreground"
@@ -520,9 +577,12 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
               </div>
 
               <div>
-                <label className="block mb-2 font-medium text-foreground">Admin module access</label>
+                <label className="block mb-2 font-medium text-foreground">
+                  Admin module access
+                </label>
                 <p className="text-xs text-muted-foreground mb-3">
-                  Choose which Admin areas this user can open. Admins can also manage Users and Billing.
+                  Choose which Admin areas this user can open. Admins can also manage Users and
+                  Billing.
                 </p>
                 <div className="grid grid-cols-2 gap-2">
                   {(
@@ -577,7 +637,10 @@ export default function UsersManagementNew({ initialUsers, companies, isSuperAdm
       {assigningProjectsUser && assigningProjectsUser.company_id && (
         <UserProjectAssignment
           userId={assigningProjectsUser.id}
-          userName={`${assigningProjectsUser.first_name} ${assigningProjectsUser.last_name}`.trim() || assigningProjectsUser.email}
+          userName={
+            `${assigningProjectsUser.first_name} ${assigningProjectsUser.last_name}`.trim() ||
+            assigningProjectsUser.email
+          }
           companyId={assigningProjectsUser.company_id}
           currentUser={currentUser}
           onClose={() => setAssigningProjectsUser(null)}

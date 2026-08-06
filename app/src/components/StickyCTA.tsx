@@ -13,7 +13,10 @@ export function StickyCTA() {
   return (
     <div
       className={`fixed inset-x-0 bottom-0 z-40 border-t border-black/[0.06] bg-white/95 px-4 pt-3 backdrop-blur-md transition-transform duration-300 md:hidden ${show ? "translate-y-0" : "translate-y-full"}`}
-      style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))", fontFamily: "var(--font-sans)" }}
+      style={{
+        paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))",
+        fontFamily: "var(--font-sans)",
+      }}
     >
       <a
         href="/contact"

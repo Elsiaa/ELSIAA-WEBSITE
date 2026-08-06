@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { isSuperAdmin } from '@/lib/permissions';
-import { getAllUsers } from '@/lib/users';
+import { NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { isSuperAdmin } from "@/lib/permissions";
+import { getAllUsers } from "@/lib/users";
 
 /**
  * Lists app users for meeting participant pickers (super admin only).
@@ -12,11 +12,11 @@ export async function GET() {
   try {
     const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     if (!(await isSuperAdmin())) {
-      return NextResponse.json({ error: 'Only superusers can list users' }, { status: 403 });
+      return NextResponse.json({ error: "Only superusers can list users" }, { status: 403 });
     }
 
     const rows = await getAllUsers();
@@ -30,7 +30,7 @@ export async function GET() {
 
     return NextResponse.json({ users });
   } catch (error) {
-    console.error('Error fetching users for meetings:', error);
-    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
+    console.error("Error fetching users for meetings:", error);
+    return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
   }
 }

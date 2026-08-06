@@ -12,8 +12,7 @@ import { search } from "../lib/search-engine";
   transcript and handoffs stay as they are.
 */
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 
 type Msg = {
   from: "bot" | "you";
@@ -116,7 +115,9 @@ export function ElsiaaChat({ open, onClose }: { open: boolean; onClose: () => vo
           />
           <div className="min-w-0 flex-1">
             <p className="text-[14px] font-semibold text-[#111111]">Chat with ELSIAA</p>
-            <p className="text-[12px] text-[#111111]/55">Finds the right page. Books the right call.</p>
+            <p className="text-[12px] text-[#111111]/55">
+              Finds the right page. Books the right call.
+            </p>
           </div>
           <button
             aria-label="Close chat"
@@ -133,9 +134,7 @@ export function ElsiaaChat({ open, onClose }: { open: boolean; onClose: () => vo
             <div key={i} className={m.from === "you" ? "flex justify-end" : ""}>
               <div
                 className={`max-w-[88%] rounded-2xl px-4 py-3 text-[14px] leading-relaxed ${
-                  m.from === "you"
-                    ? "bg-[#1e6b3c] text-white"
-                    : "bg-black/[0.04] text-[#111111]/80"
+                  m.from === "you" ? "bg-[#1e6b3c] text-white" : "bg-black/[0.04] text-[#111111]/80"
                 }`}
               >
                 <p>{m.text}</p>
@@ -148,7 +147,9 @@ export function ElsiaaChat({ open, onClose }: { open: boolean; onClose: () => vo
                         className="flex min-h-[40px] items-center justify-between gap-3 rounded-xl bg-white px-3.5 py-2 text-[13.5px] font-medium text-[#111111] shadow-[0_1px_0_rgba(0,0,0,0.06)] transition-colors hover:bg-[#1e6b3c] hover:text-white"
                       >
                         <span className="min-w-0 truncate">{l.label}</span>
-                        <span aria-hidden className="shrink-0 opacity-60">→</span>
+                        <span aria-hidden className="shrink-0 opacity-60">
+                          →
+                        </span>
                       </a>
                     ))}
                   </div>

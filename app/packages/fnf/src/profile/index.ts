@@ -1,9 +1,21 @@
-export { createProfileClient } from './client'
-export { createProfileContext } from './context'
-export { calculateProfileCredits } from './credits'
-export { getCurrentProfileWorkspace, getProfileCredits, getProfileSnapshot, getProfileUser, getProfileWallet, listProfileWorkspaces } from './get'
-export { mapProfileUser, mapProfileWallet, mapProfileWorkspace, mapProfileWorkspaces } from './mappers'
-export { switchProfileWorkspace } from './switch'
+export { createProfileClient } from "./client";
+export { createProfileContext } from "./context";
+export { calculateProfileCredits } from "./credits";
+export {
+  getCurrentProfileWorkspace,
+  getProfileCredits,
+  getProfileSnapshot,
+  getProfileUser,
+  getProfileWallet,
+  listProfileWorkspaces,
+} from "./get";
+export {
+  mapProfileUser,
+  mapProfileWallet,
+  mapProfileWorkspace,
+  mapProfileWorkspaces,
+} from "./mappers";
+export { switchProfileWorkspace } from "./switch";
 export type {
   ProfileClient,
   ProfileClientConfig,
@@ -19,4 +31,4 @@ export type {
   ProfileWorkspaceType,
   ProfileWorkspaceWallet,
   SwitchWorkspaceInput,
-} from './types'
+} from "./types";

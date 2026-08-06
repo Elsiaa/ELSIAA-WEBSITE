@@ -18,7 +18,10 @@
   --q-switch-track-height: var(--hf-space-400);
   --q-switch-thumb-size: var(--hf-space-300);
   --q-switch-thumb-radius: var(--hf-space-200);
-  --q-switch-thumb-translate: calc(var(--q-switch-track-width) - var(--q-switch-thumb-size) - var(--q-switch-padding) - var(--q-switch-padding));
+  --q-switch-thumb-translate: calc(
+    var(--q-switch-track-width) - var(--q-switch-thumb-size) - var(--q-switch-padding) -
+      var(--q-switch-padding)
+  );
   /* Motion: `ease` (swift) decelerates without overshoot so the thumb never
    * clips at the track edge; `press-scale` stretches the thumb inward on
    * pointer-down. */
@@ -104,9 +107,7 @@
 .q-switch[data-checked]:not([data-disabled]) .q-switch-thumb {
   border-color: var(--q-switch-thumb-border);
   border-width: var(--hf-border-width-thin);
-  box-shadow:
-    var(--q-switch-thumb-shadow-strong),
-    var(--q-switch-thumb-shadow-soft);
+  box-shadow: var(--q-switch-thumb-shadow-strong), var(--q-switch-thumb-shadow-soft);
 }
 
 /* Tactile press: the thumb stretches toward the track centre on pointer-down,

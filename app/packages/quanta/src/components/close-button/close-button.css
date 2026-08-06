@@ -16,12 +16,16 @@
   --q-close-pad: var(--hf-space-150); /* 6px */
 
   appearance: none;
-  background-color: var(--hf-color-overlay-dim-soft); /* transparent/dark/05 = white 5% in dark theme */
+  background-color: var(
+    --hf-color-overlay-dim-soft
+  ); /* transparent/dark/05 = white 5% in dark theme */
   border: var(--hf-border-width-none) solid transparent;
   border-radius: var(--hf-radius-full);
   box-sizing: border-box;
   align-items: center;
-  color: var(--hf-color-icon-secondary); /* Figma default state: icon/secondary (brightens to icon/primary on hover/focus) */
+  color: var(
+    --hf-color-icon-secondary
+  ); /* Figma default state: icon/secondary (brightens to icon/primary on hover/focus) */
   cursor: pointer;
   display: inline-flex;
   flex: none;
@@ -70,5 +74,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .q-close { transition-duration: 1ms; /* no token: reduced-motion near-zero; --hf-duration-instant is 0ms */ }
+  .q-close {
+    transition-duration: 1ms; /* no token: reduced-motion near-zero; --hf-duration-instant is 0ms */
+  }
 }

@@ -244,12 +244,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      {/* dark pages (Automate, Why ELSIAA) end tight on their own closing — no light footer */}
-      {pathname !== "/automate" && <SiteFooter />}
-      <FloatingBook />
-      <ScrollbarWidthVar />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        {/* dark pages (Automate, Why ELSIAA) end tight on their own closing — no light footer */}
+        {pathname !== "/automate" && <SiteFooter />}
+        <FloatingBook />
+        <ScrollbarWidthVar />
       </LanguageProvider>
     </QueryClientProvider>
   );

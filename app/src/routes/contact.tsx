@@ -26,8 +26,7 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 const OFFICES = "New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv";
 
 type Path = {
@@ -80,8 +79,7 @@ function ContactPage() {
         <Reveal>
           <h1 className="text-5xl font-semibold tracking-[-0.045em] md:text-7xl">Let's talk.</h1>
           <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-[#111111]/55 md:text-[17px]">
-            Three ways to start. Pick whichever fits — the first twenty minutes are
-            always free.
+            Three ways to start. Pick whichever fits — the first twenty minutes are always free.
           </p>
         </Reveal>
       </section>
@@ -103,7 +101,17 @@ function ContactPage() {
               >
                 <div className="flex items-center gap-2.5">
                   {p.eyebrow === "Start here" && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1e6b3c" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#1e6b3c"
+                      strokeWidth="1.9"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
                       <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8.1 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z" />
                     </svg>
                   )}

@@ -1,9 +1,34 @@
 // Backend ports (interfaces — every concrete adapter lives in
 // @higgsfield/fnf-adapters, EXCEPT the one bundled below)
-export type { ConfirmMediaRequest, ConfirmSubmit, ConfirmSubmitRequest, FnfAdapter, GenerationBackend, JobListQuery, MediaBackend, MediaGetQuery, MediaListQuery, ProfileBackend, SwitchWorkspaceRequest, UploadUrlRequest } from './backend'
+export type {
+  ConfirmMediaRequest,
+  ConfirmSubmit,
+  ConfirmSubmitRequest,
+  FnfAdapter,
+  GenerationBackend,
+  JobListQuery,
+  MediaBackend,
+  MediaGetQuery,
+  MediaListQuery,
+  ProfileBackend,
+  SwitchWorkspaceRequest,
+  UploadUrlRequest,
+} from "./backend";
 // Client half — also available at "@higgsfield/fnf/client" (models: "@higgsfield/fnf/jobs")
-export { createContext, createJobClient, entryFor } from './client'
-export { adjust, cancelGeneration, estimateCost, generationsFromBody, getGeneration, listGenerations, pollGeneration, pollJobSetGroup, safeSubmit, submit, waitGenerations } from './client'
+export { createContext, createJobClient, entryFor } from "./client";
+export {
+  adjust,
+  cancelGeneration,
+  estimateCost,
+  generationsFromBody,
+  getGeneration,
+  listGenerations,
+  pollGeneration,
+  pollJobSetGroup,
+  safeSubmit,
+  submit,
+  waitGenerations,
+} from "./client";
 export type {
   AdjustResult,
   BaseSubmitFields,
@@ -18,11 +43,11 @@ export type {
   SubmitInputFor,
   SubmitResult,
   WaitOptions,
-} from './client'
+} from "./client";
 
-export { defineJob } from './define-job'
+export { defineJob } from "./define-job";
 
-export type { JobEntry, JobParams, SettingsInput } from './define-job'
+export type { JobEntry, JobParams, SettingsInput } from "./define-job";
 export {
   AccountSuspendedError,
   ApiJobError,
@@ -56,7 +81,7 @@ export {
   VpnDetectedError,
   WorkspaceMemberSpendPausedError,
   WorkspaceSelectionRequiredError,
-} from './errors'
+} from "./errors";
 export type {
   ApiJobErrorJSON,
   AutoTopUpErrorType,
@@ -66,38 +91,98 @@ export type {
   MinimumPlanFeature,
   SubscriptionPlanType,
   TeamErrorDetails,
-} from './errors'
+} from "./errors";
 
-export { field, group } from './group'
-export type { Codec, FieldDef } from './group'
+export { field, group } from "./group";
+export type { Codec, FieldDef } from "./group";
 
-export { atLeastOneOf, checkMedia, dimensionsWithin, durationsWithin, maxTotal, mediaCodec, requiresOneOf } from './groups/media'
-export type { DimensionLimits, MediaConfig, MediaIssue, MediaRule } from './groups/media'
-export { promptCodec } from './groups/prompt'
-export { countRefs, intRange, oneOf, promptMax, promptRequired, randomSeed } from './jobs/checks'
-export { aspectRatioDimensions, closestRatioBySize, firstSizeMeta, lookupSize, simplifyRatio } from './jobs/dimensions'
-export type { AspectRatioDimensions } from './jobs/dimensions'
-export { gptImage2, GptImage2AspectRatio } from './jobs/gpt-image-2'
-export { grokImagine, GrokImagineAspectRatio, GrokImagineResolution, grokImagineV15 } from './jobs/grok-imagine'
-export { happyHorse, HappyHorseAspectRatio, HappyHorseResolution } from './jobs/happy-horse'
-export { KLING_DEFAULT_MOTION_ID, KlingModel, klingVideo } from './jobs/kling'
+export {
+  atLeastOneOf,
+  checkMedia,
+  dimensionsWithin,
+  durationsWithin,
+  maxTotal,
+  mediaCodec,
+  requiresOneOf,
+} from "./groups/media";
+export type { DimensionLimits, MediaConfig, MediaIssue, MediaRule } from "./groups/media";
+export { promptCodec } from "./groups/prompt";
+export { countRefs, intRange, oneOf, promptMax, promptRequired, randomSeed } from "./jobs/checks";
+export {
+  aspectRatioDimensions,
+  closestRatioBySize,
+  firstSizeMeta,
+  lookupSize,
+  simplifyRatio,
+} from "./jobs/dimensions";
+export type { AspectRatioDimensions } from "./jobs/dimensions";
+export { gptImage2, GptImage2AspectRatio } from "./jobs/gpt-image-2";
+export {
+  grokImagine,
+  GrokImagineAspectRatio,
+  GrokImagineResolution,
+  grokImagineV15,
+} from "./jobs/grok-imagine";
+export { happyHorse, HappyHorseAspectRatio, HappyHorseResolution } from "./jobs/happy-horse";
+export { KLING_DEFAULT_MOTION_ID, KlingModel, klingVideo } from "./jobs/kling";
 
-export { kling3_0, Kling3AspectRatio, Kling3Mode, Kling3Sound } from './jobs/kling-3'
-export { kling3MotionControl, Kling3MotionControlMode, Kling3MotionControlOrientation } from './jobs/kling-3-motion-control'
-export { nanoBanana2, NanoBanana2AspectRatio } from './jobs/nano-banana-2'
-export { nanoBanana2Upscale, NanoBanana2UpscaleAspectRatio } from './jobs/nano-banana-2-upscale'
-export { nanoBananaFlash, NanoBananaFlashAspectRatio } from './jobs/nano-banana-flash'
-export { RecraftV41AspectRatio, recraftV41Image, RecraftV41Model, RecraftV41ModelType } from './jobs/recraft-v4-1'
-export { seedance2_0, Seedance2AspectRatio } from './jobs/seedance-2-0'
-export { seedreamV4_5, SeedreamV4_5AspectRatio } from './jobs/seedream-v4-5'
-export { DEFAULT_SOUL_CINEMA_OLZHAS_STYLE_ID, DEFAULT_SOUL_CINEMA_STYLE_ID, DEFAULT_SOUL_V2_STYLE_ID, soulCinemaImage, SoulV2AspectRatio, soulV2Image } from './jobs/soul-v2'
-export { DEFAULT_SOUL_STYLE_ID, textToImageSoul } from './jobs/text2image-soul'
-export { topazImageGenerativeUpscale, TopazImageModel, topazImageUpscale, TopazImageUpscaleFactor } from './jobs/topaz-image-upscale'
-export { veo3_1Lite, Veo31LiteAspectRatio, Veo31LiteResolution } from './jobs/veo-3-1-lite'
-export { batch, extractAngleRefIds, firstMetaDuration, firstMetaSize, integerRange, refsFor, requiredPromptOrRole } from './jobs/video-helpers'
-export type { Size } from './jobs/video-helpers'
-export { bytedanceVideoUpscale, BytedanceVideoUpscalePreset, BytedanceVideoUpscaleResolution, higgsfieldVideoUpscale, soraEnhanceVideo, TopazVideoEnhancementModel, TopazVideoFocusFix, TopazVideoModel, TopazVideoParameters, TopazVideoResolution, topazVideoUpscale } from './jobs/video-upscale'
-export { wan27, Wan27AspectRatio, Wan27Quality } from './jobs/wan-2-7'
+export { kling3_0, Kling3AspectRatio, Kling3Mode, Kling3Sound } from "./jobs/kling-3";
+export {
+  kling3MotionControl,
+  Kling3MotionControlMode,
+  Kling3MotionControlOrientation,
+} from "./jobs/kling-3-motion-control";
+export { nanoBanana2, NanoBanana2AspectRatio } from "./jobs/nano-banana-2";
+export { nanoBanana2Upscale, NanoBanana2UpscaleAspectRatio } from "./jobs/nano-banana-2-upscale";
+export { nanoBananaFlash, NanoBananaFlashAspectRatio } from "./jobs/nano-banana-flash";
+export {
+  RecraftV41AspectRatio,
+  recraftV41Image,
+  RecraftV41Model,
+  RecraftV41ModelType,
+} from "./jobs/recraft-v4-1";
+export { seedance2_0, Seedance2AspectRatio } from "./jobs/seedance-2-0";
+export { seedreamV4_5, SeedreamV4_5AspectRatio } from "./jobs/seedream-v4-5";
+export {
+  DEFAULT_SOUL_CINEMA_OLZHAS_STYLE_ID,
+  DEFAULT_SOUL_CINEMA_STYLE_ID,
+  DEFAULT_SOUL_V2_STYLE_ID,
+  soulCinemaImage,
+  SoulV2AspectRatio,
+  soulV2Image,
+} from "./jobs/soul-v2";
+export { DEFAULT_SOUL_STYLE_ID, textToImageSoul } from "./jobs/text2image-soul";
+export {
+  topazImageGenerativeUpscale,
+  TopazImageModel,
+  topazImageUpscale,
+  TopazImageUpscaleFactor,
+} from "./jobs/topaz-image-upscale";
+export { veo3_1Lite, Veo31LiteAspectRatio, Veo31LiteResolution } from "./jobs/veo-3-1-lite";
+export {
+  batch,
+  extractAngleRefIds,
+  firstMetaDuration,
+  firstMetaSize,
+  integerRange,
+  refsFor,
+  requiredPromptOrRole,
+} from "./jobs/video-helpers";
+export type { Size } from "./jobs/video-helpers";
+export {
+  bytedanceVideoUpscale,
+  BytedanceVideoUpscalePreset,
+  BytedanceVideoUpscaleResolution,
+  higgsfieldVideoUpscale,
+  soraEnhanceVideo,
+  TopazVideoEnhancementModel,
+  TopazVideoFocusFix,
+  TopazVideoModel,
+  TopazVideoParameters,
+  TopazVideoResolution,
+  topazVideoUpscale,
+} from "./jobs/video-upscale";
+export { wan27, Wan27AspectRatio, Wan27Quality } from "./jobs/wan-2-7";
 // Media half — also available at "@higgsfield/fnf/media"
 export {
   ConfirmError,
@@ -123,7 +208,7 @@ export {
   UploadNotSupportedError,
   UploadTransferError,
   UrlIngestError,
-} from './media'
+} from "./media";
 export type {
   BinaryUploader,
   MediaBytes,
@@ -143,10 +228,10 @@ export type {
   UploadResult,
   UploadSlot,
   UploadType,
-} from './media'
-export { resolveMediaMeta } from './media-meta'
-export type { MediaMetaResolver } from './media-meta'
-export type { AdjustKind, Adjustment } from './normalize'
+} from "./media";
+export { resolveMediaMeta } from "./media-meta";
+export type { MediaMetaResolver } from "./media-meta";
+export type { AdjustKind, Adjustment } from "./normalize";
 export {
   composeObservers,
   createConsoleObserver,
@@ -159,7 +244,7 @@ export {
   withObservedProfileBackend,
   withObservedTransport,
   withObservedUploader,
-} from './observability'
+} from "./observability";
 
 export type {
   FnfObservabilityContext,
@@ -171,7 +256,7 @@ export type {
   FnfObservationPhase,
   FnfObserver,
   ObserveAsyncOptions,
-} from './observability'
+} from "./observability";
 // Profile/account half — also available at "@higgsfield/fnf/profile"
 export {
   calculateProfileCredits,
@@ -188,7 +273,7 @@ export {
   mapProfileWorkspace,
   mapProfileWorkspaces,
   switchProfileWorkspace,
-} from './profile'
+} from "./profile";
 
 export type {
   ProfileClient,
@@ -205,25 +290,47 @@ export type {
   ProfileWorkspaceType,
   ProfileWorkspaceWallet,
   SwitchWorkspaceInput,
-} from './profile'
-export { buildRegistry } from './registry'
+} from "./profile";
+export { buildRegistry } from "./registry";
 
-export type { Registry } from './registry'
-export { getJobPhase, getMediaType, getPreviewUrl, getRawUrl, hasResult, isCompleted, isFailed, isFailedJobStatus, isFromJob, isGenerating, isTerminalJobStatus } from './selectors'
+export type { Registry } from "./registry";
+export {
+  getJobPhase,
+  getMediaType,
+  getPreviewUrl,
+  getRawUrl,
+  hasResult,
+  isCompleted,
+  isFailed,
+  isFailedJobStatus,
+  isFromJob,
+  isGenerating,
+  isTerminalJobStatus,
+} from "./selectors";
 
-export type { JobPhase } from './selectors'
-export { buildWireParams, parseGeneration, parseSettings } from './spec'
-export type { JobResponse } from './spec'
-export type { Transport, TransportRequest, TransportResponse } from './transport'
-export { isTerminal, TERMINAL_STATUSES } from './types'
+export type { JobPhase } from "./selectors";
+export { buildWireParams, parseGeneration, parseSettings } from "./spec";
+export type { JobResponse } from "./spec";
+export type { Transport, TransportRequest, TransportResponse } from "./transport";
+export { isTerminal, TERMINAL_STATUSES } from "./types";
 
-export type { Generation, GenerationInput, GenerationResults, GenerationStatus, MediaInput, MediaMeta, MediaRef, OutputType, PromptInput } from './types'
+export type {
+  Generation,
+  GenerationInput,
+  GenerationResults,
+  GenerationStatus,
+  MediaInput,
+  MediaMeta,
+  MediaRef,
+  OutputType,
+  PromptInput,
+} from "./types";
 // The ONE bundled adapter implementation — the Workflow Platform adapter for
 // https://fnf.internal (+ its fetch transport), so generated-app hosts that
 // vendor only this package are self-sufficient. Also at
 // "@higgsfield/fnf/workflow-platform".
-export { createFetchTransport, createWorkflowPlatformAdapter } from './workflow-platform'
-export type { FetchTransportOptions, WorkflowPlatformAdapterOptions } from './workflow-platform'
+export { createFetchTransport, createWorkflowPlatformAdapter } from "./workflow-platform";
+export type { FetchTransportOptions, WorkflowPlatformAdapterOptions } from "./workflow-platform";
 
-export { aspectRatio, duration, getNormalize, getWireName, wire, z } from './z'
-export type { Normalize } from './z'
+export { aspectRatio, duration, getNormalize, getWireName, wire, z } from "./z";
+export type { Normalize } from "./z";

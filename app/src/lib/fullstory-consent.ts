@@ -1,6 +1,6 @@
-import { FullStory, isInitialized } from '@fullstory/browser';
+import { FullStory, isInitialized } from "@fullstory/browser";
 
 export function grantFullStoryConsent(): void {
   if (!isInitialized()) return;
-  FullStory('setIdentity', { consent: true });
+  FullStory("setIdentity", { consent: true });
 }

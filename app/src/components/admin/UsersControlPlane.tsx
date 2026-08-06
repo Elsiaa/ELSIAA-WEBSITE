@@ -13,9 +13,7 @@ import { adminFonts } from "./tokens";
 export function UsersControlPlane() {
   const { mono, sans } = adminFonts;
   const [users, setUsers] = useState<AdminPortalUser[]>([]);
-  const [companies, setCompanies] = useState<Array<{ id: string; name: string }>>(
-    [],
-  );
+  const [companies, setCompanies] = useState<Array<{ id: string; name: string }>>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -26,9 +24,7 @@ export function UsersControlPlane() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [companyId, setCompanyId] = useState("");
-  const [companyRole, setCompanyRole] = useState<"owner" | "admin" | "member">(
-    "member",
-  );
+  const [companyRole, setCompanyRole] = useState<"owner" | "admin" | "member">("member");
   const [flags, setFlags] = useState({
     authorizationsAllowed: false,
     programLogsAllowed: false,
@@ -63,10 +59,7 @@ export function UsersControlPlane() {
   }, []);
 
   const refresh = useCallback(async () => {
-    const [u, c] = await Promise.all([
-      listAdminUsers(),
-      listCompaniesForUserForm(),
-    ]);
+    const [u, c] = await Promise.all([listAdminUsers(), listCompaniesForUserForm()]);
     setUsers(u);
     setCompanies(c);
   }, []);
@@ -90,8 +83,7 @@ export function UsersControlPlane() {
         </p>
         <h1 className="text-2xl font-semibold tracking-[-0.03em]">Portal users</h1>
         <p className="max-w-2xl text-[14px] leading-relaxed text-[#111111]/55">
-          Add people to the portal and optionally attach them to a company so they
-          can sign in.
+          Add people to the portal and optionally attach them to a company so they can sign in.
         </p>
 
         {error && (
@@ -106,9 +98,7 @@ export function UsersControlPlane() {
         )}
         {tempPassword && (
           <div className="rounded-lg border border-[#1e6b3c]/30 bg-[#1e6b3c]/05 px-4 py-3">
-            <p className="text-[12px] font-medium text-[#1e6b3c]">
-              Temporary password (copy once)
-            </p>
+            <p className="text-[12px] font-medium text-[#1e6b3c]">Temporary password (copy once)</p>
             <code className="mt-1 block break-all text-[13px]" style={mono}>
               {tempPassword}
             </code>
@@ -166,9 +156,7 @@ export function UsersControlPlane() {
           <select
             className={inputClass}
             value={companyRole}
-            onChange={(e) =>
-              setCompanyRole(e.target.value as "owner" | "admin" | "member")
-            }
+            onChange={(e) => setCompanyRole(e.target.value as "owner" | "admin" | "member")}
             disabled={!companyId}
           >
             <option value="member">member</option>
@@ -191,9 +179,7 @@ export function UsersControlPlane() {
                 <input
                   type="checkbox"
                   checked={flags[key]}
-                  onChange={(e) =>
-                    setFlags((f) => ({ ...f, [key]: e.target.checked }))
-                  }
+                  onChange={(e) => setFlags((f) => ({ ...f, [key]: e.target.checked }))}
                 />
                 {label}
               </label>
@@ -267,9 +253,7 @@ export function UsersControlPlane() {
                         ? u.companies.map((c) => `${c.name} (${c.role})`).join(", ")
                         : "—"}
                     </td>
-                    <td className="px-3 py-2">
-                      {u.isActive ? "active" : "disabled"}
-                    </td>
+                    <td className="px-3 py-2">{u.isActive ? "active" : "disabled"}</td>
                     <td className="flex flex-wrap gap-1.5 px-3 py-2">
                       <button
                         type="button"

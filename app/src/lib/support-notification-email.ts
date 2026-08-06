@@ -2,35 +2,35 @@
  * Transactional HTML for support thread notifications (light theme, ELSIAA brand colors).
  */
 
-import type { ChatAttachment, ChatMessage } from '@/lib/chat';
+import type { ChatAttachment, ChatMessage } from "@/lib/chat";
 
 /** Primary CTA; override with SUPPORT_EMAIL_CLIENT_URL. */
 export function resolveSupportClientsUrl(): string {
   const u = process.env.SUPPORT_EMAIL_CLIENT_URL?.trim();
   if (u) return u;
-  return 'https://elsiaa.com/portal';
+  return "https://elsiaa.com/portal";
 }
 
 const COL = {
-  pageBg: '#f5f6f8',
-  cardOuter: '#ffffff',
-  border: '#e4e4e7',
-  muted: '#71717a',
-  text: '#18181b',
-  secondary: '#f4f4f5',
-  secondaryHeader: '#e4e4e7',
-  flame: '#1e6b3c',
-  flameTint: 'rgba(30, 107, 60, 0.1)',
-  flameBorder: 'rgba(30, 107, 60, 0.45)',
-  flameHeader: 'rgba(30, 107, 60, 0.14)',
+  pageBg: "#f5f6f8",
+  cardOuter: "#ffffff",
+  border: "#e4e4e7",
+  muted: "#71717a",
+  text: "#18181b",
+  secondary: "#f4f4f5",
+  secondaryHeader: "#e4e4e7",
+  flame: "#1e6b3c",
+  flameTint: "rgba(30, 107, 60, 0.1)",
+  flameBorder: "rgba(30, 107, 60, 0.45)",
+  flameHeader: "rgba(30, 107, 60, 0.14)",
 };
 
 function esc(s: string): string {
   return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 function formatFileSize(bytes: number): string {
@@ -40,52 +40,50 @@ function formatFileSize(bytes: number): string {
 }
 
 function isImageMime(mime: string): boolean {
-  return (mime || '').startsWith('image/');
+  return (mime || "").startsWith("image/");
 }
 
 function isPdfMime(mime: string, filename: string): boolean {
-  const m = (mime || '').toLowerCase();
-  if (m === 'application/pdf' || m.includes('pdf')) return true;
-  return filename.toLowerCase().endsWith('.pdf');
+  const m = (mime || "").toLowerCase();
+  if (m === "application/pdf" || m.includes("pdf")) return true;
+  return filename.toLowerCase().endsWith(".pdf");
 }
 
 function formatWhen(ts: number): string {
   try {
     return new Date(ts).toLocaleString(undefined, {
-      dateStyle: 'medium',
-      timeStyle: 'short',
+      dateStyle: "medium",
+      timeStyle: "short",
     });
   } catch {
-    return '';
+    return "";
   }
 }
 
 /** Public label consistent with support-desk `supportSenderLabel` (no session = show author). */
 function authorLabel(msg: ChatMessage): string {
-  const n = (msg.userName || '').trim();
-  if (n === 'Vercatryx') return 'Admin';
-  return n || 'User';
+  const n = (msg.userName || "").trim();
+  if (n === "Vercatryx") return "Admin";
+  return n || "User";
 }
 
 function splitAttachments(attachments: ChatAttachment[]) {
-  const images = attachments.filter(
-    (a) => a.type === 'image' || isImageMime(a.mimeType || '')
-  );
+  const images = attachments.filter((a) => a.type === "image" || isImageMime(a.mimeType || ""));
   const pdfs = attachments.filter(
-    (a) => !images.includes(a) && isPdfMime(a.mimeType || '', a.filename)
+    (a) => !images.includes(a) && isPdfMime(a.mimeType || "", a.filename),
   );
   const others = attachments.filter((a) => !images.includes(a) && !pdfs.includes(a));
   return { images, pdfs, others };
 }
 
 function renderAttachments(atts: ChatAttachment[]): string {
-  if (!atts.length) return '';
+  if (!atts.length) return "";
   const { images, pdfs, others } = splitAttachments(atts);
   const blocks: string[] = [];
 
   if (images.length) {
     blocks.push(
-      `<p style="margin:16px 0 8px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:${COL.muted};">Images</p>`
+      `<p style="margin:16px 0 8px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:${COL.muted};">Images</p>`,
     );
     for (const att of images) {
       blocks.push(
@@ -95,14 +93,14 @@ function renderAttachments(atts: ChatAttachment[]): string {
           `<div style="padding:10px 12px;border-top:1px solid ${COL.border};background:#fafafa;font-size:12px;color:${COL.text};">` +
           `<span style="display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;">${esc(att.filename)}</span>` +
           `<span style="color:${COL.muted};font-size:11px;">${esc(formatFileSize(att.size))}</span>` +
-          `</div></a></td></tr></table>`
+          `</div></a></td></tr></table>`,
       );
     }
   }
 
   if (pdfs.length) {
     blocks.push(
-      `<p style="margin:16px 0 8px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:${COL.muted};">Documents</p>`
+      `<p style="margin:16px 0 8px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:${COL.muted};">Documents</p>`,
     );
     for (const att of pdfs) {
       blocks.push(
@@ -111,32 +109,32 @@ function renderAttachments(atts: ChatAttachment[]): string {
           `<div style="padding:12px 14px;border-top:1px solid ${COL.border};display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;">` +
           `<span style="color:${COL.text};font-weight:600;overflow:hidden;text-overflow:ellipsis;">${esc(att.filename)}</span>` +
           `<a href="${esc(att.url)}" target="_blank" rel="noopener noreferrer" style="flex-shrink:0;color:${COL.flame};font-weight:600;text-decoration:none;">Open</a>` +
-          `</div></div>`
+          `</div></div>`,
       );
     }
   }
 
   if (others.length) {
     blocks.push(
-      `<p style="margin:16px 0 8px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:${COL.muted};">Files</p>`
+      `<p style="margin:16px 0 8px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:${COL.muted};">Files</p>`,
     );
     for (const att of others) {
-      const isVoice = att.type === 'voice';
+      const isVoice = att.type === "voice";
       blocks.push(
         `<div style="margin-bottom:12px;border-radius:12px;border:1px solid ${COL.border};background:${COL.secondary};padding:16px;">` +
           `<div style="display:flex;gap:12px;align-items:flex-start;">` +
           `<div style="width:56px;height:56px;border-radius:10px;background:${COL.secondaryHeader};flex-shrink:0;"></div>` +
           `<div style="min-width:0;flex:1;">` +
-          `<p style="margin:0;font-weight:600;color:${COL.text};font-size:14px;word-break:break-word;">${esc(isVoice ? att.filename || 'Voice note' : att.filename)}</p>` +
+          `<p style="margin:0;font-weight:600;color:${COL.text};font-size:14px;word-break:break-word;">${esc(isVoice ? att.filename || "Voice note" : att.filename)}</p>` +
           `<p style="margin:6px 0 0;font-size:12px;color:${COL.muted};">${esc(formatFileSize(att.size))}</p>` +
           `<p style="margin:12px 0 0;">` +
-          `<a href="${esc(att.url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 14px;border-radius:8px;background:rgba(30,107,60,0.12);color:${COL.flame};font-size:12px;font-weight:600;text-decoration:none;">${isVoice ? 'Listen' : 'Download'}</a>` +
-          `</p></div></div></div>`
+          `<a href="${esc(att.url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 14px;border-radius:8px;background:rgba(30,107,60,0.12);color:${COL.flame};font-size:12px;font-weight:600;text-decoration:none;">${isVoice ? "Listen" : "Download"}</a>` +
+          `</p></div></div></div>`,
       );
     }
   }
 
-  return blocks.join('');
+  return blocks.join("");
 }
 
 function renderMessageCard(msg: ChatMessage, opts: { highlight: boolean }): string {
@@ -149,7 +147,7 @@ function renderMessageCard(msg: ChatMessage, opts: { highlight: boolean }): stri
     (msg.message?.trim()
       ? `<p style="margin:0;white-space:pre-wrap;font-size:15px;line-height:1.65;color:${COL.text};">${esc(msg.message)}</p>`
       : msg.attachments?.length
-        ? ''
+        ? ""
         : `<p style="margin:0;font-size:14px;font-style:italic;color:${COL.muted};">(No message text)</p>`) +
     renderAttachments(msg.attachments || []);
 
@@ -167,7 +165,7 @@ function renderMessageCard(msg: ChatMessage, opts: { highlight: boolean }): stri
 
 export function sliceHistoryForNotify(
   allMessages: ChatMessage[],
-  trigger: ChatMessage
+  trigger: ChatMessage,
 ): { prior: ChatMessage[]; newest: ChatMessage } {
   const sorted = [...allMessages].sort((a, b) => {
     const dt = a.timestamp - b.timestamp;
@@ -196,19 +194,21 @@ export type SupportNotificationEmailInput = {
 export function buildSupportNotificationPlainText(input: SupportNotificationEmailInput): string {
   const lines: string[] = [];
   lines.push(`You have a new message on ${input.companyName}: ${input.threadTitle}`);
-  lines.push('');
+  lines.push("");
   lines.push(`From ${authorLabel(input.newMessage)} · ${formatWhen(input.newMessage.timestamp)}`);
   if (input.newMessage.message?.trim()) lines.push(input.newMessage.message);
   if (input.priorMessages.length) {
-    lines.push('');
-    lines.push('Recent messages:');
+    lines.push("");
+    lines.push("Recent messages:");
     for (const m of input.priorMessages) {
-      lines.push(`— ${authorLabel(m)} (${formatWhen(m.timestamp)}): ${m.message?.trim() || '(attachment)'}`);
+      lines.push(
+        `— ${authorLabel(m)} (${formatWhen(m.timestamp)}): ${m.message?.trim() || "(attachment)"}`,
+      );
     }
   }
-  lines.push('');
+  lines.push("");
   lines.push(`Go to the ELSIAA portal: ${resolveSupportClientsUrl()}`);
-  return lines.join('\n');
+  return lines.join("\n");
 }
 
 export function buildSupportNotificationHtml(input: SupportNotificationEmailInput): string {
@@ -219,8 +219,8 @@ export function buildSupportNotificationHtml(input: SupportNotificationEmailInpu
   const priorBlocks =
     input.priorMessages.length > 0
       ? `<p style="margin:24px 0 12px;font-size:13px;font-weight:600;color:${COL.muted};letter-spacing:0.02em;">Recent messages</p>` +
-        input.priorMessages.map((m) => renderMessageCard(m, { highlight: false })).join('')
-      : '';
+        input.priorMessages.map((m) => renderMessageCard(m, { highlight: false })).join("")
+      : "";
 
   const newBlock =
     `<p style="margin:28px 0 12px;font-size:13px;font-weight:600;color:${COL.flame};letter-spacing:0.04em;">New message</p>` +

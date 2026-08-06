@@ -1,19 +1,19 @@
-import type { GenerationBackend } from '../backend'
-import type { JobEntry } from '../define-job'
-import type { FnfObservabilityContext, FnfObservabilityOptions } from '../observability'
-import type { Registry } from '../registry'
-import { ApiJobError } from '../errors'
-import { createObservabilityContext } from '../observability'
-import { buildRegistry } from '../registry'
+import type { GenerationBackend } from "../backend";
+import type { JobEntry } from "../define-job";
+import type { FnfObservabilityContext, FnfObservabilityOptions } from "../observability";
+import type { Registry } from "../registry";
+import { ApiJobError } from "../errors";
+import { createObservabilityContext } from "../observability";
+import { buildRegistry } from "../registry";
 
 export interface ClientConfig<Jobs extends readonly JobEntry[] = readonly JobEntry[]> {
   /** The transport-agnostic jobs adapter. Use one from `@higgsfield/fnf-adapters`, or your own. */
-  adapter: GenerationBackend
+  adapter: GenerationBackend;
   /** Registered jobs — the source of `model`/`settings` autocomplete on `submit`. */
-  jobs: Jobs
-  poll?: { intervalMs?: number, timeoutMs?: number }
-  scheduler?: { sleep?: (ms: number) => Promise<void>, isActive?: () => boolean }
-  observability?: FnfObservabilityOptions
+  jobs: Jobs;
+  poll?: { intervalMs?: number; timeoutMs?: number };
+  scheduler?: { sleep?: (ms: number) => Promise<void>; isActive?: () => boolean };
+  observability?: FnfObservabilityOptions;
 }
 
 /**
@@ -22,15 +22,15 @@ export interface ClientConfig<Jobs extends readonly JobEntry[] = readonly JobEnt
  * full client to call `submit(ctx, …)` or `listGenerations(ctx, …)`.
  */
 export interface GenerationContext {
-  adapter: GenerationBackend
-  registry: Registry
-  poll: { intervalMs: number, timeoutMs: number }
-  scheduler: { sleep: (ms: number) => Promise<void>, isActive?: () => boolean }
-  observability: FnfObservabilityContext
+  adapter: GenerationBackend;
+  registry: Registry;
+  poll: { intervalMs: number; timeoutMs: number };
+  scheduler: { sleep: (ms: number) => Promise<void>; isActive?: () => boolean };
+  observability: FnfObservabilityContext;
 }
 
-const DEFAULT_INTERVAL_MS = 2000
-const DEFAULT_TIMEOUT_MS = 600_000
+const DEFAULT_INTERVAL_MS = 2000;
+const DEFAULT_TIMEOUT_MS = 600_000;
 
 /** Resolve user config into the shared context every operation consumes. */
 export function createContext(config: ClientConfig<readonly JobEntry[]>): GenerationContext {
@@ -46,16 +46,15 @@ export function createContext(config: ClientConfig<readonly JobEntry[]>): Genera
       isActive: config.scheduler?.isActive,
     },
     observability: createObservabilityContext(config.observability),
-  }
+  };
 }
 
 export function entryFor(ctx: GenerationContext, model: string): JobEntry {
-  const entry = ctx.registry.get(model)
-  if (!entry)
-    throw new ApiJobError('unknown_model', `Unknown model: ${model}`)
-  return entry
+  const entry = ctx.registry.get(model);
+  if (!entry) throw new ApiJobError("unknown_model", `Unknown model: ${model}`);
+  return entry;
 }
 
 function defaultSleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

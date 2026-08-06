@@ -1,9 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import {
-  getSupabaseServiceClient,
-  supabaseSecretConfigured,
-} from "./supabase";
+import { getSupabaseServiceClient, supabaseSecretConfigured } from "./supabase";
 
 export type PublicSignatureRequest = {
   id: string;
@@ -65,9 +62,6 @@ export const submitPublicSignature = createServerFn({ method: "POST" })
       signature_data: data.signatureData,
     });
     if (sigErr) throw new Error(sigErr.message);
-    await client
-      .from("pdf_signature_requests")
-      .update({ status: "completed" })
-      .eq("id", req.id);
+    await client.from("pdf_signature_requests").update({ status: "completed" }).eq("id", req.id);
     return { ok: true as const };
   });

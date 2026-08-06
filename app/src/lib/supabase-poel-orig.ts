@@ -1,11 +1,11 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 // Create a single supabase client for interacting with your database
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
+  throw new Error("Missing Supabase environment variables");
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
@@ -16,21 +16,24 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
  */
 export function getServerSupabaseClient() {
   const url = process.env.verca_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceKey = process.env.verca_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceKey =
+    process.env.verca_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!url) {
-    throw new Error('Missing verca_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_URL environment variable');
+    throw new Error("Missing verca_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_URL environment variable");
   }
 
   if (!serviceKey) {
-    throw new Error('Missing verca_SUPABASE_SERVICE_ROLE_KEY or SUPABASE_SERVICE_ROLE_KEY environment variable');
+    throw new Error(
+      "Missing verca_SUPABASE_SERVICE_ROLE_KEY or SUPABASE_SERVICE_ROLE_KEY environment variable",
+    );
   }
 
   return createClient(url, serviceKey, {
     auth: {
       autoRefreshToken: false,
-      persistSession: false
-    }
+      persistSession: false,
+    },
   });
 }
 
@@ -43,7 +46,7 @@ export function getClientSupabaseClient() {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase environment variables');
+    throw new Error("Missing Supabase environment variables");
   }
 
   return createClient(supabaseUrl, supabaseAnonKey);
@@ -54,23 +57,23 @@ export function getClientSupabaseClient() {
  */
 export async function testSupabaseConnection() {
   try {
-    const { data, error } = await supabase.from('_test').select('*').limit(1);
+    const { data, error } = await supabase.from("_test").select("*").limit(1);
 
     if (error) {
       // If table doesn't exist, that's fine - connection works
-      if (error.code === 'PGRST116' || error.message.includes('does not exist')) {
-        return { success: true, message: 'Supabase connected successfully!' };
+      if (error.code === "PGRST116" || error.message.includes("does not exist")) {
+        return { success: true, message: "Supabase connected successfully!" };
       }
       throw error;
     }
 
-    return { success: true, message: 'Supabase connected successfully!', data };
+    return { success: true, message: "Supabase connected successfully!", data };
   } catch (error) {
-    console.error('Supabase connection error:', error);
+    console.error("Supabase connection error:", error);
     return {
       success: false,
-      message: error instanceof Error ? error.message : 'Unknown error',
-      error
+      message: error instanceof Error ? error.message : "Unknown error",
+      error,
     };
   }
 }

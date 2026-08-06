@@ -20,11 +20,20 @@ function Card({ p }: { p: MerchProduct }) {
         />
       </a>
       <div className="mt-3.5 flex items-baseline justify-between gap-2">
-        <a href={`/product/${p.slug}`} className="-my-1.5 inline-flex min-h-[44px] items-center text-[14px] font-medium text-[#111111] hover:underline">{p.name}</a>
+        <a
+          href={`/product/${p.slug}`}
+          className="-my-1.5 inline-flex min-h-[44px] items-center text-[14px] font-medium text-[#111111] hover:underline"
+        >
+          {p.name}
+        </a>
         <span className="text-[14px] text-[#111111]/60">${p.price}</span>
       </div>
       <div className="mt-1 flex items-center justify-between">
-        {p.limited ? <span className="text-[12px] font-semibold text-[#1e6b3c]">Limited</span> : <span className="text-[12px] text-[#111111]/40">{p.blurb}</span>}
+        {p.limited ? (
+          <span className="text-[12px] font-semibold text-[#1e6b3c]">Limited</span>
+        ) : (
+          <span className="text-[12px] text-[#111111]/40">{p.blurb}</span>
+        )}
         <button
           onClick={() => {
             add(p.slug, p.oneSize ? "One Size" : "M");
@@ -36,9 +45,7 @@ function Card({ p }: { p: MerchProduct }) {
           {added ? "Added ✓" : "Add to Cart"}
         </button>
       </div>
-      {!p.oneSize && (
-        <p className="mt-1.5 text-[11.5px] text-[#111111]/35">{SIZES.join(" · ")}</p>
-      )}
+      {!p.oneSize && <p className="mt-1.5 text-[11.5px] text-[#111111]/35">{SIZES.join(" · ")}</p>}
     </div>
   );
 }
@@ -52,12 +59,18 @@ export function StoreFront() {
         return (
           <section key={c} id={c}>
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <h2 className="text-[22px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[26px]">{meta.title}</h2>
+              <h2 className="text-[22px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[26px]">
+                {meta.title}
+              </h2>
               <span className="text-[14px] text-[#1e6b3c]">{meta.sub}</span>
             </div>
-            <p className="mt-2 max-w-xl text-[14px] leading-relaxed text-[#111111]/55">{meta.note}</p>
+            <p className="mt-2 max-w-xl text-[14px] leading-relaxed text-[#111111]/55">
+              {meta.note}
+            </p>
             <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4">
-              {items.map((p) => <Card key={p.slug} p={p} />)}
+              {items.map((p) => (
+                <Card key={p.slug} p={p} />
+              ))}
             </div>
           </section>
         );

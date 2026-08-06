@@ -1,10 +1,10 @@
-import { randomBytes } from 'node:crypto';
-import { authPool } from '@/lib/auth-pool';
+import { randomBytes } from "node:crypto";
+import { authPool } from "@/lib/auth-pool";
 import {
   getMaxUploadBytes,
   listCompanyFilesRecursive,
   normalizeRelativePrefix,
-} from '@/lib/company-admin-files';
+} from "@/lib/company-admin-files";
 
 export type PublicUploadLinkRow = {
   id: string;
@@ -42,33 +42,33 @@ export type PublicUploadLinkPublicInfo = {
 };
 
 function generateToken(): string {
-  return randomBytes(32).toString('base64url');
+  return randomBytes(32).toString("base64url");
 }
 
 function normalizeStoredRelativeDir(relative: string | undefined | null): string {
-  const norm = normalizeRelativePrefix(relative ?? '');
-  return norm.replace(/\/+$/, '');
+  const norm = normalizeRelativePrefix(relative ?? "");
+  return norm.replace(/\/+$/, "");
 }
 
 /** Ensure an upload target stays within the link's folder. */
 export function assertUploadRelativeDirAllowed(
   linkRelativeDir: string,
-  requestedRelativeDir: string
+  requestedRelativeDir: string,
 ): void {
   const base = normalizeStoredRelativeDir(linkRelativeDir);
   const req = normalizeStoredRelativeDir(requestedRelativeDir);
   if (!base) return;
   if (req === base) return;
   if (req.startsWith(`${base}/`)) return;
-  throw new Error('Upload path is outside this link folder.');
+  throw new Error("Upload path is outside this link folder.");
 }
 
 function displayPathUnderLink(linkRelativeDir: string, fileRelativePath: string): string {
   const base = normalizeStoredRelativeDir(linkRelativeDir);
-  const filePath = fileRelativePath.replace(/^\/+|\/+$/g, '');
+  const filePath = fileRelativePath.replace(/^\/+|\/+$/g, "");
   if (!base) return filePath;
   if (filePath === base) {
-    return filePath.split('/').pop() ?? filePath;
+    return filePath.split("/").pop() ?? filePath;
   }
   if (filePath.startsWith(`${base}/`)) {
     return filePath.slice(base.length + 1);
@@ -77,12 +77,12 @@ function displayPathUnderLink(linkRelativeDir: string, fileRelativePath: string)
 }
 
 export async function listExistingFilesForPublicLink(
-  link: PublicUploadLinkRow
+  link: PublicUploadLinkRow,
 ): Promise<PublicUploadExistingFile[]> {
   const files = await listCompanyFilesRecursive(link.company_id, link.relative_dir || undefined);
   return files.map((f) => ({
     path: displayPathUnderLink(link.relative_dir, f.relativePath),
-    displayName: f.displayName ?? f.relativePath.split('/').pop() ?? f.relativePath,
+    displayName: f.displayName ?? f.relativePath.split("/").pop() ?? f.relativePath,
     size: f.size,
     lastModified: f.lastModified,
   }));
@@ -94,21 +94,21 @@ function rowToLink(row: PublicUploadLinkRow): PublicUploadLinkRow {
 
 export function folderTitleFromRelativeDir(relativeDir: string): string {
   const trimmed = relativeDir.trim();
-  if (!trimmed) return 'Company files';
-  return trimmed.split('/').filter(Boolean).pop() ?? 'Folder';
+  if (!trimmed) return "Company files";
+  return trimmed.split("/").filter(Boolean).pop() ?? "Folder";
 }
 
 export function validatePublicUploadLinkActive(
-  link: PublicUploadLinkRow
+  link: PublicUploadLinkRow,
 ): { ok: true } | { ok: false; reason: string } {
   if (link.revoked_at) {
-    return { ok: false, reason: 'This upload link has been revoked.' };
+    return { ok: false, reason: "This upload link has been revoked." };
   }
   if (link.expires_at && new Date(link.expires_at).getTime() <= Date.now()) {
-    return { ok: false, reason: 'This upload link has expired.' };
+    return { ok: false, reason: "This upload link has expired." };
   }
   if (link.max_uploads != null && link.upload_count >= link.max_uploads) {
-    return { ok: false, reason: 'This upload link has reached its upload limit.' };
+    return { ok: false, reason: "This upload link has reached its upload limit." };
   }
   return { ok: true };
 }
@@ -124,15 +124,13 @@ export function effectiveMaxBytesForLink(link: PublicUploadLinkRow): number {
 export async function toPublicInfo(link: PublicUploadLinkRow): Promise<PublicUploadLinkPublicInfo> {
   const active = validatePublicUploadLinkActive(link);
   const uploadsRemaining =
-    link.max_uploads != null
-      ? Math.max(0, link.max_uploads - link.upload_count)
-      : null;
+    link.max_uploads != null ? Math.max(0, link.max_uploads - link.upload_count) : null;
 
   let existingFiles: PublicUploadExistingFile[] = [];
   try {
     existingFiles = await listExistingFilesForPublicLink(link);
   } catch (err) {
-    console.error('listExistingFilesForPublicLink:', err);
+    console.error("listExistingFilesForPublicLink:", err);
   }
 
   return {
@@ -174,18 +172,20 @@ export async function createPublicUploadLink(params: {
       params.maxBytes ?? null,
       params.maxUploads ?? null,
       params.expiresAt ?? null,
-    ]
+    ],
   );
 
   return rowToLink(r.rows[0]);
 }
 
-export async function getPublicUploadLinkByToken(token: string): Promise<PublicUploadLinkRow | null> {
+export async function getPublicUploadLinkByToken(
+  token: string,
+): Promise<PublicUploadLinkRow | null> {
   const trimmed = token.trim();
   if (!trimmed) return null;
   const r = await authPool.query<PublicUploadLinkRow>(
     `SELECT * FROM public.public_upload_links WHERE token = $1 LIMIT 1`,
-    [trimmed]
+    [trimmed],
   );
   return r.rows[0] ? rowToLink(r.rows[0]) : null;
 }
@@ -196,26 +196,23 @@ export async function recordPublicUploadSuccess(token: string): Promise<void> {
      SET upload_count = upload_count + 1,
          last_used_at = now()
      WHERE token = $1`,
-    [token.trim()]
+    [token.trim()],
   );
 }
 
-export async function revokePublicUploadLink(
-  token: string,
-  companyId: string
-): Promise<boolean> {
+export async function revokePublicUploadLink(token: string, companyId: string): Promise<boolean> {
   const r = await authPool.query(
     `UPDATE public.public_upload_links
      SET revoked_at = now()
      WHERE token = $1 AND company_id = $2 AND revoked_at IS NULL`,
-    [token.trim(), companyId]
+    [token.trim(), companyId],
   );
   return (r.rowCount ?? 0) > 0;
 }
 
 export async function listPublicUploadLinksForCompany(
   companyId: string,
-  relativeDir?: string
+  relativeDir?: string,
 ): Promise<PublicUploadLinkRow[]> {
   const dir = normalizeStoredRelativeDir(relativeDir);
   const r = await authPool.query<PublicUploadLinkRow>(
@@ -223,7 +220,7 @@ export async function listPublicUploadLinksForCompany(
      WHERE company_id = $1 AND relative_dir = $2 AND revoked_at IS NULL
      ORDER BY created_at DESC
      LIMIT 50`,
-    [companyId, dir]
+    [companyId, dir],
   );
   return r.rows.map(rowToLink);
 }

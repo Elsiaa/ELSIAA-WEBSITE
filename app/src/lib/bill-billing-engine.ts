@@ -2,14 +2,18 @@
  * Billing engine for unified bills — charge, invoice email, cron processing.
  */
 
-import Stripe from 'stripe';
-import { stripeProxy as stripe } from '@/lib/stripe-client';
-import { getServerSupabaseClient } from '@/lib/supabase';
-import { sendTransactionalMail } from '@/lib/transactional-mail';
-import { getPaymentCompanyName, getPaymentContactEmail, getPaymentContactPhone } from '@/lib/payment-branding';
-import { getOperationalLogoUrl } from '@/lib/operational-brand';
-import { poelLightInvoiceEmailStyles } from '@/lib/poel-theme';
-import type { InvoiceLineItem } from '@/lib/invoice-line-items';
+import Stripe from "stripe";
+import { stripeProxy as stripe } from "@/lib/stripe-client";
+import { getServerSupabaseClient } from "@/lib/supabase";
+import { sendTransactionalMail } from "@/lib/transactional-mail";
+import {
+  getPaymentCompanyName,
+  getPaymentContactEmail,
+  getPaymentContactPhone,
+} from "@/lib/payment-branding";
+import { getOperationalLogoUrl } from "@/lib/operational-brand";
+import { poelLightInvoiceEmailStyles } from "@/lib/poel-theme";
+import type { InvoiceLineItem } from "@/lib/invoice-line-items";
 import {
   type Bill,
   type BillCharge,
@@ -29,25 +33,25 @@ import {
   updateBillNextBillingDate,
   updateBillStatus,
   updateBillStripeInfo,
-} from '@/lib/bills';
-import { deleteSavedPaymentMethodByStripePmId } from '@/lib/payments';
-import { generateInvoicePdfBuffer } from '@/lib/invoice-pdf';
-import { sendPaymentReceiptEmail } from '@/lib/payment-receipt-email';
-import { sendPaymentAdminNotifyEmail } from '@/lib/payment-admin-notify';
+} from "@/lib/bills";
+import { deleteSavedPaymentMethodByStripePmId } from "@/lib/payments";
+import { generateInvoicePdfBuffer } from "@/lib/invoice-pdf";
+import { sendPaymentReceiptEmail } from "@/lib/payment-receipt-email";
+import { sendPaymentAdminNotifyEmail } from "@/lib/payment-admin-notify";
 import {
   getPaymentAdminNotifyEmail,
   getPaymentOperationsBcc,
   getPaymentTransactionalFrom,
-} from '@/lib/payment-mail';
+} from "@/lib/payment-mail";
 
 // stripe provided by stripeProxy import
 
 function escapeHtml(s: string): string {
   return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 function formatMoney(n: number): string {
@@ -57,7 +61,7 @@ function formatMoney(n: number): string {
 /** Ensure PM is on the Stripe customer we will charge (align bill row if needed). */
 async function ensureBillPaymentMethodOnCustomer(bill: Bill): Promise<void> {
   if (!bill.stripeCustomerId || !bill.stripePaymentMethodId) {
-    throw new Error('No payment method attached to this bill');
+    throw new Error("No payment method attached to this bill");
   }
   const pm = await stripe.paymentMethods.retrieve(bill.stripePaymentMethodId);
   if (pm.customer === bill.stripeCustomerId) return;
@@ -66,23 +70,25 @@ async function ensureBillPaymentMethodOnCustomer(bill: Bill): Promise<void> {
     bill.stripeCustomerId = pm.customer as string;
     return;
   }
-  await stripe.paymentMethods.attach(bill.stripePaymentMethodId, { customer: bill.stripeCustomerId });
+  await stripe.paymentMethods.attach(bill.stripePaymentMethodId, {
+    customer: bill.stripeCustomerId,
+  });
 }
 
 export async function completeBillAfterSuccessfulPayment(
   bill: Bill,
   charge: BillCharge,
   paymentIntent: Stripe.PaymentIntent,
-  options: { sendEmails?: boolean } = {}
+  options: { sendEmails?: boolean } = {},
 ): Promise<BillCharge> {
   const sendEmails = options.sendEmails !== false;
   const paymentMethod = await stripe.paymentMethods.retrieve(
-    typeof paymentIntent.payment_method === 'string'
+    typeof paymentIntent.payment_method === "string"
       ? paymentIntent.payment_method
-      : (bill.stripePaymentMethodId as string)
+      : (bill.stripePaymentMethodId as string),
   );
-  const isCard = paymentMethod.type === 'card';
-  const fee = parseFloat(paymentIntent.metadata?.fee || '0') || (isCard ? charge.amount * 0.03 : 0);
+  const isCard = paymentMethod.type === "card";
+  const fee = parseFloat(paymentIntent.metadata?.fee || "0") || (isCard ? charge.amount * 0.03 : 0);
   const totalAmount = paymentIntent.amount / 100;
 
   const invoiceNumber = charge.invoiceNumber ?? (await getNextInvoiceNumber());
@@ -91,25 +97,25 @@ export async function completeBillAfterSuccessfulPayment(
   });
   const paidCharge = await markBillChargePaid(charge.id, invoiceNumber, paymentIntent.id);
 
-  if (bill.scheduleType === 'one_time') {
-    await updateBillStatus(bill.id, 'completed');
+  if (bill.scheduleType === "one_time") {
+    await updateBillStatus(bill.id, "completed");
     await updateBillNextBillingDate(bill.id, null);
   } else {
     const next = calculateBillNextBillingDate(bill, new Date());
-    await updateBillNextBillingDate(bill.id, next.toISOString().split('T')[0]);
+    await updateBillNextBillingDate(bill.id, next.toISOString().split("T")[0]);
   }
 
   await recordBillEvent({
     billId: bill.id,
     billChargeId: charge.id,
-    eventType: 'charged',
+    eventType: "charged",
     message: `Paid $${formatMoney(charge.amount)}`,
     metadata: { paymentIntentId: paymentIntent.id },
   });
 
   if (sendEmails) {
     const { name, email } = getBillDisplayInfo(bill);
-    const rail = isCard ? 'card' : 'ach';
+    const rail = isCard ? "card" : "ach";
     if (email) {
       const receiptSent = await sendPaymentReceiptEmail({
         publicToken: bill.publicToken,
@@ -121,10 +127,10 @@ export async function completeBillAfterSuccessfulPayment(
         recipientEmail: email,
         recipientName: name,
         invoiceNumber,
-        chargeName: bill.description || 'Bill payment',
+        chargeName: bill.description || "Bill payment",
       });
       if (!receiptSent) {
-        console.error('[bill-billing] customer receipt email failed', { billId: bill.id });
+        console.error("[bill-billing] customer receipt email failed", { billId: bill.id });
       }
     }
     const notifySent = await sendPaymentAdminNotifyEmail({
@@ -135,7 +141,7 @@ export async function completeBillAfterSuccessfulPayment(
       invoiceNumber,
     });
     if (!notifySent) {
-      console.error('[bill-billing] management notify email failed', { billId: bill.id });
+      console.error("[bill-billing] management notify email failed", { billId: bill.id });
     }
   }
 
@@ -146,14 +152,17 @@ function lineAmount(row: InvoiceLineItem): number {
   return row.quantity * row.unit_amount;
 }
 
-async function hasPaymentMethodRequiredEmailSent(billId: string, billChargeId: string): Promise<boolean> {
+async function hasPaymentMethodRequiredEmailSent(
+  billId: string,
+  billChargeId: string,
+): Promise<boolean> {
   const supabase = getServerSupabaseClient();
   const { data } = await supabase
-    .from('bill_events')
-    .select('id')
-    .eq('bill_id', billId)
-    .eq('bill_charge_id', billChargeId)
-    .eq('event_type', 'payment_method_required_emailed')
+    .from("bill_events")
+    .select("id")
+    .eq("bill_id", billId)
+    .eq("bill_charge_id", billChargeId)
+    .eq("event_type", "payment_method_required_emailed")
     .limit(1);
   return (data?.length ?? 0) > 0;
 }
@@ -164,20 +173,21 @@ async function hasPaymentMethodRequiredEmailSent(billId: string, billChargeId: s
  */
 export async function sendBillPaymentMethodRequiredEmail(
   bill: Bill,
-  charge?: BillCharge | null
+  charge?: BillCharge | null,
 ): Promise<void> {
   const { name: recipientName, email: recipientEmail } = getBillDisplayInfo(bill);
-  if (!recipientEmail) throw new Error('Recipient email is required');
+  if (!recipientEmail) throw new Error("Recipient email is required");
 
-  const publicBase = (process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(
-    /\/$/,
-    ''
-  );
+  const publicBase = (
+    process.env.NEXT_PUBLIC_BASE_URL ||
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "http://localhost:3000"
+  ).replace(/\/$/, "");
   const signInUrl = `${publicBase}/sign-in`;
   const adminUrl = `${publicBase}/admin`;
-  const logoFullUrl = getOperationalLogoUrl(publicBase, 'full');
+  const logoFullUrl = getOperationalLogoUrl(publicBase, "full");
   const amountLabel = formatMoney(charge?.amount ?? bill.amount);
-  const billLabel = bill.description?.trim() || 'your bill';
+  const billLabel = bill.description?.trim() || "your bill";
 
   const hasLinkedAccount = Boolean(bill.userId);
   const hasCompany = Boolean(bill.companyId);
@@ -198,7 +208,7 @@ export async function sendBillPaymentMethodRequiredEmail(
       `2. Open Billing & Payments: ${adminUrl}`,
       `3. Add a card or bank account`,
       `4. We will auto-charge $${amountLabel} once saved`,
-    ].join('\n');
+    ].join("\n");
   } else if (hasCompany) {
     stepsHtml = `
       <ol style="margin:16px 0;padding-left:24px;line-height:1.6;">
@@ -211,7 +221,7 @@ export async function sendBillPaymentMethodRequiredEmail(
       `1. Sign in: ${signInUrl} → Billing & Payments`,
       `2. Or ask your company admin to add a payment method`,
       `3. We will auto-charge $${amountLabel} once saved`,
-    ].join('\n');
+    ].join("\n");
   } else {
     stepsHtml = `
       <ol style="margin:16px 0;padding-left:24px;line-height:1.6;">
@@ -224,7 +234,7 @@ export async function sendBillPaymentMethodRequiredEmail(
       `1. Sign in: ${signInUrl} → Billing & Payments`,
       `2. Or contact ${getPaymentContactEmail()} for account access`,
       `3. We will auto-charge $${amountLabel} once a method is saved`,
-    ].join('\n');
+    ].join("\n");
   }
 
   const htmlBody = `
@@ -274,33 +284,38 @@ Questions: ${getPaymentContactEmail()} · ${getPaymentContactPhone()}`;
   await recordBillEvent({
     billId: bill.id,
     billChargeId: charge?.id,
-    eventType: 'payment_method_required_emailed',
+    eventType: "payment_method_required_emailed",
     message: `Payment method instructions emailed to ${recipientEmail}`,
   });
 }
 
 export async function sendBillInvoiceEmail(bill: Bill, charge?: BillCharge | null): Promise<void> {
   const { name: recipientName, email: recipientEmail } = getBillDisplayInfo(bill);
-  if (!recipientEmail) throw new Error('Recipient email is required');
+  if (!recipientEmail) throw new Error("Recipient email is required");
 
   let resolvedCharge = charge ?? null;
   if (resolvedCharge) {
     resolvedCharge = await ensureBillChargeInvoiceNumber(resolvedCharge);
   }
 
-  const items = resolvedCharge?.lineItemsSnapshot?.length ? resolvedCharge.lineItemsSnapshot : bill.lineItems;
+  const items = resolvedCharge?.lineItemsSnapshot?.length
+    ? resolvedCharge.lineItemsSnapshot
+    : bill.lineItems;
   const amount = resolvedCharge?.amount ?? bill.amount;
   const invoiceNumber =
     resolvedCharge?.invoiceNumber != null
       ? String(resolvedCharge.invoiceNumber)
       : String(await getNextInvoiceNumber());
 
-  const publicBase = (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
-  const logoFullUrl = getOperationalLogoUrl(publicBase, 'full');
-  const invoiceDate = new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  const publicBase = (process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000").replace(
+    /\/$/,
+    "",
+  );
+  const logoFullUrl = getOperationalLogoUrl(publicBase, "full");
+  const invoiceDate = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 
   const htmlLineRows =
@@ -312,9 +327,9 @@ export async function sendBillInvoiceEmail(bill: Bill, charge?: BillCharge | nul
                 <td style="padding:8px;border-bottom:1px solid #eee;text-align:right;">${row.quantity}</td>
                 <td style="padding:8px;border-bottom:1px solid #eee;text-align:right;">$${formatMoney(row.unit_amount)}</td>
                 <td style="padding:8px;border-bottom:1px solid #eee;text-align:right;">$${formatMoney(lineAmount(row))}</td>
-              </tr>`
+              </tr>`,
       )
-      .join('') || '';
+      .join("") || "";
 
   const payUrl = `${publicBase}/payments?token=${encodeURIComponent(bill.publicToken)}`;
 
@@ -330,7 +345,7 @@ export async function sendBillInvoiceEmail(bill: Bill, charge?: BillCharge | nul
           </div>
           <p><strong>Bill To:</strong> ${escapeHtml(recipientName)}<br/>${escapeHtml(recipientEmail)}</p>
           <p><strong>Invoice #:</strong> ${escapeHtml(invoiceNumber)}<br/><strong>Date:</strong> ${invoiceDate}</p>
-          ${bill.description ? `<p>${escapeHtml(bill.description)}</p>` : ''}
+          ${bill.description ? `<p>${escapeHtml(bill.description)}</p>` : ""}
           <table style="width:100%;border-collapse:collapse;margin:16px 0;">
             <thead>
               <tr>
@@ -367,7 +382,7 @@ export async function sendBillInvoiceEmail(bill: Bill, charge?: BillCharge | nul
     amount,
     lineItems: items,
     payUrl,
-    statusLabel: resolvedCharge?.status ?? 'invoiced',
+    statusLabel: resolvedCharge?.status ?? "invoiced",
   });
 
   await sendTransactionalMail({
@@ -381,7 +396,7 @@ export async function sendBillInvoiceEmail(bill: Bill, charge?: BillCharge | nul
       {
         filename: `invoice-${invoiceNumber}.pdf`,
         content: pdfBuffer,
-        contentType: 'application/pdf',
+        contentType: "application/pdf",
       },
     ],
   });
@@ -389,7 +404,7 @@ export async function sendBillInvoiceEmail(bill: Bill, charge?: BillCharge | nul
   await recordBillEvent({
     billId: bill.id,
     billChargeId: resolvedCharge?.id,
-    eventType: 'invoice_emailed',
+    eventType: "invoice_emailed",
     message: `Invoice #${invoiceNumber} emailed to ${recipientEmail}`,
   });
 }
@@ -403,16 +418,16 @@ async function recordBillBillingFailure(params: {
 }): Promise<void> {
   const supabase = getServerSupabaseClient();
   try {
-    await supabase.from('billing_failures').insert({
+    await supabase.from("billing_failures").insert({
       company_id: params.companyId,
-      billable_type: 'bill',
+      billable_type: "bill",
       billable_id: params.billId,
       charge_name: params.chargeName,
       amount_cents: params.amountCents,
       error_message: params.errorMessage,
     });
   } catch (e) {
-    console.error('[bill-billing] record failure', e);
+    console.error("[bill-billing] record failure", e);
   }
 
   try {
@@ -424,29 +439,29 @@ async function recordBillBillingFailure(params: {
       text: `Bill ${params.billId} failed: ${params.errorMessage}`,
     });
   } catch (e) {
-    console.error('[bill-billing] failure email', e);
+    console.error("[bill-billing] failure email", e);
   }
 }
 
 export async function chargeBillOffSession(
   bill: Bill,
-  charge: BillCharge
+  charge: BillCharge,
 ): Promise<{ success: boolean; paymentIntentId?: string; error?: string; processing?: boolean }> {
   if (!bill.stripeCustomerId || !bill.stripePaymentMethodId) {
-    return { success: false, error: 'No payment method attached' };
+    return { success: false, error: "No payment method attached" };
   }
 
   try {
     await ensureBillPaymentMethodOnCustomer(bill);
     const paymentMethod = await stripe.paymentMethods.retrieve(bill.stripePaymentMethodId);
-    const isCard = paymentMethod.type === 'card';
+    const isCard = paymentMethod.type === "card";
     const fee = isCard ? charge.amount * 0.03 : 0;
     const totalAmount = charge.amount + fee;
     const totalCents = Math.round(totalAmount * 100);
 
     const paymentIntentParams: Stripe.PaymentIntentCreateParams = {
       amount: totalCents,
-      currency: 'usd',
+      currency: "usd",
       customer: bill.stripeCustomerId,
       payment_method: bill.stripePaymentMethodId,
       off_session: true,
@@ -457,15 +472,15 @@ export async function chargeBillOffSession(
         public_token: bill.publicToken,
         originalAmount: charge.amount.toString(),
         fee: fee.toString(),
-        method: isCard ? 'card' : 'ach',
-        billing_source: 'bill',
+        method: isCard ? "card" : "ach",
+        billing_source: "bill",
       },
     };
-    if (paymentMethod.type === 'us_bank_account') {
-      paymentIntentParams.payment_method_types = ['us_bank_account'];
+    if (paymentMethod.type === "us_bank_account") {
+      paymentIntentParams.payment_method_types = ["us_bank_account"];
     }
 
-    console.log('[bill-billing] stripe.paymentIntents.create', {
+    console.log("[bill-billing] stripe.paymentIntents.create", {
       billId: bill.id,
       chargeId: charge.id,
       amountCents: totalCents,
@@ -475,40 +490,43 @@ export async function chargeBillOffSession(
 
     const paymentIntent = await stripe.paymentIntents.create(paymentIntentParams);
 
-    if (paymentIntent.status === 'succeeded' || paymentIntent.status === 'processing') {
+    if (paymentIntent.status === "succeeded" || paymentIntent.status === "processing") {
       await completeBillAfterSuccessfulPayment(bill, charge, paymentIntent);
       return {
         success: true,
-        processing: paymentIntent.status === 'processing',
+        processing: paymentIntent.status === "processing",
         paymentIntentId: paymentIntent.id,
       };
     }
 
     const errMsg =
-      paymentIntent.status === 'requires_action'
-        ? 'This card requires additional verification. Use Pay another way to complete checkout.'
+      paymentIntent.status === "requires_action"
+        ? "This card requires additional verification. Use Pay another way to complete checkout."
         : `Payment failed with status: ${paymentIntent.status}`;
-    await updateBillCharge({ chargeId: charge.id, status: 'failed', failureMessage: errMsg });
+    await updateBillCharge({ chargeId: charge.id, status: "failed", failureMessage: errMsg });
     return { success: false, error: errMsg };
   } catch (err) {
-    const errMsg = err instanceof Error ? err.message : 'Unknown error';
+    const errMsg = err instanceof Error ? err.message : "Unknown error";
     const isInvalidPm =
-      errMsg.includes('No such PaymentMethod') ||
-      (err && typeof err === 'object' && 'code' in err && (err as { code?: string }).code === 'resource_missing');
+      errMsg.includes("No such PaymentMethod") ||
+      (err &&
+        typeof err === "object" &&
+        "code" in err &&
+        (err as { code?: string }).code === "resource_missing");
 
     if (isInvalidPm && bill.stripePaymentMethodId) {
-      const { updateBillStripeInfo } = await import('@/lib/bills');
+      const { updateBillStripeInfo } = await import("@/lib/bills");
       await updateBillStripeInfo(bill.id, null, null);
       await deleteSavedPaymentMethodByStripePmId(bill.stripePaymentMethodId);
     }
 
-    await updateBillCharge({ chargeId: charge.id, status: 'failed', failureMessage: errMsg });
+    await updateBillCharge({ chargeId: charge.id, status: "failed", failureMessage: errMsg });
 
     if (bill.companyId) {
       await recordBillBillingFailure({
         companyId: bill.companyId,
         billId: bill.id,
-        chargeName: bill.description || 'Bill',
+        chargeName: bill.description || "Bill",
         amountCents: Math.round(charge.amount * 100),
         errorMessage: errMsg,
       });
@@ -520,7 +538,7 @@ export async function chargeBillOffSession(
 
 async function ensureOpenBillCharge(
   bill: Bill,
-  status: 'pending' | 'invoiced' = 'pending'
+  status: "pending" | "invoiced" = "pending",
 ): Promise<BillCharge> {
   let charge = await getOpenBillCharge(bill.id);
   if (!charge) {
@@ -530,9 +548,9 @@ async function ensureOpenBillCharge(
       lineItemsSnapshot: bill.lineItems,
       status,
     });
-  } else if (status === 'invoiced' && charge.status === 'pending') {
-    await updateBillCharge({ chargeId: charge.id, status: 'invoiced' });
-    charge = { ...charge, status: 'invoiced' };
+  } else if (status === "invoiced" && charge.status === "pending") {
+    await updateBillCharge({ chargeId: charge.id, status: "invoiced" });
+    charge = { ...charge, status: "invoiced" };
   }
   return charge;
 }
@@ -542,12 +560,17 @@ async function ensureOpenBillCharge(
  */
 export async function chargeBillNow(
   billId: string,
-  options: { actingUserId?: string } = {}
-): Promise<{ charge: BillCharge; charged: boolean; processing?: boolean; paymentIntentId?: string }> {
+  options: { actingUserId?: string } = {},
+): Promise<{
+  charge: BillCharge;
+  charged: boolean;
+  processing?: boolean;
+  paymentIntentId?: string;
+}> {
   let bill = await getBillById(billId);
-  if (!bill) throw new Error('Bill not found');
-  if (bill.status === 'completed') throw new Error('Bill is already paid');
-  if (bill.status !== 'active') throw new Error('Bill is not active');
+  if (!bill) throw new Error("Bill not found");
+  if (bill.status === "completed") throw new Error("Bill is already paid");
+  if (bill.status !== "active") throw new Error("Bill is not active");
 
   let charge = await getOpenBillCharge(billId);
   if (!charge) {
@@ -555,7 +578,7 @@ export async function chargeBillNow(
       billId: bill.id,
       amount: bill.amount,
       lineItemsSnapshot: bill.lineItems,
-      status: 'pending',
+      status: "pending",
     });
   }
 
@@ -569,13 +592,13 @@ export async function chargeBillNow(
 
   if (!bill.stripePaymentMethodId) {
     throw new Error(
-      'No payment method on file. Add a company payment method or use Pay another way on the invoice link.'
+      "No payment method on file. Add a company payment method or use Pay another way on the invoice link.",
     );
   }
 
   const result = await chargeBillOffSession(bill, charge);
   if (!result.success) {
-    throw new Error(result.error || 'Stripe charge failed');
+    throw new Error(result.error || "Stripe charge failed");
   }
 
   return {
@@ -591,22 +614,21 @@ export async function chargeBillNow(
  */
 export async function deliverBillOnActivation(
   billId: string,
-  options: { sendInvoiceEmail?: boolean } = {}
+  options: { sendInvoiceEmail?: boolean } = {},
 ): Promise<{ emailed: boolean; charged: boolean }> {
   let bill = await getBillById(billId);
-  if (!bill || bill.status !== 'active') {
+  if (!bill || bill.status !== "active") {
     return { emailed: false, charged: false };
   }
 
   const notify = options.sendInvoiceEmail !== false;
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
   const isDue = !bill.nextBillingDate || bill.nextBillingDate <= today;
-  const chargeFirst =
-    bill.collectionMode === 'auto_charge' || bill.attachCompanyPaymentMethod;
+  const chargeFirst = bill.collectionMode === "auto_charge" || bill.attachCompanyPaymentMethod;
 
   if (!chargeFirst) {
     if (!notify) return { emailed: false, charged: false };
-    const charge = await ensureOpenBillCharge(bill, 'invoiced');
+    const charge = await ensureOpenBillCharge(bill, "invoiced");
     await sendBillInvoiceEmail(bill, charge);
     return { emailed: true, charged: false };
   }
@@ -619,27 +641,27 @@ export async function deliverBillOnActivation(
 
   const shouldTryCharge =
     Boolean(bill.stripePaymentMethodId) &&
-    (isDue || bill.attachCompanyPaymentMethod || bill.scheduleType === 'one_time');
+    (isDue || bill.attachCompanyPaymentMethod || bill.scheduleType === "one_time");
 
   if (shouldTryCharge) {
     try {
       await chargeBillNow(billId);
       return { emailed: false, charged: true };
     } catch (e) {
-      console.error('[bill-billing] deliverBillOnActivation charge failed', e);
+      console.error("[bill-billing] deliverBillOnActivation charge failed", e);
     }
   }
 
   if (!bill.stripePaymentMethodId && notify) {
-    const charge = await ensureOpenBillCharge(bill, 'pending');
+    const charge = await ensureOpenBillCharge(bill, "pending");
     const alreadyEmailed = await hasPaymentMethodRequiredEmailSent(bill.id, charge.id);
     if (!alreadyEmailed) {
       await sendBillPaymentMethodRequiredEmail(bill, charge);
       await recordBillEvent({
         billId: bill.id,
         billChargeId: charge.id,
-        eventType: 'awaiting_payment_method',
-        message: 'Recipient emailed to add payment method in their account (no payment link)',
+        eventType: "awaiting_payment_method",
+        message: "Recipient emailed to add payment method in their account (no payment link)",
       });
     }
     return { emailed: !alreadyEmailed, charged: false };
@@ -659,12 +681,12 @@ export async function runBillCycle(
     payWithCompanyPaymentMethod?: boolean;
     /** Company admin user — used to find user-level saved cards when company row has none. */
     actingUserId?: string;
-  } = {}
+  } = {},
 ): Promise<{ charge: BillCharge; charged: boolean; emailed: boolean; processing?: boolean }> {
   const bill = await getBillById(billId);
-  if (!bill) throw new Error('Bill not found');
-  if (bill.status !== 'active' && !options.force) {
-    throw new Error('Bill is not active');
+  if (!bill) throw new Error("Bill not found");
+  if (bill.status !== "active" && !options.force) {
+    throw new Error("Bill is not active");
   }
 
   let charge = await getOpenBillCharge(billId);
@@ -673,7 +695,7 @@ export async function runBillCycle(
       billId: bill.id,
       amount: bill.amount,
       lineItemsSnapshot: bill.lineItems,
-      status: 'pending',
+      status: "pending",
     });
   }
 
@@ -682,7 +704,7 @@ export async function runBillCycle(
 
   if (options.payWithCompanyPaymentMethod) {
     if (!bill.companyId) {
-      throw new Error('This bill is not linked to a company account');
+      throw new Error("This bill is not linked to a company account");
     }
     const creds = await resolveStripePaymentMethodForBill(bill.id, bill.companyId, {
       adminUserId: options.actingUserId,
@@ -694,15 +716,15 @@ export async function runBillCycle(
       await recordBillEvent({
         billId: bill.id,
         billChargeId: charge.id,
-        eventType: 'charge_failed',
+        eventType: "charge_failed",
         message: result.error,
       });
-      throw new Error(result.error || 'Payment failed');
+      throw new Error(result.error || "Payment failed");
     }
     return { charge, charged: true, emailed: false, processing: result.processing };
   }
 
-  if (bill.collectionMode === 'auto_charge') {
+  if (bill.collectionMode === "auto_charge") {
     if (!bill.stripePaymentMethodId && bill.companyId) {
       await attachCompanyPaymentMethodToBill(bill.id, bill.companyId, options.actingUserId);
       const refreshed = await getBillById(billId);
@@ -716,15 +738,15 @@ export async function runBillCycle(
         await recordBillEvent({
           billId: bill.id,
           billChargeId: charge.id,
-          eventType: 'charge_failed',
+          eventType: "charge_failed",
           message: result.error,
         });
       }
     } else {
       await updateBillCharge({
         chargeId: charge.id,
-        status: 'pending',
-        failureMessage: 'No payment method on file for auto-charge',
+        status: "pending",
+        failureMessage: "No payment method on file for auto-charge",
       });
       const alreadyEmailed = await hasPaymentMethodRequiredEmailSent(bill.id, charge.id);
       if (!alreadyEmailed) {
@@ -732,22 +754,22 @@ export async function runBillCycle(
           await sendBillPaymentMethodRequiredEmail(bill, charge);
           emailed = true;
         } catch (emailErr) {
-          console.error('[bill-billing] payment method required email failed', emailErr);
+          console.error("[bill-billing] payment method required email failed", emailErr);
         }
       }
       if (bill.companyId && options.notifyManagementOnFailure !== false) {
         await recordBillBillingFailure({
           companyId: bill.companyId,
           billId: bill.id,
-          chargeName: bill.description || 'Bill',
+          chargeName: bill.description || "Bill",
           amountCents: Math.round(charge.amount * 100),
-          errorMessage: 'No payment method attached for auto-charge; recipient notified to add one',
+          errorMessage: "No payment method attached for auto-charge; recipient notified to add one",
         });
       }
     }
   } else {
-    await updateBillCharge({ chargeId: charge.id, status: 'invoiced' });
-    charge = { ...charge, status: 'invoiced' };
+    await updateBillCharge({ chargeId: charge.id, status: "invoiced" });
+    charge = { ...charge, status: "invoiced" };
     if (options.sendInvoiceEmail !== false) {
       await sendBillInvoiceEmail(bill, charge);
       emailed = true;
@@ -760,7 +782,7 @@ export async function runBillCycle(
 /** After creating or activating a bill — send invoice / setup emails (see deliverBillOnActivation). */
 export async function activateBillInitialCycle(
   billId: string,
-  options: { sendInvoiceEmail?: boolean } = {}
+  options: { sendInvoiceEmail?: boolean } = {},
 ): Promise<void> {
   await deliverBillOnActivation(billId, options);
 }
@@ -770,8 +792,8 @@ export interface BillDueDebugRow {
   recipientName: string;
   recipientEmail: string;
   amount: number;
-  collectionMode: Bill['collectionMode'];
-  scheduleType: Bill['scheduleType'];
+  collectionMode: Bill["collectionMode"];
+  scheduleType: Bill["scheduleType"];
   nextBillingDate: string | null;
   companyName: string | null;
   hasPaymentMethod: boolean;
@@ -793,13 +815,13 @@ export interface ProcessDueBillsResult {
 }
 
 function describeBillDueAction(bill: Bill): string {
-  if (bill.collectionMode === 'invoice_link') {
-    return 'would_send_invoice_email';
+  if (bill.collectionMode === "invoice_link") {
+    return "would_send_invoice_email";
   }
   if (bill.stripePaymentMethodId) {
-    return 'would_auto_charge';
+    return "would_auto_charge";
   }
-  return 'would_email_invoice_and_payment_method_setup';
+  return "would_email_invoice_and_payment_method_setup";
 }
 
 export async function processDueBills(options?: {
@@ -809,7 +831,7 @@ export async function processDueBills(options?: {
 }): Promise<ProcessDueBillsResult> {
   const errors: Array<{ billId: string; error: string }> = [];
   const billDebug: BillDueDebugRow[] = [];
-  const billReminderDebug: ProcessDueBillsResult['billReminderDebug'] = [];
+  const billReminderDebug: ProcessDueBillsResult["billReminderDebug"] = [];
   let processed = 0;
   let remindersSent = 0;
 
@@ -837,32 +859,32 @@ export async function processDueBills(options?: {
     }
     try {
       const { charged, emailed } = await runBillCycle(bill.id, {
-        sendInvoiceEmail: bill.collectionMode === 'invoice_link',
+        sendInvoiceEmail: bill.collectionMode === "invoice_link",
       });
       if (charged || emailed) processed++;
     } catch (e) {
-      errors.push({ billId: bill.id, error: e instanceof Error ? e.message : 'Unknown' });
+      errors.push({ billId: bill.id, error: e instanceof Error ? e.message : "Unknown" });
     }
   }
 
   // Payment reminders: 3 days before due, invoice_link only
   const supabase = getServerSupabaseClient();
-  const reminderBase = options?.asOfDate ? new Date(options.asOfDate + 'T12:00:00') : new Date();
+  const reminderBase = options?.asOfDate ? new Date(options.asOfDate + "T12:00:00") : new Date();
   const reminderDate = new Date(reminderBase);
   reminderDate.setDate(reminderDate.getDate() + 3);
-  const reminderDay = reminderDate.toISOString().split('T')[0];
+  const reminderDay = reminderDate.toISOString().split("T")[0];
 
   let reminderQuery = supabase
-    .from('bills')
-    .select('*')
-    .eq('status', 'active')
-    .eq('schedule_type', 'recurring')
-    .eq('collection_mode', 'invoice_link')
-    .eq('next_billing_date', reminderDay)
-    .is('last_reminder_sent_at', null);
+    .from("bills")
+    .select("*")
+    .eq("status", "active")
+    .eq("schedule_type", "recurring")
+    .eq("collection_mode", "invoice_link")
+    .eq("next_billing_date", reminderDay)
+    .is("last_reminder_sent_at", null);
 
   if (options?.companyId) {
-    reminderQuery = reminderQuery.eq('company_id', options.companyId);
+    reminderQuery = reminderQuery.eq("company_id", options.companyId);
   }
 
   const { data: reminderBills } = await reminderQuery;
@@ -877,7 +899,7 @@ export async function processDueBills(options?: {
         recipientEmail: email,
         amount: bill.amount,
         nextBillingDate: bill.nextBillingDate,
-        reason: 'would_send_upcoming_reminder_email',
+        reason: "would_send_upcoming_reminder_email",
       });
       continue;
     }
@@ -885,7 +907,10 @@ export async function processDueBills(options?: {
     if (!bill) continue;
     try {
       const { email, name } = getBillDisplayInfo(bill);
-      const publicBase = (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
+      const publicBase = (process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000").replace(
+        /\/$/,
+        "",
+      );
       await sendTransactionalMail({
         from: getPaymentTransactionalFrom(),
         to: email,
@@ -895,12 +920,12 @@ export async function processDueBills(options?: {
         text: `Reminder: $${formatMoney(bill.amount)} due ${bill.nextBillingDate}. Pay: ${publicBase}/payments?token=${bill.publicToken}`,
       });
       await supabase
-        .from('bills')
+        .from("bills")
         .update({ last_reminder_sent_at: new Date().toISOString() })
-        .eq('id', bill.id);
+        .eq("id", bill.id);
       remindersSent++;
     } catch (e) {
-      console.error('[bill-billing] reminder failed', e);
+      console.error("[bill-billing] reminder failed", e);
     }
   }
 

@@ -1,12 +1,6 @@
 import { adminFonts } from "./tokens";
 
-export function AdminEmptyModule({
-  title,
-  body,
-}: {
-  title: string;
-  body: string;
-}) {
+export function AdminEmptyModule({ title, body }: { title: string; body: string }) {
   const { mono, sans } = adminFonts;
   return (
     <section className="rounded-2xl border border-black/[0.07] bg-white p-8 md:p-10">

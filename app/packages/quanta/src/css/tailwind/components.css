@@ -48,4 +48,4 @@
 @import "../../components/accordion/accordion.css";
 @import "../../components/button-group/button-group.css";
 @import "../../components/glass/glass.css";
-@import "./slot.css";   /* slot system — component-internal styling primitives */
+@import "./slot.css"; /* slot system — component-internal styling primitives */

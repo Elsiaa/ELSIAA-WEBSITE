@@ -2,9 +2,9 @@
  * User management functions for company-based system
  */
 
-import { parseSuperAdminEmails } from '@/lib/super-admin';
-import { normalizeEmailForAuth } from '@/lib/email-normalize';
-import { getServerSupabaseClient } from './supabase';
+import { parseSuperAdminEmails } from "@/lib/super-admin";
+import { normalizeEmailForAuth } from "@/lib/email-normalize";
+import { getServerSupabaseClient } from "./supabase";
 import type {
   User,
   UserWithCompany,
@@ -12,7 +12,7 @@ import type {
   UpdateUserInput,
   UserDisplayInfo,
   UserRole,
-} from '@/types/company';
+} from "@/types/company";
 
 /** Hide rows whose email is in SUPER_ADMIN_EMAILS (replaces Clerk metadata superuser filter). */
 export function filterOutSuperAdminUsers<T extends { email: string }>(users: T[]): T[] {
@@ -28,9 +28,9 @@ export async function getUserByAuthUserId(authUserId: string): Promise<User | nu
   try {
     const supabase = getServerSupabaseClient();
     const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('auth_user_id', authUserId)
+      .from("users")
+      .select("*")
+      .eq("auth_user_id", authUserId)
       .maybeSingle();
 
     if (error) {
@@ -59,18 +59,18 @@ export async function getUsersByAuthUserIds(authUserIds: string[]): Promise<User
 
     const supabase = getServerSupabaseClient();
     const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .in('auth_user_id', authUserIds);
+      .from("users")
+      .select("*")
+      .in("auth_user_id", authUserIds);
 
     if (error) {
-      console.error('Error getting users by auth user IDs:', error);
+      console.error("Error getting users by auth user IDs:", error);
       return [];
     }
 
     return data || [];
   } catch (error) {
-    console.error('Error getting users by auth user IDs:', error);
+    console.error("Error getting users by auth user IDs:", error);
     return [];
   }
 }
@@ -87,9 +87,9 @@ export async function getUserByEmail(email: string): Promise<User | null> {
   try {
     const supabase = getServerSupabaseClient();
     const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email)
+      .from("users")
+      .select("*")
+      .eq("email", email)
       .maybeSingle();
 
     if (error) {
@@ -109,9 +109,9 @@ export async function getUserByEmailNormalized(email: string): Promise<User | nu
   try {
     const supabase = getServerSupabaseClient();
     const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .ilike('email', normalized)
+      .from("users")
+      .select("*")
+      .ilike("email", normalized)
       .maybeSingle();
 
     if (error) {
@@ -127,14 +127,17 @@ export async function getUserByEmailNormalized(email: string): Promise<User | nu
 /**
  * Get user by email and company ID
  */
-export async function getUserByEmailAndCompany(email: string, companyId: string): Promise<User | null> {
+export async function getUserByEmailAndCompany(
+  email: string,
+  companyId: string,
+): Promise<User | null> {
   try {
     const supabase = getServerSupabaseClient();
     const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email)
-      .eq('company_id', companyId)
+      .from("users")
+      .select("*")
+      .eq("email", email)
+      .eq("company_id", companyId)
       .maybeSingle();
 
     if (error) {
@@ -153,11 +156,7 @@ export async function getUserByEmailAndCompany(email: string, companyId: string)
 export async function getUserById(userId: string): Promise<User | null> {
   try {
     const supabase = getServerSupabaseClient();
-    const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('id', userId)
-      .maybeSingle(); // Use maybeSingle() instead of single() to handle 0 or 1 rows without error
+    const { data, error } = await supabase.from("users").select("*").eq("id", userId).maybeSingle(); // Use maybeSingle() instead of single() to handle 0 or 1 rows without error
 
     if (error) {
       return null;
@@ -176,12 +175,14 @@ export async function getUserWithCompany(userId: string): Promise<UserWithCompan
   try {
     const supabase = getServerSupabaseClient();
     const { data, error } = await supabase
-      .from('users')
-      .select(`
+      .from("users")
+      .select(
+        `
         *,
         company:companies(*)
-      `)
-      .eq('id', userId)
+      `,
+      )
+      .eq("id", userId)
       .maybeSingle(); // Use maybeSingle() instead of single() to handle 0 or 1 rows without error
 
     if (error) {
@@ -201,10 +202,10 @@ export async function getUsersByCompany(companyId: string): Promise<User[]> {
   try {
     const supabase = getServerSupabaseClient();
     const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('company_id', companyId)
-      .order('created_at', { ascending: false });
+      .from("users")
+      .select("*")
+      .eq("company_id", companyId)
+      .order("created_at", { ascending: false });
 
     if (error) {
       return [];
@@ -224,30 +225,32 @@ export async function getAllUsers(): Promise<UserWithCompany[]> {
   try {
     const supabase = getServerSupabaseClient();
     const { data, error } = await supabase
-      .from('users')
-      .select(`
+      .from("users")
+      .select(
+        `
         *,
         company:companies(*)
-      `)
-      .order('created_at', { ascending: false });
+      `,
+      )
+      .order("created_at", { ascending: false });
 
     if (error) {
-      console.error('Error in getAllUsers:', error);
+      console.error("Error in getAllUsers:", error);
       return [];
     }
 
     if (!data) {
-      console.log('No users data returned');
+      console.log("No users data returned");
       return [];
     }
 
     const filtered = filterOutSuperAdminUsers(data as unknown as UserWithCompany[]);
     console.log(
-      `getAllUsers returned ${data.length} users, ${filtered.length} after filtering superusers`
+      `getAllUsers returned ${data.length} users, ${filtered.length} after filtering superusers`,
     );
     return filtered;
   } catch (error) {
-    console.error('Exception in getAllUsers:', error);
+    console.error("Exception in getAllUsers:", error);
     return [];
   }
 }
@@ -258,20 +261,16 @@ export async function getAllUsers(): Promise<UserWithCompany[]> {
 export async function createUser(input: CreateUserInput): Promise<User> {
   try {
     const supabase = getServerSupabaseClient();
-    const { data, error } = await supabase
-      .from('users')
-      .insert(input)
-      .select()
-      .single();
+    const { data, error } = await supabase.from("users").insert(input).select().single();
 
     if (error) {
-      console.error('Error creating user:', error);
+      console.error("Error creating user:", error);
       throw new Error(`Failed to create user: ${error.message}`);
     }
 
     return data;
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error("Error creating user:", error);
     throw error;
   }
 }
@@ -282,19 +281,19 @@ export async function createUser(input: CreateUserInput): Promise<User> {
 export async function updateUser(userId: string, input: UpdateUserInput): Promise<User | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('users')
+    .from("users")
     .update(input)
-    .eq('id', userId)
+    .eq("id", userId)
     .select()
     .maybeSingle();
 
   if (error) {
-    console.error('Error updating user:', error);
-    throw new Error('Failed to update user');
+    console.error("Error updating user:", error);
+    throw new Error("Failed to update user");
   }
 
   if (!data) {
-    console.error('User not found:', userId);
+    console.error("User not found:", userId);
     return null;
   }
 
@@ -306,14 +305,11 @@ export async function updateUser(userId: string, input: UpdateUserInput): Promis
  */
 export async function deleteUser(userId: string): Promise<void> {
   const supabase = getServerSupabaseClient();
-  const { error } = await supabase
-    .from('users')
-    .delete()
-    .eq('id', userId);
+  const { error } = await supabase.from("users").delete().eq("id", userId);
 
   if (error) {
-    console.error('Error deleting user:', error);
-    throw new Error('Failed to delete user');
+    console.error("Error deleting user:", error);
+    throw new Error("Failed to delete user");
   }
 }
 
@@ -322,14 +318,11 @@ export async function deleteUser(userId: string): Promise<void> {
  */
 export async function hardDeleteUser(userId: string): Promise<void> {
   const supabase = getServerSupabaseClient();
-  const { error } = await supabase
-    .from('users')
-    .delete()
-    .eq('id', userId);
+  const { error } = await supabase.from("users").delete().eq("id", userId);
 
   if (error) {
-    console.error('Error hard deleting user:', error);
-    throw new Error('Failed to hard delete user');
+    console.error("Error hard deleting user:", error);
+    throw new Error("Failed to hard delete user");
   }
 }
 
@@ -343,9 +336,10 @@ export function getUserDisplayInfo(user: {
   email: string;
   role: UserRole;
 }): UserDisplayInfo {
-  const name = user.first_name && user.last_name
-    ? `${user.first_name} ${user.last_name}`
-    : user.first_name || user.last_name || user.email;
+  const name =
+    user.first_name && user.last_name
+      ? `${user.first_name} ${user.last_name}`
+      : user.first_name || user.last_name || user.email;
 
   return {
     id: user.id,
@@ -363,12 +357,12 @@ export async function getUsersDisplayInfo(userIds: string[]): Promise<UserDispla
 
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('users')
-    .select('id, first_name, last_name, email, role')
-    .in('id', userIds);
+    .from("users")
+    .select("id, first_name, last_name, email, role")
+    .in("id", userIds);
 
   if (error) {
-    console.error('Error fetching users display info:', error);
+    console.error("Error fetching users display info:", error);
     return [];
   }
 
@@ -380,16 +374,13 @@ export async function getUsersDisplayInfo(userIds: string[]): Promise<UserDispla
  */
 export async function isCompanyAdmin(userId: string): Promise<boolean> {
   const user = await getUserById(userId);
-  return user?.role === 'admin';
+  return user?.role === "admin";
 }
 
 /**
  * Check if user belongs to a specific company
  */
-export async function userBelongsToCompany(
-  userId: string,
-  companyId: string
-): Promise<boolean> {
+export async function userBelongsToCompany(userId: string, companyId: string): Promise<boolean> {
   const user = await getUserById(userId);
   return user?.company_id === companyId;
 }

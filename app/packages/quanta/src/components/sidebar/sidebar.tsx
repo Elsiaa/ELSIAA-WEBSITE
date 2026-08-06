@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import type { ComponentProps, ReactNode } from 'react'
-import { createContext, useCallback, useContext, useMemo, useState } from 'react'
-import { useRender } from '@base-ui/react/use-render'
-import { IconChevronGrabberVerticalOutlined as ChevronGrabberGlyph } from '@higgsfield-ai/icons/IconChevronGrabberVerticalOutlined'
-import { IconMagnifyingGlassOutlined as SearchGlyph } from '@higgsfield-ai/icons/IconMagnifyingGlassOutlined'
-import { IconPinFilledThin as PinGlyph } from '@higgsfield-ai/icons/IconPinFilledThin'
-import { Icon } from '../icon/index.ts'
-import { cx } from '../utils/cx.ts'
+import type { ComponentProps, ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { useRender } from "@base-ui/react/use-render";
+import { IconChevronGrabberVerticalOutlined as ChevronGrabberGlyph } from "@higgsfield-ai/icons/IconChevronGrabberVerticalOutlined";
+import { IconMagnifyingGlassOutlined as SearchGlyph } from "@higgsfield-ai/icons/IconMagnifyingGlassOutlined";
+import { IconPinFilledThin as PinGlyph } from "@higgsfield-ai/icons/IconPinFilledThin";
+import { Icon } from "../icon/index.ts";
+import { cx } from "../utils/cx.ts";
 
 /**
  * Sidebar — the product navigation rail, pixel-matched to the Figma "Sidebar"
@@ -64,29 +64,29 @@ import { cx } from '../utils/cx.ts'
  * `href` is set, or any element via `render` (Base UI useRender, e.g. a Link).
  */
 
-export type SidebarItemSize = 'md' | 'sm'
-export type SidebarItemVariant = 'nav' | 'project'
-export type SidebarFooterVariant = 'default' | 'promo' | 'login'
-export type SidebarProduct = 'cinema-studio' | 'marketing-studio' | 'supercomputer'
-export type SidebarActionVisibility = 'always' | 'hover'
+export type SidebarItemSize = "md" | "sm";
+export type SidebarItemVariant = "nav" | "project";
+export type SidebarFooterVariant = "default" | "promo" | "login";
+export type SidebarProduct = "cinema-studio" | "marketing-studio" | "supercomputer";
+export type SidebarActionVisibility = "always" | "hover";
 
 /* ── Collapse state (owned by Root, consumed by Toggle) ────────────────────── */
-type SidebarCollapseContextValue = { collapsed: boolean, toggle: () => void }
-const SidebarCollapseContext = createContext<SidebarCollapseContextValue | null>(null)
+type SidebarCollapseContextValue = { collapsed: boolean; toggle: () => void };
+const SidebarCollapseContext = createContext<SidebarCollapseContextValue | null>(null);
 
 /* ── Root ──────────────────────────────────────────────────────────────────── */
-export type SidebarRootProps = ComponentProps<'aside'> & {
+export type SidebarRootProps = ComponentProps<"aside"> & {
   /** Icon-strip mode (controlled): labels/meta/actions hide and icons center. */
-  collapsed?: boolean
+  collapsed?: boolean;
   /** Initial collapsed state when uncontrolled (Toggle drives it from here). */
-  defaultCollapsed?: boolean
+  defaultCollapsed?: boolean;
   /** Fires whenever the collapsed state changes (Toggle, or a controlled set). */
-  onCollapsedChange?: (collapsed: boolean) => void
+  onCollapsedChange?: (collapsed: boolean) => void;
   /** Figma product variant; controls the variant rail width only. */
-  product?: SidebarProduct
+  product?: SidebarProduct;
   /** Square corners (docked flush to a screen edge). */
-  flush?: boolean
-}
+  flush?: boolean;
+};
 function Root({
   collapsed: collapsedProp,
   defaultCollapsed = false,
@@ -97,37 +97,45 @@ function Root({
   children,
   ...props
 }: SidebarRootProps) {
-  const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed)
-  const isControlled = collapsedProp != null
-  const collapsed = isControlled ? collapsedProp : internalCollapsed
+  const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
+  const isControlled = collapsedProp != null;
+  const collapsed = isControlled ? collapsedProp : internalCollapsed;
 
-  const setCollapsed = useCallback((next: boolean) => {
-    if (!isControlled) setInternalCollapsed(next)
-    onCollapsedChange?.(next)
-  }, [isControlled, onCollapsedChange])
+  const setCollapsed = useCallback(
+    (next: boolean) => {
+      if (!isControlled) setInternalCollapsed(next);
+      onCollapsedChange?.(next);
+    },
+    [isControlled, onCollapsedChange],
+  );
 
   const collapseContext = useMemo<SidebarCollapseContextValue>(
     () => ({ collapsed, toggle: () => setCollapsed(!collapsed) }),
     [collapsed, setCollapsed],
-  )
+  );
 
   return (
     <SidebarCollapseContext.Provider value={collapseContext}>
       <aside
-        data-collapsed={collapsed ? '' : undefined}
+        data-collapsed={collapsed ? "" : undefined}
         data-product={product}
-        className={cx('q-sidebar', collapsed && 'q-sidebar-collapsed', flush && 'q-sidebar-flush', className)}
+        className={cx(
+          "q-sidebar",
+          collapsed && "q-sidebar-collapsed",
+          flush && "q-sidebar-flush",
+          className,
+        )}
         {...props}
       >
         {children}
       </aside>
     </SidebarCollapseContext.Provider>
-  )
+  );
 }
 
 /* ── Header: layout slot for the switcher + toggle ─────────────────────────── */
-function Header({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-sidebar-header', className)} {...props} />
+function Header({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-sidebar-header", className)} {...props} />;
 }
 
 /**
@@ -137,34 +145,46 @@ function Header({ className, ...props }: ComponentProps<'div'>) {
  * runs first and can `preventDefault()` to keep the rail collapsed; when expanded
  * the switcher never auto-toggles, so its workspace-switching role is untouched.
  */
-function Switcher({ className, type, onClick, ...props }: ComponentProps<'button'>) {
-  const collapse = useContext(SidebarCollapseContext)
+function Switcher({ className, type, onClick, ...props }: ComponentProps<"button">) {
+  const collapse = useContext(SidebarCollapseContext);
   return (
     <button
-      type={type ?? 'button'}
-      className={cx('q-sidebar-switcher', className)}
+      type={type ?? "button"}
+      className={cx("q-sidebar-switcher", className)}
       onClick={(event) => {
-        onClick?.(event)
-        if (!event.defaultPrevented && collapse?.collapsed) collapse.toggle()
+        onClick?.(event);
+        if (!event.defaultPrevented && collapse?.collapsed) collapse.toggle();
       }}
       {...props}
     />
-  )
+  );
 }
 
 /** Brand mark slot. */
-function Logo({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-sidebar-logo', className)} {...props} />
+function Logo({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-sidebar-logo", className)} {...props} />;
 }
 
 /** Workspace name (compose a SwitcherChevron after the text if wanted). */
-function Title({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-sidebar-switcher-name', 'text-q-body-sm-medium', className)} {...props} />
+function Title({ className, ...props }: ComponentProps<"span">) {
+  return (
+    <span
+      className={cx("q-sidebar-switcher-name", "text-q-body-sm-medium", className)}
+      {...props}
+    />
+  );
 }
 
 /** The up/down workspace-switcher chevron. */
 function SwitcherChevron({ className }: { className?: string }) {
-  return <Icon as={ChevronGrabberGlyph} size="sm" color="secondary" className={cx('q-sidebar-switcher-chevron', className)} />
+  return (
+    <Icon
+      as={ChevronGrabberGlyph}
+      size="sm"
+      color="secondary"
+      className={cx("q-sidebar-switcher-chevron", className)}
+    />
+  );
 }
 
 /**
@@ -173,112 +193,146 @@ function SwitcherChevron({ className }: { className?: string }) {
  * `aria-expanded`, and an icon-only Toggle gets a default Collapse/Expand label.
  * A custom `onClick` runs first and can `preventDefault()` to suppress the flip.
  */
-function Toggle({ className, type, children, onClick, 'aria-label': ariaLabel, ...props }: ComponentProps<'button'>) {
-  const collapse = useContext(SidebarCollapseContext)
+function Toggle({
+  className,
+  type,
+  children,
+  onClick,
+  "aria-label": ariaLabel,
+  ...props
+}: ComponentProps<"button">) {
+  const collapse = useContext(SidebarCollapseContext);
   // A string child names the button itself; an icon child needs the default label.
-  const labelFromText = typeof children === 'string'
-  const resolvedLabel = ariaLabel
-    ?? (labelFromText || collapse == null ? undefined : collapse.collapsed ? 'Expand sidebar' : 'Collapse sidebar')
+  const labelFromText = typeof children === "string";
+  const resolvedLabel =
+    ariaLabel ??
+    (labelFromText || collapse == null
+      ? undefined
+      : collapse.collapsed
+        ? "Expand sidebar"
+        : "Collapse sidebar");
   return (
     <button
-      type={type ?? 'button'}
+      type={type ?? "button"}
       aria-expanded={collapse ? !collapse.collapsed : undefined}
       aria-label={resolvedLabel}
-      className={cx('q-sidebar-toggle', className)}
+      className={cx("q-sidebar-toggle", className)}
       onClick={(event) => {
-        onClick?.(event)
-        if (!event.defaultPrevented) collapse?.toggle()
+        onClick?.(event);
+        if (!event.defaultPrevented) collapse?.toggle();
       }}
       {...props}
     >
       {children}
     </button>
-  )
+  );
 }
 
 /* ── Body ──────────────────────────────────────────────────────────────────── */
-function Body({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-sidebar-body', className)} {...props} />
+function Body({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-sidebar-body", className)} {...props} />;
 }
 
 /* ── Search: the filter input row ──────────────────────────────────────────── */
-export type SidebarSearchProps = Omit<ComponentProps<'input'>, 'size'> & {
+export type SidebarSearchProps = Omit<ComponentProps<"input">, "size"> & {
   /** Leading icon, defaults to a magnifier. */
-  icon?: ReactNode
-  className?: string
-  inputClassName?: string
-}
-function Search({ icon, className, inputClassName, placeholder = 'Search', ...props }: SidebarSearchProps) {
+  icon?: ReactNode;
+  className?: string;
+  inputClassName?: string;
+};
+function Search({
+  icon,
+  className,
+  inputClassName,
+  placeholder = "Search",
+  ...props
+}: SidebarSearchProps) {
   return (
-    <div className={cx('q-sidebar-search', className)}>
+    <div className={cx("q-sidebar-search", className)}>
       {icon ?? <Icon as={SearchGlyph} size="lg" className="q-sidebar-search-icon" />}
-      <input className={cx('q-sidebar-search-input', 'text-q-body-sm-medium', inputClassName)} placeholder={placeholder} {...props} />
+      <input
+        className={cx("q-sidebar-search-input", "text-q-body-sm-medium", inputClassName)}
+        placeholder={placeholder}
+        {...props}
+      />
     </div>
-  )
+  );
 }
 
 /* ── Section: an optional header + a stack of items ────────────────────────── */
-function Section({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-sidebar-section', className)} {...props} />
+function Section({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-sidebar-section", className)} {...props} />;
 }
 
 /** The section heading row (compose a SectionTitle + optional SectionActions). */
-function SectionHeader({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-sidebar-section-header', className)} {...props} />
+function SectionHeader({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-sidebar-section-header", className)} {...props} />;
 }
 
-function SectionTitle({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-sidebar-section-title', 'text-q-label-xs-medium', className)} {...props} />
+function SectionTitle({ className, ...props }: ComponentProps<"span">) {
+  return (
+    <span
+      className={cx("q-sidebar-section-title", "text-q-label-xs-medium", className)}
+      {...props}
+    />
+  );
 }
 
 /** Trailing section-header actions (search / sort / add icon buttons). */
-function SectionActions({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-sidebar-section-actions', className)} {...props} />
+function SectionActions({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-sidebar-section-actions", className)} {...props} />;
 }
 
 /** The items stack inside a Section. */
-function SectionItems({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-sidebar-section-items', className)} {...props} />
+function SectionItems({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-sidebar-section-items", className)} {...props} />;
 }
 
 /* ── Row parts (compose any row out of these) ──────────────────────────────── */
-function ItemIcon({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-sidebar-icon', className)} {...props} />
+function ItemIcon({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-sidebar-icon", className)} {...props} />;
 }
 
-function ItemLabel({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-sidebar-label', 'text-q-body-sm-medium', className)} {...props} />
+function ItemLabel({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-sidebar-label", "text-q-body-sm-medium", className)} {...props} />;
 }
 
-function ItemMeta({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-sidebar-meta', 'text-q-caption-sm-regular', className)} {...props} />
+function ItemMeta({ className, ...props }: ComponentProps<"span">) {
+  return (
+    <span className={cx("q-sidebar-meta", "text-q-caption-sm-regular", className)} {...props} />
+  );
 }
 
-function ItemEnd({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cx('q-sidebar-end', className)} {...props} />
+function ItemEnd({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cx("q-sidebar-end", className)} {...props} />;
 }
 
 /** A bare icon button for section-header / row actions (e.g. a menu trigger). */
-function ActionButton({ className, type, ...props }: ComponentProps<'button'>) {
-  return <button type={type ?? 'button'} className={cx('q-sidebar-action-button', className)} {...props} />
+function ActionButton({ className, type, ...props }: ComponentProps<"button">) {
+  return (
+    <button
+      type={type ?? "button"}
+      className={cx("q-sidebar-action-button", className)}
+      {...props}
+    />
+  );
 }
 
 /* ── Row slots (the ergonomic default; compose the parts directly for full control) ── */
 type RowSlotProps = {
   /** Leading icon — `ItemIcon` slot. */
-  start?: ReactNode
+  start?: ReactNode;
   /** Row label — `ItemLabel` slot. */
-  title?: ReactNode
+  title?: ReactNode;
   /** Trailing count — `ItemMeta` slot. */
-  meta?: ReactNode
+  meta?: ReactNode;
   /** Trailing content (pin, collaborators, badge) — `ItemEnd` slot. */
-  end?: ReactNode
-}
+  end?: ReactNode;
+};
 
 /** Build a row body from slots; falls back to `children` when no slot is set (back-compat). */
 function rowBody({ start, title, meta, end }: RowSlotProps, children: ReactNode): ReactNode {
-  if (start == null && title == null && meta == null && end == null)
-    return children
+  if (start == null && title == null && meta == null && end == null) return children;
   return (
     <>
       {start != null ? <ItemIcon>{start}</ItemIcon> : null}
@@ -286,32 +340,33 @@ function rowBody({ start, title, meta, end }: RowSlotProps, children: ReactNode)
       {meta != null ? <ItemMeta>{meta}</ItemMeta> : null}
       {end != null ? <ItemEnd>{end}</ItemEnd> : null}
     </>
-  )
+  );
 }
 
 /* ── Item: a row from slot props, or composed parts ────────────────────────── */
 type RowOwnProps = {
   /** Interactive row action rendered as a sibling overlay, not inside the row button. */
-  action?: ReactNode
+  action?: ReactNode;
   /** Whether the sibling row action is always visible or revealed on row hover/focus. */
-  actionVisibility?: SidebarActionVisibility
+  actionVisibility?: SidebarActionVisibility;
   /** Link target: renders an `<a>` instead of a `<button>`. */
-  href?: string
+  href?: string;
   /** Swap the host element (Base UI useRender, e.g. a router Link). */
-  render?: useRender.RenderProp
-}
-type RowProps = Omit<ComponentProps<'button'>, 'title'> & RowOwnProps
+  render?: useRender.RenderProp;
+};
+type RowProps = Omit<ComponentProps<"button">, "title"> & RowOwnProps;
 
-export type SidebarItemProps = RowProps & RowSlotProps & {
-  size?: SidebarItemSize
-  /** Figma row primitive: NavItem or ProjectItem. */
-  variant?: SidebarItemVariant
-  selected?: boolean
-  /** Pinned visual state — controlled. Omit (with `onPinChange`) to let the row manage its own pin. */
-  pinned?: boolean
-  /** Enable a pin toggle (a pin button that reveals on hover). `(next) => void`. */
-  onPinChange?: (pinned: boolean) => void
-}
+export type SidebarItemProps = RowProps &
+  RowSlotProps & {
+    size?: SidebarItemSize;
+    /** Figma row primitive: NavItem or ProjectItem. */
+    variant?: SidebarItemVariant;
+    selected?: boolean;
+    /** Pinned visual state — controlled. Omit (with `onPinChange`) to let the row manage its own pin. */
+    pinned?: boolean;
+    /** Enable a pin toggle (a pin button that reveals on hover). `(next) => void`. */
+    onPinChange?: (pinned: boolean) => void;
+  };
 
 /**
  * A sidebar row. The common row is one tag — pass `start` / `title` / `meta` /
@@ -323,9 +378,9 @@ export type SidebarItemProps = RowProps & RowSlotProps & {
  */
 function Item({
   action,
-  actionVisibility = 'always',
-  size = 'md',
-  variant = 'nav',
+  actionVisibility = "always",
+  size = "md",
+  variant = "nav",
   selected = false,
   pinned,
   onPinChange,
@@ -339,41 +394,40 @@ function Item({
   children,
   ...rest
 }: SidebarItemProps) {
-  const [selfPinned, setSelfPinned] = useState(false)
-  const pinnedResolved = pinned ?? selfPinned
-  const isLink = href != null
+  const [selfPinned, setSelfPinned] = useState(false);
+  const pinnedResolved = pinned ?? selfPinned;
+  const isLink = href != null;
   const main = useRender({
     render,
-    defaultTagName: isLink ? 'a' : 'button',
+    defaultTagName: isLink ? "a" : "button",
     props: {
       className: cx(
-        'q-sidebar-row',
-        size === 'sm' ? 'q-sidebar-item-sm' : 'q-sidebar-item',
-        variant === 'project' && 'q-sidebar-projectitem',
-        selected && 'q-sidebar-selected',
+        "q-sidebar-row",
+        size === "sm" ? "q-sidebar-item-sm" : "q-sidebar-item",
+        variant === "project" && "q-sidebar-projectitem",
+        selected && "q-sidebar-selected",
         className,
       ),
-      ...(isLink ? { href } : { type: 'button' as const }),
-      ...(selected ? { 'aria-current': 'page' as const } : {}),
+      ...(isLink ? { href } : { type: "button" as const }),
+      ...(selected ? { "aria-current": "page" as const } : {}),
       ...rest,
       children: rowBody({ start, title, meta, end }, children),
     },
-  })
-  const hasPin = onPinChange != null
-  if (action == null && !hasPin)
-    return main
+  });
+  const hasPin = onPinChange != null;
+  if (action == null && !hasPin) return main;
 
   // Action/pin controls are siblings of the row, never nested inside the row
   // button/link — keeps dropdown triggers and pin buttons valid HTML.
   return (
     <div
       className={cx(
-        'q-sidebar-actionrow',
-        hasPin && 'q-sidebar-pinrow',
-        actionVisibility === 'hover' && 'q-sidebar-actionrow-hover',
-        variant === 'project' && 'q-sidebar-actionrow-project',
-        selected && 'q-sidebar-actionrow-selected',
-        pinnedResolved && 'q-sidebar-pinned',
+        "q-sidebar-actionrow",
+        hasPin && "q-sidebar-pinrow",
+        actionVisibility === "hover" && "q-sidebar-actionrow-hover",
+        variant === "project" && "q-sidebar-actionrow-project",
+        selected && "q-sidebar-actionrow-selected",
+        pinnedResolved && "q-sidebar-pinned",
       )}
     >
       {main}
@@ -382,91 +436,118 @@ function Item({
         <button
           type="button"
           className="q-sidebar-pin"
-          data-pinned={pinnedResolved ? '' : undefined}
+          data-pinned={pinnedResolved ? "" : undefined}
           aria-pressed={pinnedResolved}
-          aria-label={pinnedResolved ? 'Unpin' : 'Pin'}
+          aria-label={pinnedResolved ? "Unpin" : "Pin"}
           onClick={() => {
-            if (pinned == null)
-              setSelfPinned(!pinnedResolved)
-            onPinChange(!pinnedResolved)
+            if (pinned == null) setSelfPinned(!pinnedResolved);
+            onPinChange(!pinnedResolved);
           }}
         >
           <PinGlyph />
         </button>
       ) : null}
     </div>
-  )
+  );
 }
 
 /* ── Footer ────────────────────────────────────────────────────────────────── */
-function Footer({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cx('q-sidebar-footer', className)} {...props} />
+function Footer({ className, ...props }: ComponentProps<"div">) {
+  return <div className={cx("q-sidebar-footer", className)} {...props} />;
 }
 
-export type SidebarFooterItemProps = Omit<RowProps, 'action' | 'actionVisibility'> & RowSlotProps & {
-  variant?: SidebarFooterVariant
-}
-function FooterItem({ variant = 'default', href, render, className, start, title, meta, end, children, ...rest }: SidebarFooterItemProps) {
-  const isLink = href != null
-  const variantClass = variant === 'promo' ? 'q-sidebar-footeritem-promo' : variant === 'login' ? 'q-sidebar-footeritem-login' : undefined
+export type SidebarFooterItemProps = Omit<RowProps, "action" | "actionVisibility"> &
+  RowSlotProps & {
+    variant?: SidebarFooterVariant;
+  };
+function FooterItem({
+  variant = "default",
+  href,
+  render,
+  className,
+  start,
+  title,
+  meta,
+  end,
+  children,
+  ...rest
+}: SidebarFooterItemProps) {
+  const isLink = href != null;
+  const variantClass =
+    variant === "promo"
+      ? "q-sidebar-footeritem-promo"
+      : variant === "login"
+        ? "q-sidebar-footeritem-login"
+        : undefined;
   return useRender({
     render,
-    defaultTagName: isLink ? 'a' : 'button',
+    defaultTagName: isLink ? "a" : "button",
     props: {
-      className: cx('q-sidebar-row', 'q-sidebar-footeritem', variantClass, className),
-      ...(isLink ? { href } : { type: 'button' as const }),
+      className: cx("q-sidebar-row", "q-sidebar-footeritem", variantClass, className),
+      ...(isLink ? { href } : { type: "button" as const }),
       ...rest,
       children: rowBody({ start, title, meta, end }, children),
     },
-  })
+  });
 }
 
 /* ── Figma composite pieces used inside Sidebar rows ───────────────────────── */
-export type SidebarProjectThumbnailProps = ComponentProps<'span'> & {
-  src?: string
-  alt?: string
-  fallback?: ReactNode
-}
+export type SidebarProjectThumbnailProps = ComponentProps<"span"> & {
+  src?: string;
+  alt?: string;
+  fallback?: ReactNode;
+};
 /**
  * Thumbnail tile. Any corner overlay — e.g. a composed `Sidebar.SharedBadge` —
  * is passed as `children`; the badge is NOT a built-in feature of the thumbnail
  * (the thumb's CSS positions a `.q-sidebar-shared-badge` child at the corner).
  */
-function ProjectThumbnail({ src, alt = '', fallback, className, children, ...props }: SidebarProjectThumbnailProps) {
+function ProjectThumbnail({
+  src,
+  alt = "",
+  fallback,
+  className,
+  children,
+  ...props
+}: SidebarProjectThumbnailProps) {
   return (
-    <span className={cx('q-sidebar-project-thumb', className)} {...props}>
-      {src != null
-        ? <img src={src} alt={alt} />
-        : <span className="q-sidebar-project-thumb-fallback">{fallback}</span>}
+    <span className={cx("q-sidebar-project-thumb", className)} {...props}>
+      {src != null ? (
+        <img src={src} alt={alt} />
+      ) : (
+        <span className="q-sidebar-project-thumb-fallback">{fallback}</span>
+      )}
       {children}
     </span>
-  )
+  );
 }
 
-export type SidebarCollaboratorsProps = ComponentProps<'span'> & {
-  avatars?: Array<{ src: string, alt?: string }>
-  count?: ReactNode
-}
+export type SidebarCollaboratorsProps = ComponentProps<"span"> & {
+  avatars?: Array<{ src: string; alt?: string }>;
+  count?: ReactNode;
+};
 function Collaborators({ avatars = [], count, className, ...props }: SidebarCollaboratorsProps) {
   return (
-    <span className={cx('q-sidebar-collaborators', className)} {...props}>
+    <span className={cx("q-sidebar-collaborators", className)} {...props}>
       {avatars.map((avatar, index) => (
         <span className="q-sidebar-collaborator-avatar" key={`${avatar.src}-${index}`}>
-          <img src={avatar.src} alt={avatar.alt ?? ''} />
+          <img src={avatar.src} alt={avatar.alt ?? ""} />
         </span>
       ))}
-      {count != null ? <span className="q-sidebar-collaborator-count text-q-caption-xs-medium">{count}</span> : null}
+      {count != null ? (
+        <span className="q-sidebar-collaborator-count text-q-caption-xs-medium">{count}</span>
+      ) : null}
     </span>
-  )
+  );
 }
 
-export type SidebarPromoBadgeProps = ComponentProps<'span'>
-function PromoBadge({ className, children = '50% OFF', ...props }: SidebarPromoBadgeProps) {
+export type SidebarPromoBadgeProps = ComponentProps<"span">;
+function PromoBadge({ className, children = "50% OFF", ...props }: SidebarPromoBadgeProps) {
   return (
-    <span className={cx('q-sidebar-promo-badge', className)} {...props}>
+    <span className={cx("q-sidebar-promo-badge", className)} {...props}>
       {children}
     </span>
-  )
+  );
 }
 
 export const Sidebar = {
@@ -495,4 +576,4 @@ export const Sidebar = {
   ProjectThumbnail,
   Collaborators,
   PromoBadge,
-}
+};

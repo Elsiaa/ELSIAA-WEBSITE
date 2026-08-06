@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import type { ExternalStore } from './external-store'
-import { useSyncExternalStore } from 'react'
+import type { ExternalStore } from "./external-store";
+import { useSyncExternalStore } from "react";
 
 /**
  * Bind any controller from this package (or your own `ExternalStore`
@@ -11,6 +11,6 @@ import { useSyncExternalStore } from 'react'
  * wherever it's read.
  */
 export function useStore<T extends ExternalStore>(store: T): T {
-  useSyncExternalStore(store.subscribe, store.snapshot, store.snapshot)
-  return store
+  useSyncExternalStore(store.subscribe, store.snapshot, store.snapshot);
+  return store;
 }

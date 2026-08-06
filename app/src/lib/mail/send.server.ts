@@ -2,21 +2,11 @@
  * Shared send path used by admin serverFns and scoped public API.
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
-import {
-  MailApiError,
-  sendMail,
-  sendMailBatch,
-  summarizeProviderResponse,
-} from "./client.server";
+import { MailApiError, sendMail, sendMailBatch, summarizeProviderResponse } from "./client.server";
 import { isAllowedMailFrom, mailMasterConfigured } from "./env";
 import { assertFromAllowedForKey } from "./keys.server";
 import { insertMailSendLog } from "./log.server";
-import type {
-  MailApiJson,
-  MailApiKeyRecord,
-  MailSendPayload,
-  MailSendSource,
-} from "./types";
+import type { MailApiJson, MailApiKeyRecord, MailSendPayload, MailSendSource } from "./types";
 
 export function normalizeRecipients(
   v: string | string[] | undefined,
@@ -37,9 +27,7 @@ export async function executeScopedOrAdminSend(opts: {
   source: MailSendSource;
   apiKey?: Pick<MailApiKeyRecord, "id" | "allowAnyFrom" | "allowedFrom"> | null;
   logClient?: SupabaseClient | null;
-}): Promise<
-  { ok: true; result: MailApiJson } | { ok: false; status: number; error: string }
-> {
+}): Promise<{ ok: true; result: MailApiJson } | { ok: false; status: number; error: string }> {
   if (!mailMasterConfigured()) {
     return { ok: false, status: 503, error: "ELSSIA_MAIL_API_KEY is not configured" };
   }
@@ -99,8 +87,7 @@ export async function executeScopedOrAdminSend(opts: {
         subject: payload.Subject ?? "",
         status: "failed",
         error,
-        providerResponse:
-          e instanceof MailApiError ? summarizeProviderResponse(e.body) : null,
+        providerResponse: e instanceof MailApiError ? summarizeProviderResponse(e.body) : null,
       },
       opts.logClient,
     );
@@ -113,9 +100,7 @@ export async function executeScopedOrAdminBatch(opts: {
   source: MailSendSource;
   apiKey?: Pick<MailApiKeyRecord, "id" | "allowAnyFrom" | "allowedFrom"> | null;
   logClient?: SupabaseClient | null;
-}): Promise<
-  { ok: true; result: MailApiJson } | { ok: false; status: number; error: string }
-> {
+}): Promise<{ ok: true; result: MailApiJson } | { ok: false; status: number; error: string }> {
   if (!mailMasterConfigured()) {
     return { ok: false, status: 503, error: "ELSSIA_MAIL_API_KEY is not configured" };
   }

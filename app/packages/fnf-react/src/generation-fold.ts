@@ -1,5 +1,5 @@
-import type { Generation } from '@higgsfield/fnf/client'
-import { isTerminalJobStatus } from '@higgsfield/fnf/client'
+import type { Generation } from "@higgsfield/fnf/client";
+import { isTerminalJobStatus } from "@higgsfield/fnf/client";
 
 /**
  * The single write rule for folding a fresh generation snapshot over a cached
@@ -17,17 +17,15 @@ import { isTerminalJobStatus } from '@higgsfield/fnf/client'
  * Pure and tanstack-free on purpose — usable by any cache, not just ours.
  */
 export function foldGeneration(prev: Generation | undefined, next: Generation): Generation {
-  if (!prev || prev.id !== next.id)
-    return next
-  if (isTerminalJobStatus(prev.status) && !isTerminalJobStatus(next.status))
-    return prev // a stale snapshot can't reopen a settled generation
+  if (!prev || prev.id !== next.id) return next;
+  if (isTerminalJobStatus(prev.status) && !isTerminalJobStatus(next.status)) return prev; // a stale snapshot can't reopen a settled generation
   if (
-    prev.status === next.status
-    && prev.results?.rawUrl === next.results?.rawUrl
-    && prev.results?.minUrl === next.results?.minUrl
-    && prev.failReason === next.failReason
+    prev.status === next.status &&
+    prev.results?.rawUrl === next.results?.rawUrl &&
+    prev.results?.minUrl === next.results?.minUrl &&
+    prev.failReason === next.failReason
   ) {
-    return prev // nothing observable changed — keep the reference stable
+    return prev; // nothing observable changed — keep the reference stable
   }
-  return next
+  return next;
 }

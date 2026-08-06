@@ -1,7 +1,7 @@
-import { getServerSupabaseClient } from './supabase';
-import type { ProjectAuthDevice } from './project-auth-devices';
-import type { AppFeatures } from './app-features';
-import { normalizeAppFeatures, parseAppFeaturesPartial } from './app-features';
+import { getServerSupabaseClient } from "./supabase";
+import type { ProjectAuthDevice } from "./project-auth-devices";
+import type { AppFeatures } from "./app-features";
+import { normalizeAppFeatures, parseAppFeaturesPartial } from "./app-features";
 
 type Row = {
   id: string;
@@ -30,7 +30,7 @@ function rowToDevice(row: Row): ProjectAuthDevice {
     projectId: row.project_id,
     name: row.name,
     deviceId: row.device_id,
-    status: row.status as ProjectAuthDevice['status'],
+    status: row.status as ProjectAuthDevice["status"],
     isAdminDevice: Boolean(row.is_admin_device),
     features: rowFeatures(row.features),
     createdByClerkUserId: row.created_by_clerk_user_id,
@@ -44,15 +44,15 @@ function rowToDevice(row: Row): ProjectAuthDevice {
  */
 export async function findActiveDeviceByExternalId(
   projectId: string,
-  externalDeviceId: string
+  externalDeviceId: string,
 ): Promise<ProjectAuthDevice | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_auth_devices')
-    .select('*')
-    .eq('project_id', projectId)
-    .eq('device_id', externalDeviceId.trim())
-    .eq('status', 'active')
+    .from("project_auth_devices")
+    .select("*")
+    .eq("project_id", projectId)
+    .eq("device_id", externalDeviceId.trim())
+    .eq("status", "active")
     .maybeSingle();
 
   if (error || !data) return null;

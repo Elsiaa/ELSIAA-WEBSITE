@@ -1,5 +1,5 @@
-import { getServerSupabaseClient } from './supabase';
-import { fetchRepoDefaultBranch } from './github-dynamic-repo';
+import { getServerSupabaseClient } from "./supabase";
+import { fetchRepoDefaultBranch } from "./github-dynamic-repo";
 
 export interface ProjectExtensionSource {
   projectId: string;
@@ -34,12 +34,14 @@ function rowToSource(row: Row): ProjectExtensionSource {
   };
 }
 
-export async function getExtensionSource(projectId: string): Promise<ProjectExtensionSource | null> {
+export async function getExtensionSource(
+  projectId: string,
+): Promise<ProjectExtensionSource | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_extension_sources')
-    .select('*')
-    .eq('project_id', projectId)
+    .from("project_extension_sources")
+    .select("*")
+    .eq("project_id", projectId)
     .maybeSingle();
 
   if (error || !data) return null;
@@ -48,17 +50,17 @@ export async function getExtensionSource(projectId: string): Promise<ProjectExte
 
 /** One query for many projects (fallback when RPC is unavailable). */
 export async function getExtensionSourcesByProjectIds(
-  projectIds: string[]
+  projectIds: string[],
 ): Promise<Record<string, ProjectExtensionSource>> {
   if (projectIds.length === 0) return {};
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_extension_sources')
-    .select('*')
-    .in('project_id', projectIds);
+    .from("project_extension_sources")
+    .select("*")
+    .in("project_id", projectIds);
 
   if (error) {
-    console.error('Error batch-fetching extension sources:', error);
+    console.error("Error batch-fetching extension sources:", error);
     return {};
   }
 
@@ -78,7 +80,7 @@ export async function upsertExtensionSource(params: {
 }): Promise<ProjectExtensionSource | null> {
   const supabase = getServerSupabaseClient();
   const { data, error } = await supabase
-    .from('project_extension_sources')
+    .from("project_extension_sources")
     .upsert(
       {
         project_id: params.projectId,
@@ -87,13 +89,13 @@ export async function upsertExtensionSource(params: {
         github_ref: params.githubRef,
         updated_at: new Date().toISOString(),
       },
-      { onConflict: 'project_id' }
+      { onConflict: "project_id" },
     )
     .select()
     .single();
 
   if (error) {
-    console.error('upsertExtensionSource:', error);
+    console.error("upsertExtensionSource:", error);
     return null;
   }
   return rowToSource(data as Row);
@@ -101,20 +103,23 @@ export async function upsertExtensionSource(params: {
 
 /** Extension API key `=dev` mode: serve default-branch HEAD instead of the saved github_ref. */
 export async function extensionSourceForDevMode(
-  source: ProjectExtensionSource
+  source: ProjectExtensionSource,
 ): Promise<ProjectExtensionSource> {
   const defaultBranch = await fetchRepoDefaultBranch(source.githubOwner, source.githubRepo);
-  const ref = defaultBranch ?? 'main';
+  const ref = defaultBranch ?? "main";
   if (ref === source.githubRef) return source;
   return { ...source, githubRef: ref };
 }
 
 export async function deleteExtensionSource(projectId: string): Promise<boolean> {
   const supabase = getServerSupabaseClient();
-  const { error } = await supabase.from('project_extension_sources').delete().eq('project_id', projectId);
+  const { error } = await supabase
+    .from("project_extension_sources")
+    .delete()
+    .eq("project_id", projectId);
 
   if (error) {
-    console.error('deleteExtensionSource:', error);
+    console.error("deleteExtensionSource:", error);
     return false;
   }
   return true;
@@ -125,19 +130,19 @@ export async function deleteExtensionSource(projectId: string): Promise<boolean>
  */
 export async function updateExtensionDeploymentVisibleFrom(
   projectId: string,
-  deploymentVisibleFrom: string | null
+  deploymentVisibleFrom: string | null,
 ): Promise<boolean> {
   const supabase = getServerSupabaseClient();
   const { error } = await supabase
-    .from('project_extension_sources')
+    .from("project_extension_sources")
     .update({
       deployment_visible_from: deploymentVisibleFrom,
       updated_at: new Date().toISOString(),
     })
-    .eq('project_id', projectId);
+    .eq("project_id", projectId);
 
   if (error) {
-    console.error('updateExtensionDeploymentVisibleFrom:', error);
+    console.error("updateExtensionDeploymentVisibleFrom:", error);
     return false;
   }
   return true;

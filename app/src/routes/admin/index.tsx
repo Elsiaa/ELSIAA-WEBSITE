@@ -1,10 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import AdminPoelDashboard from "../../components/poel-shell/AdminPoelDashboard";
-import {
-  bootstrapAdminDashboard,
-  type AdminBootstrap,
-} from "../../lib/admin-bootstrap.functions";
+import { bootstrapAdminDashboard, type AdminBootstrap } from "../../lib/admin-bootstrap.functions";
 import { getAppSessionState } from "../../lib/app-session.functions";
 
 export const Route = createFileRoute("/admin/")({
@@ -61,8 +58,8 @@ function AdminHome() {
         <h1 className="text-2xl font-semibold">Admin failed to load</h1>
         <p className="mt-3 text-sm text-red-700">{error}</p>
         <p className="mt-4 text-sm text-[#111]/55">
-          Something went wrong loading admin. Try refreshing, or contact support
-          if it keeps happening.
+          Something went wrong loading admin. Try refreshing, or contact support if it keeps
+          happening.
         </p>
       </div>
     );

@@ -1,16 +1,20 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { randomUUID } from 'crypto';
-import { saveAvailabilityRequest, type AvailabilityRequest } from '@/lib/kv';
-import { getCurrentDateTimeInTimezone } from '@/lib/timezone';
-import { getOperationalBrandName, getOperationalLogoUrl, getSmtpFromDisplayName } from '@/lib/operational-brand';
-import { getPaymentContactEmail } from '@/lib/payment-branding';
-import { poelLightNotificationEmailStyles } from '@/lib/poel-theme';
-import { sendTransactionalMail } from '@/lib/transactional-mail';
+import { NextRequest, NextResponse } from "next/server";
+import { randomUUID } from "crypto";
+import { saveAvailabilityRequest, type AvailabilityRequest } from "@/lib/kv";
+import { getCurrentDateTimeInTimezone } from "@/lib/timezone";
+import {
+  getOperationalBrandName,
+  getOperationalLogoUrl,
+  getSmtpFromDisplayName,
+} from "@/lib/operational-brand";
+import { getPaymentContactEmail } from "@/lib/payment-branding";
+import { poelLightNotificationEmailStyles } from "@/lib/poel-theme";
+import { sendTransactionalMail } from "@/lib/transactional-mail";
 import {
   emailSvgAlertAccent20,
   emailSvgCheckWhite16,
   emailSvgXWhite16,
-} from '@/lib/transactional-visuals';
+} from "@/lib/transactional-visuals";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,10 +23,7 @@ export async function POST(request: NextRequest) {
 
     // Validate required fields
     if (!name || !email || !phone) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
     // Generate unique ID
@@ -36,17 +37,20 @@ export async function POST(request: NextRequest) {
       company,
       phone,
       message,
-      status: 'pending',
+      status: "pending",
       createdAt: new Date().toISOString(),
     };
 
     await saveAvailabilityRequest(requestData);
 
     // Create admin link
-    const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
+    const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000").replace(
+      /\/$/,
+      "",
+    );
     const brand = getOperationalBrandName();
-    const logoUrl = getOperationalLogoUrl(baseUrl, 'full');
-    const linkColor = '#1c2d3f';
+    const logoUrl = getOperationalLogoUrl(baseUrl, "full");
+    const linkColor = "#1c2d3f";
     const adminLink = `${baseUrl}/admin/availability/${requestId}`;
     const availableLink = `${adminLink}?response=available`;
     const unavailableLink = `${adminLink}?response=unavailable`;
@@ -95,19 +99,27 @@ export async function POST(request: NextRequest) {
         <div class="info-value"><a href="tel:${phone}" style="color: ${linkColor};">${phone}</a></div>
       </div>
 
-      ${company ? `
+      ${
+        company
+          ? `
       <div class="info-row">
         <div class="info-label">Company</div>
         <div class="info-value">${company}</div>
       </div>
-      ` : ''}
+      `
+          : ""
+      }
 
-      ${message ? `
+      ${
+        message
+          ? `
       <div class="message-box">
         <div class="info-label">Message</div>
         <div class="info-value" style="white-space: pre-wrap;">${message}</div>
       </div>
-      ` : ''}
+      `
+          : ""
+      }
 
       <div class="action-buttons">
         <a href="${availableLink}" class="button button-available">${emailSvgCheckWhite16}<span>I'm Available</span></a>
@@ -142,11 +154,11 @@ New Availability Check Request from ${brand}
 
 Name: ${name}
 Email: ${email}
-Company: ${company || 'Not provided'}
+Company: ${company || "Not provided"}
 Phone: ${phone}
 
 Message:
-${message || 'Not provided'}
+${message || "Not provided"}
 
 Click one of these links to respond:
 
@@ -166,26 +178,26 @@ Request made at ${getCurrentDateTimeInTimezone()}
     const zohoEmail = process.env.ZOHO_EMAIL || getPaymentContactEmail();
     const sent = await sendTransactionalMail({
       from: `"${getSmtpFromDisplayName()}" <${zohoEmail}>`,
-      to: 'hshloimie@gmail.com',
-      subject: `URGENT: ${name} wants to talk NOW!${company ? ` (${company})` : ''}`,
+      to: "hshloimie@gmail.com",
+      subject: `URGENT: ${name} wants to talk NOW!${company ? ` (${company})` : ""}`,
       html: htmlBody,
       text: textBody,
       replyTo: email,
     });
 
     if (!sent) {
-      return NextResponse.json(
-        { error: 'Failed to send notification email' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Failed to send notification email" }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, requestId });
   } catch (error) {
-    console.error('Error processing availability check:', error);
+    console.error("Error processing availability check:", error);
     return NextResponse.json(
-      { error: 'Failed to process request', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
+      {
+        error: "Failed to process request",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
     );
   }
 }

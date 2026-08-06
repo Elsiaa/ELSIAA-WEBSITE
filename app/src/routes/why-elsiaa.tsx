@@ -27,8 +27,7 @@ export const Route = createFileRoute("/why-elsiaa")({
   component: WhyElsiaaPage,
 });
 
-const SANS =
-  "var(--font-sans)";
+const SANS = "var(--font-sans)";
 const OFFICES = "New York · Los Angeles · London · Geneva · Antwerp · Tel Aviv";
 
 /* Monochrome glyphs of the tools everyone knows — nominal, low-key, secondary. */
@@ -39,7 +38,14 @@ function AiMark({ kind }: { kind: "openai" | "claude" | "gemini" | "meta" | "gro
     return (
       <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.5">
         {Array.from({ length: 6 }).map((_, i) => (
-          <ellipse key={i} cx="12" cy="7.2" rx="2.5" ry="5.2" transform={`rotate(${i * 60} 12 12)`} />
+          <ellipse
+            key={i}
+            cx="12"
+            cy="7.2"
+            rx="2.5"
+            ry="5.2"
+            transform={`rotate(${i * 60} 12 12)`}
+          />
         ))}
       </svg>
     );
@@ -47,9 +53,22 @@ function AiMark({ kind }: { kind: "openai" | "claude" | "gemini" | "meta" | "gro
   if (kind === "claude") {
     // the Claude starburst
     return (
-      <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <svg
+        viewBox="0 0 24 24"
+        className={cls}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      >
         {Array.from({ length: 12 }).map((_, i) => (
-          <line key={i} x1="12" y1="12" x2={12 + 8 * Math.cos((i * Math.PI) / 6)} y2={12 + 8 * Math.sin((i * Math.PI) / 6)} />
+          <line
+            key={i}
+            x1="12"
+            y1="12"
+            x2={12 + 8 * Math.cos((i * Math.PI) / 6)}
+            y2={12 + 8 * Math.sin((i * Math.PI) / 6)}
+          />
         ))}
       </svg>
     );
@@ -66,13 +85,23 @@ function AiMark({ kind }: { kind: "openai" | "claude" | "gemini" | "meta" | "gro
     // the Meta loop
     return (
       <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M3 16c0-4.5 2-9 4.6-9C10.5 7 13 17 16.4 17 19 17 21 12.5 21 8" strokeLinecap="round" />
+        <path
+          d="M3 16c0-4.5 2-9 4.6-9C10.5 7 13 17 16.4 17 19 17 21 12.5 21 8"
+          strokeLinecap="round"
+        />
       </svg>
     );
   }
   // grok / xAI
   return (
-    <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <svg
+      viewBox="0 0 24 24"
+      className={cls}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    >
       <path d="M5 5l14 14M19 5L5 19" />
     </svg>
   );
@@ -154,8 +183,7 @@ function WhyElsiaaPage() {
               </span>
               <h1 className="relative text-[2rem] leading-[1.08] font-semibold tracking-[-0.04em] sm:text-[2.6rem] md:text-[3.4rem]">
                 Why not just use Claude?
-                <br />
-                I know my business best.
+                <br />I know my business best.
               </h1>
             </div>
             <div className="mt-8 border-l-2 border-[#1e6b3c] pl-5">
@@ -163,9 +191,8 @@ function WhyElsiaaPage() {
                 Exactly. That is why we partner with you.
               </p>
               <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
-                You teach us your real process. We turn it into production-ready systems —
-                built, secured, tested, and run to a standard no general-purpose tool
-                delivers on its own.
+                You teach us your real process. We turn it into production-ready systems — built,
+                secured, tested, and run to a standard no general-purpose tool delivers on its own.
               </p>
             </div>
           </Reveal>
@@ -221,7 +248,9 @@ function WhyElsiaaPage() {
                       className="h-16 w-16 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105 md:h-20 md:w-20"
                     />
                     <div className="min-w-0 pt-1">
-                      <p className="text-[11.5px] font-bold tracking-[0.16em] text-[#1e6b3c]">{d.num}</p>
+                      <p className="text-[11.5px] font-bold tracking-[0.16em] text-[#1e6b3c]">
+                        {d.num}
+                      </p>
                       <h3 className="mt-1 text-[18px] leading-tight font-semibold tracking-[-0.02em] text-[#111111] md:text-[20px]">
                         {d.title}
                       </h3>
@@ -234,7 +263,10 @@ function WhyElsiaaPage() {
 
                   {/* the risk, as one line — a labelled box on all six read as boilerplate */}
                   <p className="mt-auto flex gap-2.5 pt-6 text-[13.5px] leading-relaxed text-[#111111]/55">
-                    <span aria-hidden className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#b4543a]" />
+                    <span
+                      aria-hidden
+                      className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#b4543a]"
+                    />
                     <span>
                       <span className="font-semibold text-[#b4543a]">Alone:</span>{" "}
                       {d.solo.replace(/^Going solo:\s*/, "")}
@@ -260,14 +292,14 @@ function WhyElsiaaPage() {
               at one table.
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-[#111111]/65 md:text-[16px]">
-              ELSIAA brings you the cutting edge of what the AI industry actually has to
-              offer — at the best price. Operators who have run businesses like yours,
-              engineers who build at the frontier, working on your process together.
+              ELSIAA brings you the cutting edge of what the AI industry actually has to offer — at
+              the best price. Operators who have run businesses like yours, engineers who build at
+              the frontier, working on your process together.
             </p>
 
             <p className="mx-auto mt-8 max-w-2xl border-t border-black/[0.08] pt-6 text-[13.5px] leading-relaxed text-[#111111]/50">
-              On the ground in {OFFICES} — with regional U.S. offices in Baltimore,
-              Montvale, and Kingston.
+              On the ground in {OFFICES} — with regional U.S. offices in Baltimore, Montvale, and
+              Kingston.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
               <a

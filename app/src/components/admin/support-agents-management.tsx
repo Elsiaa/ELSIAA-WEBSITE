@@ -36,7 +36,10 @@ function emptyDraft(companies: Company[]): CompanyGrantDraft {
   return d;
 }
 
-function draftFromGrants(grants: SupportAgentCompanyGrantRow[], companies: Company[]): CompanyGrantDraft {
+function draftFromGrants(
+  grants: SupportAgentCompanyGrantRow[],
+  companies: Company[],
+): CompanyGrantDraft {
   const d = emptyDraft(companies);
   for (const g of grants) {
     if (!d[g.company_id]) {
@@ -104,7 +107,7 @@ export default function SupportAgentsManagement({ companies, onDataChange }: Pro
   const toggleDraft = (
     userId: string,
     companyId: string,
-    key: "support" | "authorizations" | "programLogs" | "files"
+    key: "support" | "authorizations" | "programLogs" | "files",
   ) => {
     setDrafts((prev) => {
       const row = { ...(prev[userId] || emptyDraft(companies)) };
@@ -116,7 +119,7 @@ export default function SupportAgentsManagement({ companies, onDataChange }: Pro
 
   const toggleNewDraft = (
     companyId: string,
-    key: "support" | "authorizations" | "programLogs" | "files"
+    key: "support" | "authorizations" | "programLogs" | "files",
   ) => {
     setNewDraft((prev) => ({
       ...prev,
@@ -141,7 +144,7 @@ export default function SupportAgentsManagement({ companies, onDataChange }: Pro
     const grants = grantsPayloadFromDraft(draft);
     if (grants.length === 0) {
       toast.error(
-        "Select at least one access type (support, authorizations, program logs, or files) for one company"
+        "Select at least one access type (support, authorizations, program logs, or files) for one company",
       );
       return;
     }
@@ -167,7 +170,11 @@ export default function SupportAgentsManagement({ companies, onDataChange }: Pro
   };
 
   const demoteAgent = async (userId: string) => {
-    if (!confirm("Remove support agent access for this user? They will keep their login but lose platform access.")) {
+    if (
+      !confirm(
+        "Remove support agent access for this user? They will keep their login but lose platform access.",
+      )
+    ) {
       return;
     }
     setSavingId(userId);
@@ -200,7 +207,7 @@ export default function SupportAgentsManagement({ companies, onDataChange }: Pro
     const grants = grantsPayloadFromDraft(newDraft);
     if (grants.length === 0) {
       toast.error(
-        "Grant access to at least one company (support, authorizations, program logs, and/or files)"
+        "Grant access to at least one company (support, authorizations, program logs, and/or files)",
       );
       return;
     }
@@ -222,7 +229,7 @@ export default function SupportAgentsManagement({ companies, onDataChange }: Pro
       }
       const data = await res.json();
       toast.success(
-        data.invitationSent ? "Support agent created and invitation sent" : "Support agent created"
+        data.invitationSent ? "Support agent created and invitation sent" : "Support agent created",
       );
       setNewEmail("");
       setNewFirst("");
@@ -251,8 +258,9 @@ export default function SupportAgentsManagement({ companies, onDataChange }: Pro
       <div>
         <h2 className="text-2xl font-semibold">Support agents</h2>
         <p className="text-sm text-[#111]/55 mt-1 max-w-3xl">
-          Support agents sign in like other users but only see the admin areas you allow—support tickets,
-          authorizations, program logs, and/or company files—limited to the companies you select below.
+          Support agents sign in like other users but only see the admin areas you allow—support
+          tickets, authorizations, program logs, and/or company files—limited to the companies you
+          select below.
         </p>
       </div>
 
@@ -345,7 +353,11 @@ export default function SupportAgentsManagement({ companies, onDataChange }: Pro
           onClick={() => void createAgent()}
           className="inline-flex items-center gap-2 rounded-lg bg-[#1e6b3c] px-4 py-2 text-sm font-medium text-white hover:bg-[#2e9e58] disabled:opacity-50"
         >
-          {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <UserPlus className="h-4 w-4" />}
+          {creating ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <UserPlus className="h-4 w-4" />
+          )}
           Create &amp; invite
         </button>
       </div>
@@ -357,12 +369,16 @@ export default function SupportAgentsManagement({ companies, onDataChange }: Pro
         ) : (
           <div className="space-y-8">
             {agents.map((a) => (
-              <div key={a.user.id} className="rounded-xl border border-black/[0.08]/70 p-5 space-y-3">
+              <div
+                key={a.user.id}
+                className="rounded-xl border border-black/[0.08]/70 p-5 space-y-3"
+              >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
                     <div className="font-medium">{a.user.email}</div>
                     <div className="text-xs text-[#111]/55">
-                      {[a.user.first_name, a.user.last_name].filter(Boolean).join(" ") || "—"} · {a.user.status}
+                      {[a.user.first_name, a.user.last_name].filter(Boolean).join(" ") || "—"} ·{" "}
+                      {a.user.status}
                     </div>
                   </div>
                   <div className="flex gap-2">

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Loader2 } from 'lucide-react';
-import InvoiceLineItemsTable from '@/components/admin/invoice-line-items-table';
-import type { InvoiceLineItem } from '@/lib/invoice-line-items';
-import { fetchHistoryLineItems, type HistoryLineItemsSource } from '@/lib/fetch-history-line-items';
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
+import InvoiceLineItemsTable from "@/components/admin/invoice-line-items-table";
+import type { InvoiceLineItem } from "@/lib/invoice-line-items";
+import { fetchHistoryLineItems, type HistoryLineItemsSource } from "@/lib/fetch-history-line-items";
 
 interface HistoryRowLineItemsProps {
   row: HistoryLineItemsSource;
@@ -51,7 +51,7 @@ export default function HistoryRowLineItems({ row, active }: HistoryRowLineItems
     return <InvoiceLineItemsTable items={items} className="mt-2" />;
   }
 
-  if (row.type === 'payment' || row.type === 'bill') {
+  if (row.type === "payment" || row.type === "bill") {
     return (
       <p className="text-sm text-muted-foreground py-2">
         No line-item breakdown stored for this charge.

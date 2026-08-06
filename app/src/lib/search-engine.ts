@@ -174,16 +174,66 @@ export const SEARCH_INDEX: Entry[] = [
     keys: "backend software custom systems portals integrations database api internal tools 1000",
     desc: "The systems that run the business.",
   },
-  { label: "Website design & development", group: "Services", href: "/designs", keys: "web ui ux saas ecommerce dashboards frontend" },
-  { label: "UI/UX design", group: "Services", href: "/designs", keys: "interface user experience product design wireframe prototype" },
-  { label: "Mobile app design", group: "Services", href: "/designs", keys: "ios android app interface mobile" },
-  { label: "Branding & logo design", group: "Services", href: "/designs", keys: "brand identity logo packaging print visual" },
-  { label: "3D product renders", group: "Services", href: "/designs", keys: "render product staging commercial imagery visualisation" },
-  { label: "Sales automation", group: "Services", href: "/automate", keys: "outreach crm pipeline leads follow up prospecting" },
-  { label: "Operations automation", group: "Services", href: "/automate", keys: "workflow back office admin scheduling dispatch process" },
-  { label: "Customer support automation", group: "Services", href: "/automate", keys: "support helpdesk chatbot email slack tickets answering" },
-  { label: "Finance automation", group: "Services", href: "/automate", keys: "invoice billing reporting bookkeeping accounting dashboards" },
-  { label: "AI workflow automation", group: "Services", href: "/automate", keys: "ai agents assistants llm gpt copilot integration" },
+  {
+    label: "Website design & development",
+    group: "Services",
+    href: "/designs",
+    keys: "web ui ux saas ecommerce dashboards frontend",
+  },
+  {
+    label: "UI/UX design",
+    group: "Services",
+    href: "/designs",
+    keys: "interface user experience product design wireframe prototype",
+  },
+  {
+    label: "Mobile app design",
+    group: "Services",
+    href: "/designs",
+    keys: "ios android app interface mobile",
+  },
+  {
+    label: "Branding & logo design",
+    group: "Services",
+    href: "/designs",
+    keys: "brand identity logo packaging print visual",
+  },
+  {
+    label: "3D product renders",
+    group: "Services",
+    href: "/designs",
+    keys: "render product staging commercial imagery visualisation",
+  },
+  {
+    label: "Sales automation",
+    group: "Services",
+    href: "/automate",
+    keys: "outreach crm pipeline leads follow up prospecting",
+  },
+  {
+    label: "Operations automation",
+    group: "Services",
+    href: "/automate",
+    keys: "workflow back office admin scheduling dispatch process",
+  },
+  {
+    label: "Customer support automation",
+    group: "Services",
+    href: "/automate",
+    keys: "support helpdesk chatbot email slack tickets answering",
+  },
+  {
+    label: "Finance automation",
+    group: "Services",
+    href: "/automate",
+    keys: "invoice billing reporting bookkeeping accounting dashboards",
+  },
+  {
+    label: "AI workflow automation",
+    group: "Services",
+    href: "/automate",
+    keys: "ai agents assistants llm gpt copilot integration",
+  },
   {
     label: "Voice intake",
     group: "Services",
@@ -244,21 +294,86 @@ export const SEARCH_INDEX: Entry[] = [
   },
 
   /* ---------------- cities ---------------- */
-  { label: "New York office", group: "Locations", href: "/locations", keys: "nyc new york manhattan usa america united states headquarters hq east coast" },
-  { label: "Los Angeles office", group: "Locations", href: "/locations", keys: "la los angeles california usa america west coast" },
-  { label: "London office", group: "Locations", href: "/locations", keys: "london uk england britain united kingdom europe" },
-  { label: "Geneva office", group: "Locations", href: "/locations", keys: "geneva switzerland swiss geneve europe" },
-  { label: "Antwerp office", group: "Locations", href: "/locations", keys: "antwerp antwerpen belgium belgian flemish europe" },
-  { label: "Tel Aviv office", group: "Locations", href: "/locations", keys: "tel aviv israel israeli middle east" },
-  { label: "Baltimore office", group: "Locations", href: "/locations", keys: "baltimore maryland md usa" },
-  { label: "Montvale office", group: "Locations", href: "/locations", keys: "montvale new jersey nj usa" },
-  { label: "Kingston office", group: "Locations", href: "/locations", keys: "kingston pennsylvania pa usa" },
+  {
+    label: "New York office",
+    group: "Locations",
+    href: "/locations",
+    keys: "nyc new york manhattan usa america united states headquarters hq east coast",
+  },
+  {
+    label: "Los Angeles office",
+    group: "Locations",
+    href: "/locations",
+    keys: "la los angeles california usa america west coast",
+  },
+  {
+    label: "London office",
+    group: "Locations",
+    href: "/locations",
+    keys: "london uk england britain united kingdom europe",
+  },
+  {
+    label: "Geneva office",
+    group: "Locations",
+    href: "/locations",
+    keys: "geneva switzerland swiss geneve europe",
+  },
+  {
+    label: "Antwerp office",
+    group: "Locations",
+    href: "/locations",
+    keys: "antwerp antwerpen belgium belgian flemish europe",
+  },
+  {
+    label: "Tel Aviv office",
+    group: "Locations",
+    href: "/locations",
+    keys: "tel aviv israel israeli middle east",
+  },
+  {
+    label: "Baltimore office",
+    group: "Locations",
+    href: "/locations",
+    keys: "baltimore maryland md usa",
+  },
+  {
+    label: "Montvale office",
+    group: "Locations",
+    href: "/locations",
+    keys: "montvale new jersey nj usa",
+  },
+  {
+    label: "Kingston office",
+    group: "Locations",
+    href: "/locations",
+    keys: "kingston pennsylvania pa usa",
+  },
 
   /* ---------------- careers detail ---------------- */
-  { label: "Apply — Design", group: "Careers", href: "/careers", keys: "designer design job role hiring apply creative" },
-  { label: "Apply — Engineering", group: "Careers", href: "/careers", keys: "engineer developer software job role hiring apply programmer coder" },
-  { label: "Apply — Client & Sales", group: "Careers", href: "/careers", keys: "sales account client job role hiring apply business development" },
-  { label: "Apply — Legal & Ops", group: "Careers", href: "/careers", keys: "legal operations contracts job role hiring apply paralegal admin" },
+  {
+    label: "Apply — Design",
+    group: "Careers",
+    href: "/careers",
+    keys: "designer design job role hiring apply creative",
+  },
+  {
+    label: "Apply — Engineering",
+    group: "Careers",
+    href: "/careers",
+    keys: "engineer developer software job role hiring apply programmer coder",
+  },
+  {
+    label: "Apply — Client & Sales",
+    group: "Careers",
+    href: "/careers",
+    keys: "sales account client job role hiring apply business development",
+  },
+  {
+    label: "Apply — Legal & Ops",
+    group: "Careers",
+    href: "/careers",
+    keys: "legal operations contracts job role hiring apply paralegal admin",
+  },
 
   /* ---------------- case studies & method ---------------- */
   {
@@ -305,8 +420,18 @@ export const SEARCH_INDEX: Entry[] = [
   },
 
   /* ---------------- legal ---------------- */
-  { label: "Privacy policy", group: "Legal", href: "/legal/privacy", keys: "privacy data gdpr policy personal information" },
-  { label: "Terms of service", group: "Legal", href: "/legal/terms", keys: "terms conditions legal agreement service" },
+  {
+    label: "Privacy policy",
+    group: "Legal",
+    href: "/legal/privacy",
+    keys: "privacy data gdpr policy personal information",
+  },
+  {
+    label: "Terms of service",
+    group: "Legal",
+    href: "/legal/terms",
+    keys: "terms conditions legal agreement service",
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -445,10 +570,12 @@ export type SearchResult = { hits: Hit[]; didYouMean: string | null };
  */
 /** filler words that carry no signal in a query like "how much is a website" */
 const STOPWORDS = new Set(
-  ("a an the and or of for to in on at by is are am was were be do does did " +
+  (
+    "a an the and or of for to in on at by is are am was were be do does did " +
     "how what who whom whose where when why which that this these those i me my " +
     "we our you your it its can could would should will want need get got have has " +
-    "there here about with from as if not no yes please").split(" "),
+    "there here about with from as if not no yes please"
+  ).split(" "),
 );
 
 export function search(query: string, limit = 10): SearchResult {

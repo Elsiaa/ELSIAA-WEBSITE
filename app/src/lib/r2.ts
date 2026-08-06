@@ -23,8 +23,8 @@ export const r2Client = new S3Client({
   forcePathStyle: true,
   // SDK v3.934+ adds automatic CRC32 checksums and content-length as a signed header,
   // both of which break browser CORS preflight for presigned PUT URLs.
-  requestChecksumCalculation: 'WHEN_REQUIRED',
-  responseChecksumValidation: 'WHEN_REQUIRED',
+  requestChecksumCalculation: "WHEN_REQUIRED",
+  responseChecksumValidation: "WHEN_REQUIRED",
 });
 
 export const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME || "";

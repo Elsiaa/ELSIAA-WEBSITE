@@ -13,7 +13,14 @@ type Props = React.ImgHTMLAttributes<HTMLImageElement> & {
 
 export default function Image({ src, alt, width, height, fill, style, ...rest }: Props) {
   const s: React.CSSProperties = fill
-    ? { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", ...style }
+    ? {
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        ...style,
+      }
     : { ...style };
   return (
     <img

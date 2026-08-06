@@ -6,11 +6,16 @@
  * apps. Every other adapter (fnf-web, dev, apps-marketplace, memory) lives in
  * `@higgsfield/fnf-adapters`.
  */
-export { createFetchTransport } from './fetch-transport'
-export type { FetchTransportOptions } from './fetch-transport'
+export { createFetchTransport } from "./fetch-transport";
+export type { FetchTransportOptions } from "./fetch-transport";
 // Shared product-wire normalization — also consumed by the HTTP adapters in
 // @higgsfield/fnf-adapters, so the two packages normalize identically.
-export { normalizeJobLike, normalizeJobListBody, normalizeJobSetBody, normalizeProductJob } from './job-response-normalize'
-export type { NormalizedJobResponse } from './job-response-normalize'
-export { createWorkflowPlatformAdapter } from './workflow-platform-adapter'
-export type { WorkflowPlatformAdapterOptions } from './workflow-platform-adapter'
+export {
+  normalizeJobLike,
+  normalizeJobListBody,
+  normalizeJobSetBody,
+  normalizeProductJob,
+} from "./job-response-normalize";
+export type { NormalizedJobResponse } from "./job-response-normalize";
+export { createWorkflowPlatformAdapter } from "./workflow-platform-adapter";
+export type { WorkflowPlatformAdapterOptions } from "./workflow-platform-adapter";

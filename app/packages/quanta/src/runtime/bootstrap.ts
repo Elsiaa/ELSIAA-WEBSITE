@@ -27,20 +27,20 @@ import {
   DEFAULT_OVERRIDE_STORAGE_KEY,
   DEFAULT_STORAGE_KEY,
   DEFAULT_THEMES_STORAGE_KEY,
-} from './storage-keys.ts'
+} from "./storage-keys.ts";
 
 export interface BootstrapOptions {
-  brand?: string
+  brand?: string;
   /** localStorage key for the user's mode pref. Default 'hf:quanta:theme-pref'. */
-  storageKey?: string
+  storageKey?: string;
   /** localStorage key for the pinned override. Default 'hf:quanta:theme-override'. */
-  overrideStorageKey?: string
+  overrideStorageKey?: string;
   /** localStorage key for the runtime themes map. Default 'hf:quanta:runtime-themes'. */
-  themesStorageKey?: string
+  themesStorageKey?: string;
 }
 
 export function bootstrapScript({
-  brand = 'default',
+  brand = "default",
   storageKey = DEFAULT_STORAGE_KEY,
   overrideStorageKey = DEFAULT_OVERRIDE_STORAGE_KEY,
   themesStorageKey = DEFAULT_THEMES_STORAGE_KEY,
@@ -107,5 +107,5 @@ export function bootstrapScript({
     // :where(...) block.
     html.style.colorScheme = dark ? "dark" : "light";
   }
-})();`
+})();`;
 }

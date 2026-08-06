@@ -1,4 +1,4 @@
-export { Media, useMediaFallback } from './media.tsx'
+export { Media, useMediaFallback } from "./media.tsx";
 export type {
   MediaCaptionProps,
   MediaFallbackProps,
@@ -10,4 +10,4 @@ export type {
   MediaRootProps,
   MediaRounded,
   MediaVideoProps,
-} from './media.tsx'
+} from "./media.tsx";

@@ -110,10 +110,7 @@ export function PortalSignUpForm() {
             ELSIAA
           </span>
         </Link>
-        <h1
-          className="mt-10 text-3xl font-semibold tracking-[-0.035em] md:text-4xl"
-          style={sans}
-        >
+        <h1 className="mt-10 text-3xl font-semibold tracking-[-0.035em] md:text-4xl" style={sans}>
           Create your account.
         </h1>
 
@@ -125,8 +122,7 @@ export function PortalSignUpForm() {
 
         {!checking && !hasInvitation && (
           <p className="mt-4 text-[15px] leading-relaxed text-[#111]/55" style={sans}>
-            Access is invite-only. Open the link from your invitation email to choose a
-            password.
+            Access is invite-only. Open the link from your invitation email to choose a password.
           </p>
         )}
 
@@ -136,16 +132,15 @@ export function PortalSignUpForm() {
             style={sans}
             role="alert"
           >
-            This invitation link is invalid or has expired. Ask your administrator to
-            send a new invite.
+            This invitation link is invalid or has expired. Ask your administrator to send a new
+            invite.
           </p>
         )}
 
         {!checking && canSubmit && email && (
           <p className="mt-4 text-[15px] leading-relaxed text-[#111]/55" style={sans}>
-            Create a password for{" "}
-            <strong className="font-semibold text-[#111]">{email}</strong>. You can then
-            sign in anytime with this email and password.
+            Create a password for <strong className="font-semibold text-[#111]">{email}</strong>.
+            You can then sign in anytime with this email and password.
           </p>
         )}
 

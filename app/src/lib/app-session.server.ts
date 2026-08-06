@@ -75,9 +75,7 @@ export function jwtSubFromToken(token: string): string | null {
     const part = token.split(".")[1];
     if (!part) return null;
     const json = JSON.parse(
-      Buffer.from(part.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString(
-        "utf8",
-      ),
+      Buffer.from(part.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString("utf8"),
     ) as { sub?: string };
     return typeof json.sub === "string" ? json.sub : null;
   } catch {
@@ -156,13 +154,8 @@ export async function readAppSessionWithLegacyFallback(): Promise<AppSessionData
       const session = await getSession<LegacyAdmin>(adminCfg);
       const email = session.data.email?.trim().toLowerCase();
       const accessToken = session.data.accessToken;
-      if (
-        email &&
-        accessToken &&
-        session.data.role === "super_admin" &&
-        isSuperAdminEmail(email)
-      ) {
-          const userId = jwtSubFromToken(accessToken) || email;
+      if (email && accessToken && session.data.role === "super_admin" && isSuperAdminEmail(email)) {
+        const userId = jwtSubFromToken(accessToken) || email;
         const data: AppSessionData = {
           email,
           userId,
@@ -230,9 +223,7 @@ export async function requireAppSupabase(): Promise<{
   let client = getSupabaseUserClient(session.accessToken);
   if (!client) throw new Error("Supabase is not configured");
 
-  const { data: userData, error: userError } = await client.auth.getUser(
-    session.accessToken,
-  );
+  const { data: userData, error: userError } = await client.auth.getUser(session.accessToken);
   if (userError || !userData.user) {
     const auth = getSupabaseAuthClient();
     if (!auth || !session.refreshToken) throw new Error("Unauthorized");

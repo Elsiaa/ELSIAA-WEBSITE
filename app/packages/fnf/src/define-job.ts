@@ -1,11 +1,11 @@
-import type * as zm from 'zod/mini'
-import type { MediaConfig, MediaIssue, MediaRule } from './groups/media'
-import type { GenerationInput, MediaFormat, MediaRef, OutputType, PromptInput } from './types'
-import type { Normalize, NORMALIZE_TYPE } from './z'
-import { promptCodec } from './groups/prompt'
-import { getNormalize, getWireName, z } from './z'
+import type * as zm from "zod/mini";
+import type { MediaConfig, MediaIssue, MediaRule } from "./groups/media";
+import type { GenerationInput, MediaFormat, MediaRef, OutputType, PromptInput } from "./types";
+import type { Normalize, NORMALIZE_TYPE } from "./z";
+import { promptCodec } from "./groups/prompt";
+import { getNormalize, getWireName, z } from "./z";
 
-type SettingsMap = Record<string, unknown>
+type SettingsMap = Record<string, unknown>;
 
 /**
  * The input type of one settings field. Normalized fields (`z.aspectRatio` /
@@ -13,7 +13,7 @@ type SettingsMap = Record<string, unknown>
  * so callers get autocomplete on the canonical values; otherwise fall back to
  * the schema's zod input type.
  */
-type FieldInput<T> = T extends { readonly [NORMALIZE_TYPE]: infer U } ? U : zm.input<T>
+type FieldInput<T> = T extends { readonly [NORMALIZE_TYPE]: infer U } ? U : zm.input<T>;
 
 /**
  * The settings shape a caller passes for a job: each field typed from
@@ -22,8 +22,9 @@ type FieldInput<T> = T extends { readonly [NORMALIZE_TYPE]: infer U } ? U : zm.i
  */
 export type SettingsInput<M extends SettingsMap> = [keyof M] extends [never]
   ? Record<string, never> // a zero-settings job takes {}, not "anything" (bare {} accepts 42)
-  : & { [K in keyof M as undefined extends FieldInput<M[K]> ? never : K]: FieldInput<M[K]> }
-    & { [K in keyof M as undefined extends FieldInput<M[K]> ? K : never]?: FieldInput<M[K]> }
+  : { [K in keyof M as undefined extends FieldInput<M[K]> ? never : K]: FieldInput<M[K]> } & {
+      [K in keyof M as undefined extends FieldInput<M[K]> ? K : never]?: FieldInput<M[K]>;
+    };
 
 /**
  * A job's media declaration, with its allowed roles captured as literals.
@@ -34,13 +35,13 @@ export type SettingsInput<M extends SettingsMap> = [keyof M] extends [never]
  * which silently breaks the `media` key narrowing on `submit`.
  */
 export interface MediaConfigFor<Roles extends string> {
-  field: string
-  format: MediaFormat
-  roles: readonly Roles[]
+  field: string;
+  format: MediaFormat;
+  roles: readonly Roles[];
   /** Per-role cardinality: `min >= 1` makes the role required; `max` caps it. */
-  counts?: Partial<Record<NoInfer<Roles>, { min?: number, max?: number }>>
+  counts?: Partial<Record<NoInfer<Roles>, { min?: number; max?: number }>>;
   /** Cross-role rules (`requiresOneOf`/`atLeastOneOf`, or any custom `MediaRule`). */
-  rules?: readonly MediaRule<NoInfer<Roles>>[]
+  rules?: readonly MediaRule<NoInfer<Roles>>[];
 }
 
 /**
@@ -51,9 +52,11 @@ export interface MediaConfigFor<Roles extends string> {
  */
 type MediaField<Roles extends string> = [Roles] extends [never]
   ? { media?: never } // `never`, not `unknown`: rejects non-fresh objects too, not just literals
-  : { media?: Partial<Record<Roles, MediaRef | MediaRef[]>> }
-type PromptField<P extends boolean> = P extends true ? { prompt?: PromptInput } : { prompt?: never }
-export type Envelope<Roles extends string, P extends boolean> = MediaField<Roles> & PromptField<P>
+  : { media?: Partial<Record<Roles, MediaRef | MediaRef[]>> };
+type PromptField<P extends boolean> = P extends true
+  ? { prompt?: PromptInput }
+  : { prompt?: never };
+export type Envelope<Roles extends string, P extends boolean> = MediaField<Roles> & PromptField<P>;
 
 /**
  * A job's params declaration — it mirrors the backend wire `params` object:
@@ -62,17 +65,22 @@ export type Envelope<Roles extends string, P extends boolean> = MediaField<Roles
  */
 export interface JobParams<M extends SettingsMap, Roles extends string, P extends boolean> {
   /** Set `true` to expose the standard prompt group. Omit for a job that takes no prompt. */
-  prompt?: P
+  prompt?: P;
   /** Declare media support — its `roles` become the allowed `media` keys. Omit for a job that takes no media. */
-  media?: MediaConfigFor<Roles>
+  media?: MediaConfigFor<Roles>;
   /** The scalar wire fields. */
-  settings: M
+  settings: M;
 }
 
-export interface DefineJobConfig<Type extends string, M extends SettingsMap, Roles extends string, P extends boolean> {
-  jobSetType: Type
-  outputType: OutputType
-  params: JobParams<M, Roles, P>
+export interface DefineJobConfig<
+  Type extends string,
+  M extends SettingsMap,
+  Roles extends string,
+  P extends boolean,
+> {
+  jobSetType: Type;
+  outputType: OutputType;
+  params: JobParams<M, Roles, P>;
   /**
    * Optional local per-job credit calculator (the fnf-web `credits(ctx)` pattern):
    * lets `cost()` answer without a network round-trip. `input.settings` is typed
@@ -81,14 +89,14 @@ export interface DefineJobConfig<Type extends string, M extends SettingsMap, Rol
    * inputs aren't sufficient to price locally — `estimateCost` then falls back
    * to the backend. Price ONE job (the `count` fan-out multiplies upstream).
    */
-  credits?: (input: GenerationInput<SettingsInput<M>>) => number | null
+  credits?: (input: GenerationInput<SettingsInput<M>>) => number | null;
   /**
    * Cross-field validation across the WHOLE input (prompt × media × settings) —
    * the rules `counts`/`rules` can't express (e.g. "prompt is required unless
    * media is attached"). Runs in the submit path after parse + media checks;
    * return pydantic-shaped issues, or null/[] when valid. Sync and pure.
    */
-  validate?: (input: GenerationInput<SettingsInput<M>>) => MediaIssue[] | null
+  validate?: (input: GenerationInput<SettingsInput<M>>) => MediaIssue[] | null;
   /**
    * The job-level body hooks — ONE serialization lifecycle, documented once:
    *
@@ -100,7 +108,7 @@ export interface DefineJobConfig<Type extends string, M extends SettingsMap, Rol
    * the constants the product surface always sends (soul's `version: 3`).
    * Omit it when the declared fields map 1:1.
    */
-  finalize?: (wire: Record<string, unknown>, input: GenerationInput) => Record<string, unknown>
+  finalize?: (wire: Record<string, unknown>, input: GenerationInput) => Record<string, unknown>;
   /**
    * Inverse of `finalize`, required whenever finalize DELETES or renames a
    * settings key: without it `parseGeneration` can't see the original setting
@@ -108,33 +116,37 @@ export interface DefineJobConfig<Type extends string, M extends SettingsMap, Rol
    * fast generation would resubmit as std. Return the wire-keyed entries to
    * overlay on the stored params before settings extraction. Omit otherwise.
    */
-  restore?: (wire: Record<string, unknown>) => Record<string, unknown>
+  restore?: (wire: Record<string, unknown>) => Record<string, unknown>;
 }
 
-export interface JobEntry<Type extends string = string, Settings = Record<string, unknown>, Env = unknown> {
-  jobSetType: Type
-  outputType: OutputType
+export interface JobEntry<
+  Type extends string = string,
+  Settings = Record<string, unknown>,
+  Env = unknown,
+> {
+  jobSetType: Type;
+  outputType: OutputType;
   /** Present only when the job declared media. */
-  media?: MediaConfig
+  media?: MediaConfig;
   /** Whether the standard prompt group is active for this job. */
-  prompt: boolean
-  settingsMap: SettingsMap
-  settingsSchema: ReturnType<typeof z.object>
-  normalizers: Record<string, Normalize>
+  prompt: boolean;
+  settingsMap: SettingsMap;
+  settingsSchema: ReturnType<typeof z.object>;
+  normalizers: Record<string, Normalize>;
   /** Explicit wire-name overrides for settings (local key → wire key), from `z.wire`. */
-  wireNames: Record<string, string>
+  wireNames: Record<string, string>;
   /** Local per-job credit calculator; null = can't price locally (backend fallback). */
-  credits?: (input: GenerationInput) => number | null
+  credits?: (input: GenerationInput) => number | null;
   /** Cross-field validation (prompt × media × settings); pydantic-shaped issues. */
-  validate?: (input: GenerationInput) => MediaIssue[] | null
+  validate?: (input: GenerationInput) => MediaIssue[] | null;
   /** Last touch on the assembled wire body — see DefineJobConfig.finalize. */
-  finalize?: (wire: Record<string, unknown>, input: GenerationInput) => Record<string, unknown>
+  finalize?: (wire: Record<string, unknown>, input: GenerationInput) => Record<string, unknown>;
   /** Inverse of `finalize` (wire-keyed overlay) — see DefineJobConfig.restore. */
-  restore?: (wire: Record<string, unknown>) => Record<string, unknown>
+  restore?: (wire: Record<string, unknown>) => Record<string, unknown>;
   /** Phantom: the typed settings-input shape. Carries types only, never set at runtime. */
-  readonly __settings?: Settings
+  readonly __settings?: Settings;
   /** Phantom: the typed envelope (media/prompt) the job exposes. Types only. */
-  readonly __envelope?: Env
+  readonly __envelope?: Env;
 }
 
 export function defineJob<
@@ -145,17 +157,17 @@ export function defineJob<
 >(
   config: DefineJobConfig<Type, M, Roles, P>,
 ): JobEntry<Type, SettingsInput<M>, Envelope<Roles, P>> {
-  const { prompt, media, settings } = config.params
+  const { prompt, media, settings } = config.params;
   // Non-`wrapped` media formats carry no role tag on the wire, so they can only
   // represent one role — guard the invariant the types alone can't (callers may
   // bypass with `as`). See mediaCodec serialize/parse.
-  if (media && media.format !== 'wrapped' && media.roles.length !== 1) {
+  if (media && media.format !== "wrapped" && media.roles.length !== 1) {
     throw new Error(
-      `defineJob('${config.jobSetType}'): media format '${media.format}' supports exactly one role, got ${media.roles.length} [${media.roles.join(', ')}] — use format 'wrapped' for multi-role media`,
-    )
+      `defineJob('${config.jobSetType}'): media format '${media.format}' supports exactly one role, got ${media.roles.length} [${media.roles.join(", ")}] — use format 'wrapped' for multi-role media`,
+    );
   }
-  const wireNames = collectWireNames(settings)
-  assertNoWireCollisions(config.jobSetType, settings, wireNames, prompt ?? false, media)
+  const wireNames = collectWireNames(settings);
+  assertNoWireCollisions(config.jobSetType, settings, wireNames, prompt ?? false, media);
 
   return {
     jobSetType: config.jobSetType,
@@ -168,11 +180,11 @@ export function defineJob<
     wireNames,
     // Type-erased on the entry (the registry is heterogeneous); the runtime
     // value IS the caller's typed input — same erasure as settingsSchema.
-    credits: config.credits as JobEntry['credits'],
-    validate: config.validate as JobEntry['validate'],
+    credits: config.credits as JobEntry["credits"],
+    validate: config.validate as JobEntry["validate"],
     finalize: config.finalize,
     restore: config.restore,
-  }
+  };
 }
 
 /**
@@ -181,36 +193,47 @@ export function defineJob<
  * would serialize last-write-wins and parse back ambiguously — fail at
  * definition time instead.
  */
-function assertNoWireCollisions(jobSetType: string, settings: SettingsMap, wireNames: Record<string, string>, prompt: boolean, media?: MediaConfig): void {
-  const reserved = new Set<string>([...(prompt ? promptCodec.wireKeys : []), ...(media ? [media.field] : [])])
-  const seen = new Map<string, string>()
+function assertNoWireCollisions(
+  jobSetType: string,
+  settings: SettingsMap,
+  wireNames: Record<string, string>,
+  prompt: boolean,
+  media?: MediaConfig,
+): void {
+  const reserved = new Set<string>([
+    ...(prompt ? promptCodec.wireKeys : []),
+    ...(media ? [media.field] : []),
+  ]);
+  const seen = new Map<string, string>();
   for (const key of Object.keys(settings)) {
-    const wireKey = wireNames[key] ?? key
-    const clash = seen.get(wireKey)
+    const wireKey = wireNames[key] ?? key;
+    const clash = seen.get(wireKey);
     if (clash !== undefined)
-      throw new Error(`defineJob('${jobSetType}'): settings '${clash}' and '${key}' both serialize to wire key '${wireKey}'`)
+      throw new Error(
+        `defineJob('${jobSetType}'): settings '${clash}' and '${key}' both serialize to wire key '${wireKey}'`,
+      );
     if (reserved.has(wireKey))
-      throw new Error(`defineJob('${jobSetType}'): settings key '${key}' collides with the ${prompt && promptCodec.wireKeys.includes(wireKey) ? 'prompt' : 'media'} wire key '${wireKey}'`)
-    seen.set(wireKey, key)
+      throw new Error(
+        `defineJob('${jobSetType}'): settings key '${key}' collides with the ${prompt && promptCodec.wireKeys.includes(wireKey) ? "prompt" : "media"} wire key '${wireKey}'`,
+      );
+    seen.set(wireKey, key);
   }
 }
 
 function collectNormalizers(settings: SettingsMap): Record<string, Normalize> {
-  const out: Record<string, Normalize> = {}
+  const out: Record<string, Normalize> = {};
   for (const [key, schema] of Object.entries(settings)) {
-    const n = getNormalize(schema)
-    if (n)
-      out[key] = n
+    const n = getNormalize(schema);
+    if (n) out[key] = n;
   }
-  return out
+  return out;
 }
 
 function collectWireNames(settings: SettingsMap): Record<string, string> {
-  const out: Record<string, string> = {}
+  const out: Record<string, string> = {};
   for (const [key, schema] of Object.entries(settings)) {
-    const name = getWireName(schema)
-    if (name !== undefined && name !== key)
-      out[key] = name
+    const name = getWireName(schema);
+    if (name !== undefined && name !== key) out[key] = name;
   }
-  return out
+  return out;
 }

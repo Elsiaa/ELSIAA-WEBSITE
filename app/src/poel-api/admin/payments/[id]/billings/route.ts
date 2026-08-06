@@ -1,37 +1,34 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { isSuperAdmin as checkSuperAdmin } from '@/lib/permissions';
-import { getCurrentUser } from '@/lib/permissions';
-import { getPaymentRequestById } from '@/lib/payments';
-import { resolvePaymentIntentRail } from '@/lib/stripe-payment-rail';
-import Stripe from 'stripe';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { isSuperAdmin as checkSuperAdmin } from "@/lib/permissions";
+import { getCurrentUser } from "@/lib/permissions";
+import { getPaymentRequestById } from "@/lib/payments";
+import { resolvePaymentIntentRail } from "@/lib/stripe-payment-rail";
+import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 // GET - Get all billing history for a payment request
-export async function GET(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const isSuperAdmin = await checkSuperAdmin();
     const dbUser = await getCurrentUser();
 
-    if (!isSuperAdmin && !(dbUser && dbUser.role === 'admin')) {
-      return NextResponse.json({ error: 'Only admins can view billing history' }, { status: 403 });
+    if (!isSuperAdmin && !(dbUser && dbUser.role === "admin")) {
+      return NextResponse.json({ error: "Only admins can view billing history" }, { status: 403 });
     }
 
     const { id } = await context.params;
     const paymentRequest = await getPaymentRequestById(id);
 
     if (!paymentRequest) {
-      return NextResponse.json({ error: 'Payment request not found' }, { status: 404 });
+      return NextResponse.json({ error: "Payment request not found" }, { status: 404 });
     }
 
     if (!paymentRequest.stripe_customer_id) {
@@ -42,21 +39,20 @@ export async function GET(
     const paymentIntents = await stripe.paymentIntents.list({
       customer: paymentRequest.stripe_customer_id,
       limit: 100, // Get up to 100 most recent
-      expand: ['data.payment_method'],
+      expand: ["data.payment_method"],
     });
 
     // Filter to only payment intents that match this payment request (by public_token in metadata)
     const filtered = paymentIntents.data.filter(
       (pi) =>
-        pi.status === 'succeeded' &&
-        pi.metadata?.public_token === paymentRequest.public_token
+        pi.status === "succeeded" && pi.metadata?.public_token === paymentRequest.public_token,
     );
 
     const matchingBillings = (
       await Promise.all(
         filtered.map(async (pi) => {
-          const originalAmount = parseFloat(pi.metadata?.originalAmount || '0');
-          const fee = parseFloat(pi.metadata?.fee || '0');
+          const originalAmount = parseFloat(pi.metadata?.originalAmount || "0");
+          const fee = parseFloat(pi.metadata?.fee || "0");
           const total = pi.amount / 100;
           const method = await resolvePaymentIntentRail(stripe, pi);
 
@@ -71,17 +67,16 @@ export async function GET(
               ? parseInt(pi.metadata.invoice_number)
               : null,
           };
-        })
+        }),
       )
     ).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // Most recent first
 
     return NextResponse.json({ billings: matchingBillings });
   } catch (error: any) {
-    console.error('Error fetching billing history:', error);
+    console.error("Error fetching billing history:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch billing history', details: error.message },
-      { status: 500 }
+      { error: "Failed to fetch billing history", details: error.message },
+      { status: 500 },
     );
   }
 }
-

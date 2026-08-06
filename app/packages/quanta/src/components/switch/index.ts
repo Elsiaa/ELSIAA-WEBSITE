@@ -1,8 +1,8 @@
-export { Switch, SwitchLabel } from './switch.tsx'
+export { Switch, SwitchLabel } from "./switch.tsx";
 export type {
   SwitchLabelDirection,
   SwitchLabelProps,
   SwitchLabelSize,
   SwitchProps,
   SwitchSize,
-} from './switch.tsx'
+} from "./switch.tsx";

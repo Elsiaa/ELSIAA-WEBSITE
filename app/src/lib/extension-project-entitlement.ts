@@ -1,18 +1,18 @@
-import type { Project } from './projects';
-import { getCompanyPaymentStatusWithPreemptiveBilling } from './preemptive-company-billing';
-import { overdueBillsCount } from './company-payment-status-compat';
+import type { Project } from "./projects";
+import { getCompanyPaymentStatusWithPreemptiveBilling } from "./preemptive-company-billing";
+import { overdueBillsCount } from "./company-payment-status-compat";
 import {
   activeAdminDeviceBypassesEntitlement,
   type ProjectAuthDevice,
-} from './project-auth-devices';
+} from "./project-auth-devices";
 
 const GRACE_PERIOD_DAYS = 3;
 
 export type ExtensionEntitlementResult =
-  | { allowed: true; status: 'allowed' | 'warning'; daysRemaining?: number }
+  | { allowed: true; status: "allowed" | "warning"; daysRemaining?: number }
   | {
       allowed: false;
-      status: 'denied';
+      status: "denied";
       reason: string;
       pendingFees?: number;
       overdueSubscriptions?: number;
@@ -26,23 +26,23 @@ export type ExtensionEntitlementResult =
  */
 export async function getExtensionEntitlementForProject(
   project: Project,
-  context?: { device?: Pick<ProjectAuthDevice, 'isAdminDevice' | 'status'> | null }
+  context?: { device?: Pick<ProjectAuthDevice, "isAdminDevice" | "status"> | null },
 ): Promise<ExtensionEntitlementResult> {
   if (activeAdminDeviceBypassesEntitlement(context?.device)) {
-    return { allowed: true, status: 'allowed' };
+    return { allowed: true, status: "allowed" };
   }
 
-  if (project.accessOverride === 'allowed') {
-    return { allowed: true, status: 'allowed' };
+  if (project.accessOverride === "allowed") {
+    return { allowed: true, status: "allowed" };
   }
-  if (project.accessOverride === 'blocked') {
-    return { allowed: false, status: 'denied', reason: 'Access blocked by admin override' };
+  if (project.accessOverride === "blocked") {
+    return { allowed: false, status: "denied", reason: "Access blocked by admin override" };
   }
 
   const paymentStatus = await getCompanyPaymentStatusWithPreemptiveBilling(project.companyId);
 
   if (paymentStatus.allUpToDate) {
-    return { allowed: true, status: 'allowed' };
+    return { allowed: true, status: "allowed" };
   }
 
   const withinGrace = paymentStatus.maxDaysOverdue <= GRACE_PERIOD_DAYS;
@@ -51,15 +51,15 @@ export async function getExtensionEntitlementForProject(
   if (withinGrace) {
     return {
       allowed: true,
-      status: 'warning',
+      status: "warning",
       daysRemaining,
     };
   }
 
   return {
     allowed: false,
-    status: 'denied',
-    reason: 'Access suspended - overdue payments exceed grace period',
+    status: "denied",
+    reason: "Access suspended - overdue payments exceed grace period",
     pendingFees: paymentStatus.pendingFees,
     overdueSubscriptions: paymentStatus.overdueSubscriptions,
     overdueBills: overdueBillsCount(paymentStatus),

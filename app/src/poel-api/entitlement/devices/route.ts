@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getParsedProjectApiKeyFromRequest } from '@/lib/project-api-key';
-import { getProjectByApiKey } from '@/lib/projects';
-import { getProjectAuthDevices } from '@/lib/project-auth-devices';
+import { NextRequest, NextResponse } from "next/server";
+import { getParsedProjectApiKeyFromRequest } from "@/lib/project-api-key";
+import { getProjectByApiKey } from "@/lib/projects";
+import { getProjectAuthDevices } from "@/lib/project-auth-devices";
 
 /**
  * GET /api/entitlement/devices
@@ -15,12 +15,12 @@ export async function GET(request: NextRequest) {
   try {
     const parsedKey = getParsedProjectApiKeyFromRequest(request);
     if (!parsedKey) {
-      return NextResponse.json({ error: 'Missing project API key' }, { status: 401 });
+      return NextResponse.json({ error: "Missing project API key" }, { status: 401 });
     }
 
     const project = await getProjectByApiKey(parsedKey.lookupKey);
     if (!project) {
-      return NextResponse.json({ error: 'Invalid project API key' }, { status: 403 });
+      return NextResponse.json({ error: "Invalid project API key" }, { status: 403 });
     }
 
     const rows = await getProjectAuthDevices(project.id);
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ devices });
   } catch (error) {
-    console.error('Entitlement devices list error:', error);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    console.error("Entitlement devices list error:", error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import type { ComponentProps, ReactNode } from 'react'
-import { Children } from 'react'
-import { Typography } from '../typography/index.ts'
-import { cx } from '../utils/cx.ts'
+import type { ComponentProps, ReactNode } from "react";
+import { Children } from "react";
+import { Typography } from "../typography/index.ts";
+import { cx } from "../utils/cx.ts";
 
 /**
  * Kbd — a keyboard-shortcut pill, pinned to the Figma `_Shortcut` (node
@@ -21,7 +21,7 @@ import { cx } from '../utils/cx.ts'
  * exactly), radius `rounded-q-100`, type `text-q-caption-sm-medium`.
  */
 
-export type KbdProps = ComponentProps<'kbd'>
+export type KbdProps = ComponentProps<"kbd">;
 
 export function Kbd({ className, children, color: _color, ...props }: KbdProps) {
   // The `<kbd>` is the text-styled surface the component owns: its composite type
@@ -33,15 +33,15 @@ export function Kbd({ className, children, color: _color, ...props }: KbdProps) 
       variant="caption-sm-medium"
       color="primary"
       className={cx(
-        'inline-flex h-5 shrink-0 items-center justify-center gap-0.5 rounded-q-100 px-1 align-middle',
-        'border-q-hairline border-q-border-subtle bg-q-overlay-hover',
+        "inline-flex h-5 shrink-0 items-center justify-center gap-0.5 rounded-q-100 px-1 align-middle",
+        "border-q-hairline border-q-border-subtle bg-q-overlay-hover",
         className,
       )}
       {...props}
     >
       {children}
     </Typography>
-  )
+  );
 }
 
 /**
@@ -50,16 +50,16 @@ export function Kbd({ className, children, color: _color, ...props }: KbdProps) 
  * children. The separator is aria-hidden so the `<kbd>` semantics stay clean.
  */
 
-export type KbdSequenceProps = Omit<ComponentProps<'span'>, 'children'> & {
+export type KbdSequenceProps = Omit<ComponentProps<"span">, "children"> & {
   /** Separator rendered between keys. Default "+". Set to null to omit. */
-  separator?: ReactNode
+  separator?: ReactNode;
   /** Keys to render. Strings are wrapped in `<Kbd>`; ReactNodes pass through. */
-  keys?: ReactNode[]
-  children?: ReactNode
-}
+  keys?: ReactNode[];
+  children?: ReactNode;
+};
 
 export function KbdSequence({
-  separator = '+',
+  separator = "+",
   keys,
   className,
   children,
@@ -67,34 +67,22 @@ export function KbdSequence({
 }: KbdSequenceProps) {
   const items: ReactNode[] = keys
     ? keys.map((k, i) =>
-        typeof k === 'string' || typeof k === 'number'
-          ? <Kbd key={i}>{k}</Kbd>
-          : k,
+        typeof k === "string" || typeof k === "number" ? <Kbd key={i}>{k}</Kbd> : k,
       )
-    : Children.toArray(children)
+    : Children.toArray(children);
 
   return (
-    <span
-      className={cx('inline-flex items-center gap-1 align-middle', className)}
-      {...props}
-    >
+    <span className={cx("inline-flex items-center gap-1 align-middle", className)} {...props}>
       {items.map((item, i) => (
         <span key={i} className="inline-flex items-center gap-1">
           {item}
-          {separator != null && i < items.length - 1
-            ? (
-                <Typography
-                  as="span"
-                  variant="caption-sm-regular"
-                  color="tertiary"
-                  aria-hidden
-                >
-                  {separator}
-                </Typography>
-              )
-            : null}
+          {separator != null && i < items.length - 1 ? (
+            <Typography as="span" variant="caption-sm-regular" color="tertiary" aria-hidden>
+              {separator}
+            </Typography>
+          ) : null}
         </span>
       ))}
     </span>
-  )
+  );
 }
