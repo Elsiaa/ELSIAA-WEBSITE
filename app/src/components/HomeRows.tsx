@@ -626,6 +626,17 @@ function AutomationSection() {
     }
     v.loop = true;
     v.play().catch(() => {}); // always waving while the bubble types
+    /* Keep it waving for good. A single play() at mount is not enough: the
+       browser stops muted autoplay on tab-switch, on returning from
+       background, and when it reclaims a decoder under memory pressure, and
+       nothing restarts it. Restart on every pause, plus a slow poll for the
+       engines that stall without firing `pause` at all. */
+    const resume = () => {
+      if (v.paused) v.play().catch(() => {});
+    };
+    v.addEventListener("pause", resume);
+    document.addEventListener("visibilitychange", resume);
+    const keepAlive = setInterval(resume, 4000);
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
     let raf = 0;
     const tick = () => {
@@ -637,7 +648,12 @@ function AutomationSection() {
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      v.removeEventListener("pause", resume);
+      document.removeEventListener("visibilitychange", resume);
+      clearInterval(keepAlive);
+    };
   }, []);
 
   // vertical feather + multiply + brightness lift → the clip's studio backdrop
