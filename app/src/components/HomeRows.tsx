@@ -4,6 +4,7 @@ import { AssemblingArtist } from "./AssemblingArtist";
 import { WorkingRobot } from "./WorkingRobot";
 import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 import { Reveal } from "./Reveal";
+import { SocialLinks } from "./SocialLinks";
 import { ConsultOptions } from "./ConsultOptions";
 import { WhyBrandsChose } from "./BrandLogos";
 import { SoftwareDemos } from "./SoftwareDemos";
@@ -390,7 +391,7 @@ function HomeHero() {
 
   return (
     <section className="relative bg-white">
-      <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pt-28 pb-7 text-center md:pt-44 md:pb-10">
+      <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pt-[104px] pb-6 text-center md:pt-44 md:pb-10">
         {/* headline — centred */}
         <Reveal>
           <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl" style={sans}>
@@ -423,7 +424,7 @@ function HomeHero() {
         {/* the lion — the ELSIAA logo, front-facing, roars as you scroll */}
         {/* The clip is masked and feathered, so it already carries a wide
             transparent margin — the gap above it can be small. */}
-        <div className="pointer-events-none relative mt-3 w-full max-w-[262px] md:mt-8 md:max-w-[380px]">
+        <div className="pointer-events-none relative mt-2 w-full max-w-[228px] md:mt-8 md:max-w-[380px]">
           <div
             ref={glowRef}
             className="absolute inset-[14%] -z-10 rounded-full blur-3xl"
@@ -511,6 +512,10 @@ function HomeHero() {
               ))}
             </div>
           </a>
+
+          {/* Follow buttons ride with the ticker band so they are visible
+              without scrolling — same source list as the footer. */}
+          <SocialLinks variant="icon" className="justify-center pt-3" />
         </div>
       </div>
     </section>
