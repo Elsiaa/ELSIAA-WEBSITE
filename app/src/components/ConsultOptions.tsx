@@ -163,7 +163,6 @@ export function ConsultOptions({
             {CALL_LABEL}
           </a>
         </div>
-
       </div>
 
       {/* the promise, under the two offers */}

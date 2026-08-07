@@ -395,9 +395,7 @@ function HomeHero() {
       .then(() => v.pause())
       .catch(() => {}); // prime decoding for seeks
     const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
-    const fadeEls = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-hero-fade]"),
-    );
+    const fadeEls = Array.from(document.querySelectorAll<HTMLElement>("[data-hero-fade]"));
     let raf = 0;
     const tick = () => {
       const sc = window.scrollY || document.documentElement.scrollTop || 0;
@@ -446,18 +444,21 @@ function HomeHero() {
             lion and the wordmark are what is left. */}
         <Reveal className="w-full">
           <div data-hero-fade>
-          <h1
-            className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl"
-            style={sans}
-          >
-            Unlock the potential of your business with <span className="text-[#1e6b3c]">AI</span>.
-          </h1>
+            <h1
+              className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl"
+              style={sans}
+            >
+              Unlock the potential of your business with <span className="text-[#1e6b3c]">AI</span>.
+            </h1>
           </div>
         </Reveal>
 
         {/* quick nav into the divisions */}
         <Reveal delay={0.06}>
-          <div data-hero-fade className="mt-5 flex flex-wrap items-center justify-center gap-2.5 md:mt-7">
+          <div
+            data-hero-fade
+            className="mt-5 flex flex-wrap items-center justify-center gap-2.5 md:mt-7"
+          >
             {[
               { label: "Why ELSIAA", href: "/why-elsiaa" },
               { label: "Automations", href: "/automate" },
@@ -1148,80 +1149,87 @@ function Locations() {
                     i === idx ? "" : "opacity-45 hover:opacity-80"
                   }`}
                 >
-                <button
-                  role="tab"
-                  aria-selected={i === idx}
-                  onClick={() => setIdx(i)}
-                  className="group flex min-h-[44px] min-w-0 flex-1 items-center gap-3 py-2 text-left sm:gap-4 sm:py-3.5"
-                >
-                  <span
-                    className={`h-6 w-[3px] flex-none rounded-full transition-colors duration-300 sm:h-8 ${
-                      i === idx ? "bg-[#1e6b3c]" : "bg-black/[0.08]"
-                    }`}
-                  />
-                  <img
-                    src={`/assets/flags/${c.flag}.png`}
-                    srcSet={`/assets/flags/${c.flag}@2x.png 2x`}
-                    alt=""
-                    className="h-[13px] w-[19px] flex-none rounded-[2px] object-cover ring-1 ring-black/10"
-                  />
-                  {/* Phones collapse each city to a single line: the second
+                  <button
+                    role="tab"
+                    aria-selected={i === idx}
+                    onClick={() => setIdx(i)}
+                    className="group flex min-h-[44px] min-w-0 flex-1 items-center gap-3 py-2 text-left sm:gap-4 sm:py-3.5"
+                  >
+                    <span
+                      className={`h-6 w-[3px] flex-none rounded-full transition-colors duration-300 sm:h-8 ${
+                        i === idx ? "bg-[#1e6b3c]" : "bg-black/[0.08]"
+                      }`}
+                    />
+                    <img
+                      src={`/assets/flags/${c.flag}.png`}
+                      srcSet={`/assets/flags/${c.flag}@2x.png 2x`}
+                      alt=""
+                      className="h-[13px] w-[19px] flex-none rounded-[2px] object-cover ring-1 ring-black/10"
+                    />
+                    {/* Phones collapse each city to a single line: the second
                       line was "ELSIAA office" and "· local" repeated six
                       times, which cost 30px a row and said nothing new. */}
-                  <span className="min-w-0 flex-1">
-                    <span
-                      className="block truncate text-[14px] font-semibold tracking-[-0.01em] sm:text-[15.5px]"
-                      style={inter}
-                    >
-                      {c.name}
-                    </span>
-                    <span
-                      className={`hidden text-[13px] transition-colors sm:block ${
-                        i === idx ? "text-[#1e6b3c]" : "text-[#111111]/50"
-                      }`}
-                      style={mono}
-                    >
-                      {deskOpen(now, c.tz) === null ? (
-                        "11:00–17:00 local"
-                      ) : deskOpen(now, c.tz) ? (
-                        <span style={{ color: "#1e6b3c" }}>● Open now · until 17:00 local</span>
-                      ) : (
-                        <span className="text-[#111111]/45">● Closed · opens 11:00 local</span>
-                      )}
-                    </span>
-                  </span>
-                  <span className="flex-none text-right">
-                    <span
-                      className={`block text-[14px] font-medium tabular-nums transition-colors sm:text-[17px] ${
-                        i === idx ? "text-[#111111]" : "text-[#111111]/55"
-                      }`}
-                      style={mono}
-                    >
-                      <span className="mr-1.5 text-[#111111]/45 sm:hidden">
-                        {cityDay(now, c.tz)}
+                    <span className="min-w-0 flex-1">
+                      <span
+                        className="block truncate text-[14px] font-semibold tracking-[-0.01em] sm:text-[15.5px]"
+                        style={inter}
+                      >
+                        {c.name}
                       </span>
-                      <span className="sm:hidden">{cityTime(now, c.tz).slice(0, 5)}</span>
-                      <span className="hidden sm:inline">{cityTime(now, c.tz)}</span>
+                      <span
+                        className={`hidden text-[13px] transition-colors sm:block ${
+                          i === idx ? "text-[#1e6b3c]" : "text-[#111111]/50"
+                        }`}
+                        style={mono}
+                      >
+                        {deskOpen(now, c.tz) === null ? (
+                          "11:00–17:00 local"
+                        ) : deskOpen(now, c.tz) ? (
+                          <span style={{ color: "#1e6b3c" }}>● Open now · until 17:00 local</span>
+                        ) : (
+                          <span className="text-[#111111]/45">● Closed · opens 11:00 local</span>
+                        )}
+                      </span>
                     </span>
-                    <span className="hidden text-[13px] text-[#111111]/50 sm:block" style={mono}>
-                      {cityDay(now, c.tz)} · local
+                    <span className="flex-none text-right">
+                      <span
+                        className={`block text-[14px] font-medium tabular-nums transition-colors sm:text-[17px] ${
+                          i === idx ? "text-[#111111]" : "text-[#111111]/55"
+                        }`}
+                        style={mono}
+                      >
+                        <span className="mr-1.5 text-[#111111]/45 sm:hidden">
+                          {cityDay(now, c.tz)}
+                        </span>
+                        <span className="sm:hidden">{cityTime(now, c.tz).slice(0, 5)}</span>
+                        <span className="hidden sm:inline">{cityTime(now, c.tz)}</span>
+                      </span>
+                      <span className="hidden text-[13px] text-[#111111]/50 sm:block" style={mono}>
+                        {cityDay(now, c.tz)} · local
+                      </span>
                     </span>
-                  </span>
-                </button>
-                <a
-                  href={`mailto:${c.email}`}
-                  onClick={(e) => e.stopPropagation()}
-                  aria-label={`Email the ${c.name} desk — ${c.email}`}
-                  title={c.email}
-                  className="flex min-h-[44px] flex-none items-center gap-1.5 rounded-full px-2.5 text-[12px] font-semibold text-[#1e6b3c] transition-colors hover:bg-[#1e6b3c]/[0.08] sm:px-3 sm:text-[12.5px]"
-                  style={mono}
-                >
-                  <svg viewBox="0 0 20 20" aria-hidden className="h-[14px] w-[14px] flex-none" fill="none" stroke="currentColor" strokeWidth="1.7">
-                    <rect x="2.5" y="4.5" width="15" height="11" rx="2" />
-                    <path d="M3 6l7 5 7-5" />
-                  </svg>
-                  <span className="hidden lg:inline">{c.email}</span>
-                </a>
+                  </button>
+                  <a
+                    href={`mailto:${c.email}`}
+                    onClick={(e) => e.stopPropagation()}
+                    aria-label={`Email the ${c.name} desk — ${c.email}`}
+                    title={c.email}
+                    className="flex min-h-[44px] flex-none items-center gap-1.5 rounded-full px-2.5 text-[12px] font-semibold text-[#1e6b3c] transition-colors hover:bg-[#1e6b3c]/[0.08] sm:px-3 sm:text-[12.5px]"
+                    style={mono}
+                  >
+                    <svg
+                      viewBox="0 0 20 20"
+                      aria-hidden
+                      className="h-[14px] w-[14px] flex-none"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                    >
+                      <rect x="2.5" y="4.5" width="15" height="11" rx="2" />
+                      <path d="M3 6l7 5 7-5" />
+                    </svg>
+                    <span className="hidden lg:inline">{c.email}</span>
+                  </a>
                 </div>
               ))}
             </div>
@@ -1242,7 +1250,7 @@ function Locations() {
               All locations →
             </a>
           </div>
-          </Reveal>
+        </Reveal>
       </div>
     </section>
   );
@@ -1317,7 +1325,6 @@ const TEAM = [
   },
 ];
 
-
 /* One row of people. Cards are equal height and the role is clamped to two
    lines, so a long title cannot make its card taller than the rest of the row. */
 function TeamBand({
@@ -1330,7 +1337,9 @@ function TeamBand({
   className?: string;
 }) {
   return (
-    <div className={`grid grid-cols-3 gap-x-2 gap-y-3 sm:grid-cols-2 sm:gap-3 ${cols} ${className}`}>
+    <div
+      className={`grid grid-cols-3 gap-x-2 gap-y-3 sm:grid-cols-2 sm:gap-3 ${cols} ${className}`}
+    >
       {people.map((m, i) => (
         <Reveal key={m.name} delay={i * 0.05} className="h-full">
           <div className="group flex h-full flex-col items-center gap-1.5 rounded-xl border-0 p-0 text-center transition-all duration-300 sm:flex-row sm:gap-3.5 sm:border sm:border-black/[0.07] sm:bg-transparent sm:p-4 sm:text-left sm:hover:-translate-y-0.5 sm:hover:border-[#1e6b3c]/35 sm:hover:bg-white/50">

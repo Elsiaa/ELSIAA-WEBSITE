@@ -100,11 +100,6 @@ function Hero() {
         <h1 className="mx-auto max-w-2xl text-4xl leading-[1.03] font-semibold tracking-[-0.04em] sm:text-5xl md:text-6xl">
           Careers at ELSIAA
         </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-[#111111]/70 md:text-[17px]">
-          We build websites, apps, and AI systems for businesses, and we look after them once
-          they're live. The company works out of six offices across three continents, and we're
-          hiring in four areas.
-        </p>
       </div>
     </section>
   );
@@ -332,11 +327,7 @@ function ApplyForm() {
             >
               {/* Mirrors the ROLES list above — an applicant should not be able
                   to apply for an area the page does not advertise. */}
-              {[
-                "Design",
-                "Engineering",
-                "Client Engagement & Sales",
-              ].map((p) => {
+              {["Design", "Engineering", "Client Engagement & Sales"].map((p) => {
                 const on = positions.includes(p);
                 return (
                   <button

@@ -161,7 +161,6 @@ const PROCESS: Array<[string, string]> = [
   ["Deploy", "Rolled into your operation without stopping it, then maintained."],
 ];
 
-
 /*
   Card art. The still is the poster and paints instantly; the loop takes over
   once it can play, so a slow connection still gets a sharp image rather than
@@ -231,7 +230,6 @@ function ServiceArt({ name }: { name: string }) {
   );
 }
 
-
 /*
   Category marks — the same isometric clay language as the service art, sized
   down to sit beside a heading. multiply because the renders ground out around
@@ -276,8 +274,8 @@ function ServicesPage() {
             Everything we build, with a price on it.
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[17px]">
-            Fixed scope, fixed price, and you own the finished system. Start anywhere on this
-            page — the first twenty minutes are free.
+            Fixed scope, fixed price, and you own the finished system. Start anywhere on this page —
+            the first twenty minutes are free.
           </p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             <a
@@ -301,7 +299,8 @@ function ServicesPage() {
         <div className="mx-auto max-w-6xl">
           <div /* four across: eight cards land as two clean rows instead of the
                ragged 3+3+2 a three-column grid gives */
-            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6"
+          >
             {SERVICES.map((s, i) => (
               <Reveal key={s.name} delay={Math.min(i * 0.04, 0.2)} className="h-full">
                 <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.07] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
@@ -360,9 +359,17 @@ function ServicesPage() {
           </Reveal>
           <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
             {[
-              ["Back office", "backoffice", ["Invoices", "Payroll prep", "Data migration", "Audits"]],
+              [
+                "Back office",
+                "backoffice",
+                ["Invoices", "Payroll prep", "Data migration", "Audits"],
+              ],
               ["Customer", "customer", ["Support triage", "Returns", "Onboarding", "CRM updates"]],
-              ["Growth", "growth", ["Lead enrichment", "Outreach", "Proposals", "Competitor tracking"]],
+              [
+                "Growth",
+                "growth",
+                ["Lead enrichment", "Outreach", "Proposals", "Competitor tracking"],
+              ],
               ["Documents", "documents", ["PDF parsing", "OCR", "Scraping", "Unstructured entry"]],
               ["Decisions", "decisions", ["Fraud checks", "QA", "Eligibility", "Triage"]],
               ["Execution", "execution", ["Browsers", "Email", "Scheduling", "Workflows"]],
