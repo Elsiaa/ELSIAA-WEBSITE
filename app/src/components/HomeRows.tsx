@@ -1313,8 +1313,8 @@ const TEAM = [
   },
   {
     name: "Chaim Lieberman",
-    role: "Executive Director of European Business",
-    short: "Exec. Director, Europe",
+    role: "Chief Executive Director of EU",
+    short: "Chief Exec. Director, EU",
     init: "CL",
     photo: "/assets/team/cl.jpg",
     /* face centre measured in this photo, so the circle frames the head */
