@@ -1,20 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
 /*
-  Randomised promo card.
+  Rotating house ad.
 
-  A small dismissible card slides in from the bottom-left after the visitor has
-  been reading for a moment, promoting one division at random.
+  A small card slides in from the bottom-left, promotes one division, retires
+  itself, and later comes back with a different one.
 
-  Rules it follows, so it reads as a house ad rather than adware:
-    - never on the page it is advertising (no "see our design work" on /designs)
-    - never on the portal, admin, sign-in, checkout or legal pages
-    - once per session, full stop. Dismissing sets a flag that also survives
-      navigation, so it cannot reappear on the next route change.
-    - waits for a real dwell, and never fires on a visitor who is already
-      leaving (dismissed === closed for good)
-    - honours prefers-reduced-motion by skipping the slide, not the card
+  Rules, so it reads as a house ad rather than adware:
+
+    - NEVER over the hero. It waits until the visitor has scrolled past the
+      first screen. The previous version appeared at scrollY 0 and, on a
+      375px phone, covered 335px of width directly under the lion — it
+      overlapped the ELSIAA wordmark by 8px and buried the brand on the one
+      screen that has to land.
+    - never on the page it is advertising
+    - never on portal, admin, legal, search, checkout or intake
+    - each ad shows for SHOW_MS, then retires. A new one appears after
+      GAP_MS, cycling through the pool from a random start so different
+      visits lead with different divisions.
+    - dismissing does not stop the rotation. After two dismissals the gap
+      stretches from 45s to 3 minutes, so it keeps working without nagging.
 */
 
 type Promo = {
@@ -33,10 +39,10 @@ const PROMOS: Promo[] = [
     key: "design",
     eyebrow: "Design",
     title: "Your brand, rebuilt.",
-    line: "Sites, apps, and identities we've shipped for real businesses. Web design starts at $750.",
+    line: "Sites, apps, and identities shipped for real businesses. Web design from $750.",
     cta: "See the work",
     href: "/designs",
-    suppressOn: ["/designs", "/services"],
+    suppressOn: ["/designs"],
   },
   {
     key: "automate",
@@ -45,7 +51,7 @@ const PROMOS: Promo[] = [
     line: "The step in your business that still waits on a person — handed to a system that doesn't.",
     cta: "See the systems",
     href: "/automate",
-    suppressOn: ["/automate", "/services"],
+    suppressOn: ["/automate"],
   },
   {
     key: "social",
@@ -55,6 +61,15 @@ const PROMOS: Promo[] = [
     cta: "See clipping",
     href: "/social",
     suppressOn: ["/social"],
+  },
+  {
+    key: "services",
+    eyebrow: "Services",
+    title: "Eight services, priced.",
+    line: "From a $750 site to a $12k platform — every one with a fixed scope before you commit.",
+    cta: "See pricing",
+    href: "/services",
+    suppressOn: ["/services"],
   },
   {
     key: "call",
@@ -70,48 +85,104 @@ const PROMOS: Promo[] = [
 /** Anywhere a promo would be an intrusion rather than an ad. */
 const BLOCKED_PREFIXES = ["/portal", "/admin", "/legal", "/search", "/store/checkout", "/intake"];
 
-const SEEN_KEY = "elsiaa:promo-seen";
-const DELAY_MS = 18_000;
+const FIRST_MS = 9_000; // dwell before the first card, once past the hero
+const SHOW_MS = 13_000; // how long a card stays up on its own
+const GAP_MS = 45_000; // quiet time between cards
+/* After two dismissals the gap stretches instead of the rotation stopping.
+   Closing twice says "not now", not "never" — so it keeps cycling, just far
+   less often. Backing off is what keeps a house ad from becoming a nag. */
+const BACKOFF_AFTER = 2;
+const LONG_GAP_MS = 180_000;
 
 export function PromoPopup() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [promo, setPromo] = useState<Promo | null>(null);
   const [closing, setClosing] = useState(false);
-  /* Held in state as well as sessionStorage: storage answers "has a previous
-     page already shown one", state answers "has this mount shown one", and
-     both must be false for a card to appear. */
-  const [done, setDone] = useState(false);
+  const [tick, setTick] = useState(0);
+  /* Random start so two visitors don't both lead with the same division. */
+  const cursor = useRef(Math.floor(Math.random() * PROMOS.length));
+  const dismissals = useRef(0);
+  const timers = useRef<number[]>([]);
+
+  const gap = () => (dismissals.current >= BACKOFF_AFTER ? LONG_GAP_MS : GAP_MS);
+
+  const clearTimers = () => {
+    timers.current.forEach((t) => window.clearTimeout(t));
+    timers.current = [];
+  };
 
   useEffect(() => {
-    if (done) return;
     if (typeof window === "undefined") return;
-    try {
-      if (window.sessionStorage.getItem(SEEN_KEY)) {
-        setDone(true);
-        return;
-      }
-    } catch {
-      /* private mode — fall through and just show it once per mount */
-    }
     if (BLOCKED_PREFIXES.some((p) => pathname.startsWith(p))) return;
 
-    const eligible = PROMOS.filter((p) => !p.suppressOn.includes(pathname));
-    if (!eligible.length) return;
+    let cancelled = false;
 
-    const pick = eligible[Math.floor(Math.random() * eligible.length)];
-    const t = window.setTimeout(() => setPromo(pick), DELAY_MS);
-    return () => window.clearTimeout(t);
-  }, [pathname, done]);
+    const pick = (): Promo | null => {
+      /* Walk the ring from the cursor so each appearance is a different
+         division, skipping any that would advertise the current page. */
+      for (let i = 0; i < PROMOS.length; i++) {
+        const p = PROMOS[(cursor.current + i) % PROMOS.length];
+        if (!p.suppressOn.includes(pathname)) {
+          cursor.current = (cursor.current + i + 1) % PROMOS.length;
+          return p;
+        }
+      }
+      return null;
+    };
+
+    const hide = () => {
+      setClosing(true);
+      timers.current.push(
+        window.setTimeout(() => {
+          if (cancelled) return;
+          setPromo(null);
+          setClosing(false);
+          timers.current.push(window.setTimeout(show, gap()));
+        }, 260),
+      );
+    };
+
+    const show = () => {
+      if (cancelled) return;
+      const next = pick();
+      if (!next) return;
+      setPromo(next);
+      setClosing(false);
+      timers.current.push(window.setTimeout(hide, SHOW_MS));
+    };
+
+    /* The gate: nothing appears until the visitor has left the first screen.
+       Checked on scroll rather than once, because they may not scroll for a
+       while — and if they never do, no ad ever shows, which is correct. */
+    const pastHero = () => window.scrollY > window.innerHeight * 0.9;
+    let armed = false;
+    const arm = () => {
+      if (armed || !pastHero()) return;
+      armed = true;
+      window.removeEventListener("scroll", arm);
+      timers.current.push(window.setTimeout(show, tick === 0 ? FIRST_MS : gap()));
+    };
+    window.addEventListener("scroll", arm, { passive: true });
+    arm();
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("scroll", arm);
+      clearTimers();
+    };
+  }, [pathname, tick]);
 
   const close = () => {
+    dismissals.current += 1;
     setClosing(true);
-    setDone(true);
-    try {
-      window.sessionStorage.setItem(SEEN_KEY, "1");
-    } catch {
-      /* ignore */
-    }
-    window.setTimeout(() => setPromo(null), 260);
+    clearTimers();
+    /* Reschedule rather than stop. `tick` bumps a counter the effect depends
+       on, which restarts the cycle with the (now possibly longer) gap. */
+    window.setTimeout(() => {
+      setPromo(null);
+      setClosing(false);
+      setTick((n) => n + 1);
+    }, 260);
   };
 
   if (!promo) return null;
@@ -120,14 +191,12 @@ export function PromoPopup() {
     <div
       role="complementary"
       aria-label="ELSIAA promotion"
-      /* The entrance is a mount animation rather than a mount-hidden-then-flip
-         -a-state-flag pattern. The flag version depends on a second tick
-         landing after paint, and in a throttled or backgrounded tab that tick
-         can be delayed indefinitely — leaving the card at opacity 0, invisible
-         but still covering the corner. An animation with `both` fill cannot
-         get stuck: the card is either animating in or already in. */
+      /* A mount animation, not mount-hidden-then-flip-a-flag: that pattern
+         needs a second tick after paint, and requestAnimationFrame is
+         throttled to zero in a backgrounded tab, which would strand the card
+         at opacity 0 — invisible but still covering the corner. */
       style={{ animation: `elsiaa-promo-${closing ? "out" : "in"} 260ms ease-out both` }}
-      className="fixed bottom-5 left-5 z-[60] w-[min(340px,calc(100vw-2.5rem))] rounded-2xl border border-black/[0.08] bg-white p-5 shadow-[0_30px_70px_-30px_rgba(17,17,17,0.35)]"
+      className="fixed bottom-4 left-4 z-[60] w-[min(320px,calc(100vw-4rem))] rounded-2xl border border-black/[0.08] bg-white/95 p-4 shadow-[0_30px_70px_-30px_rgba(17,17,17,0.35)] backdrop-blur-sm md:bottom-5 md:left-5 md:p-5"
     >
       <style>{`
         @keyframes elsiaa-promo-in  { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
@@ -136,28 +205,29 @@ export function PromoPopup() {
           [aria-label="ELSIAA promotion"] { animation-duration: 1ms !important; }
         }
       `}</style>
+
       <button
         type="button"
         onClick={close}
         aria-label="Dismiss"
-        className="absolute top-3 right-3 flex h-7 w-7 items-center justify-center rounded-full text-[#111111]/35 transition-colors hover:bg-black/[0.04] hover:text-[#111111]"
+        className="absolute top-2.5 right-2.5 flex h-7 w-7 items-center justify-center rounded-full text-[#111111]/35 transition-colors hover:bg-black/[0.04] hover:text-[#111111]"
       >
         <svg width="13" height="13" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2">
           <path d="M5 5l14 14M19 5L5 19" strokeLinecap="round" />
         </svg>
       </button>
 
-      <p className="text-[11.5px] font-bold tracking-[0.14em] text-[#1e6b3c] uppercase">
+      <p className="text-[11px] font-bold tracking-[0.14em] text-[#1e6b3c] uppercase">
         {promo.eyebrow}
       </p>
-      <p className="mt-2 pr-6 text-[17px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]">
+      <p className="mt-1.5 pr-6 text-[16px] leading-tight font-semibold tracking-[-0.02em] text-[#111111]">
         {promo.title}
       </p>
-      <p className="mt-2 text-[13.5px] leading-relaxed text-[#111111]/60">{promo.line}</p>
+      <p className="mt-1.5 text-[13px] leading-relaxed text-[#111111]/60">{promo.line}</p>
       <a
         href={promo.href}
         onClick={close}
-        className="mt-4 inline-flex items-center rounded-full bg-[#1e6b3c] px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-[#111111]"
+        className="mt-3.5 inline-flex items-center rounded-full bg-[#1e6b3c] px-4.5 py-2 text-[12.5px] font-semibold text-white transition-colors hover:bg-[#111111]"
       >
         {promo.cta} →
       </a>
