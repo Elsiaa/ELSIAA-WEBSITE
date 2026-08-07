@@ -24,27 +24,13 @@ const mono = { fontFamily: "var(--font-sans)" } as const;
 const inter = { fontFamily: "var(--font-sans)" } as const;
 const eyebrow = "text-[13px] text-[#1e6b3c] ";
 
-const STEPS: Array<[string, string, string]> = [
-  [
-    "1",
-    "Free call",
-    "Twenty minutes to understand the problem and where AI actually pays off. No deck, no obligation.",
-  ],
-  [
-    "2",
-    "Scoped proposal",
-    "A clear plan, timeline, and fixed price within three days — you know exactly what you're buying.",
-  ],
-  [
-    "3",
-    "Design & build",
-    "We build it live, inside your real workflow, reviewed as we go. You see progress, not promises.",
-  ],
-  [
-    "4",
-    "Launch & support",
-    "It ships into production and keeps improving against real use. Delivery is the start of the standard.",
-  ],
+/* The free-call offer is stated once, in the "new clients" card. It is
+   deliberately not repeated here or in the closing CTA. */
+const STEPS: Array<[string, string]> = [
+  ["Call", "We learn the problem and where AI actually pays off."],
+  ["Proposal", "A written plan, timeline, and fixed price within three days."],
+  ["Build", "Built inside your real workflow, reviewed with you as it goes."],
+  ["Launch", "It ships to production, and we maintain it once it's live."],
 ];
 
 const EXPECT: Array<[string, string]> = [
@@ -54,30 +40,12 @@ const EXPECT: Array<[string, string]> = [
   ],
   [
     "One partner, four divisions",
-    "Automation, software, design, and consultation — no relay race between vendors.",
+    "Automation, software, design, and consultation, under one contract.",
   ],
-  ["Your data stays yours", "Hardened, insured builds. Never used to train anyone else's model."],
+  ["Your data stays yours", "Never used to train anyone else's model."],
   [
     "A direct line",
     "You work with the people building it — not an account manager relaying messages.",
-  ],
-];
-
-const RESULTS: Array<[string, string, string]> = [
-  [
-    "0",
-    "manual dispatch",
-    "A field-service line where an AI agent books the emergency and routes the nearest tech — no dispatcher.",
-  ],
-  [
-    "14 min",
-    "average intake",
-    "A health system's intake, down from ~31 minutes of hold time to a live agent that triages and requests the bed.",
-  ],
-  [
-    "34 hrs",
-    "to close the books",
-    "A finance team's month-end, from six days and a weekend to an automated, audit-ready close.",
   ],
 ];
 
@@ -102,8 +70,10 @@ function ClientsPage() {
             className="mt-6 max-w-2xl text-lg leading-relaxed text-[#111111]/60 md:text-xl"
             style={inter}
           >
-            Two ways in. If you're new, we'll show you what's possible and scope it before you
-            commit a dollar. If you're already with us, your build and your team are one click away.
+            {/* The two cards below say what each path is; the lede no longer
+                restates them. */}
+            Two ways in — whether you're scoping your first build or signing in to one that's
+            already running.
           </p>
         </Reveal>
       </section>
@@ -150,8 +120,8 @@ function ClientsPage() {
           </Reveal>
           {/* existing clients */}
           <Reveal delay={0.08}>
-            <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-[#0c0c0c] p-8 text-white md:p-10">
-              <p className="text-[13px] text-[#2e9e58] " style={mono}>
+            <div className="flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-8 md:p-10">
+              <p className={eyebrow} style={mono}>
                 Already working with us?
               </p>
               <h2
@@ -160,29 +130,27 @@ function ClientsPage() {
               >
                 Go to your portal.
               </h2>
-              <p className="mt-3 flex-1 text-[15px] leading-relaxed text-white/60" style={inter}>
+              <p
+                className="mt-3 flex-1 text-[15px] leading-relaxed text-[#111111]/60"
+                style={inter}
+              >
                 Live project status, deliverables and source, invoices and documents, and a direct
                 line to your team — all in one place.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-3">
+                {/* /portal redirects unauthenticated visitors to sign-in, so a
+                    separate "Sign in" link beside it was the same door twice. */}
                 <a
                   href="/portal"
-                  className="inline-flex items-center justify-center rounded-full bg-[#2e9e58] px-7 py-3.5 text-[13px] font-bold text-white  transition-all hover:bg-[#111111] hover:text-white"
+                  className="inline-flex items-center justify-center rounded-full bg-[#1e6b3c] px-7 py-3.5 text-[13px] font-bold text-white  transition-all hover:bg-[#111111]"
                   style={mono}
                 >
                   Go to Client Portal →
                 </a>
-                <a
-                  href="/portal/sign-in"
-                  className="text-[13px] text-white/50  transition-colors hover:text-white"
-                  style={mono}
-                >
-                  Sign in
-                </a>
               </div>
-              <p className="mt-4 text-[13px] text-white/40" style={inter}>
+              <p className="mt-4 text-[13px] text-[#111111]/45" style={inter}>
                 Trouble signing in? Email{" "}
-                <a href="mailto:info@elsiaa.com" className="text-[#2e9e58] hover:underline">
+                <a href="mailto:info@elsiaa.com" className="text-[#1e6b3c] hover:underline">
                   info@elsiaa.com
                 </a>
                 .
@@ -207,13 +175,10 @@ function ClientsPage() {
             </h2>
           </Reveal>
           <ol className="mt-9 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map(([n, t, d], i) => (
-              <Reveal key={n} delay={i * 0.05}>
+            {STEPS.map(([t, d], i) => (
+              <Reveal key={t} delay={i * 0.05}>
                 <li className="border-t border-black/10 pt-4">
-                  <span className="text-[13px] font-semibold text-[#1e6b3c]" style={mono}>
-                    {n}
-                  </span>
-                  <h3 className="mt-2 text-[16px] font-semibold tracking-[-0.01em]" style={inter}>
+                  <h3 className="text-[16px] font-semibold tracking-[-0.01em]" style={inter}>
                     {t}
                   </h3>
                   <p
@@ -260,57 +225,11 @@ function ClientsPage() {
         </div>
       </section>
 
-      {/* results */}
-      <section className="bg-white px-6 py-9 md:py-16">
-        <div className="mx-auto max-w-5xl">
-          <Reveal>
-            <p className={eyebrow} style={mono}>
-              Results
-            </p>
-            <h2
-              className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.03em] md:text-4xl"
-              style={inter}
-            >
-              What the work looks like.
-            </h2>
-            <p className="mt-3 text-[13px] tracking-[0.04em] text-[#111111]/40" style={mono}>
-              Figures are attached to anonymized engagements to protect client privacy.
-            </p>
-          </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {RESULTS.map(([n, label, d], i) => (
-              <Reveal key={label} delay={i * 0.06}>
-                <div className="flex h-full flex-col rounded-2xl border border-black/[0.08] bg-white p-6">
-                  <p
-                    className="text-4xl font-semibold tracking-[-0.04em] text-[#1e6b3c]"
-                    style={inter}
-                  >
-                    {n}
-                  </p>
-                  <p className="mt-1 text-[13px] text-[#111111]/45 " style={mono}>
-                    {label}
-                  </p>
-                  <p className="mt-3 text-[13.5px] leading-relaxed text-[#111111]/60" style={inter}>
-                    {d}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal delay={0.1}>
-            <a
-              href="/automate"
-              className="mt-6 inline-block text-[13px] text-[#1e6b3c]  hover:underline"
-              style={mono}
-            >
-              See the systems, running live →
-            </a>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-[#F5F5F3] px-6 py-9 text-[#111111] md:py-16">
+      {/* Close. Existing clients already have their door in the two-paths
+          block above, so this speaks to new clients only and carries a single
+          button — repeating the same contact/sign-in pair was the page's
+          largest piece of duplication. */}
+      <section className="bg-white px-6 py-12 md:py-20">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <h2 className="text-3xl font-semibold tracking-[-0.04em] md:text-5xl" style={inter}>
@@ -320,23 +239,22 @@ function ClientsPage() {
               className="mx-auto mt-4 max-w-lg text-[16px] leading-relaxed text-[#111111]/60"
               style={inter}
             >
-              The first conversation is free, and you'll leave with a clear sense of what's
-              possible.
+              Twenty minutes, no obligation, and you'll leave knowing what's possible.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
               <a
                 href="/contact"
-                className="rounded-full bg-[#1e6b3c] px-9 py-4 text-[13px] font-bold text-white  transition-all hover:bg-[#111111] hover:text-white"
+                className="rounded-full bg-[#1e6b3c] px-9 py-4 text-[13px] font-bold text-white transition-all hover:bg-[#111111]"
                 style={mono}
               >
-                Book a free call →
+                Book a call →
               </a>
               <a
-                href="/portal/sign-in"
-                className="rounded-full border border-black/15 px-8 py-4 text-[13px] font-bold text-[#111111]  transition-all hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+                href="/automate"
+                className="text-[13px] text-[#111111]/55 transition-colors hover:text-[#1e6b3c]"
                 style={mono}
               >
-                Sign in
+                See the systems, running live →
               </a>
             </div>
           </Reveal>
