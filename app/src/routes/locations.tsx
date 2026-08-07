@@ -536,6 +536,31 @@ function LocationsPage() {
             in your timezone, around the clock.
           </p>
         </Reveal>
+
+        {/* Languages are spoken in-house, not through interpreters — which is
+            the part that matters to a client choosing who to brief. Kept in
+            sync with availableLanguage in lib/structured-data.ts. */}
+        <Reveal delay={0.08}>
+          <div className="mt-9 border-t border-black/[0.08] pt-7">
+            <p className="text-[13px] font-semibold text-[#1e6b3c]">Languages</p>
+            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]">
+              We work in English, Hebrew, Russian, French, German, Flemish, and Yiddish — and
+              consult professionally in every one of them, in-house.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {["English", "Hebrew", "Russian", "French", "German", "Flemish", "Yiddish"].map(
+                (l) => (
+                  <span
+                    key={l}
+                    className="rounded-full border border-black/[0.1] px-3.5 py-1.5 text-[13px] font-medium text-[#111111]/70"
+                  >
+                    {l}
+                  </span>
+                ),
+              )}
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* ── insured strip ── */}

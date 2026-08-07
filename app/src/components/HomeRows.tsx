@@ -489,14 +489,36 @@ function HomeHero() {
               opacity: 0.14,
             }}
           />
+          {/* Still lion, permanently mounted behind the video.
+
+              The clip is scroll-scrubbed, so it never calls play(). iOS Safari
+              paints nothing for a <video> that has not played, which left the
+              hero blank on iPhones — the element was there, loaded, opacity 1,
+              and simply had no frame to show.
+
+              No detection and no state: this is the same artwork as the clip's
+              frame, and the video is mix-blend-multiply, so white areas are
+              transparent. If the video paints it lands exactly on top; if it
+              never paints, this shows through. Either way the lion is there. */}
+          <img
+            src="/assets/elsiaa-lion.png"
+            alt=""
+            aria-hidden
+            className="absolute inset-0 mx-auto block h-full w-full object-contain"
+            style={{
+              WebkitMaskImage: "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
+              maskImage: "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
+            }}
+          />
           <video
             ref={vidRef}
             src="/assets/lion_logo_roar_smooth.mp4"
             muted
             playsInline
             preload="auto"
+            poster="/assets/elsiaa-lion.png"
             aria-label="The ELSIAA lion — roars as you scroll"
-            className="mx-auto block w-full will-change-transform"
+            className="relative mx-auto block w-full will-change-transform"
             style={{
               mixBlendMode: "multiply",
               // push the near-white clip background to pure white and feather
