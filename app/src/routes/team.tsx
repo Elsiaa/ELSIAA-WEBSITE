@@ -37,9 +37,14 @@ type Person = {
    * solved so the eyes land ~35% down the visible window (upper third) while
    * keeping at least 3.5% of background above the top of the head.
    *
-   * That is why they range from 0 to 53: jr is framed low in its source and
-   * needs 53 to lift the face, while yk/cl/ie already sit high and need 0.
    * Re-run the measurement if a photo is replaced — do not copy a neighbour's.
+   *
+   * jr.jpg and em.jpg were also rescaled at the source: both were shot much
+   * tighter than the rest (their heads ran off the top of the frame), and no
+   * object-position can zoom out — it only pans. Each subject was scaled down
+   * inside its own canvas with the backdrop extended by edge-smear, so the
+   * dark green vignette continues rather than showing a seam. Originals are
+   * kept in public/assets/team/.orig/.
    */
   focus?: number;
   role: string;
@@ -76,7 +81,7 @@ const LEADERSHIP: Person[] = [
     name: "Jacob Rubelow",
     init: "JR",
     photo: "/assets/team/jr.jpg",
-    focus: 53,
+    focus: 16,
     role: "Partner & Chief Operating Officer",
     line: "Strategist and partner. Bachelor's in mathematics, magna cum laude, from Touro University; George Washington University Law School; background in intensive Talmudic study. Active EMT and firefighter.",
     loc: "New York",
@@ -134,7 +139,7 @@ const ADVISORS: Person[] = [
     name: "Dr. Edward Margolin, MD, FRCSC, Dipl. ABO",
     init: "EM",
     photo: "/assets/team/em.jpg",
-    focus: 17,
+    focus: 8,
     role: "Healthcare Advisor",
     line: "Professor, University of Toronto — Dept. of Ophthalmology and Visual Sciences; Dept. of Medicine, Division of Neurology. Director, Neuro-Ophthalmology and Strabismus Fellowship.",
     loc: "University of Toronto",

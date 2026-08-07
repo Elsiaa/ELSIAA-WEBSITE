@@ -1286,7 +1286,7 @@ const TEAM = [
     init: "JR",
     photo: "/assets/team/jr.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 53,
+    focus: 16,
   },
   {
     name: "Chaim Lieberman",
