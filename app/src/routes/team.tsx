@@ -27,6 +27,8 @@ type Person = {
   name: string;
   init: string;
   photo?: string;
+  /** measured face centre, as a % down the source photo */
+  focus?: number;
   role: string;
   line: string;
   loc: string;
@@ -39,6 +41,7 @@ const LEADERSHIP: Person[] = [
     name: "Yisrael Krug",
     init: "YK",
     photo: "/assets/team/yk.jpg",
+    focus: 34,
     role: "Founder & CEO",
     line: "Former executive at Dialog Healthcare, founder of the Mitzva App (non-profit), and artist at Gestalt-Art.com. Background in biology, psychology, and business, grounded in intensive Talmudic study; lectures in Torah at Ahavas Chaim in Baltimore, MD.",
     loc: "New York",
@@ -49,6 +52,7 @@ const LEADERSHIP: Person[] = [
     name: "David Heimowitz",
     init: "DH",
     photo: "/assets/team/dh.jpg",
+    focus: 29,
     role: "Co-Founder & CTO",
     line: "Owns the engineering. If it ships from ELSIAA it ships hardened, tested, and insured — no excuses.",
     loc: "New Jersey",
@@ -59,6 +63,7 @@ const LEADERSHIP: Person[] = [
     name: "Jacob Rubelow",
     init: "JR",
     photo: "/assets/team/jr.jpg",
+    focus: 41,
     role: "Partner & Chief Operating Officer",
     line: "Strategist and partner. Bachelor's in mathematics, magna cum laude, from Touro University; George Washington University Law School; background in intensive Talmudic study. Active EMT and firefighter.",
     loc: "New York",
@@ -72,6 +77,7 @@ const DIRECTORS: Person[] = [
     name: "Chaim Lieberman",
     init: "CL",
     photo: "/assets/team/cl.jpg",
+    focus: 39,
     role: "Executive Director & Partner",
     line: "Former CEO of Libersilver and former fund manager at a Belgian private fund. Based in Antwerp, operating across all of Western Europe and Israel.",
     loc: "Antwerp",
@@ -103,6 +109,7 @@ const DIRECTORS: Person[] = [
     name: "Ynon Azulai",
     init: "YA",
     photo: "/assets/team/ya.jpg",
+    focus: 38,
     role: "AI & Technology Expert",
     line: "At the edge of applied AI — the deep-tech eye on every architecture ELSIAA ships.",
     loc: "Jerusalem / Tel Aviv",
@@ -114,6 +121,7 @@ const ADVISORS: Person[] = [
     name: "Dr. Edward Margolin, MD, FRCSC, Dipl. ABO",
     init: "EM",
     photo: "/assets/team/em.jpg",
+    focus: 39,
     role: "Healthcare Advisor",
     line: "Professor, University of Toronto — Dept. of Ophthalmology and Visual Sciences; Dept. of Medicine, Division of Neurology. Director, Neuro-Ophthalmology and Strabismus Fellowship.",
     loc: "University of Toronto",
@@ -130,7 +138,8 @@ function Plate({ p }: { p: Person }) {
           src={p.photo}
           alt={p.name}
           loading="lazy"
-          className="h-full w-full object-cover object-[center_18%] transition-transform duration-500 group-hover:scale-[1.02]"
+          style={{ objectPosition: `center ${p.focus ?? 35}%` }}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
         />
       ) : (
         <span
