@@ -44,7 +44,12 @@ import { readPortalPlace, writePortalPlace } from "@/lib/ui-place";
 function ElsiaaMark({ className }: { className?: string }) {
   return (
     <div className={className}>
-      <img src="/assets/elsiaa-lion-192.png" alt="ELSIAA" className="h-10 w-10 object-contain" />
+      {/* fills the wrapper so callers can size the mark via className */}
+      <img
+        src="/assets/elsiaa-lion-192.png"
+        alt="ELSIAA"
+        className="h-full w-full object-contain"
+      />
     </div>
   );
 }
@@ -2358,7 +2363,7 @@ export default function ClientPortal({
                 {isProjectLoading && (
                   <div className="absolute inset-0 bg-[#F5F5F3] flex items-center justify-center z-10">
                     <div className="flex flex-col items-center gap-3">
-                      <ElsiaaMark width="300px" height="300px" speed={3} />
+                      <ElsiaaMark className="h-[120px] w-[120px]" />
                       <p className="text-[#111]/55 text-lg mt-4">
                         Loading {selectedProject.title}...
                       </p>

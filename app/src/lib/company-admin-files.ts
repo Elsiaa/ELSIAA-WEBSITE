@@ -16,8 +16,16 @@ import {
 } from "./r2-company-files";
 
 const require = createRequire(import.meta.url);
-// archiver is CJS; Vite SSR rejects `import archiver from 'archiver'`.
-const archiver = require("archiver") as typeof import("archiver");
+/* archiver is CJS; Vite SSR rejects `import archiver from 'archiver'`.
+   The installed @types/archiver declares only interfaces and classes — it
+   exposes no call signature — so `typeof import("archiver")` is a namespace
+   and calling it fails to type-check even though the runtime module is a
+   function. Declare the factory signature we actually use, and keep the
+   package's own types for the options and the returned Archiver. */
+const archiver = require("archiver") as (
+  format: "zip" | "tar",
+  options?: import("archiver").ArchiverOptions,
+) => import("archiver").Archiver;
 
 const ROOT = "company-admin-files";
 
