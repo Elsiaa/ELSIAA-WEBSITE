@@ -413,7 +413,7 @@ function SideToggle({
    layout is always the desktop layout. A pre-rendered screenshot holds the exact
    same frame until the iframe is ready, so there is never a blank or a jump.
    Phones gate the load behind a tap (the poster is shown meanwhile). */
-function SitePreview({ src, poster, title }: { src: string; poster: string; title: string }) {
+function SitePreview({ src, poster, title }: { src: string; poster?: string; title: string }) {
   const boxRef = useRef<HTMLDivElement | null>(null);
   const [scale, setScale] = useState(0);
   const [h, setH] = useState(0);
@@ -448,14 +448,28 @@ function SitePreview({ src, poster, title }: { src: string; poster: string; titl
 
   return (
     <div ref={boxRef} className="relative h-full w-full overflow-hidden bg-[#f4f4f2]">
-      {/* poster — always mounted underneath, hidden once the live page paints */}
-      <img
-        src={poster}
-        alt={title}
-        loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500"
-        style={{ opacity: ready ? 0 : 1 }}
-      />
+      {/* Poster — mounted underneath, hidden once the live page paints.
+
+          Optional on purpose. The only posters that exist are Mr. Bins', and
+          the client-site stack used to pass mrbins_new.jpg for every card, so
+          PSI, Dialog and Mitzva each showed a screenshot of a different
+          company's website until their iframe loaded. A neutral tint is
+          honest; a wrong screenshot is not. */}
+      {poster ? (
+        <img
+          src={poster}
+          alt={title}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500"
+          style={{ opacity: ready ? 0 : 1 }}
+        />
+      ) : (
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-br from-[#F5F5F3] to-white transition-opacity duration-500"
+          style={{ opacity: ready ? 0 : 1 }}
+        />
+      )}
       {load && scale > 0 && (
         <iframe
           src={src}
@@ -1544,20 +1558,16 @@ function BinsCompare() {
   );
 }
 
+/* Live sites first, the unreleased one last: in a stack the top card is the
+   hero slot, and a "Launching soon" placeholder there wastes it. */
 const LIVE_SITES: Array<{ name: string; kind: string; url?: string }> = [
-  { name: "Michael Elbaz Law", kind: "Legal practice" },
   { name: "PSI Construction", kind: "Construction", url: "https://www.psiconstructionpa.com" },
   { name: "Dialog Healthcare", kind: "Healthcare", url: "https://dialoghealthcare.com" },
   { name: "Mitzva App", kind: "Non-profit", url: "https://mitzva-app.elsiaa.com" },
+  { name: "Michael Elbaz Law", kind: "Legal practice" },
 ];
 
 function DesignEverything() {
-  const sitesRef = useRef<HTMLDivElement>(null);
-  const nudge = (dir: 1 | -1) => {
-    const el = sitesRef.current;
-    if (!el) return;
-    el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.85, 340), behavior: "smooth" });
-  };
   return (
     <section className="bg-white px-6 py-10 md:py-16" id="websites">
       <div className="mx-auto max-w-6xl">
@@ -1576,18 +1586,129 @@ function DesignEverything() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.06}>
-          <div className="mt-8">
-            <BinsCompare />
-            <p className="mt-3 text-[13.5px] text-[#111111]/50" style={{ fontFamily: F }}>
-              Both are live — scroll inside either one.
-            </p>
+        {/* Live client sites, as a stack.
+
+            Each card is sticky at a top offset that grows with its index, so
+            as you scroll a card pins and the next slides up over it, leaving a
+            sliver of every card beneath visible. That buys two things the old
+            three-column carousel could not: each site gets a full-width
+            preview big enough to actually read (SitePreview renders at 1280
+            and scales to the box, so a wider box is a sharper page), and four
+            sites stop having to fit a three-column grid.
+
+            Sticky only from md up. On a phone the cards are nearly viewport
+            height, so pinning them would trap the scroll; there they are a
+            plain vertical list. */}
+        <div className="mt-8 md:mt-12">
+          {/* Hero of the stack: Mr. Bins before & after. It is the strongest
+              proof on the page — the same business, rebuilt — so it holds the
+              bottom of the deck and everything else slides over it. */}
+          <div className="md:sticky" style={{ top: "5rem" }}>
+            <div className="pb-6 md:pb-10">
+              <div className="overflow-hidden rounded-3xl border border-black/[0.08] bg-white shadow-[0_24px_60px_-40px_rgba(17,17,17,0.45)]">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-5 pt-5 md:px-7 md:pt-6">
+                  <div>
+                    <h3
+                      className="text-[17px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[20px]"
+                      style={{ fontFamily: F }}
+                    >
+                      Mr. Bins
+                    </h3>
+                    <p
+                      className="mt-0.5 text-[13px] text-[#111111]/45 md:text-[13.5px]"
+                      style={{ fontFamily: F }}
+                    >
+                      Before &amp; after an ELSIAA rebuild
+                    </p>
+                  </div>
+                  <span className="text-[12.5px] text-[#111111]/40" style={{ fontFamily: F }}>
+                    Both are live — scroll inside either one ↕
+                  </span>
+                </div>
+                <div className="px-5 pt-5 pb-5 md:px-7 md:pt-6 md:pb-6">
+                  <BinsCompare />
+                  {/* The review sits inside the Mr. Bins card rather than
+                      after the stack — it is about this rebuild specifically,
+                      so it belongs to this card. Renders as a dashed
+                      placeholder until BINS_REVIEW.quote is filled in. */}
+                  <BinsReview />
+                </div>
+              </div>
+            </div>
           </div>
-        </Reveal>
 
-        <BinsReview />
+          {LIVE_SITES.map((site, i) => (
+            <div
+              key={site.name}
+              className="md:sticky"
+              /* 5rem clears the fixed nav; each card sits 1.1rem lower than
+                 the one before so the stack reads as a deck, not a single
+                 card. +1 because Mr. Bins is the hero at index 0. */
+              style={{ top: `calc(5rem + ${(i + 1) * 1.1}rem)` }}
+            >
+              <div className="pb-6 md:pb-10">
+                <div className="group overflow-hidden rounded-3xl border border-black/[0.08] bg-white shadow-[0_24px_60px_-40px_rgba(17,17,17,0.45)] transition-colors duration-300 hover:border-[#1e6b3c]/30">
+                  <div className="relative aspect-[16/11] overflow-hidden bg-[#F5F5F3] md:aspect-[16/9]">
+                    {site.url ? (
+                      <SitePreview src={site.url} title={`${site.name} — live site`} />
+                    ) : (
+                      <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-[#F5F5F3] to-white">
+                        <span
+                          className="text-[20px] font-semibold tracking-[-0.02em] text-[#111111]/70 md:text-[26px]"
+                          style={{ fontFamily: F }}
+                        >
+                          {site.name}
+                        </span>
+                        <span
+                          className="rounded-full border border-black/10 px-3.5 py-1.5 text-[12px] font-medium text-[#111111]/45"
+                          style={{ fontFamily: F }}
+                        >
+                          Launching soon
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 px-5 py-4 md:px-7 md:py-5">
+                    <div>
+                      <h3
+                        className="text-[17px] font-semibold tracking-[-0.02em] text-[#111111] md:text-[20px]"
+                        style={{ fontFamily: F }}
+                      >
+                        {site.name}
+                      </h3>
+                      <p
+                        className="mt-0.5 text-[13px] text-[#111111]/45 md:text-[13.5px]"
+                        style={{ fontFamily: F }}
+                      >
+                        {site.kind}
+                      </p>
+                    </div>
+                    {site.url && (
+                      <div className="flex items-center gap-4">
+                        <span
+                          className="hidden text-[12.5px] text-[#111111]/40 sm:inline"
+                          style={{ fontFamily: F }}
+                        >
+                          Scroll inside ↕
+                        </span>
+                        <a
+                          href={site.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="shrink-0 rounded-full border border-black/12 px-4 py-2 text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:border-[#1e6b3c] hover:bg-[#1e6b3c] hover:text-white"
+                          style={{ fontFamily: F }}
+                        >
+                          Visit ↗
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
 
-        {/* the point of it all */}
         <Reveal delay={0.05}>
           <p
             className="mx-auto mt-9 max-w-3xl border-l-2 border-[#1e6b3c] pl-5 text-[16px] leading-relaxed font-medium text-[#111111]/75 md:mt-14 md:text-[20px]"
@@ -1597,101 +1718,6 @@ function DesignEverything() {
             clients — and we take that responsibility seriously.
           </p>
         </Reveal>
-
-        {/* live client sites */}
-        <div className="relative">
-          <div
-            ref={sitesRef}
-            tabIndex={0}
-            role="group"
-            aria-label="Live client sites — swipe or use the arrow keys"
-            className="-mx-6 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e6b3c] [&::-webkit-scrollbar]:hidden md:mx-0 md:mt-14 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0"
-          >
-            {LIVE_SITES.map((site, i) => (
-              <Reveal
-                key={site.name}
-                className="w-[80vw] max-w-[320px] shrink-0 snap-center md:w-auto md:max-w-none md:shrink"
-                delay={0.05 + i * 0.05}
-              >
-                <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-[#F5F5F3]">
-                    {site.url ? (
-                      <SitePreview
-                        src={site.url}
-                        poster="/assets/compare/mrbins_new.jpg"
-                        title={`${site.name} — live site`}
-                      />
-                    ) : (
-                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-[#F5F5F3] to-white">
-                        <span
-                          className="text-[17px] font-semibold tracking-[-0.02em] text-[#111111]/70"
-                          style={{ fontFamily: F }}
-                        >
-                          {site.name}
-                        </span>
-                        <span
-                          className="rounded-full border border-black/10 px-3 py-1 text-[11.5px] font-medium text-[#111111]/45"
-                          style={{ fontFamily: F }}
-                        >
-                          Launching soon
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-baseline justify-between gap-3 px-5 py-4">
-                    <div>
-                      <h3
-                        className="text-[15.5px] font-semibold tracking-[-0.015em] text-[#111111]"
-                        style={{ fontFamily: F }}
-                      >
-                        {site.name}
-                      </h3>
-                      <p className="mt-0.5 text-[13px] text-[#111111]/45" style={{ fontFamily: F }}>
-                        {site.kind}
-                      </p>
-                    </div>
-                    {site.url && (
-                      <a
-                        href={site.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="shrink-0 text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
-                        style={{ fontFamily: F }}
-                      >
-                        Visit ↗
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* arrows — the row is horizontally scrollable and that isn't obvious
-            without an affordance, so both edges carry a control on every size */}
-          <button
-            type="button"
-            aria-label="Previous site"
-            onClick={() => nudge(-1)}
-            className="absolute top-[38%] -left-1 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white/95 text-[17px] text-[#111111]/60 shadow-[0_10px_30px_-12px_rgba(17,17,17,0.4)] backdrop-blur transition-all hover:border-[#1e6b3c]/40 hover:text-[#1e6b3c] md:-left-4"
-          >
-            ‹
-          </button>
-          <button
-            type="button"
-            aria-label="Next site"
-            onClick={() => nudge(1)}
-            className="absolute top-[38%] -right-1 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white/95 text-[17px] text-[#111111]/60 shadow-[0_10px_30px_-12px_rgba(17,17,17,0.4)] backdrop-blur transition-all hover:border-[#1e6b3c]/40 hover:text-[#1e6b3c] md:-right-4"
-          >
-            ›
-          </button>
-        </div>
-        <p
-          className="mt-3 text-center text-[12.5px] text-[#111111]/45 md:hidden"
-          style={{ fontFamily: F }}
-        >
-          Swipe to see more client sites
-        </p>
       </div>
     </section>
   );
