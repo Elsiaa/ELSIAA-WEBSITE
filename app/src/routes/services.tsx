@@ -194,17 +194,71 @@ function ServiceArt({ name }: { name: string }) {
     };
   }, []);
   return (
-    <video
-      ref={ref}
-      src={`/assets/services/${name}.mp4`}
-      poster={`/assets/services/${name}.png`}
-      autoPlay
-      loop
-      muted
-      playsInline
-      preload="auto"
+    <div className="relative h-full w-full bg-white">
+      <video
+        ref={ref}
+        src={`/assets/services/${name}.mp4`}
+        poster={`/assets/services/${name}.png`}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden
+        /*
+          multiply is what actually makes these sit on white. The renders are
+          near-white, but h.264 in yuv420p cannot hold an exact 255 across a
+          frame — chroma subsampling and the YUV round trip leave the border
+          around 239-253, which reads as a faint grey panel on a white card.
+          Snapping levels before encoding narrowed it but could not close it.
+          Under multiply, white is the identity: anything at or near white
+          disappears into the card and only the subject darkens.
+        */
+        style={{ mixBlendMode: "multiply" }}
+        className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+      />
+      {/* dissolves the last few pixels of every edge, so no frame boundary
+          survives even at the corners */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to right, #fff, rgba(255,255,255,0) 6%, rgba(255,255,255,0) 94%, #fff), linear-gradient(to bottom, #fff, rgba(255,255,255,0) 6%, rgba(255,255,255,0) 94%, #fff)",
+        }}
+      />
+    </div>
+  );
+}
+
+
+/*
+  Category marks — the same isometric clay language as the service art, sized
+  down to sit beside a heading. multiply because the renders ground out around
+  245-255 rather than a flat white, which would otherwise show as a pale square
+  against the card.
+*/
+const CAT_ART: Record<string, string> = {
+  "Back office": "backoffice",
+  Customer: "customer",
+  Growth: "growth",
+  Documents: "documents",
+  Decisions: "decisions",
+  Execution: "execution",
+};
+
+function CatIcon({ kind }: { kind: string }) {
+  const file = CAT_ART[kind] ?? "execution";
+  return (
+    <img
+      src={`/assets/services/cat/${file}.png`}
+      alt=""
       aria-hidden
-      className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+      width={160}
+      height={160}
+      loading="lazy"
+      style={{ mixBlendMode: "multiply" }}
+      className="h-9 w-9 flex-none object-contain"
     />
   );
 }
@@ -306,16 +360,17 @@ function ServicesPage() {
           </Reveal>
           <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
             {[
-              ["Back office", ["Invoices", "Payroll prep", "Data migration", "Audits"]],
-              ["Customer", ["Support triage", "Returns", "Onboarding", "CRM updates"]],
-              ["Growth", ["Lead enrichment", "Outreach", "Proposals", "Competitor tracking"]],
-              ["Documents", ["PDF parsing", "OCR", "Scraping", "Unstructured entry"]],
-              ["Decisions", ["Fraud checks", "QA", "Eligibility", "Triage"]],
-              ["Execution", ["Browsers", "Email", "Scheduling", "Workflows"]],
-            ].map(([title, items], i) => (
+              ["Back office", "backoffice", ["Invoices", "Payroll prep", "Data migration", "Audits"]],
+              ["Customer", "customer", ["Support triage", "Returns", "Onboarding", "CRM updates"]],
+              ["Growth", "growth", ["Lead enrichment", "Outreach", "Proposals", "Competitor tracking"]],
+              ["Documents", "documents", ["PDF parsing", "OCR", "Scraping", "Unstructured entry"]],
+              ["Decisions", "decisions", ["Fraud checks", "QA", "Eligibility", "Triage"]],
+              ["Execution", "execution", ["Browsers", "Email", "Scheduling", "Workflows"]],
+            ].map(([title, icon, items], i) => (
               <Reveal key={title as string} delay={Math.min(i * 0.04, 0.2)} className="h-full">
                 <div className="h-full rounded-xl border border-black/[0.07] bg-white p-4">
-                  <p className="text-[12px] font-semibold tracking-[0.06em] text-[#1e6b3c] uppercase">
+                  <p className="flex items-center gap-2 text-[12px] font-semibold tracking-[0.06em] text-[#1e6b3c] uppercase">
+                    <CatIcon kind={title as string} />
                     {title as string}
                   </p>
                   <ul className="mt-2.5 space-y-1">

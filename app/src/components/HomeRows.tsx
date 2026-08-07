@@ -1304,6 +1304,68 @@ const TEAM = [
   },
 ];
 
+
+/* One row of people. Cards are equal height and the role is clamped to two
+   lines, so a long title cannot make its card taller than the rest of the row. */
+function TeamBand({
+  people,
+  cols,
+  className = "",
+}: {
+  people: typeof TEAM;
+  cols: string;
+  className?: string;
+}) {
+  return (
+    <div className={`grid grid-cols-3 gap-x-2 gap-y-3 sm:grid-cols-2 sm:gap-3 ${cols} ${className}`}>
+      {people.map((m, i) => (
+        <Reveal key={m.name} delay={i * 0.05} className="h-full">
+          <div className="group flex h-full flex-col items-center gap-1.5 rounded-xl border-0 p-0 text-center transition-all duration-300 sm:flex-row sm:gap-3.5 sm:border sm:border-black/[0.07] sm:bg-white sm:p-4 sm:text-left sm:hover:-translate-y-0.5 sm:hover:border-[#1e6b3c]/35">
+            {/* No photo yet → the monogram, same as /team. Never a stand-in
+                face: a stock portrait under a real person's name is a
+                misrepresentation, not a placeholder. */}
+            {m.photo ? (
+              <img
+                src={m.photo}
+                alt={m.name}
+                loading="lazy"
+                className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover object-[center_22%] sm:h-[52px] sm:w-[52px]"
+              />
+            ) : (
+              <span
+                aria-hidden
+                className="flex h-14 w-14 flex-none items-center justify-center rounded-full border border-black/[0.06] text-[15px] font-semibold tracking-[-0.02em] text-white/85 sm:h-[52px] sm:w-[52px] sm:text-[14px]"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  background:
+                    "radial-gradient(120% 90% at 62% 38%, rgba(30,107,60,0.30), rgba(13,15,14,0) 62%), #0d0f0e",
+                }}
+              >
+                {m.init}
+              </span>
+            )}
+            <div className="min-w-0">
+              <h3
+                className="text-[11.5px] leading-tight font-semibold tracking-[-0.01em] text-[#111111] sm:text-[15px] sm:tracking-normal"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                {m.name}
+              </h3>
+              <p
+                className="mt-0.5 line-clamp-2 text-[10.5px] leading-snug text-[#111111]/55 sm:text-[12.5px] sm:text-[#111111]/60"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                <span className="sm:hidden">{m.short}</span>
+                <span className="hidden sm:inline">{m.role}</span>
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  );
+}
+
 function Team() {
   return (
     <section className="relative overflow-hidden bg-white py-6 md:py-12">
@@ -1314,7 +1376,7 @@ function Team() {
         src="/assets/elsiaa-lion-192.png"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-[240px] max-w-none -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.028] md:w-[400px]"
+        className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-[380px] max-w-none -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.035] md:w-[680px]"
         style={{
           WebkitMaskImage: "radial-gradient(closest-side, #000 55%, rgba(0,0,0,0) 100%)",
           maskImage: "radial-gradient(closest-side, #000 55%, rgba(0,0,0,0) 100%)",
@@ -1326,52 +1388,16 @@ function Team() {
         {/* Phone: three bare portraits per row, no card chrome — six boxed
             rows spent most of their height on borders and padding. The
             bordered photo-beside-name row returns from sm: up. */}
-        <div className="mt-4 grid grid-cols-3 gap-x-2 gap-y-3 sm:mt-10 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
-          /* all of them — the cap was 6 and silently dropped the 7th */
-          {TEAM.map((m, i) => (
-            <Reveal key={m.name} delay={i * 0.05} className="h-full">
-              <div className="group flex h-full flex-col items-center gap-1.5 rounded-xl border-0 p-0 text-center transition-all duration-300 sm:flex-row sm:gap-3.5 sm:border sm:border-black/[0.07] sm:bg-white sm:p-4 sm:text-left sm:hover:-translate-y-0.5 sm:hover:border-[#1e6b3c]/35">
-                {/* No photo yet → the monogram, same as /team. Never a stand-in
-                    face: a stock portrait under a real person's name is a
-                    misrepresentation, not a placeholder. */}
-                {m.photo ? (
-                  <img
-                    src={m.photo}
-                    alt={m.name}
-                    loading="lazy"
-                    className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover object-[center_22%] sm:h-[52px] sm:w-[52px]"
-                  />
-                ) : (
-                  <span
-                    aria-hidden
-                    className="flex h-14 w-14 flex-none items-center justify-center rounded-full border border-black/[0.06] bg-[#0d0f0e] text-[15px] font-semibold tracking-[-0.02em] text-white/85 sm:h-[52px] sm:w-[52px] sm:text-[14px]"
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      background:
-                        "radial-gradient(120% 90% at 62% 38%, rgba(30,107,60,0.30), rgba(13,15,14,0) 62%), #0d0f0e",
-                    }}
-                  >
-                    {m.init}
-                  </span>
-                )}
-                <div className="min-w-0">
-                  <h3
-                    className="text-[11.5px] leading-tight font-semibold tracking-[-0.01em] text-[#111111] sm:text-[15px] sm:tracking-normal"
-                    style={{ fontFamily: "var(--font-sans)" }}
-                  >
-                    {m.name}
-                  </h3>
-                  <p
-                    className="mt-0.5 text-[10.5px] leading-snug text-[#111111]/55 sm:text-[13px] sm:text-[#111111]/60"
-                    style={{ fontFamily: "var(--font-sans)" }}
-                  >
-                    <span className="sm:hidden">{m.short}</span>
-                    <span className="hidden sm:inline">{m.role}</span>
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
+        {/* Deliberate two-band layout rather than one flat grid: the three
+            officers, then the four directors. Seven cards in a single
+            three-column grid left a ragged last row and implied no order.
+
+            The previous version also opened with a bare /* *\/ comment inside
+            JSX — React renders that as a text node, so it was occupying the
+            first cell and pushing the first row across by one. */}
+        <div className="mt-4 sm:mt-9">
+          <TeamBand people={TEAM.slice(0, 3)} cols="lg:grid-cols-3" />
+          <TeamBand people={TEAM.slice(3)} cols="sm:grid-cols-2 lg:grid-cols-4" className="mt-3" />
         </div>
         <Reveal>
           <a
@@ -2132,14 +2158,28 @@ export function HomeRows() {
              overlaid in CSS. The previous version transformed two <img> onto
              those planes, which never sat convincingly and had to be
              re-tuned at every breakpoint. */
-          <div className="relative aspect-[1376/768] w-full">
+          <div className="relative aspect-[1376/768] w-full bg-white">
             <img
               src="/assets/consult/seating_v2.png"
               alt=""
               width={1376}
               height={768}
               loading="lazy"
+              /* The render's ground is 245-255, not a flat 255, so on the white
+                 page it read as a faint grey panel with a visible edge. Under
+                 multiply white is the identity: the ground disappears into the
+                 page and only the furniture darkens. */
+              style={{ mixBlendMode: "multiply" }}
               className="absolute inset-0 h-full w-full object-contain"
+            />
+            {/* dissolves the last pixels of each edge so no frame survives */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to right, #fff, rgba(255,255,255,0) 5%, rgba(255,255,255,0) 95%, #fff), linear-gradient(to bottom, #fff, rgba(255,255,255,0) 5%, rgba(255,255,255,0) 95%, #fff)",
+              }}
             />
           </div>
         }
