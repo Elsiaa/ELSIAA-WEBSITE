@@ -28,6 +28,7 @@ const GROUPS: Array<{ title: string; items: Array<{ label: string; href: string 
     items: [
       { label: "Design", href: "/designs" },
       { label: "Automate", href: "/automate" },
+      { label: "Social Media", href: "/social" },
       { label: "Services", href: "/services" },
       { label: "Store", href: "/store" },
     ],

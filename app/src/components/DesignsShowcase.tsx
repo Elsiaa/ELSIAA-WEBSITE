@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
+import { ClientLogos } from "./ClientLogos";
 
 /*
   ELSIAA Designs showcase — follows the cartoon opener.
@@ -1264,41 +1265,12 @@ function DiscoverApps() {
   );
 }
 
-/* ---------------- live logo marquee ---------------- */
-const MARQUEE_LOGOS: Array<[string, string, string]> = [
-  ["/assets/logos/mr_bins.png", "Mr. Bins", "h-7"],
-  ["/assets/logos/dialog_healthcare.png", "Dialog Healthcare", "h-5"],
-  ["/assets/logos/first_medcare.png", "First Medcare Inc", "h-8"],
-  ["/assets/logos/excelsior.png", "Excelsior Healthcare Solutions", "h-6"],
-  ["/assets/logos/hiddenlight.png", "HiddenLight ABA", "h-6"],
-  ["/assets/logos/beyond_autism.png", "Beyond Autism Services", "h-10"],
-  ["/assets/logos/kore_autism.png", "Kore Autism Services", "h-8"],
-  ["/assets/logos/hidden_talents.png", "Hidden Talents ABA", "h-8"],
-  ["/assets/logos/diet_fantasy.png", "The Diet Fantasy", "h-8"],
-];
-
+/* ---------------- live logo marquee ----------------
+   The logo list and marquee now live in components/ClientLogos.tsx so this
+   page and /why-elsiaa cannot drift apart. Kept as a thin wrapper because
+   there are two call sites below. */
 function LogoMarquee() {
-  return (
-    <div className="relative mt-8 w-full overflow-hidden">
-      <style>{`@keyframes elsiaa-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }`}</style>
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-white to-transparent" />
-      <div
-        className="flex w-max items-center gap-16 pr-16"
-        style={{ animation: "elsiaa-marquee 36s linear infinite" }}
-      >
-        {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map(([src, alt, h], i) => (
-          <img
-            key={`${src}-${i}`}
-            src={src}
-            alt={alt}
-            className={`${h} w-auto flex-none opacity-90 transition-all duration-300 hover:-translate-y-0.5 hover:opacity-100`}
-            loading="lazy"
-          />
-        ))}
-      </div>
-    </div>
-  );
+  return <ClientLogos fade="#ffffff" className="mt-8" />;
 }
 
 /* ---------------- scroll-controlled assembly cinematic ---------------- */

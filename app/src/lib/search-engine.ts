@@ -118,13 +118,8 @@ export const SEARCH_INDEX: Entry[] = [
     keys: "free call consultation book talk intro discovery no charge twenty minute chat",
     desc: "Tell us what you're dealing with. No pitch, no charge.",
   },
-  {
-    label: "1-hour consult — $120",
-    group: "Start",
-    href: "/consultation",
-    keys: "paid hour consult 120 dollars specialist session advice strategy booking price",
-    desc: "A full hour with a specialist and a clear plan to act on.",
-  },
+  /* The "$120 1-hour consult" entry was removed with the option itself: the
+     only call ELSIAA offers is the free 20-minute one above. */
   {
     label: "Get a quote",
     group: "Start",
@@ -139,27 +134,65 @@ export const SEARCH_INDEX: Entry[] = [
     keys: "login log in portal account existing client dashboard access sign on",
   },
 
-  /* ---------------- priced services ---------------- */
+  /* ---------------- priced services ----------------
+     All eight, in the same order and at the same prices as /services. If a
+     price moves there it has to move here — a search result quoting a stale
+     number is worse than no result. */
   {
-    label: "Websites — from $750",
+    label: "Web Design — from $750",
     group: "Services",
     href: "/services",
     keys: "website web site build design 750 cheap affordable landing page small business",
     desc: "A site built to convert — designed, written, and shipped live.",
   },
   {
-    label: "Apps — from $10k",
+    label: "Business Automation — from $1,000",
+    group: "Services",
+    href: "/services",
+    keys: "business automation workflow process back office admin manual tasks 1000",
+    desc: "The repetitive work, handed to a system that does not forget.",
+  },
+  {
+    label: "Brand & Social — from $1,500",
+    group: "Services",
+    href: "/services",
+    keys: "brand branding logo identity social media content instagram marketing 1500",
+    desc: "The brand and the feed, built as one thing.",
+  },
+  {
+    label: "Browser Automation — from $2,500",
+    group: "Services",
+    href: "/services",
+    keys: "browser automation scraping data entry portal rpa bot web 2500",
+    desc: "The clicking, typing, and copying, done by a machine.",
+  },
+  {
+    label: "AI Phone & Chat Agents — from $2,500",
+    group: "Services",
+    href: "/services",
+    keys: "ai phone chat agent voice call answering receptionist bot support intake 2500",
+    desc: "Agents that answer, qualify, and book — around the clock.",
+  },
+  {
+    label: "Operational Dashboards — from $3,500",
+    group: "Services",
+    href: "/services",
+    keys: "dashboard reporting analytics kpi metrics operations visibility bi 3500",
+    desc: "One screen that tells you what is actually happening.",
+  },
+  {
+    label: "Mobile Apps — from $10k",
     group: "Services",
     href: "/services",
     keys: "app apps mobile ios android application build 10k store release",
     desc: "iOS and Android products, built properly and released to the stores.",
   },
   {
-    label: "Backend software — from $1,000",
+    label: "Custom Platforms — from $12k",
     group: "Services",
     href: "/services",
-    keys: "backend software custom systems portals integrations database api internal tools 1000",
-    desc: "The systems that run the business.",
+    keys: "custom platform software saas portal system bespoke backend database api 12k",
+    desc: "The system the business runs on, built to fit.",
   },
   {
     label: "Website design & development",
@@ -272,6 +305,13 @@ export const SEARCH_INDEX: Entry[] = [
     keys: "doctor md advisor healthcare medical professor ophthalmology neurology toronto edward margolin",
     desc: "Healthcare Advisor.",
   },
+  {
+    label: "David Spivak — Director of Social Media",
+    group: "People",
+    href: "/team",
+    keys: "david spivak social media director content photography linktree instagram marketing",
+    desc: "Runs ELSIAA's social output end to end.",
+  },
 
   /* ---------------- cities ---------------- */
   {
@@ -348,11 +388,154 @@ export const SEARCH_INDEX: Entry[] = [
     href: "/careers",
     keys: "sales account client job role hiring apply business development",
   },
+  /* "Apply — Legal & Ops" was removed here when the role was removed from
+     the careers page, so search can no longer offer a job that isn't open. */
+
+  /* ---------------- client work, by brand name ----------------
+     Someone who knows the work by the client's name, not by the service,
+     had no way to find it. These match the logo band on /designs. */
   {
-    label: "Apply — Legal & Ops",
-    group: "Careers",
-    href: "/careers",
-    keys: "legal operations contracts job role hiring apply paralegal admin",
+    label: "Mr. Bins",
+    group: "Our work",
+    href: "/designs",
+    keys: "mr bins primebins prime bins waste bin cleaning brand website client work rebrand",
+    desc: "Brand and site, rebuilt from the ground up.",
+  },
+  {
+    label: "Dialog Healthcare",
+    group: "Our work",
+    href: "/designs",
+    keys: "dialog healthcare medical health client work brand",
+  },
+  {
+    label: "First Medcare Inc",
+    group: "Our work",
+    href: "/designs",
+    keys: "first medcare medical healthcare client work brand",
+  },
+  {
+    label: "Excelsior Healthcare Solutions",
+    group: "Our work",
+    href: "/designs",
+    keys: "excelsior healthcare solutions medical client work brand",
+  },
+  {
+    label: "HiddenLight ABA",
+    group: "Our work",
+    href: "/designs",
+    keys: "hiddenlight hidden light aba autism therapy client work brand",
+  },
+  {
+    label: "Beyond Autism Services",
+    group: "Our work",
+    href: "/designs",
+    keys: "beyond autism services aba therapy client work brand",
+  },
+  {
+    label: "Kore Autism Services",
+    group: "Our work",
+    href: "/designs",
+    keys: "kore autism services aba therapy client work brand",
+  },
+  {
+    label: "Hidden Talents ABA",
+    group: "Our work",
+    href: "/designs",
+    keys: "hidden talents aba autism therapy client work brand",
+  },
+  {
+    label: "The Diet Fantasy",
+    group: "Our work",
+    href: "/designs",
+    keys: "diet fantasy nutrition food brand client work",
+  },
+  {
+    label: "Mitzva App",
+    group: "Our work",
+    href: "/designs",
+    keys: "mitzva app non profit charity nonprofit mobile application live demo",
+    desc: "A live non-profit app, embedded on the designs page.",
+  },
+
+  /* ---------------- how to reach a human ---------------- */
+  {
+    label: "Customer service — 1-888-915-5531",
+    group: "Start",
+    href: "/contact",
+    keys: "phone number call customer service support toll free 888 915 5531 speak human talk",
+    desc: "The main ELSIAA line.",
+  },
+  {
+    label: "Emergency line — 443-651-9097",
+    group: "Start",
+    href: "/locations",
+    keys: "emergency urgent after hours phone number 443 651 9097 out of hours critical",
+    desc: "For urgent issues outside desk hours.",
+  },
+  {
+    label: "Instagram — @elsiaa_ai",
+    group: "Start",
+    href: "/social",
+    keys: "instagram insta social media follow account handle elsiaa_ai",
+  },
+
+  /* ---------------- social media services ----------------
+     The whole /social offering was unreachable from search — "clipping"
+     returned nothing at all. These match the cards on that page. */
+  {
+    label: "Clipping — one recording, a month of posts",
+    group: "Social",
+    href: "/social",
+    keys: "clipping clips viral short form reels tiktok shorts vertical captions podcast webinar repurpose go viral",
+    desc: "One long recording, cut into a month of short-form.",
+  },
+  {
+    label: "Social strategy",
+    group: "Social",
+    href: "/social",
+    keys: "social strategy plan content calendar positioning audience growth",
+  },
+  {
+    label: "Video production",
+    group: "Social",
+    href: "/social",
+    keys: "video production filming shoot camera crew content social",
+  },
+  {
+    label: "Editing",
+    group: "Social",
+    href: "/social",
+    keys: "editing editor post production cut captions colour social video",
+  },
+  {
+    label: "Content & copy",
+    group: "Social",
+    href: "/social",
+    keys: "content copy copywriting captions writing posts social voice",
+  },
+  {
+    label: "Brand setup",
+    group: "Social",
+    href: "/social",
+    keys: "brand setup profile bio handles consistency social accounts",
+  },
+  {
+    label: "Personal brand",
+    group: "Social",
+    href: "/social",
+    keys: "personal brand founder executive thought leadership linkedin face social",
+  },
+  {
+    label: "Meta Ads",
+    group: "Social",
+    href: "/social",
+    keys: "meta ads facebook instagram paid advertising campaigns roas social",
+  },
+  {
+    label: "Google Reviews",
+    group: "Social",
+    href: "/social",
+    keys: "google reviews reputation stars ratings local seo social proof",
   },
 
   /* ---------------- case studies & method ---------------- */
@@ -530,6 +713,11 @@ const GROUP_BOOST: Record<string, number> = {
   People: 4,
   Services: 2,
   Locations: 2,
+  /* Client brands rank just under Services: someone typing "Mr. Bins" wants
+     the work, but a generic word inside a brand name shouldn't outrank a
+     service page. */
+  "Our work": 2,
+  Social: 2,
   "Case study": 1,
 };
 

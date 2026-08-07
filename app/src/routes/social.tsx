@@ -498,7 +498,7 @@ function SocialPage() {
                 className="mt-8 inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-7 text-[14px] font-semibold text-white transition-colors duration-300 hover:bg-[#111111]"
                 style={{ fontFamily: SANS }}
               >
-                Send us a recording →
+                Go viral with clipping →
               </a>
             </Reveal>
 
@@ -730,16 +730,16 @@ function SocialPage() {
           <p className="text-[13px] font-bold text-[#1e6b3c]" style={{ fontFamily: SANS }}>
             Speak to social media
           </p>
-          <div className="mt-6 flex items-center justify-center -space-x-3">
+          <div className="mt-6 flex items-center justify-center">
             <Avatar init="DS" />
-            <Avatar init="YW" />
           </div>
+          {/* "David", matching /team — this page previously read "Dovid". */}
           <p
             className="mx-auto mt-5 max-w-md text-[15px] leading-relaxed text-[#111111]/60"
             style={{ fontFamily: SANS }}
           >
-            Dovid Spivak &amp; Yosef Weil run social at ELSIAA. Bring them your brand — they'll tell
-            you exactly where the growth is.
+            David Spivak runs social at ELSIAA. Bring him your brand — he'll tell you exactly where
+            the growth is.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a

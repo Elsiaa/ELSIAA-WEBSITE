@@ -27,7 +27,20 @@ type Person = {
   name: string;
   init: string;
   photo?: string;
-  /** measured face centre, as a % down the source photo */
+  /**
+   * object-position Y, as a percentage.
+   *
+   * Not eyeballed and not shared between people — each is computed from where
+   * the face actually sits in that specific file. The plate is aspect-[4/5]
+   * (0.8) and every source is portrait (0.62–0.75), so object-cover matches
+   * width and overflows vertically by `1 - 1.25 * imageAspect`. The value is
+   * solved so the eyes land ~35% down the visible window (upper third) while
+   * keeping at least 3.5% of background above the top of the head.
+   *
+   * That is why they range from 0 to 53: jr is framed low in its source and
+   * needs 53 to lift the face, while yk/cl/ie already sit high and need 0.
+   * Re-run the measurement if a photo is replaced — do not copy a neighbour's.
+   */
   focus?: number;
   role: string;
   line: string;
@@ -41,7 +54,7 @@ const LEADERSHIP: Person[] = [
     name: "Yisrael Krug",
     init: "YK",
     photo: "/assets/team/yk.jpg",
-    focus: 34,
+    focus: 0,
     role: "Founder & CEO",
     line: "Former executive at Dialog Healthcare, founder of the Mitzva App (non-profit), and artist at Gestalt-Art.com. Background in biology, psychology, and business, grounded in intensive Talmudic study; lectures in Torah at Ahavas Chaim in Baltimore, MD.",
     loc: "New York",
@@ -52,7 +65,7 @@ const LEADERSHIP: Person[] = [
     name: "David Heimowitz",
     init: "DH",
     photo: "/assets/team/dh.jpg",
-    focus: 29,
+    focus: 4,
     role: "Co-Founder & CTO",
     line: "Owns the engineering. If it ships from ELSIAA it ships hardened, tested, and insured — no excuses.",
     loc: "New Jersey",
@@ -63,7 +76,7 @@ const LEADERSHIP: Person[] = [
     name: "Jacob Rubelow",
     init: "JR",
     photo: "/assets/team/jr.jpg",
-    focus: 41,
+    focus: 53,
     role: "Partner & Chief Operating Officer",
     line: "Strategist and partner. Bachelor's in mathematics, magna cum laude, from Touro University; George Washington University Law School; background in intensive Talmudic study. Active EMT and firefighter.",
     loc: "New York",
@@ -77,7 +90,7 @@ const DIRECTORS: Person[] = [
     name: "Chaim Lieberman",
     init: "CL",
     photo: "/assets/team/cl.jpg",
-    focus: 39,
+    focus: 0,
     role: "Executive Director & Partner",
     line: "Former CEO of Libersilver and former fund manager at a Belgian private fund. Based in Antwerp, operating across all of Western Europe and Israel.",
     loc: "Antwerp",
@@ -109,7 +122,7 @@ const DIRECTORS: Person[] = [
     name: "Ynon Azulai",
     init: "YA",
     photo: "/assets/team/ya.jpg",
-    focus: 38,
+    focus: 23,
     role: "AI & Technology Expert",
     line: "At the edge of applied AI — the deep-tech eye on every architecture ELSIAA ships.",
     loc: "Jerusalem / Tel Aviv",
@@ -121,7 +134,7 @@ const ADVISORS: Person[] = [
     name: "Dr. Edward Margolin, MD, FRCSC, Dipl. ABO",
     init: "EM",
     photo: "/assets/team/em.jpg",
-    focus: 39,
+    focus: 17,
     role: "Healthcare Advisor",
     line: "Professor, University of Toronto — Dept. of Ophthalmology and Visual Sciences; Dept. of Medicine, Division of Neurology. Director, Neuro-Ophthalmology and Strabismus Fellowship.",
     loc: "University of Toronto",

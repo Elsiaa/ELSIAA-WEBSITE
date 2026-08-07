@@ -1268,7 +1268,7 @@ const TEAM = [
     init: "YK",
     photo: "/assets/team/yk.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 34,
+    focus: 0,
   },
   {
     name: "David Heimowitz",
@@ -1277,7 +1277,7 @@ const TEAM = [
     init: "DH",
     photo: "/assets/team/dh.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 29,
+    focus: 4,
   },
   {
     name: "Jacob Rubelow",
@@ -1286,7 +1286,7 @@ const TEAM = [
     init: "JR",
     photo: "/assets/team/jr.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 41,
+    focus: 53,
   },
   {
     name: "Chaim Lieberman",
@@ -1295,7 +1295,7 @@ const TEAM = [
     init: "CL",
     photo: "/assets/team/cl.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 39,
+    focus: 0,
   },
   {
     name: "Izzy Eisenberg",
@@ -1304,7 +1304,7 @@ const TEAM = [
     init: "IE",
     photo: "/assets/team/ie.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 36,
+    focus: 0,
   },
   {
     name: "David Spivak",
@@ -1321,7 +1321,7 @@ const TEAM = [
     init: "YA",
     photo: "/assets/team/ya.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 38,
+    focus: 23,
   },
 ];
 

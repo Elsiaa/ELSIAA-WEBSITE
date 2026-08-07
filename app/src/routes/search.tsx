@@ -26,23 +26,23 @@ const MONO = SANS;
 
 // Discovery — suggested deep paths, trending, and areas.
 const SUGGESTED = [
-  "Custom AI systems",
-  "Implementation process",
-  "Fixed-scope builds",
-  "Intake OS",
-  "Dispatch OS",
-  "AI agents",
+  "Web design",
+  "Clipping",
+  "AI phone agents",
+  "Operational dashboards",
+  "Mobile apps",
+  "Pricing",
   "Case studies",
-  "Book a strategy call",
+  "Book a free call",
 ];
-const TRENDING = ["Custom software", "AI implementation", "Automate", "Locations", "Careers"];
+const TRENDING = ["Web design", "Clipping", "Pricing", "Social media", "Locations"];
 const AREAS: Array<{ label: string; href: string; note: string }> = [
-  { label: "Custom software", href: "/automate", note: "Systems built for your operations" },
-  { label: "AI implementation", href: "/automate", note: "AI embedded where it earns its place" },
-  { label: "Case studies", href: "/automate", note: "Real systems, running in production" },
+  { label: "Services & pricing", href: "/services", note: "Eight services, from $750" },
+  { label: "Automations", href: "/automate", note: "Systems built for your operations" },
+  { label: "Social media", href: "/social", note: "Strategy, production, clipping, ads" },
   { label: "Design", href: "/designs", note: "Brands and interfaces we've shipped" },
   { label: "Locations", href: "/locations", note: "On the ground in six cities" },
-  { label: "Get started", href: "/contact", note: "Strategy call or fixed-scope quote" },
+  { label: "Get started", href: "/contact", note: "Free call or fixed-scope quote" },
 ];
 
 function highlight(text: string, terms: string[]) {
