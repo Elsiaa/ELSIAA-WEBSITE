@@ -56,7 +56,9 @@ const organization = {
       contactType: "customer service",
       telephone: "+1-888-915-5531",
       email: "info@elsiaa.com",
-      availableLanguage: ["English", "Hebrew", "French", "German", "Spanish", "Russian"],
+      /* Must match the Languages block on /locations. Spanish was listed here
+         and is not one ELSIAA actually consults in; Flemish and Yiddish are. */
+      availableLanguage: ["English", "Hebrew", "Russian", "French", "German", "Flemish", "Yiddish"],
     },
   ],
 };
