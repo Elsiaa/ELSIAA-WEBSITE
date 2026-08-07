@@ -363,14 +363,18 @@ export async function processAllDueBillings(
     try {
       let customerId: string | null = null;
       let paymentMethodId: string | null = null;
-      const debugLookup: {
-        pr: boolean;
-        companySub: boolean;
-        companyDef: boolean;
-        usersWithDefault: number;
-      } = debug
+      /* Only populated in debug runs; every read below is guarded, so the
+         type says undefined rather than casting the undefined away. */
+      const debugLookup:
+        | {
+            pr: boolean;
+            companySub: boolean;
+            companyDef: boolean;
+            usersWithDefault: number;
+          }
+        | undefined = debug
         ? { pr: false, companySub: false, companyDef: false, usersWithDefault: 0 }
-        : (undefined as any);
+        : undefined;
 
       if (sub.payment_request_id) {
         const { getPaymentRequestById } = await import("@/lib/payments");
@@ -629,8 +633,8 @@ export async function processAllDueBillings(
         companyId: sub.company_id,
         billableType: "subscription",
         billableId: sub.id,
-        chargeName: (sub as any).name || "Subscription",
-        amountCents: Math.round((sub as any).amount * 100),
+        chargeName: sub.name || "Subscription",
+        amountCents: Math.round(sub.amount * 100),
         errorMessage: errMsg,
       });
     }
@@ -1114,7 +1118,7 @@ function generateReceiptPdfBuffer(p: BillingReceiptParams): Promise<Buffer> {
   });
   const methodDisplay = paymentRailDisplayLabel(p.paymentMethod);
 
-  const docDef: any = {
+  const docDef = {
     content: [
       ...(logoImage
         ? [
@@ -1187,7 +1191,8 @@ function generateReceiptPdfBuffer(p: BillingReceiptParams): Promise<Buffer> {
           ],
         },
         layout: {
-          hLineWidth: (i: number, node: any) => (i === 0 || i === node.table.body.length ? 1 : 0),
+          hLineWidth: (i: number, node: { table: { body: unknown[] } }) =>
+            i === 0 || i === node.table.body.length ? 1 : 0,
           vLineWidth: () => 0,
           paddingLeft: () => 10,
           paddingRight: () => 10,
