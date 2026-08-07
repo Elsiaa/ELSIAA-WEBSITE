@@ -191,7 +191,6 @@ function LiveTime({ now, tz, className }: { now: Date | null; tz: string; classN
   );
 }
 
-
 /* Desk hours, local to each office — same window the home page publishes. */
 const OPEN_HOUR = 11;
 const CLOSE_HOUR = 17;

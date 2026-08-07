@@ -197,9 +197,7 @@ function Card({ p, i }: { p: Person; i: number }) {
                 href={p.href}
                 /* mailto: stays in place; an external profile opens in a new
                    tab and gets rel=noreferrer */
-                {...(p.href.startsWith("http")
-                  ? { target: "_blank", rel: "noreferrer" }
-                  : {})}
+                {...(p.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
                 className="ml-auto text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
                 style={{ fontFamily: SANS }}
               >
@@ -261,9 +259,9 @@ function TeamPage() {
               that AI needs a professional, and more than that, it needs an honest one.
             </p>
             <p style={{ fontFamily: SANS }}>
-              So together with David I built ELSIAA: a service that actually transforms a
-              business, on an honest process, with real accountability. We are fully insured, and
-              we are driven to deliver a product you are completely satisfied with.
+              So together with David I built ELSIAA: a service that actually transforms a business,
+              on an honest process, with real accountability. We are fully insured, and we are
+              driven to deliver a product you are completely satisfied with.
             </p>
             <p className="font-semibold text-[#111111]" style={{ fontFamily: SANS }}>
               Your success is our mission.
