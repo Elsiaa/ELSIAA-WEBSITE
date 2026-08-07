@@ -27,7 +27,8 @@ type ChatMessageRow = {
   project_id: string;
   role: "user" | "assistant" | "system";
   content: string;
-  attachments: any; // JSONB
+  /** JSONB column; null when the message has no attachments */
+  attachments: ChatAttachment[] | null;
   created_at: string;
   updated_at: string;
 };
@@ -62,7 +63,7 @@ export function rowToMessage(row: ChatMessageRow): ChatMessage {
     userName: content.userName,
     message: content.message,
     timestamp: content.timestamp || new Date(row.created_at).getTime(),
-    attachments: row.attachments as ChatAttachment[],
+    attachments: row.attachments ?? [],
   };
 }
 
