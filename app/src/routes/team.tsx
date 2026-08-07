@@ -59,6 +59,9 @@ type Person = {
   loc: string;
   href?: string;
   hrefLabel?: string;
+  /** optional second link, e.g. an external profile alongside the email */
+  alt?: string;
+  altLabel?: string;
 };
 
 const LEADERSHIP: Person[] = [
@@ -125,10 +128,14 @@ const DIRECTORS: Person[] = [
     role: "Director of Social Media",
     line: "Runs ELSIAA's social output end to end — strategy, production, and the accounts themselves.",
     loc: "New York",
+    /* Address is "dovids@", not "davids@" — that is the mailbox as given, and
+       it deliberately differs from the "David" used for the display name. */
+    href: "mailto:dovids@elsiaa.com",
+    hrefLabel: "dovids@elsiaa.com",
     /* utm_source=linktree_profile_share stripped: it tags the share that
        produced the link, and would mis-attribute every visitor from the site. */
-    href: "https://linktr.ee/spivak_photography",
-    hrefLabel: "linktr.ee/spivak_photography",
+    alt: "https://linktr.ee/spivak_photography",
+    altLabel: "Linktree",
   },
   {
     name: "Ynon Azulai",
@@ -217,17 +224,34 @@ function Card({ p, i }: { p: Person; i: number }) {
               <span className="h-[5px] w-[5px] rotate-45 bg-[#1e6b3c]/50" />
               {p.loc}
             </span>
-            {p.href && (
-              <a
-                href={p.href}
-                /* mailto: stays in place; an external profile opens in a new
-                   tab and gets rel=noreferrer */
-                {...(p.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
-                className="ml-auto text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
-                style={{ fontFamily: SANS }}
-              >
-                {p.hrefLabel ?? "Contact"} →
-              </a>
+            {/* ml-auto on the group, not on each link, so a second link sits
+                beside the first instead of being pushed to its own line */}
+            {(p.href || p.alt) && (
+              <span className="ml-auto flex items-center gap-x-3">
+                {p.alt && (
+                  <a
+                    href={p.alt}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[13px] text-[#111111]/45 transition-colors hover:text-[#1e6b3c]"
+                    style={{ fontFamily: SANS }}
+                  >
+                    {p.altLabel ?? "Profile"} ↗
+                  </a>
+                )}
+                {p.href && (
+                  <a
+                    href={p.href}
+                    /* mailto: stays in place; an external profile opens in a
+                       new tab and gets rel=noreferrer */
+                    {...(p.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
+                    className="text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                    style={{ fontFamily: SANS }}
+                  >
+                    {p.hrefLabel ?? "Contact"} →
+                  </a>
+                )}
+              </span>
             )}
           </div>
         </div>

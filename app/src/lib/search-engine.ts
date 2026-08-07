@@ -309,7 +309,9 @@ export const SEARCH_INDEX: Entry[] = [
     label: "David Spivak — Director of Social Media",
     group: "People",
     href: "/team",
-    keys: "david spivak social media director content photography linktree instagram marketing",
+    /* "dovid"/"dovids" included deliberately: the mailbox is dovids@elsiaa.com
+       while the display name is David, so either spelling has to find him. */
+    keys: "david dovid dovids spivak social media director content photography linktree instagram marketing email",
     desc: "Runs ELSIAA's social output end to end.",
   },
 
