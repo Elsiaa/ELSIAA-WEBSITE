@@ -78,14 +78,13 @@ function StripeMark({ className = "" }: { className?: string }) {
   );
 }
 
-/* TODO: swap in the real 1-888 office number — digits were not supplied yet. */
-export const OFFICE_PHONE = "1-888-000-0000";
-/** true while OFFICE_PHONE is still the placeholder — avoids shipping a dead tel: link */
+/** ELSIAA customer service — the real line. */
+export const OFFICE_PHONE = "1-888-915-5531";
+/** Kept as an export: other modules branch on it, and it now reads false. */
 export const PHONE_IS_PLACEHOLDER = /0{3}-?0{4}$/.test(OFFICE_PHONE);
 const OFFICE_TEL = `tel:+1${OFFICE_PHONE.replace(/\D/g, "").replace(/^1/, "")}`;
-/* While the office number is still a placeholder we must not ship a dead tel: link —
-   the free-call CTA routes to the request form instead. Swap OFFICE_PHONE for the real
-   digits and both the href and the label switch back to dialling automatically. */
+/* Now that the number is real the CTA dials it directly rather than routing
+   through the request form. */
 export const CALL_HREF = PHONE_IS_PLACEHOLDER
   ? "/quote?option=Free%2020-Minute%20Call"
   : OFFICE_TEL;
@@ -120,7 +119,9 @@ export function ConsultOptions({
   const H = (headingLevel === 2 ? "h2" : "h3") as "h2" | "h3";
   return (
     <div className={className}>
-      <div className="mx-auto grid max-w-4xl grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+      {/* one option now — the paid hour is gone, so a 2-col grid would
+          strand it half-width */}
+      <div className="mx-auto grid max-w-xl grid-cols-1 gap-5 md:gap-6">
         {/* 1 — free 20-minute call */}
         <div className="flex flex-col rounded-3xl border border-black/[0.08] bg-white p-7 shadow-[0_24px_60px_-50px_rgba(17,17,17,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 md:p-8">
           <H
@@ -163,39 +164,6 @@ export function ConsultOptions({
           </a>
         </div>
 
-        {/* 2 — paid hour */}
-        <a
-          href="/quote?option=1-Hour%20Consult"
-          className="group flex flex-col rounded-3xl border border-[#1e6b3c]/35 bg-white p-7 shadow-[0_30px_70px_-45px_rgba(30,107,60,0.45)] transition-all duration-300 hover:-translate-y-1 md:p-8"
-        >
-          <div className="flex items-start justify-between gap-3">
-            <H
-              className="text-[19px] font-semibold tracking-[-0.025em] text-[#111111] md:text-[21px]"
-              style={{ fontFamily: SANS }}
-            >
-              1-Hour Consult
-            </H>
-            <span
-              className="shrink-0 rounded-full bg-[#1e6b3c]/10 px-3 py-1 text-[12px] font-semibold text-[#1e6b3c]"
-              style={{ fontFamily: SANS }}
-            >
-              Most chosen
-            </span>
-          </div>
-          <p
-            className="mt-5 text-[34px] font-semibold leading-none tracking-[-0.04em] text-[#111111] md:text-[40px]"
-            style={{ fontFamily: SANS }}
-          >
-            $120
-          </p>
-          <p
-            className="mt-5 mb-8 text-[15px] leading-relaxed text-[#111111]/60"
-            style={{ fontFamily: SANS }}
-          >
-            A full hour with a specialist. You leave with a clear plan of what to do next.
-          </p>
-          <BookBar />
-        </a>
       </div>
 
       {/* the promise, under the two offers */}
