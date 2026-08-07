@@ -4,7 +4,6 @@ import { AssemblingArtist } from "./AssemblingArtist";
 import { WorkingRobot } from "./WorkingRobot";
 import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 import { Reveal } from "./Reveal";
-import { SocialLinks } from "./SocialLinks";
 import { ConsultOptions } from "./ConsultOptions";
 import { SocialHomeSection } from "./SocialMedia";
 
@@ -594,9 +593,8 @@ function HomeHero() {
             </div>
           </a>
 
-          {/* Follow buttons ride with the ticker band so they are visible
-              without scrolling — same source list as the footer. */}
-          <SocialLinks variant="icon" className="justify-center pt-3" />
+          {/* Follow buttons removed from the home page — they stay in the
+              footer, which is on every page including this one. */}
         </div>
       </div>
     </section>
