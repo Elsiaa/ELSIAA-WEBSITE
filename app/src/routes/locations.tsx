@@ -52,6 +52,7 @@ const ADDRESS_TBC = "Street address to be confirmed";
 const OFFICES: Office[] = [
   {
     name: "New York",
+    email: "ny@elsiaa.com",
     short: "New York",
     country: "United States",
     flag: "us",
@@ -63,6 +64,7 @@ const OFFICES: Office[] = [
   },
   {
     name: "London",
+    email: "euInfo@elsiaa.com",
     short: "London",
     country: "United Kingdom",
     flag: "gb",
@@ -73,6 +75,7 @@ const OFFICES: Office[] = [
   },
   {
     name: "Geneva",
+    email: "euInfo@elsiaa.com",
     short: "Geneva",
     country: "Switzerland",
     flag: "ch",
@@ -83,6 +86,7 @@ const OFFICES: Office[] = [
   },
   {
     name: "Antwerp",
+    email: "euInfo@elsiaa.com",
     short: "Antwerp",
     country: "Belgium",
     flag: "be",
@@ -93,6 +97,7 @@ const OFFICES: Office[] = [
   },
   {
     name: "Tel Aviv",
+    email: "isr@elsiaa.com",
     short: "Tel Aviv",
     country: "Israel",
     flag: "il",
@@ -103,6 +108,7 @@ const OFFICES: Office[] = [
   },
   {
     name: "Los Angeles",
+    email: "la@elsiaa.com",
     short: "Los Angeles",
     country: "United States",
     flag: "us",
