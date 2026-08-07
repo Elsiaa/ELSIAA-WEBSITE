@@ -278,11 +278,11 @@ export const SEARCH_INDEX: Entry[] = [
     desc: "Partner & Chief Operating Officer.",
   },
   {
-    label: "Chaim Lieberman — Executive Director & Partner",
+    label: "Chaim Lieberman — Chief Executive Director of EU",
     group: "People",
     href: "/team",
     keys: "executive director partner chaim lieberman haim liberman",
-    desc: "Executive Director & Partner.",
+    desc: "Chief Executive Director of EU.",
   },
   {
     label: "Izzy Eisenberg — Director, California Business",

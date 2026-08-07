@@ -106,7 +106,7 @@ const DIRECTORS: Person[] = [
     init: "CL",
     photo: "/assets/team/cl.jpg",
     focus: 0,
-    role: "Executive Director & Partner",
+    role: "Chief Executive Director of EU",
     line: "Former CEO of Libersilver and former fund manager at a Belgian private fund. Based in Antwerp, operating across all of Western Europe and Israel.",
     loc: "Antwerp",
     href: "mailto:chaim@elsiaa.com",

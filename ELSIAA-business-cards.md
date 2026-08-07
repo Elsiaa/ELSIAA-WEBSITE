@@ -13,7 +13,7 @@ Last pulled: 7 August 2026.
 | 1 | Yisrael Krug | Founder & CEO | New York | yisrael@elsiaa.com |
 | 2 | David Heimowitz | Co-Founder & CTO | New Jersey | davidh@elsiaa.com |
 | 3 | Jacob Rubelow | Partner & Chief Operating Officer | New York | jacob@elsiaa.com |
-| 4 | Chaim Lieberman | Executive Director & Partner | Antwerp | chaim@elsiaa.com |
+| 4 | Chaim Lieberman | Chief Executive Director of EU | Antwerp | chaim@elsiaa.com |
 | 5 | Izzy Eisenberg | Director, California Business | Los Angeles | izzy@elsiaa.com |
 | 6 | David Spivak | Director of Social Media | New York / Jerusalem | dovids@elsiaa.com |
 | 7 | Ynon Azulai | AI & Technology Expert | Jerusalem / Tel Aviv | **⚠ none on file** |
@@ -115,7 +115,7 @@ New York
 jacob@elsiaa.com
 
 Chaim Lieberman
-Executive Director & Partner
+Chief Executive Director of EU
 Antwerp
 chaim@elsiaa.com
 
