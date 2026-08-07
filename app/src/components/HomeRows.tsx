@@ -1259,6 +1259,8 @@ const TEAM = [
     short: "CEO",
     init: "YK",
     photo: "/assets/team/yk.jpg",
+    /* face centre measured in this photo, so the circle frames the head */
+    focus: 34,
   },
   {
     name: "David Heimowitz",
@@ -1266,6 +1268,8 @@ const TEAM = [
     short: "CTO",
     init: "DH",
     photo: "/assets/team/dh.jpg",
+    /* face centre measured in this photo, so the circle frames the head */
+    focus: 29,
   },
   {
     name: "Jacob Rubelow",
@@ -1273,6 +1277,8 @@ const TEAM = [
     short: "COO",
     init: "JR",
     photo: "/assets/team/jr.jpg",
+    /* face centre measured in this photo, so the circle frames the head */
+    focus: 41,
   },
   {
     name: "Chaim Lieberman",
@@ -1280,6 +1286,8 @@ const TEAM = [
     short: "Exec. Director, Europe",
     init: "CL",
     photo: "/assets/team/cl.jpg",
+    /* face centre measured in this photo, so the circle frames the head */
+    focus: 39,
   },
   {
     name: "Izzy Eisenberg",
@@ -1287,13 +1295,16 @@ const TEAM = [
     short: "Director, California",
     init: "IE",
     photo: "/assets/team/ie.jpg",
+    /* face centre measured in this photo, so the circle frames the head */
+    focus: 36,
   },
   {
     name: "David Spivak",
     role: "Director of Social Media",
     short: "Social Media",
     init: "DS",
-    /* add photo: "/assets/team/ds.jpg" once a headshot is supplied */
+    /* add photo + focus once a headshot is supplied:
+         photo: "/assets/team/ds.jpg", focus: 35, */
   },
   {
     name: "Ynon Azulai",
@@ -1301,6 +1312,8 @@ const TEAM = [
     short: "Software & AI",
     init: "YA",
     photo: "/assets/team/ya.jpg",
+    /* face centre measured in this photo, so the circle frames the head */
+    focus: 38,
   },
 ];
 
@@ -1329,7 +1342,8 @@ function TeamBand({
                 src={m.photo}
                 alt={m.name}
                 loading="lazy"
-                className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover object-[center_22%] sm:h-[52px] sm:w-[52px]"
+                style={{ objectPosition: `center ${m.focus ?? 35}%` }}
+                className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover sm:h-[52px] sm:w-[52px]"
               />
             ) : (
               <span
@@ -1368,7 +1382,7 @@ function TeamBand({
 
 function Team() {
   return (
-    <section className="relative overflow-hidden bg-white py-6 md:py-12">
+    <section className="relative overflow-hidden bg-white py-10 md:py-20">
       {/* The lion, sunk into the background. aria-hidden and pointer-events-none
           so it is pure texture; the mask fades all four edges so it reads as a
           watermark rather than a picture someone forgot to crop. */}
@@ -1376,7 +1390,11 @@ function Team() {
         src="/assets/elsiaa-lion-192.png"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-[380px] max-w-none -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.035] md:w-[680px]"
+        /* Sized by HEIGHT with object-contain, so a square mark can never be
+           clipped by a section that is wider than it is tall — a width-based
+           size cut the mane off the top. The section carries extra vertical
+           padding so 100% of its height is a genuinely large mark. */
+        className="pointer-events-none absolute top-1/2 left-1/2 z-0 h-full w-auto max-w-none -translate-x-1/2 -translate-y-1/2 select-none object-contain opacity-[0.05]"
         style={{
           WebkitMaskImage: "radial-gradient(closest-side, #000 55%, rgba(0,0,0,0) 100%)",
           maskImage: "radial-gradient(closest-side, #000 55%, rgba(0,0,0,0) 100%)",
