@@ -6,7 +6,9 @@ import { absoluteUrl } from "../lib/site-url";
 
 /*
   One clean hub: every way to start with ELSIAA on a single minimalist page.
-  Free call · paid hour · project quote · direct email — then the offices line.
+  Free call · project quote · direct email — then the locations line.
+
+  There is no paid consultation. The only call ELSIAA sells is free.
 */
 
 export const Route = createFileRoute("/contact")({
@@ -16,7 +18,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Start with a free 20-minute call, book a paid hour with a specialist, or request a quote for a project. Offices in six cities.",
+          "Start with a free 20-minute call, or request a scoped quote for a project. Locations in New York, Los Angeles, London, Geneva, Antwerp, and Tel Aviv.",
       },
       { property: "og:title", content: "Contact — ELSIAA" },
       { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
@@ -37,9 +39,12 @@ type Path = {
   cta: string;
   href: string;
   featured?: boolean;
-  external?: boolean;
 };
 
+/* Two paths, not three: the $120 "1-hour consult" was removed on the
+   instruction that the only call ELSIAA offers is the free 20-minute one.
+   The third way to reach us — email — lives in the Direct band below, so it
+   is not repeated as a card. */
 const PATHS: Path[] = [
   {
     eyebrow: "Start here",
@@ -48,22 +53,13 @@ const PATHS: Path[] = [
     line: "Tell us what you're dealing with. No pitch, no charge.",
     cta: CALL_LABEL,
     href: CALL_HREF,
-    external: true,
-  },
-  {
-    eyebrow: "Go deeper",
-    title: "1-hour consult",
-    price: "$120",
-    line: "A full hour with a specialist. You leave with a clear plan of what to do next.",
-    cta: "Book the hour",
-    href: "/consultation",
     featured: true,
   },
   {
     eyebrow: "Have a project",
     title: "Get a quote",
     price: "Scoped",
-    line: "Websites, apps, automation, backend. A clear plan and price within 3 days.",
+    line: "Websites, apps, automation, backend — priced against a written scope.",
     cta: "Request a quote",
     href: "/quote",
   },
@@ -78,21 +74,22 @@ function ContactPage() {
       <section className="mx-auto max-w-6xl px-6 pt-36 pb-8 text-center md:pt-44 md:pb-16">
         <Reveal>
           <h1 className="text-5xl font-semibold tracking-[-0.045em] md:text-7xl">Let's talk.</h1>
+          {/* The cards state the price and the length; the lede no longer
+              restates either. */}
           <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-[#111111]/55 md:text-[17px]">
-            Three ways to start. Pick whichever fits — the first twenty minutes are always free.
+            Talk it through, or send us a project to price.
           </p>
         </Reveal>
       </section>
 
       {/* the three paths */}
-      <section className="mx-auto max-w-6xl px-6 pb-9 md:pb-16">
+      <section className="mx-auto max-w-4xl px-6 pb-9 md:pb-16">
         <Reveal delay={0.06}>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
             {PATHS.map((p) => (
               <a
                 key={p.title}
                 href={p.href}
-                {...(p.external ? {} : {})}
                 className={`group flex flex-col rounded-3xl border bg-white p-8 transition-all duration-300 hover:-translate-y-1 ${
                   p.featured
                     ? "border-[#1e6b3c]/35 shadow-[0_30px_70px_-45px_rgba(30,107,60,0.45)]"
@@ -162,29 +159,41 @@ function ContactPage() {
         </div>
       </section>
 
-      {/* how it goes */}
+      {/* What happens next.
+
+          This used to repeat the same four build steps as the "How we work"
+          block on /clients (call, plan, build, ship). A visitor on /contact
+          is deciding whether to reach out, not reading the delivery process,
+          so this now covers only what follows the first message and links to
+          /clients for the rest. */}
       <section className="mx-auto max-w-6xl px-6 py-9 md:py-16">
         <Reveal>
           <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
             What happens next.
           </h2>
         </Reveal>
-        <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-3">
           {[
-            ["1", "We talk", "Twenty minutes to understand the problem."],
-            ["2", "Scoped plan", "A clear plan and price within three days."],
-            ["3", "We build", "Designed and built, reviewed as we go."],
-            ["4", "It ships", "Live in your business — and we keep it running."],
-          ].map(([n, t, d], i) => (
-            <Reveal key={n} delay={i * 0.05}>
+            ["We talk", "You describe the problem. We say honestly whether AI is the right tool."],
+            ["Scoped plan", "A written plan and a fixed price, within three days."],
+            ["You decide", "No obligation. If it isn't worth building, we'll tell you."],
+          ].map(([t, d], i) => (
+            <Reveal key={t} delay={i * 0.05}>
               <div className="border-t border-black/10 pt-4">
-                <p className="text-[12px] font-bold tracking-[0.14em] text-[#1e6b3c]">{n}</p>
-                <h3 className="mt-2 text-[16px] font-semibold tracking-[-0.02em]">{t}</h3>
+                <h3 className="text-[16px] font-semibold tracking-[-0.02em]">{t}</h3>
                 <p className="mt-1.5 text-[14px] leading-relaxed text-[#111111]/55">{d}</p>
               </div>
             </Reveal>
           ))}
         </div>
+        <Reveal delay={0.16}>
+          <a
+            href="/clients"
+            className="mt-8 inline-block text-[13px] text-[#1e6b3c] transition-colors hover:text-[#111111]"
+          >
+            See how we work, start to finish →
+          </a>
+        </Reveal>
       </section>
     </main>
   );
