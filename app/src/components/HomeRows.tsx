@@ -4,6 +4,7 @@ import { AssemblingArtist } from "./AssemblingArtist";
 import { WorkingRobot } from "./WorkingRobot";
 import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 import { Reveal } from "./Reveal";
+import { ClientLogos } from "./ClientLogos";
 import { ConsultOptions } from "./ConsultOptions";
 import { SocialHomeSection } from "./SocialMedia";
 
@@ -2047,6 +2048,33 @@ const ADOPTION: Array<[string, number]> = [
   ["Manufacturing", 55],
 ];
 
+/* Proof, immediately after the adoption argument.
+
+   The section above tells the visitor that most businesses already run AI.
+   The obvious next question is "so who have you actually done this for" —
+   this answers it before the page moves on to what we sell. It is the same
+   ClientLogos component used on /designs and /why-elsiaa, so the three can
+   never drift apart. */
+function ClientLogoBand() {
+  return (
+    <section className="border-b border-black/[0.06] bg-white py-9 md:py-14">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal>
+          <p
+            className="text-center text-[12px] font-semibold tracking-[0.14em] text-[#111111]/40 uppercase"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            Brands already building with ELSIAA
+          </p>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <ClientLogos fade="#ffffff" className="mt-8" />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function AdoptionSection() {
   const sans = "var(--font-sans)";
   const ref = useRef<HTMLElement | null>(null);
@@ -2205,6 +2233,7 @@ export function HomeRows() {
       <ScrollProgress />
       <HomeHero />
       <AdoptionSection />
+      <ClientLogoBand />
       <AutomationSection />
       <AutomationCatalog />
       <DesignDivision />
