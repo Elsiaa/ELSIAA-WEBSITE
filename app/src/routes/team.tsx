@@ -45,6 +45,13 @@ type Person = {
    * inside its own canvas with the backdrop extended by edge-smear, so the
    * dark green vignette continues rather than showing a seam. Originals are
    * kept in public/assets/team/.orig/.
+   *
+   * em is anchored to the BOTTOM of its canvas, which is why its focus is 93
+   * while jr's is 16 — the two numbers are not comparable. Smearing the bottom
+   * edge dragged the white shirt and tie into hard vertical stripes with a
+   * visible seam across the shoulders. Anchoring the subject to the bottom
+   * means only backdrop is ever extended, and the plate's own crop removes the
+   * rest. Extend body pixels and it will look like a printing fault.
    */
   focus?: number;
   role: string;
@@ -139,7 +146,7 @@ const ADVISORS: Person[] = [
     name: "Dr. Edward Margolin, MD, FRCSC, Dipl. ABO",
     init: "EM",
     photo: "/assets/team/em.jpg",
-    focus: 8,
+    focus: 93,
     role: "Healthcare Advisor",
     line: "Professor, University of Toronto — Dept. of Ophthalmology and Visual Sciences; Dept. of Medicine, Division of Neurology. Director, Neuro-Ophthalmology and Strabismus Fellowship.",
     loc: "University of Toronto",
