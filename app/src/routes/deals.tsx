@@ -16,6 +16,8 @@ import { absoluteUrl } from "../lib/site-url";
 export const Route = createFileRoute("/deals")({
   head: () => ({
     meta: [
+      /* hidden from navigation: route still resolves for a direct link. */
+      { name: "robots", content: "noindex, follow" },
       { title: "Deals — ELSIAA · AI Done Better" },
       {
         name: "description",

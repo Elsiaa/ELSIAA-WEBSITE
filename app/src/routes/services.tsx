@@ -3,6 +3,21 @@ import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
 import { absoluteUrl } from "../lib/site-url";
 
+/*
+  Services — the full ELSIAA offering on one page.
+
+  This absorbs the operational-automation work that used to sit on its own
+  site. One brand: nothing here is labelled as a separate company or
+  division, because it is not one.
+
+  On pricing. Three numbers were already published on /deals and the old
+  services page, and they are reused verbatim so the site cannot contradict
+  itself: websites $750, one system $1,000, apps $10k. The rest are marked
+  "from" and are starting points for a scoped quote, not quotes. They are
+  listed in PRICING_TO_CONFIRM below — anything still in that list has NOT
+  been confirmed by the business and should be checked before launch.
+*/
+
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
@@ -10,12 +25,12 @@ export const Route = createFileRoute("/services")({
       {
         name: "description",
         content:
-          "Websites from $750. Apps from $10k. Backend software from $1,000. Built, secured, and fully insured by ELSIAA.",
+          "Web design from $750, business automation from $1,000, apps from $10k — plus browser automation, custom platforms, dashboards, AI phone agents, and brand. Built and maintained by ELSIAA.",
       },
       { property: "og:title", content: "Services — ELSIAA" },
       {
         property: "og:description",
-        content: "Websites from $750 · Apps from $10k · Backend software from $1,000.",
+        content: "Everything ELSIAA builds, with a starting price on each.",
       },
       { property: "og:image", content: absoluteUrl("/assets/og_cover.png") },
     ],
@@ -26,73 +41,124 @@ export const Route = createFileRoute("/services")({
 
 const SANS = "var(--font-sans)";
 
+/** Starting prices not yet confirmed by the business — see the note above. */
+export const PRICING_TO_CONFIRM = [
+  "Browser Automation",
+  "Operational Dashboards",
+  "AI Phone & Chat Agents",
+  "Custom Platforms",
+  "Brand & Social",
+];
+
 type Service = {
   name: string;
   from: string;
   line: string;
-  art: "web" | "app" | "backend";
+  points: string[];
+  art: string;
+  /** true when the figure is already published elsewhere on the site */
+  confirmed?: boolean;
 };
 
 const SERVICES: Service[] = [
   {
-    name: "Websites",
+    name: "Web Design",
     from: "$750",
+    confirmed: true,
     line: "A site built to convert — designed, written, and shipped live.",
-    art: "web",
+    points: ["Design and copy", "Mobile-first build", "SEO and analytics", "Hosting and updates"],
+    art: "/assets/services/web.png",
   },
   {
-    name: "Apps",
-    from: "$10k",
-    line: "iOS and Android products, built properly and released to the stores.",
-    art: "app",
-  },
-  {
-    name: "Backend Software",
+    name: "Business Automation",
     from: "$1,000",
-    line: "The systems that run the business — automation, portals, integrations.",
-    art: "backend",
+    confirmed: true,
+    line: "The jobs that still wait on a person, handed to a system that does not sleep.",
+    points: [
+      "Invoice and document handling",
+      "Support triage and routing",
+      "Lead enrichment and follow-up",
+      "Scheduling and reminders",
+    ],
+    art: "/assets/services/automation.png",
+  },
+  {
+    name: "Mobile Apps",
+    from: "$10k",
+    confirmed: true,
+    line: "iOS and Android products, built properly and released to the stores.",
+    points: [
+      "Native iOS and Android",
+      "Offline-first where it matters",
+      "Field and client apps",
+      "Store submission handled",
+    ],
+    art: "/assets/services/apps.png",
+  },
+  {
+    name: "Custom Platforms",
+    from: "$12k",
+    line: "Bespoke internal software — portals, dashboards, and the logic underneath.",
+    points: [
+      "Internal operations portals",
+      "Client-facing gateways",
+      "Custom business logic",
+      "Built to own, not to licence",
+    ],
+    art: "/assets/services/platform.png",
+  },
+  {
+    name: "Browser Automation",
+    from: "$2,500",
+    line: "For the systems with no API. Our agents drive the screen the way a person would.",
+    points: [
+      "Legacy portal operation",
+      "Document and PDF extraction",
+      "Form filling at volume",
+      "Cross-system data sync",
+    ],
+    art: "/assets/services/browser.png",
+  },
+  {
+    name: "Operational Dashboards",
+    from: "$3,500",
+    line: "Every number the business runs on, in one place, updating itself.",
+    points: [
+      "Live profitability tracking",
+      "Automated reporting",
+      "Multi-source aggregation",
+      "Alerts on the numbers that matter",
+    ],
+    art: "/assets/services/dashboard.png",
+  },
+  {
+    name: "AI Phone & Chat Agents",
+    from: "$2,500",
+    line: "Answers every call and message, day or night, in your voice.",
+    points: [
+      "24/7 call answering",
+      "Booking and intake",
+      "Trained on your policies",
+      "Hands off to a human on request",
+    ],
+    art: "/assets/services/agent.png",
+  },
+  {
+    name: "Brand & Social",
+    from: "$1,500",
+    line: "The identity, and the feed that carries it.",
+    points: ["Logo and brand system", "Content and video", "Channel management", "Paid social"],
+    art: "/assets/services/brand.png",
   },
 ];
 
-function Art({ kind }: { kind: Service["art"] }) {
-  const p = {
-    width: 40,
-    height: 40,
-    viewBox: "0 0 40 40",
-    fill: "none",
-    stroke: "#1e6b3c",
-    strokeWidth: 1.6,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-  };
-  if (kind === "web") {
-    return (
-      <svg {...p} aria-hidden>
-        <rect x="5" y="8" width="30" height="22" rx="3" />
-        <line x1="5" y1="14" x2="35" y2="14" />
-        <circle cx="9" cy="11" r="1" fill="#1e6b3c" stroke="none" />
-        <line x1="10" y1="20" x2="22" y2="20" />
-        <line x1="10" y1="25" x2="18" y2="25" />
-      </svg>
-    );
-  }
-  if (kind === "app") {
-    return (
-      <svg {...p} aria-hidden>
-        <rect x="13" y="5" width="14" height="30" rx="3" />
-        <line x1="18" y1="31" x2="22" y2="31" />
-        <line x1="13" y1="10" x2="27" y2="10" />
-      </svg>
-    );
-  }
-  return (
-    <svg {...p} aria-hidden>
-      <ellipse cx="20" cy="11" rx="12" ry="4" />
-      <path d="M8 11v8c0 2.2 5.4 4 12 4s12-1.8 12-4v-8" />
-      <path d="M8 19v8c0 2.2 5.4 4 12 4s12-1.8 12-4v-8" />
-    </svg>
-  );
-}
+/* How the work actually runs, start to finish. */
+const PROCESS: Array<[string, string]> = [
+  ["Audit", "We map where the time and money actually go. Free, and yours to keep."],
+  ["Scope", "A fixed scope and a fixed price. You approve before anything is built."],
+  ["Build", "Engineered, tested, and shown to you working — not as a mockup."],
+  ["Deploy", "Rolled into your operation without stopping it, then maintained."],
+];
 
 function ServicesPage() {
   return (
@@ -100,80 +166,172 @@ function ServicesPage() {
       <SiteNav />
 
       {/* hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-36 pb-8 text-center md:pt-44 md:pb-16">
+      <section className="mx-auto max-w-6xl px-6 pt-28 pb-8 text-center md:pt-44 md:pb-12">
         <Reveal>
-          <h1 className="text-5xl font-semibold tracking-[-0.045em] md:text-7xl">Services</h1>
-          <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-[#111111]/55 md:text-[17px]">
-            Built, secured, and fully insured. One team from the first sketch to the software
-            running your business.
+          <p className="text-[13px] font-semibold text-[#1e6b3c]">Services</p>
+          <h1 className="mx-auto mt-2 max-w-3xl text-4xl font-semibold leading-[1.04] tracking-[-0.045em] md:text-7xl">
+            Everything we build, with a price on it.
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[17px]">
+            Fixed scope, fixed price, and you own the finished system. Start anywhere on this
+            page — the first twenty minutes are free.
           </p>
-        </Reveal>
-      </section>
-
-      {/* the three offers */}
-      <section className="mx-auto max-w-6xl px-6 pb-10 md:pb-20">
-        <Reveal delay={0.06}>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
-            {SERVICES.map((s) => (
-              <a
-                key={s.name}
-                href="/quote"
-                className="group flex flex-col rounded-3xl border border-black/[0.08] bg-white p-8 shadow-[0_24px_60px_-50px_rgba(17,17,17,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(30,107,60,0.4)]"
-              >
-                <Art kind={s.art} />
-                <h2 className="mt-6 text-[22px] font-semibold tracking-[-0.03em] md:text-[24px]">
-                  {s.name}
-                </h2>
-                <p className="mt-4 text-[13px] font-medium tracking-[0.08em] text-[#111111]/40 uppercase">
-                  Starting at
-                </p>
-                <p className="mt-1 text-[38px] font-semibold leading-none tracking-[-0.04em] md:text-[44px]">
-                  {s.from}
-                </p>
-                <p className="mt-5 mb-8 text-[15px] leading-relaxed text-[#111111]/60">{s.line}</p>
-                <span className="mt-auto inline-flex items-center gap-2 text-[15px] font-semibold text-[#1e6b3c] transition-colors group-hover:text-[#111111]">
-                  Get a quote
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    →
-                  </span>
-                </span>
-              </a>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
-      {/* the standard */}
-      <section className="border-t border-black/[0.06] bg-[#F5F5F3]">
-        <div className="mx-auto max-w-6xl px-6 py-9 text-center md:py-16">
-          <Reveal>
-            <p className="mx-auto max-w-2xl text-[17px] leading-relaxed text-[#111111]/70 md:text-[19px]">
-              Every build is tested, maintained, and{" "}
-              <span className="font-semibold text-[#111111]">fully insured</span> — and you own the
-              finished system.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="mx-auto max-w-6xl px-6 py-10 text-center md:py-16">
-        <Reveal>
-          <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.035em] md:text-5xl">
-            Tell us what you need built.
-          </h2>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             <a
               href="/quote"
-              className="inline-flex min-h-[54px] items-center rounded-full bg-[#1e6b3c] px-9 text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#111111]"
+              className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-8 text-[14px] font-bold text-white transition-all hover:bg-[#111111]"
             >
               Get a quote →
             </a>
             <a
-              href="/consultation"
-              className="inline-flex min-h-[54px] items-center rounded-full border border-black/15 px-8 text-[15px] font-semibold text-[#111111] transition-colors duration-300 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+              href="/contact"
+              className="inline-flex min-h-[48px] items-center rounded-full border border-black/15 px-8 text-[14px] font-bold text-[#111111] transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
             >
-              Free 20-minute call
+              Book a free 20-min call
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* the catalogue */}
+      <section className="bg-[#F5F5F3] px-6 py-10 md:py-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            {SERVICES.map((s, i) => (
+              <Reveal key={s.name} delay={Math.min(i * 0.04, 0.2)} className="h-full">
+                <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.07] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
+                  <div className="aspect-[4/3] w-full overflow-hidden bg-white">
+                    <img
+                      src={s.art}
+                      alt=""
+                      aria-hidden
+                      width={1024}
+                      height={1024}
+                      loading="lazy"
+                      className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col p-5 md:p-6">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <h2 className="text-[18px] font-semibold tracking-[-0.02em] md:text-[19px]">
+                        {s.name}
+                      </h2>
+                      <span className="shrink-0 text-[14px] font-semibold text-[#1e6b3c]">
+                        from {s.from}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-[13.5px] leading-relaxed text-[#111111]/60">{s.line}</p>
+                    <ul className="mt-4 space-y-1.5 border-t border-black/[0.06] pt-4">
+                      {s.points.map((p) => (
+                        <li
+                          key={p}
+                          className="flex items-start gap-2 text-[13px] leading-snug text-[#111111]/65"
+                        >
+                          <span className="mt-[7px] h-[4px] w-[4px] shrink-0 rotate-45 bg-[#1e6b3c]/60" />
+                          {p}
+                        </li>
+                      ))}
+                    </ul>
+                    <a
+                      href={`/quote?service=${encodeURIComponent(s.name)}`}
+                      className="mt-auto inline-flex min-h-[44px] items-center pt-4 text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                    >
+                      Get a price →
+                    </a>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+          <p className="mx-auto mt-6 max-w-2xl text-center text-[13px] leading-relaxed text-[#111111]/45">
+            Starting prices for a scoped build. Every project is quoted on what it actually needs,
+            and the number you approve is the number you pay.
+          </p>
+        </div>
+      </section>
+
+      {/* what we automate — the breadth, stated plainly */}
+      <section className="px-6 py-10 md:py-16">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <h2 className="text-center text-[1.5rem] font-semibold tracking-[-0.035em] md:text-[2.2rem]">
+              If it happens on a screen, we can automate it.
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-center text-[14px] leading-relaxed text-[#111111]/55 md:text-[15px]">
+              Including the systems that have no API. Where other shops stop, we drive the browser.
+            </p>
+          </Reveal>
+          <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+            {[
+              ["Back office", ["Invoices", "Payroll prep", "Data migration", "Audits"]],
+              ["Customer", ["Support triage", "Returns", "Onboarding", "CRM updates"]],
+              ["Growth", ["Lead enrichment", "Outreach", "Proposals", "Competitor tracking"]],
+              ["Documents", ["PDF parsing", "OCR", "Scraping", "Unstructured entry"]],
+              ["Decisions", ["Fraud checks", "QA", "Eligibility", "Triage"]],
+              ["Execution", ["Browsers", "Email", "Scheduling", "Workflows"]],
+            ].map(([title, items], i) => (
+              <Reveal key={title as string} delay={Math.min(i * 0.04, 0.2)} className="h-full">
+                <div className="h-full rounded-xl border border-black/[0.07] bg-white p-4">
+                  <p className="text-[12px] font-semibold tracking-[0.06em] text-[#1e6b3c] uppercase">
+                    {title as string}
+                  </p>
+                  <ul className="mt-2.5 space-y-1">
+                    {(items as string[]).map((it) => (
+                      <li key={it} className="text-[12.5px] leading-snug text-[#111111]/60">
+                        {it}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* how it runs */}
+      <section className="bg-[#F5F5F3] px-6 py-10 md:py-16">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <h2 className="text-center text-[1.5rem] font-semibold tracking-[-0.035em] md:text-[2.2rem]">
+              How the work runs.
+            </h2>
+          </Reveal>
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {PROCESS.map(([title, line], i) => (
+              <Reveal key={title} delay={Math.min(i * 0.05, 0.2)} className="h-full">
+                <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-5 md:p-6">
+                  <span className="text-[13px] font-semibold text-[#1e6b3c]">{`0${i + 1}`}</span>
+                  <h3 className="mt-2 text-[17px] font-semibold tracking-[-0.02em]">{title}</h3>
+                  <p className="mt-2 text-[13.5px] leading-relaxed text-[#111111]/60">{line}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* close */}
+      <section className="px-6 pb-12 pt-10 text-center md:pb-20 md:pt-16">
+        <Reveal>
+          <h2 className="mx-auto max-w-2xl text-[1.5rem] font-semibold tracking-[-0.035em] md:text-[2.2rem]">
+            Tell us the part of the business that still waits on a person.
+          </h2>
+          <p className="mt-3 text-[14px] text-[#111111]/60">
+            Fully insured · Fixed scope · You own the finished system.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/quote"
+              className="inline-flex min-h-[48px] items-center rounded-full bg-[#1e6b3c] px-9 text-[14px] font-bold text-white transition-all hover:bg-[#111111]"
+            >
+              Get a quote →
+            </a>
+            <a
+              href="tel:+18889155531"
+              className="inline-flex min-h-[48px] items-center rounded-full border border-black/15 px-9 text-[14px] font-bold text-[#111111] transition-all hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+            >
+              Call 1-888-915-5531
             </a>
           </div>
         </Reveal>
