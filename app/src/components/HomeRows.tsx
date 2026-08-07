@@ -1265,11 +1265,7 @@ const TEAM = [
     role: "Chief Technology Officer",
     short: "CTO",
     init: "DH",
-    /* Photo intentionally absent. The file that used to be here was a stock
-       portrait of a different man, published under David's name. Drop the real
-       headshot at public/assets/team/dh.jpg and restore:
-           photo: "/assets/team/dh.jpg",
-       The same one line on /team turns it on there too. */
+    photo: "/assets/team/dh.jpg",
   },
   {
     name: "Jacob Rubelow",

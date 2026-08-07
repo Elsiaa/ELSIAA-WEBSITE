@@ -7,7 +7,6 @@ import { SOCIAL_PROFILES } from "./social";
  * Every value here has to be independently checkable against the live site.
  * Deliberately absent, because the facts do not exist yet:
  *
- *   telephone     — OFFICE_PHONE is still the 1-888-000-0000 placeholder
  *   address       — all six offices read "Street address to be confirmed"
  *   aggregateRating / review — no verified client reviews exist
  *
@@ -39,6 +38,7 @@ const organization = {
   description:
     "ELSIAA designs, builds, and maintains AI systems, software, and brand for businesses — design, automation, software, and consultation.",
   email: "info@elsiaa.com",
+  telephone: "+1-888-915-5531",
   /* Only profiles ELSIAA actually controls — sourced from the same list the
      footer renders, so the two can never disagree. */
   sameAs: SOCIAL_PROFILES.map((p) => p.url),
@@ -53,7 +53,8 @@ const organization = {
   contactPoint: [
     {
       "@type": "ContactPoint",
-      contactType: "sales",
+      contactType: "customer service",
+      telephone: "+1-888-915-5531",
       email: "info@elsiaa.com",
       availableLanguage: ["English", "Hebrew", "French", "German", "Spanish", "Russian"],
     },

@@ -15,7 +15,7 @@ const SANS = "var(--font-sans)";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
-export const PLATFORMS = ["Instagram", "TikTok", "Meta", "Facebook", "LinkedIn"] as const;
+export const PLATFORMS = ["Instagram", "TikTok", "X", "Facebook", "LinkedIn"] as const;
 
 export function PlatformBadges({ className = "" }: { className?: string }) {
   return (
