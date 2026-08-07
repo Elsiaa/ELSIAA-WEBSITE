@@ -383,9 +383,11 @@ function LocationsPage() {
                       <p className="text-[#111111]/35 italic">Phone number to be confirmed</p>
                     )}
                     <p>
+                      {/* The desk email is the card's primary action, so it
+                          gets a real tap target — it rendered 17px tall. */}
                       <a
                         href={`mailto:${o.email ?? "info@elsiaa.com"}`}
-                        className="transition-colors hover:text-[#1e6b3c]"
+                        className="inline-flex min-h-[44px] items-center transition-colors hover:text-[#1e6b3c]"
                       >
                         {o.email ?? "info@elsiaa.com"}
                       </a>
@@ -455,7 +457,7 @@ function LocationsPage() {
                     </p>
                     <a
                       href="/contact"
-                      className="inline-block pt-1 text-[13px] font-medium text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                      className="inline-flex min-h-[44px] items-center text-[13px] font-medium text-[#1e6b3c] transition-colors hover:text-[#111111]"
                     >
                       Book a visit →
                     </a>
@@ -571,7 +573,10 @@ function LocationsPage() {
             Every engagement is fully insured — the same standard in all six cities and anywhere we
             travel.
           </p>
-          <a href="/clients" className="text-[13px] font-medium text-[#1e6b3c] hover:underline">
+          <a
+            href="/clients"
+            className="inline-flex min-h-[44px] items-center text-[13px] font-medium text-[#1e6b3c] hover:underline"
+          >
             How we work ↗
           </a>
         </div>

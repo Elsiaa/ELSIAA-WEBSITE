@@ -200,9 +200,12 @@ function DivisionRow({
             >
               {lede}
             </p>
+            {/* min-h-[44px] with vertical padding: this rendered as a 20px-tall
+                text link, well under the 44px minimum comfortable tap target,
+                and it is the primary action of every section on this page. */}
             <a
               href={href}
-              className="mt-5 inline-block text-[13px] text-[#1e6b3c]  hover:underline"
+              className="mt-4 inline-flex min-h-[44px] items-center py-2 text-[14px] font-semibold text-[#1e6b3c] hover:underline"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               {cta ?? "Explore"} ↗

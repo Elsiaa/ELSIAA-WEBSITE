@@ -1403,9 +1403,11 @@ function ProductAdFeature() {
               >
                 Start a project →
               </a>
+              {/* sits beside a pill button, so it needs the same tap height —
+                  it rendered 23px tall */}
               <a
                 href="#websites"
-                className="text-[15px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                className="inline-flex min-h-[44px] items-center px-1 text-[15px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
                 style={{ fontFamily: F }}
               >
                 See the work ↓
