@@ -313,12 +313,17 @@ function LocationsPage() {
             <Reveal key={o.name} delay={(i % 3) * 0.05}>
               <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.07] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
                 {/* city art header */}
-                <div className="relative h-[168px] overflow-hidden bg-white">
+                {/* The art is 1600x894 (16:9) for every city. A fixed height
+                    here made the box far wider than that ratio — ~3.2:1 at the
+                    two-column breakpoint — so object-cover cropped roughly 40%
+                    off the top of each skyline. Matching the aspect means the
+                    full graphic shows at every card width. */}
+                <div className="relative aspect-[16/9] overflow-hidden bg-white">
                   <img
                     src={o.art}
                     alt={`${o.name} skyline`}
                     loading="lazy"
-                    className="h-full w-full object-cover object-bottom transition-transform duration-700 group-hover:scale-[1.03]"
+                    className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                   <span className="absolute top-4 right-4 flex items-center gap-2 rounded-full border border-black/[0.08] bg-white/85 px-3.5 py-1.5 text-[13px] font-medium tabular-nums backdrop-blur">
                     {/* dot follows the desk, not a fixed colour */}
