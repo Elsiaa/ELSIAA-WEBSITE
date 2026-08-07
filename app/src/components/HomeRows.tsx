@@ -379,6 +379,7 @@ function HomeHero() {
   const sans = { fontFamily: "var(--font-sans)" };
   const vidRef = useRef<HTMLVideoElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
+  const trackRef = useRef<HTMLElement | null>(null);
 
   // The lion is the ELSIAA logo mark, animated: mouth closed at the top, and it
   // opens into a full roar AS YOU SCROLL (the clip's currentTime is scrubbed
@@ -400,10 +401,15 @@ function HomeHero() {
     const fadeEls = Array.from(document.querySelectorAll<HTMLElement>("[data-hero-fade]"));
     let raf = 0;
     const tick = () => {
-      const sc = window.scrollY || document.documentElement.scrollTop || 0;
-      // complete the full roar within half a screen of scroll, so the whole
-      // roar is seen while the lion is still on screen
-      const p = clamp01(sc / (window.innerHeight * 0.5));
+      /* Progress through the pinned track, not raw scrollY. The pin lasts
+         trackHeight - viewport, and that whole distance drives the roar, so
+         the clip reaches its last frame exactly as the pin releases. Scrubbing
+         off scrollY (as this did) meant the roar finished long after the hero
+         had already slid away. */
+      const track = trackRef.current;
+      if (!track) return;
+      const span = track.offsetHeight - window.innerHeight;
+      const p = span > 0 ? clamp01(-track.getBoundingClientRect().top / span) : 0;
       const d = v.duration;
       if (d && !Number.isNaN(d)) {
         const target = Math.min(d - 0.04, p * d);
@@ -440,59 +446,79 @@ function HomeHero() {
   }, []);
 
   return (
-    <section className="relative bg-white">
-      <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pt-[104px] pb-6 text-center md:pt-44 md:pb-10">
-        {/* headline — centred. data-hero-fade: clears on scroll so the
-            lion and the wordmark are what is left. */}
-        <Reveal className="w-full">
-          <div data-hero-fade>
-            <h1
-              className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl"
-              style={sans}
-            >
-              Unlock the potential of your business with <span className="text-[#1e6b3c]">AI</span>.
-            </h1>
-          </div>
-        </Reveal>
+    /* Pinned stage.
 
-        {/* quick nav into the divisions */}
-        <Reveal delay={0.06}>
-          <div
-            data-hero-fade
-            className="mt-5 flex flex-wrap items-center justify-center gap-2.5 md:mt-7"
-          >
-            {[
-              { label: "Why ELSIAA", href: "/why-elsiaa" },
-              { label: "Automations", href: "/automate" },
-              { label: "Design", href: "/designs" },
-              { label: "Social Media", href: "/social" },
-            ].map((b) => (
-              <a
-                key={b.href}
-                href={b.href}
-                className="inline-flex min-h-[46px] items-center rounded-full border border-black/[0.12] bg-white px-6 text-[14px] font-semibold text-[#111111] transition-all hover:-translate-y-0.5 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+       The roar used to be scrubbed straight off window.scrollY with nothing
+       holding the hero in place, so the page slid away underneath a lion that
+       was still opening its mouth — you never saw the roar finish.
+
+       Now the section is a tall TRACK and the hero inside it is sticky. While
+       you scroll the first screen's worth, the hero stays put and that scroll
+       drives the clip to its last frame; once the roar completes the track
+       ends and the page moves on. Nothing is hijacked — scroll behaves
+       normally throughout, the stage simply does not move while it is pinned.
+
+       The track must exceed 100svh: the pinned distance is trackHeight minus
+       the viewport, so at 100svh there is no pin at all. */
+    <section ref={trackRef} className="relative bg-white [--track:190svh] md:[--track:200vh]">
+      <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden">
+        {/* w-full is load-bearing: the stage is a column flexbox, and an auto
+            inline margin suppresses the default stretch, so without it this
+            sized to its content (668px) inside a 375px phone and the hero
+            rendered clipped and shifted right. */}
+        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center px-6 pt-[104px] pb-6 text-center md:pt-44 md:pb-10">
+          {/* headline — centred. data-hero-fade: clears on scroll so the
+            lion and the wordmark are what is left. */}
+          <Reveal className="w-full">
+            <div data-hero-fade>
+              <h1
+                className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111] md:text-7xl"
                 style={sans}
               >
-                {b.label}
-              </a>
-            ))}
-          </div>
-        </Reveal>
+                Unlock the potential of your business with{" "}
+                <span className="text-[#1e6b3c]">AI</span>.
+              </h1>
+            </div>
+          </Reveal>
 
-        {/* the lion — the ELSIAA logo, front-facing, roars as you scroll */}
-        {/* The clip is masked and feathered, so it already carries a wide
+          {/* quick nav into the divisions */}
+          <Reveal delay={0.06}>
+            <div
+              data-hero-fade
+              className="mt-5 flex flex-wrap items-center justify-center gap-2.5 md:mt-7"
+            >
+              {[
+                { label: "Why ELSIAA", href: "/why-elsiaa" },
+                { label: "Automations", href: "/automate" },
+                { label: "Design", href: "/designs" },
+                { label: "Social Media", href: "/social" },
+              ].map((b) => (
+                <a
+                  key={b.href}
+                  href={b.href}
+                  className="inline-flex min-h-[46px] items-center rounded-full border border-black/[0.12] bg-white px-6 text-[14px] font-semibold text-[#111111] transition-all hover:-translate-y-0.5 hover:border-[#1e6b3c] hover:text-[#1e6b3c]"
+                  style={sans}
+                >
+                  {b.label}
+                </a>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* the lion — the ELSIAA logo, front-facing, roars as you scroll */}
+          {/* The clip is masked and feathered, so it already carries a wide
             transparent margin — the gap above it can be small. */}
-        <div className="pointer-events-none relative mt-2 w-full max-w-[228px] md:mt-8 md:max-w-[380px]">
-          <div
-            ref={glowRef}
-            className="absolute inset-[14%] -z-10 rounded-full blur-3xl"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 46%, rgba(30,107,60,0.45), transparent 66%)",
-              opacity: 0.14,
-            }}
-          />
-          {/* Still lion, permanently mounted behind the video.
+          <div className="pointer-events-none relative mt-2 w-full max-w-[228px] md:mt-8 md:max-w-[380px]">
+            <div
+              ref={glowRef}
+              className="absolute inset-[14%] -z-10 rounded-full blur-3xl"
+              style={{
+                background:
+                  "radial-gradient(circle at 50% 46%, rgba(30,107,60,0.45), transparent 66%)",
+                opacity: 0.14,
+              }}
+            />
+            {/* Still lion, permanently mounted behind the video.
 
               The clip is scroll-scrubbed, so it never calls play(). iOS Safari
               paints nothing for a <video> that has not played, which left the
@@ -503,125 +529,131 @@ function HomeHero() {
               frame, and the video is mix-blend-multiply, so white areas are
               transparent. If the video paints it lands exactly on top; if it
               never paints, this shows through. Either way the lion is there. */}
-          <img
-            src="/assets/elsiaa-lion.png"
-            alt=""
-            aria-hidden
-            className="absolute inset-0 mx-auto block h-full w-full object-contain"
-            style={{
-              WebkitMaskImage: "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
-              maskImage: "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
-            }}
-          />
-          <video
-            ref={vidRef}
-            src="/assets/lion_logo_roar_smooth.mp4"
-            muted
-            playsInline
-            preload="auto"
-            poster="/assets/elsiaa-lion.png"
-            aria-label="The ELSIAA lion — roars as you scroll"
-            className="relative mx-auto block w-full will-change-transform"
-            style={{
-              mixBlendMode: "multiply",
-              // push the near-white clip background to pure white and feather
-              // the edges so only the lion sits on the page
-              filter: "brightness(1.07) contrast(1.05)",
-              WebkitMaskImage: "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
-              maskImage: "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
-            }}
-          />
-        </div>
+            <img
+              src="/assets/elsiaa-lion.png"
+              alt=""
+              aria-hidden
+              className="absolute inset-0 mx-auto block h-full w-full object-contain"
+              style={{
+                WebkitMaskImage:
+                  "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
+                maskImage: "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
+              }}
+            />
+            <video
+              ref={vidRef}
+              src="/assets/lion_logo_roar_smooth.mp4"
+              muted
+              playsInline
+              preload="auto"
+              poster="/assets/elsiaa-lion.png"
+              aria-label="The ELSIAA lion — roars as you scroll"
+              className="relative mx-auto block w-full will-change-transform"
+              style={{
+                mixBlendMode: "multiply",
+                // push the near-white clip background to pure white and feather
+                // the edges so only the lion sits on the page
+                filter: "brightness(1.07) contrast(1.05)",
+                WebkitMaskImage:
+                  "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
+                maskImage: "radial-gradient(122% 126% at 50% 46%, #000 62%, rgba(0,0,0,0) 88%)",
+              }}
+            />
+          </div>
 
-        {/* ELSIAA wordmark, written out, centred */}
-        <p
-          className="-mt-1 text-3xl font-semibold tracking-[0.36em] text-[#111111] md:text-4xl"
-          style={sans}
-        >
-          ELSIAA
-        </p>
-        <p
-          className="mt-3 text-[10px] leading-relaxed tracking-[0.18em] text-[#111111]/55 uppercase"
-          style={sans}
-        >
-          <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
-          <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
-          <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
-          <b className="font-semibold text-[#1e6b3c]">I</b>nnovation ·{" "}
-          <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
-          <b className="font-semibold text-[#1e6b3c]">A</b>lliance
-        </p>
+          {/* ELSIAA wordmark, written out, centred */}
+          <p
+            className="-mt-1 text-3xl font-semibold tracking-[0.36em] text-[#111111] md:text-4xl"
+            style={sans}
+          >
+            ELSIAA
+          </p>
+          <p
+            className="mt-3 text-[10px] leading-relaxed tracking-[0.18em] text-[#111111]/55 uppercase"
+            style={sans}
+          >
+            <b className="font-semibold text-[#1e6b3c]">E</b>ternal{" "}
+            <b className="font-semibold text-[#1e6b3c]">L</b>ions ·{" "}
+            <b className="font-semibold text-[#1e6b3c]">S</b>olutions ·{" "}
+            <b className="font-semibold text-[#1e6b3c]">I</b>nnovation ·{" "}
+            <b className="font-semibold text-[#1e6b3c]">A</b>utomation ·{" "}
+            <b className="font-semibold text-[#1e6b3c]">A</b>lliance
+          </p>
 
-        {/* Two counter-running marquees, stacked. What we do on top in ink,
+          {/* Two counter-running marquees, stacked. What we do on top in ink,
             where we are underneath in grey — the contrary motion is what makes
             the band catch the eye without either line shouting. */}
-        <div className="mt-5 w-full max-w-[620px] md:mt-7" data-hero-fade>
-          <a
-            href="/services"
-            className="pointer-events-auto group block overflow-hidden border-t border-black/[0.07] py-2 md:py-2.5"
-            aria-label="What we build"
-          >
-            <div className="svc-ticker flex w-max whitespace-nowrap">
-              {[0, 1].map((copy) => (
-                <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
-                  {SERVICE_TICKER.map((s) => (
-                    <span key={s} className="flex items-center">
-                      <span
-                        className="px-5 text-[11px] font-semibold tracking-[0.2em] text-[#111111]/70 uppercase transition-colors group-hover:text-[#111111]"
-                        style={sans}
-                      >
-                        {s}
+          <div className="mt-5 w-full max-w-[620px] md:mt-7" data-hero-fade>
+            <a
+              href="/services"
+              className="pointer-events-auto group block overflow-hidden border-t border-black/[0.07] py-2 md:py-2.5"
+              aria-label="What we build"
+            >
+              <div className="svc-ticker flex w-max whitespace-nowrap">
+                {[0, 1].map((copy) => (
+                  <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
+                    {SERVICE_TICKER.map((s) => (
+                      <span key={s} className="flex items-center">
+                        <span
+                          className="px-5 text-[11px] font-semibold tracking-[0.2em] text-[#111111]/70 uppercase transition-colors group-hover:text-[#111111]"
+                          style={sans}
+                        >
+                          {s}
+                        </span>
+                        <span className="text-[#1e6b3c]" aria-hidden>
+                          ·
+                        </span>
                       </span>
-                      <span className="text-[#1e6b3c]" aria-hidden>
-                        ·
-                      </span>
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </a>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </a>
 
-          <a
-            href="/locations"
-            className="pointer-events-auto group block overflow-hidden border-t border-black/[0.07] py-2 md:py-2.5"
-            aria-label="Our locations"
-          >
-            <div className="loc-ticker flex w-max whitespace-nowrap">
-              {[0, 1].map((copy) => (
-                <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
-                  {[
-                    "New York",
-                    "Los Angeles",
-                    "London",
-                    "Geneva",
-                    "Antwerp",
-                    "Tel Aviv",
-                    "Baltimore",
-                    "Montvale",
-                    "Kingston",
-                  ].map((c) => (
-                    <span key={c} className="flex items-center">
-                      <span
-                        className="px-5 text-[11px] font-medium tracking-[0.2em] text-[#111111]/45 uppercase transition-colors group-hover:text-[#111111]/70"
-                        style={sans}
-                      >
-                        {c}
+            <a
+              href="/locations"
+              className="pointer-events-auto group block overflow-hidden border-t border-black/[0.07] py-2 md:py-2.5"
+              aria-label="Our locations"
+            >
+              <div className="loc-ticker flex w-max whitespace-nowrap">
+                {[0, 1].map((copy) => (
+                  <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
+                    {[
+                      "New York",
+                      "Los Angeles",
+                      "London",
+                      "Geneva",
+                      "Antwerp",
+                      "Tel Aviv",
+                      "Baltimore",
+                      "Montvale",
+                      "Kingston",
+                    ].map((c) => (
+                      <span key={c} className="flex items-center">
+                        <span
+                          className="px-5 text-[11px] font-medium tracking-[0.2em] text-[#111111]/45 uppercase transition-colors group-hover:text-[#111111]/70"
+                          style={sans}
+                        >
+                          {c}
+                        </span>
+                        <span className="text-[#1e6b3c]/60" aria-hidden>
+                          ·
+                        </span>
                       </span>
-                      <span className="text-[#1e6b3c]/60" aria-hidden>
-                        ·
-                      </span>
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </a>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </a>
 
-          {/* Follow buttons removed from the home page — they stay in the
+            {/* Follow buttons removed from the home page — they stay in the
               footer, which is on every page including this one. */}
+          </div>
         </div>
       </div>
+      {/* The track's own height. Everything above is sticky inside it, so this
+          is what the visitor scrolls through while the hero stays pinned. */}
+      <div className="h-[var(--track)]" aria-hidden />
     </section>
   );
 }
