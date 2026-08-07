@@ -262,7 +262,7 @@ export default function SignPageClient({ token }: SignPageClientProps) {
 
         // Load PDF for viewing using same library as admin placement
         const { getDocument } = await loadPdfjs();
-        const loadingTask = getDocument(`/api/pdf-signatures/public/${token}/pdf`);
+        const loadingTask = getDocument({ url: `/api/pdf-signatures/public/${token}/pdf` });
         const loadedPdf = await loadingTask.promise;
         setPdf(loadedPdf);
         setNumPages(loadedPdf.numPages || 1);

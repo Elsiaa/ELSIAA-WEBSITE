@@ -4,7 +4,7 @@ import { getCurrentUser, getUserPermissions, isSuperAdmin } from "./permissions"
 import { canEnterCompanyAdminPortal } from "./company-user-modules";
 import { getAllCompanies, getCompanyById, getCompanyStats } from "./companies";
 import { filterOutSuperAdminUsers, getAllUsers, getUsersByCompany } from "./users";
-import { getAllProjects, getCompanyProjects } from "./projects";
+import { getAllProjects, getCompanyProjects, type Project } from "./projects";
 import { getGrantsForUser, summarizeGrants } from "./support-agent-grants";
 import type { Company, User, UserWithCompany } from "../types/company";
 
@@ -13,7 +13,10 @@ export type AdminBootstrap = {
     stats?: { users: number; projects: number; meetings: number };
   })[];
   initialUsers: UserWithCompany[];
-  initialProjects: { [companyId: string]: unknown[] } | unknown[];
+  /* Concrete, not unknown[]: createServerFn constrains a handler's return to
+     something it can serialise, and it cannot prove `unknown` is safe. This
+     is what the value actually is. */
+  initialProjects: { [companyId: string]: Project[] } | Project[];
   currentUser: User | null;
   userEmail: string;
   isSuperAdmin: boolean;

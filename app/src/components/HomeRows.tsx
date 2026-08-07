@@ -1295,33 +1295,8 @@ const TEAM = [
     /* face centre measured in this photo, so the circle frames the head */
     focus: 0,
   },
-  {
-    name: "Izzy Eisenberg",
-    role: "Director of California Location",
-    short: "Director, California",
-    init: "IE",
-    photo: "/assets/team/ie.jpg",
-    /* face centre measured in this photo, so the circle frames the head */
-    focus: 0,
-  },
-  {
-    name: "David Spivak",
-    role: "Director of Social Media",
-    short: "Social Media",
-    init: "DS",
-    photo: "/assets/team/ds.jpg",
-    /* face centre measured in this photo, so the circle frames the head */
-    focus: 53,
-  },
-  {
-    name: "Ynon Azulai",
-    role: "Software Engineer · AI & Technology Expert · Jerusalem",
-    short: "Software & AI",
-    init: "YA",
-    photo: "/assets/team/ya.jpg",
-    /* face centre measured in this photo, so the circle frames the head */
-    focus: 23,
-  },
+  /* The home page shows the four principals only. Izzy, David Spivak, Ynon
+     and Dr. Margolin are on /team, which the section links to. */
 ];
 
 /* One row of people. Cards are equal height and the role is clamped to two
@@ -1335,13 +1310,16 @@ function TeamBand({
   cols: string;
   className?: string;
 }) {
+  /* Four principals, so the cards are portraits rather than the compact
+     avatar-beside-text rows this band used when it carried seven people.
+     Stretched across four columns those 52px rows read as thin and
+     accidental; a large centred portrait gives each person presence and
+     lets the lion watermark sit between them. */
   return (
-    <div
-      className={`grid grid-cols-3 gap-x-2 gap-y-3 sm:grid-cols-2 sm:gap-3 ${cols} ${className}`}
-    >
+    <div className={`grid grid-cols-2 gap-5 sm:gap-6 ${cols} ${className}`}>
       {people.map((m, i) => (
         <Reveal key={m.name} delay={i * 0.05} className="h-full">
-          <div className="group flex h-full flex-col items-center gap-1.5 rounded-xl border-0 p-0 text-center transition-all duration-300 sm:flex-row sm:gap-3.5 sm:border sm:border-black/[0.07] sm:bg-transparent sm:p-4 sm:text-left sm:hover:-translate-y-0.5 sm:hover:border-[#1e6b3c]/35 sm:hover:bg-white/50">
+          <div className="group flex h-full flex-col items-center rounded-2xl p-3 text-center transition-all duration-300 hover:-translate-y-1 sm:p-4">
             {/* No photo yet → the monogram, same as /team. Never a stand-in
                 face: a stock portrait under a real person's name is a
                 misrepresentation, not a placeholder. */}
@@ -1351,12 +1329,12 @@ function TeamBand({
                 alt={m.name}
                 loading="lazy"
                 style={{ objectPosition: `center ${m.focus ?? 35}%` }}
-                className="h-14 w-14 flex-none rounded-full border border-black/[0.06] object-cover sm:h-[52px] sm:w-[52px]"
+                className="h-[104px] w-[104px] flex-none rounded-full border border-black/[0.06] object-cover shadow-[0_18px_40px_-24px_rgba(17,17,17,0.5)] transition-all duration-300 group-hover:border-[#1e6b3c]/35 md:h-[132px] md:w-[132px]"
               />
             ) : (
               <span
                 aria-hidden
-                className="flex h-14 w-14 flex-none items-center justify-center rounded-full border border-black/[0.06] text-[15px] font-semibold tracking-[-0.02em] text-white/85 sm:h-[52px] sm:w-[52px] sm:text-[14px]"
+                className="flex h-[104px] w-[104px] flex-none items-center justify-center rounded-full border border-black/[0.06] text-[26px] font-semibold tracking-[-0.02em] text-white/85 shadow-[0_18px_40px_-24px_rgba(17,17,17,0.5)] md:h-[132px] md:w-[132px] md:text-[32px]"
                 style={{
                   fontFamily: "var(--font-sans)",
                   background:
@@ -1366,21 +1344,20 @@ function TeamBand({
                 {m.init}
               </span>
             )}
-            <div className="min-w-0">
-              <h3
-                className="text-[11.5px] leading-tight font-semibold tracking-[-0.01em] text-[#111111] sm:text-[15px] sm:tracking-normal"
-                style={{ fontFamily: "var(--font-sans)" }}
-              >
-                {m.name}
-              </h3>
-              <p
-                className="mt-0.5 line-clamp-2 text-[10.5px] leading-snug text-[#111111]/55 sm:text-[12.5px] sm:text-[#111111]/60"
-                style={{ fontFamily: "var(--font-sans)" }}
-              >
-                <span className="sm:hidden">{m.short}</span>
-                <span className="hidden sm:inline">{m.role}</span>
-              </p>
-            </div>
+            <h3
+              className="mt-4 text-[14px] leading-tight font-semibold tracking-[-0.015em] text-[#111111] md:text-[16.5px]"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              {m.name}
+            </h3>
+            <p
+              className="mt-1 text-[11.5px] leading-snug text-[#111111]/55 md:text-[13px]"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              {/* the short title on phones, the full one from sm up */}
+              <span className="sm:hidden">{m.short}</span>
+              <span className="hidden sm:inline">{m.role}</span>
+            </p>
           </div>
         </Reveal>
       ))}
@@ -1422,8 +1399,9 @@ function Team() {
             JSX — React renders that as a text node, so it was occupying the
             first cell and pushing the first row across by one. */}
         <div className="mt-4 sm:mt-9">
-          <TeamBand people={TEAM.slice(0, 3)} cols="lg:grid-cols-3" />
-          <TeamBand people={TEAM.slice(3)} cols="sm:grid-cols-2 lg:grid-cols-4" className="mt-3" />
+          {/* One row: with four principals, a 3 + 1 split left a lone card
+              stranded on its own line. */}
+          <TeamBand people={TEAM} cols="sm:grid-cols-2 lg:grid-cols-4" />
         </div>
         <Reveal>
           <a

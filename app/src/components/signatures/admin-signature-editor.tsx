@@ -76,7 +76,7 @@ function PdfViewer({
         setLoading(true);
         setError(null);
         const { getDocument } = await loadPdfjs();
-        const loadingTask = getDocument(`/api/pdf-signatures/requests/${requestId}/pdf`);
+        const loadingTask = getDocument({ url: `/api/pdf-signatures/requests/${requestId}/pdf` });
         const loadedPdf = await loadingTask.promise;
         if (cancelled) return;
         setPdf(loadedPdf);
@@ -261,7 +261,9 @@ function PdfPage({
 interface DraggableResizableFieldProps {
   field: PdfSignatureField;
   isSelected: boolean;
-  canvasRef: React.RefObject<HTMLCanvasElement>;
+  /* Nullable: React 19 types useRef<T>(null) as RefObject<T | null>, and the
+     canvas is genuinely null until the first paint. */
+  canvasRef: React.RefObject<HTMLCanvasElement | null>;
   onSelect: () => void;
   onUpdate: (field: PdfSignatureField) => void;
   onDelete: () => void;

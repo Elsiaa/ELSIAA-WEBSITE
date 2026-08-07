@@ -94,7 +94,10 @@ export async function GET(request: Request, context: RouteContext) {
       "Guest";
 
     const userEmail = session.user?.email || dbUser?.email;
-    const userAvatar = session.user?.image || undefined;
+    /* The session user type is { id, email, name? } — there is no avatar on
+       it, so this was always undefined. Kept explicit rather than reading a
+       property that does not exist. */
+    const userAvatar: string | undefined = undefined;
 
     const superUser = await isSuperAdmin();
     const isHost = dbUserId !== null && meeting.hostUserId === dbUserId;
