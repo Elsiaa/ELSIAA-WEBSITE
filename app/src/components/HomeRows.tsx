@@ -1309,8 +1309,9 @@ const TEAM = [
     role: "Director of Social Media",
     short: "Social Media",
     init: "DS",
-    /* add photo + focus once a headshot is supplied:
-         photo: "/assets/team/ds.jpg", focus: 35, */
+    photo: "/assets/team/ds.jpg",
+    /* face centre measured in this photo, so the circle frames the head */
+    focus: 53,
   },
   {
     name: "Ynon Azulai",

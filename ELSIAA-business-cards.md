@@ -15,7 +15,7 @@ Last pulled: 7 August 2026.
 | 3 | Jacob Rubelow | Partner & Chief Operating Officer | New York | jacob@elsiaa.com |
 | 4 | Chaim Lieberman | Executive Director & Partner | Antwerp | chaim@elsiaa.com |
 | 5 | Izzy Eisenberg | Director, California Business | Los Angeles | izzy@elsiaa.com |
-| 6 | David Spivak | Director of Social Media | New York | dovids@elsiaa.com |
+| 6 | David Spivak | Director of Social Media | New York / Jerusalem | dovids@elsiaa.com |
 | 7 | Ynon Azulai | AI & Technology Expert | Jerusalem / Tel Aviv | **⚠ none on file** |
 | 8 | Dr. Edward Margolin, MD, FRCSC, Dipl. ABO | Healthcare Advisor | University of Toronto | drmargolin@elsiaa.com |
 
@@ -126,7 +126,7 @@ izzy@elsiaa.com
 
 David Spivak
 Director of Social Media
-New York
+New York / Jerusalem
 dovids@elsiaa.com
 
 Ynon Azulai

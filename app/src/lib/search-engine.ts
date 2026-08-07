@@ -311,7 +311,7 @@ export const SEARCH_INDEX: Entry[] = [
     href: "/team",
     /* "dovid"/"dovids" included deliberately: the mailbox is dovids@elsiaa.com
        while the display name is David, so either spelling has to find him. */
-    keys: "david dovid dovids spivak social media director content photography linktree instagram marketing email",
+    keys: "david dovid dovids spivak social media director content photography linktree instagram marketing email new york jerusalem israel",
     desc: "Runs ELSIAA's social output end to end.",
   },
 

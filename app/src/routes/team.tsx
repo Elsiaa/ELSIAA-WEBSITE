@@ -124,10 +124,11 @@ const DIRECTORS: Person[] = [
   {
     name: "David Spivak",
     init: "DS",
-    /* add photo: "/assets/team/ds.jpg" once a headshot is supplied */
+    photo: "/assets/team/ds.jpg",
+    focus: 53,
     role: "Director of Social Media",
     line: "Runs ELSIAA's social output end to end — strategy, production, and the accounts themselves.",
-    loc: "New York",
+    loc: "New York / Jerusalem",
     /* Address is "dovids@", not "davids@" — that is the mailbox as given, and
        it deliberately differs from the "David" used for the display name. */
     href: "mailto:dovids@elsiaa.com",
