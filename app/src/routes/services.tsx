@@ -399,8 +399,8 @@ function ServicesPage() {
             {PROCESS.map(([title, line], i) => (
               <Reveal key={title} delay={Math.min(i * 0.05, 0.2)} className="h-full">
                 <div className="h-full rounded-2xl border border-black/[0.07] bg-white p-5 md:p-6">
-                  <span className="text-[13px] font-semibold text-[#1e6b3c]">{`0${i + 1}`}</span>
-                  <h3 className="mt-2 text-[17px] font-semibold tracking-[-0.02em]">{title}</h3>
+                  {/* no step numbers — the order is already the reading order */}
+                  <h3 className="text-[17px] font-semibold tracking-[-0.02em]">{title}</h3>
                   <p className="mt-2 text-[13.5px] leading-relaxed text-[#111111]/60">{line}</p>
                 </div>
               </Reveal>

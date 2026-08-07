@@ -124,13 +124,13 @@ const ADVISORS: Person[] = [
 
 function Plate({ p }: { p: Person }) {
   return (
-    <div className="relative aspect-[2/3] w-full overflow-hidden rounded-2xl bg-[#0d0f0e] ring-1 ring-black/[0.06] transition-all duration-300 group-hover:ring-[#1e6b3c]/30">
+    <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-[#0d0f0e] ring-1 ring-black/[0.06] transition-all duration-300 group-hover:ring-[#1e6b3c]/30">
       {p.photo ? (
         <img
           src={p.photo}
           alt={p.name}
           loading="lazy"
-          className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+          className="h-full w-full object-cover object-[center_18%] transition-transform duration-500 group-hover:scale-[1.02]"
         />
       ) : (
         <span
@@ -151,7 +151,9 @@ function Plate({ p }: { p: Person }) {
 
 function Card({ p, i }: { p: Person; i: number }) {
   return (
-    <Reveal delay={Math.min(i * 0.05, 0.2)}>
+    /* h-full on the wrapper too, or the card cannot stretch to the row height
+       and h-full on the article does nothing */
+    <Reveal delay={Math.min(i * 0.05, 0.2)} className="h-full">
       <article className="group flex h-full flex-col rounded-3xl border border-black/[0.07] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/30 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
         <Plate p={p} />
         <div className="flex flex-1 flex-col px-1.5 pt-5 pb-1">
@@ -168,7 +170,7 @@ function Card({ p, i }: { p: Person; i: number }) {
             {p.role}
           </p>
           <p
-            className="mt-3 text-[13.5px] leading-relaxed text-[#111111]/55"
+            className="mt-3 line-clamp-4 text-[13.5px] leading-relaxed text-[#111111]/55"
             style={{ fontFamily: SANS }}
           >
             {p.line}
