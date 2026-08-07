@@ -243,14 +243,23 @@ function TeamPage() {
           >
             Meet the ELSIAA team.
           </h1>
-          <p
-            className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]"
-            style={{ fontFamily: SANS }}
-          >
-            We oversee and handle every detail of your build, and we take full accountability for
-            it. ELSIAA is a professional team backed by an advisory committee of experienced
-            professionals across every kind of business — together we upgrade every part of yours.
-          </p>
+          {/* Founder's account of why the company exists — kept in first person
+              because that is what makes it worth reading. */}
+          <div className="mt-5 max-w-2xl space-y-3 text-[15px] leading-relaxed text-[#111111]/65 md:text-[16px]">
+            <p style={{ fontFamily: SANS }}>
+              ELSIAA started with a frustration. I needed an app built, and every quote that came
+              back was too expensive — so I worked it out myself. What I learned along the way is
+              that AI needs a professional, and more than that, it needs an honest one.
+            </p>
+            <p style={{ fontFamily: SANS }}>
+              So together with David I built ELSIAA: a service that actually transforms a
+              business, on an honest process, with real accountability. We are fully insured, and
+              we are driven to deliver a product you are completely satisfied with.
+            </p>
+            <p className="font-semibold text-[#111111]" style={{ fontFamily: SANS }}>
+              Your success is our mission.
+            </p>
+          </div>
           <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-black/[0.06] pt-6">
             {[
               ["7", "Leaders & advisors"],
