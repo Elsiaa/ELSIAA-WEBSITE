@@ -4,7 +4,6 @@ import { AssemblingArtist } from "./AssemblingArtist";
 import { WorkingRobot } from "./WorkingRobot";
 import { ScrollGlobe, CountTo } from "./ScrollGlobe";
 import { Reveal } from "./Reveal";
-import { SocialLinks } from "./SocialLinks";
 import { ConsultOptions } from "./ConsultOptions";
 import { SocialHomeSection } from "./SocialMedia";
 
@@ -594,9 +593,8 @@ function HomeHero() {
             </div>
           </a>
 
-          {/* Follow buttons ride with the ticker band so they are visible
-              without scrolling — same source list as the footer. */}
-          <SocialLinks variant="icon" className="justify-center pt-3" />
+          {/* Follow buttons removed from the home page — they stay in the
+              footer, which is on every page including this one. */}
         </div>
       </div>
     </section>
@@ -1268,7 +1266,7 @@ const TEAM = [
     init: "YK",
     photo: "/assets/team/yk.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 34,
+    focus: 0,
   },
   {
     name: "David Heimowitz",
@@ -1277,7 +1275,7 @@ const TEAM = [
     init: "DH",
     photo: "/assets/team/dh.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 29,
+    focus: 4,
   },
   {
     name: "Jacob Rubelow",
@@ -1286,7 +1284,7 @@ const TEAM = [
     init: "JR",
     photo: "/assets/team/jr.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 41,
+    focus: 16,
   },
   {
     name: "Chaim Lieberman",
@@ -1295,7 +1293,7 @@ const TEAM = [
     init: "CL",
     photo: "/assets/team/cl.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 39,
+    focus: 0,
   },
   {
     name: "Izzy Eisenberg",
@@ -1304,15 +1302,16 @@ const TEAM = [
     init: "IE",
     photo: "/assets/team/ie.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 36,
+    focus: 0,
   },
   {
     name: "David Spivak",
     role: "Director of Social Media",
     short: "Social Media",
     init: "DS",
-    /* add photo + focus once a headshot is supplied:
-         photo: "/assets/team/ds.jpg", focus: 35, */
+    photo: "/assets/team/ds.jpg",
+    /* face centre measured in this photo, so the circle frames the head */
+    focus: 53,
   },
   {
     name: "Ynon Azulai",
@@ -1321,7 +1320,7 @@ const TEAM = [
     init: "YA",
     photo: "/assets/team/ya.jpg",
     /* face centre measured in this photo, so the circle frames the head */
-    focus: 38,
+    focus: 23,
   },
 ];
 

@@ -15,6 +15,7 @@ import { NotFound } from "@higgsfield/quanta/not-found";
 import appCss from "../styles.css?url";
 import { SiteFooter } from "../components/SiteFooter";
 import { FloatingBook } from "../components/FloatingBook";
+import { PromoPopup } from "../components/PromoPopup";
 import { LanguageProvider } from "../lib/i18n";
 import { reportHiggsfieldError } from "../lib/higgsfield-error-reporting";
 // Page metadata (browser <title>/favicon + social og: tags) committed into the
@@ -251,6 +252,9 @@ function RootComponent() {
         {/* dark pages (Automate, Why ELSIAA) end tight on their own closing — no light footer */}
         {pathname !== "/automate" && <SiteFooter />}
         <FloatingBook />
+        {/* Randomised house ad — once per session, never on the page it
+            promotes, never on portal/admin/legal. See PromoPopup. */}
+        <PromoPopup />
         <ScrollbarWidthVar />
       </LanguageProvider>
     </QueryClientProvider>

@@ -27,13 +27,41 @@ type Person = {
   name: string;
   init: string;
   photo?: string;
-  /** measured face centre, as a % down the source photo */
+  /**
+   * object-position Y, as a percentage.
+   *
+   * Not eyeballed and not shared between people — each is computed from where
+   * the face actually sits in that specific file. The plate is aspect-[4/5]
+   * (0.8) and every source is portrait (0.62–0.75), so object-cover matches
+   * width and overflows vertically by `1 - 1.25 * imageAspect`. The value is
+   * solved so the eyes land ~35% down the visible window (upper third) while
+   * keeping at least 3.5% of background above the top of the head.
+   *
+   * Re-run the measurement if a photo is replaced — do not copy a neighbour's.
+   *
+   * jr.jpg and em.jpg were also rescaled at the source: both were shot much
+   * tighter than the rest (their heads ran off the top of the frame), and no
+   * object-position can zoom out — it only pans. Each subject was scaled down
+   * inside its own canvas with the backdrop extended by edge-smear, so the
+   * dark green vignette continues rather than showing a seam. Originals are
+   * kept in public/assets/team/.orig/.
+   *
+   * em is anchored to the BOTTOM of its canvas, which is why its focus is 93
+   * while jr's is 16 — the two numbers are not comparable. Smearing the bottom
+   * edge dragged the white shirt and tie into hard vertical stripes with a
+   * visible seam across the shoulders. Anchoring the subject to the bottom
+   * means only backdrop is ever extended, and the plate's own crop removes the
+   * rest. Extend body pixels and it will look like a printing fault.
+   */
   focus?: number;
   role: string;
   line: string;
   loc: string;
   href?: string;
   hrefLabel?: string;
+  /** optional second link, e.g. an external profile alongside the email */
+  alt?: string;
+  altLabel?: string;
 };
 
 const LEADERSHIP: Person[] = [
@@ -41,7 +69,7 @@ const LEADERSHIP: Person[] = [
     name: "Yisrael Krug",
     init: "YK",
     photo: "/assets/team/yk.jpg",
-    focus: 34,
+    focus: 0,
     role: "Founder & CEO",
     line: "Former executive at Dialog Healthcare, founder of the Mitzva App (non-profit), and artist at Gestalt-Art.com. Background in biology, psychology, and business, grounded in intensive Talmudic study; lectures in Torah at Ahavas Chaim in Baltimore, MD.",
     loc: "New York",
@@ -52,7 +80,7 @@ const LEADERSHIP: Person[] = [
     name: "David Heimowitz",
     init: "DH",
     photo: "/assets/team/dh.jpg",
-    focus: 29,
+    focus: 4,
     role: "Co-Founder & CTO",
     line: "Owns the engineering. If it ships from ELSIAA it ships hardened, tested, and insured — no excuses.",
     loc: "New Jersey",
@@ -63,7 +91,7 @@ const LEADERSHIP: Person[] = [
     name: "Jacob Rubelow",
     init: "JR",
     photo: "/assets/team/jr.jpg",
-    focus: 41,
+    focus: 16,
     role: "Partner & Chief Operating Officer",
     line: "Strategist and partner. Bachelor's in mathematics, magna cum laude, from Touro University; George Washington University Law School; background in intensive Talmudic study. Active EMT and firefighter.",
     loc: "New York",
@@ -77,7 +105,7 @@ const DIRECTORS: Person[] = [
     name: "Chaim Lieberman",
     init: "CL",
     photo: "/assets/team/cl.jpg",
-    focus: 39,
+    focus: 0,
     role: "Executive Director & Partner",
     line: "Former CEO of Libersilver and former fund manager at a Belgian private fund. Based in Antwerp, operating across all of Western Europe and Israel.",
     loc: "Antwerp",
@@ -96,20 +124,25 @@ const DIRECTORS: Person[] = [
   {
     name: "David Spivak",
     init: "DS",
-    /* add photo: "/assets/team/ds.jpg" once a headshot is supplied */
+    photo: "/assets/team/ds.jpg",
+    focus: 53,
     role: "Director of Social Media",
     line: "Runs ELSIAA's social output end to end — strategy, production, and the accounts themselves.",
-    loc: "New York",
+    loc: "New York / Jerusalem",
+    /* Address is "dovids@", not "davids@" — that is the mailbox as given, and
+       it deliberately differs from the "David" used for the display name. */
+    href: "mailto:dovids@elsiaa.com",
+    hrefLabel: "dovids@elsiaa.com",
     /* utm_source=linktree_profile_share stripped: it tags the share that
        produced the link, and would mis-attribute every visitor from the site. */
-    href: "https://linktr.ee/spivak_photography",
-    hrefLabel: "linktr.ee/spivak_photography",
+    alt: "https://linktr.ee/spivak_photography",
+    altLabel: "Linktree",
   },
   {
     name: "Ynon Azulai",
     init: "YA",
     photo: "/assets/team/ya.jpg",
-    focus: 38,
+    focus: 23,
     role: "AI & Technology Expert",
     line: "At the edge of applied AI — the deep-tech eye on every architecture ELSIAA ships.",
     loc: "Jerusalem / Tel Aviv",
@@ -121,7 +154,7 @@ const ADVISORS: Person[] = [
     name: "Dr. Edward Margolin, MD, FRCSC, Dipl. ABO",
     init: "EM",
     photo: "/assets/team/em.jpg",
-    focus: 39,
+    focus: 93,
     role: "Healthcare Advisor",
     line: "Professor, University of Toronto — Dept. of Ophthalmology and Visual Sciences; Dept. of Medicine, Division of Neurology. Director, Neuro-Ophthalmology and Strabismus Fellowship.",
     loc: "University of Toronto",
@@ -192,17 +225,34 @@ function Card({ p, i }: { p: Person; i: number }) {
               <span className="h-[5px] w-[5px] rotate-45 bg-[#1e6b3c]/50" />
               {p.loc}
             </span>
-            {p.href && (
-              <a
-                href={p.href}
-                /* mailto: stays in place; an external profile opens in a new
-                   tab and gets rel=noreferrer */
-                {...(p.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
-                className="ml-auto text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
-                style={{ fontFamily: SANS }}
-              >
-                {p.hrefLabel ?? "Contact"} →
-              </a>
+            {/* ml-auto on the group, not on each link, so a second link sits
+                beside the first instead of being pushed to its own line */}
+            {(p.href || p.alt) && (
+              <span className="ml-auto flex items-center gap-x-3">
+                {p.alt && (
+                  <a
+                    href={p.alt}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[13px] text-[#111111]/45 transition-colors hover:text-[#1e6b3c]"
+                    style={{ fontFamily: SANS }}
+                  >
+                    {p.altLabel ?? "Profile"} ↗
+                  </a>
+                )}
+                {p.href && (
+                  <a
+                    href={p.href}
+                    /* mailto: stays in place; an external profile opens in a
+                       new tab and gets rel=noreferrer */
+                    {...(p.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
+                    className="text-[13px] font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+                    style={{ fontFamily: SANS }}
+                  >
+                    {p.hrefLabel ?? "Contact"} →
+                  </a>
+                )}
+              </span>
             )}
           </div>
         </div>

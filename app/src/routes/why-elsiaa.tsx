@@ -1,13 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
+import { ClientLogos } from "../components/ClientLogos";
 import { absoluteUrl } from "../lib/site-url";
 
 /*
   Why ELSIAA — the corporate case, stated plainly.
-  Dark, precise, restrained: matches the /automate brand-lock (bg #070907,
-  offices line, the Hebrew phrase) and answers the one real objection —
-  "why not just use the big AI tools myself?" — without hype.
+  Light, precise, restrained: answers the one real objection — "why not just
+  use the big AI tools myself?" — without hype, then shows who has already
+  bought the answer.
 */
 
 export const Route = createFileRoute("/why-elsiaa")({
@@ -222,6 +223,32 @@ function WhyElsiaaPage() {
         </div>
       </section>
 
+      {/* ── proof: who already bought the answer ──
+          Placed directly under the hero so the claim is answered by evidence
+          before the six reasons argue it. */}
+      <section className="border-t border-black/[0.06] bg-white px-6 py-10 md:py-14">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <p className="text-center text-[12px] font-semibold tracking-[0.14em] text-[#111111]/40 uppercase">
+              Brands already building with ELSIAA
+            </p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <ClientLogos fade="#ffffff" className="mt-9" />
+          </Reveal>
+          <Reveal delay={0.14}>
+            <p className="mt-9 text-center text-[13px] text-[#111111]/45">
+              <a
+                href="/designs"
+                className="font-semibold text-[#1e6b3c] transition-colors hover:text-[#111111]"
+              >
+                See the work →
+              </a>
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ── the six reasons ── */}
       <section className="border-t border-black/[0.06] bg-[#FBFBFA] px-6 py-9 md:py-16">
         <div className="mx-auto max-w-6xl">
@@ -247,11 +274,11 @@ function WhyElsiaaPage() {
                       height={160}
                       className="h-16 w-16 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105 md:h-20 md:w-20"
                     />
+                    {/* No step number: these are six parallel reasons, not a
+                        sequence, and numbered badges were dropped across the
+                        services and clients pages too. */}
                     <div className="min-w-0 pt-1">
-                      <p className="text-[11.5px] font-bold tracking-[0.16em] text-[#1e6b3c]">
-                        {d.num}
-                      </p>
-                      <h3 className="mt-1 text-[18px] leading-tight font-semibold tracking-[-0.02em] text-[#111111] md:text-[20px]">
+                      <h3 className="text-[18px] leading-tight font-semibold tracking-[-0.02em] text-[#111111] md:text-[20px]">
                         {d.title}
                       </h3>
                     </div>

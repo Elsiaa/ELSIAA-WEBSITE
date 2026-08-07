@@ -119,7 +119,9 @@ function ApplyForm() {
   const [commitment, setCommitment] = useState("");
   const [essay, setEssay] = useState("");
   const [aiFlag, setAiFlag] = useState(false);
-  const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "done" | "error" | "unconfigured">(
+    "idle",
+  );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const fileInput = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -203,26 +205,32 @@ function ApplyForm() {
     if (looksAi(essay)) setAiFlag(true); /* a warning now, not a block */
     setState("sending");
     try {
+      /* Same-origin. This used to POST straight to formsubmit.co — a third
+         party — carrying the applicant's name, phone, email and résumé, with
+         `_captcha: false`. Candidate personal data now stays on ELSIAA
+         infrastructure; /api/apply validates it and hands it to the delivery
+         hook in lib/forms/deliver.server.ts. */
       const fd = new FormData();
-      fd.append("_subject", `ELSIAA Application — ${positions.join(", ")} — ${first} ${last}`);
-      fd.append("First name", first);
-      fd.append("Last name", last);
-      fd.append("Phone", number);
-      fd.append("Email", email);
-      fd.append("Areas of interest", positions.join(", "));
-      fd.append("Location", country);
-      fd.append("Arrangement", arrangement);
-      fd.append("Commitment", commitment);
-      fd.append("Statement", essay);
-      fd.append("_template", "table");
-      fd.append("_captcha", "false");
-      if (file) fd.append("attachment", file, file.name);
-      const res = await fetch("https://formsubmit.co/ajax/info@elsiaa.com", {
-        method: "POST",
-        body: fd,
-        headers: { Accept: "application/json" },
-      });
-      if (!res.ok) throw new Error(String(res.status));
+      fd.append("firstName", first);
+      fd.append("lastName", last);
+      fd.append("phone", number);
+      fd.append("email", email);
+      fd.append("positions", positions.join(", "));
+      fd.append("country", country);
+      fd.append("arrangement", arrangement);
+      fd.append("commitment", commitment);
+      fd.append("statement", essay);
+      fd.append("aiSuspected", String(looksAi(essay)));
+      if (file) fd.append("resume", file, file.name);
+
+      const res = await fetch("/api/apply", { method: "POST", body: fd });
+      if (!res.ok) {
+        /* 503 means delivery is not wired up yet. Say so plainly and give the
+           applicant a working alternative rather than pretending it sent. */
+        const body = await res.json().catch(() => null);
+        setState(body?.error === "not_configured" ? "unconfigured" : "error");
+        return;
+      }
       setState("done");
     } catch {
       setState("error");
@@ -496,6 +504,21 @@ function ApplyForm() {
                 info@elsiaa.com
               </a>
               .
+            </p>
+          )}
+          {/* Delivery not wired up yet: tell the applicant the truth and give
+              them a route that works, rather than showing a success screen
+              for a résumé that went nowhere. */}
+          {state === "unconfigured" && (
+            <p
+              role="alert"
+              className="mt-3 rounded-xl border border-[#b4543a]/25 bg-[#b4543a]/[0.05] p-3.5 text-[13px] leading-relaxed text-[#111111]/75"
+            >
+              Our online applications aren't live just yet. Please send this to{" "}
+              <a className="font-semibold text-[#1e6b3c] underline" href="mailto:info@elsiaa.com">
+                info@elsiaa.com
+              </a>{" "}
+              with your résumé attached — we read every one.
             </p>
           )}
         </form>
