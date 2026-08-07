@@ -1320,7 +1320,7 @@ function TeamBand({
     <div className={`grid grid-cols-3 gap-x-2 gap-y-3 sm:grid-cols-2 sm:gap-3 ${cols} ${className}`}>
       {people.map((m, i) => (
         <Reveal key={m.name} delay={i * 0.05} className="h-full">
-          <div className="group flex h-full flex-col items-center gap-1.5 rounded-xl border-0 p-0 text-center transition-all duration-300 sm:flex-row sm:gap-3.5 sm:border sm:border-black/[0.07] sm:bg-white sm:p-4 sm:text-left sm:hover:-translate-y-0.5 sm:hover:border-[#1e6b3c]/35">
+          <div className="group flex h-full flex-col items-center gap-1.5 rounded-xl border-0 p-0 text-center transition-all duration-300 sm:flex-row sm:gap-3.5 sm:border sm:border-black/[0.07] sm:bg-transparent sm:p-4 sm:text-left sm:hover:-translate-y-0.5 sm:hover:border-[#1e6b3c]/35 sm:hover:bg-white/50">
             {/* No photo yet → the monogram, same as /team. Never a stand-in
                 face: a stock portrait under a real person's name is a
                 misrepresentation, not a placeholder. */}
