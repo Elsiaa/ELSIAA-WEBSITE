@@ -237,21 +237,19 @@ function TeamPage() {
       {/* hero */}
       <section className="mx-auto max-w-6xl px-6 pt-32 pb-6 md:pt-44">
         <Reveal>
-          <p className="text-[13px] text-[#1e6b3c] " style={{ fontFamily: MONO }}>
-            Meet the international team behind ELSIAA
-          </p>
           <h1
-            className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl"
+            className="max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl"
             style={{ fontFamily: SANS }}
           >
-            The people who build it.
+            Meet the ELSIAA team.
           </h1>
           <p
-            className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#111111]/55"
+            className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#111111]/60 md:text-[16px]"
             style={{ fontFamily: SANS }}
           >
-            Operators, engineers, counsel, and advisors — the people responsible for everything
-            ELSIAA ships.
+            We oversee and handle every detail of your build, and we take full accountability for
+            it. ELSIAA is a professional team backed by an advisory committee of experienced
+            professionals across every kind of business — together we upgrade every part of yours.
           </p>
           <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-black/[0.06] pt-6">
             {[
