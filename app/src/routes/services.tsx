@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "../components/SiteNav";
 import { Reveal } from "../components/Reveal";
@@ -67,7 +68,7 @@ const SERVICES: Service[] = [
     confirmed: true,
     line: "A site built to convert — designed, written, and shipped live.",
     points: ["Design and copy", "Mobile-first build", "SEO and analytics", "Hosting and updates"],
-    art: "/assets/services/web.png",
+    art: "web",
   },
   {
     name: "Business Automation",
@@ -80,7 +81,50 @@ const SERVICES: Service[] = [
       "Lead enrichment and follow-up",
       "Scheduling and reminders",
     ],
-    art: "/assets/services/automation.png",
+    art: "automation",
+  },
+  {
+    name: "Brand & Social",
+    from: "$1,500",
+    line: "The identity, and the feed that carries it.",
+    points: ["Logo and brand system", "Content and video", "Channel management", "Paid social"],
+    art: "brand",
+  },
+  {
+    name: "Browser Automation",
+    from: "$2,500",
+    line: "For the systems with no API. Our agents drive the screen the way a person would.",
+    points: [
+      "Legacy portal operation",
+      "Document and PDF extraction",
+      "Form filling at volume",
+      "Cross-system data sync",
+    ],
+    art: "browser",
+  },
+  {
+    name: "AI Phone & Chat Agents",
+    from: "$2,500",
+    line: "Answers every call and message, day or night, in your voice.",
+    points: [
+      "24/7 call answering",
+      "Booking and intake",
+      "Trained on your policies",
+      "Hands off to a human on request",
+    ],
+    art: "agent",
+  },
+  {
+    name: "Operational Dashboards",
+    from: "$3,500",
+    line: "Every number the business runs on, in one place, updating itself.",
+    points: [
+      "Live profitability tracking",
+      "Automated reporting",
+      "Multi-source aggregation",
+      "Alerts on the numbers that matter",
+    ],
+    art: "dashboard",
   },
   {
     name: "Mobile Apps",
@@ -93,7 +137,7 @@ const SERVICES: Service[] = [
       "Field and client apps",
       "Store submission handled",
     ],
-    art: "/assets/services/apps.png",
+    art: "apps",
   },
   {
     name: "Custom Platforms",
@@ -105,50 +149,7 @@ const SERVICES: Service[] = [
       "Custom business logic",
       "Built to own, not to licence",
     ],
-    art: "/assets/services/platform.png",
-  },
-  {
-    name: "Browser Automation",
-    from: "$2,500",
-    line: "For the systems with no API. Our agents drive the screen the way a person would.",
-    points: [
-      "Legacy portal operation",
-      "Document and PDF extraction",
-      "Form filling at volume",
-      "Cross-system data sync",
-    ],
-    art: "/assets/services/browser.png",
-  },
-  {
-    name: "Operational Dashboards",
-    from: "$3,500",
-    line: "Every number the business runs on, in one place, updating itself.",
-    points: [
-      "Live profitability tracking",
-      "Automated reporting",
-      "Multi-source aggregation",
-      "Alerts on the numbers that matter",
-    ],
-    art: "/assets/services/dashboard.png",
-  },
-  {
-    name: "AI Phone & Chat Agents",
-    from: "$2,500",
-    line: "Answers every call and message, day or night, in your voice.",
-    points: [
-      "24/7 call answering",
-      "Booking and intake",
-      "Trained on your policies",
-      "Hands off to a human on request",
-    ],
-    art: "/assets/services/agent.png",
-  },
-  {
-    name: "Brand & Social",
-    from: "$1,500",
-    line: "The identity, and the feed that carries it.",
-    points: ["Logo and brand system", "Content and video", "Channel management", "Paid social"],
-    art: "/assets/services/brand.png",
+    art: "platform",
   },
 ];
 
@@ -159,6 +160,54 @@ const PROCESS: Array<[string, string]> = [
   ["Build", "Engineered, tested, and shown to you working — not as a mockup."],
   ["Deploy", "Rolled into your operation without stopping it, then maintained."],
 ];
+
+
+/*
+  Card art. The still is the poster and paints instantly; the loop takes over
+  once it can play, so a slow connection still gets a sharp image rather than
+  an empty box.
+
+  The clips keep playing rather than pausing off-screen — the same watchdog the
+  division graphics use, because browsers stop muted autoplay on tab-switch and
+  under memory pressure and nothing restarts it. Reduced motion holds the still.
+*/
+function ServiceArt({ name }: { name: string }) {
+  const ref = useRef<HTMLVideoElement | null>(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      v.pause();
+      return;
+    }
+    const resume = () => {
+      if (v.paused) v.play().catch(() => {});
+    };
+    resume();
+    v.addEventListener("pause", resume);
+    document.addEventListener("visibilitychange", resume);
+    const t = setInterval(resume, 4000);
+    return () => {
+      v.removeEventListener("pause", resume);
+      document.removeEventListener("visibilitychange", resume);
+      clearInterval(t);
+    };
+  }, []);
+  return (
+    <video
+      ref={ref}
+      src={`/assets/services/${name}.mp4`}
+      poster={`/assets/services/${name}.png`}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+      aria-hidden
+      className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+    />
+  );
+}
 
 function ServicesPage() {
   return (
@@ -196,20 +245,14 @@ function ServicesPage() {
       {/* the catalogue */}
       <section className="bg-[#F5F5F3] px-6 py-10 md:py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+          <div /* four across: eight cards land as two clean rows instead of the
+               ragged 3+3+2 a three-column grid gives */
+            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {SERVICES.map((s, i) => (
               <Reveal key={s.name} delay={Math.min(i * 0.04, 0.2)} className="h-full">
                 <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.07] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#1e6b3c]/35 hover:shadow-[0_30px_70px_-45px_rgba(17,17,17,0.35)]">
                   <div className="aspect-[4/3] w-full overflow-hidden bg-white">
-                    <img
-                      src={s.art}
-                      alt=""
-                      aria-hidden
-                      width={1024}
-                      height={1024}
-                      loading="lazy"
-                      className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
-                    />
+                    <ServiceArt name={s.art} />
                   </div>
                   <div className="flex flex-1 flex-col p-5 md:p-6">
                     <div className="flex items-baseline justify-between gap-3">
