@@ -35,13 +35,6 @@ export const SEARCH_INDEX: Entry[] = [
     desc: "Why businesses bring the work to us instead of doing it alone.",
   },
   {
-    label: "Deals",
-    group: "Pages",
-    href: "/deals",
-    keys: "deal deals cheap cheapest budget affordable low cost starter entry offer special discount price prices bargain inexpensive",
-    desc: "The cheapest way to start — websites from $750, systems from $1,000.",
-  },
-  {
     label: "Services",
     group: "Pages",
     href: "/services",
