@@ -60,6 +60,7 @@ import { Route as ApiMeetingRouteImport } from './routes/api/meeting'
 import { Route as ApiEntitlementRouteImport } from './routes/api/entitlement'
 import { Route as ApiCompaniesRouteImport } from './routes/api/companies'
 import { Route as ApiBlockedSlotsRouteImport } from './routes/api/blocked-slots'
+import { Route as ApiApplyRouteImport } from './routes/api/apply'
 import { Route as AdminSignInRouteImport } from './routes/admin/sign-in'
 import { Route as AdminCalendarRouteImport } from './routes/admin/calendar'
 import { Route as MeetingsMeetingIdJoinRouteImport } from './routes/meetings/$meetingId/join'
@@ -483,6 +484,11 @@ const ApiCompaniesRoute = ApiCompaniesRouteImport.update({
 const ApiBlockedSlotsRoute = ApiBlockedSlotsRouteImport.update({
   id: '/api/blocked-slots',
   path: '/api/blocked-slots',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiApplyRoute = ApiApplyRouteImport.update({
+  id: '/api/apply',
+  path: '/api/apply',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminSignInRoute = AdminSignInRouteImport.update({
@@ -1452,6 +1458,7 @@ export interface FileRoutesByFullPath {
   '/why-elsiaa': typeof WhyElsiaaRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/sign-in': typeof AdminSignInRoute
+  '/api/apply': typeof ApiApplyRoute
   '/api/blocked-slots': typeof ApiBlockedSlotsRouteWithChildren
   '/api/companies': typeof ApiCompaniesRouteWithChildren
   '/api/entitlement': typeof ApiEntitlementRouteWithChildren
@@ -1674,6 +1681,7 @@ export interface FileRoutesByTo {
   '/why-elsiaa': typeof WhyElsiaaRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/sign-in': typeof AdminSignInRoute
+  '/api/apply': typeof ApiApplyRoute
   '/api/blocked-slots': typeof ApiBlockedSlotsRouteWithChildren
   '/api/companies': typeof ApiCompaniesRouteWithChildren
   '/api/entitlement': typeof ApiEntitlementRouteWithChildren
@@ -1897,6 +1905,7 @@ export interface FileRoutesById {
   '/why-elsiaa': typeof WhyElsiaaRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/sign-in': typeof AdminSignInRoute
+  '/api/apply': typeof ApiApplyRoute
   '/api/blocked-slots': typeof ApiBlockedSlotsRouteWithChildren
   '/api/companies': typeof ApiCompaniesRouteWithChildren
   '/api/entitlement': typeof ApiEntitlementRouteWithChildren
@@ -2121,6 +2130,7 @@ export interface FileRouteTypes {
     | '/why-elsiaa'
     | '/admin/calendar'
     | '/admin/sign-in'
+    | '/api/apply'
     | '/api/blocked-slots'
     | '/api/companies'
     | '/api/entitlement'
@@ -2343,6 +2353,7 @@ export interface FileRouteTypes {
     | '/why-elsiaa'
     | '/admin/calendar'
     | '/admin/sign-in'
+    | '/api/apply'
     | '/api/blocked-slots'
     | '/api/companies'
     | '/api/entitlement'
@@ -2565,6 +2576,7 @@ export interface FileRouteTypes {
     | '/why-elsiaa'
     | '/admin/calendar'
     | '/admin/sign-in'
+    | '/api/apply'
     | '/api/blocked-slots'
     | '/api/companies'
     | '/api/entitlement'
@@ -2788,6 +2800,7 @@ export interface RootRouteChildren {
   WhyElsiaaRoute: typeof WhyElsiaaRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
   AdminSignInRoute: typeof AdminSignInRoute
+  ApiApplyRoute: typeof ApiApplyRoute
   ApiBlockedSlotsRoute: typeof ApiBlockedSlotsRouteWithChildren
   ApiCompaniesRoute: typeof ApiCompaniesRouteWithChildren
   ApiEntitlementRoute: typeof ApiEntitlementRouteWithChildren
@@ -3234,6 +3247,13 @@ declare module '@tanstack/react-router' {
       path: '/api/blocked-slots'
       fullPath: '/api/blocked-slots'
       preLoaderRoute: typeof ApiBlockedSlotsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/apply': {
+      id: '/api/apply'
+      path: '/api/apply'
+      fullPath: '/api/apply'
+      preLoaderRoute: typeof ApiApplyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/sign-in': {
@@ -5028,6 +5048,7 @@ const rootRouteChildren: RootRouteChildren = {
   WhyElsiaaRoute: WhyElsiaaRoute,
   AdminCalendarRoute: AdminCalendarRoute,
   AdminSignInRoute: AdminSignInRoute,
+  ApiApplyRoute: ApiApplyRoute,
   ApiBlockedSlotsRoute: ApiBlockedSlotsRouteWithChildren,
   ApiCompaniesRoute: ApiCompaniesRouteWithChildren,
   ApiEntitlementRoute: ApiEntitlementRouteWithChildren,
